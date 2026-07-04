@@ -1,0 +1,17 @@
+{
+  "name": "lore-plugin",
+  "owner": {
+    "name": "andresanemic"
+  },
+  "metadata": {
+    "description": "The Lore marketplace — a humanist spec-driven development kit for Claude Code.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "lore",
+      "source": "./",
+      "description": "Distill scattered project criteria into invariant Lore and operate it: using-lore, create-area, create-project, save-to-lore, transmute-lore."
+    }
+  ]
+}
