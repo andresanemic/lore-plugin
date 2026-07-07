@@ -12,14 +12,6 @@
 
 ---
 
-# Español
-
-<p align="right">
-  <strong>Idioma:</strong>
-  <a href="#español">Español</a> |
-  <a href="#english">English</a>
-</p>
-
 # Lore
 
 [![License](https://img.shields.io/github/license/andresanemic/lore-plugin.svg)](./LICENSE)
