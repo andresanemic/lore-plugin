@@ -354,129 +354,157 @@ MIT — [LICENSE](LICENSE)
   <img src="https://i.imgur.com/Heb7IzB.png" alt="Lore" width="100%">
 </p>
 
+<!-- Keep your HTML cover separately; this is just README.md -->
+
 # Lore
 
-**Stop rebuilding your engineering judgment every time you start a new AI session.**
+[![License](https://img.shields.io/github/license/andresanemic/lore-plugin.svg)](./LICENSE)
+[![Built for Claude Code](https://img.shields.io/badge/built%20for-Claude%20Code-4B8BF5.svg)](#installation)
+[![Spec-Driven Development](https://img.shields.io/badge/paradigm-SDD%20%7C%20Spec--Driven%20Development-6332F6.svg)](#what-is-lore)
+[![Human–AI Collaboration](https://img.shields.io/badge/focus-human%E2%80%93AI%20collaboration-10B981.svg)](#origin)
+[![Status](https://img.shields.io/badge/status-active%20research-F97316.svg)](#origin)
 
-Every AI-assisted project accumulates hard-earned experience:
+> **A specification‑driven development kit for humanist builders.**  
+> *Stop rebuilding your criteria every time you start a new session with AI.*
 
-- architectural decisions,
-- production incidents,
-- failed experiments,
-- coding standards,
-- and dozens of "never do this again" moments.
+---
+
+## Table of Contents
+
+- [Motivation](#motivation)
+- [What is Lore](#what-is-lore)
+- [Problem: Ephemeral Experience](#problem-ephemeral-experience)
+- [Core Principle](#core-principle)
+- [Lore Architecture](#lore-architecture)
+  - [The Six Artifacts](#the-six-artifacts)
+  - [Area → Project Inheritance](#area--project-inheritance)
+- [Workflow](#workflow)
+- [Installation](#installation)
+- [Repository Structure](#repository-structure)
+- [Shared Invariants](#shared-invariants)
+- [Lore vs README](#lore-vs-readme)
+- [Why “Lore”](#why-lore)
+- [Origin](#origin)
+
+---
+
+## Motivation
+
+Any project developed with artificial intelligence accumulates hard‑won experience:
+
+- architectural decisions;
+- production incidents;
+- failed experiments;
+- development standards;
+- and dozens of “let’s never do that again” moments.
 
 Most of that experience disappears.
 
-The next session starts from an incomplete understanding of the project, forcing you—and your AI—to rediscover decisions you've already paid for.
+The next session starts with an incomplete understanding of the project, forcing you —and your AI— to rediscover decisions you already paid for with time and effort.
 
 **Lore exists to prevent that.**
 
-Not by generating more documentation.
-
-By preserving the **judgment** that should continue shaping future decisions.
+Not by generating more documentation,  
+but by preserving the **criteria** that must keep participating in future decisions.
 
 > **Experience only creates value when it can participate in a future decision.**
 
 ---
 
-# What is Lore?
+## What is Lore
 
-Lore is a lightweight **Spec-Driven Development (SDD)** kit for Claude Code.
+Lore is a lightweight **Spec‑Driven Development (SDD)** kit for Claude Code.
 
 It provides:
 
-- a simple convention for organizing project judgment,
-- five automation skills,
-- and a workflow for continuously distilling experience into reusable engineering criteria.
+- a simple convention for organizing a project’s criteria;
+- five skills that automate that process;
+- and a continuous flow to distill experience into reusable criteria.
 
 Unlike traditional documentation, Lore does not try to describe everything.
 
 It only preserves what changes future behavior.
 
-If a sentence does not restrict a future decision, **it is not Lore.**
+**If a sentence does not constrain a future decision, it is not Lore.**
 
 ---
 
-# The Problem: Ephemeral Experience
+## Problem: Ephemeral Experience
 
-Documentation usually answers questions like:
+Traditional documentation answers questions like:
 
-> What is this?
+> What is this?  
+> How do I install it?  
+> Which API should I use?
 
-> How do I install it?
+Lore answers a completely different question:
 
-> Which API should I call?
+> **What did we learn that we should never have to learn again?**
 
-Lore answers a different question:
+That difference changes everything:
 
-> **What have we already learned that we should never have to learn again?**
-
-That distinction changes everything.
-
-A README stores information.
-
-Lore stores judgment.
+- A README stores information.
+- Lore preserves criteria.
+- Those criteria keep participating in future decisions.
 
 ---
 
-# The Core Principle
+## Core Principle
 
 Every solved problem contains two things:
 
-- the solution,
-- and the reason the solution exists.
+- the solution;  
+- and the reason that solution exists.
 
-Most documentation preserves only the first.
-
+Most documentation preserves only the first.  
 Lore preserves the second.
 
-Instead of recording events, Lore distills them into **Invariant Leads**—small engineering constraints that remain useful long after the original context has disappeared.
+Instead of recording events, Lore distills them into **Invariant Clues**: small constraints that remain useful long after the original context has disappeared.
 
-For example:
+For example, instead of remembering:
 
-Instead of remembering:
+> “We had a hydration issue in Next.js.”
 
-> "We had a hydration issue in Next.js."
+Lore keeps:
 
-Lore stores:
+> “Never use client‑side state to control initial opacity.”
 
-> "Never use client-side state to control initial opacity."
-
-The event disappears.
-
-The criterion remains.
+The event disappears.  
+The criteria remain.
 
 ---
 
-# The Six Artifacts
+## Lore Architecture
 
-Every project organizes its judgment using exactly six artifacts.
+Lore organizes each project’s criteria into clearly separated and inheritable artifacts.
 
-| Artifact | Purpose | Location |
-|------------|----------|----------|
-| `identidad.md` | Project identity and quality standard | `lore/` |
-| `principios.md` | Permanent engineering and business rules | `lore/` |
-| Topic modules | Distilled engineering experience by domain | `lore/` |
-| `index.md` | Navigation map of the Lore | `lore/` |
-| `FASES.md` | Current project state and roadmap | project root |
-| `CLAUDE.md` | Collaboration contract and operational pointers | project root |
+### The Six Artifacts
 
-Each artifact has one responsibility.
+Each project uses exactly six artifacts:
 
-None duplicates another.
+| Artifact           | Purpose                                          | Location |
+|--------------------|--------------------------------------------------|----------|
+| `identidad.md`     | Project identity and minimum quality standard    | `lore/`  |
+| `principios.md`    | Permanent engineering and business rules         | `lore/`  |
+| Thematic modules   | Distilled experience organized by domain         | `lore/`  |
+| `index.md`         | Navigation map for Lore                          | `lore/`  |
+| `FASES.md`         | Current state and project roadmap                | root     |
+| `CLAUDE.md`        | Collaboration contract and operational references | root     |
+
+Each artifact has a single responsibility.
+
+None of them duplicates another.
 
 ---
 
-# Area → Project Inheritance
+### Area → Project Inheritance
 
 Lore scales through **Areas**.
 
-An Area is a parent workspace that owns its own Lore.
+An Area is a parent folder that owns its own Lore.  
+Projects inherit that criteria instead of copying it:
 
-Projects inherit that judgment instead of copying it.
-
-```
+```text
 Development/
 │
 ├── lore/
@@ -491,72 +519,70 @@ Development/
     └── lore/
 ```
 
-Generic engineering criteria live once.
+General criteria exist only once.
 
-Projects only keep what is uniquely theirs.
+Each project keeps only what belongs to it.
 
-This keeps the system DRY without sacrificing accumulated experience.
+This keeps the system DRY without losing accumulated experience.
 
 ---
 
-# Workflow
+## Workflow
 
-Lore operates through five Claude Code skills.
+Lore operates through five skills for Claude Code.
 
-## `using-lore`
+### `using-lore`
 
 Entry point.
 
-Explains the model and routes you to the correct workflow.
+Explains Lore’s model and guides you to the appropriate skill.
 
 ---
 
-## `create-area`
+### `create-area`
 
 Creates a new Area with its own shared Lore.
 
 ---
 
-## `create-project`
+### `create-project`
 
 Creates a project inside an Area.
 
-Projects inherit Area knowledge instead of duplicating it.
+Projects inherit the Area’s criteria instead of duplicating it.
 
 ---
 
-## `save-to-lore`
+### `save-to-lore`
 
-The most important workflow.
+The most important flow.
 
-After solving a meaningful problem:
+After solving a genuinely valuable problem:
 
-> "save to lore"
+> “save to lore”
 
-The skill extracts the engineering criterion behind the solution.
+The skill extracts the criteria behind that solution.
 
-Project-specific lessons stay inside the project.
-
-Generic lessons are proposed for promotion to the Area.
-
-Nothing is promoted automatically.
+- Specific lessons stay inside the project.
+- Generic lessons can be proposed for promotion to the Area.
+- Nothing is promoted automatically.
 
 ---
 
-## `transmute-lore`
+### `transmute-lore`
 
-Migrates existing projects into the Lore architecture.
+Migrates existing projects into Lore’s architecture.
 
-Supports two modes:
+It has two modes:
 
-- **add** → build missing Lore
-- **clean** → remove redundant modules already inherited from the Area
+- **add** → creates missing Lore artifacts.
+- **clean** → removes redundant modules that already belong to the Area.
 
 ---
 
-# Installation
+## Installation
 
-## Claude Code
+### Claude Code
 
 ```bash
 /plugin marketplace add andresanemic/lore-plugin
@@ -565,24 +591,23 @@ Supports two modes:
 
 ---
 
-## Other AI tools
+### Other AI Tools
 
-Lore is fundamentally Markdown.
+At its core, Lore is Markdown.
 
-Each skill consists of:
+Each skill is made of:
 
-- YAML frontmatter
-- Markdown instructions
+- a YAML header (frontmatter);
+- instructions written in Markdown.
 
-The plugin packaging is Claude Code-specific.
+The plugin packaging is specific to Claude Code.  
+Lore’s architecture is not.
 
-The architecture itself is tool-agnostic.
-
-You can adapt Lore by copying any skill into your preferred AI environment.
+You can adapt Lore by copying any skill into the AI tool of your choice.
 
 ---
 
-# Repository Structure
+## Repository Structure
 
 ```text
 lore-plugin/
@@ -603,67 +628,72 @@ lore-plugin/
 
 ---
 
-# Shared Invariants
+## Shared Invariants
 
-Every skill follows the same rules.
+All skills follow the same rules:
 
-- Engineering judgment is never invented.
+- Criteria are never invented.
 - Everything comes from real experience.
-- Discarded information is reported—not silently removed.
-- Every change passes through a HARD-GATE before being written.
+- Discarded noise is reported; it is never silently removed.
+- Every change passes through a HARD GATE before being written.
 - Nothing commits automatically.
-- The human always reviews the final diff.
+- A human always reviews the final diff.
 
 ---
 
-# Lore vs README
+## Lore vs README
 
-A README explains a project.
+A README explains a project.  
+Lore changes how future work will be done.
 
-Lore changes how future work happens.
-
-| README | Lore |
-|----------|----------|
-| Explains the project | Restricts future decisions |
-| Stores information | Stores engineering judgment |
-| Written for humans | Shared between humans and AI |
-| Describes the past | Shapes the future |
+| README                          | Lore                                 |
+|---------------------------------|--------------------------------------|
+| Explains the project            | Constrains future decisions          |
+| Stores information              | Preserves criteria                   |
+| Written for humans              | Shared between humans and AI         |
+| Describes the past              | Shapes the future                    |
 
 ---
 
-# Why "Lore"?
+## Why “Lore”
 
-In videogames, lore is everything that gives coherence to a universe.
+In video games, *lore* is what gives a universe coherence.
 
-Not the mechanics.
+It is not the mechanics.
 
-The accumulated history.
+It is the accumulated story.
 
-The rules that continue influencing what can happen next.
+The rules that keep influencing everything that can happen afterwards.
 
-Lore applies the same idea to software projects.
+Lore applies that same idea to software development.
 
-It transforms experience into shared engineering judgment.
+It turns experience into shared criteria.
 
-The original events become irrelevant.
-
+The original events stop being important.  
 The criteria remain.
 
 ---
 
-# Origin
+## Origin
 
-Lore emerged from **LUS (Lore User System)**, an ongoing research program exploring how humans and AI accumulate shared judgment across long-term collaboration.
+Lore was born as a distillation of **LUS (Lore User System)**, a research program that studies how a human and an AI accumulate shared criteria over a long‑term collaboration.
 
-LUS studies the relationship.
+LUS studies the relationship.  
+Lore is an operational implementation that emerged from that research.
 
-Lore is one operational implementation of that research.
+Its core principle can be summarized in a single idea:
 
-Its intellectual influences include:
+> **Experience only creates value when it can participate in a future decision.**
 
-- Martin Buber — *I and Thou*
-- Claude Shannon & Warren Weaver — Information Theory
-- Gregory Bateson — "A difference that makes a difference"
-- Andy Clark & David Chalmers — The Extended Mind
+Lore’s goal is to turn that idea into everyday practice for AI‑assisted development.
 
-Learn more about the research on [NotebookLM]:(https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b794509)
+Some of the main influences behind the program are:
+
+- **Martin Buber** — *I and Thou*
+- **Claude Shannon** and **Warren Weaver** — *The Mathematical Theory of Communication*
+- **Gregory Bateson** — “A difference that makes a difference”
+- **Andy Clark** and **David Chalmers** — *The Extended Mind*
+
+You can explore the research behind Lore in the LUS NotebookLM:
+
+[NotebookLM for LUS](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b794509)
