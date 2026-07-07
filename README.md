@@ -4,9 +4,8 @@
 
 # Lore
 
-**Un kit de desarrollo guiado por especificaciones para constructores humanistas.**
-
-*Deja de reconstruir tu criterio cada vez que comienzas una nueva sesión con IA.*
+> **Un kit de desarrollo guiado por especificaciones para constructores humanistas.**  
+> *Deja de reconstruir tu criterio cada vez que comienzas una nueva sesión con IA.*
 
 Todo proyecto desarrollado con inteligencia artificial acumula experiencia adquirida con esfuerzo:
 
@@ -30,7 +29,7 @@ Sino preservando el **criterio** que debe seguir participando en las decisiones 
 
 ---
 
-# ¿Qué es Lore?
+## ¿Qué es Lore?
 
 Lore es un kit ligero de **Spec-Driven Development (SDD)** para Claude Code.
 
@@ -48,14 +47,12 @@ Solo conserva aquello que modifica el comportamiento futuro.
 
 ---
 
-# El problema: la experiencia efímera
+## El problema: la experiencia efímera
 
 La documentación tradicional responde preguntas como:
 
-> ¿Qué es esto?
-
-> ¿Cómo se instala?
-
+> ¿Qué es esto?  
+> ¿Cómo se instala?  
 > ¿Qué API debo utilizar?
 
 Lore responde una pregunta completamente distinta:
@@ -72,7 +69,7 @@ Y ese criterio continúa participando en decisiones futuras.
 
 ---
 
-# El principio fundamental
+## El principio fundamental
 
 Todo problema resuelto contiene dos cosas:
 
@@ -101,12 +98,12 @@ El criterio permanece.
 
 ---
 
-# Los seis artefactos
+## Los seis artefactos
 
 Cada proyecto organiza su criterio utilizando exactamente seis artefactos.
 
 | Artefacto | Propósito | Ubicación |
-|------------|-----------|-----------|
+|---|---|---|
 | `identidad.md` | Identidad del proyecto y estándar mínimo de calidad | `lore/` |
 | `principios.md` | Reglas permanentes de ingeniería y negocio | `lore/` |
 | Módulos temáticos | Experiencia destilada organizada por dominio | `lore/` |
@@ -120,7 +117,7 @@ Ninguno duplica a otro.
 
 ---
 
-# Herencia Área → Proyecto
+## Herencia Área → Proyecto
 
 Lore escala mediante **Áreas**.
 
@@ -151,11 +148,11 @@ Así el sistema permanece DRY sin perder la experiencia acumulada.
 
 ---
 
-# Flujo de trabajo
+## Flujo de trabajo
 
 Lore opera mediante cinco *skills* para Claude Code.
 
-## `using-lore`
+### `using-lore`
 
 Punto de entrada.
 
@@ -163,13 +160,13 @@ Explica el modelo de Lore y te guía hacia el *skill* adecuado.
 
 ---
 
-## `create-area`
+### `create-area`
 
 Crea una nueva Área con su propio Lore compartido.
 
 ---
 
-## `create-project`
+### `create-project`
 
 Crea un proyecto dentro de un Área.
 
@@ -177,7 +174,7 @@ Los proyectos heredan el criterio del Área en lugar de duplicarlo.
 
 ---
 
-## `save-to-lore`
+### `save-to-lore`
 
 El flujo más importante.
 
@@ -195,7 +192,7 @@ Nada se promueve automáticamente.
 
 ---
 
-## `transmute-lore`
+### `transmute-lore`
 
 Migra proyectos existentes hacia la arquitectura Lore.
 
@@ -206,9 +203,9 @@ Dispone de dos modos:
 
 ---
 
-# Instalación
+## Instalación
 
-## Claude Code
+### Claude Code
 
 ```bash
 /plugin marketplace add andresanemic/lore-plugin
@@ -217,7 +214,7 @@ Dispone de dos modos:
 
 ---
 
-## Otras herramientas de IA
+### Otras herramientas de IA
 
 Lore es, en esencia, Markdown.
 
@@ -234,7 +231,7 @@ Puedes adaptar Lore copiando cualquier *skill* a la herramienta de IA que prefie
 
 ---
 
-# Estructura del repositorio
+## Estructura del repositorio
 
 ```text
 lore-plugin/
@@ -255,7 +252,7 @@ lore-plugin/
 
 ---
 
-# Invariantes compartidas
+## Invariantes compartidas
 
 Todos los *skills* siguen las mismas reglas.
 
@@ -268,14 +265,14 @@ Todos los *skills* siguen las mismas reglas.
 
 ---
 
-# Lore vs README
+## Lore vs README
 
 Un README explica un proyecto.
 
 Lore modifica cómo se trabajará en el futuro.
 
 | README | Lore |
-|----------|----------|
+|---|---|
 | Explica el proyecto | Restringe decisiones futuras |
 | Almacena información | Preserva criterio |
 | Está escrito para humanos | Es compartido entre humanos e IA |
@@ -283,7 +280,7 @@ Lore modifica cómo se trabajará en el futuro.
 
 ---
 
-# ¿Por qué "Lore"?
+## ¿Por qué "Lore"?
 
 En los videojuegos, el *lore* es aquello que da coherencia a un universo.
 
@@ -303,7 +300,7 @@ El criterio permanece.
 
 ---
 
-# Origen
+## Origen
 
 Lore nació como una destilación de **LUS (Lore User System)**, un programa de investigación que estudia cómo un ser humano y una IA acumulan criterio compartido a lo largo de una colaboración prolongada.
 
@@ -324,9 +321,9 @@ Entre las principales influencias del programa se encuentran:
 - **Gregory Bateson** — "Una diferencia que produce una diferencia"
 - **Andy Clark** y **David Chalmers** — *The Extended Mind*
 
-Puedes explorar la investigación detrás de Lore en el [NotebookLM de LUS](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b794509):
+Puedes explorar la investigación detrás de Lore en el NotebookLM de LUS:
 
----
+[NotebookLM de LUS](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b794509)
 
 ## Licencia
 
