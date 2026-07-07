@@ -37,7 +37,12 @@ A pragmatic migration strategy is:
 
 ## 3. Using `transmute-lore`
 
-`transmute-lore` is the main tool for migration.
+`transmute-lore` is the main tool for migration. It is not a CLI command: the mode is inferred from
+the phrase you use, not from a flag.
+
+**Safety precondition (both modes):** the project's repository must have a clean git tree. If there
+are uncommitted changes, the skill stops and asks you to commit or stash first, so the migration
+lands as a reviewable diff.
 
 ### 3.1 `add` Mode – Create Missing Lore
 
@@ -46,7 +51,7 @@ A pragmatic migration strategy is:
 Example prompt:
 
 ```text
-transmute-lore --mode add "Legacy Frontend"
+transmute the lore of "Legacy Frontend"
 ```
 
 Conceptually, Lore will:
@@ -64,19 +69,25 @@ You then review and confirm or adjust the proposed structure.
 
 ### 3.2 `clean` Mode – DRY Shared Criteria
 
-**Purpose:** Remove duplication and move shared rules to the Area.
+**Purpose:** Remove thematic modules from the project that already duplicate the Area's.
 
 Example prompt:
 
 ```text
-transmute-lore --mode clean "Legacy Frontend"
+clean the lore of "Legacy Frontend"
 ```
+
+**Requires a parent Area:** the project must live at `{area}/proyectos/{slug}/`. If it is a
+standalone project (no Area), this mode does not apply and Lore reports so.
 
 Conceptually, Lore will:
 
-- Identify rules that appear in multiple project documents.
-- Suggest moving truly general criteria into the Area’s `principios.md` or thematic modules.
-- Remove redundant copies from the project Lore, leaving references instead.
+- Compare each of the project's thematic modules against its counterpart in the Area's Lore.
+- If every clue in a project module is already in the Area, propose removing that module and
+  pointing `index.md` at the Area's version via relative path.
+- Report any clue **not yet** found in the Area (never discard it) so you can decide whether it
+  stays as a project‑only module or gets promoted to the Area first.
+- **Never** touch or rewrite `identidad.md` or `principios.md` — only redundant thematic modules.
 
 You review changes to ensure nothing important is lost and that shared rules are correctly placed.
 
@@ -120,39 +131,47 @@ Focus on rules that still constrain decisions today; ignore outdated details.
 
 ### 5.1 Migrating a Legacy Frontend Project
 
-1. **Create Area:**
+1. **Create the Area** (if it doesn't exist yet):
 
    ```text
-   create-area "AI‑Assisted Frontend"
+   create a work area for "AI‑Assisted Frontend"
    ```
 
-2. **Register Project:**
+2. **Adopt the legacy project.** `create-project` scaffolds **brand‑new** projects from scratch — it
+   is not the tool for bringing in an already‑existing codebase. A legacy project is instead
+   **adopted** by adding a row with its path to the Area's `FASES.md` (without moving it or
+   touching its git):
 
    ```text
-   create-project "Legacy Marketing Site" in "AI‑Assisted Frontend"
+   register "Legacy Marketing Site" in the Area's FASES.md, at its current path
    ```
 
-3. **Add Lore Structure:**
+3. **Add Lore Structure**, run directly against the adopted project's real folder:
 
    ```text
-   transmute-lore --mode add "Legacy Marketing Site"
+   transmute the lore of "Legacy Marketing Site"
    ```
 
-   - Review proposed `identidad.md`, `principios.md`, modules, `FASES.md`, `CLAUDE.md`.
+   - The project must have a clean git tree before this (`transmute-lore`'s precondition).
+   - Review proposed `identidad.md`, `principios.md`, modules, `FASES.md`, `CLAUDE.md`, and approve
+     the mapping before anything is written (HARD GATE).
 
-4. **Clean Shared Criteria:**
+4. **Clean redundant modules** once the Area already owns its own general modules:
 
    ```text
-   transmute-lore --mode clean "Legacy Marketing Site"
+   clean the lore of "Legacy Marketing Site"
    ```
 
-   - Move general frontend rules (e.g. “Prefer static rendering for marketing pages”) into the Area.
-   - Keep project‑specific criteria (e.g. “This brand’s homepage must stay below X ms”) in project modules.
+   - Removes project thematic modules that already duplicate the Area's (e.g. a generic rendering
+     module, if the Area already has one).
+   - Keeps genuinely project‑specific criteria (e.g. “This brand’s homepage must stay below X ms”)
+     — `identidad.md` and `principios.md` are never touched in this mode.
 
 5. **Refine and Commit:**
 
    - Manually edit artifacts for clarity.
    - Confirm that the final structure reflects real constraints.
+   - `transmute-lore` does not commit for you: the diff is left for you to review and commit.
 
 ---
 

@@ -37,7 +37,12 @@ Una estrategia pragmática de migración es:
 
 ## 3. Uso de `transmute-lore`
 
-`transmute-lore` es la herramienta principal para migrar.
+`transmute-lore` es la herramienta principal para migrar. No es un comando de CLI: el modo se
+infiere de la frase que uses, no de un flag.
+
+**Precondición de seguridad (ambos modos):** el repositorio del proyecto debe tener el árbol de git
+limpio. Si hay cambios sin commitear, el skill se detiene y pide hacer commit o `stash` primero,
+para que la migración aterrice como un *diff* revisable.
 
 ### 3.1 Modo `add` – Crear Lore donde falta
 
@@ -46,7 +51,7 @@ Una estrategia pragmática de migración es:
 Ejemplo de prompt:
 
 ```text
-transmute-lore --mode add "Frontend heredado"
+transmuta el lore del "Frontend heredado"
 ```
 
 Conceptualmente, Lore:
@@ -64,19 +69,26 @@ Tú revisas y confirmas o ajustas la estructura propuesta.
 
 ### 3.2 Modo `clean` – Hacer DRY el criterio compartido
 
-**Propósito:** eliminar duplicaciones y mover reglas compartidas al Área.
+**Propósito:** eliminar del proyecto los módulos temáticos que ya duplican los del Área.
 
 Ejemplo de prompt:
 
 ```text
-transmute-lore --mode clean "Frontend heredado"
+limpia el lore del "Frontend heredado"
 ```
+
+**Requiere una Área madre:** el proyecto debe vivir en `{área}/proyectos/{slug}/`. Si es un
+proyecto standalone (sin Área), este modo no aplica y Lore te lo informa.
 
 Conceptualmente, Lore:
 
-- Identifica reglas que aparecen en varios documentos del proyecto.
-- Sugiere mover el criterio verdaderamente general a `principios.md` o módulos temáticos del Área.
-- Elimina copias redundantes del Lore del proyecto, dejando referencias cuando haga falta.
+- Compara cada módulo temático del proyecto contra su equivalente en el Lore del Área.
+- Si toda pista de un módulo del proyecto ya está en el Área, propone eliminar ese módulo del
+  proyecto y hacer que `index.md` apunte al del Área por ruta relativa.
+- Cualquier pista que **no** esté todavía en el Área se reporta (no se descarta) para que decidas
+  si se queda como módulo propio del proyecto o se promueve primero al Área.
+- **Nunca** elimina ni reescribe `identidad.md` o `principios.md` — solo módulos temáticos
+  redundantes.
 
 Tú revisas los cambios para asegurarte de que no se pierde nada importante y que las reglas compartidas quedan bien ubicadas.
 
@@ -120,39 +132,46 @@ Enfócate en reglas que aún restringen decisiones hoy; ignora detalles obsoleto
 
 ### 5.1 Migrar un proyecto de frontend heredado
 
-1. **Crear Área:**
+1. **Crear el Área** (si todavía no existe):
 
    ```text
-   create-area "Frontend asistido por IA"
+   crea un área de trabajo para "Frontend asistido por IA"
    ```
 
-2. **Registrar proyecto:**
+2. **Adoptar el proyecto heredado.** `create-project` crea proyectos **nuevos** desde cero — no es
+   la herramienta para incorporar un proyecto ya existente. Para uno heredado, se **adopta**
+   añadiendo una fila con su ruta al `FASES.md` del Área (sin moverlo ni tocar su git):
 
    ```text
-   create-project "Sitio de marketing heredado" in "Frontend asistido por IA"
+   registra "Sitio de marketing heredado" en el FASES.md del Área, con su ruta actual
    ```
 
-3. **Añadir estructura de Lore:**
+3. **Añadir estructura de Lore** al proyecto adoptado, directamente sobre su carpeta real:
 
    ```text
-   transmute-lore --mode add "Sitio de marketing heredado"
+   transmuta el lore del "Sitio de marketing heredado"
    ```
 
-   - Revisar los `identidad.md`, `principios.md`, módulos, `FASES.md`, `CLAUDE.md` propuestos.
+   - El proyecto debe tener el árbol de git limpio antes de esto (precondición de `transmute-lore`).
+   - Revisar los `identidad.md`, `principios.md`, módulos, `FASES.md`, `CLAUDE.md` propuestos, y
+     aprobar el mapeo antes de que se escriba nada (HARD-GATE).
 
-4. **Limpiar criterio compartido:**
+4. **Limpiar módulos redundantes** una vez que el Área ya tiene sus propios módulos generales:
 
    ```text
-   transmute-lore --mode clean "Sitio de marketing heredado"
+   limpia el lore del "Sitio de marketing heredado"
    ```
 
-   - Mover reglas generales de frontend (por ejemplo, «Preferir renderizado estático en páginas de marketing») al Lore del Área.
-   - Mantener en módulos de proyecto el criterio específico (por ejemplo, «La home de esta marca debe mantenerse bajo X ms»).
+   - Elimina del proyecto los módulos temáticos que ya duplican los del Área (por ejemplo, un
+     módulo genérico de renderizado si el Área ya lo tiene).
+   - Mantiene en el proyecto el criterio verdaderamente específico (por ejemplo, «La home de esta
+     marca debe mantenerse bajo X ms») — `identidad.md` y `principios.md` nunca se tocan en este modo.
 
 5. **Refinar y hacer commit:**
 
    - Editar artefactos manualmente para mayor claridad.
    - Confirmar que la estructura final refleja las restricciones reales.
+   - `transmute-lore` no hace commit por ti: el *diff* queda para que tú lo revises y confirmes.
 
 ---
 

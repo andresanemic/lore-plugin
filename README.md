@@ -36,6 +36,7 @@
   - [Herencia Área → Proyecto](#herencia-área--proyecto)
 - [Flujo de trabajo](#flujo-de-trabajo)
 - [Instalación](#instalación)
+- [Documentación adicional](#documentación-adicional)
 - [Estructura del repositorio](#estructura-del-repositorio)
 - [Invariantes compartidas](#invariantes-compartidas)
 - [Lore vs README](#lore-vs-readme)
@@ -263,6 +264,19 @@ Puedes adaptar Lore copiando cualquier *skill* a la herramienta de IA que prefie
 
 ---
 
+## Documentación adicional
+
+Este README cubre la motivación y la arquitectura. Para el resto, hay tres documentos dedicados
+(en español e inglés), en la raíz del repositorio:
+
+| Documento | Para qué sirve |
+|---|---|
+| [`USAGE_es.md`](./USAGE_es.md) / [`USAGE_en.md`](./USAGE_en.md) | Guía práctica de uso día a día: instalación, ciclo de trabajo, y cada *skill* con ejemplos. |
+| [`REFERENCE_es.md`](./REFERENCE_es.md) / [`REFERENCE_en.md`](./REFERENCE_en.md) | Referencia técnica: conceptos, especificación exacta de cada artefacto y cada *skill*. |
+| [`MIGRATION_es.md`](./MIGRATION_es.md) / [`MIGRATION_en.md`](./MIGRATION_en.md) | Cómo migrar un proyecto existente hacia Lore con `transmute-lore`. |
+
+---
+
 ## Estructura del repositorio
 
 ```text
@@ -392,6 +406,7 @@ Puedes explorar la investigación detrás de Lore en el NotebookLM de LUS:
   - [Area → Project Inheritance](#area--project-inheritance)
 - [Workflow](#workflow)
 - [Installation](#installation)
+- [Further Documentation](#further-documentation)
 - [Repository Structure](#repository-structure)
 - [Shared Invariants](#shared-invariants)
 - [Lore vs README](#lore-vs-readme)
@@ -616,6 +631,19 @@ The plugin packaging is specific to Claude Code.
 Lore’s architecture is not.
 
 You can adapt Lore by copying any skill into the AI tool of your choice.
+
+---
+
+## Further Documentation
+
+This README covers motivation and architecture. For everything else, there are three dedicated
+documents (in Spanish and English), at the repository root:
+
+| Document | What it's for |
+|---|---|
+| [`USAGE_en.md`](./USAGE_en.md) / [`USAGE_es.md`](./USAGE_es.md) | Practical day‑to‑day usage guide: installation, core loop, and each skill with examples. |
+| [`REFERENCE_en.md`](./REFERENCE_en.md) / [`REFERENCE_es.md`](./REFERENCE_es.md) | Technical reference: core concepts, the exact spec for each artifact and each skill. |
+| [`MIGRATION_en.md`](./MIGRATION_en.md) / [`MIGRATION_es.md`](./MIGRATION_es.md) | How to migrate an existing project into Lore using `transmute-lore`. |
 
 ---
 

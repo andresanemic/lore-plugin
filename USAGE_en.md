@@ -97,14 +97,18 @@ Lore will:
 Now you want a specific project to inherit that Area‑level Lore.
 
 ```text
-create-project "Landing Lore" in "Frontend Development"
+create a project "Landing Lore" in area "Frontend Development"
 ```
 
 Lore will:
 
-- Create a project folder with its own `lore/`.
-- Set up project‑level artifacts (`FASES.md`, `CLAUDE.md`, modules for project‑specific experience).
-- Link the project Lore to the Area Lore so general criteria is inherited, not copied.
+- Create the project folder **always inside** `{Area}/proyectos/{slug}/` — never directly under
+  the Area.
+- Instantiate the Area's `_starter/` templates into the new project, if the Area has one.
+- Set up project‑level artifacts: `lore/identidad.md` and `lore/principios.md` (own content first,
+  then a pointer to the Area), `lore/index.md` (referencing Area modules by relative path), plus
+  `FASES.md` and `CLAUDE.md`.
+- Register the project in the Area's `FASES.md`, so general criteria is inherited, not copied.
 
 ### 4.3 Work and Capture
 
@@ -174,14 +178,14 @@ Use this when you want multiple projects to share a common set of criteria.
 Example prompt:
 
 ```text
-create-project "Marketing Site" in "AI‑Assisted Frontend"
+create a project "Marketing Site" in area "AI‑Assisted Frontend"
 ```
 
 Lore will:
 
-- Create the project folder.
+- Create the project folder at `{Area}/proyectos/{slug}/` — never directly under the Area.
 - Set up:
-  - `lore/` for project‑specific modules.
+  - `lore/` for project‑specific modules (generic Area modules are only referenced, never copied).
   - `FASES.md` at the root for state and roadmap.
   - `CLAUDE.md` at the root for collaboration contract and references.
 - Wire the project to the Area’s Lore so shared criteria are visible but not duplicated.
@@ -202,18 +206,26 @@ save-to-lore "Decision: always prefer static rendering for marketing pages"
 save-to-lore "Standard: error messages must be human‑centered and actionable"
 ```
 
+You don't always have to ask explicitly: if you just resolved a friction that clears a **4‑condition
+threshold** (constrains a future decision, is distillable to Context→Cause→Clue, is actionable, and
+would help another project in the Area), Lore can propose saving it on its own. Cosmetic changes
+never count.
+
 Lore will typically:
 
 - Ask for context about what happened.
-- Extract **Invariant Clues** (criteria that constrain future decisions).
+- Extract **Invariant Clues** (criteria that constrain future decisions), stored as `conjecture` by
+  default, or `confirmed` only once actually validated in the running app.
 - Suggest where to store them:
   - project modules under `lore/`;
-  - Area‑level `principios.md` if they are general;
+  - Area‑level `principios.md` if they are general and confirmed;
   - updates to `identidad.md` or `CLAUDE.md` if they change identity or collaboration rules.
 - Respect invariants:
   - Never invent criteria.
   - Report discarded noise.
-  - Require a human to review before anything is written.
+  - Require a human to review before anything is written; never runs `git push`.
+  - Mark what's already promoted to the Area with the ` · ↑` glyph in the project's `index.md`, so
+    the same clue is never re‑promoted.
 
 Use this as the main tool to feed your Lore over time.
 
@@ -223,17 +235,21 @@ Use this as the main tool to feed your Lore over time.
 
 **Purpose:** Move legacy projects into the Lore architecture.
 
-It has two modes:
+It is not a CLI command: the mode is inferred from the phrase, not from a flag. It has two modes:
 
 - `add` – create missing Lore artifacts.
-- `clean` – remove redundant modules that should be shared at Area level.
+- `clean` – remove modules that already duplicate the Area's (requires the project to have a
+  parent Area; if it's standalone, this mode does not apply).
 
 Example prompts:
 
 ```text
-transmute-lore --mode add "Legacy Frontend"
-transmute-lore --mode clean "Legacy Frontend"
+transmute the lore of "Legacy Frontend"
+clean the lore of "Legacy Frontend"
 ```
+
+**Precondition:** the project must have a clean git tree before running either mode; if there are
+uncommitted changes, the skill stops and asks you to commit or stash first.
 
 Expected behavior:
 
@@ -241,9 +257,11 @@ Expected behavior:
 - Propose how to map old files onto:
   - `identidad.md`, `principios.md`, `index.md`, thematic modules.
   - `FASES.md` and `CLAUDE.md`.
+- Wait for your explicit approval before writing anything (HARD GATE).
 - Ensure the result is DRY:
   - Shared rules go to the Area.
-  - Project keeps only specific criteria.
+  - Project keeps only specific criteria; `identidad.md` and `principios.md` are never deleted in
+    `clean` mode.
 
 Use this when you already have projects and want to bring them into Lore without rewriting everything manually.
 
@@ -279,4 +297,4 @@ To keep your Lore useful:
 - Use Areas for everything that should be shared; keep the project Lore lean.
 - Always review the diff that Lore proposes before committing changes.
 
-If you want a conceptual overview of why Lore exists and how it differs from traditional documentation, see the main [`README.md`](../README.md).
+If you want a conceptual overview of why Lore exists and how it differs from traditional documentation, see the main [`README.md`](./README.md).

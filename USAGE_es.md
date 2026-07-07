@@ -101,17 +101,19 @@ Lore:
 Ahora quieres que un proyecto concreto herede ese Lore de Área.
 
 ```text
-create-project "Landing Lore" in "Desarrollo Frontend"
+crea un proyecto "Landing Lore" en el área "Desarrollo Frontend"
 ```
 
 Lore:
 
-- Crea la carpeta del proyecto.
+- Crea la carpeta del proyecto **siempre dentro de** `{Área}/proyectos/{slug}/` — nunca directamente bajo el Área.
+- Si el Área tiene una carpeta `_starter/`, instancia sus plantillas en el nuevo proyecto.
 - Configura los artefactos a nivel proyecto:
-  - `lore/` para módulos específicos del proyecto.
+  - `lore/identidad.md` y `lore/principios.md`, con contenido propio primero y un puntero al Área después.
+  - `lore/index.md`, que referencia los módulos temáticos del Área por ruta relativa (`../../../lore/<módulo>.md`).
   - `FASES.md` en la raíz para estado y hoja de ruta.
   - `CLAUDE.md` en la raíz para contrato de colaboración y referencias operativas.
-- Vincula el Lore del proyecto con el Lore del Área, de modo que el criterio general se herede sin duplicarse.
+- Registra el proyecto en el `FASES.md` del Área, de modo que el criterio general se herede sin duplicarse.
 
 ### 4.3 Trabajar y capturar
 
@@ -181,14 +183,14 @@ Usa este skill cuando quieres que varios proyectos compartan un conjunto común 
 Ejemplo de prompt:
 
 ```text
-create-project "Sitio de marketing" in "Frontend asistido por IA"
+crea un proyecto "Sitio de marketing" en el área "Frontend asistido por IA"
 ```
 
 Lore:
 
-- Crea la carpeta del proyecto.
+- Crea la carpeta del proyecto en `{Área}/proyectos/{slug}/` — nunca directamente bajo el Área.
 - Prepara:
-  - `lore/` para módulos específicos del proyecto.
+  - `lore/` para módulos específicos del proyecto (los módulos genéricos del Área solo se referencian, nunca se copian).
   - `FASES.md` en la raíz para estado y hoja de ruta.
   - `CLAUDE.md` en la raíz para contrato de colaboración y referencias.
 - Conecta el proyecto con el Lore del Área, de modo que el criterio compartido esté disponible sin duplicación.
@@ -209,18 +211,25 @@ save-to-lore "Decisión: siempre preferir renderizado estático en páginas de m
 save-to-lore "Estándar: los mensajes de error deben ser humanistas y accionables"
 ```
 
+No hace falta pedirlo siempre de forma explícita: si acabas de resolver una fricción que cumple un
+**umbral de 4 condiciones** (restringe una decisión futura, es destilable a Contexto→Causa→Pista,
+es accionable, y le serviría a otro proyecto del Área), Lore puede proponer guardarla por su
+cuenta. Los cambios cosméticos nunca cuentan.
+
 Lore normalmente:
 
 - Te pide contexto sobre lo que ocurrió.
-- Extrae **Pistas Invariantes** (criterio que restringe decisiones futuras).
+- Extrae **Pistas Invariantes** (criterio que restringe decisiones futuras) y las guarda como
+  `conjecture` por defecto, o `confirmed` solo si ya se validaron en la app en marcha.
 - Sugiere dónde guardarlas:
   - módulos del proyecto bajo `lore/`;
-  - `principios.md` del Área si son reglas generales;
+  - `principios.md` del Área si son reglas generales y están confirmadas;
   - actualizaciones de `identidad.md` o `CLAUDE.md` si afectan identidad o colaboración.
 - Respeta invariantes:
   - Nunca inventa criterio.
   - Informa el ruido descartado.
-  - Requiere revisión humana antes de escribir nada.
+  - Requiere revisión humana antes de escribir nada; nunca hace `git push`.
+  - Marca lo ya promovido al Área con el glifo ` · ↑` en el `index.md` del proyecto, para no repetir el trabajo.
 
 Usa este skill como herramienta principal para alimentar tu Lore con el tiempo.
 
@@ -230,17 +239,21 @@ Usa este skill como herramienta principal para alimentar tu Lore con el tiempo.
 
 **Propósito:** mover proyectos heredados hacia la arquitectura Lore.
 
-Tiene dos modos:
+No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene dos modos:
 
 - `add` – crea artefactos de Lore que aún no existen.
-- `clean` – elimina módulos redundantes que deberían vivir en el Área.
+- `clean` – elimina módulos redundantes que ya duplican los del Área (requiere que el proyecto
+  tenga una Área madre; si es standalone, este modo no aplica).
 
 Ejemplos de prompts:
 
 ```text
-transmute-lore --mode add "Frontend heredado"
-transmute-lore --mode clean "Frontend heredado"
+transmuta el lore del "Frontend heredado"
+limpia el lore del "Frontend heredado"
 ```
+
+**Precondición:** el proyecto debe tener el árbol de git limpio antes de ejecutar cualquiera de los
+dos modos; si hay cambios sin commitear, el skill se detiene y pide hacer commit o `stash` primero.
 
 Comportamiento esperado:
 
@@ -248,9 +261,11 @@ Comportamiento esperado:
 - Proponer cómo mapear archivos antiguos a:
   - `identidad.md`, `principios.md`, `index.md`, módulos temáticos.
   - `FASES.md` y `CLAUDE.md`.
+- Esperar tu aprobación explícita antes de escribir nada (HARD-GATE).
 - Garantizar que el resultado sea DRY:
   - Las reglas compartidas van al Área.
-  - El proyecto conserva solo el criterio específico.
+  - El proyecto conserva solo el criterio específico; `identidad.md` y `principios.md` nunca se
+    eliminan en modo `clean`.
 
 Usa este skill cuando ya tienes proyectos en marcha y quieres incorporarlos a Lore sin reescribirlo todo a mano.
 
@@ -286,4 +301,4 @@ Para que tu Lore se mantenga útil:
 - Usa Áreas para todo lo que debería ser compartido; mantén el Lore del proyecto ligero.
 - Revisa siempre el diff que Lore propone antes de confirmar cambios.
 
-Si quieres una visión más conceptual de por qué existe Lore y en qué se diferencia de la documentación tradicional, consulta el [`README.md`](../README.md).
+Si quieres una visión más conceptual de por qué existe Lore y en qué se diferencia de la documentación tradicional, consulta el [`README.md`](./README.md).
