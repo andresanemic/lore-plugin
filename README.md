@@ -2,15 +2,31 @@
   <img src="https://i.imgur.com/6u3Cnkw.png" alt="Lore" width="100%">
 </p>
 
-<!-- Portada HTML la mantienes aparte, esto es solo el README.md -->
+<!-- Language selector (top of README.md) -->
+
+<p align="right">
+  <strong>Idioma / Language:</strong>
+  <a href="#español">Español</a> |
+  <a href="#english">English</a>
+</p>
+
+---
+
+# Español
+
+<p align="right">
+  <strong>Idioma:</strong>
+  <a href="#español">Español</a> |
+  <a href="#english">English</a>
+</p>
 
 # Lore
 
 [![License](https://img.shields.io/github/license/andresanemic/lore-plugin.svg)](./LICENSE)
-[![Built for Claude Code](https://img.shields.io/badge/built%20for-Claude%20Code-4B8BF5.svg)](#instalación)
+[![Diseñado para Claude Code](https://img.shields.io/badge/diseñado%20para-Claude%20Code-4B8BF5.svg)](#instalación)
 [![Spec-Driven Development](https://img.shields.io/badge/paradigma-SDD%20%7C%20Spec--Driven%20Development-6332F6.svg)](#qué-es-lore)
-[![Human–AI Collaboration](https://img.shields.io/badge/foco-colaboración%20humano%E2%80%93IA-10B981.svg)](#origen)
-[![Status](https://img.shields.io/badge/estado-investigación%20activa-F97316.svg)](#origen)
+[![Colaboración Humano–IA](https://img.shields.io/badge/foco-colaboración%20humano%E2%80%93IA-10B981.svg)](#origen)
+[![Estado](https://img.shields.io/badge/estado-investigación%20activa-F97316.svg)](#origen)
 
 > **Un kit de desarrollo guiado por especificaciones para constructores humanistas.**  
 > *Deja de reconstruir tu criterio cada vez que comienzas una nueva sesión con IA.*
@@ -128,7 +144,7 @@ Lore organiza el criterio de cada proyecto en artefactos claramente separados y 
 
 ### Los seis artefactos
 
-Cada proyecto utiliza exactamente seis artefactos:
+Cada proyecto organiza su criterio utilizando exactamente seis artefactos:
 
 | Artefacto          | Propósito                                          | Ubicación |
 |--------------------|----------------------------------------------------|----------|
@@ -303,7 +319,7 @@ Lore modifica cómo se trabajará en el futuro.
 
 ---
 
-## Por qué “Lore”
+## ¿Por qué “Lore”?
 
 En los videojuegos, el *lore* es aquello que da coherencia a un universo.
 
@@ -346,15 +362,19 @@ Puedes explorar la investigación detrás de Lore en el NotebookLM de LUS:
 
 [NotebookLM de LUS](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b794509)
 
-## Licencia
-
-MIT — [LICENSE](LICENSE)
-
 <p align="center">
-  <img src="https://i.imgur.com/Heb7IzB.png" alt="Lore" width="100%">
+  <img src="https://i.imgur.com/6u3Cnkw.png" alt="Lore" width="100%">
 </p>
 
-<!-- Keep your HTML cover separately; this is just README.md -->
+---
+
+# English
+
+<p align="right">
+  <strong>Language:</strong>
+  <a href="#español">Español</a> |
+  <a href="#english">English</a>
+</p>
 
 # Lore
 
@@ -371,7 +391,7 @@ MIT — [LICENSE](LICENSE)
 
 ## Table of Contents
 
-- [Motivation](#motivation)
+- [Motivation](#motivation-1)
 - [What is Lore](#what-is-lore)
 - [Problem: Ephemeral Experience](#problem-ephemeral-experience)
 - [Core Principle](#core-principle)
@@ -384,7 +404,7 @@ MIT — [LICENSE](LICENSE)
 - [Shared Invariants](#shared-invariants)
 - [Lore vs README](#lore-vs-readme)
 - [Why “Lore”](#why-lore)
-- [Origin](#origin)
+- [Origin](#origin-1)
 
 ---
 
