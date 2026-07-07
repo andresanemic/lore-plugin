@@ -6,116 +6,325 @@
 
 **Un kit de desarrollo guiado por especificaciones para constructores humanistas.**
 
-Lore persigue el mismo objetivo que los kits de SDD (*Spec-Driven Development*) centrados en ingeniería: hacer que un agente de programación con IA trabaje a partir de criterios duraderos y explícitos, en lugar de tener que volver a deducirlos en cada sesión. Sin embargo, nombra esa disciplina desde otro registro: *lore, identidad, principios, transmutación, destilación*. Su vocabulario es lingüístico, epistemológico y comunicacional, más que puramente mecánico, porque el problema que resuelve es el de los **criterios compartidos entre un ser humano y un modelo**, no solo el de la configuración.
+*Deja de reconstruir tu criterio cada vez que comienzas una nueva sesión con IA.*
 
-Mientras otros kits te entregan una estructura, Lore te ofrece una forma de **capturar los criterios adquiridos con esfuerzo que normalmente se evaporan cuando una sesión termina**: las cicatrices, los estándares, los "nunca volvamos a hacer esto", y conservarlos como pistas invariantes que restringen cada decisión futura.
+Todo proyecto desarrollado con inteligencia artificial acumula experiencia adquirida con esfuerzo:
 
----
+- decisiones arquitectónicas,
+- incidentes en producción,
+- experimentos fallidos,
+- estándares de desarrollo,
+- y decenas de momentos de "nunca volvamos a hacer esto".
 
-## Qué es
+La mayor parte de esa experiencia desaparece.
 
-Lore es un pequeño conjunto de convenciones junto con cinco *skills* para Claude Code que las operan.
+La siguiente sesión comienza con una comprensión incompleta del proyecto, obligándote a ti —y a tu IA— a redescubrir decisiones que ya habías pagado con tiempo y esfuerzo.
 
-**La convención — el estándar de los seis artefactos.** Los criterios de cada proyecto viven exactamente en estos documentos:
+**Lore existe para evitar eso.**
 
-| Artefacto | Contiene | Ubicación |
-|---|---|---|
-| `identidad.md` | Qué es el proyecto, su propósito y su estándar mínimo de calidad (la estrella del norte). | `lore/` |
-| `principios.md` | Leyes invariantes (técnicas y de negocio): prohibiciones e imperativos. | `lore/` |
-| Módulos temáticos | Cicatrices técnicas organizadas por tema (animaciones, layout, scroll, etc.) como pistas invariantes. | `lore/` |
-| `index.md` | Mapa de navegación del lore: una línea por patrón. | `lore/` |
-| `FASES.md` | Estado y planificación del proyecto (fase actual, foco). | raíz |
-| `CLAUDE.md` | El contrato, reducido a referencias (nunca duplica criterios). | raíz |
+No generando más documentación.
 
-La regla que diferencia a Lore de un README es simple: **si una frase no restringe una decisión futura, no es Lore.** Los criterios permanecen; la descripción y el estado del proyecto no pertenecen al lore.
+Sino preservando el **criterio** que debe seguir participando en las decisiones futuras.
 
----
-
-## Cómo funciona
-
-Lore escala mediante **áreas de trabajo**. Un *área* es una carpeta madre con su propio `lore/`; los *proyectos* viven dentro de ella e heredan ese lore. Los criterios genéricos existen una sola vez, en el área; cada proyecto conserva únicamente aquello que le es propio y referencia el área para compartir el estándar común.
-
-El flujo cotidiano, con los *skills* ejecutándose automáticamente según sus disparadores, es el siguiente:
-
-1. **`create-area`** — crea una carpeta madre para una familia de proyectos, con su propio Lore.
-2. **`create-project`** — crea un proyecto dentro de un área; hereda el lore del área (DRY: referencia los módulos del área en lugar de copiarlos) y deriva su estructura a partir de tus documentos fuente.
-3. **`save-to-lore`** — di *"save to lore"* después de resolver algo que valga la pena conservar. La pista se captura en el proyecto y, si es genérica y está confirmada, se propone promoverla al **área** para que todos los proyectos la hereden. Las particularidades específicas permanecen en el proyecto. Este flujo proyecto ↔ área es el núcleo del crecimiento del corpus compartido sin introducir ruido.
-4. **`transmute-lore`** — lleva un proyecto antiguo y desestructurado al estándar (*modo add*), o elimina de un proyecto los módulos redundantes que ya pertenecen al área (*modo clean*).
-
-Y **`using-lore`** es el *skill* de entrada: léelo primero para comprender el modelo y elegir el *skill* adecuado.
+> **La experiencia solo crea valor cuando puede volver a participar en una decisión futura.**
 
 ---
 
-## Instalación
+# ¿Qué es Lore?
 
-**Claude Code (recomendado):**
+Lore es un kit ligero de **Spec-Driven Development (SDD)** para Claude Code.
+
+Proporciona:
+
+- una convención sencilla para organizar el criterio de un proyecto;
+- cinco *skills* que automatizan ese proceso;
+- y un flujo continuo para destilar la experiencia en criterios reutilizables.
+
+A diferencia de la documentación tradicional, Lore no intenta describirlo todo.
+
+Solo conserva aquello que modifica el comportamiento futuro.
+
+**Si una frase no restringe una decisión futura, no es Lore.**
+
+---
+
+# El problema: la experiencia efímera
+
+La documentación tradicional responde preguntas como:
+
+> ¿Qué es esto?
+
+> ¿Cómo se instala?
+
+> ¿Qué API debo utilizar?
+
+Lore responde una pregunta completamente distinta:
+
+> **¿Qué aprendimos que nunca deberíamos tener que volver a aprender?**
+
+Esa diferencia lo cambia todo.
+
+Un README almacena información.
+
+Lore preserva criterio.
+
+Y ese criterio continúa participando en decisiones futuras.
+
+---
+
+# El principio fundamental
+
+Todo problema resuelto contiene dos cosas:
+
+- la solución;
+- y la razón por la que esa solución existe.
+
+La mayoría de la documentación conserva únicamente la primera.
+
+Lore conserva la segunda.
+
+En lugar de registrar acontecimientos, Lore los destila en **Pistas Invariantes**: pequeñas restricciones que siguen siendo útiles mucho tiempo después de que el contexto original haya desaparecido.
+
+Por ejemplo:
+
+En lugar de recordar:
+
+> "Tuvimos un problema de hidratación en Next.js."
+
+Lore conserva:
+
+> "Nunca utilices estado del cliente para controlar la opacidad inicial."
+
+El evento desaparece.
+
+El criterio permanece.
+
+---
+
+# Los seis artefactos
+
+Cada proyecto organiza su criterio utilizando exactamente seis artefactos.
+
+| Artefacto | Propósito | Ubicación |
+|------------|-----------|-----------|
+| `identidad.md` | Identidad del proyecto y estándar mínimo de calidad | `lore/` |
+| `principios.md` | Reglas permanentes de ingeniería y negocio | `lore/` |
+| Módulos temáticos | Experiencia destilada organizada por dominio | `lore/` |
+| `index.md` | Mapa de navegación del Lore | `lore/` |
+| `FASES.md` | Estado actual y hoja de ruta del proyecto | raíz |
+| `CLAUDE.md` | Contrato de colaboración y referencias operativas | raíz |
+
+Cada artefacto tiene una única responsabilidad.
+
+Ninguno duplica a otro.
+
+---
+
+# Herencia Área → Proyecto
+
+Lore escala mediante **Áreas**.
+
+Un Área es una carpeta madre que posee su propio Lore.
+
+Los proyectos heredan ese criterio en lugar de copiarlo.
+
+```text
+Desarrollo/
+│
+├── lore/
+│
+├── Proyecto A/
+│   └── lore/
+│
+├── Proyecto B/
+│   └── lore/
+│
+└── Proyecto C/
+    └── lore/
+```
+
+Los criterios generales existen una sola vez.
+
+Cada proyecto conserva únicamente aquello que le pertenece.
+
+Así el sistema permanece DRY sin perder la experiencia acumulada.
+
+---
+
+# Flujo de trabajo
+
+Lore opera mediante cinco *skills* para Claude Code.
+
+## `using-lore`
+
+Punto de entrada.
+
+Explica el modelo de Lore y te guía hacia el *skill* adecuado.
+
+---
+
+## `create-area`
+
+Crea una nueva Área con su propio Lore compartido.
+
+---
+
+## `create-project`
+
+Crea un proyecto dentro de un Área.
+
+Los proyectos heredan el criterio del Área en lugar de duplicarlo.
+
+---
+
+## `save-to-lore`
+
+El flujo más importante.
+
+Después de resolver un problema realmente valioso:
+
+> "save to lore"
+
+El *skill* extrae el criterio detrás de esa solución.
+
+Las lecciones específicas permanecen dentro del proyecto.
+
+Las lecciones genéricas pueden proponerse para ser promovidas al Área.
+
+Nada se promueve automáticamente.
+
+---
+
+## `transmute-lore`
+
+Migra proyectos existentes hacia la arquitectura Lore.
+
+Dispone de dos modos:
+
+- **add** → crea el Lore faltante.
+- **clean** → elimina módulos redundantes que ya pertenecen al Área.
+
+---
+
+# Instalación
+
+## Claude Code
 
 ```bash
 /plugin marketplace add andresanemic/lore-plugin
 /plugin install lore@lore-plugin
 ```
 
-**Otras herramientas de IA.** El componente portátil es el propio archivo `SKILL.md`: un *frontmatter* YAML (`name`, `description`) seguido de un cuerpo en Markdown. El empaquetado del plugin (`plugin.json`, `marketplace.json`) es específico de Claude Code, pero los *skills* son simplemente archivos Markdown.
+---
 
-Para adaptar Lore a otra herramienta:
+## Otras herramientas de IA
 
-- Copia la carpeta de un *skill* desde `skills/` al directorio de instrucciones que utilice tu herramienta.
-- O pega el contenido del *skill* como *system prompt* o *persona prompt*.
+Lore es, en esencia, Markdown.
 
-El estándar de los seis artefactos y el modelo área ↔ proyecto son convenciones independientes de cualquier herramienta; no son código.
+Cada *skill* está compuesto por:
+
+- un encabezado YAML (*frontmatter*);
+- instrucciones escritas en Markdown.
+
+El empaquetado del plugin es específico de Claude Code.
+
+La arquitectura de Lore no lo es.
+
+Puedes adaptar Lore copiando cualquier *skill* a la herramienta de IA que prefieras.
 
 ---
 
-## Qué incluye
+# Estructura del repositorio
 
 ```text
 lore-plugin/
   .claude-plugin/
-    plugin.json          manifiesto del plugin
-    marketplace.json     catálogo del marketplace
+    plugin.json
+    marketplace.json
+
   skills/
-    using-lore/          el mapa: el modelo y qué skill usar en cada caso
-    create-area/         crea una nueva área de trabajo con su propio Lore
-    create-project/      crea un proyecto heredando el Lore del área
-    save-to-lore/        captura una pista; decide si pertenece al proyecto o al área
-    transmute-lore/      migra un proyecto antiguo (add) o limpia módulos redundantes (clean)
+    using-lore/
+    create-area/
+    create-project/
+    save-to-lore/
+    transmute-lore/
+
   README.md
   LICENSE
 ```
 
-| Skill | Qué hace |
-|---|---|
-| `using-lore` | Explica el modelo de Lore y te guía hacia el *skill* correcto. Debe leerse primero. |
-| `create-area` | Crea la carpeta madre de un dominio con su propio Lore de área. |
-| `create-project` | Crea un proyecto dentro de un área, heredando el Lore del área (DRY). |
-| `save-to-lore` | Captura un aprendizaje en el proyecto y promueve las pistas genéricas y confirmadas al área. |
-| `transmute-lore` | Lleva un proyecto disperso al estándar o elimina módulos redundantes. |
+---
 
-Todos los *skills* comparten las mismas invariantes:
+# Invariantes compartidas
 
-- **Los criterios nunca se inventan** (solo se destilan a partir de lo que ya existe).
-- **El ruido descartado se reporta**, nunca se elimina silenciosamente.
-- Existe un **HARD-GATE** antes de escribir cualquier cambio.
-- **Nada se confirma automáticamente** (*commit*): tú revisas el *diff* y decides.
+Todos los *skills* siguen las mismas reglas.
+
+- El criterio nunca se inventa.
+- Todo proviene de experiencia real.
+- El ruido descartado se informa; nunca se elimina silenciosamente.
+- Todo cambio pasa por un HARD-GATE antes de escribirse.
+- Nada realiza *commit* automáticamente.
+- El ser humano siempre revisa el *diff* final.
 
 ---
 
-## Origen y filosofía
+# Lore vs README
 
-Lore es una destilación de **LUS** (*Lore + Usuario System*), un programa de investigación sobre cómo un ser humano y una IA acumulan criterios compartidos a lo largo de múltiples sesiones: la teoría del **"Entre"**.
+Un README explica un proyecto.
 
-Este plugin es el kit operativo que surgió de esa investigación; la teoría permanece en LUS.
+Lore modifica cómo se trabajará en el futuro.
 
-Su vocabulario no es un adorno. Varias de las referencias fundamentales del programa se reflejan directamente en la mecánica del kit:
+| README | Lore |
+|----------|----------|
+| Explica el proyecto | Restringe decisiones futuras |
+| Almacena información | Preserva criterio |
+| Está escrito para humanos | Es compartido entre humanos e IA |
+| Describe el pasado | Da forma al futuro |
 
-- **Martin Buber**, *Yo y Tú* (*Ich und Du*, 1923): el **Entre**. El conocimiento no reside ni en el prompt ni en el modelo, sino en la relación entre ambos.
-- **Claude Shannon** y **Warren Weaver**, *The Mathematical Theory of Communication* (1949): la destilación como reducción del ruido. Los registros en bruto aumentan la entropía; una pista es la señal que permanece.
-- **Gregory Bateson**, *Steps to an Ecology of Mind* (1972): "una diferencia que produce una diferencia". Si un hecho guardado no restringe una acción futura, no es información: es ruido. Ese es el criterio para identificar una pista invariante.
-- **Andy Clark** y **David Chalmers**, *The Extended Mind* (1998): el lore como una extensión externa y acoplada de los propios criterios del constructor.
+---
 
-Puedes explorar la investigación en **LUS NotebookLM**:
+# ¿Por qué "Lore"?
 
-https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b794509
+En los videojuegos, el *lore* es aquello que da coherencia a un universo.
+
+No son las mecánicas.
+
+Es la historia acumulada.
+
+Las reglas que siguen influyendo en todo lo que puede ocurrir después.
+
+Lore aplica esa misma idea al desarrollo de software.
+
+Transforma la experiencia en criterio compartido.
+
+Los acontecimientos originales dejan de ser importantes.
+
+El criterio permanece.
+
+---
+
+# Origen
+
+Lore nació como una destilación de **LUS (Lore User System)**, un programa de investigación que estudia cómo un ser humano y una IA acumulan criterio compartido a lo largo de una colaboración prolongada.
+
+LUS estudia la relación.
+
+Lore es una implementación operativa surgida de esa investigación.
+
+Su principio central puede resumirse en una sola idea:
+
+> **La experiencia solo crea valor cuando puede volver a participar en una decisión futura.**
+
+El objetivo de Lore es convertir esa idea en una práctica cotidiana para el desarrollo asistido por IA.
+
+Entre las principales influencias del programa se encuentran:
+
+- **Martin Buber** — *Yo y Tú*
+- **Claude Shannon** y **Warren Weaver** — *The Mathematical Theory of Communication*
+- **Gregory Bateson** — "Una diferencia que produce una diferencia"
+- **Andy Clark** y **David Chalmers** — *The Extended Mind*
+
+Puedes explorar la investigación detrás de Lore en el [NotebookLM de LUS](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b794509):
 
 ---
 
@@ -123,137 +332,320 @@ https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b794509
 
 MIT — consulta `LICENSE`.
 
+<p align="center">
+  <img src="https://i.imgur.com/Heb7IzB.png" alt="Lore" width="100%">
+</p>
+
 # Lore
 
-**A spec-driven development kit for humanist builders.**
+**Stop rebuilding your engineering judgment every time you start a new AI session.**
 
-Lore pursues the same goal as engineering-first SDD kits — make an AI coding agent work from
-durable, explicit criteria instead of re-deriving everything each session — but it names the
-discipline in a different register: *lore, identity, principles, transmutation, distillation*. The
-vocabulary is linguistic, epistemic, communicational rather than purely mechanical, because the
-problem it solves is one of **shared criteria between a human and a model**, not just configuration.
+Every AI-assisted project accumulates hard-earned experience:
 
-Where other kits give you scaffolding, Lore gives you a way to **capture the hard-won criteria that
-usually evaporates when a session ends** — the scars, the standards, the "never do this again" — and
-keep it as invariant clues that constrain every future decision.
+- architectural decisions,
+- production incidents,
+- failed experiments,
+- coding standards,
+- and dozens of "never do this again" moments.
 
----
+Most of that experience disappears.
 
-## What it is
+The next session starts from an incomplete understanding of the project, forcing you—and your AI—to rediscover decisions you've already paid for.
 
-Lore is a small set of conventions plus five Claude Code skills that operate them.
+**Lore exists to prevent that.**
 
-**The convention — the six-artifact standard.** Every project's criteria lives in exactly these:
+Not by generating more documentation.
 
-| Artifact | Holds | Location |
-|---|---|---|
-| `identidad.md` | What the project is, its purpose, its quality floor (the north star). | `lore/` |
-| `principios.md` | Invariant laws (technical + business): prohibitions and imperatives. | `lore/` |
-| Thematic modules | Technical scars by topic (animation, layout, scroll…) as invariant clues. | `lore/` |
-| `index.md` | Navigation map of the lore: one line per pattern. | `lore/` |
-| `FASES.md` | The project's state and plan (current phase, focus). | root |
-| `CLAUDE.md` | The contract, slimmed to pointers (never duplicated criteria). | root |
+By preserving the **judgment** that should continue shaping future decisions.
 
-The rule that separates Lore from a README: **if a sentence does not constrain a future decision,
-it is not Lore.** Criteria persists; description and state do not belong in it.
+> **Experience only creates value when it can participate in a future decision.**
 
 ---
 
-## How it works
+# What is Lore?
 
-Lore scales through **work areas**. An *area* is a mother folder with its own `lore/`; *projects*
-live inside it and inherit that lore. Generic criteria lives once, in the area; a project keeps only
-what is its own and points to the area for the shared standard.
+Lore is a lightweight **Spec-Driven Development (SDD)** kit for Claude Code.
 
-The everyday flow, with skills firing automatically on their triggers:
+It provides:
 
-1. **`create-area`** — start a mother folder for a family of projects, with its own Lore.
-2. **`create-project`** — start a project inside an area; it inherits the area's lore (DRY: it
-   references the area's modules instead of copying them) and derives its structure from your source
-   documents.
-3. **`save-to-lore`** — say *"save to lore"* after solving something worth keeping. The clue is
-   captured in the project, and if it is generic and confirmed it is proposed for promotion up to
-   the **area** so every project inherits it. Project-specific quirks stay in the project. This
-   project ↔ area routing is the core of how the shared corpus grows without noise.
-4. **`transmute-lore`** — bring an old, unstructured project up to the standard (*add* mode), or
-   strip a project's redundant modules back down to what the area already owns (*clean* mode).
+- a simple convention for organizing project judgment,
+- five automation skills,
+- and a workflow for continuously distilling experience into reusable engineering criteria.
 
-And **`using-lore`** is the entry skill: read it first to learn the model and pick the right skill.
+Unlike traditional documentation, Lore does not try to describe everything.
+
+It only preserves what changes future behavior.
+
+If a sentence does not restrict a future decision, **it is not Lore.**
 
 ---
 
-## Installation
+# The Problem: Ephemeral Experience
 
-**Claude Code (recommended):**
+Documentation usually answers questions like:
+
+> What is this?
+
+> How do I install it?
+
+> Which API should I call?
+
+Lore answers a different question:
+
+> **What have we already learned that we should never have to learn again?**
+
+That distinction changes everything.
+
+A README stores information.
+
+Lore stores judgment.
+
+---
+
+# The Core Principle
+
+Every solved problem contains two things:
+
+- the solution,
+- and the reason the solution exists.
+
+Most documentation preserves only the first.
+
+Lore preserves the second.
+
+Instead of recording events, Lore distills them into **Invariant Leads**—small engineering constraints that remain useful long after the original context has disappeared.
+
+For example:
+
+Instead of remembering:
+
+> "We had a hydration issue in Next.js."
+
+Lore stores:
+
+> "Never use client-side state to control initial opacity."
+
+The event disappears.
+
+The criterion remains.
+
+---
+
+# The Six Artifacts
+
+Every project organizes its judgment using exactly six artifacts.
+
+| Artifact | Purpose | Location |
+|------------|----------|----------|
+| `identidad.md` | Project identity and quality standard | `lore/` |
+| `principios.md` | Permanent engineering and business rules | `lore/` |
+| Topic modules | Distilled engineering experience by domain | `lore/` |
+| `index.md` | Navigation map of the Lore | `lore/` |
+| `FASES.md` | Current project state and roadmap | project root |
+| `CLAUDE.md` | Collaboration contract and operational pointers | project root |
+
+Each artifact has one responsibility.
+
+None duplicates another.
+
+---
+
+# Area → Project Inheritance
+
+Lore scales through **Areas**.
+
+An Area is a parent workspace that owns its own Lore.
+
+Projects inherit that judgment instead of copying it.
 
 ```
+Development/
+│
+├── lore/
+│
+├── Project A/
+│   └── lore/
+│
+├── Project B/
+│   └── lore/
+│
+└── Project C/
+    └── lore/
+```
+
+Generic engineering criteria live once.
+
+Projects only keep what is uniquely theirs.
+
+This keeps the system DRY without sacrificing accumulated experience.
+
+---
+
+# Workflow
+
+Lore operates through five Claude Code skills.
+
+## `using-lore`
+
+Entry point.
+
+Explains the model and routes you to the correct workflow.
+
+---
+
+## `create-area`
+
+Creates a new Area with its own shared Lore.
+
+---
+
+## `create-project`
+
+Creates a project inside an Area.
+
+Projects inherit Area knowledge instead of duplicating it.
+
+---
+
+## `save-to-lore`
+
+The most important workflow.
+
+After solving a meaningful problem:
+
+> "save to lore"
+
+The skill extracts the engineering criterion behind the solution.
+
+Project-specific lessons stay inside the project.
+
+Generic lessons are proposed for promotion to the Area.
+
+Nothing is promoted automatically.
+
+---
+
+## `transmute-lore`
+
+Migrates existing projects into the Lore architecture.
+
+Supports two modes:
+
+- **add** → build missing Lore
+- **clean** → remove redundant modules already inherited from the Area
+
+---
+
+# Installation
+
+## Claude Code
+
+```bash
 /plugin marketplace add andresanemic/lore-plugin
 /plugin install lore@lore-plugin
 ```
 
-**Other AI tools.** The portable substrate is the `SKILL.md` file itself — YAML frontmatter
-(`name`, `description`) plus a Markdown body. The plugin packaging (`plugin.json`,
-`marketplace.json`) is Claude Code-specific, but the skills are plain Markdown. To adapt Lore to
-another tool: copy a skill's folder from `skills/` into whatever instruction directory your tool
-reads, or paste a skill body as a system/persona prompt. The six-artifact standard and the
-area↔project model are tool-agnostic conventions, not code.
+---
+
+## Other AI tools
+
+Lore is fundamentally Markdown.
+
+Each skill consists of:
+
+- YAML frontmatter
+- Markdown instructions
+
+The plugin packaging is Claude Code-specific.
+
+The architecture itself is tool-agnostic.
+
+You can adapt Lore by copying any skill into your preferred AI environment.
 
 ---
 
-## What's inside
+# Repository Structure
 
-```
+```text
 lore-plugin/
   .claude-plugin/
-    plugin.json          plugin manifest
-    marketplace.json      marketplace catalog
+    plugin.json
+    marketplace.json
+
   skills/
-    using-lore/          the map: model + which skill to use when
-    create-area/         scaffold a new work area with its own Lore
-    create-project/      scaffold a new project inheriting the area's Lore
-    save-to-lore/        capture a clue; route project vs area (promotion)
-    transmute-lore/      migrate an old project (add) / clean redundant modules (clean)
+    using-lore/
+    create-area/
+    create-project/
+    save-to-lore/
+    transmute-lore/
+
   README.md
   LICENSE
 ```
 
-| Skill | What it does |
-|---|---|
-| `using-lore` | Explains the Lore model and routes you to the right skill. Read first. |
-| `create-area` | Creates the mother folder of a domain with its own area Lore. |
-| `create-project` | Creates a project inside an area, inheriting the area Lore (DRY). |
-| `save-to-lore` | Captures a lesson into the project and promotes generic, confirmed clues to the area. |
-| `transmute-lore` | Lifts a scattered project to the standard, or cleans redundant modules. |
+---
 
-Every skill shares the same invariants: **criteria is never invented** (only distilled from what
-exists), **discarded noise is reported** not silently dropped, there is a **HARD-GATE** before
-writing, and **nothing is committed automatically** — you review the diff and decide.
+# Shared Invariants
+
+Every skill follows the same rules.
+
+- Engineering judgment is never invented.
+- Everything comes from real experience.
+- Discarded information is reported—not silently removed.
+- Every change passes through a HARD-GATE before being written.
+- Nothing commits automatically.
+- The human always reviews the final diff.
 
 ---
 
-## Origin & philosophy
+# Lore vs README
 
-Lore is a distillation of **LUS** (*Lore + Usuario System*), a research program on how a human and
-an AI accumulate shared criteria across sessions — the theory of the *"Entre"* (the "between"). This
-plugin is the operational kit that fell out of that research; the theory stays in LUS.
+A README explains a project.
 
-The vocabulary is not decoration. A handful of the program's foundational references map directly
-onto the kit's mechanics:
+Lore changes how future work happens.
 
-- **Martin Buber**, *Ich und Du* (1923) — the *Entre*: knowledge lives neither in the prompt nor in
-  the model, but in the relation between them.
-- **Claude Shannon & Warren Weaver**, *The Mathematical Theory of Communication* (1949) — distillation
-  as noise reduction: raw logs raise entropy; a clue is the signal kept.
-- **Gregory Bateson**, *Steps to an Ecology of Mind* (1972) — "a difference that makes a difference":
-  if a saved fact does not constrain future action, it is not information, it is noise. This is the
-  test for an invariant clue.
-- **Andy Clark & David Chalmers**, *The Extended Mind* (1998) — the lore as an external, coupled
-  extension of the builder's own criteria.
-
-You can read [LUS NotebookLM](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b794509).
+| README | Lore |
+|----------|----------|
+| Explains the project | Restricts future decisions |
+| Stores information | Stores engineering judgment |
+| Written for humans | Shared between humans and AI |
+| Describes the past | Shapes the future |
 
 ---
 
-## License
+# Why "Lore"?
 
-MIT — see [LICENSE](LICENSE).
+In videogames, lore is everything that gives coherence to a universe.
+
+Not the mechanics.
+
+The accumulated history.
+
+The rules that continue influencing what can happen next.
+
+Lore applies the same idea to software projects.
+
+It transforms experience into shared engineering judgment.
+
+The original events become irrelevant.
+
+The criteria remain.
+
+---
+
+# Origin
+
+Lore emerged from **LUS (Lore User System)**, an ongoing research program exploring how humans and AI accumulate shared judgment across long-term collaboration.
+
+LUS studies the relationship.
+
+Lore is one operational implementation of that research.
+
+Its intellectual influences include:
+
+- Martin Buber — *I and Thou*
+- Claude Shannon & Warren Weaver — Information Theory
+- Gregory Bateson — "A difference that makes a difference"
+- Andy Clark & David Chalmers — The Extended Mind
+
+Learn more about the research on [NotebookLM]:(https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b794509)
