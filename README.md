@@ -330,7 +330,7 @@ Puedes explorar la investigación detrás de Lore en el [NotebookLM de LUS](http
 
 ## Licencia
 
-MIT — consulta `LICENSE`.
+MIT — [LICENSE](LICENSE)
 
 <p align="center">
   <img src="https://i.imgur.com/Heb7IzB.png" alt="Lore" width="100%">
