@@ -2,18 +2,49 @@
   <img src="https://i.imgur.com/6u3Cnkw.png" alt="Lore" width="100%">
 </p>
 
+<!-- Portada HTML la mantienes aparte, esto es solo el README.md -->
+
 # Lore
+
+[![License](https://img.shields.io/github/license/andresanemic/lore-plugin.svg)](./LICENSE)
+[![Built for Claude Code](https://img.shields.io/badge/built%20for-Claude%20Code-4B8BF5.svg)](#instalación)
+[![Spec-Driven Development](https://img.shields.io/badge/paradigma-SDD%20%7C%20Spec--Driven%20Development-6332F6.svg)](#qué-es-lore)
+[![Human–AI Collaboration](https://img.shields.io/badge/foco-colaboración%20humano%E2%80%93IA-10B981.svg)](#origen)
+[![Status](https://img.shields.io/badge/estado-investigación%20activa-F97316.svg)](#origen)
 
 > **Un kit de desarrollo guiado por especificaciones para constructores humanistas.**  
 > *Deja de reconstruir tu criterio cada vez que comienzas una nueva sesión con IA.*
 
+---
+
+## Índice
+
+- [Motivación](#motivación)
+- [Qué es Lore](#qué-es-lore)
+- [Problema: experiencia efímera](#problema-experiencia-efímera)
+- [Principio fundamental](#principio-fundamental)
+- [Arquitectura de Lore](#arquitectura-de-lore)
+  - [Los seis artefactos](#los-seis-artefactos)
+  - [Herencia Área → Proyecto](#herencia-área--proyecto)
+- [Flujo de trabajo](#flujo-de-trabajo)
+- [Instalación](#instalación)
+- [Estructura del repositorio](#estructura-del-repositorio)
+- [Invariantes compartidas](#invariantes-compartidas)
+- [Lore vs README](#lore-vs-readme)
+- [Por qué “Lore”](#por-qué-lore)
+- [Origen](#origen)
+
+---
+
+## Motivación
+
 Todo proyecto desarrollado con inteligencia artificial acumula experiencia adquirida con esfuerzo:
 
-- decisiones arquitectónicas,
-- incidentes en producción,
-- experimentos fallidos,
-- estándares de desarrollo,
-- y decenas de momentos de "nunca volvamos a hacer esto".
+- decisiones arquitectónicas;
+- incidentes en producción;
+- experimentos fallidos;
+- estándares de desarrollo;
+- y decenas de momentos de *«nunca volvamos a hacer esto»*.
 
 La mayor parte de esa experiencia desaparece.
 
@@ -21,15 +52,14 @@ La siguiente sesión comienza con una comprensión incompleta del proyecto, obli
 
 **Lore existe para evitar eso.**
 
-No generando más documentación.
-
-Sino preservando el **criterio** que debe seguir participando en las decisiones futuras.
+No generando más documentación,  
+sino preservando el **criterio** que debe seguir participando en las decisiones futuras.
 
 > **La experiencia solo crea valor cuando puede volver a participar en una decisión futura.**
 
 ---
 
-## ¿Qué es Lore?
+## Qué es Lore
 
 Lore es un kit ligero de **Spec-Driven Development (SDD)** para Claude Code.
 
@@ -47,7 +77,7 @@ Solo conserva aquello que modifica el comportamiento futuro.
 
 ---
 
-## El problema: la experiencia efímera
+## Problema: experiencia efímera
 
 La documentación tradicional responde preguntas como:
 
@@ -59,57 +89,55 @@ Lore responde una pregunta completamente distinta:
 
 > **¿Qué aprendimos que nunca deberíamos tener que volver a aprender?**
 
-Esa diferencia lo cambia todo.
+Esa diferencia lo cambia todo:
 
-Un README almacena información.
-
-Lore preserva criterio.
-
-Y ese criterio continúa participando en decisiones futuras.
+- Un README almacena información.
+- Lore preserva criterio.
+- Ese criterio continúa participando en decisiones futuras.
 
 ---
 
-## El principio fundamental
+## Principio fundamental
 
 Todo problema resuelto contiene dos cosas:
 
 - la solución;
 - y la razón por la que esa solución existe.
 
-La mayoría de la documentación conserva únicamente la primera.
-
+La mayoría de la documentación conserva únicamente la primera.  
 Lore conserva la segunda.
 
 En lugar de registrar acontecimientos, Lore los destila en **Pistas Invariantes**: pequeñas restricciones que siguen siendo útiles mucho tiempo después de que el contexto original haya desaparecido.
 
-Por ejemplo:
+Por ejemplo, en lugar de recordar:
 
-En lugar de recordar:
-
-> "Tuvimos un problema de hidratación en Next.js."
+> «Tuvimos un problema de hidratación en Next.js.»
 
 Lore conserva:
 
-> "Nunca utilices estado del cliente para controlar la opacidad inicial."
+> «Nunca utilices estado del cliente para controlar la opacidad inicial.»
 
-El evento desaparece.
-
+El evento desaparece.  
 El criterio permanece.
 
 ---
 
-## Los seis artefactos
+## Arquitectura de Lore
 
-Cada proyecto organiza su criterio utilizando exactamente seis artefactos.
+Lore organiza el criterio de cada proyecto en artefactos claramente separados y heredables.
 
-| Artefacto | Propósito | Ubicación |
-|---|---|---|
-| `identidad.md` | Identidad del proyecto y estándar mínimo de calidad | `lore/` |
-| `principios.md` | Reglas permanentes de ingeniería y negocio | `lore/` |
-| Módulos temáticos | Experiencia destilada organizada por dominio | `lore/` |
-| `index.md` | Mapa de navegación del Lore | `lore/` |
-| `FASES.md` | Estado actual y hoja de ruta del proyecto | raíz |
-| `CLAUDE.md` | Contrato de colaboración y referencias operativas | raíz |
+### Los seis artefactos
+
+Cada proyecto utiliza exactamente seis artefactos:
+
+| Artefacto          | Propósito                                          | Ubicación |
+|--------------------|----------------------------------------------------|----------|
+| `identidad.md`     | Identidad del proyecto y estándar mínimo de calidad | `lore/`  |
+| `principios.md`    | Reglas permanentes de ingeniería y negocio          | `lore/`  |
+| Módulos temáticos  | Experiencia destilada organizada por dominio        | `lore/`  |
+| `index.md`         | Mapa de navegación del Lore                         | `lore/`  |
+| `FASES.md`         | Estado actual y hoja de ruta del proyecto           | raíz     |
+| `CLAUDE.md`        | Contrato de colaboración y referencias operativas   | raíz     |
 
 Cada artefacto tiene una única responsabilidad.
 
@@ -117,13 +145,12 @@ Ninguno duplica a otro.
 
 ---
 
-## Herencia Área → Proyecto
+### Herencia Área → Proyecto
 
 Lore escala mediante **Áreas**.
 
-Un Área es una carpeta madre que posee su propio Lore.
-
-Los proyectos heredan ese criterio en lugar de copiarlo.
+Un Área es una carpeta madre que posee su propio Lore.  
+Los proyectos heredan ese criterio en lugar de copiarlo:
 
 ```text
 Desarrollo/
@@ -168,7 +195,7 @@ Crea una nueva Área con su propio Lore compartido.
 
 ### `create-project`
 
-Crea un proyecto dentro de un Área.
+Crea un proyecto dentro de una Área.
 
 Los proyectos heredan el criterio del Área en lugar de duplicarlo.
 
@@ -180,15 +207,13 @@ El flujo más importante.
 
 Después de resolver un problema realmente valioso:
 
-> "save to lore"
+> «save to lore»
 
 El *skill* extrae el criterio detrás de esa solución.
 
-Las lecciones específicas permanecen dentro del proyecto.
-
-Las lecciones genéricas pueden proponerse para ser promovidas al Área.
-
-Nada se promueve automáticamente.
+- Las lecciones específicas permanecen dentro del proyecto.
+- Las lecciones genéricas pueden proponerse para ser promovidas al Área.
+- Nada se promueve automáticamente.
 
 ---
 
@@ -223,8 +248,7 @@ Cada *skill* está compuesto por:
 - un encabezado YAML (*frontmatter*);
 - instrucciones escritas en Markdown.
 
-El empaquetado del plugin es específico de Claude Code.
-
+El empaquetado del plugin es específico de Claude Code.  
 La arquitectura de Lore no lo es.
 
 Puedes adaptar Lore copiando cualquier *skill* a la herramienta de IA que prefieras.
@@ -254,7 +278,7 @@ lore-plugin/
 
 ## Invariantes compartidas
 
-Todos los *skills* siguen las mismas reglas.
+Todos los *skills* siguen las mismas reglas:
 
 - El criterio nunca se inventa.
 - Todo proviene de experiencia real.
@@ -267,20 +291,19 @@ Todos los *skills* siguen las mismas reglas.
 
 ## Lore vs README
 
-Un README explica un proyecto.
-
+Un README explica un proyecto.  
 Lore modifica cómo se trabajará en el futuro.
 
-| README | Lore |
-|---|---|
-| Explica el proyecto | Restringe decisiones futuras |
-| Almacena información | Preserva criterio |
-| Está escrito para humanos | Es compartido entre humanos e IA |
-| Describe el pasado | Da forma al futuro |
+| README                         | Lore                                |
+|--------------------------------|-------------------------------------|
+| Explica el proyecto            | Restringe decisiones futuras        |
+| Almacena información           | Preserva criterio                   |
+| Está escrito para humanos      | Es compartido entre humanos e IA    |
+| Describe el pasado             | Da forma al futuro                  |
 
 ---
 
-## ¿Por qué "Lore"?
+## Por qué “Lore”
 
 En los videojuegos, el *lore* es aquello que da coherencia a un universo.
 
@@ -294,8 +317,7 @@ Lore aplica esa misma idea al desarrollo de software.
 
 Transforma la experiencia en criterio compartido.
 
-Los acontecimientos originales dejan de ser importantes.
-
+Los acontecimientos originales dejan de ser importantes.  
 El criterio permanece.
 
 ---
@@ -304,8 +326,7 @@ El criterio permanece.
 
 Lore nació como una destilación de **LUS (Lore User System)**, un programa de investigación que estudia cómo un ser humano y una IA acumulan criterio compartido a lo largo de una colaboración prolongada.
 
-LUS estudia la relación.
-
+LUS estudia la relación.  
 Lore es una implementación operativa surgida de esa investigación.
 
 Su principio central puede resumirse en una sola idea:
@@ -318,7 +339,7 @@ Entre las principales influencias del programa se encuentran:
 
 - **Martin Buber** — *Yo y Tú*
 - **Claude Shannon** y **Warren Weaver** — *The Mathematical Theory of Communication*
-- **Gregory Bateson** — "Una diferencia que produce una diferencia"
+- **Gregory Bateson** — «Una diferencia que produce una diferencia»
 - **Andy Clark** y **David Chalmers** — *The Extended Mind*
 
 Puedes explorar la investigación detrás de Lore en el NotebookLM de LUS:
