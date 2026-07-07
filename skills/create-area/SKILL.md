@@ -39,7 +39,7 @@ Creates the **mother folder** of a domain (web, research, blog, video, apps…) 
 |---|---|
 | `{{AREA_SLUG}}` | area name in kebab-case (e.g. `desarrollo-web`) |
 | `{{AREA_TITLE}}` | readable name (e.g. "Desarrollo Web") |
-| `{{PATH}}` | mother path; default `C:\proyectos\{{AREA_SLUG}}` |
+| `{{PATH}}` | mother path; default `C:\Claude\{{AREA_SLUG}}` |
 | `{{PURPOSE}}` | what does the area produce and for whom? → `identidad.md` |
 | `{{NORTH}}` | quality standard: what is every deliverable judged against? → `identidad.md` |
 | `{{ANTI_SCOPE}}` | what the area is NOT / what practice it rejects → `identidad.md` |

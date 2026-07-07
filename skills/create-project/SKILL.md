@@ -48,7 +48,7 @@ does not exist, **stop** and propose `create-area` first.
 
 | Token | Where it comes from |
 |---|---|
-| `{{AREA_PATH}}` | path of the target area (e.g. `C:\proyectos\desarrollo-web`) |
+| `{{AREA_PATH}}` | path of the target area (e.g. `C:\Claude\desarrollo-web`) |
 | `{{PROJECT_SLUG}}` | project name in kebab-case (e.g. `acme`) |
 | `{{DESCRIPTION}}` | one line: what the project is |
 | `{{SOURCE_DOCS}}` | paths of the documents defining the project (spec PDF, brief…) |
