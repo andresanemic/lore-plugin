@@ -366,7 +366,7 @@ Entre las principales influencias del programa se encuentran:
 
 Puedes explorar la investigación detrás de Lore en el NotebookLM de LUS:
 
-[NotebookLM de LUS](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b794509)
+[NotebookLM de LUS](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b79450)
 
 <p align="center">
   <img src="https://i.imgur.com/6u3Cnkw.png" alt="Lore" width="100%">
@@ -736,4 +736,4 @@ Some of the main influences behind the program are:
 
 You can explore the research behind Lore in the LUS NotebookLM:
 
-[NotebookLM for LUS](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b794509)
+[NotebookLM for LUS](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b79450)
