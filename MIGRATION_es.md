@@ -110,10 +110,12 @@ traduce el lore del "Frontend heredado" al español
 Conceptualmente, Lore:
 
 - Detecta el idioma actual de cada artefacto (`lore/*.md`, `FASES.md`, `CLAUDE.md`).
-- Propone un plan archivo por archivo y espera tu aprobación antes de escribir (HARD-GATE).
-- Traduce **solo el contenido**, preservando el significado: nunca toca nombres de archivo, rutas
-  relativas, bloques de código, marcadores de confianza ni términos técnicos de uso general en
-  inglés (workflow, commit, stack…).
+- Propone un plan archivo por archivo — incluyendo los renombrados de artefactos localizables
+  (p. ej. `identidad.md` ↔ `identity.md`, `FASES.md` ↔ `PHASES.md`) — y espera tu aprobación
+  antes de escribir (HARD-GATE).
+- Traduce contenido y renombra artefactos **preservando el significado**, reescribiendo todo enlace
+  afectado; nunca toca `CLAUDE.md`, `lore/`, `index.md`, bloques de código, marcadores de confianza
+  ni términos técnicos de uso general en inglés (workflow, commit, stack…).
 - No es una reescritura: ninguna pista se añade, se elimina ni se reinterpreta.
 
 ---

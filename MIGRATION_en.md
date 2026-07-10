@@ -109,9 +109,11 @@ translate the lore of "Legacy Frontend" to Spanish
 Conceptually, Lore will:
 
 - Detect the current language of each artifact (`lore/*.md`, `FASES.md`, `CLAUDE.md`).
-- Propose a file-by-file plan and wait for your approval before writing (HARD GATE).
-- Translate **content only**, preserving meaning: it never touches filenames, relative paths, code
-  blocks, confidence markers, or English terms of general technical use (workflow, commit, stack…).
+- Propose a file-by-file plan — including renames of localizable artifacts (e.g. `identidad.md` ↔
+  `identity.md`, `FASES.md` ↔ `PHASES.md`) — and wait for your approval before writing (HARD GATE).
+- Translate content and rename artifacts **preserving meaning**, rewriting every affected link; it
+  never touches `CLAUDE.md`, `lore/`, `index.md`, code blocks, confidence markers, or English terms
+  of general technical use (workflow, commit, stack…).
 - It is not a rewrite: no clue is added, removed, or reinterpreted.
 
 ---

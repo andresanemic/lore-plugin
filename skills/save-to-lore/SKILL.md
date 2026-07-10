@@ -12,8 +12,12 @@ time and routes it to the right level.
 
 > **Language rule:** write every clue, index line and law in the **language the target lore already
 > uses** (consistency wins); if the lore has no established language yet, use the **user's
-> language** — never English by default. Filenames, relative paths, confidence markers
-> (`conjecture`/`confirmed`), the ` · ↑` glyph and general technical English terms stay as-is.
+> language** — never English by default. The same applies to filenames: new module files are named
+> in the target lore's language, and existing files are never renamed by this skill (that is
+> `transmute-lore` TRANSLATE's job). Artifact names in this skill (`identidad.md`, `principios.md`,
+> `proyecto.md`…) are Spanish canonical forms — use the corpus's actual localized names. Relative
+> paths, confidence markers (`conjecture`/`confirmed`), the ` · ↑` glyph and general technical
+> English terms stay as-is.
 
 > **The area is the shared corpus.** A project lives in `{area}/proyectos/{name}/` and inherits from
 > `{area}/lore/`. Generic, confirmed criteria belongs in the **area** (every project sees it);
@@ -111,8 +115,8 @@ a safe no-op for those clues.
 
 - **Capture first in the project; promotion to the area is always gated** — never written silently.
 - **Criteria is never invented**; only distilled from what happened.
-- **Clues are written in the lore's established language** (or the user's, if none) — never in
-  English just because this skill is.
+- **Clues and new filenames follow the lore's established language** (or the user's, if none) —
+  never English just because this skill is. Existing files are never renamed here.
 - **Honest confidence:** `confirmed` only after real validation; never inflated to force promotion.
 - **Discarded noise is reported**, not silently dropped.
 - **No auto-commit, no push.** The user reviews and decides.

@@ -37,10 +37,13 @@ The Lore plugin exposes five main skills in Claude Code:
 
 Each skill operates on or creates specific Markdown artifacts under your repository.
 
-**Language:** the skills are written in English, but the Lore content they generate is always
-written in the **user's language**. The canonical artifact filenames (`identidad.md`,
-`principios.md`, `index.md`, `FASES.md`, `CLAUDE.md`), relative paths, and English terms of general
-technical use (workflow, commit, stack, scaffold…) never change. A Lore in the wrong language is
+**Language:** the skills are written in English, but the Lore they generate is always written in
+the **user's language** — both content and artifact filenames. `identidad.md`, `principios.md`,
+`FASES.md`, `proyectos/` are the Spanish canonical forms (and appear as such throughout this
+document); in English, for example, they become `identity.md`, `principles.md`, `PHASES.md`,
+`projects/`. Fixed in every language: `CLAUDE.md`, `lore/`, `index.md`, `golden-paths.md`,
+relative-path depth, and English terms of general technical use (workflow, commit, stack,
+scaffold…). Inside an existing corpus, its established names win. A Lore in the wrong language is
 standardized with `transmute-lore` in `translate` mode.
 
 These skills are **not CLI commands**: they are Claude Code skills triggered by natural language,
@@ -193,7 +196,8 @@ Use `save-to-lore` as the main mechanism for feeding your Lore after important d
   - `clean` – "clean the lore of Legacy Frontend" — remove project thematic modules that already
     duplicate the Area's.
   - `translate` – "standardize the language of the lore of Legacy Frontend", "translate the lore of
-    Legacy Frontend to Spanish" — standardize the language of every Lore artifact's content.
+    Legacy Frontend to Spanish" — standardize the language of every Lore artifact: content and
+    filenames.
 
 **Safety precondition (Phase 0, all three modes):** the project's repository must have a clean git tree.
 If there are uncommitted changes, the skill stops and asks you to commit or stash first, so the
@@ -226,14 +230,21 @@ transmutation lands as a reviewable diff.
 1. Resolve the **target language**: the one you asked for; if unstated, your own language.
 2. Inventory the current language of each artifact in scope (`lore/*.md`, `FASES.md`, `CLAUDE.md`,
    `golden-paths.md` if present), including mixed-language files.
-3. Present the file-by-file plan and **wait for explicit approval** before writing (HARD GATE),
-   stating what will NOT be translated: filenames and paths, code blocks, identifiers, quoted error
-   messages, confidence markers (`conjecture`/`confirmed`), the ` · ↑` glyph, English terms of
-   general technical use, and proper nouns.
+3. Present the file-by-file plan — including **renames** of localizable artifacts (e.g.
+   `identidad.md` ↔ `identity.md`, `FASES.md` ↔ `PHASES.md`) — and **wait for explicit approval**
+   before writing (HARD GATE), stating what will NOT be translated or renamed: `CLAUDE.md`,
+   `lore/`, `index.md`, `golden-paths.md`, code blocks, identifiers, quoted error messages,
+   confidence markers (`conjecture`/`confirmed`), the ` · ↑` glyph, English terms of general
+   technical use, and proper nouns. Renaming `proyectos/` is opt-in and proposed separately
+   (external references may point at that path).
 4. Translate **preserving meaning**: it is a translation, never a rewrite — no clue is added,
-   removed, or reinterpreted. Ambiguous nuances are flagged, not guessed.
+   removed, or reinterpreted. Renames are applied with `git mv` and every link touching a renamed
+   file is rewritten, leaving no broken links.
+   Ambiguous nuances are flagged, not guessed.
 5. Scope boundary: translating a project does not touch its Area's `lore/` (and vice versa); if the
-   other level is in a different language, the mismatch is reported.
+   other level is in a different language, the mismatch is reported. Exception: link integrity does
+   cross the boundary — renaming an Area's modules updates (or reports) its projects' links into
+   those files.
 
 In all three modes, `transmute-lore` **does not commit the target project** — the diff is left for
 the user to review and decide.
@@ -439,7 +450,7 @@ Key points of this hierarchy:
 
 Lore’s behavior is governed by a set of shared invariants:
 
-- **Lore is written in the user's language** – canonical artifact filenames and English terms of general technical use never change.
+- **Lore is written in the user's language** – content and artifact filenames; only `CLAUDE.md`, `lore/`, `index.md`, `golden-paths.md`, and English terms of general technical use stay fixed.
 - **Criteria are never invented** – all rules come from actual experience.
 - **Everything comes from real work** – experiments, incidents, decisions.
 - **Discarded noise is reported** – nothing is silently removed.

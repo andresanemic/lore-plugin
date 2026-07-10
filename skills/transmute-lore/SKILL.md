@@ -1,6 +1,6 @@
 ---
 name: transmute-lore
-description: Migrate a project with scattered criteria (bloated CLAUDE.md, kilometric READMEs, stale or absent lore/, criteria buried in code comments) up to the six-artifact Lore standard (ADD mode), clean a project's redundant per-project thematic modules back down to what its area already owns (CLEAN mode), OR standardize the language of an existing Lore — translating every artifact's content into one target language without touching filenames, structure or meaning (TRANSLATE mode). Recovers trapped criteria and crystallizes it into invariant clues, separating it from descriptive noise. Trigger on "transmute the lore of {project}", "this old project isn't in the new format", "migrate this project to the lore standard", "clean the lore of {project}", "standardize the language of the lore of {project}", "translate the lore of {project} to {language}", or "estandariza el idioma del lore".
+description: Migrate a project with scattered criteria (bloated CLAUDE.md, kilometric READMEs, stale or absent lore/, criteria buried in code comments) up to the six-artifact Lore standard (ADD mode), clean a project's redundant per-project thematic modules back down to what its area already owns (CLEAN mode), OR standardize the language of an existing Lore — translating every artifact's content AND localizable filenames into one target language without touching structure or meaning (TRANSLATE mode). Recovers trapped criteria and crystallizes it into invariant clues, separating it from descriptive noise. Trigger on "transmute the lore of {project}", "this old project isn't in the new format", "migrate this project to the lore standard", "clean the lore of {project}", "standardize the language of the lore of {project}", "translate the lore of {project} to {language}", or "estandariza el idioma del lore".
 ---
 
 # Transmute Lore
@@ -17,9 +17,9 @@ Repairs a project's body of criteria. Three modes, one skill:
   modules — but only after confirming that criteria already lives in the area (or reporting it if
   it does not).
 - **TRANSLATE** — the Lore exists but its **language is mixed or wrong** (e.g. artifacts generated
-  in English when the user works in Spanish). TRANSLATE standardizes every Lore artifact's
-  **content** into one target language, preserving filenames, structure, links, confidence markers
-  and — above all — **meaning**: it is a translation, never a rewrite.
+  in English when the user works in Spanish). TRANSLATE standardizes every Lore artifact into one
+  target language — **content and localizable filenames** — preserving structure, link integrity,
+  confidence markers and — above all — **meaning**: it is a translation, never a rewrite.
 
 ## When to use
 
@@ -48,6 +48,11 @@ If the project is standalone (no parent area), CLEAN does not apply — say so.
 | `CLAUDE.md` | The contract slimmed to **pointers** (no duplicated criteria). | root |
 
 > **No `logos.md` is generated.** That is specific to research projects, not the generic standard.
+
+> **Artifact names are localized.** The names above are the Spanish canonical forms; per the kit's
+> language rule they render in the user's language (e.g. English: `identity.md`, `principles.md`,
+> `PHASES.md`). Fixed in every language: `CLAUDE.md`, `lore/`, `index.md`, `golden-paths.md`.
+> Inside an existing corpus, its established names win.
 
 ---
 
@@ -172,25 +177,38 @@ reviewable diff.
    mismatch and let the user decide whether to run TRANSLATE there too.
 
 ### Phase 2 — HARD-GATE
-Present the plan before writing: file-by-file current language → target, plus what will NOT be
-translated:
-- filenames, folder names, relative paths and links (`identidad.md`, `../../../lore/…`);
+Present the plan before writing: file-by-file current language → target, including **renames** —
+localizable artifact names move to the target language too (e.g. `identidad.md` ↔ `identity.md`,
+`principios.md` ↔ `principles.md`, `FASES.md` ↔ `PHASES.md`, `proyectos/` ↔ `projects/`,
+`fuente/` ↔ `source/`, thematic modules) — plus what will NOT be translated or renamed:
+- the fixed names: `CLAUDE.md`, `lore/`, `index.md`, `golden-paths.md`, `_starter/`;
 - code blocks, identifiers, commands, quoted error messages / log excerpts;
 - confidence markers (`conjecture` / `confirmed`) and the promotion glyph ` · ↑`;
 - English terms of general technical use (workflow, commit, stack, scaffold…);
 - proper nouns and brand names.
 
+Renaming `proyectos/` (or moving anything referenced outside the scope) is **opt-in**: propose it,
+but only include it if the user accepts — external references (other repos' FASES rows, scripts)
+may point at the old path.
+
 Wait for explicit approval.
 
 ### Phase 3 — Translate (only after approval)
 Translate each file's prose to the target language, preserving Markdown structure (headings,
-tables, list shapes) line-for-line where possible. **Meaning-preserving above all**: a clue's
-constraint must survive translation intact — when a nuance is ambiguous, flag it in the report
-instead of guessing.
+tables, list shapes) line-for-line where possible. Apply the approved renames with `git mv` and
+**rewrite every link that touches a renamed file** — in the scope's `index.md`, `CLAUDE.md`,
+cross-references between artifacts, and inherited-path links. **Meaning-preserving above all**: a
+clue's constraint must survive translation intact — when a nuance is ambiguous, flag it in the
+report instead of guessing.
+
+Link integrity crosses the scope boundary even though translation does not: when translating an
+**area**, grep its projects' lore files for links into any renamed area file and update those
+links too (or report them if the projects cannot be touched).
 
 ### Phase 4 — Final report
-Report files translated (with source language), files skipped and why, any nuance flagged for
-human review, and the diff summary. **Do not commit** — the user reviews the diff and decides.
+Report files translated (with source language), files renamed (old → new), links rewritten, files
+skipped and why, any nuance flagged for human review, and the diff summary. **Do not commit** —
+the user reviews the diff and decides.
 
 ---
 
@@ -222,7 +240,9 @@ human review, and the diff summary. **Do not commit** — the user reviews the d
 - **Do not auto-commit the target project.** The user reviews the diff and decides.
 - **CLEAN never deletes `identidad.md` / `principios.md` / `index.md`** — only thematic modules, and
   only after confirming their criteria already lives in the area (otherwise reported, not deleted).
-- **ADD writes new artifacts in the user's language** (canonical filenames and general technical
-  English terms excluded) — never in English just because this skill is.
-- **TRANSLATE is meaning-preserving**: it changes the language of the content, never the criteria,
-  the filenames, or the structure. Ambiguous nuances are flagged, not guessed.
+- **ADD writes new artifacts in the user's language — content and filenames** (fixed names
+  `CLAUDE.md` / `lore/` / `index.md` / `golden-paths.md` and general technical English terms
+  excluded) — never in English just because this skill is.
+- **TRANSLATE is meaning-preserving**: it changes the language of content and localizable
+  filenames, never the criteria or the structure, and never leaves a broken link behind.
+  Ambiguous nuances are flagged, not guessed.

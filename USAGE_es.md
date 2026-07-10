@@ -24,10 +24,11 @@ El plugin Lore agrupa un conjunto de **skills** que implementan este ciclo:
 - `save-to-lore` – captura criterio después de resolver un problema.
 - `transmute-lore` – migra proyectos existentes hacia la arquitectura Lore.
 
-> **El Lore habla tu idioma.** Aunque los skills están escritos en inglés, todo el contenido que
-> generan (identidad, principios, pistas, índices) se escribe en el idioma en el que trabajas.
-> Solo permanecen invariables los nombres de archivo canónicos (`identidad.md`, `principios.md`…)
-> y los términos técnicos de uso general en inglés (workflow, commit, stack…).
+> **El Lore habla tu idioma.** Aunque los skills están escritos en inglés, todo lo que generan —
+> contenido **y nombres de artefactos** — se escribe en el idioma en el que trabajas. `identidad.md`,
+> `principios.md`, `FASES.md` son las formas canónicas en español (las que usa esta guía); en inglés
+> serían `identity.md`, `principles.md`, `PHASES.md`. Solo permanecen fijos `CLAUDE.md`, `lore/`,
+> `index.md` y los términos técnicos de uso general en inglés (workflow, commit, stack…).
 
 ---
 
@@ -249,9 +250,9 @@ No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene tr
 - `add` – crea artefactos de Lore que aún no existen.
 - `clean` – elimina módulos redundantes que ya duplican los del Área (requiere que el proyecto
   tenga una Área madre; si es standalone, este modo no aplica).
-- `translate` – estandariza el idioma del Lore: traduce el contenido de todos los artefactos a un
-  único idioma (el que pidas o, por defecto, el tuyo), sin tocar nombres de archivo, estructura,
-  código ni significado.
+- `translate` – estandariza el idioma del Lore: traduce el contenido y renombra los artefactos
+  localizables a un único idioma (el que pidas o, por defecto, el tuyo), reescribiendo los enlaces
+  afectados y sin tocar estructura, código ni significado.
 
 Ejemplos de prompts:
 

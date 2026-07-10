@@ -75,17 +75,26 @@ without polluting it with client-only quirks.
 ## Language of the Lore
 
 **Lore speaks the user's language.** These skills are written in English, but the Lore they
-generate is not English by default: every artifact's **content** (identidad, principios, clues,
-index lines, FASES, CLAUDE) is written in the language the user works in. What never changes:
-canonical filenames (`identidad.md`, `principios.md`, `index.md`, `FASES.md`, `CLAUDE.md`),
-structure and relative paths, confidence markers, and English terms of general technical use
-(workflow, commit, stack, scaffold…). A Lore that ended up in the wrong language — or mixed — is
-standardized with `transmute-lore` (TRANSLATE mode).
+generate is not English by default: every artifact — **content AND filename** — is written in the
+language the user works in. The artifact names used across these skills (`identidad.md`,
+`principios.md`, `FASES.md`, `proyectos/`, `fuente/`) are the Spanish canonical forms; in another
+language they localize (e.g. English: `identity.md`, `principles.md`, `PHASES.md`, `projects/`,
+`source/`).
+
+What stays **fixed in every language**: `CLAUDE.md` (a Claude Code convention), `lore/` (the kit's
+own name), `index.md`, `golden-paths.md`, `_starter/`, structure and relative-path depth,
+confidence markers, and English terms of general technical use (workflow, commit, stack,
+scaffold…).
+
+**Consistency wins:** inside an existing area or project, the filenames already in use are the law
+— never mix naming schemes. A Lore that ended up in the wrong language — or mixed — is standardized
+with `transmute-lore` (TRANSLATE mode), which translates content and renames artifacts together.
 
 ## Invariants of the whole kit
 
-- **Lore speaks the user's language.** Content in the user's language; canonical filenames and
-  general technical English terms unchanged.
+- **Lore speaks the user's language.** Content and artifact filenames in the user's language; the
+  fixed names (`CLAUDE.md`, `lore/`, `index.md`) and general technical English terms unchanged.
+  Inside an existing corpus, its established names win.
 - **Criteria is never invented.** Every artifact is distilled from what already exists (docs, code,
   the user's words). An artifact with no real criteria stays minimal and says so.
 - **Discarded noise is reported**, never deleted silently — the filter is transparent.

@@ -149,6 +149,8 @@ Cada proyecto organiza su criterio utilizando exactamente seis artefactos:
 | `FASES.md`         | Estado actual y hoja de ruta del proyecto           | raíz     |
 | `CLAUDE.md`        | Contrato de colaboración y referencias operativas   | raíz     |
 
+> Los nombres mostrados son las formas canónicas en español; en tu idioma se localizan (p. ej. `identity.md`, `principles.md`, `PHASES.md` en inglés). `CLAUDE.md`, `lore/` e `index.md` no cambian nunca. Véase [Idioma del Lore](#idioma-del-lore).
+
 Cada artefacto tiene una única responsabilidad.
 
 Ninguno duplica a otro.
@@ -235,7 +237,7 @@ Dispone de tres modos:
 
 - **add** → crea el Lore faltante.
 - **clean** → elimina módulos redundantes que ya pertenecen al Área.
-- **translate** → estandariza el idioma de un Lore existente, traduciendo el contenido de todos sus artefactos a un único idioma sin alterar nombres de archivo, estructura ni significado.
+- **translate** → estandariza el idioma de un Lore existente, traduciendo el contenido y renombrando los artefactos a un único idioma, sin alterar estructura ni significado.
 
 ---
 
@@ -243,15 +245,15 @@ Dispone de tres modos:
 
 **El Lore habla tu idioma.**
 
-Los *skills* están escritos en inglés, pero el Lore que generan no: el contenido de cada artefacto (`identidad.md`, `principios.md`, pistas, índices, `FASES.md`, `CLAUDE.md`) se escribe en el idioma en el que trabajas.
+Los *skills* están escritos en inglés, pero el Lore que generan no: tanto el **contenido** como los **nombres de los artefactos** se escriben en el idioma en el que trabajas. `identidad.md`, `principios.md`, `FASES.md` son las formas canónicas en español; en inglés, por ejemplo, serían `identity.md`, `principles.md`, `PHASES.md`.
 
-Lo que nunca cambia:
+Lo que permanece fijo en todos los idiomas:
 
-- los nombres canónicos de los artefactos (`identidad.md`, `principios.md`, `index.md`, `FASES.md`, `CLAUDE.md`);
-- la estructura y las rutas relativas;
+- `CLAUDE.md` (convención de Claude Code), `lore/` (el nombre del kit), `index.md` y `golden-paths.md`;
+- la estructura y la profundidad de las rutas relativas;
 - los términos técnicos de uso general en inglés (*workflow*, *commit*, *stack*, *scaffold*…).
 
-Si un Lore quedó en el idioma equivocado —o mezclado—, se estandariza con `transmute-lore` (modo **translate**).
+Dentro de un Área o proyecto existente, mandan los nombres ya establecidos: nunca se mezclan esquemas. Si un Lore quedó en el idioma equivocado —o mezclado—, se estandariza con `transmute-lore` (modo **translate**), que traduce contenido y renombra artefactos a la vez.
 
 ---
 
@@ -538,6 +540,8 @@ Each project uses exactly six artifacts:
 | `FASES.md`         | Current state and project roadmap                | root     |
 | `CLAUDE.md`        | Collaboration contract and operational references | root     |
 
+> The names shown are the Spanish canonical forms; in your language they localize (e.g. `identity.md`, `principles.md`, `PHASES.md` in English). `CLAUDE.md`, `lore/`, and `index.md` never change. See [Lore Language](#lore-language).
+
 Each artifact has a single responsibility.
 
 None of them duplicates another.
@@ -624,7 +628,7 @@ It has three modes:
 
 - **add** → creates missing Lore artifacts.
 - **clean** → removes redundant modules that already belong to the Area.
-- **translate** → standardizes the language of an existing Lore, translating every artifact’s content into a single language without altering filenames, structure, or meaning.
+- **translate** → standardizes the language of an existing Lore, translating content and renaming artifacts into a single language, without altering structure or meaning.
 
 ---
 
@@ -632,15 +636,15 @@ It has three modes:
 
 **Lore speaks your language.**
 
-The skills are written in English, but the Lore they generate is not: every artifact’s content (`identidad.md`, `principios.md`, clues, indexes, `FASES.md`, `CLAUDE.md`) is written in the language you work in.
+The skills are written in English, but the Lore they generate is not: both the **content** and the **artifact filenames** are written in the language you work in. `identidad.md`, `principios.md`, `FASES.md` are the Spanish canonical forms; in English, for example, they become `identity.md`, `principles.md`, `PHASES.md`.
 
-What never changes:
+What stays fixed in every language:
 
-- the canonical artifact filenames (`identidad.md`, `principios.md`, `index.md`, `FASES.md`, `CLAUDE.md`);
-- structure and relative paths;
+- `CLAUDE.md` (a Claude Code convention), `lore/` (the kit’s own name), `index.md`, and `golden-paths.md`;
+- structure and relative-path depth;
 - English terms of general technical use (workflow, commit, stack, scaffold…).
 
-If a Lore ended up in the wrong language —or mixed— it is standardized with `transmute-lore` (**translate** mode).
+Inside an existing Area or project, the established names win: naming schemes are never mixed. If a Lore ended up in the wrong language —or mixed— it is standardized with `transmute-lore` (**translate** mode), which translates content and renames artifacts together.
 
 ---
 

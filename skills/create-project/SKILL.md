@@ -16,12 +16,15 @@ any global starter folder.
 > from a brainstorm + the source docs, not from a template filled in blind. The template gives the
 > *shape*; the brainstorm + the source give the *content*.
 
-> **Language rule:** write ALL generated content (identidad, principios, index, FASES, CLAUDE) in
-> the **user's language** — the language the user speaks during the brainstorm, NOT the language
-> this skill is written in. If the mother area's Lore is already in another language, flag the
-> mismatch and let the user pick; consistency with the area wins by default. Canonical filenames
-> (`identidad.md`, `principios.md`, `index.md`, `FASES.md`, `CLAUDE.md`, `lore/`, `fuente/`) never
-> change. English terms of general technical use (workflow, stack, commit, scaffold…) stay in English.
+> **Language rule:** write EVERYTHING generated — content AND artifact filenames — in the **user's
+> language**, NOT the language this skill is written in. The names used throughout this skill
+> (`identidad.md`, `principios.md`, `FASES.md`, `proyectos/`, `fuente/`) are the Spanish canonical
+> forms: localize them (e.g. English → `identity.md`, `principles.md`, `PHASES.md`, `projects/`,
+> `source/`). Fixed in every language: `CLAUDE.md`, `lore/`, `index.md`, `golden-paths.md`.
+> **Consistency with the area wins:** the project uses the area's actual folder and artifact names
+> (its `proyectos/`-equivalent, its area-module filenames in inherited links); if the area's
+> language differs from the user's, flag the mismatch and let the user pick. English terms of
+> general technical use (workflow, stack, commit, scaffold…) stay in English.
 
 ## Inheritance model (DRY — points to the area, does not duplicate it)
 
@@ -121,8 +124,9 @@ Resulting structure (folder names come from step 2/3):
 
 ### 5. Write the inherited-but-DRY Lore
 
-> The snippets below are **shape, not literal text**: render every heading and sentence in the
-> user's language (per the language rule above), keeping filenames and relative paths as-is.
+> The snippets below are **shape, not literal text**: render every heading, sentence AND
+> localizable filename in the user's language (per the language rule above). Relative-path depth
+> stays as-is, but path segments use the area's actual (localized) names.
 
 Write the project's `lore/identidad.md`:
 
@@ -205,8 +209,9 @@ grep -rn '{{[A-Z_]\+}}' "$DEST" && echo "UNRESOLVED TOKENS" || echo "OK no token
 - **Read the source docs before** fixing folders and phases. Structure and phase map come from the
   source, not a mold.
 - Project-specific identity/principles are BORN from the brainstorm, never from invented defaults.
-- **All generated content is written in the user's language** (canonical filenames and general
-  technical English terms excluded); if it clashes with the area's language, flag it — never
-  default silently to English.
+- **Everything generated — content and artifact filenames — is in the user's language** (fixed
+  names `CLAUDE.md` / `lore/` / `index.md` and general technical English terms excluded); the
+  area's established names win inside its tree, and a language clash with the area is flagged —
+  never resolved silently.
 - No data, figures or deliverables are invented: they are derived from the source.
 - The project is NOT auto-committed. The user decides.

@@ -24,10 +24,11 @@ The Lore plugin bundles a set of **skills** that implement this loop:
 - `save-to-lore` – capture criteria after solving a problem.
 - `transmute-lore` – migrate existing projects to the Lore architecture.
 
-> **Lore speaks your language.** The skills are written in English, but everything they generate
-> (identity, principles, clues, indexes) is written in the language you work in. Only the canonical
-> filenames (`identidad.md`, `principios.md`…) and English terms of general technical use
-> (workflow, commit, stack…) stay unchanged.
+> **Lore speaks your language.** The skills are written in English, but everything they generate —
+> content **and artifact filenames** — is written in the language you work in. `identidad.md`,
+> `principios.md`, `FASES.md` are the Spanish canonical forms (the ones this guide uses); in
+> English they become `identity.md`, `principles.md`, `PHASES.md`. Only `CLAUDE.md`, `lore/`,
+> `index.md`, and English terms of general technical use (workflow, commit, stack…) stay fixed.
 
 ---
 
@@ -245,9 +246,9 @@ It is not a CLI command: the mode is inferred from the phrase, not from a flag. 
 - `add` – create missing Lore artifacts.
 - `clean` – remove modules that already duplicate the Area's (requires the project to have a
   parent Area; if it's standalone, this mode does not apply).
-- `translate` – standardize the Lore's language: translate every artifact's content into a single
-  language (the one you ask for or, by default, your own), without touching filenames, structure,
-  code, or meaning.
+- `translate` – standardize the Lore's language: translate content and rename localizable
+  artifacts into a single language (the one you ask for or, by default, your own), rewriting
+  affected links and without touching structure, code, or meaning.
 
 Example prompts:
 
