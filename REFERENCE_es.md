@@ -33,9 +33,15 @@ El plugin Lore expone cinco skills principales en Claude Code:
 | `create-area`    | Crear una nueva Área con Lore compartido      | «crea un área de trabajo para Frontend», «quiero empezar a trabajar en X con Lore» |
 | `create-project` | Crear un proyecto que hereda de un Área       | «crea un proyecto de Sitio de marketing en el área Frontend» |
 | `save-to-lore`   | Capturar criterio tras resolver un problema   | «guarda en lore», «destila esto en el lore»                |
-| `transmute-lore` | Migrar proyectos existentes hacia Lore        | «transmuta el lore del Frontend heredado» (add) / «limpia el lore del Frontend heredado» (clean) |
+| `transmute-lore` | Migrar proyectos existentes hacia Lore        | «transmuta el lore del Frontend heredado» (add) / «limpia el lore del Frontend heredado» (clean) / «estandariza el idioma del lore del Frontend heredado» (translate) |
 
 Cada skill opera sobre, o crea, artefactos Markdown específicos dentro de tu repositorio.
+
+**Idioma:** los skills están escritos en inglés, pero el contenido del Lore que generan se escribe
+siempre en el **idioma del usuario**. Los nombres canónicos de los artefactos (`identidad.md`,
+`principios.md`, `index.md`, `FASES.md`, `CLAUDE.md`), las rutas relativas y los términos técnicos
+de uso general en inglés (workflow, commit, stack, scaffold…) no cambian nunca. Un Lore en el
+idioma equivocado se estandariza con `transmute-lore` en modo `translate`.
 
 Estos skills **no son comandos de una CLI**: son *skills* de Claude Code que se disparan por lenguaje natural según la frase que uses, no por flags o sintaxis de terminal. Las frases de la tabla son ejemplos de invocación real, tomadas de los disparadores documentados en cada `SKILL.md`.
 
@@ -182,8 +188,9 @@ Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decision
 - Modo, inferido de la frase (no de un flag):
   - `add` – «transmuta el lore de {proyecto}», «este proyecto viejo no está en el formato nuevo» — crea artefactos de Lore que aún no existen.
   - `clean` – «limpia el lore de {proyecto}» — elimina módulos temáticos del proyecto que ya duplican los del Área.
+  - `translate` – «estandariza el idioma del lore de {proyecto}», «traduce el lore de {proyecto} a {idioma}» — estandariza el idioma del contenido de todos los artefactos del Lore.
 
-**Precondición de seguridad (Fase 0, ambos modos):** el repositorio del proyecto debe tener el
+**Precondición de seguridad (Fase 0, los tres modos):** el repositorio del proyecto debe tener el
 árbol de git limpio. Si hay cambios sin commitear, el skill se detiene y pide hacer commit o
 `stash` primero, para que la transmutación aterrice como un *diff* revisable.
 
@@ -209,7 +216,21 @@ Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decision
 4. **Nunca elimina** `identidad.md`, `principios.md` ni `index.md` — solo módulos temáticos
    redundantes. Reescribe `index.md` para que apunte a los módulos del Área.
 
-En ambos modos, `transmute-lore` **no hace commit del proyecto destino**: el *diff* queda para que
+**Proceso — modo `translate` (conceptual):**
+
+1. Resolver el **idioma destino**: el que pidas; si no lo indicas, tu propio idioma.
+2. Inventariar el idioma actual de cada artefacto del ámbito (`lore/*.md`, `FASES.md`, `CLAUDE.md`,
+   `golden-paths.md` si existe), incluyendo los que estén mezclados.
+3. Presentar el plan archivo por archivo y **esperar aprobación explícita** antes de escribir
+   (HARD-GATE), indicando lo que NO se traduce: nombres de archivo y rutas, bloques de código,
+   identificadores, mensajes de error citados, marcadores de confianza (`conjecture`/`confirmed`),
+   el glifo ` · ↑`, términos técnicos de uso general en inglés y nombres propios.
+4. Traducir **preservando el significado**: es una traducción, nunca una reescritura — ninguna
+   pista se añade, se elimina ni se reinterpreta. Los matices ambiguos se reportan, no se adivinan.
+5. Límite de ámbito: traducir un proyecto no toca el `lore/` de su Área (y viceversa); si el otro
+   nivel está en un idioma distinto, se informa el desajuste.
+
+En los tres modos, `transmute-lore` **no hace commit del proyecto destino**: el *diff* queda para que
 el usuario lo revise y decida.
 
 Usa `transmute-lore` cuando ya tienes proyectos en marcha y quieres incorporarlos a Lore sin reconstruirlo todo desde cero.
@@ -413,6 +434,7 @@ Puntos clave de esta jerarquía:
 
 El comportamiento de Lore está gobernado por un conjunto de invariantes compartidas:
 
+- **El Lore se escribe en el idioma del usuario** – los nombres canónicos de artefactos y los términos técnicos de uso general en inglés no cambian.
 - **El criterio nunca se inventa** – todas las reglas provienen de experiencia real.
 - **Todo proviene de trabajo real** – experimentos, incidentes, decisiones.
 - **El ruido descartado se informa** – nada se elimina en silencio.

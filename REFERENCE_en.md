@@ -33,9 +33,15 @@ The Lore plugin exposes five main skills in Claude Code:
 | `create-area`    | Create a new Area with shared Lore          | "create a work area for Frontend", "I want to start working on X with Lore" |
 | `create-project` | Create a project inheriting an Area         | "create a project Marketing Site in area Frontend Development" |
 | `save-to-lore`   | Capture criteria after solving a problem    | "save to lore", "distill this to the lore"          |
-| `transmute-lore` | Migrate existing projects to Lore           | "transmute the lore of Legacy Frontend" (add) / "clean the lore of Legacy Frontend" (clean) |
+| `transmute-lore` | Migrate existing projects to Lore           | "transmute the lore of Legacy Frontend" (add) / "clean the lore of Legacy Frontend" (clean) / "standardize the language of the lore of Legacy Frontend" (translate) |
 
 Each skill operates on or creates specific Markdown artifacts under your repository.
+
+**Language:** the skills are written in English, but the Lore content they generate is always
+written in the **user's language**. The canonical artifact filenames (`identidad.md`,
+`principios.md`, `index.md`, `FASES.md`, `CLAUDE.md`), relative paths, and English terms of general
+technical use (workflow, commit, stack, scaffold…) never change. A Lore in the wrong language is
+standardized with `transmute-lore` in `translate` mode.
 
 These skills are **not CLI commands**: they are Claude Code skills triggered by natural language,
 not by flags or terminal syntax. The phrases above are real invocation examples, taken from the
@@ -186,8 +192,10 @@ Use `save-to-lore` as the main mechanism for feeding your Lore after important d
     create missing Lore artifacts.
   - `clean` – "clean the lore of Legacy Frontend" — remove project thematic modules that already
     duplicate the Area's.
+  - `translate` – "standardize the language of the lore of Legacy Frontend", "translate the lore of
+    Legacy Frontend to Spanish" — standardize the language of every Lore artifact's content.
 
-**Safety precondition (Phase 0, both modes):** the project's repository must have a clean git tree.
+**Safety precondition (Phase 0, all three modes):** the project's repository must have a clean git tree.
 If there are uncommitted changes, the skill stops and asks you to commit or stash first, so the
 transmutation lands as a reviewable diff.
 
@@ -213,8 +221,22 @@ transmutation lands as a reviewable diff.
 4. **Never deletes** `identidad.md`, `principios.md`, or `index.md` — only redundant thematic
    modules. Rewrites `index.md` to point at the Area's modules.
 
-In both modes, `transmute-lore` **does not commit the target project** — the diff is left for the
-user to review and decide.
+**Process — `translate` mode (conceptually):**
+
+1. Resolve the **target language**: the one you asked for; if unstated, your own language.
+2. Inventory the current language of each artifact in scope (`lore/*.md`, `FASES.md`, `CLAUDE.md`,
+   `golden-paths.md` if present), including mixed-language files.
+3. Present the file-by-file plan and **wait for explicit approval** before writing (HARD GATE),
+   stating what will NOT be translated: filenames and paths, code blocks, identifiers, quoted error
+   messages, confidence markers (`conjecture`/`confirmed`), the ` · ↑` glyph, English terms of
+   general technical use, and proper nouns.
+4. Translate **preserving meaning**: it is a translation, never a rewrite — no clue is added,
+   removed, or reinterpreted. Ambiguous nuances are flagged, not guessed.
+5. Scope boundary: translating a project does not touch its Area's `lore/` (and vice versa); if the
+   other level is in a different language, the mismatch is reported.
+
+In all three modes, `transmute-lore` **does not commit the target project** — the diff is left for
+the user to review and decide.
 
 Use `transmute-lore` when you already have a project and want to bring it into Lore without rebuilding everything by hand.
 
@@ -417,6 +439,7 @@ Key points of this hierarchy:
 
 Lore’s behavior is governed by a set of shared invariants:
 
+- **Lore is written in the user's language** – canonical artifact filenames and English terms of general technical use never change.
 - **Criteria are never invented** – all rules come from actual experience.
 - **Everything comes from real work** – experiments, incidents, decisions.
 - **Discarded noise is reported** – nothing is silently removed.

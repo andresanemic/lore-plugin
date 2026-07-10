@@ -12,6 +12,12 @@ Creates the **mother folder** of a domain (web, research, blog, video, apps…) 
 > **Startup golden rule:** the Lore's content is BORN from a brainstorm, not from a template
 > filled in blind. The template gives the *shape*; the brainstorm gives the *content*.
 
+> **Language rule:** write ALL generated content (identidad, principios, index, FASES, CLAUDE,
+> thematic modules) in the **user's language** — the language the user speaks during the brainstorm,
+> NOT the language this skill is written in. Canonical filenames (`identidad.md`, `principios.md`,
+> `index.md`, `FASES.md`, `CLAUDE.md`, `lore/`, `proyectos/`) never change. English terms of general
+> technical use (workflow, stack, commit, scaffold, starter…) stay in English regardless.
+
 ## Area model (federated + hybrid)
 
 - The area is a **light** folder: `CLAUDE.md` + `FASES.md` + `lore/` + `proyectos/` + `_starter/`.
@@ -115,6 +121,8 @@ critical paths, not a generic mold.
 - `lore/` ALWAYS at the area root. `FASES.md` ALWAYS **outside** `lore/` (Lore is criteria that
   persists; FASES is state that advances — never mix them).
 - The content of identidad/principles is BORN from the brainstorm, never from invented defaults.
+- **All generated content is written in the user's language** (canonical filenames and general
+  technical English terms excluded). Never default to English because the skill is in English.
 - The area carries a **domain-tuned `_starter/`** (project templates + optional code scaffold);
   `create-project` stamps from it, never from a global/hardcoded starter. This is what keeps the kit
   path-agnostic.
@@ -124,6 +132,9 @@ critical paths, not a generic mold.
 ---
 
 ## Templates (reference)
+
+> These templates are **shape, not literal text**: render every heading and sentence in the user's
+> language (per the language rule above), keeping filenames and structure as-is.
 
 ### `lore/identidad.md`
 

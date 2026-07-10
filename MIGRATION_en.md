@@ -40,7 +40,7 @@ A pragmatic migration strategy is:
 `transmute-lore` is the main tool for migration. It is not a CLI command: the mode is inferred from
 the phrase you use, not from a flag.
 
-**Safety precondition (both modes):** the project's repository must have a clean git tree. If there
+**Safety precondition (all modes):** the project's repository must have a clean git tree. If there
 are uncommitted changes, the skill stops and asks you to commit or stash first, so the migration
 lands as a reviewable diff.
 
@@ -90,6 +90,29 @@ Conceptually, Lore will:
 - **Never** touch or rewrite `identidad.md` or `principios.md` — only redundant thematic modules.
 
 You review changes to ensure nothing important is lost and that shared rules are correctly placed.
+
+### 3.3 `translate` Mode – Standardize the Language
+
+**Purpose:** Leave a project's (or Area's) entire Lore in a single language.
+
+Useful after a migration: a legacy project may carry artifacts in English, in Spanish, or mixed.
+Lore's skills generate content in your language, but pre-migration material keeps the language it
+was written in.
+
+Example prompts:
+
+```text
+standardize the language of the lore of "Legacy Frontend"
+translate the lore of "Legacy Frontend" to Spanish
+```
+
+Conceptually, Lore will:
+
+- Detect the current language of each artifact (`lore/*.md`, `FASES.md`, `CLAUDE.md`).
+- Propose a file-by-file plan and wait for your approval before writing (HARD GATE).
+- Translate **content only**, preserving meaning: it never touches filenames, relative paths, code
+  blocks, confidence markers, or English terms of general technical use (workflow, commit, stack…).
+- It is not a rewrite: no clue is added, removed, or reinterpreted.
 
 ---
 

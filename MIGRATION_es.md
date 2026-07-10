@@ -40,7 +40,7 @@ Una estrategia pragmática de migración es:
 `transmute-lore` es la herramienta principal para migrar. No es un comando de CLI: el modo se
 infiere de la frase que uses, no de un flag.
 
-**Precondición de seguridad (ambos modos):** el repositorio del proyecto debe tener el árbol de git
+**Precondición de seguridad (todos los modos):** el repositorio del proyecto debe tener el árbol de git
 limpio. Si hay cambios sin commitear, el skill se detiene y pide hacer commit o `stash` primero,
 para que la migración aterrice como un *diff* revisable.
 
@@ -91,6 +91,30 @@ Conceptualmente, Lore:
   redundantes.
 
 Tú revisas los cambios para asegurarte de que no se pierde nada importante y que las reglas compartidas quedan bien ubicadas.
+
+### 3.3 Modo `translate` – Estandarizar el idioma
+
+**Propósito:** dejar todo el Lore de un proyecto (o Área) en un único idioma.
+
+Útil tras una migración: un proyecto heredado puede traer artefactos en inglés, en español o
+mezclados. Los skills de Lore generan contenido en tu idioma, pero el material previo a la
+migración conserva el idioma en que fue escrito.
+
+Ejemplos de prompt:
+
+```text
+estandariza el idioma del lore del "Frontend heredado"
+traduce el lore del "Frontend heredado" al español
+```
+
+Conceptualmente, Lore:
+
+- Detecta el idioma actual de cada artefacto (`lore/*.md`, `FASES.md`, `CLAUDE.md`).
+- Propone un plan archivo por archivo y espera tu aprobación antes de escribir (HARD-GATE).
+- Traduce **solo el contenido**, preservando el significado: nunca toca nombres de archivo, rutas
+  relativas, bloques de código, marcadores de confianza ni términos técnicos de uso general en
+  inglés (workflow, commit, stack…).
+- No es una reescritura: ninguna pista se añade, se elimina ni se reinterpreta.
 
 ---
 

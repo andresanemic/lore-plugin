@@ -16,6 +16,13 @@ any global starter folder.
 > from a brainstorm + the source docs, not from a template filled in blind. The template gives the
 > *shape*; the brainstorm + the source give the *content*.
 
+> **Language rule:** write ALL generated content (identidad, principios, index, FASES, CLAUDE) in
+> the **user's language** — the language the user speaks during the brainstorm, NOT the language
+> this skill is written in. If the mother area's Lore is already in another language, flag the
+> mismatch and let the user pick; consistency with the area wins by default. Canonical filenames
+> (`identidad.md`, `principios.md`, `index.md`, `FASES.md`, `CLAUDE.md`, `lore/`, `fuente/`) never
+> change. English terms of general technical use (workflow, stack, commit, scaffold…) stay in English.
+
 ## Inheritance model (DRY — points to the area, does not duplicate it)
 
 Following the area↔project model:
@@ -114,6 +121,9 @@ Resulting structure (folder names come from step 2/3):
 
 ### 5. Write the inherited-but-DRY Lore
 
+> The snippets below are **shape, not literal text**: render every heading and sentence in the
+> user's language (per the language rule above), keeping filenames and relative paths as-is.
+
 Write the project's `lore/identidad.md`:
 
 ```markdown
@@ -195,5 +205,8 @@ grep -rn '{{[A-Z_]\+}}' "$DEST" && echo "UNRESOLVED TOKENS" || echo "OK no token
 - **Read the source docs before** fixing folders and phases. Structure and phase map come from the
   source, not a mold.
 - Project-specific identity/principles are BORN from the brainstorm, never from invented defaults.
+- **All generated content is written in the user's language** (canonical filenames and general
+  technical English terms excluded); if it clashes with the area's language, flag it — never
+  default silently to English.
 - No data, figures or deliverables are invented: they are derived from the source.
 - The project is NOT auto-committed. The user decides.

@@ -35,6 +35,7 @@
   - [Los seis artefactos](#los-seis-artefactos)
   - [Herencia Área → Proyecto](#herencia-área--proyecto)
 - [Flujo de trabajo](#flujo-de-trabajo)
+- [Idioma del Lore](#idioma-del-lore)
 - [Instalación](#instalación)
 - [Documentación adicional](#documentación-adicional)
 - [Estructura del repositorio](#estructura-del-repositorio)
@@ -230,10 +231,27 @@ El *skill* extrae el criterio detrás de esa solución.
 
 Migra proyectos existentes hacia la arquitectura Lore.
 
-Dispone de dos modos:
+Dispone de tres modos:
 
 - **add** → crea el Lore faltante.
 - **clean** → elimina módulos redundantes que ya pertenecen al Área.
+- **translate** → estandariza el idioma de un Lore existente, traduciendo el contenido de todos sus artefactos a un único idioma sin alterar nombres de archivo, estructura ni significado.
+
+---
+
+## Idioma del Lore
+
+**El Lore habla tu idioma.**
+
+Los *skills* están escritos en inglés, pero el Lore que generan no: el contenido de cada artefacto (`identidad.md`, `principios.md`, pistas, índices, `FASES.md`, `CLAUDE.md`) se escribe en el idioma en el que trabajas.
+
+Lo que nunca cambia:
+
+- los nombres canónicos de los artefactos (`identidad.md`, `principios.md`, `index.md`, `FASES.md`, `CLAUDE.md`);
+- la estructura y las rutas relativas;
+- los términos técnicos de uso general en inglés (*workflow*, *commit*, *stack*, *scaffold*…).
+
+Si un Lore quedó en el idioma equivocado —o mezclado—, se estandariza con `transmute-lore` (modo **translate**).
 
 ---
 
@@ -302,6 +320,7 @@ lore-plugin/
 
 Todos los *skills* siguen las mismas reglas:
 
+- El Lore se escribe en el idioma del usuario.
 - El criterio nunca se inventa.
 - Todo proviene de experiencia real.
 - El ruido descartado se informa; nunca se elimina silenciosamente.
@@ -405,6 +424,7 @@ Puedes explorar la investigación detrás de Lore en el NotebookLM de LUS:
   - [The Six Artifacts](#the-six-artifacts)
   - [Area → Project Inheritance](#area--project-inheritance)
 - [Workflow](#workflow)
+- [Lore Language](#lore-language)
 - [Installation](#installation)
 - [Further Documentation](#further-documentation)
 - [Repository Structure](#repository-structure)
@@ -600,10 +620,27 @@ The skill extracts the criteria behind that solution.
 
 Migrates existing projects into Lore’s architecture.
 
-It has two modes:
+It has three modes:
 
 - **add** → creates missing Lore artifacts.
 - **clean** → removes redundant modules that already belong to the Area.
+- **translate** → standardizes the language of an existing Lore, translating every artifact’s content into a single language without altering filenames, structure, or meaning.
+
+---
+
+## Lore Language
+
+**Lore speaks your language.**
+
+The skills are written in English, but the Lore they generate is not: every artifact’s content (`identidad.md`, `principios.md`, clues, indexes, `FASES.md`, `CLAUDE.md`) is written in the language you work in.
+
+What never changes:
+
+- the canonical artifact filenames (`identidad.md`, `principios.md`, `index.md`, `FASES.md`, `CLAUDE.md`);
+- structure and relative paths;
+- English terms of general technical use (workflow, commit, stack, scaffold…).
+
+If a Lore ended up in the wrong language —or mixed— it is standardized with `transmute-lore` (**translate** mode).
 
 ---
 
@@ -672,6 +709,7 @@ lore-plugin/
 
 All skills follow the same rules:
 
+- Lore is written in the user's language.
 - Criteria are never invented.
 - Everything comes from real experience.
 - Discarded noise is reported; it is never silently removed.

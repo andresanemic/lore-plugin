@@ -58,7 +58,7 @@ This keeps criteria DRY: fix a generic clue once in the area, every project sees
 | Start a **new work area** (a mother folder for a family of projects) | `create-area` |
 | Start a **new project inside an existing area** | `create-project` |
 | **Save a lesson** ("save to lore") — capture a clue in the project and promote generic, confirmed ones up to the area | `save-to-lore` |
-| Bring an **old project with scattered criteria** up to the six-artifact standard, or **clean** a project's redundant modules back down to what the area already owns | `transmute-lore` |
+| Bring an **old project with scattered criteria** up to the six-artifact standard, **clean** a project's redundant modules back down to what the area already owns, or **standardize the language** of an existing Lore | `transmute-lore` |
 | Understand the system / decide which skill applies | `using-lore` (this one) |
 
 **Order of a fresh setup:** `create-area` → `create-project` → (work, saving clues with `save-to-lore`)
@@ -72,8 +72,20 @@ confirmed** criteria is promoted up to the **area** lore, so every project inher
 always local first; promotion to the area is always gated. This is how the shared corpus grows
 without polluting it with client-only quirks.
 
+## Language of the Lore
+
+**Lore speaks the user's language.** These skills are written in English, but the Lore they
+generate is not English by default: every artifact's **content** (identidad, principios, clues,
+index lines, FASES, CLAUDE) is written in the language the user works in. What never changes:
+canonical filenames (`identidad.md`, `principios.md`, `index.md`, `FASES.md`, `CLAUDE.md`),
+structure and relative paths, confidence markers, and English terms of general technical use
+(workflow, commit, stack, scaffold…). A Lore that ended up in the wrong language — or mixed — is
+standardized with `transmute-lore` (TRANSLATE mode).
+
 ## Invariants of the whole kit
 
+- **Lore speaks the user's language.** Content in the user's language; canonical filenames and
+  general technical English terms unchanged.
 - **Criteria is never invented.** Every artifact is distilled from what already exists (docs, code,
   the user's words). An artifact with no real criteria stays minimal and says so.
 - **Discarded noise is reported**, never deleted silently — the filter is transparent.

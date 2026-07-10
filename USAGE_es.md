@@ -24,6 +24,11 @@ El plugin Lore agrupa un conjunto de **skills** que implementan este ciclo:
 - `save-to-lore` – captura criterio después de resolver un problema.
 - `transmute-lore` – migra proyectos existentes hacia la arquitectura Lore.
 
+> **El Lore habla tu idioma.** Aunque los skills están escritos en inglés, todo el contenido que
+> generan (identidad, principios, pistas, índices) se escribe en el idioma en el que trabajas.
+> Solo permanecen invariables los nombres de archivo canónicos (`identidad.md`, `principios.md`…)
+> y los términos técnicos de uso general en inglés (workflow, commit, stack…).
+
 ---
 
 ## 2. Requisitos previos
@@ -239,21 +244,26 @@ Usa este skill como herramienta principal para alimentar tu Lore con el tiempo.
 
 **Propósito:** mover proyectos heredados hacia la arquitectura Lore.
 
-No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene dos modos:
+No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene tres modos:
 
 - `add` – crea artefactos de Lore que aún no existen.
 - `clean` – elimina módulos redundantes que ya duplican los del Área (requiere que el proyecto
   tenga una Área madre; si es standalone, este modo no aplica).
+- `translate` – estandariza el idioma del Lore: traduce el contenido de todos los artefactos a un
+  único idioma (el que pidas o, por defecto, el tuyo), sin tocar nombres de archivo, estructura,
+  código ni significado.
 
 Ejemplos de prompts:
 
 ```text
 transmuta el lore del "Frontend heredado"
 limpia el lore del "Frontend heredado"
+estandariza el idioma del lore del "Frontend heredado"
+traduce el lore del "Frontend heredado" al español
 ```
 
 **Precondición:** el proyecto debe tener el árbol de git limpio antes de ejecutar cualquiera de los
-dos modos; si hay cambios sin commitear, el skill se detiene y pide hacer commit o `stash` primero.
+tres modos; si hay cambios sin commitear, el skill se detiene y pide hacer commit o `stash` primero.
 
 Comportamiento esperado:
 
@@ -299,6 +309,8 @@ Para que tu Lore se mantenga útil:
 - Prefiere módulos pequeños y enfocados en lugar de documentos narrativos largos.
 - Revisa periódicamente tu Lore para fusionar reglas solapadas y eliminar las obsoletas.
 - Usa Áreas para todo lo que debería ser compartido; mantén el Lore del proyecto ligero.
+- Mantén todo el Lore en un único idioma; si quedó mezclado o en el idioma equivocado, usa
+  `transmute-lore` en modo `translate`.
 - Revisa siempre el diff que Lore propone antes de confirmar cambios.
 
 Si quieres una visión más conceptual de por qué existe Lore y en qué se diferencia de la documentación tradicional, consulta el [`README.md`](./README.md).

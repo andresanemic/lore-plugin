@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "The Lore marketplace — a humanist spec-driven development kit for Claude Code.",
-    "version": "0.1.0"
+    "version": "1.0.2"
   },
   "plugins": [
     {

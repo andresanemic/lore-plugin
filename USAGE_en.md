@@ -24,6 +24,11 @@ The Lore plugin bundles a set of **skills** that implement this loop:
 - `save-to-lore` – capture criteria after solving a problem.
 - `transmute-lore` – migrate existing projects to the Lore architecture.
 
+> **Lore speaks your language.** The skills are written in English, but everything they generate
+> (identity, principles, clues, indexes) is written in the language you work in. Only the canonical
+> filenames (`identidad.md`, `principios.md`…) and English terms of general technical use
+> (workflow, commit, stack…) stay unchanged.
+
 ---
 
 ## 2. Prerequisites
@@ -235,21 +240,26 @@ Use this as the main tool to feed your Lore over time.
 
 **Purpose:** Move legacy projects into the Lore architecture.
 
-It is not a CLI command: the mode is inferred from the phrase, not from a flag. It has two modes:
+It is not a CLI command: the mode is inferred from the phrase, not from a flag. It has three modes:
 
 - `add` – create missing Lore artifacts.
 - `clean` – remove modules that already duplicate the Area's (requires the project to have a
   parent Area; if it's standalone, this mode does not apply).
+- `translate` – standardize the Lore's language: translate every artifact's content into a single
+  language (the one you ask for or, by default, your own), without touching filenames, structure,
+  code, or meaning.
 
 Example prompts:
 
 ```text
 transmute the lore of "Legacy Frontend"
 clean the lore of "Legacy Frontend"
+standardize the language of the lore of "Legacy Frontend"
+translate the lore of "Legacy Frontend" to Spanish
 ```
 
-**Precondition:** the project must have a clean git tree before running either mode; if there are
-uncommitted changes, the skill stops and asks you to commit or stash first.
+**Precondition:** the project must have a clean git tree before running any of the three modes; if
+there are uncommitted changes, the skill stops and asks you to commit or stash first.
 
 Expected behavior:
 
@@ -295,6 +305,8 @@ To keep your Lore useful:
 - Prefer small, focused modules over long narrative documents.
 - Review Lore periodically to merge overlapping rules and remove obsolete ones.
 - Use Areas for everything that should be shared; keep the project Lore lean.
+- Keep all your Lore in a single language; if it ended up mixed or in the wrong language, use
+  `transmute-lore` in `translate` mode.
 - Always review the diff that Lore proposes before committing changes.
 
 If you want a conceptual overview of why Lore exists and how it differs from traditional documentation, see the main [`README.md`](./README.md).
