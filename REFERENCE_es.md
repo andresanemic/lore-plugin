@@ -32,7 +32,7 @@ El plugin Lore expone cinco skills principales en Claude Code:
 | `using-lore`     | Punto de entrada, navegación y ayuda          | Se lee primero; se dispara al mencionar “lore” o al empezar una Área/proyecto |
 | `create-area`    | Crear una nueva Área con Lore compartido      | «crea un área de trabajo para Frontend», «quiero empezar a trabajar en X con Lore» |
 | `create-project` | Crear un proyecto que hereda de un Área       | «crea un proyecto de Sitio de marketing en el área Frontend» |
-| `save-to-lore`   | Capturar criterio tras resolver un problema   | «guarda en lore», «destila esto en el lore»                |
+| `save-to-lore`   | Capturar criterio tras resolver un problema (**capture**) o arbitrar criterio importado de una skill/guía ajena (**arbitrate**) | «guarda en lore», «destila esto en el lore» (capture) / «destila la skill X en el lore» (arbitrate) |
 | `transmute-lore` | Migrar proyectos existentes hacia Lore        | «transmuta el lore del Frontend heredado» (add) / «limpia el lore del Frontend heredado» (clean) / «estandariza el idioma del lore del Frontend heredado» (translate) |
 
 Cada skill opera sobre, o crea, artefactos Markdown específicos dentro de tu repositorio.
@@ -139,9 +139,34 @@ Usa `create-project` siempre que arranques una nueva base de código dentro de u
 
 **Rol:** Destilar la experiencia recién adquirida en criterio reutilizable.
 
+**Dos modos, según la FUENTE del criterio:**
+
+| Modo | Fuente | Operación |
+|---|---|---|
+| **capture** (por defecto) | fricción vivida (bug, colapso, rechazo del cliente) | Destila la cicatriz en una Pista Invariante. Todo lo descrito abajo se refiere a este modo. |
+| **arbitrate** | criterio importado (una *skill*, una guía de estilo, un manual ajeno) | **Juzga** ese criterio contra la finalidad del proyecto. Solo entra lo que sobrevive. |
+
+**Modo `arbitrate` — cuatro puertas:**
+
+1. **¿Capacidad o criterio?** Una fuente que **ejecuta** (renderiza, hace *crawl*, compila) **no es
+   Lore**: se documenta como dependencia y se detiene ahí. Solo se arbitra la que **juzga**.
+2. **¿El proyecto tiene finalidad escrita?** Sin `identidad.md`, no hay vara: frente a una fuente con
+   autoridad solo cabe obedecerla. Primero la identidad.
+3. **Colisionar, no copiar.** Solo entra lo que restringe una decisión futura **aquí**. Donde fuente
+   y estándar chocan, **gana el estándar**, y esa resolución suele ser la línea más valiosa: no
+   existe en ninguno de los dos cuerpos.
+4. **HARD-GATE de salida — la sección de derrotas.** El módulo **debe** registrar dónde la fuente
+   contradice el estándar y **pierde**. **Sin derrotas, no entra:** o no hubo arbitraje (fue copia),
+   o la fuente traía capacidad, no criterio.
+
+**Confianza en `arbitrate`:** lo adoptado *de* la fuente entra como `conjecture` (nadie lo ha pagado
+aún con fricción real); **el arbitraje mismo** —las derrotas, derivadas de una identidad ya
+validada— entra como `confirmed`. El módulo declara su procedencia: *"Destilado de `<fuente>`,
+arbitrado contra `<identidad.md>`."*
+
 **Entrada:**
 
-- Una descripción corta del problema, decisión o aprendizaje (por ejemplo, `"Bug de hidratación en landing de Next.js"`).
+- Una descripción corta del problema, decisión o aprendizaje (por ejemplo, `"Bug de hidratación en landing de Next.js"`); o el nombre de la fuente a arbitrar (por ejemplo, `"destila la skill copywriting"`).
 
 **Proceso (conceptual):**
 

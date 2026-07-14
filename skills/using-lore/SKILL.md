@@ -57,7 +57,8 @@ This keeps criteria DRY: fix a generic clue once in the area, every project sees
 |---|---|
 | Start a **new work area** (a mother folder for a family of projects) | `create-area` |
 | Start a **new project inside an existing area** | `create-project` |
-| **Save a lesson** ("save to lore") — capture a clue in the project and promote generic, confirmed ones up to the area | `save-to-lore` |
+| **Save a lesson** ("save to lore") — capture a clue from **lived friction** in the project and promote generic, confirmed ones up to the area | `save-to-lore` (**CAPTURE**, default) |
+| **Distill from an external body of criteria** — a skill, a style guide, a third-party playbook ("destila esta skill") | `save-to-lore` (**ARBITRATE**): imported criteria is judged against this Entre's purpose; only what survives enters, and the module must state **where the source loses** |
 | Bring an **old project with scattered criteria** up to the six-artifact standard, **clean** a project's redundant modules back down to what the area already owns, or **standardize the language** of an existing Lore | `transmute-lore` |
 | Understand the system / decide which skill applies | `using-lore` (this one) |
 

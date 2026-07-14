@@ -200,9 +200,13 @@ Use this whenever you start a new codebase inside a domain that already has an A
 
 ---
 
-### 5.4 `save-to-lore` – Capture Criteria After Solving a Problem
+### 5.4 `save-to-lore` – Capture Criteria After Solving a Problem, or Arbitrate External Criteria
 
-**Purpose:** Distill newly acquired experience into reusable criteria.
+**Purpose:** Distill reusable criteria. It has **two modes**, chosen by where that criteria comes
+from: **capture** (lived friction) and **arbitrate** (criteria imported from a third-party skill or
+guide).
+
+#### `capture` mode (default) — the scar
 
 Example prompts:
 
@@ -211,6 +215,34 @@ save-to-lore "Hydration bug on Next.js landing"
 save-to-lore "Decision: always prefer static rendering for marketing pages"
 save-to-lore "Standard: error messages must be human‑centered and actionable"
 ```
+
+#### `arbitrate` mode — the external skill
+
+Example prompts:
+
+```text
+save-to-lore "distill the copywriting skill into the area's lore"
+save-to-lore "arbitrate this style guide against our standard"
+```
+
+A skill is criteria **already distilled by someone else, under someone else's purpose**, and it
+arrives without saying where it stops being valid. Copying it into your Lore produces redundant
+literature wearing the authority of an Invariant Clue. **So it is not distilled: it is arbitrated.**
+
+Lore will do three things you should expect:
+
+- **It will ask whether the source brings capacity or criteria.** A skill that *executes* (renders
+  video, crawls a site) is **not Lore**: it is used as a dependency. Only a skill that *judges* (what
+  is good copy, good design, good SEO) gets arbitrated.
+- **It will refuse to arbitrate if your `identidad.md` is empty.** With no standard of your own there
+  is no yardstick: facing an authoritative source, all you could do is obey it. Identity first.
+- **It will require a defeats section.** The resulting module must record **where the source
+  contradicts your standard and loses**. Without that section, nothing gets in — either it was a
+  copy, or the source carried no criteria.
+
+> **What the source loses is worth more than what the source offers.** The summary already exists,
+> better written, in the source. The disagreement exists nowhere else, and it is the only thing that
+> will constrain a future decision of yours.
 
 You don't always have to ask explicitly: if you just resolved a friction that clears a **4‑condition
 threshold** (constrains a future decision, is distillable to Context→Cause→Clue, is actionable, and

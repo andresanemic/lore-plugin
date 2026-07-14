@@ -32,7 +32,7 @@ The Lore plugin exposes five main skills in Claude Code:
 | `using-lore`     | Entry point, navigation, and help           | Read first; triggers when "lore" is mentioned or a new Area/project starts |
 | `create-area`    | Create a new Area with shared Lore          | "create a work area for Frontend", "I want to start working on X with Lore" |
 | `create-project` | Create a project inheriting an Area         | "create a project Marketing Site in area Frontend Development" |
-| `save-to-lore`   | Capture criteria after solving a problem    | "save to lore", "distill this to the lore"          |
+| `save-to-lore`   | Capture criteria after solving a problem (**capture**) or arbitrate criteria imported from a third-party skill/guide (**arbitrate**) | "save to lore", "distill this to the lore" (capture) / "distill skill X into the lore" (arbitrate) |
 | `transmute-lore` | Migrate existing projects to Lore           | "transmute the lore of Legacy Frontend" (add) / "clean the lore of Legacy Frontend" (clean) / "standardize the language of the lore of Legacy Frontend" (translate) |
 
 Each skill operates on or creates specific Markdown artifacts under your repository.
@@ -140,9 +140,34 @@ Use `create-project` whenever you start a new codebase inside an existing Area.
 
 **Role:** Distill newly acquired experience into reusable criteria.
 
+**Two modes, chosen by the SOURCE of the criteria:**
+
+| Mode | Source | Operation |
+|---|---|---|
+| **capture** (default) | lived friction (bug, collapse, client rejection) | Distills the scar into an Invariant Clue. Everything described below refers to this mode. |
+| **arbitrate** | imported criteria (a *skill*, a style guide, a third-party playbook) | **Judges** that criteria against the project's purpose. Only what survives gets in. |
+
+**`arbitrate` mode — four gates:**
+
+1. **Capacity or criteria?** A source that **executes** (renders, crawls, compiles) is **not Lore**:
+   record it as a dependency and stop there. Only a source that **judges** gets arbitrated.
+2. **Does the project have a written purpose?** With no `identidad.md` there is no yardstick: facing
+   an authoritative source, all you can do is obey it. Identity first.
+3. **Collide, don't copy.** Only what constrains a future decision **here** gets in. Where source and
+   standard conflict, **the standard wins**, and that resolution is usually the most valuable line
+   produced: it exists in neither body.
+4. **Exit HARD GATE — the defeats section.** The module **must** record where the source contradicts
+   the standard and **loses**. **No defeats, no entry:** either nothing was arbitrated (it was a
+   copy), or the source carried capacity, not criteria.
+
+**Confidence in `arbitrate`:** what is adopted *from* the source enters as `conjecture` (nobody has
+paid for it with real friction yet); **the arbitration itself** — the defeats, derived from an
+already-validated identity — enters as `confirmed`. The module states its provenance: *"Distilled
+from `<source>`, arbitrated against `<identidad.md>`."*
+
 **Input:**
 
-- A short description of the problem, decision, or lesson (e.g. `"Hydration bug on Next.js landing"`).
+- A short description of the problem, decision, or lesson (e.g. `"Hydration bug on Next.js landing"`); or the name of the source to arbitrate (e.g. `"distill the copywriting skill"`).
 
 **Process (conceptually):**
 

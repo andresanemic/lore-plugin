@@ -43,6 +43,7 @@
 - [Lore vs README](#lore-vs-readme)
 - [Por qué “Lore”](#por-qué-lore)
 - [Origen](#origen)
+- [Casos de estudio](#casos-de-estudio)
 
 ---
 
@@ -227,6 +228,35 @@ El *skill* extrae el criterio detrás de esa solución.
 - Las lecciones genéricas pueden proponerse para ser promovidas al Área.
 - Nada se promueve automáticamente.
 
+Dispone de **dos modos**, que se eligen según **de dónde viene el criterio**:
+
+| Modo | Fuente | Qué hace |
+|---|---|---|
+| **capture** (por defecto) | **fricción vivida**: un bug, un colapso, un cliente que rechaza | Destila la cicatriz en una Pista Invariante. |
+| **arbitrate** | **criterio importado**: una *skill*, una guía de estilo, un manual ajeno | Juzga ese criterio contra la finalidad de **tu** proyecto. Solo entra lo que sobrevive. |
+
+> **La ley del modo `arbitrate`: un criterio ajeno no se destila, se arbitra.**
+>
+> Una skill es criterio ya destilado **por otro, bajo otra finalidad**, y llega sin declarar dónde
+> deja de valer. Copiarla al Lore produce **literatura redundante con la autoridad de una Pista
+> Invariante**: criterio que nadie pagó con experiencia propia.
+>
+> Por eso el modo `arbitrate` tiene un HARD-GATE de salida: el módulo resultante **debe** registrar
+> **dónde la fuente contradice tu estándar y pierde**. Sin esa sección, no entra — o no hubo
+> arbitraje (fue una copia), o la fuente no traía criterio.
+>
+> **Lo que la fuente pierde vale más que lo que la fuente aporta:** el resumen ya existe, y mejor
+> escrito, en la fuente. El desacuerdo no existe en ningún otro lado.
+
+Dos avisos que el modo `arbitrate` te dará:
+
+- **Capacidad ≠ criterio.** Una skill que **ejecuta** (renderiza video, hace un *crawl*, compila) se
+  **usa** como dependencia: no es Lore. Solo se arbitra la que **juzga** (qué es buen copy, buen
+  diseño, buen SEO).
+- **Sin identidad no hay arbitraje.** Si tu `identidad.md` está vacío, no tienes vara con que medir:
+  frente a una fuente con autoridad, lo único que puedes hacer es obedecerla. Primero la identidad,
+  después la fuente.
+
 ---
 
 ### `transmute-lore`
@@ -389,6 +419,58 @@ Puedes explorar la investigación detrás de Lore en el NotebookLM de LUS:
 
 [NotebookLM de LUS](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b79450)
 
+---
+
+## Casos de estudio
+
+Lore no se diseñó en una pizarra: cada decisión de este kit salió de aplicarlo a proyectos reales y
+mirar qué se rompía. LUS documenta esas aplicaciones como **casos de estudio**. Estos son los tres
+que hoy sostienen el diseño del plugin.
+
+> **Estatus:** son casos, no demostraciones. n pequeño, un solo dominio principal (software) y un
+> solo investigador. Lo que aquí se afirma restringe cómo usamos el kit; no pretende ser una ley.
+
+### Caso 01 — El Lore como forma operativa de un proyecto entero
+
+Un proyecto real (*numerología*) construido con Lore de principio a fin, sobre una práctica de
+desarrollo disciplinado (SDD). Mostró que la arquitectura de seis artefactos **aguanta un proyecto
+completo**, no solo notas sueltas: el criterio se acumula, se consulta y sigue decidiendo meses
+después.
+
+### Caso 02 — La transmutación multiproyecto: el criterio se recupera y se comparte
+
+Cuatro proyectos de un área real (*desarrollo web*) llevados al estándar con `transmute-lore`. Dejó
+tres cosas que hoy son ley del kit:
+
+- **El criterio es recuperable** (modo `add`): un proyecto que nació sin Lore ya tenía criterio
+  disperso en comentarios, decisiones y cicatrices. No se inventa: **se rescata**.
+- **El criterio es deduplicable** (modo `clean`): los módulos genéricos viven **una sola vez, en el
+  Área**. En un proyecto, el `clean` borró 7 módulos redundantes (−866 líneas) sin perder nada: el
+  criterio no desapareció, **cambió de dueño**.
+- **La herencia es selectiva:** cada proyecto referencia **solo** los módulos del Área que su stack
+  realmente usa. No es un volcado uniforme.
+
+**Frontera declarada:** los cuatro proyectos eran del mismo dominio. La transferibilidad *entre
+dominios* sigue siendo promesa, no evidencia.
+
+### Caso 03 — El criterio importado no se adopta: se arbitra
+
+El caso que originó el modo `arbitrate` de `save-to-lore`. Tres áreas destilaron Lore a partir de
+*skills* de terceros, y lo observado contradijo la intuición:
+
+- **Lo valioso no fue el resumen de la skill, fue el desacuerdo.** En dos áreas distintas, el bloque
+  denso del módulo resultante era *"dónde la skill contradice nuestro estándar y pierde"*. Esa parte
+  **no existía ni en la skill ni en el Lore previo**: nació de la colisión.
+- **La misma skill, arbitrada por dos finalidades opuestas, pierde en el mismo sitio por razones
+  inversas.** Las skills de *copywriting* fueron derrotadas en un área de marketing (*"copy aburrido
+  y funcional le gana siempre"*) y en una de periodismo (*"no vendemos, informamos"*). El resultado
+  no depende de la fuente: depende de **tu** finalidad.
+- **Capacidad ≠ criterio.** En la tercera área, una skill que *ejecuta* (renderizado de video) no se
+  destiló: se usa como dependencia. No había nada que arbitrar.
+
+**Frontera declarada:** las tres áreas son del mismo usuario, con la misma herramienta. El mecanismo
+está observado, no probado a escala.
+
 <p align="center">
   <img src="https://i.imgur.com/6u3Cnkw.png" alt="Lore" width="100%">
 </p>
@@ -434,6 +516,7 @@ Puedes explorar la investigación detrás de Lore en el NotebookLM de LUS:
 - [Lore vs README](#lore-vs-readme)
 - [Why “Lore”](#why-lore)
 - [Origin](#origin-1)
+- [Case Studies](#case-studies)
 
 ---
 
@@ -618,6 +701,35 @@ The skill extracts the criteria behind that solution.
 - Generic lessons can be proposed for promotion to the Area.
 - Nothing is promoted automatically.
 
+It has **two modes**, chosen by **where the criteria comes from**:
+
+| Mode | Source | What it does |
+|---|---|---|
+| **capture** (default) | **lived friction**: a bug, a collapse, a client rejection | Distills the scar into an Invariant Clue. |
+| **arbitrate** | **imported criteria**: a skill, a style guide, a third-party playbook | Judges that criteria against **your** project's purpose. Only what survives gets in. |
+
+> **The law of `arbitrate` mode: external criteria is not distilled — it is arbitrated.**
+>
+> A skill is criteria already distilled **by someone else, under someone else's purpose**, and it
+> arrives without declaring where it stops being valid. Copying it into your Lore produces
+> **redundant literature wearing the authority of an Invariant Clue**: criteria nobody paid for with
+> real experience.
+>
+> That is why `arbitrate` has an exit HARD GATE: the resulting module **must** record **where the
+> source contradicts your standard and loses**. No defeats section, no entry — either nothing was
+> arbitrated (it was a copy), or the source carried no criteria at all.
+>
+> **What the source loses is worth more than what the source offers:** the summary already exists,
+> better written, in the source. The disagreement exists nowhere else.
+
+Two warnings `arbitrate` mode will give you:
+
+- **Capacity ≠ criteria.** A skill that **executes** (renders video, crawls, compiles) is **used** as
+  a dependency: it is not Lore. Only a skill that **judges** (what is good copy, good design, good
+  SEO) gets arbitrated.
+- **No identity, no arbitration.** If your `identidad.md` is empty, you have no yardstick: facing an
+  authoritative source, all you can do is obey it. Identity first, source second.
+
 ---
 
 ### `transmute-lore`
@@ -779,3 +891,55 @@ Some of the main influences behind the program are:
 You can explore the research behind Lore in the LUS NotebookLM:
 
 [NotebookLM for LUS](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b79450)
+
+---
+
+## Case Studies
+
+Lore was not designed on a whiteboard: every decision in this kit came from applying it to real
+projects and watching what broke. LUS documents those applications as **case studies**. These are the
+three that currently hold up the plugin's design.
+
+> **Status:** these are cases, not proofs. Small n, one main domain (software), one researcher. What
+> they claim constrains how we use the kit; it does not pretend to be a law.
+
+### Case 01 — Lore as the operational form of an entire project
+
+A real project (*numerología*) built with Lore from start to finish, on top of a disciplined
+development practice (SDD). It showed that the six-artifact architecture **holds up across a whole
+project**, not just scattered notes: criteria accumulate, get consulted, and keep making decisions
+months later.
+
+### Case 02 — Multi-project transmutation: criteria can be recovered and shared
+
+Four projects of a real area (*web development*) migrated to the standard with `transmute-lore`. It
+left three things that are now law in this kit:
+
+- **Criteria is recoverable** (`add` mode): a project born without Lore already had criteria scattered
+  across comments, decisions, and scars. It is never invented: it is **rescued**.
+- **Criteria is deduplicable** (`clean` mode): generic modules live **once, in the Area**. In one
+  project, `clean` deleted 7 redundant modules (−866 lines) losing nothing: the criteria did not
+  disappear, it **changed owner**.
+- **Inheritance is selective:** each project references **only** the Area modules its stack actually
+  uses. It is not a uniform dump.
+
+**Declared boundary:** all four projects were in the same domain. Transferability *across* domains
+remains a promise, not evidence.
+
+### Case 03 — Imported criteria is not adopted: it is arbitrated
+
+The case that produced `save-to-lore`'s `arbitrate` mode. Three areas distilled Lore from third-party
+*skills*, and what we observed contradicted the intuition:
+
+- **The value was not the summary of the skill — it was the disagreement.** In two different areas,
+  the dense block of the resulting module was *"where the skill contradicts our standard and loses"*.
+  That part **existed neither in the skill nor in the previous Lore**: it was born from the collision.
+- **The same skill, arbitrated by two opposite purposes, loses in the same place for inverse
+  reasons.** *Copywriting* skills were defeated in a marketing area (*"boring, functional copy always
+  wins"*) and in a journalism area (*"we don't sell, we inform"*). The outcome does not depend on the
+  source: it depends on **your** purpose.
+- **Capacity ≠ criteria.** In the third area, a skill that *executes* (video rendering) was never
+  distilled: it is used as a dependency. There was nothing to arbitrate.
+
+**Declared boundary:** all three areas belong to the same user, using the same tool. The mechanism is
+observed, not proven at scale.

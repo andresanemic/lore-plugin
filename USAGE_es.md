@@ -205,9 +205,12 @@ Usa este skill siempre que inicies una nueva base de código dentro de un domini
 
 ---
 
-### 5.4 `save-to-lore` – Capturar criterio tras resolver un problema
+### 5.4 `save-to-lore` – Capturar criterio tras resolver un problema, o arbitrar criterio ajeno
 
-**Propósito:** destilar la experiencia recién adquirida en criterio reutilizable.
+**Propósito:** destilar criterio reutilizable. Tiene **dos modos**, según de dónde venga ese criterio:
+**capture** (fricción vivida) y **arbitrate** (criterio importado de una skill o guía ajena).
+
+#### Modo `capture` (por defecto) — la cicatriz
 
 Ejemplos de prompts:
 
@@ -216,6 +219,34 @@ save-to-lore "Bug de hidratación en landing de Next.js"
 save-to-lore "Decisión: siempre preferir renderizado estático en páginas de marketing"
 save-to-lore "Estándar: los mensajes de error deben ser humanistas y accionables"
 ```
+
+#### Modo `arbitrate` — la skill ajena
+
+Ejemplos de prompts:
+
+```text
+save-to-lore "destila la skill copywriting en el lore del área"
+save-to-lore "arbitra esta guía de estilo contra nuestro estándar"
+```
+
+Una skill es criterio **ya destilado por otro, bajo otra finalidad**, y llega sin decir dónde deja de
+valer. Copiarla al Lore produce literatura redundante con la autoridad de una Pista Invariante.
+**Por eso no se destila: se arbitra.**
+
+Lore hará tres cosas que conviene esperar:
+
+- **Te preguntará si la fuente trae capacidad o criterio.** Una skill que *ejecuta* (renderiza video,
+  hace un *crawl*) **no es Lore**: se usa como dependencia. Solo se arbitra la que *juzga* (qué es
+  buen copy, buen diseño, buen SEO).
+- **Se negará a arbitrar si tu `identidad.md` está vacío.** Sin estándar propio no hay vara: lo único
+  que podrías hacer frente a una fuente con autoridad es obedecerla. Primero la identidad.
+- **Exigirá una sección de derrotas.** El módulo resultante debe registrar **dónde la fuente
+  contradice tu estándar y pierde**. Sin esa sección no entra nada — o fue una copia, o la fuente no
+  traía criterio.
+
+> **Lo que la fuente pierde vale más que lo que la fuente aporta.** El resumen ya existe, y mejor
+> escrito, en la fuente. El desacuerdo no existe en ningún otro lado, y es lo único que restringirá
+> una decisión futura tuya.
 
 No hace falta pedirlo siempre de forma explícita: si acabas de resolver una fricción que cumple un
 **umbral de 4 condiciones** (restringe una decisión futura, es destilable a Contexto→Causa→Pista,
