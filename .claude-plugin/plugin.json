@@ -1,6 +1,6 @@
 {
   "name": "lore",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A spec-driven development kit for humanist builders. Turns scattered project criteria into distilled, invariant Lore — and operates it with five skills: using-lore, create-area, create-project, save-to-lore, transmute-lore.",
   "author": {
     "name": "andresanemic"
