@@ -424,11 +424,11 @@ Puedes explorar la investigación detrás de Lore en el NotebookLM de LUS:
 ## Casos de estudio
 
 Lore no se diseñó en una pizarra: cada decisión de este kit salió de aplicarlo a proyectos reales y
-mirar qué se rompía. LUS documenta esas aplicaciones como **casos de estudio**. Estos son los tres
+mirar qué se rompía. LUS documenta esas aplicaciones como **casos de estudio**. Estos son los cuatro
 que hoy sostienen el diseño del plugin.
 
-> **Estatus:** son casos, no demostraciones. n pequeño, un solo dominio principal (software) y un
-> solo investigador. Lo que aquí se afirma restringe cómo usamos el kit; no pretende ser una ley.
+> **Estatus:** son casos, no demostraciones. n pequeño y las cuatro evidencias documentadas vienen
+> del mismo investigador. Lo que aquí se afirma restringe cómo usamos el kit; no pretende ser una ley.
 
 ### Caso 01 — El Lore como forma operativa de un proyecto entero
 
@@ -470,6 +470,27 @@ El caso que originó el modo `arbitrate` de `save-to-lore`. Tres áreas destilar
 
 **Frontera declarada:** las tres áreas son del mismo usuario, con la misma herramienta. El mecanismo
 está observado, no probado a escala.
+
+### Caso 04 — El Lore no-software: la estructura sobrevive fuera del código
+
+El primer caso que cruza de software a otra disciplina. Dos áreas ajenas al desarrollo —periodismo
+(*redacción de noticias*) y estrategia de contenido (*community management*)— ya tenían Lore
+destilado real, no andamiaje: módulos temáticos derivados de trabajo real (la anatomía de una nota
+publicable, el cómo de una estrategia de marca), consultados por proyectos reales.
+
+- **La arquitectura no es un rasgo del software.** El mismo esqueleto —identidad, principios, módulos
+  temáticos destilados de trabajo real— se reprodujo en oficios sin compilador ni test, solo con una
+  práctica disciplinada y una finalidad explícita.
+- **Existencia no es medición.** El caso muestra que el método *produce* criterio en otro dominio; no
+  mide todavía que ese criterio *redujo el reaprendizaje* entre sesiones.
+
+**Frontera declarada:** el criterio no *viajó* de software a periodismo — cada Lore nació fresco en
+su disciplina. Lo que se replica es el mecanismo, no un criterio concreto transportado entre dominios.
+
+Aparte de los casos documentados: el repositorio ya acumula **400+ clonaciones** (316 personas
+únicas, según la API de tráfico de GitHub). Es una señal de alcance, no una demostración — no hay
+evidencia de qué hizo cada quien con su copia. No cuenta como caso; no sustituye la pregunta que los
+casos sí responden.
 
 <p align="center">
   <img src="https://i.imgur.com/6u3Cnkw.png" alt="Lore" width="100%">
@@ -898,10 +919,10 @@ You can explore the research behind Lore in the LUS NotebookLM:
 
 Lore was not designed on a whiteboard: every decision in this kit came from applying it to real
 projects and watching what broke. LUS documents those applications as **case studies**. These are the
-three that currently hold up the plugin's design.
+four that currently hold up the plugin's design.
 
-> **Status:** these are cases, not proofs. Small n, one main domain (software), one researcher. What
-> they claim constrains how we use the kit; it does not pretend to be a law.
+> **Status:** these are cases, not proofs. Small n, and all four documented cases come from the same
+> researcher. What they claim constrains how we use the kit; it does not pretend to be a law.
 
 ### Case 01 — Lore as the operational form of an entire project
 
@@ -943,3 +964,25 @@ The case that produced `save-to-lore`'s `arbitrate` mode. Three areas distilled 
 
 **Declared boundary:** all three areas belong to the same user, using the same tool. The mechanism is
 observed, not proven at scale.
+
+### Case 04 — Lore without software: the structure survives outside code
+
+The first case that crosses from software into another discipline. Two areas outside development —
+journalism (*news writing*) and content strategy (*community management*) — already had real
+distilled Lore, not scaffolding: thematic modules derived from real work (the anatomy of a
+publishable article, the how-to of a brand strategy), consulted by real projects.
+
+- **The architecture is not a software trait.** The same skeleton —identity, principles, thematic
+  modules distilled from real work— reproduced itself in trades with no compiler or test, just a
+  disciplined practice with an explicit purpose.
+- **Existence is not measurement.** The case shows the method *produces* criteria in another domain;
+  it does not yet measure that criteria *reduced re-learning* across sessions.
+
+**Declared boundary:** criteria did not *travel* from software to journalism — each Lore was born
+fresh in its own discipline. What replicates is the mechanism, not a concrete criterion transported
+across domains.
+
+Beyond the documented cases: the repository has already been cloned **400+ times** (316 unique
+cloners, per GitHub's traffic API). That's a reach signal, not a demonstration — there's no evidence
+of what anyone did with their copy. It doesn't count as a case; it doesn't answer the question the
+cases do.
