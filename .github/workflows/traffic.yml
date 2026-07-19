@@ -17,7 +17,7 @@ jobs:
 
       - name: Fetch and merge clone stats
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.TRAFFIC_PAT }}
         run: |
           set -euo pipefail
           mkdir -p data/traffic
