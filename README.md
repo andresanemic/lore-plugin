@@ -25,7 +25,11 @@
 
 <p align="center">
   <b>Stop explaining your project to the AI every morning.</b><br>
-  Lore distills what you learned into <b>criteria</b> that loads itself in the next session.
+  Lore keeps the criteria behind your decisions and loads it into the next session.
+</p>
+
+<p align="center">
+  no re-explaining the stack &nbsp;·&nbsp; no re-proposing what you ruled out last week &nbsp;·&nbsp; criteria that outlives the session
 </p>
 
 <p align="center">
@@ -73,15 +77,11 @@
 
 ## The problem
 
-Any project developed with artificial intelligence accumulates hard-won experience:
+You open a session. You explain, again, what the project does. That the initial state cannot live in JS, because you spent an afternoon on that flash last month. That the library it is about to suggest broke the build in April.
 
-- architectural decisions;
-- production incidents;
-- failed experiments;
-- development standards;
-- and dozens of *"let's never do that again"* moments.
+You explained all of it yesterday. You will explain it again tomorrow.
 
-**Most of that experience disappears.** Tomorrow you open a new session and none of it exists: you explain it all again, and the AI proposes what you already ruled out.
+Meanwhile the project keeps accumulating what actually cost you — architectural decisions, production incidents, failed experiments, dozens of *"let's never do that again"* moments — and **none of it survives the session**.
 
 It is a loop of re-explanations and mediocre solutions you had already rejected. LUS calls it **ephemeral experience**, and it does not happen because facts get forgotten: it happens because the learning never became a reusable structure.
 
@@ -700,7 +700,11 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 
 <p align="center">
   <b>Deja de explicarle tu proyecto a la IA todas las mañanas.</b><br>
-  Lore destila lo que aprendiste en <b>criterio</b> que se carga solo en la siguiente sesión.
+  Lore guarda el criterio detrás de tus decisiones y lo carga en la siguiente sesión.
+</p>
+
+<p align="center">
+  no volver a explicar el stack &nbsp;·&nbsp; no volver a proponer lo que descartaste la semana pasada &nbsp;·&nbsp; criterio que sobrevive al cierre de la sesión
 </p>
 
 <p align="center">
@@ -748,15 +752,11 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 
 ## El problema
 
-Todo proyecto desarrollado con inteligencia artificial acumula experiencia que costó cara:
+Abres una sesión. Explicas, otra vez, qué hace el proyecto. Que el estado inicial no puede vivir en JS, porque perdiste una tarde con ese parpadeo el mes pasado. Que la librería que está por sugerirte rompió el build en abril.
 
-- decisiones de arquitectura;
-- incidentes en producción;
-- experimentos fallidos;
-- estándares de desarrollo;
-- y decenas de momentos de *«nunca volvamos a hacer esto»*.
+Todo eso lo explicaste ayer. Mañana lo vas a explicar de nuevo.
 
-**La mayor parte de esa experiencia desaparece.** Mañana abres una sesión nueva y nada de eso existe: vuelves a explicar, y la IA vuelve a proponer lo que ya descartaste.
+Mientras tanto el proyecto sigue acumulando lo que de verdad te costó —decisiones de arquitectura, incidentes en producción, experimentos fallidos, decenas de momentos de *«nunca volvamos a hacer esto»*— y **nada de eso sobrevive a la sesión**.
 
 Es un bucle de reexplicaciones y de soluciones mediocres que ya habías rechazado. LUS lo llama **experiencia efímera**, y no ocurre porque se olviden los datos: ocurre porque el aprendizaje nunca se convirtió en una estructura reutilizable.
 
