@@ -1,23 +1,25 @@
 #!/usr/bin/env node
 /**
- * Sincroniza el Lore del ecosistema hacia el repo del bot, y genera con el MISMO manifiesto
- * la tabla de enrutamiento que el bot consulta.
+ * Genera, desde un solo manifiesto, las dos cosas que el bot necesita para trabajar en varios
+ * proyectos a la vez: la TABLA de enrutamiento que consulta y el ACCESO a sus árboles vivos.
  *
- *   node scripts/sync.js             → copia + regenera lore/enrutamiento.md
- *   node scripts/sync.js --revisar   → no escribe nada; solo informa qué falta y qué cambió
+ *   node scripts/sync.js             → regenera la tabla y el acceso local (+ la copia, si está)
+ *   node scripts/sync.js --revisar   → no escribe nada; solo informa qué falta y qué cambiaría
  *   node scripts/sync.js --self-test → verifica el clasificador de la poda, sin tocar el disco
  *
- * Un solo origen (scripts/ecosistema.json) para la copia y para la tabla: mantenerlos como dos
- * artefactos separados garantiza que se desincronicen, y una tabla desincronizada manda al bot
- * al Lore equivocado sin avisar.
+ * Un solo origen (scripts/ecosistema.json) para todo: mantenerlos como artefactos separados
+ * garantiza que se desincronicen, y una tabla desincronizada manda al bot al Lore equivocado
+ * sin avisar.
  *
- * Una sola dirección: del árbol local (la fuente viva) hacia lore-ecosistema/ (la copia que
- * viaja). NUNCA al revés — si el equipo edita la copia existen dos versiones del mismo criterio
- * y ninguna manda. La marca de tiempo del encabezado deja la desactualización a la vista en vez
- * de esconderla.
+ * POR PUNTEROS, NO POR COPIA. Por defecto el bot APUNTA a cada Lore donde vive, y quien lo abre
+ * lo alcanza porque el acceso salió del mismo manifiesto. No hay segunda versión de nada, que
+ * es la regla del resto del kit: un proyecto referencia los módulos de su área, no los duplica.
  *
- * Y no resume: la copia jamás es autoritativa sobre su fuente. Un resumen que vive junto al
- * índice de consulta empieza a competir con el original, y gana por estar más cerca.
+ * `"copia": true` enciende `lore-ecosistema/`, y sirve para UNA cosa: que el bot funcione en la
+ * máquina de alguien que clonó el repo y NO tiene el árbol. Ahí el puntero no apunta a nada. Es
+ * la única duplicación deliberada del kit, y se paga con tres guardarraíles —una sola dirección,
+ * marca de tiempo visible, jamás resumir—: quitar cualquiera convierte la copia en una segunda
+ * fuente de verdad, y gana por estar más cerca del índice de consulta.
  */
 
 const fs   = require('fs');
@@ -56,9 +58,9 @@ if (process.argv.includes('--self-test')) {
   process.exit(0);
 }
 
-const { raiz, nota, fuentes } = JSON.parse(fs.readFileSync(MANIFIESTO, 'utf8'));
+const { raiz, nota, copia = false, fuentes } = JSON.parse(fs.readFileSync(MANIFIESTO, 'utf8'));
 
-/* ── copia ────────────────────────────────────────────────────────────── */
+/* ── copia — OPCIONAL, apagada por defecto ────────────────────────────── */
 
 const IGNORAR = new Set(['.git', 'node_modules', '.next', '.claude']);
 
@@ -98,11 +100,11 @@ for (const f of fuentes) {
    * destinos, no piezas. Superponer dejaba dos copias del mismo criterio, que es peor que
    * ninguna: gana la que esté más cerca del índice de consulta, y nadie la eligió.
    * No se reconstruye si falta una pieza: ahí la copia anterior es lo único que queda. */
-  if (!ausentes.length && !revisar && fs.existsSync(destino)) {
+  if (copia && !ausentes.length && !revisar && fs.existsSync(destino)) {
     fs.rmSync(destino, { recursive: true, force: true });
   }
 
-  for (const pieza of piezas) {
+  if (copia) for (const pieza of piezas) {
     const origen = pieza === '.' ? base : path.join(base, pieza);
     if (!fs.existsSync(origen)) continue;
     n += copiar(origen, pieza === '.' ? destino : path.join(destino, pieza));
@@ -144,7 +146,14 @@ function podar(dir, rel) {
   }
 }
 
-if (fs.existsSync(DESTINO)) podar(DESTINO, '');
+if (copia && fs.existsSync(DESTINO)) podar(DESTINO, '');
+
+/* Apagar la copia son DOS pasos, como encender el cifrado y como sacar una fuente: poner
+ * "copia": false y borrar la carpeta. Hacer solo el primero deja una foto congelada que
+ * nadie vuelve a actualizar y que el bot sigue leyendo, ahora sin marca de tiempo nueva
+ * que delate su edad. El script no la borra solo —es criterio, y borrarlo sin permiso es
+ * peor que el huérfano— pero no deja que pase en silencio. */
+const congelada = !copia && fs.existsSync(DESTINO);
 
 /* ── tabla de enrutamiento ────────────────────────────────────────────── */
 
@@ -154,26 +163,42 @@ for (const f of informe) (porTipo[f.tipo] ??= []).push(f);
 const tabla = `# Enrutamiento — a qué Lore va cada tarea
 
 > **Generado por \`scripts/sync.js\` desde \`scripts/ecosistema.json\`. No editar a mano.**
-> Última sincronización: ${new Date().toISOString().slice(0, 16).replace('T', ' ')} · ${total} archivos.
+> Última generación: ${new Date().toISOString().slice(0, 16).replace('T', ' ')}${copia ? ` · ${total} archivos copiados` : ''}.
 
 La ley que gobierna esta tabla vive en la skill del bot: **se enruta por tipo de tarea, no por
 nombre de proyecto.** Un proyecto puede aparecer más de una vez si tiene varios cuerpos de
 criterio; decir su nombre no basta para elegir.
 ${nota ? `\n${nota}\n` : ''}
-Cada ruta apunta a \`lore-ecosistema/\`, la copia que viaja en este repo. Si tienes el árbol
-local, la **fuente viva** está en la última columna y le gana a la copia.
+${copia
+  ? `**Antes de leer una fila, comprueba su fuente viva.** Si esa ruta existe en esta máquina, se
+lee **ahí** y la copia **no se abre**: es la misma criatura dos veces, y leer las dos es la
+duplicación que esta tabla existe para evitar. La copia es para la máquina donde la fuente viva
+no está — se abre solo cuando la comprobación falla, y entonces se dice que se está leyendo una
+foto, con su fecha.
+
+> La comprobación se hace por fila y en el momento, nunca de memoria: esta tabla se generó en la
+> máquina de quien corrió \`sync.js\`, y lo que ahí resolvía puede no existir acá. A medida que
+> alguien va teniendo las carpetas de verdad, sus filas dejan de leerse de la copia solas.`
+  : `Cada fila es un **puntero** al Lore donde vive, no una copia. Ese criterio tiene un solo
+dueño y una sola versión: la de su proyecto. Se lee ahí.`}
 
 ${Object.entries(porTipo).map(([tipo, grupo]) => `
 ## Tarea de ${tipo}
 
-| Proyecto | Cuándo | Copia en el repo | Fuente viva |
+${copia ? `| Proyecto | Cuándo | 1º — fuente viva | 2º — copia, si la de arriba no está |
 |---|---|---|---|
-${grupo.map(f => `| ${f.proyecto} | ${f.cuando} | \`lore-ecosistema/${f.destino}/\` | \`${f.origen}\` |`).join('\n')}`).join('\n')}
+${grupo.map(f => `| ${f.proyecto} | ${f.cuando} | \`${f.origen}\` | \`lore-ecosistema/${f.destino}/\` |`).join('\n')}`
+        : `| Proyecto | Cuándo | Dónde vive su Lore |
+|---|---|---|
+${grupo.map(f => `| ${f.proyecto} | ${f.cuando} | \`${f.origen}\` |`).join('\n')}`}`).join('\n')}
 
 ## Cuando un Lore no está
 
-Si la copia no existe y no tienes el árbol local, se trabaja con el canon y **se declara que se
-está trabajando sin ese criterio**. Nunca se inventa lo que ese Lore diría.
+${copia
+  ? `Si fallan las dos —ni fuente viva ni copia—, se trabaja con el canon y **se declara que se
+está trabajando sin ese criterio**. Nunca se inventa lo que ese Lore diría.`
+  : `Si el puntero no resuelve —el árbol no está en esta máquina—, se trabaja con el canon y **se
+declara que se está trabajando sin ese criterio**. Nunca se inventa lo que ese Lore diría.`}
 `;
 
 if (!revisar) {
@@ -181,11 +206,41 @@ if (!revisar) {
   fs.writeFileSync(TABLA, tabla, 'utf8');
 }
 
+/* ── acceso a los árboles vivos ───────────────────────────────────────────
+ * Un bot TRABAJA en los proyectos, no solo consulta su criterio, y la sesión
+ * solo alcanza la carpeta donde se abre. Sin esto el bot cita bien y no puede
+ * editar nada: responde preguntas, que es exactamente lo que un bot no es.
+ *
+ * Sale del mismo manifiesto que la copia, la tabla y la poda: las rutas se
+ * escriben UNA vez, en `origen`. Escribirlas también a mano en un settings
+ * garantiza que se desincronicen, y la que se queda vieja falla sin decir por qué.
+ *
+ * Pero se DECLARA, no se infiere: solo las fuentes con `"trabajo": true`. Federar
+ * un área trae su método, y su carpeta contiene todos sus proyectos, incluidos los
+ * que quedaron fuera de alcance — conceder el origen de cada fila abriría por la
+ * puerta del acceso lo que el alcance cerró. Un área se consulta; en un proyecto
+ * se trabaja.
+ *
+ * Local y no versionado, igual que `raiz`: son rutas de esta máquina. Quien
+ * clona el repo sin el árbol no las tiene, y para eso existe lore-ecosistema/.
+ */
+const AJUSTES = path.join(RAIZ, '.claude', 'settings.local.json');
+const vivos = [...new Set(fuentes.filter(f => f.trabajo).map(f => path.join(raiz, f.origen)))]
+  .filter(d => fs.existsSync(d))
+  .map(d => d.replace(/\\/g, '/'));
+
+if (!revisar) {
+  fs.mkdirSync(path.dirname(AJUSTES), { recursive: true });
+  const previo = fs.existsSync(AJUSTES) ? JSON.parse(fs.readFileSync(AJUSTES, 'utf8')) : {};
+  previo.permissions = { ...previo.permissions, additionalDirectories: vivos };
+  fs.writeFileSync(AJUSTES, JSON.stringify(previo, null, 2) + '\n', 'utf8');
+}
+
 /* ── informe ──────────────────────────────────────────────────────────── */
 
 for (const f of informe) {
   const marca = f.ausentes.length ? '⚠' : '✓';
-  console.log(`${marca} ${f.destino.padEnd(28)} ${String(f.n).padStart(3)} archivo(s)` +
+  console.log(`${marca} ${f.destino.padEnd(28)} ${copia ? `${String(f.n).padStart(3)} archivo(s)` : `→ ${f.origen}`}` +
               (f.ausentes.length ? `  — no encontrado: ${f.ausentes.join(', ')}` : ''));
 }
 for (const h of huerfanos) {
@@ -193,7 +248,16 @@ for (const h of huerfanos) {
               (revisar ? ' (se borraría)' : ' — borrado'));
 }
 
-console.log(`\n${revisar ? '(revisión, no se escribió nada) ' : ''}${total} archivos · ` +
+console.log(`\n${revisar ? '(revisión, no se escribió nada) ' : ''}` +
+            (copia ? `${total} archivos · ` : 'por punteros, sin copia · ') +
             `${fuentes.length - faltantes}/${fuentes.length} fuentes completas` +
             (huerfanos.length ? ` · ${huerfanos.length} huérfano(s)` : ''));
-if (!revisar) console.log(`Tabla de enrutamiento → lore/enrutamiento.md`);
+if (congelada) {
+  console.log(`\n⚠ lore-ecosistema/ existe y la copia está APAGADA. Es una foto que ya nadie`);
+  console.log(`  actualiza y el bot la sigue leyendo. Bórrala, o pon "copia": true en el manifiesto.`);
+}
+
+if (!revisar) {
+  console.log(`Tabla de enrutamiento → lore/enrutamiento.md`);
+  console.log(`Acceso a los árboles vivos → .claude/settings.local.json (${vivos.length} directorio(s))`);
+}

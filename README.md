@@ -290,10 +290,21 @@ falla por defecto, y es silencioso: todo sigue funcionando, y la copia empieza a
 |---|---|---|
 | `canon/` | criterio que el bot **es** — cargado antes de cada decisión | destilado |
 | `lore/` | criterio para **mantener** el bot | propio del proyecto |
-| `lore-ecosistema/` | criterio **prestado**, copiado literal | se consulta por enrutamiento; **nunca es autoritativo** |
+| criterio **prestado** | el Lore de cada proyecto que el bot enruta | se alcanza **por puntero**, en su propia dirección; **nunca es autoritativo** |
 
 El test que los separa: **¿sería descartable la fuente?** Destilar produce algo más chico que puede
 *reemplazar* a su origen; copiar produce algo idéntico que **no puede**.
+
+> **Federar es apuntar, no copiar.** Cada fila del manifiesto es una **dirección**: la tabla dice
+> qué Lore gobierna la tarea, y el acceso generado deja que la sesión lo alcance donde vive. Ese
+> criterio conserva un solo dueño y una sola versión — la misma regla DRY con la que funciona todo
+> el kit. Un proyecto nuevo creado desde el bot nace en el Área que lo posee, heredando su Lore por
+> ruta relativa, igual que con `create-project`. Nada se duplica dentro del bot.
+
+La copia (`lore-ecosistema/`) es **opcional y está apagada por defecto**, y responde a una sola
+pregunta: *¿los que van a usar el bot tienen tus carpetas, o solo el bot?* Si las tienen, los
+punteros resuelven y no hace falta copiar nada. Si no, esa copia es la única forma en que ese
+criterio existe en su máquina.
 
 Y la ley que hace funcionar el enrutamiento:
 
@@ -302,11 +313,15 @@ Y la ley que hace funcionar el enrutamiento:
 Una entidad puede tener varios cuerpos de criterio cuyos propios principios prohíben cruzarlos
 —lo que hace contra cómo lo cuenta es el corte habitual—. Decir su nombre no alcanza para elegir.
 
-#### Tres extras opcionales, apagados por defecto
+#### Cuatro extras opcionales, apagados por defecto
 
-Los tres se preguntan al configurar el bot la primera vez. Un bot sin ninguno está completo: son
+Los cuatro se preguntan al configurar el bot la primera vez. Un bot sin ninguno está completo: son
 sellos, no piezas.
 
+- **La copia del ecosistema (`lore-ecosistema/`).** Por defecto el bot **apunta** al Lore de cada
+  proyecto donde vive, sin duplicar nada. Encenderla solo tiene sentido si quien va a usar el bot
+  **no** tiene tus carpetas: ahí el puntero no apunta a nada y la copia es lo único que hace existir
+  ese criterio en su máquina.
 - **Empaquetarlo como *plugin* compartible.** Por defecto **no se crea**. Un bot es una carpeta con
   su canon y su `CLAUDE.md`: abres la sesión ahí y el criterio ya está cargado, sin instalar nada.
   Envolverlo en una skill con su `.claude-plugin/` y su repositorio propio sirve para **una sola
@@ -976,10 +991,21 @@ failure mode, and it is silent: everything still works, and the copy starts outr
 |---|---|---|
 | `canon/` | criteria the bot **is** — loaded before every decision | distilled |
 | `lore/` | criteria for **maintaining** the bot | the project's own |
-| `lore-ecosistema/` | **borrowed** criteria, copied verbatim | consulted via routing; **never authoritative** |
+| **borrowed** criteria | the Lore of every project the bot routes to | reached **by pointer**, at its own address; **never authoritative** |
 
 The test that keeps them apart: **would the source be discardable?** Distilling produces something
 smaller that can *replace* its origin; copying produces something identical that **cannot**.
+
+> **Federating is pointing, not copying.** Each row of the manifest is an **address**: the table
+> says which Lore governs the task, and the generated access lets the session reach it where it
+> lives. That criteria keeps one owner and one version — the same DRY rule the whole kit runs on. A
+> new project created from the bot is born in the Area that owns it, inheriting its Lore by relative
+> path, exactly as with `create-project`. Nothing is duplicated inside the bot.
+
+The copy (`lore-ecosistema/`) is **optional and off by default**, and it answers a single question:
+*do the people who will use this bot have your folders, or only the bot?* If they have them,
+pointers resolve and nothing needs copying. If they do not, that copy is the only way that criteria
+exists on their machine.
 
 And the law that makes routing work:
 
@@ -988,11 +1014,15 @@ And the law that makes routing work:
 One entity can own several bodies of criteria whose own principles forbid crossing them — what it
 does versus how it tells it is the common split. Naming it does not select a Lore.
 
-#### Three optional extras, off by default
+#### Four optional extras, off by default
 
-All three are asked when the bot is configured for the first time. A bot with none of them is
+All four are asked when the bot is configured for the first time. A bot with none of them is
 complete: they are seals, not parts.
 
+- **The ecosystem copy (`lore-ecosistema/`).** By default the bot **points** at each project's Lore
+  where it lives, duplicating nothing. Turning it on only makes sense if whoever will use the bot
+  does **not** have your folders: there the pointer resolves to nothing, and the copy is the only
+  way that criteria exists on their machine.
 - **Packaging it as a shareable plugin.** **Not created by default.** A bot is a folder with its
   canon and its `CLAUDE.md`: you open the session there and the criteria is already loaded, with
   nothing to install. Wrapping it in a skill with its own `.claude-plugin/` and repository serves
