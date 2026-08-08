@@ -1,3 +1,5 @@
+<a id="english"></a>
+
 <p align="center">
   <img src="https://i.imgur.com/DWYL7vz.png" alt="Lore" width="100%">
 </p>
@@ -9,10 +11,6 @@
   <a href="#english">English</a> |
   <a href="#español">Español</a>
 </p>
-
----
-
-<a id="english"></a>
 
 <h1 align="center">Lore</h1>
 
@@ -687,13 +685,19 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 
 > **If Lore saved you from explaining yourself again, a ⭐ on the repo helps other people find it.**
 
+---
+
+<a id="español"></a>
+
 <p align="center">
   <img src="https://i.imgur.com/AKHwfNa.png" alt="Lore" width="100%">
 </p>
 
----
-
-<a id="español"></a>
+<p align="right">
+  <strong>Language / Idioma:</strong>
+  <a href="#english">English</a> |
+  <a href="#español">Español</a>
+</p>
 
 <h1 align="center">Lore</h1>
 
