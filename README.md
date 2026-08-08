@@ -425,7 +425,6 @@ Then, whenever you want:
 
 ```text
 <your mother folder>/           ← open it as a vault in Obsidian
-  notes/                        ← the root inbox, for what has no home yet
   web-development/              ← your Areas and projects, with their Lore
   bots/projects/my-bot/         ← ★ open your sessions here
     notes/                      ← the inbox that matters: routed, not guessed
@@ -449,7 +448,7 @@ Most of a real inbox lands in the last row, and saying so is part of the job: a 
 
 ### Where the inbox lives
 
-**Where you open the session**, which is one more reason to work from a bot. A bot reaches its own folder and the projects it federates, **not the vault root**: an inbox at the root would be unreachable from the bot and the sweep would report a debt of zero without warning anyone. So a bot's notes go inside the bot, and a sweep mines the local inbox first and the root's after, if it can reach it.
+**Where you open the session** — and **the vault root never has one**. Nobody opens a session at the root, so a note written there has no owner and no table to be routed against. Worse, a bot cannot reach the root: the sweep does not read it, does not fail, and reports a debt of zero. A note that belongs to no project means the project is missing — `create-project`, not an orphan inbox.
 
 Every mined note gets a mark with date and destination, **including the ones that produced nothing**. That mark makes the sweep idempotent and makes the debt visible. The skill **never deletes a note**: mine before deleting, and deleting is your call.
 
@@ -1077,7 +1076,6 @@ Después, cuando quieras:
 
 ```text
 <tu carpeta madre>/             ← ábrela como vault en Obsidian
-  notas/                        ← la bandeja de la raíz, para lo que no tiene casa
   desarrollo-web/               ← tus Áreas y proyectos, con su Lore
   bots/proyectos/mi-bot/        ← ★ abre tus sesiones acá
     notas/                      ← la bandeja que importa: enrutada, no adivinada
@@ -1101,7 +1099,7 @@ La mayoría de una bandeja real cae en la última fila, y decirlo es parte del t
 
 ### Dónde vive la bandeja
 
-**Donde abres la sesión**, que es una razón más para trabajar desde un bot. Un bot alcanza su propia carpeta y los proyectos que federa, **no la raíz de la vault**: una bandeja en la raíz sería inalcanzable desde el bot y el barrido reportaría deuda cero sin avisar de nada. Por eso las notas de un bot van adentro del bot.
+**Donde abres la sesión** — y **la raíz de la vault nunca tiene una**. Nadie abre una sesión en la raíz, así que una nota escrita ahí no tiene dueño ni tabla contra la cual enrutarse. Peor: un bot no alcanza la raíz, de modo que el barrido no la lee, no falla y reporta deuda cero. Una nota que no pertenece a ningún proyecto significa que falta el proyecto — `create-project`, no una bandeja huérfana.
 
 Cada nota minada recibe una marca con fecha y destino, **incluidas las que no produjeron nada**. La skill **nunca borra una nota**: se mina antes de borrar, y borrar lo decides tú.
 

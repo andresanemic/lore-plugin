@@ -435,15 +435,17 @@ notes touch more than one Area, the skill proposes `create-bot`.
 
 | Session opened in | Its inbox |
 |---|---|
-| A **bot** ← *recommended* | `<bot>/notes/` — **always**, never the root's |
-| The vault root | `<vault>/notes/` — the fallback, for what has no home yet |
-| A project or area, if one is wanted there | that folder's `notes/` |
+| A **bot** ← *recommended* | `<bot>/notes/` |
+| A project or an area | that folder's `notes/` |
+| **The vault root** | **none. The root never has an inbox** |
 
-A session only reaches the folder it was opened in plus the paths in its
-`.claude/settings.local.json`, which lists the federated projects and **not** the vault root. An
-inbox at the root is unreachable from a bot: the capture fails, or worse, the sweep finds nothing and
-reports a debt of zero. On a sweep the local inbox is mined first and the root's after, if it
-resolves; an inbox that could not be read **is named**, never counted as empty.
+**The root never has an inbox, and that is a law rather than tidiness.** Nobody opens a session
+there: it is the mother folder of the Areas, not a place of work. A note written at the root has no
+owner and no table to be routed against, and the failure is silent — a session only reaches the
+folder it was opened in plus the paths in its `.claude/settings.local.json`, which never includes the
+root, so the sweep does not read it, does not fail, and **reports a debt of zero**. The note stays
+intact, which is the exact state distillation exists to break. A note that belongs to no project
+means **the project is missing** (`create-project`), not that an orphan inbox is needed.
 
 **A note's frontmatter:**
 

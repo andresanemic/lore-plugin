@@ -431,15 +431,17 @@ misma cara de certeza. Si el usuario no tiene bot y sus notas tocan más de un �
 
 | Sesión abierta en | Su bandeja |
 |---|---|
-| Un **bot** ← *recomendado* | `<bot>/notas/` — **siempre**, nunca la de la raíz |
-| La raíz de la vault | `<vault>/notas/` — el respaldo, para lo que no tiene casa |
-| Un proyecto o Área, si se quiere una ahí | el `notas/` de esa carpeta |
+| Un **bot** ← *recomendado* | `<bot>/notas/` |
+| Un proyecto o un Área | el `notas/` de esa carpeta |
+| **La raíz de la vault** | **ninguna. La raíz nunca tiene bandeja** |
 
-Una sesión solo alcanza la carpeta donde se abrió más las rutas de su
-`.claude/settings.local.json`, que lista los proyectos federados y **no** la raíz de la vault. Una
-bandeja en la raíz es inalcanzable desde un bot: la captura falla, o peor, el barrido no encuentra
-nada y reporta deuda cero. Al minar se barre la local primero y la de la raíz después, si resuelve;
-la que no se pudo leer **se nombra**, nunca se cuenta como vacía.
+**La raíz nunca tiene bandeja, y es ley, no orden.** Nadie abre una sesión ahí: es la carpeta madre
+de las Áreas, no un lugar de trabajo. Una nota escrita en la raíz no tiene dueño ni tabla contra la
+cual enrutarse, y el fallo es silencioso — una sesión solo alcanza la carpeta donde se abrió más las
+rutas de su `.claude/settings.local.json`, que nunca incluye la raíz, así que el barrido no la lee,
+no falla y **reporta deuda cero**. La nota queda intacta, que es justo el estado que la destilación
+existe para romper. Una nota que no pertenece a ningún proyecto significa que **falta el proyecto**
+(`create-project`), no que haga falta una bandeja huérfana.
 
 **Frontmatter de una nota:**
 

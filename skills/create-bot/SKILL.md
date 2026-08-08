@@ -115,6 +115,35 @@ look like it belongs. Put it in the canon as **explicitly out of scope, with the
 confused**. A border written with its reason holds; one that is only left out gets crossed again
 the next time somebody looks at the folder tree.
 
+#### The same question, one level up: which **areas** get federated
+
+> **An area enters the manifest only if the institution has a project inside it — and it enters
+> *together with that project*.**
+
+The rule above filters projects. Areas need it too, and it is easy to miss because an area is
+federated for its **method**, which feels like it arrives clean of whoever's projects live in it. It
+does not. Criteria from outside gets in by two routes, and only the first is visible:
+
+| Route | How it shows up |
+|---|---|
+| **Thematic contamination** — visible | a method distilled while looking at other institutions' projects arrives stained with them, and its principles name projects this bot declared out of scope |
+| **A competing distillation** — invisible | the area carries a module summarizing a source **the bot's canon already distills**. Two summaries of the same original, inside the same bot |
+
+The second is the dangerous one, and it is the boundary-of-validity law read one level up. The canon's
+distillation names its source and writes its boundary; the copied one usually does neither and points
+at originals that do not exist in the shared repository. **They do not compete as summary against
+original — they compete as two summaries, and the winner is whichever sits closer to the lookup
+index.** Nobody picks it, which is why nobody notices.
+
+So, before federating an area: check whether it carries a distillation of a source the canon already
+declares. **Two summaries of the same original in one bot is worse than none**, because the one that
+wins is not the better one.
+
+*Boundary of validity:* this governs bots that federate **by project**. A bot that federates a
+**whole area** — several sibling projects, so you can read one while working in another — inverts it:
+there the area is the scope, and the projects justify themselves by belonging to it. That is a
+different legitimate shape, not an exception to fix.
+
 #### Second question: what state is its Lore in?
 
 | Source state | What to do |
@@ -444,6 +473,10 @@ With the copy on, everything below applies. With it off, `sync.js` neither copie
 > `.gitignore` and as removing a source. `sync.js` warns instead of deleting: that folder is
 > criteria, and deleting criteria unasked is worse than the orphan.
 
+- **Before adding an area, run the two checks from §2:** does the institution have a project inside
+  it (if not, it does not enter), and does it carry a module distilling a source the canon already
+  declares (if so, one of the two goes — two summaries of the same original inside one bot is worse
+  than none, because the winner is the one nearest the lookup index, not the better one).
 - **An area is federated the way it is opened: `lore` **plus** its `CLAUDE.md` and its `FASES.md`.**
   Federating `<area>/lore` alone is the asymmetry to avoid, and it is invisible from inside: the
   area's **laws** live in the Lore, but the **sequence of work** — what is read first, which skill
@@ -684,6 +717,11 @@ Then check the two things a script cannot:
   the registry does not list does not enter the manifest, and a borderline one is **declared out of
   scope with its reason**, not silently omitted — a border written with its reason holds, one that
   is only left out gets crossed again.
+- **An area enters only if the institution has a project inside it, and enters together with that
+  project.** An area federated for its method alone arrives stained with whoever's projects it was
+  distilled from — and, worse, may carry a summary of a source the canon already distills. Two
+  summaries of the same original inside one bot is worse than none: the one that wins is the one
+  nearest the lookup index.
 - **Every task closes with a distillation proposal**, and discarded noise is reported.
 - **The manifest is the single source** of the copy, the routing table, the pruning and the working
   access; `enrutamiento.md` and `.claude/settings.local.json` are generated, never hand-edited. Sync

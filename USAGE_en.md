@@ -407,12 +407,14 @@ confidence. If you have no bot yet and your notes touch more than one Area, the 
 
 | Session opened in | Its inbox |
 |---|---|
-| A **bot** ← *recommended* | `<bot>/notes/` — always |
-| The vault root | `<vault>/notes/` — the fallback, for what has no home yet |
-| A project or Area, if you want one there | that folder's `notes/` |
+| A **bot** ← *recommended* | `<bot>/notes/` |
+| A project or an Area | that folder's `notes/` |
+| **The vault root** | **none. The root never has an inbox** |
 
-A bot reaches its own folder and the projects it federates, **not the vault root**. An inbox at the
-root would be unreachable from the bot, and the sweep would report a debt of zero without warning.
+**The root never has an inbox.** Nobody opens a session there, and a note written at the root has no
+owner and no table to be routed against. Worse: a bot cannot reach the root, so the sweep does not
+read it, does not fail, and **reports a debt of zero**. If a note belongs to no project, what is
+missing is the project — `create-project`, not an orphan inbox.
 
 **How you use it, in two sentences:**
 

@@ -409,12 +409,14 @@ va a proponer `create-bot`, y conviene hacerle caso.
 
 | Sesión abierta en | Su bandeja |
 |---|---|
-| Un **bot** ← *recomendado* | `<bot>/notas/` — siempre |
-| La raíz de la vault | `<vault>/notas/` — el respaldo, para lo que no tiene casa |
-| Un proyecto o Área, si quieres una ahí | el `notas/` de esa carpeta |
+| Un **bot** ← *recomendado* | `<bot>/notas/` |
+| Un proyecto o un Área | el `notas/` de esa carpeta |
+| **La raíz de la vault** | **ninguna. La raíz nunca tiene bandeja** |
 
-Un bot alcanza su carpeta y los proyectos que federa, **no la raíz de la vault**. Una bandeja en la
-raíz sería inalcanzable desde el bot y el barrido reportaría deuda cero sin avisar.
+**La raíz nunca tiene bandeja.** Nadie abre una sesión ahí, y una nota escrita en la raíz no tiene
+dueño ni tabla contra la cual enrutarse. Peor: un bot no alcanza la raíz, así que el barrido no la
+lee, no falla y **reporta deuda cero**. Si una nota no pertenece a ningún proyecto, lo que falta es
+el proyecto — `create-project`, no una bandeja huérfana.
 
 **Cómo se usa, en dos frases:**
 

@@ -39,8 +39,7 @@ The vault must be the **mother folder that contains the Areas**, not a folder be
 
 ```text
 <vault>/                                  ← opened as a vault in Obsidian
-  notas/                                  ← the root inbox
-  <area>/
+  <area>/                                 ← no inbox at the root, ever
     lore/ · CLAUDE.md · FASES.md
     proyectos/<project>/
   bots/proyectos/<bot>/
@@ -76,31 +75,37 @@ sweep is recursive over `**/*.md`, so subfolders are free and this skill imposes
 > If the user has no bot yet and their notes touch more than one Area, **propose `create-bot`**. That
 > is the setup this skill was designed for; everything else works and works worse.
 
-**Where the inbox goes depends on where the session runs**, and this is not cosmetic:
+**The inbox lives where the session is opened**, and this is not cosmetic:
 
 | Session opened in | Its inbox |
 |---|---|
-| A **bot** ← *recommended* | `<bot>/notas/` — **always**, never the root's |
-| The vault root | `<vault>/notas/` — the fallback, for notes that belong to no project yet |
-| A project or an area, when the user wants one there | that folder's `notas/` |
+| A **bot** ← *recommended* | `<bot>/notas/` |
+| A project | `<project>/notas/` |
+| An area | `<area>/notas/` |
+| **The vault root** | **none. The root never has an inbox** |
 
-> **A bot's inbox lives inside the bot, and this is a hard rule, not a preference.** A session only
-> reaches the folder it was opened in plus the paths in its `.claude/settings.local.json` — which
-> lists the federated projects and **not** the vault root. An inbox at the root is unreachable from
-> a bot session: the capture fails, or worse, the sweep silently finds nothing and reports a debt of
-> zero. Notes written while working in a bot are the bot's.
+> **The root never gets an inbox, and this is a hard rule rather than a matter of tidiness.** Nobody
+> opens a session at the root — it is the mother folder of the areas, not a place of work. A note
+> written there has no owner and no routing table to be filed against, so mining it means filing by
+> eye. And the failure is silent: a bot session only reaches its own folder plus the paths in its
+> `.claude/settings.local.json`, which never includes the root, so the sweep does not read it, does
+> not fail, and **reports a debt of zero**. The note stays intact and technically preserved, which is
+> the exact state distillation exists to break.
+>
+> **A note that belongs to no project does not go to the root — it means the project is missing.**
+> Propose `create-project` (or `create-bot`), not an orphan inbox.
 
-Create it on the first capture or on the first sweep, never speculatively.
+Create it on the first capture, in the folder the work is happening in. Never speculatively, and
+never at the root.
 
 **An inbox created inside a repository shows up as untracked — ask before it gets committed by
 accident.** A bot handed to a team is the case that matters: raw notes are unmined thinking, and
 whether they travel with the artifact is the user's call, not a default. Offer both, in one line,
 and write the `.gitignore` entry if they decline.
 
-**On a sweep, mine the local inbox first, then the root's if it is reachable.** Notes at the root
-can concern any area, so they are worth including — but a root that does not resolve does **not**
-stop the pass: mine what is reachable and **say which inbox was not read**, the same way a routing
-pointer that does not resolve is declared rather than silently skipped.
+> **Boundary of validity.** This holds where the vault **is** the mother folder of the areas, which
+> is the precondition above. In an Obsidian vault kept apart from the work tree, that vault's root
+> *is* a place of work and this rule says nothing about it.
 
 ### A note's frontmatter
 
@@ -140,7 +145,7 @@ bandeja»*, *«destila estas notas»*, or pointed at specific notes.
 
 ### 1. Read
 
-Sweep `<inbox>/**/*.md` — the local one first, then the root's if it resolves — skipping notes with a
+Sweep `<inbox>/**/*.md` — the inbox of the folder the session is open in — skipping notes with a
 non-empty `destilado`. Report the debt before classifying anything, and name any inbox that could not
 be read. If the user pointed at specific notes, mine those and still report the debt.
 
@@ -220,8 +225,9 @@ what entered, where, what was discarded as noise and **why**, and the remaining 
 - **A bot is the recommended home for an inbox, permanently.** It is the only place where routing is
   read from a written table instead of guessed. Recommend it on first run and whenever a sweep
   happens outside one; propose `create-bot` when the notes touch more than one Area.
-- **The inbox lives where the session is opened, and a bot's lives inside the bot.** A bot session
-  cannot reach the vault root, so a root inbox would fail silently and report a debt of zero.
+- **The inbox lives where the session is opened, and the vault root never has one.** A bot session
+  cannot reach the root, so an inbox there fails silently and reports a debt of zero. A note that
+  belongs to no project means the project is missing, not that the root needs an inbox.
 - **An inbox that could not be read is named**, never counted as empty.
 - **The inbox is not federated.** It holds no Lore, so a bot never routes to it — the source gets its
   Lore in the area that owns it first.
