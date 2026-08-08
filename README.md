@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://i.imgur.com/6u3Cnkw.png" alt="Lore" width="100%">
+  <img src="https://i.imgur.com/AKHwfNa.png" alt="Lore" width="100%">
 </p>
 
 <!-- Language selector (top of README.md) -->
@@ -706,7 +706,7 @@ evidencia de qué hizo cada quien con su copia. No cuenta como caso; no sustituy
 casos sí responden.
 
 <p align="center">
-  <img src="https://i.imgur.com/6u3Cnkw.png" alt="Lore" width="100%">
+  <img src="https://i.imgur.com/DWYL7vz.png" alt="Lore" width="100%">
 </p>
 
 ---
