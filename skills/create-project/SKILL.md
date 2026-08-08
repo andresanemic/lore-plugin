@@ -58,10 +58,10 @@ does not exist, **stop** and propose `create-area` first.
 
 | Token | Where it comes from |
 |---|---|
-| `{{AREA_PATH}}` | path of the target area (e.g. `C:\Claude\desarrollo-web`) |
+| `{{AREA_PATH}}` | path of the target area (e.g. `<root>/desarrollo-web`) |
 | `{{PROJECT_SLUG}}` | project name in kebab-case (e.g. `acme`) |
 | `{{DESCRIPTION}}` | one line: what the project is |
-| `{{SOURCE_DOCS}}` | paths of the documents defining the project (spec PDF, brief…) |
+| `{{SOURCE_DOCS}}` | paths of the documents defining the project (spec PDF, brief, **free notes** the user already wrote about it…) |
 | `{{INITIAL_PHASE}}` | active phase at start (derived from the source; see step 3) |
 
 ### 2. Read context (MANDATORY before creating anything)
@@ -75,6 +75,9 @@ does not exist, **stop** and propose `create-area` first.
 4. **Read the source documents** (`{{SOURCE_DOCS}}`). If a PDF, extract text (`pdftotext -layout`)
    and locate: **objectives**, **content domains** (→ folders) and **timeline / deliverables /
    Gantt** (→ phases). The source wins over any tentative structure.
+   **Free notes count as source documents** — a project often begins as a pile of them. They inform
+   the structure and the identity; they are never copied into the Lore, and nothing in them is
+   criteria until it is distilled.
 
 ### 3. Project identity brainstorm (HARD-GATE)
 

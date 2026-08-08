@@ -24,6 +24,7 @@ The Lore plugin bundles a set of **skills** that implement this loop:
 - `save-to-lore` – capture criteria after solving a problem.
 - `transmute-lore` – migrate existing projects to the Lore architecture.
 - `create-bot` – package criteria as an installable plugin that works inside the repos.
+- `obsidian-lore` – capture free notes in the same tree and **mine** that inbox for criteria.
 
 > **Lore speaks your language.** The skills are written in English, but everything they generate —
 > content **and artifact filenames** — is written in the language you work in. `identidad.md`,
@@ -382,6 +383,59 @@ README.
 
 Use this once you have several projects with Lore worth carrying into a single session. It does not
 substitute for building that Lore: it federates it.
+
+---
+
+### 5.7 `obsidian-lore` – Turn loose notes into criteria
+
+**What it is for:** if you already write notes in Obsidian, you already have the raw material. This
+skill governs the overlap between the vault and the Lore when they share a file tree.
+
+**Setting it up:** point the vault at the **mother folder of your Areas** (*Open folder as vault*).
+The same tree becomes both your workspace and your vault, with nothing else to configure.
+
+**The inbox lives where you open the session:**
+
+| Session opened in | Its inbox |
+|---|---|
+| The vault root | `<vault>/notes/` |
+| A **bot** | `<bot>/notes/` — always |
+| A project or Area, if you want one there | that folder's `notes/` |
+
+A bot reaches its own folder and the projects it federates, **not the vault root**. An inbox at the
+root would be unreachable from the bot, and the sweep would report a debt of zero without warning.
+
+**How you use it, in two sentences:**
+
+```text
+save this note to Obsidian
+review my Obsidian notes and see what belongs in my lore
+```
+
+The first writes a `.md` into the inbox, never inside `lore/`. The second sweeps, classifies, routes,
+and **waits for your approval** before writing anything.
+
+**What it does with each note:**
+
+| The note records | Where it goes |
+|---|---|
+| A friction you resolved | Invariant Clue, via `save-to-lore` |
+| A **task** or an open problem — *"we need to add X"* | `FASES.md`. That is state, not criteria |
+| Someone else's criteria you collected | Arbitration against your standard |
+| A summary, a link, a meeting jotting | Noise, and it tells you |
+
+On close, every mined note gets its `destilado:` mark with date and destination — **including the
+ones that produced nothing**. That mark makes the sweep idempotent and makes the debt visible: how
+many notes have gone how long unmined. `save-to-lore` reports it too when it finishes.
+
+**Two things it does not do:** it never deletes notes (mine before deleting, and deleting is your
+call) and it does not manage the vault — `Read` and `Grep` already read it.
+
+> **A note is source, never criteria.** It answers *"what happened"*; Lore answers *"what changed
+> because of it"*. Nothing crosses without explicit distillation.
+
+**If the inbox ends up inside a repository**, decide whether it travels or goes into `.gitignore`.
+For a bot handed to a team, the usual answer is that it does not: those are unmined notes.
 
 ---
 

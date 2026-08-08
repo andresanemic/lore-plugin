@@ -67,6 +67,20 @@ already-validated identity — enters as **`confirmed`**. Head the module with i
 2. **Proactive:** you just solved a friction and propose saving it — **only** if it clears the
    **threshold** (below). Cosmetic changes (color, aesthetic reshuffle) do NOT count.
 
+### The input can be a note, not only a conversation
+
+One or several **free notes** — an Obsidian inbox, a folder of Markdown, meeting minutes — are a
+valid input to either mode. The note is **source, never criteria**: it does not skip the threshold,
+it does not enter verbatim, and it is never cited as a rule. Pick the mode by what the note records —
+a friction the user lived through → CAPTURE; someone else's criteria the user collected → ARBITRATE.
+
+A note that records a friction **still open** is state, not criteria → `FASES.md`. A note that is a
+summary, a link or an agenda is **information**, and information is not distillable: report it as
+noise, or hand it to `create-area` / `create-project` / `transmute-lore` as source material.
+
+`obsidian-lore` is what sweeps an inbox and routes it here. Invoked directly on a note, do the same
+work without it.
+
 ## Lore threshold (for the proactive trigger, all 4 must hold)
 
 1. **Constraint** — does it forbid a future error or demand a standard? If it constrains no future
@@ -134,6 +148,17 @@ promotion to the area. Never write the area silently.
    (`git -C {area} add lore/` + a drafted message) and run it **only** when the user approves.
    Never `git push`.
 
+### Step 3 — Inbox debt (one line, only if an inbox exists)
+
+If the tree has a free-note inbox at the vault root (see `obsidian-lore`), count the notes with an
+empty `destilado` and close with one line: *«N notas sin minar, la más vieja de hace X días.»*
+Nothing else — no listing, no proposal.
+
+> **Why here and nowhere else.** A note satisfies the urge to preserve without producing criteria,
+> so the debt grows unnoticed and the criterion inside stays inert. The only moment that number
+> changes anything is the moment someone is already distilling. Reporting it anywhere else is noise;
+> not reporting it is how an inbox rots.
+
 ## Idempotency
 
 The ` · ↑` glyph in the project's `index.md` marks what is already promoted. Re-running the skill is
@@ -157,6 +182,8 @@ a safe no-op for those clues.
   else's purpose. No defeats section → no entry.
 - **Clues and new filenames follow the lore's established language** (or the user's, if none) —
   never English just because this skill is. Existing files are never renamed here.
+- **A note is source, never criteria.** A free note clears the same threshold as anything else, never
+  enters verbatim, and is never authoritative.
 - **Honest confidence:** `confirmed` only after real validation; never inflated to force promotion.
 - **Discarded noise is reported**, not silently dropped.
 - **No auto-commit, no push.** The user reviews and decides.

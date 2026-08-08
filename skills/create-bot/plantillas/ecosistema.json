@@ -16,10 +16,13 @@
     "Un área NO lo lleva — su carpeta contiene proyectos que quedaron fuera de alcance, y el",
     "acceso los abriría por la puerta de atrás. Un área se consulta; en un proyecto se trabaja.",
     "",
+    "raiz = la carpeta madre que contiene tus áreas, en TU máquina. No hay valor por defecto:",
+    "se escribe la ruta real, con / incluso en Windows.",
+    "",
     "Borra los ejemplos de abajo. sync.js ignora esta clave."
   ],
 
-  "raiz": "C:/Claude",
+  "raiz": "/ruta/a/tu/carpeta-madre",
 
   "copia": false,
 

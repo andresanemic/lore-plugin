@@ -24,6 +24,7 @@ El plugin Lore agrupa un conjunto de **skills** que implementan este ciclo:
 - `save-to-lore` – captura criterio después de resolver un problema.
 - `transmute-lore` – migra proyectos existentes hacia la arquitectura Lore.
 - `create-bot` – empaqueta criterio como un *plugin* instalable que trabaja dentro de los repos.
+- `obsidian-lore` – captura notas libres en el mismo árbol y **mina** esa bandeja buscando criterio.
 
 > **El Lore habla tu idioma.** Aunque los skills están escritos en inglés, todo lo que generan —
 > contenido **y nombres de artefactos** — se escribe en el idioma en el que trabajas. `identidad.md`,
@@ -384,6 +385,59 @@ detalle está en el README.
 
 Usa este skill cuando ya tengas varios proyectos con Lore que valga la pena llevar a una sola sesión.
 No sustituye construir ese Lore: lo federa.
+
+---
+
+### 5.7 `obsidian-lore` – Convertir notas sueltas en criterio
+
+**Para qué sirve:** si ya escribes notas en Obsidian, ya tienes la materia prima. Este skill gobierna
+el solape entre la vault y el Lore cuando comparten árbol de archivos.
+
+**Cómo se prepara:** apunta la vault a la **carpeta madre de tus Áreas** (*Open folder as vault*).
+El mismo árbol pasa a ser tu espacio de trabajo y tu vault, sin configurar nada más.
+
+**La bandeja vive donde abres la sesión:**
+
+| Sesión abierta en | Su bandeja |
+|---|---|
+| La raíz de la vault | `<vault>/notas/` |
+| Un **bot** | `<bot>/notas/` — siempre |
+| Un proyecto o Área, si quieres una ahí | el `notas/` de esa carpeta |
+
+Un bot alcanza su carpeta y los proyectos que federa, **no la raíz de la vault**. Una bandeja en la
+raíz sería inalcanzable desde el bot y el barrido reportaría deuda cero sin avisar.
+
+**Cómo se usa, en dos frases:**
+
+```text
+guarda esta nota en Obsidian
+revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore
+```
+
+La primera escribe un `.md` en la bandeja, nunca dentro de `lore/`. La segunda barre, clasifica,
+enruta y **espera tu aprobación** antes de escribir nada.
+
+**Qué hace con cada nota:**
+
+| La nota registra | Adónde va |
+|---|---|
+| Una fricción que resolviste | Pista Invariante, vía `save-to-lore` |
+| Una **tarea** o un problema abierto — *«hay que añadir X»* | `FASES.md`. Es estado, no criterio |
+| Criterio ajeno que recogiste | Arbitraje contra tu estándar |
+| Un resumen, un link, un apunte de reunión | Ruido, y te lo informa |
+
+Al cerrar, cada nota minada recibe su marca `destilado:` con fecha y destino — **incluidas las que
+no produjeron nada**. Esa marca hace el barrido idempotente y hace visible la deuda: cuántas notas
+llevan cuánto tiempo sin minar. `save-to-lore` la reporta también al terminar.
+
+**Dos cosas que no hace:** no borra notas (se mina antes de borrar, y borrar lo decides tú) y no
+gestiona la vault — `Read` y `Grep` ya la leen.
+
+> **Una nota es fuente, nunca criterio.** Responde *«qué pasó»*; el Lore responde *«qué cambió por
+> eso»*. Nada cruza sin destilación explícita.
+
+**Si la bandeja queda dentro de un repositorio**, decide si viaja o va al `.gitignore`. Para un bot
+que se entrega a un equipo, lo habitual es que no viaje: son notas sin minar.
 
 ---
 

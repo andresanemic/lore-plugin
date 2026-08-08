@@ -1,6 +1,6 @@
 ---
 name: using-lore
-description: Read this first to understand the Lore system — what Lore is, the six-artifact standard, the area↔project model, and which of the Lore skills (create-area, create-project, create-bot, save-to-lore, transmute-lore) to invoke when. Use when the user mentions "lore", asks how this kit works, starts a new work area, project or bot, or wants to migrate an old project to the Lore standard.
+description: Read this first to understand the Lore system — what Lore is, the six-artifact standard, the area↔project model, and which of the Lore skills (create-area, create-project, create-bot, save-to-lore, transmute-lore, obsidian-lore) to invoke when. Use when the user mentions "lore", asks how this kit works, starts a new work area, project or bot, wants to migrate an old project to the Lore standard, or keeps Obsidian notes in the same folder tree.
 ---
 
 # Using Lore
@@ -76,6 +76,7 @@ never paid for will start receiving promotions that belong somewhere else.
 | **Save a lesson** ("save to lore") — capture a clue from **lived friction** in the project and promote generic, confirmed ones up to the area | `save-to-lore` (**CAPTURE**, default) |
 | **Distill from an external body of criteria** — a skill, a style guide, a third-party playbook ("destila esta skill") | `save-to-lore` (**ARBITRATE**): imported criteria is judged against this Entre's purpose; only what survives enters, and the module must state **where the source loses** |
 | Bring an **old project with scattered criteria** up to the six-artifact standard, **clean** a project's redundant modules back down to what the area already owns, or **standardize the language** of an existing Lore | `transmute-lore` |
+| Keep **Obsidian notes in the same folder tree** as the Lore, and **mine that inbox** for what deserves to become criteria ("revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore") | `obsidian-lore` |
 | Understand the system / decide which skill applies | `using-lore` (this one) |
 
 **Order of a fresh setup:** `create-area` → `create-project` → (work, saving clues with `save-to-lore`)
@@ -89,6 +90,26 @@ project (`identidad.md` / `principios.md` project layer, or a project-only modul
 confirmed** criteria is promoted up to the **area** lore, so every project inherits it. Capture is
 always local first; promotion to the area is always gated. This is how the shared corpus grows
 without polluting it with client-only quirks.
+
+### Where experience comes from — notes are the entrance, not the destination
+
+Most people arrive already holding a pile of free notes (Obsidian, a folder of Markdown, meeting
+minutes). That pile is a legitimate **source** and it is not Lore: a note answers *«what happened»*,
+Lore answers *«what changed in the relationship because of what happened»*. The path between them
+has three steps and the middle one is an act, not a folder:
+
+```text
+experience piled up (notes)  →  distillation (an explicit pass + HARD-GATE)  →  criteria (lore/)
+```
+
+`obsidian-lore` governs the first arrow when the notes live in the same tree as the Lore — the
+vault being the mother folder of the Areas. It captures notes **outside any `lore/`** and **mines**
+the inbox, routing what survives into `save-to-lore`. It writes no criteria itself.
+
+> **Why an explicit mining pass and not simply "save when you feel like it".** A note satisfies the
+> urge to preserve without producing criteria — the record exists, so the distillation never
+> happens, and the criterion stays inert inside it. Separating notes from Lore does not fix that;
+> only sweeping the inbox does.
 
 ## Language of the Lore
 
@@ -120,6 +141,8 @@ with `transmute-lore` (TRANSLATE mode), which translates content and renames art
   content and wait for explicit approval before touching disk.
 - **No automatic commits.** The user reviews the diff and commits when they choose.
 - **State ≠ criteria.** `FASES.md` never lives inside `lore/`.
+- **A note is source, never criteria.** Free notes are never loaded as if they were Lore; they cross
+  only through an explicit distillation with its gate.
 
 ## Adapting Lore to other AI tools
 

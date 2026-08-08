@@ -5,13 +5,13 @@
   },
   "metadata": {
     "description": "The Lore marketplace — a humanist spec-driven development kit for Claude Code.",
-    "version": "1.0.4"
+    "version": "1.0.5"
   },
   "plugins": [
     {
       "name": "lore",
       "source": "./",
-      "description": "Distill scattered project criteria into invariant Lore and operate it: using-lore, create-area, create-project, create-bot, save-to-lore, transmute-lore."
+      "description": "Distill scattered project criteria into invariant Lore and operate it: using-lore, create-area, create-project, create-bot, save-to-lore, transmute-lore, obsidian-lore."
     }
   ]
 }

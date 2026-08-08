@@ -47,12 +47,18 @@ Creates the **mother folder** of a domain (web, research, blog, video, apps…) 
 |---|---|
 | `{{AREA_SLUG}}` | area name in kebab-case (e.g. `desarrollo-web`) |
 | `{{AREA_TITLE}}` | readable name (e.g. "Desarrollo Web") |
-| `{{PATH}}` | mother path; default `C:\Claude\{{AREA_SLUG}}` |
+| `{{PATH}}` | mother path; default `{{ROOT}}/{{AREA_SLUG}}`, where `{{ROOT}}` is the user's own root of areas — ask for it, never assume one |
 | `{{PURPOSE}}` | what does the area produce and for whom? → `identidad.md` |
 | `{{NORTH}}` | quality standard: what is every deliverable judged against? → `identidad.md` |
 | `{{ANTI_SCOPE}}` | what the area is NOT / what practice it rejects → `identidad.md` |
 | `{{PRINCIPLES}}` | invariant laws of the method (may inherit from a prior corpus) → `principios.md` |
 | `{{MODULES}}` | initial thematic modules (may be 0; created when the first friction appears) |
+
+**If the user already has material about this domain — source documents, or a pile of free notes
+they have been writing (an Obsidian inbox, meeting minutes) — read it before proposing anything.**
+An area born from real material has a purpose and an anti-scope that can be argued; one born from a
+blank brainstorm has adjectives. The notes are source: they shape the identity, and nothing in them
+becomes criteria until it is distilled.
 
 Present the design and **wait for explicit approval** before step 2.
 

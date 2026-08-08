@@ -72,6 +72,10 @@ Inventory the existing sources of criteria and their state:
 - `GOLDEN_PATHS.md` / equivalent — critical paths.
 - Code comments carrying criteria (grep for "never", "always", "WARNING", "NO ", "hack", "workaround"
   and their localized equivalents).
+- **Free notes about this project** — an Obsidian inbox at the vault root, a folder of Markdown,
+  meeting minutes. They are source like any other, and most of what they hold is information rather
+  than criteria: keep only what constrains a future decision, and report the rest as discarded. If
+  the inbox is large, `obsidian-lore` sweeps it and hands over what is distillable.
 
 Report what exists, where, and in what state (current / stale / narrative).
 

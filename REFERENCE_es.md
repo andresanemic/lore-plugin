@@ -25,7 +25,7 @@ Lore almacena criterio que restringe lo que debería ocurrir después.
 
 ## 2. Resumen de skills
 
-El plugin Lore expone seis skills principales en Claude Code:
+El plugin Lore expone siete skills principales en Claude Code:
 
 | Skill            | Propósito                                     | Frase disparadora típica                                   |
 |------------------|-----------------------------------------------|------------------------------------------------------------|
@@ -35,6 +35,7 @@ El plugin Lore expone seis skills principales en Claude Code:
 | `save-to-lore`   | Capturar criterio tras resolver un problema (**capture**) o arbitrar criterio importado de una skill/guía ajena (**arbitrate**) | «guarda en lore», «destila esto en el lore» (capture) / «destila la skill X en el lore» (arbitrate) |
 | `transmute-lore` | Migrar proyectos existentes hacia Lore        | «transmuta el lore del Frontend heredado» (add) / «limpia el lore del Frontend heredado» (clean) / «estandariza el idioma del lore del Frontend heredado» (translate) |
 | `create-bot`     | Construir un bot: un solo lugar donde abrir sesión y trabajar en varios proyectos a la vez, con su criterio ya cargado | «crea un bot para trabajar en X e Y» (nuevo) / «quiero un bot que federe el lore que ya existe en A y B» (federar) |
+| `obsidian-lore`  | Capturar notas libres en el mismo árbol donde vive el Lore, y **minar** esa bandeja buscando lo que merece volverse criterio | «revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore», «mina la bandeja», «guarda esta nota en Obsidian» |
 
 Cada skill opera sobre, o crea, artefactos Markdown específicos dentro de tu repositorio.
 
@@ -401,6 +402,84 @@ Un bot sin ninguno de los cuatro está completo.
 
 Usa `create-bot` cuando ya tengas varios proyectos con Lore que valga la pena llevar a una sola
 sesión de trabajo. No sustituye construir ese Lore: lo federa.
+
+---
+
+### 3.7 `obsidian-lore`
+
+**Propósito:** gobernar el solape entre una vault de Obsidian y el Lore cuando comparten árbol de
+archivos, y convertir notas sueltas en criterio a través de `save-to-lore`.
+
+**Precondición:** la vault debe ser la **carpeta madre que contiene las Áreas**, no una carpeta al
+lado. La skill verifica que al menos un hijo directo de la raíz tenga `lore/`; si no, se detiene y
+apunta a `create-area`. La ruta nunca se asume: es la del árbol de cada usuario.
+
+**La bandeja:** una carpeta nombrada en el idioma del usuario (`notas/` en español). El barrido es
+recursivo sobre `**/*.md`, así que las subcarpetas quedan a criterio de quien escribe; la skill no
+impone ninguna.
+
+**Vive donde se abre la sesión**, y esto no es cosmético:
+
+| Sesión abierta en | Su bandeja |
+|---|---|
+| La raíz de la vault | `<vault>/notas/` — la de por defecto |
+| Un **bot** | `<bot>/notas/` — **siempre**, nunca la de la raíz |
+| Un proyecto o Área, si se quiere una ahí | el `notas/` de esa carpeta |
+
+Una sesión solo alcanza la carpeta donde se abrió más las rutas de su
+`.claude/settings.local.json`, que lista los proyectos federados y **no** la raíz de la vault. Una
+bandeja en la raíz es inalcanzable desde un bot: la captura falla, o peor, el barrido no encuentra
+nada y reporta deuda cero. Al minar se barre la local primero y la de la raíz después, si resuelve;
+la que no se pudo leer **se nombra**, nunca se cuenta como vacía.
+
+**Frontmatter de una nota:**
+
+```yaml
+---
+fecha: 2026-08-08
+origen: bots/proyectos/mi-bot   # opcional — desde dónde se escribió; alimenta el enrutamiento
+destilado:                      # vacío = sin minar
+---
+```
+
+**Las dos operaciones:**
+
+| Operación | Qué hace |
+|---|---|
+| **Capturar** | Escribe un `.md` en la bandeja con ese frontmatter. Nunca dentro de `lore/`, y nunca toca `identidad.md`, `principios.md`, un módulo, `FASES.md` ni `CLAUDE.md`. |
+| **Minar** | Barre la bandeja, reporta la deuda, clasifica, enruta, propone y espera aprobación. La escritura la ejecuta `save-to-lore`. |
+
+**Las cuatro cubetas.** El discriminador no es la calidad de la nota: es si registra una
+**transformación** o solo un **hecho**.
+
+| La nota registra | Qué es | Destino |
+|---|---|---|
+| Una fricción **resuelta** | experiencia | `save-to-lore` **capture** |
+| Una **tarea**, un pendiente o una fricción **abierta** — *«hay que añadir X»* | estado | `FASES.md` |
+| Criterio ajeno que **juzga** | criterio importado | `save-to-lore` **arbitrate** (sin derrotas no entra) |
+| Un resumen, una cita, un enlace, un apunte | información | fuente de `create-area` / `create-project` / `transmute-lore`, o **ruido informado** |
+
+Existe un quinto destino, más raro: una nota que cambia **cómo se trabaja en conjunto** (qué se lee
+primero, con qué cierra un entregable) pertenece a `CLAUDE.md`, no al Lore.
+
+**Enrutamiento**, en orden, deteniéndose en el primero que resuelva: el `origen` de la nota → si la
+sesión corre en un bot, su `lore/enrutamiento.md` → el proyecto o Área donde corre la sesión →
+**ambiguo entre dos cuerpos, se pregunta**. La primera vez que se resuelve una ambigüedad, la
+**frontera** puede valer como Pista; el filtro de ruido también aplica ahí.
+
+**Idempotencia y ciclo de vida:** al cerrar, cada nota minada recibe su `destilado:` con fecha y
+destino — incluidas las que no produjeron nada (`nada` es un resultado legítimo). Una nota con
+`destilado` no vacío se salta en los barridos siguientes. **La skill nunca borra una nota:** se mina
+antes de borrar, y borrar lo decide el humano.
+
+**Por qué un barrido y no un comando disponible.** Una nota satisface las ganas de preservar sin
+producir criterio: existiendo el registro, la destilación no ocurre y el criterio queda inerte
+adentro. Separar las notas del Lore no lo evita — ya se hizo, y el registro siguió inerte seis
+semanas. Lo que lo evita es el barrido y su deuda visible, que `save-to-lore` también reporta al
+cerrar.
+
+Usa `obsidian-lore` cuando ya acumules notas y quieras que dejen de ser solo notas. No es un gestor
+de notas: `Read` y `Grep` ya leen la vault.
 
 ---
 

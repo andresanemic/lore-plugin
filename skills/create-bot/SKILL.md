@@ -123,6 +123,7 @@ the next time somebody looks at the folder tree.
 | Has criteria but no Lore (a project born without it) | `transmute-lore` **add** on that project first. The criteria is **rescued, never invented**. |
 | Raw material, no area owns it yet | `create-area` for the domain, then `transmute-lore` add, then federate. |
 | Not text (a database, a spreadsheet, a Notion base) | **Extract to text first** — schema dump, export, `pdftotext -layout`. The extraction lands in that area's `fuente/`, **never** in the bot. `sync.js` only copies `.md`, `.txt` and `.json`, so anything unextracted is silently invisible to the bot. |
+| **A free-note inbox** (an Obsidian vault's `notas/`, a folder of Markdown) | **Never federated.** It holds no Lore — it is raw experience, and it is `.md`, which is exactly what makes the mistake easy: `sync.js` would copy it happily and the routing table would list notes as if they were criteria. Mine it with `obsidian-lore` first; what survives lands in the area that owns it, and the bot routes to *that*. |
 
 Report this inventory to the user as part of the brainstorm, with the honest cost: each source
 lacking Lore is a `create-area`/`transmute-lore` run **before** the bot can exist. Proposing to skip

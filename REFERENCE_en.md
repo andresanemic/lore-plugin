@@ -25,7 +25,7 @@ Lore stores criteria that constrain what should happen next.
 
 ## 2. Skills Overview
 
-The Lore plugin exposes six main skills in Claude Code:
+The Lore plugin exposes seven main skills in Claude Code:
 
 | Skill            | Purpose                                     | Typical trigger phrase                                |
 |------------------|---------------------------------------------|------------------------------------------------------|
@@ -35,6 +35,7 @@ The Lore plugin exposes six main skills in Claude Code:
 | `save-to-lore`   | Capture criteria after solving a problem (**capture**) or arbitrate criteria imported from a third-party skill/guide (**arbitrate**) | "save to lore", "distill this to the lore" (capture) / "distill skill X into the lore" (arbitrate) |
 | `transmute-lore` | Migrate existing projects to Lore           | "transmute the lore of Legacy Frontend" (add) / "clean the lore of Legacy Frontend" (clean) / "standardize the language of the lore of Legacy Frontend" (translate) |
 | `create-bot`     | Build a bot: one place to open a session and work across several projects at once, with their criteria already loaded | "create a bot to work on X and Y" (nuevo) / "I want a bot that federates the lore already living in A and B" (federar) |
+| `obsidian-lore`  | Capture free notes in the same tree the Lore lives in, and **mine** that inbox for what deserves to become criteria | "review my Obsidian notes and see what belongs in my lore", "mine my inbox", "save this note to Obsidian" |
 
 Each skill operates on or creates specific Markdown artifacts under your repository.
 
@@ -407,6 +408,83 @@ A bot with none of the four is complete.
 
 Use `create-bot` once you have several projects with Lore worth carrying into a single work session.
 It does not substitute for building that Lore: it federates it.
+
+---
+
+### 3.7 `obsidian-lore`
+
+**Purpose:** govern the overlap between an Obsidian vault and the Lore when they share a file tree,
+and turn loose notes into criteria through `save-to-lore`.
+
+**Precondition:** the vault must be the **mother folder containing the Areas**, not a folder beside
+them. The skill verifies that at least one direct child of the root holds a `lore/`; if none does, it
+stops and points at `create-area`. The path is never assumed: it is whatever tree the user has.
+
+**The inbox:** a folder named in the user's language (`notas/` in Spanish, `notes/` in English). The
+sweep is recursive over `**/*.md`, so subfolders are the writer's business; the skill imposes none.
+
+**It lives where the session is opened**, and this is not cosmetic:
+
+| Session opened in | Its inbox |
+|---|---|
+| The vault root | `<vault>/notes/` — the default |
+| A **bot** | `<bot>/notes/` — **always**, never the root's |
+| A project or area, if one is wanted there | that folder's `notes/` |
+
+A session only reaches the folder it was opened in plus the paths in its
+`.claude/settings.local.json`, which lists the federated projects and **not** the vault root. An
+inbox at the root is unreachable from a bot: the capture fails, or worse, the sweep finds nothing and
+reports a debt of zero. On a sweep the local inbox is mined first and the root's after, if it
+resolves; an inbox that could not be read **is named**, never counted as empty.
+
+**A note's frontmatter:**
+
+```yaml
+---
+fecha: 2026-08-08
+origen: bots/proyectos/my-bot   # optional — where it was written from; feeds the routing
+destilado:                      # empty = unmined
+---
+```
+
+**The two operations:**
+
+| Operation | What it does |
+|---|---|
+| **Capture** | Writes a `.md` into the inbox with that frontmatter. Never inside `lore/`, and never touches `identidad.md`, `principios.md`, a module, `FASES.md` or `CLAUDE.md`. |
+| **Mine** | Sweeps the inbox, reports the debt, classifies, routes, proposes and waits for approval. The writing is executed by `save-to-lore`. |
+
+**The four buckets.** The discriminator is not the quality of the note: it is whether the note records
+a **transformation** or only a **fact**.
+
+| The note records | What it is | Destination |
+|---|---|---|
+| A friction **that was resolved** | experience | `save-to-lore` **capture** |
+| A **task**, a pending item or an **open** friction — *"we need to add X"* | state | `FASES.md` |
+| Someone else's criteria that **judges** | imported criteria | `save-to-lore` **arbitrate** (no defeats, no entry) |
+| A summary, a quote, a link, a jotting | information | source for `create-area` / `create-project` / `transmute-lore`, or **reported noise** |
+
+A fifth destination exists and is rarer: a note that changes **how we work together** (what gets read
+first, what closes a deliverable) belongs in `CLAUDE.md`, not the Lore.
+
+**Routing**, in order, stopping at the first that resolves: the note's `origen` → if the session runs
+in a bot, its `lore/enrutamiento.md` → the project or area the session runs in → **ambiguous between
+two bodies, ask**. The first time an ambiguity is resolved, the **border** may be worth a Clue; the
+noise filter applies there too.
+
+**Idempotency and lifecycle:** on close, every mined note gets its `destilado:` with date and
+destination — including the ones that produced nothing (`nada` is a legitimate result). A note with a
+non-empty `destilado` is skipped on later sweeps. **The skill never deletes a note:** mine before
+deleting, and deleting is the human's call.
+
+**Why a sweep and not an available command.** A note satisfies the urge to preserve without producing
+criteria: once the record exists, the distillation does not happen and the criterion stays inert
+inside it. Separating notes from Lore does not prevent that — it was already done, and the record
+stayed inert for six weeks. What prevents it is the sweep and its visible debt, which `save-to-lore`
+also reports on close.
+
+Use `obsidian-lore` once you have notes piling up and want them to stop being only notes. It is not a
+note manager: `Read` and `Grep` already read the vault.
 
 ---
 
