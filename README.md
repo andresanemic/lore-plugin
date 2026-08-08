@@ -217,23 +217,35 @@ Los proyectos heredan el criterio del Área en lugar de duplicarlo.
 
 ### `create-bot`
 
-Construye un **bot**: una carpeta que es a la vez un *plugin* instalable de Claude Code, un proyecto
-Lore, y **el lugar donde se abre la sesión de trabajo**.
+Te permite **trabajar desde un solo lugar sobre varias Áreas que forman parte de un mismo
+proyecto**. A eso lo llamamos *federar*.
+
+Piensa en un laboratorio de blockchain. Tiene su sitio web, lleva sus redes sociales, y sostiene
+líneas de investigación científica y de transferencia tecnológica. Cada una de esas Áreas ya tiene
+su propio Lore, creado antes con `create-area`. Un bot las enruta a todas hacia una misma carpeta:
+abres la sesión ahí y puedes trabajar en cualquiera de ellas, y hacer que se comuniquen entre sí.
+
+También sirve al revés, para las Áreas antes que para el proyecto: si tienes un Área con varios
+proyectos —varios sitios web, por ejemplo— un bot te deja trabajar en uno mientras miras los
+archivos de los otros. Copiar el footer de un sitio para pegarlo en otro deja de ser una
+expedición. Ahí lo que se federa es el Lore de cada proyecto, no el de cada Área.
+
+Y **también se pueden crear bots sin Lore destilado**, partiendo de documentos fuente.
 
 Un bot no responde preguntas sobre los proyectos: **trabaja en ellos**.
 
 > **Su norte, y el único test que importa:** *una instrucción corta basta.* Si hubo que explicarle
 > el proyecto al bot para obtener el resultado, faltaba criterio cargado.
 
-Un bot vive en `{área}/proyectos/{slug}/`, como cualquier proyecto. Lo distinguen dos propiedades:
-se **instala**, y **enruta hacia afuera**, hacia Lore que pertenece a otros proyectos y áreas.
+Un bot vive en `bots/proyectos/{slug}/`. Esa es su ruta estándar: `bots` es el Área que aloja los
+bots, igual que `desarrollo-web` aloja sitios. Lo que lo distingue de cualquier otro proyecto es que
+**enruta hacia afuera**, hacia Lore que pertenece a otros proyectos y Áreas.
 
 | | Área | Proyecto | **Bot** |
 |---|---|---|---|
 | Contiene | proyectos | un trabajo | **una sesión de trabajo** |
 | Su Lore gobierna | el método del dominio | ese trabajo | **cómo se comporta el agente** |
 | Se abre para | ver el registro | avanzar eso | **trabajar en cualquiera de varios proyectos** |
-| Se instala | no | no | **sí** |
 
 Las Áreas y los proyectos son lugares; un bot es una lente que llevas a ellos. Y **no es un Área**,
 precisamente porque no es dueño de nada del criterio que enruta: un Área que acumula criterio que no
@@ -276,7 +288,7 @@ falla por defecto, y es silencioso: todo sigue funcionando, y la copia empieza a
 
 | Cuerpo | Qué es | Regla |
 |---|---|---|
-| `skills/{bot}/canon/` | criterio que el bot **es** — cargado antes de cada decisión | destilado; viaja dentro de la skill |
+| `canon/` | criterio que el bot **es** — cargado antes de cada decisión | destilado |
 | `lore/` | criterio para **mantener** el bot | propio del proyecto |
 | `lore-ecosistema/` | criterio **prestado**, copiado literal | se consulta por enrutamiento; **nunca es autoritativo** |
 
@@ -287,18 +299,24 @@ Y la ley que hace funcionar el enrutamiento:
 
 > **Se enruta por tipo de tarea, no por nombre de proyecto.**
 
-Un proyecto puede tener varios cuerpos de criterio cuyos propios principios prohíben cruzarlos
-—producto y comunicación es el corte habitual—. Decir el nombre del proyecto no alcanza para elegir.
+Una entidad puede tener varios cuerpos de criterio cuyos propios principios prohíben cruzarlos
+—lo que hace contra cómo lo cuenta es el corte habitual—. Decir su nombre no alcanza para elegir.
 
-#### Dos extras opcionales, apagados por defecto
+#### Tres extras opcionales, apagados por defecto
 
+Los tres se preguntan al configurar el bot la primera vez. Un bot sin ninguno está completo: son
+sellos, no piezas.
+
+- **Empaquetarlo como *plugin* compartible.** Por defecto **no se crea**. Un bot es una carpeta con
+  su canon y su `CLAUDE.md`: abres la sesión ahí y el criterio ya está cargado, sin instalar nada.
+  Envolverlo en una skill con su `.claude-plugin/` y su repositorio propio sirve para **una sola
+  cosa**, repartirlo a un equipo, y si vas a trabajar tú solo es andamiaje que igual hay que
+  mantener.
 - **Cifrado del Lore** — *experimental*. Las cargas viajan cifradas y se descifran **una vez** al
   clonar; en reposo son Markdown plano. Ver [Cifrado del Lore](#cifrado-del-lore-experimental).
 - **Operación remota por el MCP de Telegram** — el bot no depende de ningún canal: corre donde vive
   el repositorio y el teléfono es solo la terminal. Requiere lista de acceso explícita, y dejar una
   máquina encendida con una sesión abierta. Este plugin no lo empaqueta ni lo instala.
-
-Un bot sin ninguno de los dos está completo. Son sellos, no piezas.
 
 ---
 
@@ -616,6 +634,51 @@ publicable, el cómo de una estrategia de marca), consultados por proyectos real
 **Frontera declarada:** el criterio no *viajó* de software a periodismo — cada Lore nació fresco en
 su disciplina. Lo que se replica es el mecanismo, no un criterio concreto transportado entre dominios.
 
+### Caso 05 — La memoria del caso no alimenta la destilación: la desplaza
+
+El método volvió, seis semanas después, al proyecto donde había nacido en bruto. Encontró dos
+artefactos de preservación conviviendo con suertes opuestas: un `lore/` de Pistas destiladas, que
+seguía trabajando, y un registro de incidentes que **no participó de una sola decisión** — ni
+siquiera cuando volvió a romperse el mismo territorio técnico que ese registro documentaba.
+
+- **Preservar no es destilar, y el parecido es el problema.** Un registro de casos satisface el
+  impulso de preservar **sin producir criterio**. Cumplido el principio de «dejar registro», nadie
+  destila. El criterio destilable queda retenido adentro: al minar el registro antes de borrarlo
+  aparecieron dos Pistas que llevaban seis semanas ahí sin destilarse.
+- **«Indexado y obligatorio» no implica «consultado».** Estaba en la tabla de consulta del
+  `CLAUDE.md` y era ley en `principios.md`, y aun así no se cargó. La accesibilidad es necesaria y
+  no suficiente: lo que decide es si el artefacto responde la pregunta que se está haciendo.
+- **El filtro de admisión no mide la altitud de la Pista.** Una Pista entró un día y al siguiente
+  no impidió el segundo síntoma de su misma causa: estaba escrita sobre la superficie que se vio,
+  no sobre la causa. El filtro pregunta *si* algo entra, nunca *a qué altura*.
+
+**Frontera declarada:** es software, mismo investigador y mismo interlocutor, y no hay
+contrafactual — nadie midió si con el registro cargado el diagnóstico habría sido más rápido. Es
+evidencia testimonial, no medida.
+
+### Caso 06 — La herencia entre Áreas hermanas: congelarla o enrutarla
+
+Un proyecto necesitó criterio de cuatro Áreas, de las cuales solo una era su madre. **El modelo de
+herencia de Lore es vertical, y las Áreas hermanas no son madres de nadie.** Ante eso aparecieron
+dos soluciones independientes, con 48 horas de diferencia: **congelar** —copiar snapshots y
+trabajar sobre ellos, cuando la carpeta tiene que viajar sola— y **enrutar** —decidir por tarea
+cuál cuerpo gobierna, cuando el equipo no tiene el árbol local—. Este segundo camino es el que
+`create-bot` empaqueta.
+
+- **Consumir no es heredar.** Se hereda del Área madre; el criterio de un Área hermana se
+  **consume**. La distinción decide algo real: hacia dónde promueve un criterio que se generaliza.
+  Sube a su propia Área, nunca a la que solo lo lee.
+- **Lo destilable de un conjunto de criterios es la frontera, no los criterios.** Dos Áreas
+  hermanas tenían escrita, cada una, su mitad de la línea: *«eso no vive acá»*. Ninguna tenía la
+  regla para decidir cuál gobierna una tarea concreta, porque cada cuerpo se escribe desde adentro
+  de su propia finalidad y la divisoria solo se ve desde afuera de los dos. De ahí sale la ley de
+  enrutamiento del bot.
+
+**Frontera declarada:** las dos observaciones distan 48 horas, en el mismo ecosistema y con el
+mismo investigador. No son dos casos independientes: son un episodio continuo mirado en dos
+momentos. Y **no** se estableció que enrutar sea mejor que congelar — respondieron a restricciones
+distintas y ninguna se midió contra la otra.
+
 Aparte de los casos documentados: el repositorio ya acumula **400+ clonaciones** (316 personas
 únicas, según la API de tráfico de GitHub). Es una señal de alcance, no una demostración — no hay
 evidencia de qué hizo cada quien con su copia. No cuenta como caso; no sustituye la pregunta que los
@@ -840,23 +903,35 @@ Projects inherit the Area’s criteria instead of duplicating it.
 
 ### `create-bot`
 
-Builds a **bot**: a folder that is at once an installable Claude Code plugin, a Lore project, and
-**the place a work session is opened in**.
+Lets you **work from a single place across several Areas that belong to one project**. We call
+that *federating*.
+
+Think of a blockchain lab. It has a website, it runs its social media, and it sustains lines of
+scientific research and technology transfer. Each of those Areas already has its own Lore, created
+earlier with `create-area`. A bot routes all of them into one folder: you open the session there
+and can work on any of them, and make them talk to each other.
+
+It also works the other way round, for Areas before projects: if you have an Area with several
+projects — several websites, say — a bot lets you work on one while reading the files of the
+others. Copying a footer from one site into another stops being an expedition. What gets federated
+there is each project's Lore, not each Area's.
+
+And **bots can also be built with no distilled Lore at all**, starting from source documents.
 
 A bot does not answer questions about the projects: **it works in them**.
 
 > **Its north, and the only test that matters:** *a short instruction is enough.* If the project had
 > to be explained to the bot to get the result, criteria were missing from the load.
 
-A bot lives at `{area}/proyectos/{slug}/`, like any project. Two properties set it apart: it gets
-**installed**, and it **routes outward**, into Lore owned by other projects and areas.
+A bot lives at `bots/proyectos/{slug}/`. That is its standard path: `bots` is the Area that hosts
+bots, the same way a `web` Area hosts websites. What sets it apart from any other project is that
+it **routes outward**, into Lore owned by other projects and Areas.
 
 | | Area | Project | **Bot** |
 |---|---|---|---|
 | Holds | projects | one piece of work | **a work session** |
 | Its Lore governs | the domain's method | that work | **how the agent behaves** |
 | Opened to | see the registry | advance that work | **work on any of several projects** |
-| Installable | no | no | **yes** |
 
 Areas and projects are places; a bot is a lens you carry into them. And it is **not** an Area,
 precisely because it owns none of the criteria it routes to: an Area that accumulates criteria it
@@ -899,7 +974,7 @@ failure mode, and it is silent: everything still works, and the copy starts outr
 
 | Body | What it is | Rule |
 |---|---|---|
-| `skills/{bot}/canon/` | criteria the bot **is** — loaded before every decision | distilled; travels inside the skill |
+| `canon/` | criteria the bot **is** — loaded before every decision | distilled |
 | `lore/` | criteria for **maintaining** the bot | the project's own |
 | `lore-ecosistema/` | **borrowed** criteria, copied verbatim | consulted via routing; **never authoritative** |
 
@@ -910,18 +985,24 @@ And the law that makes routing work:
 
 > **Route by type of task, not by name of project.**
 
-One project can own several bodies of criteria whose own principles forbid crossing them — product
-vs. communications is the common split. Naming the project does not select a Lore.
+One entity can own several bodies of criteria whose own principles forbid crossing them — what it
+does versus how it tells it is the common split. Naming it does not select a Lore.
 
-#### Two optional extras, off by default
+#### Three optional extras, off by default
 
+All three are asked when the bot is configured for the first time. A bot with none of them is
+complete: they are seals, not parts.
+
+- **Packaging it as a shareable plugin.** **Not created by default.** A bot is a folder with its
+  canon and its `CLAUDE.md`: you open the session there and the criteria is already loaded, with
+  nothing to install. Wrapping it in a skill with its own `.claude-plugin/` and repository serves
+  **one purpose**, handing it to a team, and if you are working alone it is scaffolding you still
+  have to maintain.
 - **Lore encryption** — *experimental*. Payloads travel encrypted and are decrypted **once** on
   clone; at rest they are plain Markdown. See [Lore Encryption](#lore-encryption-experimental).
 - **Remote operation over the Telegram MCP** — the bot depends on no channel: it runs where the
   repository lives, and the phone is only a terminal. Requires an explicit access list, and leaving
   a machine on with a session open. This plugin neither packages nor installs it.
-
-A bot with neither is complete. They are seals, not parts.
 
 ---
 
@@ -1239,6 +1320,50 @@ publishable article, the how-to of a brand strategy), consulted by real projects
 **Declared boundary:** criteria did not *travel* from software to journalism — each Lore was born
 fresh in its own discipline. What replicates is the mechanism, not a concrete criterion transported
 across domains.
+
+### Case 05 — Case memory does not feed distillation: it displaces it
+
+The method came back, six weeks later, to the project where it had been invented in raw form. It
+found two preservation artifacts living side by side with opposite fates: a `lore/` of distilled
+Clues that kept working, and an incident log that **took part in no decision at all** — not even
+when the same technical territory that log documented broke again.
+
+- **Preserving is not distilling, and the resemblance is the problem.** A case log satisfies the
+  urge to preserve **without producing criteria**. Once the "leave a record" principle is met,
+  nobody distills. The distillable criteria stays trapped inside: mining the log before deleting it
+  surfaced two Clues that had sat there undistilled for six weeks.
+- **"Indexed and mandatory" does not imply "consulted".** It was in the `CLAUDE.md` lookup table
+  and it was law in `principios.md`, and still it never loaded. Accessibility is necessary and not
+  sufficient: what decides is whether the artifact answers the question being asked.
+- **The admission filter does not measure a Clue's altitude.** A Clue entered one day and the next
+  failed to prevent the second symptom of its own root cause: it had been written about the surface
+  that was seen, not the cause. The filter asks *whether* something enters, never *at what height*.
+
+**Declared boundary:** this is software, same researcher and same interlocutor, and there is no
+counterfactual — nobody measured whether the diagnosis would have been faster with the log loaded.
+Testimonial evidence, not measurement.
+
+### Case 06 — Inheritance between sibling Areas: freeze it or route it
+
+A project needed criteria from four Areas, only one of which was its mother. **Lore's inheritance
+model is vertical, and sibling Areas are nobody's mother.** Two independent solutions appeared 48
+hours apart: **freezing** — copying snapshots and working on them, when the folder has to travel on
+its own — and **routing** — deciding per task which body governs, when the team has no local tree.
+The second is what `create-bot` packages.
+
+- **Consuming is not inheriting.** You inherit from the mother Area; criteria from a sibling Area
+  is **consumed**. The distinction decides something real: where a criterion promotes to once it
+  generalizes. It rises to its own Area, never to the one that merely reads it.
+- **What is distillable about a set of criteria is the border, not the criteria.** Two sibling
+  Areas each had their half of the line written down: *"that does not live here"*. Neither had the
+  rule for deciding which one governs a concrete task, because each body is written from inside its
+  own purpose and the dividing line is only visible from outside both. That is where the bot's
+  routing law comes from.
+
+**Declared boundary:** the two observations are 48 hours apart, in the same ecosystem and with the
+same researcher. They are not two independent cases: they are one continuous episode seen at two
+moments. And it was **not** established that routing beats freezing — they answered different
+constraints and neither was measured against the other.
 
 Beyond the documented cases: the repository has already been cloned **400+ times** (316 unique
 cloners, per GitHub's traffic API). That's a reach signal, not a demonstration — there's no evidence
