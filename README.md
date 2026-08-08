@@ -705,6 +705,8 @@ Aparte de los casos documentados: el repositorio ya acumula **400+ clonaciones**
 evidencia de qué hizo cada quien con su copia. No cuenta como caso; no sustituye la pregunta que los
 casos sí responden.
 
+---
+
 <p align="center">
   <img src="https://i.imgur.com/DWYL7vz.png" alt="Lore" width="100%">
 </p>
