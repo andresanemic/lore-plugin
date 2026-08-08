@@ -195,10 +195,10 @@ Three months later, in another project of the Area, someone asks for an entrance
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/906-clones-F72585?style=for-the-badge&labelColor=0B0B12" alt="906 clones">
-  <img src="https://img.shields.io/badge/34-days-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="34 days">
-  <img src="https://img.shields.io/badge/~27-a_day-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="27 a day">
-  <img src="https://img.shields.io/badge/130-peak-10B981?style=for-the-badge&labelColor=0B0B12" alt="130 peak">
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/906-clones-F72585?style=for-the-badge&labelColor=0B0B12" alt="906 clones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/34-days-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="34 days"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~27-a_day-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="27 a day"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/130-peak-10B981?style=for-the-badge&labelColor=0B0B12" alt="130 peak"></a>
 </p>
 
 The total has not stopped growing and it keeps growing at a steady twenty-odd clones a day well past the launch spike. That steadiness is the more interesting part: it is not a launch bump, it is people still arriving. Data comes from GitHub's traffic API, stored weekly in [`data/traffic/clones.json`](./data/traffic/clones.json) because the API only keeps 14 days.
@@ -873,10 +873,10 @@ Tres meses después, en otro proyecto del Área, alguien pide una animación de 
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/906-clonaciones-F72585?style=for-the-badge&labelColor=0B0B12" alt="906 clonaciones">
-  <img src="https://img.shields.io/badge/34-d%C3%ADas-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="34 días">
-  <img src="https://img.shields.io/badge/~27-al_d%C3%ADa-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="27 al día">
-  <img src="https://img.shields.io/badge/130-pico-10B981?style=for-the-badge&labelColor=0B0B12" alt="130 pico">
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/906-clonaciones-F72585?style=for-the-badge&labelColor=0B0B12" alt="906 clonaciones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/34-d%C3%ADas-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="34 días"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~27-al_d%C3%ADa-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="27 al día"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/130-pico-10B981?style=for-the-badge&labelColor=0B0B12" alt="130 pico"></a>
 </p>
 
 El total no ha dejado de crecer y sigue creciendo a unas veinte clonaciones diarias mucho después del pico del lanzamiento. Esa constancia es lo más interesante: no es el rebote de un lanzamiento, es gente que sigue llegando. Los datos vienen de la API de tráfico de GitHub y se guardan cada semana en [`data/traffic/clones.json`](./data/traffic/clones.json), porque la API solo conserva 14 días.
