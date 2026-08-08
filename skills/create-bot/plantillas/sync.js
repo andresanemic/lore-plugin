@@ -89,13 +89,23 @@ let total = 0, faltantes = 0;
 for (const f of fuentes) {
   const base = path.join(raiz, f.origen);
   const piezas = f.incluir ?? ['.'];
-  let n = 0, ausentes = [];
+  const destino = path.join(DESTINO, f.destino);
+  const ausentes = piezas.filter(p => !fs.existsSync(p === '.' ? base : path.join(base, p)));
+  let n = 0;
+
+  /* El destino se reconstruye, no se superpone. Cambiar `incluir` mueve los archivos DENTRO
+   * del destino —de su raíz a lore/, por ejemplo— y la poda de más abajo no lo ve: clasifica
+   * destinos, no piezas. Superponer dejaba dos copias del mismo criterio, que es peor que
+   * ninguna: gana la que esté más cerca del índice de consulta, y nadie la eligió.
+   * No se reconstruye si falta una pieza: ahí la copia anterior es lo único que queda. */
+  if (!ausentes.length && !revisar && fs.existsSync(destino)) {
+    fs.rmSync(destino, { recursive: true, force: true });
+  }
 
   for (const pieza of piezas) {
     const origen = pieza === '.' ? base : path.join(base, pieza);
-    if (!fs.existsSync(origen)) { ausentes.push(pieza); continue; }
-    n += copiar(origen, pieza === '.' ? path.join(DESTINO, f.destino)
-                                      : path.join(DESTINO, f.destino, pieza));
+    if (!fs.existsSync(origen)) continue;
+    n += copiar(origen, pieza === '.' ? destino : path.join(destino, pieza));
   }
 
   total += n;

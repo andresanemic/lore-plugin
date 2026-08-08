@@ -3,6 +3,9 @@
     "Un solo manifiesto genera la copia (lore-ecosistema/) y la tabla (lore/enrutamiento.md).",
     "tipo = el tipo de TAREA que ese Lore gobierna, NO el nombre del proyecto. Agrupa la tabla.",
     "incluir = opcional; piezas concretas en vez de la carpeta entera. Acepta rutas anidadas.",
+    "Un área se federa COMO SE ABRE: lore + CLAUDE.md + FASES.md, nunca su lore/ a secas.",
+    "Y siempre nombrando las piezas en `incluir`: sin él se copiaría el árbol entero del área,",
+    "con todos sus proyectos adentro, incluidos los que quedaron fuera de alcance.",
     "Borra los ejemplos de abajo. sync.js ignora esta clave."
   ],
 
@@ -29,7 +32,8 @@
     },
     {
       "destino": "areas/un-area",
-      "origen": "un-area/lore",
+      "origen": "un-area",
+      "incluir": ["lore", "CLAUDE.md", "FASES.md"],
       "proyecto": "Área madre del producto",
       "tipo": "método del dominio",
       "cuando": "antes de una decisión de método, no de contenido"

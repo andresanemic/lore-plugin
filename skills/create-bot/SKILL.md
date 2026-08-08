@@ -374,7 +374,10 @@ it is half the bot's job.
    **reported as discarded**, not dropped in silence.
 2. **Destination**, by the same routing table: the bot's own friction → this project's `lore/`; a
    project's friction → that project's Lore, in the area matching the **task type**; confirmed
-   cross-cutting criteria → the **area** that owns it.
+   cross-cutting criteria → the **area** that owns it. **The write lands on the live source, never
+   on `lore-ecosistema/`** — the copy is regenerated and pruned by the next `sync.js`, so criteria
+   written there disappears with no error at all. If the live tree is not reachable from where the
+   bot runs, hand over the text and name its destination instead of writing it where it will be lost.
 3. **Form:** Invariant Clue — Context → Root cause → Clue, with its boundary of validity.
 4. **Delegate the writing** to `save-to-lore` when the Lore plugin is installed. The bot
    contributes the **routing**, which is what `save-to-lore` does not know.
@@ -393,6 +396,14 @@ node scripts/sync.js --revisar    # dry run: reports what is missing and what wo
 node scripts/sync.js              # copies, prunes orphans, generates lore/enrutamiento.md
 ```
 
+- **An area is federated the way it is opened: `lore` **plus** its `CLAUDE.md` and its `FASES.md`.**
+  Federating `<area>/lore` alone is the asymmetry to avoid, and it is invisible from inside: the
+  area's **laws** live in the Lore, but the **sequence of work** — what is read first, which skill
+  closes a deliverable, what is checked before starting — lives in its `CLAUDE.md`, and the
+  **registry of what exists and where** lives in its `FASES.md`, including projects adopted by path,
+  which are recorded nowhere else. A bot federating only `lore/` cites every rule correctly and
+  still works differently from the area it borrowed them from. Name the pieces in `incluir`; never
+  federate an area's whole tree, which would drag in every project it holds.
 - **The manifest is the single source of both** the copy and the routing table. Keeping them as two
   artifacts guarantees they drift, and a drifted routing table sends the bot to the wrong Lore
   without warning. Therefore **`enrutamiento.md` is never hand-edited.**
