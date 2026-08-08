@@ -316,12 +316,16 @@ Usa este skill cuando ya tienes proyectos en marcha y quieres incorporarlos a Lo
 
 ### 5.6 `create-bot` – Empaquetar criterio como un lugar donde trabajar
 
-**Propósito:** construir un **bot**: un *plugin* instalable que carga un canon y **trabaja dentro de
-los repositorios reales**, en vez de responder preguntas sobre ellos.
+**Propósito:** construir un **bot**: un solo lugar donde abrir una sesión y **trabajar en varios
+proyectos o Áreas a la vez**, con su criterio ya cargado, en vez de responder preguntas sobre ellos.
 
-Un bot vive en `{Área}/proyectos/{slug}/` como cualquier proyecto. Lo distinguen dos cosas: se
-**instala**, y **enruta hacia afuera** — hacia el Lore de otros proyectos y Áreas. Las Áreas y los
-proyectos son lugares; un bot es una lente que llevas a ellos.
+Un bot vive en `{Área}/proyectos/{slug}/` como cualquier proyecto. Lo distingue una cosa: **enruta
+hacia afuera**, hacia el Lore de otros proyectos y Áreas. Las Áreas y los proyectos son lugares; un
+bot es una lente que llevas a ellos.
+
+Por defecto **no se instala nada**: es una carpeta con su canon y su `CLAUDE.md`, y abrir la sesión
+ahí es lo que carga el criterio. Empaquetarlo como *plugin* es opcional y sirve para repartirlo a un
+equipo.
 
 > **El test que decide si el bot está bien hecho:** *una instrucción corta basta.* Si tuviste que
 > explicarle el proyecto al bot para obtener el resultado, faltaba criterio cargado.
@@ -336,8 +340,15 @@ quiero un bot que federe el lore que ya existe en founder y community-manager
 Tiene **dos modos**, según de dónde salga el criterio:
 
 - `nuevo` – desde 0. El canon nace de un brainstorm + los documentos fuente.
-- `federar` – el criterio ya existe, disuelto en varias Áreas. Además del canon, genera una copia
-  sincronizada (`lore-ecosistema/`) y una tabla de enrutamiento (`lore/enrutamiento.md`).
+- `federar` – el criterio ya existe, disuelto en varias Áreas. Además del canon genera una tabla de
+  enrutamiento (`lore/enrutamiento.md`) y el acceso a los árboles vivos
+  (`.claude/settings.local.json`), para poder **trabajar** en esos proyectos y no solo leerlos.
+
+> **Federar es apuntar, no copiar.** Cada fila es una dirección al Lore donde vive, así que ese
+> criterio conserva un solo dueño y una sola versión — igual que un proyecto referencia los módulos
+> de su Área en vez de duplicarlos. Un proyecto nuevo creado desde el bot nace en el Área que lo
+> posee, heredando su Lore por ruta relativa. Copiarlo a `lore-ecosistema/` es **opcional**, y solo
+> hace falta si quien va a usar el bot **no tiene tus carpetas**: ahí el puntero no apunta a nada.
 
 Al empezar te va a preguntar tres cosas, en este orden: **cómo se llama el bot**, **para qué lo vas
 a usar**, y **dónde están las carpetas con la información que le sirve**. Después inspecciona esas
@@ -353,8 +364,11 @@ Qué esperar mientras corre:
 - Te propone el diseño y **espera tu aprobación** antes de escribir nada.
 - Mantiene separados los tres cuerpos de criterio: lo que el bot siempre sabe, lo que mantiene al
   bot, y lo que toma prestado de otros proyectos (esto último nunca manda sobre su fuente).
-- En modo `federar`, la tabla de enrutamiento se genera sola desde el manifiesto; no la edites a mano.
-- Deja el bot instalable desde su propio repositorio, y **no lo da por terminado** hasta que
+- En modo `federar`, la tabla de enrutamiento y el acceso local se generan solos desde el manifiesto;
+  no los edites a mano. Las rutas se escriben **una vez**, ahí.
+- Al federar un Área se lleva `lore` **más** su `CLAUDE.md` y su `FASES.md`: el Lore trae las leyes,
+  pero la secuencia de trabajo y el registro de qué existe viven en esos dos.
+- Te pregunta si empaquetarlo como *plugin*, y si dices que sí **no lo da por terminado** hasta que
   `scripts/validar.js` pase: los errores de frontmatter que revisa no dan ningún mensaje de error —
   la skill se instala, aparece en el listado y nunca se dispara.
 
@@ -364,8 +378,9 @@ Dos cosas que vas a usar todos los días:
   X tiene criterio de producto y de comunicación por separado; el bot pregunta cuál.
 - **Toda tarea cierra proponiendo qué criterio guardar y dónde.** No espera a que se lo pidas.
 
-Opcionales y apagados por defecto: **cifrado** (*experimental*) y **Telegram**. Un bot sin ninguno de
-los dos está completo. El detalle de ambos está en el README.
+Opcionales y apagados por defecto: **la copia del ecosistema**, **empaquetarlo como plugin**,
+**cifrado** (*experimental*) y **Telegram**. Un bot sin ninguno de los cuatro está completo. El
+detalle está en el README.
 
 Usa este skill cuando ya tengas varios proyectos con Lore que valga la pena llevar a una sola sesión.
 No sustituye construir ese Lore: lo federa.

@@ -313,12 +313,16 @@ Use this when you already have projects and want to bring them into Lore without
 
 ### 5.6 `create-bot` – Package criteria as a place to work
 
-**Purpose:** build a **bot**: an installable plugin that loads a canon and **works inside the real
-repositories**, instead of answering questions about them.
+**Purpose:** build a **bot**: one place to open a session and **work across several projects or Areas
+at once**, with their criteria already loaded, instead of answering questions about them.
 
-A bot lives at `{Area}/proyectos/{slug}/` like any project. Two things set it apart: it gets
-**installed**, and it **routes outward** — into Lore owned by other projects and Areas. Areas and
-projects are places; a bot is a lens you carry into them.
+A bot lives at `{Area}/proyectos/{slug}/` like any project. One thing sets it apart: it **routes
+outward** — into Lore owned by other projects and Areas. Areas and projects are places; a bot is a
+lens you carry into them.
+
+By default **nothing gets installed**: it is a folder with its canon and its `CLAUDE.md`, and opening
+the session there is what loads the criteria. Packaging it as a plugin is optional, and serves to
+hand it to a team.
 
 > **The test that says whether the bot is well built:** *a short instruction is enough.* If you had
 > to explain the project to the bot to get the result, criteria were missing from the load.
@@ -334,7 +338,15 @@ It has **two modes**, by where the criteria comes from:
 
 - `nuevo` – from zero. The canon is born from a brainstorm + the source documents.
 - `federar` – the criteria already exists, dissolved across several Areas. On top of the canon it
-  generates a synchronized copy (`lore-ecosistema/`) and a routing table (`lore/enrutamiento.md`).
+  generates a routing table (`lore/enrutamiento.md`) and access to the live trees
+  (`.claude/settings.local.json`), so you can **work** in those projects and not just read them.
+
+> **Federating is pointing, not copying.** Each row is an address to the Lore where it lives, so that
+> criteria keeps one owner and one version — the same way a project references its Area's modules
+> instead of duplicating them. A new project created from the bot is born in the Area that owns it,
+> inheriting its Lore by relative path. Copying it into `lore-ecosistema/` is **optional**, and only
+> needed if whoever will use the bot **does not have your folders**: there the pointer resolves to
+> nothing.
 
 It starts by asking you three things, in this order: **what the bot is called**, **what you are
 going to use it for**, and **where the folders with the useful information are**. It then inspects
@@ -350,10 +362,13 @@ What to expect while it runs:
 - It proposes the design and **waits for your approval** before writing anything.
 - It keeps the three bodies of criteria apart: what the bot always knows, what maintains the bot, and
   what it borrows from other projects (the last never outranks its source).
-- In `federar` mode the routing table is generated from the manifest; do not hand-edit it.
-- It leaves the bot installable from its own repository, and **does not call it finished** until
-  `scripts/validar.js` passes — the frontmatter defects it checks produce no error message at all;
-  the skill installs, gets listed, and never fires.
+- In `federar` mode the routing table and the local access are generated from the manifest; do not
+  hand-edit them. The paths are written **once**, there.
+- Federating an Area carries `lore` **plus** its `CLAUDE.md` and its `FASES.md`: the Lore brings the
+  laws, but the sequence of work and the registry of what exists live in those two.
+- It asks whether to package it as a plugin, and if you say yes it **does not call it finished**
+  until `scripts/validar.js` passes — the frontmatter defects it checks produce no error message at
+  all; the skill installs, gets listed, and never fires.
 
 Two things you will use every day:
 
@@ -361,8 +376,9 @@ Two things you will use every day:
   keeps product and communications criteria apart; the bot asks which one.
 - **Every task closes by proposing what criteria to keep and where.** It does not wait to be asked.
 
-Optional and off by default: **encryption** (*experimental*) and **Telegram**. A bot with neither is
-complete. The detail for both is in the README.
+Optional and off by default: **the ecosystem copy**, **packaging it as a plugin**, **encryption**
+(*experimental*) and **Telegram**. A bot with none of the four is complete. The detail is in the
+README.
 
 Use this once you have several projects with Lore worth carrying into a single session. It does not
 substitute for building that Lore: it federates it.

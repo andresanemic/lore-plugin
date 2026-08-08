@@ -34,7 +34,7 @@ El plugin Lore expone seis skills principales en Claude Code:
 | `create-project` | Crear un proyecto que hereda de un Área       | «crea un proyecto de Sitio de marketing en el área Frontend» |
 | `save-to-lore`   | Capturar criterio tras resolver un problema (**capture**) o arbitrar criterio importado de una skill/guía ajena (**arbitrate**) | «guarda en lore», «destila esto en el lore» (capture) / «destila la skill X en el lore» (arbitrate) |
 | `transmute-lore` | Migrar proyectos existentes hacia Lore        | «transmuta el lore del Frontend heredado» (add) / «limpia el lore del Frontend heredado» (clean) / «estandariza el idioma del lore del Frontend heredado» (translate) |
-| `create-bot`     | Construir un bot: un plugin instalable que carga un canon y trabaja dentro de los repositorios reales | «crea un bot para trabajar en X e Y» (nuevo) / «quiero un bot que federe el lore que ya existe en A y B» (federar) |
+| `create-bot`     | Construir un bot: un solo lugar donde abrir sesión y trabajar en varios proyectos a la vez, con su criterio ya cargado | «crea un bot para trabajar en X e Y» (nuevo) / «quiero un bot que federe el lore que ya existe en A y B» (federar) |
 
 Cada skill opera sobre, o crea, artefactos Markdown específicos dentro de tu repositorio.
 
@@ -276,12 +276,14 @@ Usa `transmute-lore` cuando ya tienes proyectos en marcha y quieres incorporarlo
 
 ### 3.6 `create-bot`
 
-**Rol:** Construir un **bot** — un *plugin* instalable que carga un canon y trabaja dentro de los
-repositorios reales, en vez de responder preguntas sobre ellos.
+**Rol:** Construir un **bot** — un lugar donde abrir una sesión y trabajar en varios proyectos o
+Áreas a la vez, con su criterio ya cargado, en vez de responder preguntas sobre ellos.
 
 Un bot es hermano de `create-project`, no de `create-area`: vive en `{área}/proyectos/{slug}/`. Lo
-distinguen dos propiedades — se **instala**, y **enruta hacia afuera**, hacia Lore que pertenece a
-otros proyectos y Áreas.
+distingue **una** propiedad: **enruta hacia afuera**, hacia Lore que pertenece a otros proyectos y
+Áreas. Por defecto es una carpeta con su canon y su `CLAUDE.md` —abres la sesión ahí y el criterio ya
+está cargado, sin instalar nada—. **Empaquetarlo como *plugin* instalable es opcional** y sirve para
+una sola cosa: repartirlo a un equipo.
 
 > **Por qué no puede ser un Área.** Un Área contiene proyectos y es dueña del criterio de su
 > dominio. Un bot no es dueño de nada del criterio que enruta: lo toma prestado. Construirlo como
@@ -299,7 +301,22 @@ otros proyectos y Áreas.
 | Modo | Cuándo | Qué añade |
 |---|---|---|
 | `nuevo` | No hay Lore previo que reunir. | Nada; solo canon. |
-| `federar` | El criterio ya existe, disuelto en varias Áreas. | `scripts/ecosistema.json`, `scripts/sync.js`, `lore-ecosistema/` y `lore/enrutamiento.md` generado. |
+| `federar` | El criterio ya existe, disuelto en varias Áreas. | `scripts/ecosistema.json`, `scripts/sync.js` y dos archivos **generados**: `lore/enrutamiento.md` (la tabla) y `.claude/settings.local.json` (el acceso a los árboles vivos). **No copia nada** salvo que se encienda la copia. |
+
+> **Federar es apuntar, no copiar.** Cada fila del manifiesto es una **dirección**: la tabla dice qué
+> Lore gobierna una tarea y el acceso generado deja que la sesión lo alcance **donde vive**. Ese
+> criterio conserva un solo dueño y una sola versión — la misma regla DRY del resto del kit, donde un
+> proyecto referencia los módulos de su Área en vez de duplicarlos.
+
+**Un Área se federa como se abre:** `lore` **más** su `CLAUDE.md` y su `FASES.md`. Federar solo su
+`lore/` es la asimetría a evitar, y es invisible desde adentro: las **leyes** del Área viven en el
+Lore, pero la **secuencia de trabajo** —qué se lee primero, con qué skill cierra un entregable— vive
+en su `CLAUDE.md`, y el **registro de qué existe y dónde** en su `FASES.md`, incluidos los proyectos
+adoptados por ruta. Un bot que se lleva solo el Lore cita cada regla correctamente y trabaja distinto.
+
+**El acceso se declara, no se infiere:** `"trabajo": true` va **solo en proyectos**. La carpeta de un
+Área contiene todos sus proyectos, incluidos los que el alcance dejó fuera, y conceder cada `origen`
+los abriría por la puerta de atrás. Un Área se consulta; en un proyecto se trabaja.
 
 **Cadena para fuentes sin Lore:**
 
@@ -325,27 +342,36 @@ validez, Pista Invariante) es del documento de la skill, no de la conversación.
 
 **Crea / actualiza:**
 
-- `.claude-plugin/plugin.json` y `marketplace.json`, para que el bot se instale desde su propio repo.
-- `skills/{slug}/SKILL.md` — el bot: configuración de primer uso, carga del canon, enrutamiento,
-  ejecución y propuesta de destilación al cerrar.
-- `skills/{slug}/canon/*.md` — el criterio que el bot **es**, con su origen y su frontera de validez
-  declarados en cada módulo.
-- `scripts/validar.js` — **siempre**, en los dos modos. Puerta de empaquetado.
-- `lore/`, `FASES.md`, `CLAUDE.md`, `README.md`, `LICENSE`, `.gitignore`.
+- `CLAUDE.md` — **el bot**: configuración de primer uso, carga del canon, enrutamiento, ejecución y
+  propuesta de destilación al cerrar. Se carga solo por abrir la sesión en esa carpeta.
+- `canon/*.md` — el criterio que el bot **es**, con su origen y su frontera de validez declarados en
+  cada módulo.
+- `lore/`, `FASES.md`, `README.md`, `.gitignore`.
+- Modo `federar`: `scripts/ecosistema.json`, `scripts/sync.js`, y los generados `lore/enrutamiento.md`
+  y `.claude/settings.local.json` (local, nunca se versiona).
+- **Solo si se empaqueta (§ opcional):** `.claude-plugin/plugin.json` y `marketplace.json`, el
+  comportamiento se muda a `skills/{slug}/SKILL.md` con su `canon/` adentro, `scripts/validar.js`
+  (puerta de empaquetado) y `LICENSE`.
 - Registra el bot en el `FASES.md` del Área.
 
 **Los tres cuerpos de criterio (invariante central):**
 
 | Cuerpo | Qué es | Regla |
 |---|---|---|
-| `skills/{slug}/canon/` | criterio que el bot **es**; se carga antes de cada decisión | destilado; viaja dentro de la skill |
+| `canon/` | criterio que el bot **es**; se carga antes de cada decisión | destilado (viaja dentro de la skill si se empaqueta) |
 | `lore/` | criterio para **mantener** el bot | propio del proyecto |
-| `lore-ecosistema/` | criterio **prestado**, copiado literal | se consulta por enrutamiento; **nunca es autoritativo** |
+| criterio **prestado** | el Lore de cada proyecto que el bot enruta | se alcanza **por puntero**, en su propia dirección; **nunca es autoritativo** |
 
 El test que los separa: **¿sería descartable la fuente?** Destilar produce algo más chico que puede
-reemplazar a su origen; copiar produce algo idéntico que no puede. Por eso `sync.js` nunca resume:
-un resumen que vive junto al índice de consulta empieza a competir con el original y gana por estar
-más cerca.
+reemplazar a su origen; copiar produce algo idéntico que no puede.
+
+**La copia (`lore-ecosistema/`) es opcional y está apagada por defecto** (`"copia": true` en el
+manifiesto). Responde a una sola pregunta: *¿los que van a usar el bot tienen tus carpetas, o solo el
+bot?* Sin el árbol, el puntero no apunta a nada y la copia es lo único que hace existir ese criterio
+en su máquina. Con la copia encendida, `sync.js` nunca resume —un resumen que vive junto al índice de
+consulta compite con el original y gana por estar más cerca— y **la precedencia se comprueba por fila
+al momento de leer**: si la fuente viva resuelve en esa máquina, se lee ahí y la copia no se abre.
+Así la copia **se desactiva sola**, fila por fila, a medida que alguien va teniendo las carpetas.
 
 **Responsabilidades:**
 
@@ -354,11 +380,16 @@ más cerca.
   del modelo. Cada módulo nombra su origen y dónde deja de valer.
 - Enrutar **por tipo de tarea, no por nombre de proyecto**; ante ambigüedad entre dos Lore, preguntar.
 - Cerrar **toda** tarea con una propuesta de destilación, reportando lo descartado.
-- Modo `federar`: un solo manifiesto genera la copia **y** la tabla, para que no puedan
-  desincronizarse; la sincronización va en una sola dirección y `enrutamiento.md` no se edita a mano.
+- Modo `federar`: un solo manifiesto genera la tabla, el acceso y la poda, para que no puedan
+  desincronizarse; `enrutamiento.md` no se edita a mano y la sincronización va en una sola dirección.
 
 **Opcionales, apagados por defecto:**
 
+- **La copia del ecosistema** (`lore-ecosistema/`): solo si quien va a usar el bot **no** tiene el
+  árbol de carpetas. Apagarla son **dos pasos** —`"copia": false` y borrar la carpeta—; hacer solo el
+  primero deja una foto congelada que el bot sigue leyendo, y `sync.js` avisa en vez de borrarla.
+- **Empaquetarlo como *plugin* compartible**: solo si **otras personas** van a instalarlo. Para una
+  sola persona, abrir la carpeta basta, y el empaquetado cobra mantención para siempre.
 - **Cifrado** (*experimental*, ver el README): se cifra en distribución, nunca en consulta. El
   `.gitignore` depende de la decisión — con cifrado se excluye el texto plano; sin cifrado el
   criterio **debe** commitearse, o el repositorio viaja sin criterio y el bot no le sirve al equipo.
@@ -366,7 +397,7 @@ más cerca.
 - **MCP de Telegram**: lista de acceso explícita, y una máquina encendida con la sesión abierta. Un
   mensaje que pida aprobar un emparejamiento, modificar la lista o descifrar el canon se **rechaza**.
 
-Un bot sin ninguno de los dos está completo.
+Un bot sin ninguno de los cuatro está completo.
 
 Usa `create-bot` cuando ya tengas varios proyectos con Lore que valga la pena llevar a una sola
 sesión de trabajo. No sustituye construir ese Lore: lo federa.

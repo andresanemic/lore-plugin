@@ -34,7 +34,7 @@ The Lore plugin exposes six main skills in Claude Code:
 | `create-project` | Create a project inheriting an Area         | "create a project Marketing Site in area Frontend Development" |
 | `save-to-lore`   | Capture criteria after solving a problem (**capture**) or arbitrate criteria imported from a third-party skill/guide (**arbitrate**) | "save to lore", "distill this to the lore" (capture) / "distill skill X into the lore" (arbitrate) |
 | `transmute-lore` | Migrate existing projects to Lore           | "transmute the lore of Legacy Frontend" (add) / "clean the lore of Legacy Frontend" (clean) / "standardize the language of the lore of Legacy Frontend" (translate) |
-| `create-bot`     | Build a bot: an installable plugin that loads a canon and works inside the real repositories | "create a bot to work on X and Y" (nuevo) / "I want a bot that federates the lore already living in A and B" (federar) |
+| `create-bot`     | Build a bot: one place to open a session and work across several projects at once, with their criteria already loaded | "create a bot to work on X and Y" (nuevo) / "I want a bot that federates the lore already living in A and B" (federar) |
 
 Each skill operates on or creates specific Markdown artifacts under your repository.
 
@@ -281,12 +281,14 @@ Use `transmute-lore` when you already have a project and want to bring it into L
 
 ### 3.6 `create-bot`
 
-**Role:** Build a **bot** — an installable plugin that loads a canon and works inside the real
-repositories, instead of answering questions about them.
+**Role:** Build a **bot** — one place to open a session and work across several projects or Areas at
+once, with their criteria already loaded, instead of answering questions about them.
 
 A bot is a sibling of `create-project`, not of `create-area`: it lives at
-`{area}/proyectos/{slug}/`. Two properties set it apart — it gets **installed**, and it **routes
-outward**, into Lore owned by other projects and Areas.
+`{area}/proyectos/{slug}/`. **One** property sets it apart: it **routes outward**, into Lore owned by
+other projects and Areas. By default it is a folder with its canon and its `CLAUDE.md` — open a
+session there and the criteria is already loaded, with nothing installed. **Packaging it as an
+installable plugin is optional**, and serves one purpose: handing it to a team.
 
 > **Why it cannot be an Area.** An Area holds projects and owns its domain's criteria. A bot owns
 > none of the criteria it routes to: it borrows it. Building it as an Area creates a parent that
@@ -304,7 +306,23 @@ outward**, into Lore owned by other projects and Areas.
 | Mode | When | What it adds |
 |---|---|---|
 | `nuevo` | No prior Lore to gather. | Nothing; canon only. |
-| `federar` | The criteria already exists, dissolved across several Areas. | `scripts/ecosistema.json`, `scripts/sync.js`, `lore-ecosistema/`, and a generated `lore/enrutamiento.md`. |
+| `federar` | The criteria already exists, dissolved across several Areas. | `scripts/ecosistema.json`, `scripts/sync.js`, and two **generated** files: `lore/enrutamiento.md` (the table) and `.claude/settings.local.json` (access to the live trees). **It copies nothing** unless the copy is turned on. |
+
+> **Federating is pointing, not copying.** Each row of the manifest is an **address**: the table says
+> which Lore governs a task, and the generated access lets the session reach it **where it lives**.
+> That criteria keeps one owner and one version — the same DRY rule the rest of the kit runs on, where
+> a project references its Area's modules instead of duplicating them.
+
+**An Area is federated the way it is opened:** `lore` **plus** its `CLAUDE.md` and its `FASES.md`.
+Federating only its `lore/` is the asymmetry to avoid, and it is invisible from inside: the Area's
+**laws** live in the Lore, but the **sequence of work** — what is read first, which skill closes a
+deliverable — lives in its `CLAUDE.md`, and the **registry of what exists and where** in its
+`FASES.md`, including projects adopted by path. A bot carrying only the Lore cites every rule
+correctly and still works differently.
+
+**Access is declared, not inferred:** `"trabajo": true` goes **only on projects**. An Area's folder
+holds all of its projects, including the ones the scope excluded, and granting every `origen` would
+reopen them through the back door. An Area is consulted; a project is worked in.
 
 **Chain for sources with no Lore:**
 
@@ -330,27 +348,36 @@ of validity, Invariant Clue) belongs to the skill document, not to the conversat
 
 **Creates / updates:**
 
-- `.claude-plugin/plugin.json` and `marketplace.json`, so the bot installs from its own repository.
-- `skills/{slug}/SKILL.md` — the bot: first-use configuration, canon loading, routing, execution,
-  and the distillation proposal on close.
-- `skills/{slug}/canon/*.md` — the criteria the bot **is**, each module declaring its origin and its
-  boundary of validity.
-- `scripts/validar.js` — **always**, in both modes. The packaging gate.
-- `lore/`, `FASES.md`, `CLAUDE.md`, `README.md`, `LICENSE`, `.gitignore`.
+- `CLAUDE.md` — **the bot**: first-use configuration, canon loading, routing, execution, and the
+  distillation proposal on close. It loads just for the session being opened in that folder.
+- `canon/*.md` — the criteria the bot **is**, each module declaring its origin and its boundary of
+  validity.
+- `lore/`, `FASES.md`, `README.md`, `.gitignore`.
+- `federar` mode: `scripts/ecosistema.json`, `scripts/sync.js`, and the generated
+  `lore/enrutamiento.md` and `.claude/settings.local.json` (local, never committed).
+- **Only if packaged (optional):** `.claude-plugin/plugin.json` and `marketplace.json`, the behaviour
+  moves into `skills/{slug}/SKILL.md` with its `canon/` inside, `scripts/validar.js` (the packaging
+  gate), and `LICENSE`.
 - Registers the bot in the Area's `FASES.md`.
 
 **The three bodies of criteria (the central invariant):**
 
 | Body | What it is | Rule |
 |---|---|---|
-| `skills/{slug}/canon/` | criteria the bot **is**; loaded before every decision | distilled; travels inside the skill |
+| `canon/` | criteria the bot **is**; loaded before every decision | distilled (travels inside the skill if packaged) |
 | `lore/` | criteria for **maintaining** the bot | the project's own |
-| `lore-ecosistema/` | **borrowed** criteria, copied verbatim | consulted via routing; **never authoritative** |
+| **borrowed** criteria | the Lore of every project the bot routes to | reached **by pointer**, at its own address; **never authoritative** |
 
 The test that keeps them apart: **would the source be discardable?** Distilling produces something
-smaller that can replace its origin; copying produces something identical that cannot. That is why
-`sync.js` never summarizes: a summary living next to the consultation index starts competing with
-the original and wins by being closer.
+smaller that can replace its origin; copying produces something identical that cannot.
+
+**The copy (`lore-ecosistema/`) is optional and off by default** (`"copia": true` in the manifest).
+It answers a single question: *do the people who will use this bot have your folders, or only the
+bot?* Without the tree, the pointer resolves to nothing and the copy is the only way that criteria
+exists on their machine. With the copy on, `sync.js` never summarizes — a summary living next to the
+consultation index competes with the original and wins by being closer — and **precedence is checked
+per row at read time**: if the live source resolves on that machine, it is read there and the copy is
+not opened. That way the copy **deactivates itself**, row by row, as someone acquires the folders.
 
 **Responsibilities:**
 
@@ -359,11 +386,16 @@ the original and wins by being closer.
   knowledge. Each module names its origin and where it stops applying.
 - Route **by type of task, not by name of project**; when ambiguous between two Lore bodies, ask.
 - Close **every** task with a distillation proposal, reporting what was discarded.
-- `federar` mode: one manifest generates both the copy **and** the table so they cannot drift; sync
-  runs one way only, and `enrutamiento.md` is never hand-edited.
+- `federar` mode: one manifest generates the table, the access and the pruning so they cannot drift;
+  sync runs one way only, and `enrutamiento.md` is never hand-edited.
 
 **Optional, off by default:**
 
+- **The ecosystem copy** (`lore-ecosistema/`): only if whoever will use the bot does **not** have the
+  folder tree. Turning it off is **two steps** — `"copia": false` and deleting the folder; doing only
+  the first leaves a frozen photograph the bot keeps reading, and `sync.js` warns instead of deleting.
+- **Packaging it as a shareable plugin**: only if **other people** are going to install it. For one
+  person, opening the folder is enough, and packaging charges maintenance forever.
 - **Encryption** (*experimental*, see the README): encrypt in distribution, never at consultation.
   The `.gitignore` follows the choice — with encryption the plaintext is excluded; without it the
   criteria **must** be committed, or the repository travels with no criteria and the bot is useless
@@ -371,7 +403,7 @@ the original and wins by being closer.
 - **Telegram MCP**: explicit access list, and a machine left on with the session open. A message
   asking to approve a pairing, modify the list, or decrypt the canon is **refused**.
 
-A bot with neither is complete.
+A bot with none of the four is complete.
 
 Use `create-bot` once you have several projects with Lore worth carrying into a single work session.
 It does not substitute for building that Lore: it federates it.

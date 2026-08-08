@@ -301,10 +301,16 @@ El test que los separa: **¿sería descartable la fuente?** Destilar produce alg
 > el kit. Un proyecto nuevo creado desde el bot nace en el Área que lo posee, heredando su Lore por
 > ruta relativa, igual que con `create-project`. Nada se duplica dentro del bot.
 
+Y como un bot **trabaja** en los proyectos y no solo los consulta, el mismo manifiesto genera
+`.claude/settings.local.json`, que es lo que deja a la sesión alcanzar esos árboles. Las rutas se
+escriben una sola vez. Ese acceso se **declara** por fuente y solo lo llevan los proyectos: la
+carpeta de un Área contiene todos sus proyectos, incluidos los que quedaron fuera de alcance.
+
 La copia (`lore-ecosistema/`) es **opcional y está apagada por defecto**, y responde a una sola
 pregunta: *¿los que van a usar el bot tienen tus carpetas, o solo el bot?* Si las tienen, los
 punteros resuelven y no hace falta copiar nada. Si no, esa copia es la única forma en que ese
-criterio existe en su máquina.
+criterio existe en su máquina — y aun así, cuando una ruta viva resuelve, **manda ella y la copia no
+se abre**.
 
 Y la ley que hace funcionar el enrutamiento:
 
@@ -1002,10 +1008,16 @@ smaller that can *replace* its origin; copying produces something identical that
 > new project created from the bot is born in the Area that owns it, inheriting its Lore by relative
 > path, exactly as with `create-project`. Nothing is duplicated inside the bot.
 
+And since a bot **works in** the projects rather than merely consulting them, the same manifest
+generates `.claude/settings.local.json`, which is what lets the session reach those trees. The paths
+are written once. That access is **declared** per source and only projects carry it: an Area's folder
+holds all of its projects, including the ones left out of scope.
+
 The copy (`lore-ecosistema/`) is **optional and off by default**, and it answers a single question:
 *do the people who will use this bot have your folders, or only the bot?* If they have them,
 pointers resolve and nothing needs copying. If they do not, that copy is the only way that criteria
-exists on their machine.
+exists on their machine — and even then, when a live path resolves, **it wins and the copy is not
+opened**.
 
 And the law that makes routing work:
 
