@@ -29,11 +29,7 @@
 </p>
 
 <p align="center">
-  <code>/plugin marketplace add andresanemic/lore-plugin</code>
-</p>
-
-<p align="center">
-  <sub>7 skills · 6 case studies</sub>
+  <code>7 skills · 6 case studies</code>
 </p>
 
 ---
@@ -709,11 +705,7 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 </p>
 
 <p align="center">
-  <code>/plugin marketplace add andresanemic/lore-plugin</code>
-</p>
-
-<p align="center">
-  <sub>7 skills · 6 casos de estudio</sub>
+  <code>7 skills · 6 casos de estudio</code>
 </p>
 
 ---
