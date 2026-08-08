@@ -194,17 +194,11 @@ Three months later, in another project of the Area, someone asks for an entrance
   <img src="./assets/reach-en.png" alt="900+ clones and counting" width="100%">
 </p>
 
-<table>
-<tr>
-<td valign="middle" width="24%" align="center">
+<p align="center">
+  <b>906</b> clones &nbsp;·&nbsp; <b>34</b> days &nbsp;·&nbsp; <b>~27</b> clones a day &nbsp;·&nbsp; <b>130</b> peak in one day
+</p>
 
-<h2>906</h2><sub>clones</sub>
-<h2>34</h2><sub>days</sub>
-<h2>~27</h2><sub>clones / day</sub>
-<h2>130</h2><sub>peak in one day</sub>
-
-</td>
-<td valign="middle">
+<div align="center">
 <pre>
   906 ┤                                 █████
       │                                 █████
@@ -223,9 +217,7 @@ Three months later, in another project of the Area, someone asks for an entrance
 
         cumulative clones, by week
 </pre>
-</td>
-</tr>
-</table>
+</div>
 
 The total has not stopped growing, and it keeps growing at a steady twenty-odd clones a day well past the launch spike. That steadiness is the more interesting part: it is not a launch bump, it is people still arriving. Data comes from GitHub's traffic API, stored weekly in [`data/traffic/clones.json`](./data/traffic/clones.json) because the API only keeps 14 days.
 
@@ -898,17 +890,11 @@ Tres meses después, en otro proyecto del Área, alguien pide una animación de 
   <img src="./assets/reach-es.png" alt="900+ clonaciones y sumando" width="100%">
 </p>
 
-<table>
-<tr>
-<td valign="middle" width="24%" align="center">
+<p align="center">
+  <b>906</b> clonaciones &nbsp;·&nbsp; <b>34</b> días &nbsp;·&nbsp; <b>~27</b> al día &nbsp;·&nbsp; <b>130</b> pico en un día
+</p>
 
-<h2>906</h2><sub>clonaciones</sub>
-<h2>34</h2><sub>días</sub>
-<h2>~27</h2><sub>por día</sub>
-<h2>130</h2><sub>pico en un día</sub>
-
-</td>
-<td valign="middle">
+<div align="center">
 <pre>
   906 ┤                                 █████
       │                                 █████
@@ -927,9 +913,7 @@ Tres meses después, en otro proyecto del Área, alguien pide una animación de 
 
         clonaciones acumuladas, por semana
 </pre>
-</td>
-</tr>
-</table>
+</div>
 
 El total no ha dejado de crecer, y sigue creciendo a unas veinte clonaciones diarias mucho después del pico del lanzamiento. Esa constancia es lo más interesante: no es el rebote de un lanzamiento, es gente que sigue llegando. Los datos vienen de la API de tráfico de GitHub y se guardan cada semana en [`data/traffic/clones.json`](./data/traffic/clones.json), porque la API solo conserva 14 días.
 
