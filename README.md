@@ -33,7 +33,7 @@
 </p>
 
 <p align="center">
-  <sub><b>906 clones in 34 days</b> · 7 skills · 6 case studies · zero dependencies</sub>
+  <sub>7 skills · 6 case studies</sub>
 </p>
 
 ---
@@ -713,7 +713,7 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 </p>
 
 <p align="center">
-  <sub><b>906 clonaciones en 34 días</b> · 7 skills · 6 casos de estudio · sin dependencias</sub>
+  <sub>7 skills · 6 casos de estudio</sub>
 </p>
 
 ---
