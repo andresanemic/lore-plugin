@@ -1,0 +1,38 @@
+{
+  "_": [
+    "Un solo manifiesto genera la copia (lore-ecosistema/) y la tabla (lore/enrutamiento.md).",
+    "tipo = el tipo de TAREA que ese Lore gobierna, NO el nombre del proyecto. Agrupa la tabla.",
+    "incluir = opcional; piezas concretas en vez de la carpeta entera. Acepta rutas anidadas.",
+    "Borra los ejemplos de abajo. sync.js ignora esta clave."
+  ],
+
+  "raiz": "C:/Claude",
+
+  "nota": "Un proyecto puede tener más de un cuerpo de criterio, y sus propios principios suelen prohibir cruzarlos. Cuando eso pasa, aparece una fila por cuerpo.",
+
+  "fuentes": [
+    {
+      "destino": "mi-producto/producto",
+      "origen": "un-area/proyectos/mi-producto",
+      "incluir": ["lore", "CLAUDE.md", "FASES.md"],
+      "proyecto": "Mi Producto — producto",
+      "tipo": "producto y arquitectura",
+      "cuando": "decisiones de qué se construye y cómo"
+    },
+    {
+      "destino": "mi-producto/comunicacion",
+      "origen": "otra-area/proyectos/mi-producto",
+      "incluir": ["lore", "docs/copy-sitio-web.md"],
+      "proyecto": "Mi Producto — comunicación",
+      "tipo": "comunicación",
+      "cuando": "tono de voz, publicaciones, estrategia de contenido"
+    },
+    {
+      "destino": "areas/un-area",
+      "origen": "un-area/lore",
+      "proyecto": "Área madre del producto",
+      "tipo": "método del dominio",
+      "cuando": "antes de una decisión de método, no de contenido"
+    }
+  ]
+}

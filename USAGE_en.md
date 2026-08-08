@@ -23,6 +23,7 @@ The Lore plugin bundles a set of **skills** that implement this loop:
 - `create-project` – project‑level Lore inheriting an Area.
 - `save-to-lore` – capture criteria after solving a problem.
 - `transmute-lore` – migrate existing projects to the Lore architecture.
+- `create-bot` – package criteria as an installable plugin that works inside the repos.
 
 > **Lore speaks your language.** The skills are written in English, but everything they generate —
 > content **and artifact filenames** — is written in the language you work in. `identidad.md`,
@@ -307,6 +308,64 @@ Expected behavior:
     `clean` mode.
 
 Use this when you already have projects and want to bring them into Lore without rewriting everything manually.
+
+---
+
+### 5.6 `create-bot` – Package criteria as a place to work
+
+**Purpose:** build a **bot**: an installable plugin that loads a canon and **works inside the real
+repositories**, instead of answering questions about them.
+
+A bot lives at `{Area}/proyectos/{slug}/` like any project. Two things set it apart: it gets
+**installed**, and it **routes outward** — into Lore owned by other projects and Areas. Areas and
+projects are places; a bot is a lens you carry into them.
+
+> **The test that says whether the bot is well built:** *a short instruction is enough.* If you had
+> to explain the project to the bot to get the result, criteria were missing from the load.
+
+Example prompts:
+
+```text
+create a bot to work on HealthProof and Nodo Zero, in the "bots" area
+I want a bot that federates the lore already living in founder and community-manager
+```
+
+It has **two modes**, by where the criteria comes from:
+
+- `nuevo` – from zero. The canon is born from a brainstorm + the source documents.
+- `federar` – the criteria already exists, dissolved across several Areas. On top of the canon it
+  generates a synchronized copy (`lore-ecosistema/`) and a routing table (`lore/enrutamiento.md`).
+
+It starts by asking you three things, in this order: **what the bot is called**, **what you are
+going to use it for**, and **where the folders with the useful information are**. It then inspects
+those paths itself and reports what it found; it does not ask you to classify your own folders.
+
+**If the folders have no Lore yet** — the normal case — they do not get federated: the chain is
+`create-area` → `transmute-lore (add)` → `create-bot (federar)`. The bot **never distills into
+itself**; the criteria is born in the Area it belongs to and is routed to afterwards. `create-bot`
+inspects your paths and tells you which one needs what.
+
+What to expect while it runs:
+
+- It proposes the design and **waits for your approval** before writing anything.
+- It keeps the three bodies of criteria apart: what the bot always knows, what maintains the bot, and
+  what it borrows from other projects (the last never outranks its source).
+- In `federar` mode the routing table is generated from the manifest; do not hand-edit it.
+- It leaves the bot installable from its own repository, and **does not call it finished** until
+  `scripts/validar.js` passes — the frontmatter defects it checks produce no error message at all;
+  the skill installs, gets listed, and never fires.
+
+Two things you will use every day:
+
+- **Route by type of task, not by name of project.** Saying *"let's work on X"* is not enough if X
+  keeps product and communications criteria apart; the bot asks which one.
+- **Every task closes by proposing what criteria to keep and where.** It does not wait to be asked.
+
+Optional and off by default: **encryption** (*experimental*) and **Telegram**. A bot with neither is
+complete. The detail for both is in the README.
+
+Use this once you have several projects with Lore worth carrying into a single session. It does not
+substitute for building that Lore: it federates it.
 
 ---
 

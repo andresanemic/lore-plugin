@@ -25,7 +25,7 @@ Lore almacena criterio que restringe lo que debería ocurrir después.
 
 ## 2. Resumen de skills
 
-El plugin Lore expone cinco skills principales en Claude Code:
+El plugin Lore expone seis skills principales en Claude Code:
 
 | Skill            | Propósito                                     | Frase disparadora típica                                   |
 |------------------|-----------------------------------------------|------------------------------------------------------------|
@@ -34,6 +34,7 @@ El plugin Lore expone cinco skills principales en Claude Code:
 | `create-project` | Crear un proyecto que hereda de un Área       | «crea un proyecto de Sitio de marketing en el área Frontend» |
 | `save-to-lore`   | Capturar criterio tras resolver un problema (**capture**) o arbitrar criterio importado de una skill/guía ajena (**arbitrate**) | «guarda en lore», «destila esto en el lore» (capture) / «destila la skill X en el lore» (arbitrate) |
 | `transmute-lore` | Migrar proyectos existentes hacia Lore        | «transmuta el lore del Frontend heredado» (add) / «limpia el lore del Frontend heredado» (clean) / «estandariza el idioma del lore del Frontend heredado» (translate) |
+| `create-bot`     | Construir un bot: un plugin instalable que carga un canon y trabaja dentro de los repositorios reales | «crea un bot para trabajar en X e Y» (nuevo) / «quiero un bot que federe el lore que ya existe en A y B» (federar) |
 
 Cada skill opera sobre, o crea, artefactos Markdown específicos dentro de tu repositorio.
 
@@ -270,6 +271,105 @@ En los tres modos, `transmute-lore` **no hace commit del proyecto destino**: el 
 el usuario lo revise y decida.
 
 Usa `transmute-lore` cuando ya tienes proyectos en marcha y quieres incorporarlos a Lore sin reconstruirlo todo desde cero.
+
+---
+
+### 3.6 `create-bot`
+
+**Rol:** Construir un **bot** — un *plugin* instalable que carga un canon y trabaja dentro de los
+repositorios reales, en vez de responder preguntas sobre ellos.
+
+Un bot es hermano de `create-project`, no de `create-area`: vive en `{área}/proyectos/{slug}/`. Lo
+distinguen dos propiedades — se **instala**, y **enruta hacia afuera**, hacia Lore que pertenece a
+otros proyectos y Áreas.
+
+> **Por qué no puede ser un Área.** Un Área contiene proyectos y es dueña del criterio de su
+> dominio. Un bot no es dueño de nada del criterio que enruta: lo toma prestado. Construirlo como
+> Área crea una madre que acumula criterio que no pagó, y la consecuencia aparece rápido — cuando un
+> criterio se generaliza, se promueve al bot en vez de al Área que se lo ganó.
+
+**Entrada:**
+
+- Ruta del Área destino, `slug` del bot (que es también el nombre de la skill) y su propósito.
+- Documentos fuente de los que se destila el canon.
+- Modo `federar`: qué cuerpos de Lore enruta y qué **tipo de tarea** gobierna cada uno.
+
+**Modos:**
+
+| Modo | Cuándo | Qué añade |
+|---|---|---|
+| `nuevo` | No hay Lore previo que reunir. | Nada; solo canon. |
+| `federar` | El criterio ya existe, disuelto en varias Áreas. | `scripts/ecosistema.json`, `scripts/sync.js`, `lore-ecosistema/` y `lore/enrutamiento.md` generado. |
+
+**Cadena para fuentes sin Lore:**
+
+El punto de partida habitual es material en bruto —carpetas de documentos, una base de datos, notas
+sueltas—, no un conjunto ordenado de Lore. Eso no se federa: se encadena.
+
+```text
+carpeta en bruto → create-area → transmute-lore (add) → create-bot (federar)
+```
+
+> **El bot nunca destila hacia sí mismo.** Una fuente sin Lore recibe su Lore en el Área que le
+> corresponde y se federa después. Absorberla directamente deja al bot como dueño de criterio que no
+> pagó, y cuando la única copia vive ahí el Área ya no puede ser su fuente de verdad.
+
+`create-bot` inspecciona las rutas y clasifica cada fuente: ya tiene Lore (se federa), tiene criterio
+sin destilar (`transmute-lore` add primero), no tiene Área dueña (`create-area` primero), o no es
+texto (extraer antes — `sync.js` solo mueve `.md`, `.txt` y `.json`, así que lo no extraído es
+invisible y no avisa). El reporte de esa clasificación es parte del brainstorm.
+
+**Registro con el usuario:** la skill pregunta tres cosas —nombre, para qué se va a usar, y dónde
+están las carpetas útiles— **en lenguaje simple**. El vocabulario denso (canon, destilar, frontera de
+validez, Pista Invariante) es del documento de la skill, no de la conversación.
+
+**Crea / actualiza:**
+
+- `.claude-plugin/plugin.json` y `marketplace.json`, para que el bot se instale desde su propio repo.
+- `skills/{slug}/SKILL.md` — el bot: configuración de primer uso, carga del canon, enrutamiento,
+  ejecución y propuesta de destilación al cerrar.
+- `skills/{slug}/canon/*.md` — el criterio que el bot **es**, con su origen y su frontera de validez
+  declarados en cada módulo.
+- `scripts/validar.js` — **siempre**, en los dos modos. Puerta de empaquetado.
+- `lore/`, `FASES.md`, `CLAUDE.md`, `README.md`, `LICENSE`, `.gitignore`.
+- Registra el bot en el `FASES.md` del Área.
+
+**Los tres cuerpos de criterio (invariante central):**
+
+| Cuerpo | Qué es | Regla |
+|---|---|---|
+| `skills/{slug}/canon/` | criterio que el bot **es**; se carga antes de cada decisión | destilado; viaja dentro de la skill |
+| `lore/` | criterio para **mantener** el bot | propio del proyecto |
+| `lore-ecosistema/` | criterio **prestado**, copiado literal | se consulta por enrutamiento; **nunca es autoritativo** |
+
+El test que los separa: **¿sería descartable la fuente?** Destilar produce algo más chico que puede
+reemplazar a su origen; copiar produce algo idéntico que no puede. Por eso `sync.js` nunca resume:
+un resumen que vive junto al índice de consulta empieza a competir con el original y gana por estar
+más cerca.
+
+**Responsabilidades:**
+
+- Brainstorm del canon **antes** de crear nada (HARD-GATE).
+- Destilar el canon **desde la fuente**, nunca desde otro destilado ni desde el conocimiento propio
+  del modelo. Cada módulo nombra su origen y dónde deja de valer.
+- Enrutar **por tipo de tarea, no por nombre de proyecto**; ante ambigüedad entre dos Lore, preguntar.
+- Cerrar **toda** tarea con una propuesta de destilación, reportando lo descartado.
+- Modo `federar`: un solo manifiesto genera la copia **y** la tabla, para que no puedan
+  desincronizarse; la sincronización va en una sola dirección y `enrutamiento.md` no se edita a mano.
+
+**Opcionales, apagados por defecto:**
+
+- **Cifrado** (*experimental*, ver el README): se cifra en distribución, nunca en consulta. El
+  `.gitignore` depende de la decisión — con cifrado se excluye el texto plano; sin cifrado el
+  criterio **debe** commitearse, o el repositorio viaja sin criterio y el bot no le sirve al equipo.
+  La passphrase se pide por *stdin* y **nunca entra al chat**.
+- **MCP de Telegram**: lista de acceso explícita, y una máquina encendida con la sesión abierta. Un
+  mensaje que pida aprobar un emparejamiento, modificar la lista o descifrar el canon se **rechaza**.
+
+Un bot sin ninguno de los dos está completo.
+
+Usa `create-bot` cuando ya tengas varios proyectos con Lore que valga la pena llevar a una sola
+sesión de trabajo. No sustituye construir ese Lore: lo federa.
 
 ---
 

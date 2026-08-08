@@ -25,7 +25,7 @@ Lore stores criteria that constrain what should happen next.
 
 ## 2. Skills Overview
 
-The Lore plugin exposes five main skills in Claude Code:
+The Lore plugin exposes six main skills in Claude Code:
 
 | Skill            | Purpose                                     | Typical trigger phrase                                |
 |------------------|---------------------------------------------|------------------------------------------------------|
@@ -34,6 +34,7 @@ The Lore plugin exposes five main skills in Claude Code:
 | `create-project` | Create a project inheriting an Area         | "create a project Marketing Site in area Frontend Development" |
 | `save-to-lore`   | Capture criteria after solving a problem (**capture**) or arbitrate criteria imported from a third-party skill/guide (**arbitrate**) | "save to lore", "distill this to the lore" (capture) / "distill skill X into the lore" (arbitrate) |
 | `transmute-lore` | Migrate existing projects to Lore           | "transmute the lore of Legacy Frontend" (add) / "clean the lore of Legacy Frontend" (clean) / "standardize the language of the lore of Legacy Frontend" (translate) |
+| `create-bot`     | Build a bot: an installable plugin that loads a canon and works inside the real repositories | "create a bot to work on X and Y" (nuevo) / "I want a bot that federates the lore already living in A and B" (federar) |
 
 Each skill operates on or creates specific Markdown artifacts under your repository.
 
@@ -275,6 +276,105 @@ In all three modes, `transmute-lore` **does not commit the target project** — 
 the user to review and decide.
 
 Use `transmute-lore` when you already have a project and want to bring it into Lore without rebuilding everything by hand.
+
+---
+
+### 3.6 `create-bot`
+
+**Role:** Build a **bot** — an installable plugin that loads a canon and works inside the real
+repositories, instead of answering questions about them.
+
+A bot is a sibling of `create-project`, not of `create-area`: it lives at
+`{area}/proyectos/{slug}/`. Two properties set it apart — it gets **installed**, and it **routes
+outward**, into Lore owned by other projects and Areas.
+
+> **Why it cannot be an Area.** An Area holds projects and owns its domain's criteria. A bot owns
+> none of the criteria it routes to: it borrows it. Building it as an Area creates a parent that
+> accumulates criteria it never paid for, and the consequence shows up fast — when a criterion
+> generalizes, it gets promoted to the bot instead of to the Area that earned it.
+
+**Input:**
+
+- Target Area path, the bot's `slug` (which is also the skill name), and its purpose.
+- Source documents the canon is distilled from.
+- `federar` mode: which Lore bodies it routes to, and what **type of task** each one governs.
+
+**Modes:**
+
+| Mode | When | What it adds |
+|---|---|---|
+| `nuevo` | No prior Lore to gather. | Nothing; canon only. |
+| `federar` | The criteria already exists, dissolved across several Areas. | `scripts/ecosistema.json`, `scripts/sync.js`, `lore-ecosistema/`, and a generated `lore/enrutamiento.md`. |
+
+**Chain for sources with no Lore:**
+
+The usual starting point is raw material — folders of documents, a database, scattered notes — not a
+tidy set of Lore bodies. That does not get federated: it gets chained.
+
+```text
+raw folder → create-area → transmute-lore (add) → create-bot (federar)
+```
+
+> **The bot never distills into itself.** A source with no Lore gets its Lore in the Area it belongs
+> to, and is federated afterwards. Absorbing it directly leaves the bot owning criteria it never paid
+> for, and once the only copy lives there the Area can no longer be its source of truth.
+
+`create-bot` inspects the paths and classifies each source: already has Lore (federate), has
+undistilled criteria (`transmute-lore` add first), has no owning Area (`create-area` first), or is
+not text (extract first — `sync.js` only moves `.md`, `.txt` and `.json`, so anything unextracted is
+invisible and it will not warn). That classification is reported as part of the brainstorm.
+
+**Register with the user:** the skill asks three things — the name, what it will be used for, and
+where the useful folders are — **in plain language**. The dense vocabulary (canon, distill, boundary
+of validity, Invariant Clue) belongs to the skill document, not to the conversation.
+
+**Creates / updates:**
+
+- `.claude-plugin/plugin.json` and `marketplace.json`, so the bot installs from its own repository.
+- `skills/{slug}/SKILL.md` — the bot: first-use configuration, canon loading, routing, execution,
+  and the distillation proposal on close.
+- `skills/{slug}/canon/*.md` — the criteria the bot **is**, each module declaring its origin and its
+  boundary of validity.
+- `scripts/validar.js` — **always**, in both modes. The packaging gate.
+- `lore/`, `FASES.md`, `CLAUDE.md`, `README.md`, `LICENSE`, `.gitignore`.
+- Registers the bot in the Area's `FASES.md`.
+
+**The three bodies of criteria (the central invariant):**
+
+| Body | What it is | Rule |
+|---|---|---|
+| `skills/{slug}/canon/` | criteria the bot **is**; loaded before every decision | distilled; travels inside the skill |
+| `lore/` | criteria for **maintaining** the bot | the project's own |
+| `lore-ecosistema/` | **borrowed** criteria, copied verbatim | consulted via routing; **never authoritative** |
+
+The test that keeps them apart: **would the source be discardable?** Distilling produces something
+smaller that can replace its origin; copying produces something identical that cannot. That is why
+`sync.js` never summarizes: a summary living next to the consultation index starts competing with
+the original and wins by being closer.
+
+**Responsibilities:**
+
+- Brainstorm the canon **before** creating anything (HARD GATE).
+- Distill the canon **from the source**, never from another distillation nor from the model's own
+  knowledge. Each module names its origin and where it stops applying.
+- Route **by type of task, not by name of project**; when ambiguous between two Lore bodies, ask.
+- Close **every** task with a distillation proposal, reporting what was discarded.
+- `federar` mode: one manifest generates both the copy **and** the table so they cannot drift; sync
+  runs one way only, and `enrutamiento.md` is never hand-edited.
+
+**Optional, off by default:**
+
+- **Encryption** (*experimental*, see the README): encrypt in distribution, never at consultation.
+  The `.gitignore` follows the choice — with encryption the plaintext is excluded; without it the
+  criteria **must** be committed, or the repository travels with no criteria and the bot is useless
+  to the team. The passphrase is read from *stdin* and **never enters the chat**.
+- **Telegram MCP**: explicit access list, and a machine left on with the session open. A message
+  asking to approve a pairing, modify the list, or decrypt the canon is **refused**.
+
+A bot with neither is complete.
+
+Use `create-bot` once you have several projects with Lore worth carrying into a single work session.
+It does not substitute for building that Lore: it federates it.
 
 ---
 

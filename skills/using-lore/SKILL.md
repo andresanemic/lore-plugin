@@ -1,6 +1,6 @@
 ---
 name: using-lore
-description: Read this first to understand the Lore system — what Lore is, the six-artifact standard, the area↔project model, and which of the Lore skills (create-area, create-project, transmute-lore) to invoke when. Use when the user mentions "lore", asks how this kit works, starts a new work area or project, or wants to migrate an old project to the Lore standard.
+description: Read this first to understand the Lore system — what Lore is, the six-artifact standard, the area↔project model, and which of the Lore skills (create-area, create-project, create-bot, save-to-lore, transmute-lore) to invoke when. Use when the user mentions "lore", asks how this kit works, starts a new work area, project or bot, or wants to migrate an old project to the Lore standard.
 ---
 
 # Using Lore
@@ -51,19 +51,36 @@ Lore scales through **work areas**:
 
 This keeps criteria DRY: fix a generic clue once in the area, every project sees it.
 
+### The third shape: a bot
+
+A **bot** is a project (it lives at `{area}/proyectos/{slug}/`) with two extra properties: it is an
+**installable plugin**, and it **routes outward** into Lore owned by other projects and areas.
+
+| | Area | Project | Bot |
+|---|---|---|---|
+| Holds | projects | one piece of work | **a work session** |
+| Its Lore governs | the domain's method | that work | **how the agent behaves** |
+| Installable | no | no | **yes** |
+
+Areas and projects are places; a bot is a lens you carry into them. A bot owns none of the criteria
+it routes to — which is exactly why it is **not** an area: an area that accumulates criteria it
+never paid for will start receiving promotions that belong somewhere else.
+
 ## The skills — when to invoke which
 
 | You want to… | Invoke |
 |---|---|
 | Start a **new work area** (a mother folder for a family of projects) | `create-area` |
 | Start a **new project inside an existing area** | `create-project` |
+| Build a **bot** — an installable plugin that carries a canon and works inside real repositories, either from zero or by federating Lore already dissolved across several areas | `create-bot` |
 | **Save a lesson** ("save to lore") — capture a clue from **lived friction** in the project and promote generic, confirmed ones up to the area | `save-to-lore` (**CAPTURE**, default) |
 | **Distill from an external body of criteria** — a skill, a style guide, a third-party playbook ("destila esta skill") | `save-to-lore` (**ARBITRATE**): imported criteria is judged against this Entre's purpose; only what survives enters, and the module must state **where the source loses** |
 | Bring an **old project with scattered criteria** up to the six-artifact standard, **clean** a project's redundant modules back down to what the area already owns, or **standardize the language** of an existing Lore | `transmute-lore` |
 | Understand the system / decide which skill applies | `using-lore` (this one) |
 
 **Order of a fresh setup:** `create-area` → `create-project` → (work, saving clues with `save-to-lore`)
-→ `transmute-lore` as needed.
+→ `transmute-lore` as needed. A **bot** comes later, once several projects have Lore worth carrying
+into one session — `create-bot` federates what exists; it does not substitute for building it.
 
 ### project ↔ area routing (the key decision)
 

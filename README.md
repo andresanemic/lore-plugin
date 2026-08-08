@@ -35,6 +35,7 @@
   - [Los seis artefactos](#los-seis-artefactos)
   - [Herencia Área → Proyecto](#herencia-área--proyecto)
 - [Flujo de trabajo](#flujo-de-trabajo)
+- [Cifrado del Lore (experimental)](#cifrado-del-lore-experimental)
 - [Idioma del Lore](#idioma-del-lore)
 - [Instalación](#instalación)
 - [Documentación adicional](#documentación-adicional)
@@ -77,7 +78,7 @@ Lore es un kit ligero de **Spec-Driven Development (SDD)** para Claude Code.
 Proporciona:
 
 - una convención sencilla para organizar el criterio de un proyecto;
-- cinco *skills* que automatizan ese proceso;
+- seis *skills* que automatizan ese proceso;
 - y un flujo continuo para destilar la experiencia en criterios reutilizables.
 
 A diferencia de la documentación tradicional, Lore no intenta describirlo todo.
@@ -190,7 +191,7 @@ Así el sistema permanece DRY sin perder la experiencia acumulada.
 
 ## Flujo de trabajo
 
-Lore opera mediante cinco *skills* para Claude Code.
+Lore opera mediante seis *skills* para Claude Code.
 
 ### `using-lore`
 
@@ -211,6 +212,93 @@ Crea una nueva Área con su propio Lore compartido.
 Crea un proyecto dentro de una Área.
 
 Los proyectos heredan el criterio del Área en lugar de duplicarlo.
+
+---
+
+### `create-bot`
+
+Construye un **bot**: una carpeta que es a la vez un *plugin* instalable de Claude Code, un proyecto
+Lore, y **el lugar donde se abre la sesión de trabajo**.
+
+Un bot no responde preguntas sobre los proyectos: **trabaja en ellos**.
+
+> **Su norte, y el único test que importa:** *una instrucción corta basta.* Si hubo que explicarle
+> el proyecto al bot para obtener el resultado, faltaba criterio cargado.
+
+Un bot vive en `{área}/proyectos/{slug}/`, como cualquier proyecto. Lo distinguen dos propiedades:
+se **instala**, y **enruta hacia afuera**, hacia Lore que pertenece a otros proyectos y áreas.
+
+| | Área | Proyecto | **Bot** |
+|---|---|---|---|
+| Contiene | proyectos | un trabajo | **una sesión de trabajo** |
+| Su Lore gobierna | el método del dominio | ese trabajo | **cómo se comporta el agente** |
+| Se abre para | ver el registro | avanzar eso | **trabajar en cualquiera de varios proyectos** |
+| Se instala | no | no | **sí** |
+
+Las Áreas y los proyectos son lugares; un bot es una lente que llevas a ellos. Y **no es un Área**,
+precisamente porque no es dueño de nada del criterio que enruta: un Área que acumula criterio que no
+pagó empieza a recibir promociones que pertenecen a otra parte.
+
+**Dos modos**, según de dónde sale el criterio:
+
+| Modo | Cuándo | Qué produce |
+|---|---|---|
+| **`nuevo`** | Desde 0. No hay Lore previo que reunir. | Canon nacido de un brainstorm + documentos fuente. |
+| **`federar`** | El criterio ya existe, disuelto en varias Áreas. | Canon **más** una copia sincronizada y una tabla de enrutamiento sobre esos Lore. |
+
+#### Cuando las carpetas todavía no tienen Lore
+
+El punto de partida habitual no es un conjunto ordenado de Lore. Es material en bruto: carpetas de
+documentos, una base de datos, un espacio de Notion, código sin destilar. Eso no se puede federar
+todavía, y el arreglo es una cadena:
+
+```text
+carpeta en bruto (sin Lore)
+   └─ create-area            → el Área que va a ser DUEÑA de ese criterio
+        └─ transmute-lore (add)  → rescata el criterio que ya estaba disperso adentro
+             └─ create-bot (federar) → el bot enruta hacia ese Lore
+```
+
+> **La ley: el bot nunca destila hacia sí mismo.** Una fuente sin Lore recibe su Lore **en el Área
+> que le corresponde**, y recién después se federa. Dejar que el bot destile material en bruto lo
+> convierte en dueño de criterio que no pagó — la falla exacta que la distinción Área/bot existe
+> para evitar, y en la práctica es irreversible: cuando la única copia de ese criterio vive en el
+> bot, el Área ya no puede ser su fuente de verdad.
+
+`create-bot` inspecciona las rutas que le des y te dice cuáles ya tienen Lore, cuáles hay que
+transmutar primero y cuáles hay que extraer a texto antes (una base de datos o una planilla no se
+copian solas: la sincronización solo mueve `.md`, `.txt` y `.json`).
+
+#### Los tres cuerpos que nunca se mezclan
+
+Un bot sostiene tres cuerpos de criterio con **tres dueños distintos**. Fundirlos es el modo de
+falla por defecto, y es silencioso: todo sigue funcionando, y la copia empieza a ganarle a su fuente.
+
+| Cuerpo | Qué es | Regla |
+|---|---|---|
+| `skills/{bot}/canon/` | criterio que el bot **es** — cargado antes de cada decisión | destilado; viaja dentro de la skill |
+| `lore/` | criterio para **mantener** el bot | propio del proyecto |
+| `lore-ecosistema/` | criterio **prestado**, copiado literal | se consulta por enrutamiento; **nunca es autoritativo** |
+
+El test que los separa: **¿sería descartable la fuente?** Destilar produce algo más chico que puede
+*reemplazar* a su origen; copiar produce algo idéntico que **no puede**.
+
+Y la ley que hace funcionar el enrutamiento:
+
+> **Se enruta por tipo de tarea, no por nombre de proyecto.**
+
+Un proyecto puede tener varios cuerpos de criterio cuyos propios principios prohíben cruzarlos
+—producto y comunicación es el corte habitual—. Decir el nombre del proyecto no alcanza para elegir.
+
+#### Dos extras opcionales, apagados por defecto
+
+- **Cifrado del Lore** — *experimental*. Las cargas viajan cifradas y se descifran **una vez** al
+  clonar; en reposo son Markdown plano. Ver [Cifrado del Lore](#cifrado-del-lore-experimental).
+- **Operación remota por el MCP de Telegram** — el bot no depende de ningún canal: corre donde vive
+  el repositorio y el teléfono es solo la terminal. Requiere lista de acceso explícita, y dejar una
+  máquina encendida con una sesión abierta. Este plugin no lo empaqueta ni lo instala.
+
+Un bot sin ninguno de los dos está completo. Son sellos, no piezas.
 
 ---
 
@@ -268,6 +356,45 @@ Dispone de tres modos:
 - **add** → crea el Lore faltante.
 - **clean** → elimina módulos redundantes que ya pertenecen al Área.
 - **translate** → estandariza el idioma de un Lore existente, traduciendo el contenido y renombrando los artefactos a un único idioma, sin alterar estructura ni significado.
+
+---
+
+## Cifrado del Lore (experimental)
+
+`create-bot` puede sellar el criterio de un bot para que viaje cifrado. Es **opcional y está
+apagado por defecto**: un bot sin cifrado está completo.
+
+**La ley: se cifra en distribución, nunca en consulta.** Las cargas viajan cifradas y se descifran
+**una vez** al clonar; en reposo local el criterio es Markdown plano. Cifrar en el punto donde el
+agente consulta no prohíbe leer: **encarece** leer — y lo caro deja de consultarse. Eso es el
+artefacto muriendo de costo de acceso.
+
+AES-256-GCM con clave derivada por scrypt, solo con la stdlib de Node — sin dependencias. La
+passphrase se pide por *stdin*, jamás como argumento ni pegada en el chat.
+
+> ### Estado: experimental
+>
+> La plantilla pasa su *self-test* (round-trip, passphrase incorrecta, alteración detectada por GCM,
+> sin fuga de texto plano), pero **no ha sido auditada**, no tiene rotación de claves, ni revocación,
+> ni respuesta para una passphrase filtrada. Es un sello para un repositorio compartido entre
+> personas que ya confían entre sí — no un control de seguridad entre un adversario y algo que
+> importe.
+
+Dos fronteras que se declaran siempre, y no se compensan con lenguaje que sugiera lo contrario:
+
+- Protege el repositorio y el tránsito. **No protege contra quien tiene la passphrase**: una clave
+  compartida defiende de una filtración, no de un integrante del equipo.
+- **No cubre lo que una herramienta de IA hace con el texto** una vez cargado en su contexto.
+
+### Crédito
+
+La pregunta —*¿qué protege a un Lore que tiene que compartirse?*— la abrió **Mantra**, de
+[LonelyAchemist](https://github.com/lonelyachemist-arch), una derivación de este kit que cifraba el
+Lore **en reposo**.
+
+La pregunta es suya y era buena: el corpus de Lore habla de patrimonio y transferibilidad, y no
+decía nada de titularidad ni confidencialidad. **La respuesta acá está invertida**, por la razón de
+arriba, y el código no es el suyo: su SDK no se usa. La idea es de Mantra; la decisión no.
 
 ---
 
@@ -339,6 +466,8 @@ lore-plugin/
     using-lore/
     create-area/
     create-project/
+    create-bot/
+      plantillas/        # validar.js · canon.js · sync.js · ecosistema.json
     save-to-lore/
     transmute-lore/
 
@@ -529,6 +658,7 @@ casos sí responden.
   - [The Six Artifacts](#the-six-artifacts)
   - [Area → Project Inheritance](#area--project-inheritance)
 - [Workflow](#workflow)
+- [Lore Encryption (experimental)](#lore-encryption-experimental)
 - [Lore Language](#lore-language)
 - [Installation](#installation)
 - [Further Documentation](#further-documentation)
@@ -571,7 +701,7 @@ Lore is a lightweight **Spec‑Driven Development (SDD)** kit for Claude Code.
 It provides:
 
 - a simple convention for organizing a project’s criteria;
-- five skills that automate that process;
+- six skills that automate that process;
 - and a continuous flow to distill experience into reusable criteria.
 
 Unlike traditional documentation, Lore does not try to describe everything.
@@ -684,7 +814,7 @@ This keeps the system DRY without losing accumulated experience.
 
 ## Workflow
 
-Lore operates through five skills for Claude Code.
+Lore operates through six skills for Claude Code.
 
 ### `using-lore`
 
@@ -705,6 +835,93 @@ Creates a new Area with its own shared Lore.
 Creates a project inside an Area.
 
 Projects inherit the Area’s criteria instead of duplicating it.
+
+---
+
+### `create-bot`
+
+Builds a **bot**: a folder that is at once an installable Claude Code plugin, a Lore project, and
+**the place a work session is opened in**.
+
+A bot does not answer questions about the projects: **it works in them**.
+
+> **Its north, and the only test that matters:** *a short instruction is enough.* If the project had
+> to be explained to the bot to get the result, criteria were missing from the load.
+
+A bot lives at `{area}/proyectos/{slug}/`, like any project. Two properties set it apart: it gets
+**installed**, and it **routes outward**, into Lore owned by other projects and areas.
+
+| | Area | Project | **Bot** |
+|---|---|---|---|
+| Holds | projects | one piece of work | **a work session** |
+| Its Lore governs | the domain's method | that work | **how the agent behaves** |
+| Opened to | see the registry | advance that work | **work on any of several projects** |
+| Installable | no | no | **yes** |
+
+Areas and projects are places; a bot is a lens you carry into them. And it is **not** an Area,
+precisely because it owns none of the criteria it routes to: an Area that accumulates criteria it
+never paid for starts receiving promotions that belong somewhere else.
+
+**Two modes**, by where the criteria comes from:
+
+| Mode | When | What it produces |
+|---|---|---|
+| **`nuevo`** | From zero. No prior Lore to gather. | Canon born from a brainstorm + source documents. |
+| **`federar`** | The criteria already exists, dissolved across several Areas. | Canon **plus** a synchronized copy and a routing table over those Lore bodies. |
+
+#### When the folders have no Lore yet
+
+The usual starting point is not a tidy set of Lore bodies. It is raw material: folders of documents,
+a database, a Notion workspace, undistilled code. That cannot be federated yet, and the fix is a
+chain:
+
+```text
+raw folder (no Lore)
+   └─ create-area              → the Area that will OWN that criteria
+        └─ transmute-lore (add)   → rescues the criteria already scattered inside it
+             └─ create-bot (federar) → the bot routes to that Lore
+```
+
+> **The law: the bot never distills into itself.** A source with no Lore gets its Lore **in the Area
+> it belongs to**, and only then is federated. Letting the bot distill raw material makes it the
+> owner of criteria it never paid for — the precise failure the Area/bot distinction exists to
+> prevent, and in practice it is irreversible: once the only copy of that criteria lives in the bot,
+> the Area can no longer be its source of truth.
+
+`create-bot` inspects the paths you give it and tells you which already have Lore, which need
+transmuting first, and which need extracting to text beforehand (a database or a spreadsheet does
+not copy itself: the sync only moves `.md`, `.txt` and `.json`).
+
+#### The three bodies that never merge
+
+A bot holds three bodies of criteria with **three different owners**. Merging them is the default
+failure mode, and it is silent: everything still works, and the copy starts outranking its source.
+
+| Body | What it is | Rule |
+|---|---|---|
+| `skills/{bot}/canon/` | criteria the bot **is** — loaded before every decision | distilled; travels inside the skill |
+| `lore/` | criteria for **maintaining** the bot | the project's own |
+| `lore-ecosistema/` | **borrowed** criteria, copied verbatim | consulted via routing; **never authoritative** |
+
+The test that keeps them apart: **would the source be discardable?** Distilling produces something
+smaller that can *replace* its origin; copying produces something identical that **cannot**.
+
+And the law that makes routing work:
+
+> **Route by type of task, not by name of project.**
+
+One project can own several bodies of criteria whose own principles forbid crossing them — product
+vs. communications is the common split. Naming the project does not select a Lore.
+
+#### Two optional extras, off by default
+
+- **Lore encryption** — *experimental*. Payloads travel encrypted and are decrypted **once** on
+  clone; at rest they are plain Markdown. See [Lore Encryption](#lore-encryption-experimental).
+- **Remote operation over the Telegram MCP** — the bot depends on no channel: it runs where the
+  repository lives, and the phone is only a terminal. Requires an explicit access list, and leaving
+  a machine on with a session open. This plugin neither packages nor installs it.
+
+A bot with neither is complete. They are seals, not parts.
 
 ---
 
@@ -762,6 +979,45 @@ It has three modes:
 - **add** → creates missing Lore artifacts.
 - **clean** → removes redundant modules that already belong to the Area.
 - **translate** → standardizes the language of an existing Lore, translating content and renaming artifacts into a single language, without altering structure or meaning.
+
+---
+
+## Lore Encryption (experimental)
+
+`create-bot` can seal a bot's criteria so it travels encrypted. It is **optional and off by
+default**: a bot without encryption is complete.
+
+**The law: encrypt in distribution, never at consultation.** Payloads travel encrypted and are
+decrypted **once** on clone; at rest the criteria is plain Markdown. Encrypting at the point where
+the agent consults does not forbid reading — it makes reading **expensive**, and what is expensive
+stops being consulted. That is the artifact dying of access cost.
+
+AES-256-GCM with a scrypt-derived key, using only Node's stdlib — no dependencies. The passphrase is
+read from *stdin*, never as an argument and never pasted into the chat.
+
+> ### Status: experimental
+>
+> The template passes its self-test (round-trip, wrong passphrase, GCM tamper detection, no
+> plaintext leak), but it has **not been audited**, has no key rotation, no revocation, and no answer
+> for a leaked passphrase. It is a seal for a repository shared among people who already trust each
+> other — not a security control between an adversary and something that matters.
+
+Two boundaries that are always declared, and never papered over with language suggesting otherwise:
+
+- It protects the repository and the transport. **It does not protect against someone holding the
+  passphrase**: a shared key defends against a leak, not against a teammate.
+- It does **not cover what an AI tool does with the text** once loaded into its context.
+
+### Credit
+
+The question — *what protects a Lore that has to be shared?* — was opened by **Mantra**, by
+[LonelyAchemist](https://github.com/lonelyachemist-arch), a derivation of this kit that encrypted
+the Lore **at rest**.
+
+The question is theirs and it was a good one: Lore's corpus talks about patrimony and
+transferability, and said nothing about ownership or confidentiality. **The answer here is
+inverted**, for the reason above, and the code is not theirs: their SDK is not used. The idea is
+Mantra's; the decision is not.
 
 ---
 
@@ -833,6 +1089,8 @@ lore-plugin/
     using-lore/
     create-area/
     create-project/
+    create-bot/
+      plantillas/        # canon.js · sync.js · ecosistema.json
     save-to-lore/
     transmute-lore/
 

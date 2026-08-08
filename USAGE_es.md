@@ -23,6 +23,7 @@ El plugin Lore agrupa un conjunto de **skills** que implementan este ciclo:
 - `create-project` – Lore a nivel proyecto que hereda de un Área.
 - `save-to-lore` – captura criterio después de resolver un problema.
 - `transmute-lore` – migra proyectos existentes hacia la arquitectura Lore.
+- `create-bot` – empaqueta criterio como un *plugin* instalable que trabaja dentro de los repos.
 
 > **El Lore habla tu idioma.** Aunque los skills están escritos en inglés, todo lo que generan —
 > contenido **y nombres de artefactos** — se escribe en el idioma en el que trabajas. `identidad.md`,
@@ -310,6 +311,64 @@ Comportamiento esperado:
     eliminan en modo `clean`.
 
 Usa este skill cuando ya tienes proyectos en marcha y quieres incorporarlos a Lore sin reescribirlo todo a mano.
+
+---
+
+### 5.6 `create-bot` – Empaquetar criterio como un lugar donde trabajar
+
+**Propósito:** construir un **bot**: un *plugin* instalable que carga un canon y **trabaja dentro de
+los repositorios reales**, en vez de responder preguntas sobre ellos.
+
+Un bot vive en `{Área}/proyectos/{slug}/` como cualquier proyecto. Lo distinguen dos cosas: se
+**instala**, y **enruta hacia afuera** — hacia el Lore de otros proyectos y Áreas. Las Áreas y los
+proyectos son lugares; un bot es una lente que llevas a ellos.
+
+> **El test que decide si el bot está bien hecho:** *una instrucción corta basta.* Si tuviste que
+> explicarle el proyecto al bot para obtener el resultado, faltaba criterio cargado.
+
+Ejemplos de prompts:
+
+```text
+crea un bot para trabajar en HealthProof y Nodo Zero, en el área "bots"
+quiero un bot que federe el lore que ya existe en founder y community-manager
+```
+
+Tiene **dos modos**, según de dónde salga el criterio:
+
+- `nuevo` – desde 0. El canon nace de un brainstorm + los documentos fuente.
+- `federar` – el criterio ya existe, disuelto en varias Áreas. Además del canon, genera una copia
+  sincronizada (`lore-ecosistema/`) y una tabla de enrutamiento (`lore/enrutamiento.md`).
+
+Al empezar te va a preguntar tres cosas, en este orden: **cómo se llama el bot**, **para qué lo vas
+a usar**, y **dónde están las carpetas con la información que le sirve**. Después inspecciona esas
+rutas él mismo y te reporta qué encontró; no te pide que clasifiques tus propias carpetas.
+
+**Si las carpetas todavía no tienen Lore** —el caso normal— no se federan: se encadena
+`create-area` → `transmute-lore (add)` → `create-bot (federar)`. El bot **nunca destila hacia sí
+mismo**; el criterio nace en el Área que le corresponde y después se enruta. `create-bot` inspecciona
+tus rutas y te dice cuál necesita qué.
+
+Qué esperar mientras corre:
+
+- Te propone el diseño y **espera tu aprobación** antes de escribir nada.
+- Mantiene separados los tres cuerpos de criterio: lo que el bot siempre sabe, lo que mantiene al
+  bot, y lo que toma prestado de otros proyectos (esto último nunca manda sobre su fuente).
+- En modo `federar`, la tabla de enrutamiento se genera sola desde el manifiesto; no la edites a mano.
+- Deja el bot instalable desde su propio repositorio, y **no lo da por terminado** hasta que
+  `scripts/validar.js` pase: los errores de frontmatter que revisa no dan ningún mensaje de error —
+  la skill se instala, aparece en el listado y nunca se dispara.
+
+Dos cosas que vas a usar todos los días:
+
+- **Se enruta por tipo de tarea, no por nombre de proyecto.** Decir *«trabajemos en X»* no alcanza si
+  X tiene criterio de producto y de comunicación por separado; el bot pregunta cuál.
+- **Toda tarea cierra proponiendo qué criterio guardar y dónde.** No espera a que se lo pidas.
+
+Opcionales y apagados por defecto: **cifrado** (*experimental*) y **Telegram**. Un bot sin ninguno de
+los dos está completo. El detalle de ambos está en el README.
+
+Usa este skill cuando ya tengas varios proyectos con Lore que valga la pena llevar a una sola sesión.
+No sustituye construir ese Lore: lo federa.
 
 ---
 
