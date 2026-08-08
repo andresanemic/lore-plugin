@@ -200,16 +200,25 @@ Three months later, in another project of the Area, someone asks for an entrance
 </table>
 
 ```text
- Jul  5 – 11   ████████████████████████████████████████████  249
- Jul 12 – 18   ██████████████████████████████████            189
- Jul 19 – 25   ████████████████████████████████              180
- Jul 26 – Aug 1 ███████████████████████████                  151
- Aug  2 –  7   ████████████████████████                      137  ← week in progress
-                                                          ───────
-                                                              906
+  906 ┤                                 █████
+      │                                 █████
+      │                         █████   █████
+  659 ┤                 █████   █████   █████
+      │                 █████   █████   █████
+      │                 █████   █████   █████
+  412 ┤         █████   █████   █████   █████
+      │         █████   █████   █████   █████
+  247 ┤ █████   █████   █████   █████   █████
+      │ █████   █████   █████   █████   █████
+      │ █████   █████   █████   █████   █████
+    0 └─────────────────────────────────────────
+        249     438     618     769     906
+        Jul 5   Jul 12  Jul 19  Jul 26  Aug 2
+
+        cumulative clones, by week
 ```
 
-After the launch spike the curve settles into a steady floor of roughly twenty clones a day, which is the more interesting number: it is not a launch, it is people still arriving. Data comes from GitHub's traffic API, stored weekly in [`data/traffic/clones.json`](./data/traffic/clones.json) because the API only keeps 14 days.
+The total has not stopped growing, and it keeps growing at a steady twenty-odd clones a day well past the launch spike. That steadiness is the more interesting part: it is not a launch bump, it is people still arriving. Data comes from GitHub's traffic API, stored weekly in [`data/traffic/clones.json`](./data/traffic/clones.json) because the API only keeps 14 days.
 
 > **This is a reach signal, not a demonstration.** Nobody knows what anyone did with their copy: how many installed it, how many distilled anything, how many opened the folder once. It does not count as a case and it does not answer the question the [case studies](#case-studies) do. Note also that the "unique cloners" the API returns are unique **per day**, not people, so they cannot be summed into a headcount.
 
@@ -725,6 +734,43 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 
 ---
 
+<table>
+<tr>
+<td width="33%" valign="top">
+
+**Empezar**
+
+[El problema](#el-problema)
+[Qué es Lore](#qué-es-lore)
+[Cómo funciona](#cómo-funciona)
+[Instalación](#instalación)
+
+</td>
+<td width="33%" valign="top">
+
+**Usarlo**
+
+[Arquitectura](#arquitectura)
+[Las siete skills](#las-siete-skills)
+[Obsidian](#obsidian--la-puerta-de-entrada)
+[Idioma del Lore](#idioma-del-lore)
+
+</td>
+<td width="33%" valign="top">
+
+**Entenderlo**
+
+[Alcance](#alcance)
+[Invariantes](#invariantes-compartidas)
+[Cifrado](#cifrado-experimental)
+[Casos de estudio](#casos-de-estudio) · [Origen](#origen)
+
+</td>
+</tr>
+</table>
+
+---
+
 ## El problema
 
 Todo proyecto desarrollado con inteligencia artificial acumula experiencia que costó cara:
@@ -774,6 +820,8 @@ En lugar de registrar lo que pasó, lo destila en una **Pista Invariante**: una 
 | «Al desplegar desde Windows los assets daban 404» | «Prohibido comprimir con herramientas nativas de Windows: usar `tar.exe -a -c -f`» |
 
 El acontecimiento se olvida. El criterio sigue trabajando.
+
+### El ciclo
 
 ```mermaid
 flowchart LR
@@ -846,16 +894,25 @@ Tres meses después, en otro proyecto del Área, alguien pide una animación de 
 </table>
 
 ```text
-  5 – 11 jul   ████████████████████████████████████████████  249
- 12 – 18 jul   ██████████████████████████████████            189
- 19 – 25 jul   ████████████████████████████████              180
- 26 jul – 1 ago ███████████████████████████                  151
-  2 –  7 ago   ████████████████████████                      137  ← semana en curso
-                                                          ───────
-                                                              906
+  906 ┤                                 █████
+      │                                 █████
+      │                         █████   █████
+  659 ┤                 █████   █████   █████
+      │                 █████   █████   █████
+      │                 █████   █████   █████
+  412 ┤         █████   █████   █████   █████
+      │         █████   █████   █████   █████
+  247 ┤ █████   █████   █████   █████   █████
+      │ █████   █████   █████   █████   █████
+      │ █████   █████   █████   █████   █████
+    0 └─────────────────────────────────────────
+        249     438     618     769     906
+        5 jul   12 jul  19 jul  26 jul  2 ago
+
+        clonaciones acumuladas, por semana
 ```
 
-Pasado el pico del lanzamiento la curva se asienta en un piso de unas veinte clonaciones diarias, que es el número más interesante: no es un lanzamiento, es gente que sigue llegando. Los datos vienen de la API de tráfico de GitHub y se guardan cada semana en [`data/traffic/clones.json`](./data/traffic/clones.json), porque la API solo conserva 14 días.
+El total no ha dejado de crecer, y sigue creciendo a unas veinte clonaciones diarias mucho después del pico del lanzamiento. Esa constancia es lo más interesante: no es el rebote de un lanzamiento, es gente que sigue llegando. Los datos vienen de la API de tráfico de GitHub y se guardan cada semana en [`data/traffic/clones.json`](./data/traffic/clones.json), porque la API solo conserva 14 días.
 
 > **Es una señal de alcance, no una demostración.** Nadie sabe qué hizo cada quien con su copia: cuántos la instalaron, cuántos destilaron algo, cuántos abrieron la carpeta una vez. No cuenta como caso y no responde la pregunta que sí responden los [casos de estudio](#casos-de-estudio). Y los «clonadores únicos» que devuelve la API son únicos **por día**, no personas: no se pueden sumar para contar cabezas.
 
@@ -914,19 +971,35 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 ## Las siete skills
 
-| Skill | Para qué |
-|---|---|
-| `using-lore` | Punto de entrada: explica el modelo y te manda a la skill correcta. |
-| `create-area` | Crea un Área con su Lore compartido. |
-| `create-project` | Crea un proyecto que hereda del Área. |
-| `save-to-lore` | Destila una lección y decide si sube al Área. |
-| `transmute-lore` | Migra proyectos viejos, limpia duplicados o traduce el Lore. |
-| `create-bot` | Un lugar donde abrir sesión y trabajar sobre varias Áreas a la vez. |
-| `obsidian-lore` | Convierte tus notas sueltas en criterio. |
+| Skill | Para qué | Cuándo |
+|---|---|---|
+| [`using-lore`](#using-lore) | Punto de entrada: explica el modelo y te manda a la skill correcta | primero, siempre |
+| [`create-area`](#create-area) | Crea un Área con su Lore compartido | al abrir un dominio nuevo |
+| [`create-project`](#create-project) | Crea un proyecto que hereda del Área | al empezar un trabajo |
+| [`save-to-lore`](#save-to-lore) | Destila una lección y decide si sube al Área | todos los días |
+| [`transmute-lore`](#transmute-lore) | Migra proyectos viejos, limpia duplicados o traduce el Lore | al heredar algo sin Lore |
+| [`create-bot`](#create-bot) | Un lugar donde abrir sesión y trabajar sobre varias Áreas a la vez | cuando ya hay Lore que reunir |
+| [`obsidian-lore`](#obsidian--la-puerta-de-entrada) | Convierte tus notas sueltas en criterio | cuando la bandeja pesa |
 
-### `save-to-lore` — el flujo de todos los días
+### `using-lore`
 
-Resuelves algo que costó y escribes «guarda en lore». La skill extrae el criterio detrás de la solución, lo escribe donde corresponde y **propone** —nunca ejecuta— subirlo al Área.
+El punto de entrada. Explica el modelo de Lore, el estándar de seis artefactos, el modelo Área↔Proyecto, y te guía hacia la skill adecuada. Léelo antes de invocar cualquier otro.
+
+### `create-area`
+
+Crea un Área nueva con su propio Lore compartido: `identidad.md` + `principios.md`, un `index.md`, un `CLAUDE.md`, un `FASES.md` que hace de registro de proyectos, y una carpeta `proyectos/` vacía. Hace un brainstorm de la identidad **antes** de tocar el disco.
+
+### `create-project`
+
+Crea un proyecto dentro de un Área existente. El proyecto hereda el criterio del Área en vez de duplicarlo: conserva su `identidad.md` y `principios.md` propios, y un `index.md` que **apunta** a los módulos del Área por ruta relativa. La estructura de carpetas y las fases se derivan de los documentos fuente del proyecto, no de una plantilla genérica.
+
+### `save-to-lore`
+
+El flujo que usarás todos los días. Resuelves algo que costó y escribes «guarda en lore». La skill extrae el criterio detrás de la solución, lo escribe donde corresponde y **propone** —nunca ejecuta— subirlo al Área si sirve para todos los proyectos.
+
+- Las lecciones específicas se quedan en el proyecto.
+- Las genéricas y confirmadas se proponen para promoción al Área.
+- Nada se promueve automáticamente.
 
 | Modo | Fuente | Qué hace |
 |---|---|---|
@@ -958,11 +1031,71 @@ Piensa en un laboratorio de blockchain: tiene su sitio web, lleva sus redes soci
 
 > **Su norte, y el único test que importa:** *una instrucción corta basta.* Si hubo que explicarle el proyecto al bot para obtener el resultado, faltaba criterio cargado.
 
-Dos leyes lo sostienen: **federar es apuntar, no copiar** —cada fila del manifiesto es una dirección, y ese criterio conserva un dueño y una versión— y **se enruta por tipo de tarea, no por nombre de proyecto**.
+**Dos modos**, según de dónde sale el criterio:
 
-**La ley que lo protege:** el bot nunca destila hacia sí mismo. Una fuente sin Lore recibe su Lore en el Área que le corresponde (`create-area` → `transmute-lore`) y recién después se federa.
+| Modo | Cuándo | Qué produce |
+|---|---|---|
+| **`nuevo`** | Desde 0. No hay Lore previo que reunir. | Canon nacido de un brainstorm + documentos fuente. |
+| **`federar`** | El criterio ya existe, disuelto en varias Áreas. | Canon **más** una tabla de enrutamiento sobre esos Lore. |
 
-Empaquetarlo como plugin, la copia del ecosistema, el cifrado y Telegram son **opcionales y están apagados**.
+<details>
+<summary><b>Cuando las carpetas todavía no tienen Lore</b></summary>
+
+<br>
+
+El punto de partida habitual no es un conjunto ordenado de Lore. Es material en bruto: carpetas de documentos, una base de datos, un espacio de Notion, código sin destilar. Eso no se puede federar todavía, y el arreglo es una cadena:
+
+```text
+carpeta en bruto (sin Lore)
+   └─ create-area                → el Área que va a ser DUEÑA de ese criterio
+        └─ transmute-lore (add)     → rescata el criterio que ya estaba disperso adentro
+             └─ create-bot (federar)   → el bot enruta hacia ese Lore
+```
+
+**La ley: el bot nunca destila hacia sí mismo.** Una fuente sin Lore recibe su Lore **en el Área que le corresponde**, y recién después se federa. Dejar que el bot destile material en bruto lo convierte en dueño de criterio que no pagó — la falla exacta que la distinción Área/bot existe para evitar, y en la práctica es irreversible: cuando la única copia de ese criterio vive en el bot, el Área ya no puede ser su fuente de verdad.
+
+`create-bot` inspecciona las rutas que le des y te dice cuáles ya tienen Lore, cuáles hay que transmutar primero y cuáles hay que extraer a texto antes. Una bandeja de notas libres **nunca se federa**: no tiene Lore, y es `.md`, que es justo lo que vuelve fácil el error.
+
+</details>
+
+<details>
+<summary><b>Los tres cuerpos que nunca se mezclan</b></summary>
+
+<br>
+
+Un bot sostiene tres cuerpos de criterio con **tres dueños distintos**. Fundirlos es el modo de falla por defecto, y es silencioso: todo sigue funcionando, y la copia empieza a ganarle a su fuente.
+
+| Cuerpo | Qué es | Regla |
+|---|---|---|
+| `canon/` | criterio que el bot **es** — cargado antes de cada decisión | destilado |
+| `lore/` | criterio para **mantener** el bot | propio del proyecto |
+| criterio **prestado** | el Lore de cada proyecto que el bot enruta | se alcanza **por puntero**; **nunca es autoritativo** |
+
+El test que los separa: **¿sería descartable la fuente?** Destilar produce algo más chico que puede *reemplazar* a su origen; copiar produce algo idéntico que **no puede**.
+
+**Federar es apuntar, no copiar.** Cada fila del manifiesto es una **dirección**: la tabla dice qué Lore gobierna la tarea, y el acceso generado deja que la sesión lo alcance donde vive. Ese criterio conserva un solo dueño y una sola versión, la misma regla DRY con la que funciona todo el kit.
+
+Y la ley que hace funcionar el enrutamiento:
+
+> **Se enruta por tipo de tarea, no por nombre de proyecto.**
+
+Una entidad puede tener varios cuerpos de criterio cuyos propios principios prohíben cruzarlos —lo que hace contra cómo lo cuenta es el corte habitual—. Decir su nombre no alcanza para elegir.
+
+</details>
+
+<details>
+<summary><b>Cuatro extras opcionales, apagados por defecto</b></summary>
+
+<br>
+
+Los cuatro se preguntan al configurar el bot la primera vez. Un bot sin ninguno está completo: son sellos, no piezas.
+
+- **La copia del ecosistema (`lore-ecosistema/`).** Por defecto el bot **apunta** al Lore de cada proyecto donde vive, sin duplicar nada. Encenderla solo tiene sentido si quien va a usar el bot **no** tiene tus carpetas: ahí el puntero no apunta a nada y la copia es lo único que hace existir ese criterio en su máquina.
+- **Empaquetarlo como *plugin* compartible.** Por defecto **no se crea**. Un bot es una carpeta con su canon y su `CLAUDE.md`: abres la sesión ahí y el criterio ya está cargado, sin instalar nada. Envolverlo en una skill con su repositorio propio sirve para **una sola cosa**, repartirlo a un equipo, y si vas a trabajar tú solo es andamiaje que igual hay que mantener.
+- **Cifrado del Lore** — *experimental*, ver la sección de cifrado.
+- **Operación remota por el MCP de Telegram** — el bot no depende de ningún canal: corre donde vive el repositorio y el teléfono es solo la terminal. Requiere lista de acceso explícita y dejar una máquina encendida con una sesión abierta. Este plugin no lo empaqueta ni lo instala.
+
+</details>
 
 ---
 
@@ -1061,6 +1194,33 @@ AES-256-GCM con clave derivada por scrypt, solo con la stdlib de Node. La passph
 | [`REFERENCE_es.md`](./REFERENCE_es.md) · [`REFERENCE_en.md`](./REFERENCE_en.md) | Referencia técnica de cada artefacto y cada *skill*. |
 | [`MIGRATION_es.md`](./MIGRATION_es.md) · [`MIGRATION_en.md`](./MIGRATION_en.md) | Cómo migrar un proyecto existente con `transmute-lore`. |
 
+<details>
+<summary><b>Estructura del repositorio</b></summary>
+
+<br>
+
+```text
+lore-plugin/
+  .claude-plugin/
+    plugin.json
+    marketplace.json
+
+  skills/
+    using-lore/
+    create-area/
+    create-project/
+    create-bot/
+      plantillas/        # validar.js · canon.js · sync.js · ecosistema.json
+    save-to-lore/
+    transmute-lore/
+    obsidian-lore/
+
+  README.md
+  LICENSE
+```
+
+</details>
+
 ---
 
 ## Casos de estudio
@@ -1069,17 +1229,89 @@ Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyect
 
 > **Estatus:** son casos, no demostraciones. n pequeño, y las seis evidencias vienen del mismo investigador. Restringen cómo usamos el kit; no pretenden ser una ley.
 
-**01 — La arquitectura aguanta un proyecto entero.** Un proyecto real construido con Lore de principio a fin: el criterio se acumula, se consulta y sigue decidiendo meses después.
+<details>
+<summary><b>Caso 01 — El Lore como forma operativa de un proyecto entero</b></summary>
 
-**02 — El criterio se recupera y se comparte.** Cuatro proyectos migrados con `transmute-lore`. Un proyecto nacido sin Lore ya tenía criterio disperso: no se inventa, **se rescata**. Y el `clean` borró 7 módulos redundantes (−866 líneas) sin perder nada: el criterio **cambió de dueño**. *Frontera: mismo dominio los cuatro.*
+<br>
 
-**03 — El criterio importado se arbitra, no se adopta.** Lo valioso no fue el resumen de la skill: fue el desacuerdo. La misma skill de copywriting perdió en marketing (*«el copy aburrido y funcional gana siempre»*) y en periodismo (*«no vendemos, informamos»*) por razones inversas. **El resultado depende de tu finalidad, no de la fuente.**
+Un proyecto real (*numerología*) construido con Lore de principio a fin, sobre una práctica de desarrollo disciplinado. Mostró que la arquitectura de seis artefactos **aguanta un proyecto completo**, no solo notas sueltas: el criterio se acumula, se consulta y sigue decidiendo meses después.
 
-**04 — La estructura sobrevive fuera del código.** Periodismo y community management tenían Lore destilado real, sin compilador ni test. *Frontera: el criterio no viajó entre dominios; nació fresco en cada uno.*
+</details>
 
-**05 — La memoria del caso no alimenta la destilación: la desplaza.** Un registro de incidentes convivió seis semanas con un `lore/`, indexado y obligatorio, y **no participó de una sola decisión** — ni cuando volvió a romperse el territorio que documentaba. Al minarlo antes de borrarlo aparecieron dos Pistas dormidas hacía seis semanas. **Este caso es la razón de que `obsidian-lore` sea un barrido y no un botón.**
+<details>
+<summary><b>Caso 02 — El criterio se recupera y se comparte</b></summary>
 
-**06 — La herencia entre Áreas hermanas: congelarla o enrutarla.** Un proyecto necesitó criterio de cuatro Áreas y solo una era su madre. Lo destilable de un conjunto de criterios **es la frontera, no los criterios**: cada Área tenía escrita su mitad de la línea, ninguna la regla para usar el par.
+<br>
+
+Cuatro proyectos de un área real (*desarrollo web*) llevados al estándar con `transmute-lore`. Dejó tres cosas que hoy son ley del kit:
+
+- **El criterio es recuperable** (modo `add`): un proyecto que nació sin Lore ya tenía criterio disperso en comentarios, decisiones y cicatrices. No se inventa: **se rescata**.
+- **El criterio es deduplicable** (modo `clean`): los módulos genéricos viven **una sola vez, en el Área**. En un proyecto, el `clean` borró 7 módulos redundantes (−866 líneas) sin perder nada: el criterio no desapareció, **cambió de dueño**.
+- **La herencia es selectiva:** cada proyecto referencia **solo** los módulos del Área que su stack realmente usa.
+
+**Frontera declarada:** los cuatro proyectos eran del mismo dominio. La transferibilidad *entre dominios* sigue siendo promesa, no evidencia.
+
+</details>
+
+<details>
+<summary><b>Caso 03 — El criterio importado no se adopta: se arbitra</b></summary>
+
+<br>
+
+El caso que originó el modo `arbitrate`. Tres áreas destilaron Lore a partir de *skills* de terceros, y lo observado contradijo la intuición:
+
+- **Lo valioso no fue el resumen de la skill, fue el desacuerdo.** En dos áreas distintas, el bloque denso del módulo resultante era *«dónde la skill contradice nuestro estándar y pierde»*. Esa parte **no existía ni en la skill ni en el Lore previo**: nació de la colisión.
+- **La misma skill, arbitrada por dos finalidades opuestas, pierde en el mismo sitio por razones inversas.** Las skills de *copywriting* fueron derrotadas en un área de marketing (*«copy aburrido y funcional le gana siempre»*) y en una de periodismo (*«no vendemos, informamos»*). El resultado no depende de la fuente: depende de **tu** finalidad.
+- **Capacidad ≠ criterio.** Una skill que *ejecuta* no se destiló: se usa como dependencia.
+
+**Frontera declarada:** las tres áreas son del mismo usuario, con la misma herramienta. El mecanismo está observado, no probado a escala.
+
+</details>
+
+<details>
+<summary><b>Caso 04 — El Lore no-software: la estructura sobrevive fuera del código</b></summary>
+
+<br>
+
+El primer caso que cruza de software a otra disciplina. Dos áreas ajenas al desarrollo —periodismo y estrategia de contenido— ya tenían Lore destilado real, no andamiaje: módulos temáticos derivados de trabajo real, consultados por proyectos reales.
+
+- **La arquitectura no es un rasgo del software.** El mismo esqueleto se reprodujo en oficios sin compilador ni test, solo con una práctica disciplinada y una finalidad explícita.
+- **Existencia no es medición.** El caso muestra que el método *produce* criterio en otro dominio; no mide todavía que ese criterio *redujo el reaprendizaje*.
+
+**Frontera declarada:** el criterio no *viajó* entre dominios — cada Lore nació fresco en su disciplina. Lo que se replica es el mecanismo.
+
+</details>
+
+<details>
+<summary><b>Caso 05 — La memoria del caso no alimenta la destilación: la desplaza</b></summary>
+
+<br>
+
+El método volvió, seis semanas después, al proyecto donde había nacido en bruto. Encontró dos artefactos de preservación conviviendo con suertes opuestas: un `lore/` de Pistas destiladas, que seguía trabajando, y un registro de incidentes que **no participó de una sola decisión** — ni siquiera cuando volvió a romperse el mismo territorio técnico que ese registro documentaba.
+
+- **Preservar no es destilar, y el parecido es el problema.** Un registro de casos satisface el impulso de preservar **sin producir criterio**. Cumplido el principio de «dejar registro», nadie destila. Al minar el registro antes de borrarlo aparecieron dos Pistas que llevaban seis semanas ahí sin destilarse.
+- **«Indexado y obligatorio» no implica «consultado».** Estaba en la tabla de consulta del `CLAUDE.md` y era ley en `principios.md`, y aun así no se cargó. La accesibilidad es necesaria y no suficiente.
+- **El filtro de admisión no mide la altitud de la Pista.** Una Pista entró un día y al siguiente no impidió el segundo síntoma de su misma causa: estaba escrita sobre la superficie que se vio, no sobre la causa.
+
+**Este caso es la razón de que `obsidian-lore` sea un barrido y no un botón.**
+
+**Frontera declarada:** es software, mismo investigador y mismo interlocutor, y no hay contrafactual. Evidencia testimonial, no medida.
+
+</details>
+
+<details>
+<summary><b>Caso 06 — La herencia entre Áreas hermanas: congelarla o enrutarla</b></summary>
+
+<br>
+
+Un proyecto necesitó criterio de cuatro Áreas, de las cuales solo una era su madre. **El modelo de herencia de Lore es vertical, y las Áreas hermanas no son madres de nadie.** Aparecieron dos soluciones independientes: **congelar** —copiar snapshots, cuando la carpeta tiene que viajar sola— y **enrutar** —decidir por tarea cuál cuerpo gobierna—. Este segundo camino es el que `create-bot` empaqueta.
+
+- **Consumir no es heredar.** Se hereda del Área madre; el criterio de un Área hermana se **consume**. La distinción decide hacia dónde promueve un criterio que se generaliza: sube a su propia Área, nunca a la que solo lo lee.
+- **Lo destilable de un conjunto de criterios es la frontera, no los criterios.** Dos Áreas hermanas tenían escrita, cada una, su mitad de la línea. Ninguna tenía la regla para decidir cuál gobierna una tarea concreta, porque cada cuerpo se escribe desde adentro de su propia finalidad y la divisoria solo se ve desde afuera de los dos.
+
+**Frontera declarada:** las dos observaciones distan 48 horas, en el mismo ecosistema y con el mismo investigador. No son dos casos independientes.
+
+</details>
 
 ---
 
