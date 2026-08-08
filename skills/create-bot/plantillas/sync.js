@@ -160,12 +160,17 @@ const congelada = !copia && fs.existsSync(DESTINO);
 const porTipo = {};
 for (const f of informe) (porTipo[f.tipo] ??= []).push(f);
 
+/* Dónde se define el comportamiento del bot depende de si está empaquetado, y el bot SIN
+ * empaquetar es el caso por defecto: ahí no hay skill y la ley vive en su CLAUDE.md. Nombrar
+ * «la skill» siempre mandaba al lector, en el caso más común, a un archivo que no existe. */
+const LEY = fs.existsSync(path.join(RAIZ, 'skills')) ? 'la skill del bot' : 'el `CLAUDE.md` del bot';
+
 const tabla = `# Enrutamiento — a qué Lore va cada tarea
 
 > **Generado por \`scripts/sync.js\` desde \`scripts/ecosistema.json\`. No editar a mano.**
 > Última generación: ${new Date().toISOString().slice(0, 16).replace('T', ' ')}${copia ? ` · ${total} archivos copiados` : ''}.
 
-La ley que gobierna esta tabla vive en la skill del bot: **se enruta por tipo de tarea, no por
+La ley que gobierna esta tabla vive en ${LEY}: **se enruta por tipo de tarea, no por
 nombre de proyecto.** Un proyecto puede aparecer más de una vez si tiene varios cuerpos de
 criterio; decir su nombre no basta para elegir.
 ${nota ? `\n${nota}\n` : ''}

@@ -206,6 +206,19 @@ select a Lore: the institution appears twice in the routing table, on purpose. I
 ambiguous between two, **ask** — it is cheaper than six paragraphs written against the wrong
 criteria.
 
+**Do not look for the border to be missing — it almost never is.** It is written **half-way, and
+the written half looks complete**: the side that depends more on the other gives it a whole section,
+well argued, while the other side gets a single line. Look for an absence and you find that good
+half and conclude there is nothing left to distill — skipping the one canon module the bot had
+earned.
+
+> **The test is not *«is the border written?»* but *«does either side say what to do when the task
+> belongs to both?»***
+
+That question does not exist from inside either body, so neither one answers it — and that answer is
+the module: the **arbitration**, not the description. Which order the steps go in, which direction
+is read and which is written, and what happens when the fact does not exist yet.
+
 > Write this section from the entity the bot actually serves. The routing table is the piece a
 > reader checks against their own case, and an example carried over from another bot sends them to
 > the wrong Lore while looking authoritative.
@@ -267,7 +280,10 @@ rule from §1 in force here — present the design in the words the user used, n
 vocabulary. Agree on:
 
 - **The canon's modules** — which ones load *always*, and which load only under a condition. Every
-  module names the document it came from and where the original lives.
+  module names the document it came from and where the original lives. Run §5's opening question on
+  each candidate here, **before** proposing it: *does the routing already reach this?* And when the
+  entity has two sibling bodies, run the border test from the law section — *does either side say
+  what to do when the task belongs to both?*
 - **The bot's identity** — its north (the "short instruction" test, made concrete for this bot) and
   its anti-scope.
 - **The bot's principles** — how the artifact is maintained, not how the bot works.
@@ -298,14 +314,23 @@ mkdir -p "$DEST/canon" "$DEST/lore"
   .claude/
     settings.local.json  → federar only; GENERATED; local, never committed
   lore-ecosistema/       → ONLY if the copy is on (§7); the synchronized copy
-  FASES.md · CLAUDE.md · README.md · .gitignore
+  FASES.md · CLAUDE.md · .gitignore
 ```
 
 **Unpackaged is the default shape.** The bot's behaviour (§6) lives in its `CLAUDE.md`, which Claude
 Code loads on its own when a session opens in that folder. Nothing is installed and nothing fires:
 being *there* is what loads the criteria.
 
-**If packaging was accepted (§10)**, the behaviour moves into a skill and three things are added:
+**`README.md` follows the packaging decision, not the folder — it is NOT in the base shape.** §10
+defines the README by its only job: *the one artifact a teammate reads **before** installing*. A bot
+nobody installs has no such reader, and everything the README would say is already said — to the
+agent that opens the session — by the `CLAUDE.md` sitting next to it. Write it when the bot is
+packaged; skip it otherwise, and do not read the skip as an unfinished bot. If the user wants one
+anyway, keep it to what the bot is for, how a session is opened in it and how the manifest is
+re-synced. **Never a second copy of the behaviour** — that is §10's duplication warning one level
+down, and the copy that drifts is the one nobody rereads.
+
+**If packaging was accepted (§10)**, the behaviour moves into a skill and four things are added:
 
 ```
   .claude-plugin/
@@ -315,6 +340,7 @@ being *there* is what loads the criteria.
     SKILL.md             → THE BOT (§6), moved out of CLAUDE.md
     canon/               → canon/ moves in here, so it travels with the skill
   scripts/validar.js     → the packaging gate (§10)
+  README.md              → the quality floor (§10) — the reason it exists is the install
   LICENSE
 ```
 
@@ -323,6 +349,30 @@ Do not write the behaviour twice — a duplicated rule drifts, and the copy that
 nobody rereads.
 
 ### 5. Write the canon
+
+**Before writing a module, ask: *does the routing already reach this?*** If a pointer gets there,
+the pointer goes — the canon is for what **no pointer reaches**, not for what matters most. Those
+two are not the same thing, and confusing them is the easiest mistake in this whole procedure: the
+canon feels like "what the bot is", which invites filling it with the important stuff.
+
+**Summarizing in the canon something the routing already reaches produces two distillations of the
+same original inside the same bot**, and the one that wins is the one nearer the index of
+consultation — §2's competing-distillation failure, one level down. With the live tree on the same
+machine it gets *easier* to commit, not harder: everything is at hand, so everything looks like a
+candidate.
+
+What earns a module:
+
+| Enters the canon | Why no pointer reaches it |
+|---|---|
+| An **external or sealed source** | it is not in the tree — a corpus, a standard, a document under seal |
+| The **map** of the sources | what each one is and where its work lives; no single Lore contains the set |
+| The **border** (§9) | what is *not* the bot's business, with the reason it gets confused |
+| The **arbitration** between two sibling bodies of one institution | neither writes it whole (see the law section above) |
+
+**A minimal canon is not a half-built bot** when everything it needs is next door. A canon that
+repeats the tree **is** a broken bot, and it breaks silently. The canon grows when the ecosystem
+gets *farther away* — a teammate without the tree — not when it gets bigger.
 
 One file per body of criteria, in `canon/` (or `skills/{{BOT_SLUG}}/canon/` if packaged). Each one
 opens by declaring **which document it was distilled from and where the original lives**, and closes
@@ -712,7 +762,12 @@ Then check the two things a script cannot:
   when the copy is on.
 - **The canon is distilled from the source**, never from another distillation or from the model's
   own knowledge. Each module names its origin and its boundary of validity.
-- **Route by type of task, not by name of project.** Ambiguity between two Lore bodies ⇒ ask.
+- **The canon is for what the routing does not reach.** If a pointer gets there, the pointer goes.
+  Important and unreachable are not the same thing, and a canon that repeats the tree is a broken
+  bot that breaks silently. A minimal canon is not a half-built bot when the ecosystem is next door.
+- **Route by type of task, not by name of project.** Ambiguity between two Lore bodies ⇒ ask. And
+  the border between two sibling bodies is not missing, it is **half-written**: the test is whether
+  either side says what to do when the task belongs to both, never whether the border exists.
 - **Scope comes from the institution's registry, never from the builder's folder tree.** A source
   the registry does not list does not enter the manifest, and a borderline one is **declared out of
   scope with its reason**, not silently omitted — a border written with its reason holds, one that
