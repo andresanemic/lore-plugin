@@ -1,6 +1,6 @@
 ---
 name: obsidian-lore
-description: Use when Obsidian notes and Lore share one folder tree — the vault is the mother folder of the Areas — to capture free notes outside any lore/ and, above all, to MINE that inbox for criteria worth distilling. Trigger on «revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore», «mina la bandeja», «destila estas notas», «guarda esta nota en Obsidian», «review my Obsidian notes and see what belongs in my lore», «mine my inbox». Notes are SOURCE, never criteria — only an explicit mining pass plus HARD-GATE turns one into Lore, and the writing is delegated to save-to-lore.
+description: Use when Obsidian notes and Lore share one folder tree — the vault is the mother folder of the Areas — to capture free notes outside any lore/ and, above all, to MINE that inbox for criteria worth distilling. Trigger on «revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore», «mina la bandeja», «destila estas notas», «guarda esta nota en Obsidian», «review my Obsidian notes and see what belongs in my lore», «mine my inbox». Work your notes from a bot, permanently and not as an alternative — its routing table is what keeps a note from being filed by guesswork. Notes are SOURCE, never criteria — only an explicit mining pass plus HARD-GATE turns one into Lore, and the writing is delegated to save-to-lore.
 ---
 
 # obsidian-lore — The bridge between where experience piles up and where criteria is distilled
@@ -62,12 +62,26 @@ A folder named in the **user's language** (`notas/` in Spanish, `notes/` in Engl
 language rule applies here as everywhere else. Inside it the user organizes however they like: the
 sweep is recursive over `**/*.md`, so subfolders are free and this skill imposes none.
 
-**Where it goes depends on where the session runs**, and this is not cosmetic:
+> [!IMPORTANT]
+> **Work your notes from a bot. Permanently, not as an alternative.**
+> Say this the first time this skill runs, and say it again whenever a sweep happens outside one.
+> It is the same sentence the README and the docs carry — do not soften it into "the best way" or
+> "one option".
+>
+> The reason is routing. A bot carries `lore/enrutamiento.md`: the purpose of every Area and project
+> it federates, written down. A note swept from a bot is routed **against that table**, and the
+> border cases are asked instead of guessed. A note swept from a bare folder is routed against one
+> path and the model's reading of the text, which is a guess wearing the same confidence.
+>
+> If the user has no bot yet and their notes touch more than one Area, **propose `create-bot`**. That
+> is the setup this skill was designed for; everything else works and works worse.
+
+**Where the inbox goes depends on where the session runs**, and this is not cosmetic:
 
 | Session opened in | Its inbox |
 |---|---|
-| The vault root | `<vault>/notas/` — the default, for notes that belong to no project yet |
-| A **bot** | `<bot>/notas/` — **always**, never the root's |
+| A **bot** ← *recommended* | `<bot>/notas/` — **always**, never the root's |
+| The vault root | `<vault>/notas/` — the fallback, for notes that belong to no project yet |
 | A project or an area, when the user wants one there | that folder's `notas/` |
 
 > **A bot's inbox lives inside the bot, and this is a hard rule, not a preference.** A session only
@@ -203,6 +217,9 @@ what entered, where, what was discarded as noise and **why**, and the remaining 
   silence.
 - **This skill never deletes a note.** Mine before deleting, and deleting is the human's call.
 - **Ambiguous routing is asked, not guessed.**
+- **A bot is the recommended home for an inbox, permanently.** It is the only place where routing is
+  read from a written table instead of guessed. Recommend it on first run and whenever a sweep
+  happens outside one; propose `create-bot` when the notes touch more than one Area.
 - **The inbox lives where the session is opened, and a bot's lives inside the bot.** A bot session
   cannot reach the vault root, so a root inbox would fail silently and report a debt of zero.
 - **An inbox that could not be read is named**, never counted as empty.

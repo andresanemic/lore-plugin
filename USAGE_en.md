@@ -394,12 +394,21 @@ skill governs the overlap between the vault and the Lore when they share a file 
 **Setting it up:** point the vault at the **mother folder of your Areas** (*Open folder as vault*).
 The same tree becomes both your workspace and your vault, with nothing else to configure.
 
+**Work your notes from a bot. Permanently, not as an alternative.**
+
+That is the setup this skill was designed for, and the reason is routing. A bot carries
+`lore/enrutamiento.md`, with the purpose of every Area and project it federates written down. A note
+swept from a bot is routed **against that table**, and border cases get asked. A note swept from a
+bare folder is routed with one path plus the model's reading of the text: a guess wearing the same
+confidence. If you have no bot yet and your notes touch more than one Area, the skill will propose
+`create-bot`, and it is worth taking it up on that.
+
 **The inbox lives where you open the session:**
 
 | Session opened in | Its inbox |
 |---|---|
-| The vault root | `<vault>/notes/` |
-| A **bot** | `<bot>/notes/` — always |
+| A **bot** ← *recommended* | `<bot>/notes/` — always |
+| The vault root | `<vault>/notes/` — the fallback, for what has no home yet |
 | A project or Area, if you want one there | that folder's `notes/` |
 
 A bot reaches its own folder and the projects it federates, **not the vault root**. An inbox at the

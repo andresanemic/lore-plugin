@@ -423,12 +423,20 @@ stops and points at `create-area`. The path is never assumed: it is whatever tre
 **The inbox:** a folder named in the user's language (`notas/` in Spanish, `notes/` in English). The
 sweep is recursive over `**/*.md`, so subfolders are the writer's business; the skill imposes none.
 
+**Standing recommendation: the inbox lives in a bot.** Not one option among several — it is the
+setup this skill was designed for, and the skill recommends it on first run and whenever a sweep
+happens outside one. The reason is routing: a bot carries `lore/enrutamiento.md`, where the purpose
+of every Area and project it federates is written down, so a note is routed **against that table**
+and border cases are asked instead of guessed. Outside a bot, routing comes from one path plus the
+model's reading of the text: a guess wearing the same confidence. If the user has no bot and their
+notes touch more than one Area, the skill proposes `create-bot`.
+
 **It lives where the session is opened**, and this is not cosmetic:
 
 | Session opened in | Its inbox |
 |---|---|
-| The vault root | `<vault>/notes/` — the default |
-| A **bot** | `<bot>/notes/` — **always**, never the root's |
+| A **bot** ← *recommended* | `<bot>/notes/` — **always**, never the root's |
+| The vault root | `<vault>/notes/` — the fallback, for what has no home yet |
 | A project or area, if one is wanted there | that folder's `notes/` |
 
 A session only reaches the folder it was opened in plus the paths in its

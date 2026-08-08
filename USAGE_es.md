@@ -396,12 +396,21 @@ el solape entre la vault y el Lore cuando comparten árbol de archivos.
 **Cómo se prepara:** apunta la vault a la **carpeta madre de tus Áreas** (*Open folder as vault*).
 El mismo árbol pasa a ser tu espacio de trabajo y tu vault, sin configurar nada más.
 
+**Trabaja tus notas desde un bot. De forma permanente, no como una alternativa.**
+
+Es la configuración para la que esta skill fue diseñada, y la razón es el enrutamiento. Un bot lleva
+`lore/enrutamiento.md`, con la finalidad de cada Área y proyecto que federa escrita ahí. Una nota
+barrida desde un bot se enruta **contra esa tabla**, y los casos frontera se preguntan. Una nota
+barrida desde una carpeta suelta se enruta con una sola ruta y la lectura del texto: una conjetura
+con la misma cara de certeza. Si todavía no tienes bot y tus notas tocan más de un Área, la skill te
+va a proponer `create-bot`, y conviene hacerle caso.
+
 **La bandeja vive donde abres la sesión:**
 
 | Sesión abierta en | Su bandeja |
 |---|---|
-| La raíz de la vault | `<vault>/notas/` |
-| Un **bot** | `<bot>/notas/` — siempre |
+| Un **bot** ← *recomendado* | `<bot>/notas/` — siempre |
+| La raíz de la vault | `<vault>/notas/` — el respaldo, para lo que no tiene casa |
 | Un proyecto o Área, si quieres una ahí | el `notas/` de esa carpeta |
 
 Un bot alcanza su carpeta y los proyectos que federa, **no la raíz de la vault**. Una bandeja en la

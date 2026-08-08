@@ -1,705 +1,18 @@
 <p align="center">
-  <img src="https://i.imgur.com/AKHwfNa.png" alt="Lore" width="100%">
+  <img src="https://i.imgur.com/DWYL7vz.png" alt="Lore" width="100%">
 </p>
 
 <!-- Language selector (top of README.md) -->
 
 <p align="right">
-  <strong>Idioma / Language:</strong>
-  <a href="#español">Español</a> |
-  <a href="#english">English</a>
+  <strong>Language / Idioma:</strong>
+  <a href="#english">English</a> |
+  <a href="#español">Español</a>
 </p>
 
 ---
 
-<a id="español"></a>
-
-<h1 align="center">Lore</h1>
-
-<p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versión-1.0.5-F72585?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
-  <a href="#instalación"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
-  <a href="#qué-es-lore"><img src="https://img.shields.io/badge/paradigma-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
-  <a href="#origen"><img src="https://img.shields.io/badge/investigación-activa-10B981?style=for-the-badge&labelColor=0B0B12" alt="Estado"></a>
-  <a href="./LICENSE"><img src="https://img.shields.io/github/license/andresanemic/lore-plugin?style=for-the-badge&color=64748B&labelColor=0B0B12" alt="Licencia"></a>
-  <a href="https://github.com/andresanemic/lore-plugin/stargazers"><img src="https://img.shields.io/github/stars/andresanemic/lore-plugin?style=for-the-badge&color=F59E0B&labelColor=0B0B12" alt="Stars"></a>
-</p>
-
-<p align="center">
-  <b>Deja de explicarle tu proyecto a la IA todas las mañanas.</b><br>
-  Lore destila lo que aprendiste en <b>criterio</b> que se carga solo en la siguiente sesión.
-</p>
-
-<p align="center">
-  <code>/plugin marketplace add andresanemic/lore-plugin</code>
-</p>
-
-<p align="center">
-  <sub><b>906 clonaciones en 34 días</b> · 7 skills · 6 casos de estudio · sin dependencias</sub>
-</p>
-
----
-
-<table>
-<tr>
-<td width="33%" valign="top">
-
-**Empezar**
-
-[El problema](#el-problema)
-[Qué es Lore](#qué-es-lore)
-[Cómo funciona](#cómo-funciona)
-[Instalación](#instalación)
-
-</td>
-<td width="33%" valign="top">
-
-**Usarlo**
-
-[Arquitectura](#arquitectura)
-[Las siete skills](#las-siete-skills)
-[Obsidian](#obsidian--la-puerta-de-entrada)
-[Idioma del Lore](#idioma-del-lore)
-
-</td>
-<td width="33%" valign="top">
-
-**Entenderlo**
-
-[Invariantes](#invariantes-compartidas)
-[Lore, README y notas](#lore-readme-y-notas)
-[Cifrado](#cifrado-del-lore-experimental)
-[Casos de estudio](#casos-de-estudio) · [Origen](#origen)
-
-</td>
-</tr>
-</table>
-
----
-
-## El problema
-
-Todo proyecto desarrollado con inteligencia artificial acumula experiencia que costó cara:
-
-- decisiones de arquitectura;
-- incidentes en producción;
-- experimentos fallidos;
-- estándares de desarrollo;
-- y decenas de momentos de *«nunca volvamos a hacer esto»*.
-
-**La mayor parte de esa experiencia desaparece.** Mañana abres una sesión nueva y nada de eso existe: vuelves a explicar, y la IA vuelve a proponer lo que ya descartaste.
-
-Es un bucle de reexplicaciones y de soluciones mediocres que ya habías rechazado. LUS lo llama **experiencia efímera**, y no ocurre porque se olviden los datos: ocurre porque el aprendizaje nunca se convirtió en una estructura reutilizable.
-
-> [!NOTE]
-> La documentación tradicional resolvió parte del problema, pero solo preserva **información**. Los manuales describen procedimientos, los README explican instalaciones, las bases de datos guardan hechos. Casi nunca capturan lo que de verdad modifica una decisión futura.
-
----
-
-## Qué es Lore
-
-Un kit ligero de **Spec-Driven Development** para Claude Code. Aporta tres cosas:
-
-- una convención sencilla para organizar el criterio de un proyecto;
-- siete *skills* que operan esa convención;
-- y un ciclo continuo para destilar experiencia en criterio reutilizable.
-
-A diferencia de la documentación, Lore no intenta describirlo todo. Solo conserva aquello que modifica el comportamiento futuro.
-
-Un README responde *«¿qué es esto?»*. Lore responde otra cosa:
-
-> **¿Qué aprendimos que nunca deberíamos tener que volver a aprender?**
-
-> [!IMPORTANT]
-> **Si una frase no restringe una decisión futura, no es Lore.** Esa regla es todo el filtro, y es lo que impide que el sistema se convierta en otro cementerio de documentos.
-
----
-
-## Cómo funciona
-
-Todo problema resuelto contiene dos cosas: la solución, y la razón por la que esa solución existe. La documentación conserva la primera. **Lore conserva la segunda.**
-
-En lugar de registrar lo que pasó, lo destila en una **Pista Invariante**: una restricción pequeña que sigue sirviendo mucho después de que el contexto original desapareció.
-
-| En vez de recordar | Lore guarda |
-|---|---|
-| «Tuvimos un problema de hidratación en Next.js» | «Nunca uses estado del cliente para controlar la opacidad inicial» |
-| «Al desplegar desde Windows los assets daban 404» | «Prohibido comprimir con herramientas nativas de Windows: usar `tar.exe -a -c -f`» |
-
-El acontecimiento se olvida. El criterio sigue trabajando.
-
-### El ciclo
-
-```mermaid
-flowchart LR
-    A["Fricción<br/>algo se rompe"] --> B["Destilación<br/>Contexto → Causa → Pista"]
-    B --> G{"¿Restringe una<br/>decisión futura?"}
-    G -->|"sí, y es criterio"| C["lore/<br/>Pista Invariante"]
-    G -->|"es estado"| D["FASES.md"]
-    G -->|"no restringe nada"| E["Ruido<br/>informado, no borrado"]
-    C --> F["Decisiones futuras<br/>ya restringidas"]
-    F --> A
-```
-
-Cada paso del ciclo pasa por un **HARD-GATE**: se propone, tú apruebas, recién entonces se escribe.
-
----
-
-## Instalación
-
-```bash
-/plugin marketplace add andresanemic/lore-plugin
-/plugin install lore@lore-plugin
-```
-
-Dos líneas, sin dependencias ni configuración. Después escribe `using-lore` y el kit te guía hacia la skill que necesitas.
-
-> [!TIP]
-> **¿Usas otra herramienta de IA?** Cada skill es un archivo Markdown con encabezado YAML: el empaquetado es de Claude Code, la arquitectura no. Copia la carpeta de la skill donde quieras, o pega su cuerpo como prompt de sistema. Los seis artefactos y el modelo Área↔Proyecto son convenciones, no código.
-
-### Así se ve en la práctica
-
-Acabas de pasar dos horas peleando con un parpadeo al cargar la página. Lo resolviste. En vez de cerrar la pestaña:
-
-```text
-› guarda en lore
-```
-
-```text
-  Destilé esto:
-
-  [animacion] Parpadeo al cargar — el estado inicial delegado a JS
-
-  Contexto ······ Next.js con animaciones de entrada en SSR
-  Causa raíz ···· el JS se hidrata después de que el navegador pintó
-                  el HTML crudo, así que el elemento aparece visible
-                  un frame antes de que la animación lo oculte
-  Pista ········· prohibido delegar el estado inicial a JS. Vive
-                  inline en el JSX (opacity: 0). Usar fromTo para
-                  transicionar, nunca para crear el estado
-  Confianza ····· confirmada — validado en la app corriendo
-
-  → proyectos/cliente-a/lore/animacion.md
-  → esta Pista es genérica y confirmada: ¿la promuevo al Área,
-    para que la vean los otros 3 proyectos?
-
-  ¿Escribo?
-```
-
-Tres meses después, en otro proyecto del Área, alguien pide una animación de entrada. El criterio ya está cargado y esa discusión no vuelve a ocurrir.
-
-> [!NOTE]
-> Nada de eso se escribió sin que un humano dijera que sí. Es la misma puerta en las siete skills.
-
----
-
-## Arquitectura
-
-### Los seis artefactos
-
-Cada proyecto organiza su criterio con exactamente estos seis:
-
-| Artefacto | Qué guarda | Dónde |
-|---|---|---|
-| `identidad.md` | Qué es el proyecto, su propósito y su **piso de calidad** | `lore/` |
-| `principios.md` | Leyes invariantes, técnicas y de negocio: prohibiciones e imperativos | `lore/` |
-| Módulos temáticos | Cicatrices técnicas por dominio (animación, layout, scroll…) | `lore/` |
-| `index.md` | Mapa de navegación: una línea por patrón | `lore/` |
-| `FASES.md` | Estado y hoja de ruta: fase actual, foco | raíz |
-| `CLAUDE.md` | Contrato de colaboración, reducido a **punteros** | raíz |
-
-Cada uno tiene una responsabilidad. Ninguno duplica a otro.
-
-> [!IMPORTANT]
-> **El Lore es criterio (persiste); `FASES.md` es estado (avanza).** Nunca se mezclan, y `FASES.md` nunca vive dentro de `lore/`.
-
-Los nombres mostrados son las formas canónicas en español; en tu idioma se localizan. Ver [Idioma del Lore](#idioma-del-lore).
-
-### Herencia Área → Proyecto
-
-Lore escala mediante **Áreas**. Un Área es una carpeta madre con su propio Lore, y los proyectos lo heredan en vez de copiarlo:
-
-```text
-desarrollo-web/
-│
-├── lore/                      ← el criterio general vive UNA sola vez
-│     identidad · principios · index · animacion · scroll · layout
-│
-├── FASES.md                   ← registro de proyectos del Área
-├── CLAUDE.md                  ← contrato del Área
-│
-└── proyectos/
-    ├── cliente-a/
-    │   └── lore/              ← solo lo propio; el index apunta al Área
-    ├── cliente-b/
-    │   └── lore/
-    └── cliente-c/
-        └── lore/
-```
-
-Arreglas una Pista genérica una vez, en el Área, y todos los proyectos la ven. Cada proyecto conserva únicamente lo que le pertenece: el sistema se mantiene DRY sin perder experiencia acumulada.
-
-### La tercera forma: un bot
-
-| | Área | Proyecto | **Bot** |
-|---|---|---|---|
-| Contiene | proyectos | un trabajo | **una sesión de trabajo** |
-| Su Lore gobierna | el método del dominio | ese trabajo | **cómo se comporta el agente** |
-| Se abre para | ver el registro | avanzar eso | **trabajar en cualquiera de varios proyectos** |
-
-Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos.** No es un Área, precisamente porque no es dueño de nada del criterio que enruta: un Área que acumula criterio que no pagó empieza a recibir promociones que pertenecen a otra parte.
-
----
-
-## Las siete skills
-
-| Skill | Para qué | Cuándo |
-|---|---|---|
-| [`using-lore`](#using-lore) | Punto de entrada: explica el modelo y te manda a la skill correcta | primero, siempre |
-| [`create-area`](#create-area) | Crea un Área con su Lore compartido | al abrir un dominio nuevo |
-| [`create-project`](#create-project) | Crea un proyecto que hereda del Área | al empezar un trabajo |
-| [`save-to-lore`](#save-to-lore) | Destila una lección y decide si sube al Área | todos los días |
-| [`transmute-lore`](#transmute-lore) | Migra proyectos viejos, limpia duplicados o traduce el Lore | al heredar algo sin Lore |
-| [`create-bot`](#create-bot) | Un lugar donde abrir sesión y trabajar sobre varias Áreas a la vez | cuando ya hay Lore que reunir |
-| [`obsidian-lore`](#obsidian-lore) | Convierte tus notas sueltas en criterio | cuando la bandeja pesa |
-
-### `using-lore`
-
-El punto de entrada. Explica el modelo de Lore, el estándar de seis artefactos, el modelo Área↔Proyecto, y te guía hacia la skill adecuada. Léelo antes de invocar cualquier otro.
-
-### `create-area`
-
-Crea un Área nueva con su propio Lore compartido: `identidad.md` + `principios.md`, un `index.md`, un `CLAUDE.md`, un `FASES.md` que hace de registro de proyectos, y una carpeta `proyectos/` vacía. Hace un brainstorm de la identidad **antes** de tocar el disco.
-
-### `create-project`
-
-Crea un proyecto dentro de un Área existente. El proyecto hereda el criterio del Área en vez de duplicarlo: conserva su `identidad.md` y `principios.md` propios, y un `index.md` que **apunta** a los módulos del Área por ruta relativa. La estructura de carpetas y las fases se derivan de los documentos fuente del proyecto, no de una plantilla genérica.
-
-### `save-to-lore`
-
-El flujo que usarás todos los días. Resuelves algo que costó y escribes:
-
-> «guarda en lore»
-
-La skill extrae el criterio detrás de la solución, lo escribe donde corresponde y **propone** —nunca ejecuta— subirlo al Área si sirve para todos los proyectos.
-
-- Las lecciones específicas se quedan en el proyecto.
-- Las genéricas y confirmadas se proponen para promoción al Área.
-- Nada se promueve automáticamente.
-
-Tiene **dos modos**, y se eligen según de dónde viene el criterio:
-
-| Modo | Fuente | Qué hace |
-|---|---|---|
-| **capture** (por defecto) | **fricción vivida**: un bug, un colapso, un cliente que rechaza | Destila la cicatriz en una Pista Invariante. |
-| **arbitrate** | **criterio importado**: una skill, una guía de estilo, un manual ajeno | Lo juzga contra la finalidad de **tu** proyecto. Solo entra lo que sobrevive. |
-
-> [!IMPORTANT]
-> **La ley del modo `arbitrate`: un criterio ajeno no se destila, se arbitra.**
->
-> Una skill es criterio ya destilado **por otro, bajo otra finalidad**, y llega sin declarar dónde deja de valer. Copiarla al Lore produce **literatura redundante con la autoridad de una Pista Invariante**: criterio que nadie pagó con experiencia propia.
->
-> Por eso `arbitrate` tiene un HARD-GATE de salida: el módulo resultante **debe** registrar **dónde la fuente contradice tu estándar y pierde**. Sin esa sección no entra — o no hubo arbitraje (fue una copia), o la fuente no traía criterio.
->
-> **Lo que la fuente pierde vale más que lo que aporta:** el resumen ya existe, y mejor escrito, en la fuente. El desacuerdo no existe en ningún otro lado.
-
-Dos avisos que el modo `arbitrate` te dará:
-
-- **Capacidad ≠ criterio.** Una skill que **ejecuta** (renderiza video, hace un *crawl*, compila) se **usa** como dependencia: no es Lore. Solo se arbitra la que **juzga** (qué es buen copy, buen diseño, buen SEO).
-- **Sin identidad no hay arbitraje.** Si tu `identidad.md` está vacío no tienes vara con que medir, y frente a una fuente con autoridad lo único que puedes hacer es obedecerla. Primero la identidad, después la fuente.
-
-### `transmute-lore`
-
-Migra proyectos existentes hacia la arquitectura Lore. Tres modos:
-
-| Modo | Qué hace |
-|---|---|
-| **add** | Rescata el criterio ya disperso (un `CLAUDE.md` inflado, un README kilométrico, comentarios de código) y lo cristaliza en los seis artefactos. |
-| **clean** | Elimina los módulos redundantes del proyecto que el Área ya posee. El criterio no desaparece: cambia de dueño. |
-| **translate** | Estandariza el idioma de un Lore existente, traduciendo contenido y renombrando artefactos, sin alterar estructura ni significado. |
-
-### `create-bot`
-
-Te permite **trabajar desde un solo lugar sobre varias Áreas que forman parte de un mismo proyecto**. A eso lo llamamos *federar*.
-
-Piensa en un laboratorio de blockchain. Tiene su sitio web, lleva sus redes sociales, y sostiene líneas de investigación científica y de transferencia tecnológica. Cada una de esas Áreas ya tiene su propio Lore. Un bot las enruta a todas hacia una misma carpeta: abres la sesión ahí y puedes trabajar en cualquiera de ellas, y hacer que se comuniquen entre sí.
-
-También sirve al revés: si tienes un Área con varios proyectos —varios sitios web, por ejemplo— un bot te deja trabajar en uno mientras miras los archivos de los otros. Copiar el footer de un sitio para pegarlo en otro deja de ser una expedición.
-
-**Un bot no responde preguntas sobre los proyectos: trabaja en ellos.**
-
-> [!IMPORTANT]
-> **Su norte, y el único test que importa:** *una instrucción corta basta.* Si hubo que explicarle el proyecto al bot para obtener el resultado, faltaba criterio cargado.
-
-**Dos modos**, según de dónde sale el criterio:
-
-| Modo | Cuándo | Qué produce |
-|---|---|---|
-| **`nuevo`** | Desde 0. No hay Lore previo que reunir. | Canon nacido de un brainstorm + documentos fuente. |
-| **`federar`** | El criterio ya existe, disuelto en varias Áreas. | Canon **más** una tabla de enrutamiento sobre esos Lore. |
-
-<details>
-<summary><b>Cuando las carpetas todavía no tienen Lore</b></summary>
-
-<br>
-
-El punto de partida habitual no es un conjunto ordenado de Lore. Es material en bruto: carpetas de documentos, una base de datos, un espacio de Notion, código sin destilar. Eso no se puede federar todavía, y el arreglo es una cadena:
-
-```text
-carpeta en bruto (sin Lore)
-   └─ create-area                → el Área que va a ser DUEÑA de ese criterio
-        └─ transmute-lore (add)     → rescata el criterio que ya estaba disperso adentro
-             └─ create-bot (federar)   → el bot enruta hacia ese Lore
-```
-
-**La ley: el bot nunca destila hacia sí mismo.** Una fuente sin Lore recibe su Lore **en el Área que le corresponde**, y recién después se federa. Dejar que el bot destile material en bruto lo convierte en dueño de criterio que no pagó — la falla exacta que la distinción Área/bot existe para evitar, y en la práctica es irreversible: cuando la única copia de ese criterio vive en el bot, el Área ya no puede ser su fuente de verdad.
-
-`create-bot` inspecciona las rutas que le des y te dice cuáles ya tienen Lore, cuáles hay que transmutar primero y cuáles hay que extraer a texto antes. Una bandeja de notas libres **nunca se federa**: no tiene Lore, y es `.md`, que es justo lo que vuelve fácil el error.
-
-</details>
-
-<details>
-<summary><b>Los tres cuerpos que nunca se mezclan</b></summary>
-
-<br>
-
-Un bot sostiene tres cuerpos de criterio con **tres dueños distintos**. Fundirlos es el modo de falla por defecto, y es silencioso: todo sigue funcionando, y la copia empieza a ganarle a su fuente.
-
-| Cuerpo | Qué es | Regla |
-|---|---|---|
-| `canon/` | criterio que el bot **es** — cargado antes de cada decisión | destilado |
-| `lore/` | criterio para **mantener** el bot | propio del proyecto |
-| criterio **prestado** | el Lore de cada proyecto que el bot enruta | se alcanza **por puntero**; **nunca es autoritativo** |
-
-El test que los separa: **¿sería descartable la fuente?** Destilar produce algo más chico que puede *reemplazar* a su origen; copiar produce algo idéntico que **no puede**.
-
-**Federar es apuntar, no copiar.** Cada fila del manifiesto es una **dirección**: la tabla dice qué Lore gobierna la tarea, y el acceso generado deja que la sesión lo alcance donde vive. Ese criterio conserva un solo dueño y una sola versión, la misma regla DRY con la que funciona todo el kit.
-
-Y la ley que hace funcionar el enrutamiento:
-
-> **Se enruta por tipo de tarea, no por nombre de proyecto.**
-
-Una entidad puede tener varios cuerpos de criterio cuyos propios principios prohíben cruzarlos —lo que hace contra cómo lo cuenta es el corte habitual—. Decir su nombre no alcanza para elegir.
-
-</details>
-
-<details>
-<summary><b>Cuatro extras opcionales, apagados por defecto</b></summary>
-
-<br>
-
-Los cuatro se preguntan al configurar el bot la primera vez. Un bot sin ninguno está completo: son sellos, no piezas.
-
-- **La copia del ecosistema (`lore-ecosistema/`).** Por defecto el bot **apunta** al Lore de cada proyecto donde vive, sin duplicar nada. Encenderla solo tiene sentido si quien va a usar el bot **no** tiene tus carpetas: ahí el puntero no apunta a nada y la copia es lo único que hace existir ese criterio en su máquina.
-- **Empaquetarlo como *plugin* compartible.** Por defecto **no se crea**. Un bot es una carpeta con su canon y su `CLAUDE.md`: abres la sesión ahí y el criterio ya está cargado, sin instalar nada. Envolverlo en una skill con su repositorio propio sirve para **una sola cosa**, repartirlo a un equipo, y si vas a trabajar tú solo es andamiaje que igual hay que mantener.
-- **Cifrado del Lore** — *experimental*, ver [Cifrado](#cifrado-del-lore-experimental).
-- **Operación remota por el MCP de Telegram** — el bot no depende de ningún canal: corre donde vive el repositorio y el teléfono es solo la terminal. Requiere lista de acceso explícita y dejar una máquina encendida con una sesión abierta. Este plugin no lo empaqueta ni lo instala.
-
-</details>
-
-### `obsidian-lore`
-
-Convierte notas sueltas en criterio. Es la puerta de entrada si ya escribes en Obsidian, y tiene sección propia abajo.
-
----
-
-## Obsidian — la puerta de entrada
-
-Si ya escribes notas en Obsidian, ya tienes la materia prima. Apunta la vault a la **carpeta madre de tus Áreas** (*Open folder as vault*) y el mismo árbol de archivos es a la vez tu espacio de trabajo y tu vault. No se configura nada más.
-
-```text
-<tu carpeta madre>/       ← ábrela como vault en Obsidian
-  notas/                  ← la bandeja: escribe libre, sin formato
-  desarrollo-web/         ← tus Áreas y proyectos, con su Lore
-  bots/proyectos/mi-bot/
-    notas/                ← si trabajas desde un bot, su bandeja va acá
-```
-
-Después, cuando quieras:
-
-> «revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore»
-
-`obsidian-lore` barre la bandeja, separa lo que es criterio de lo que no, te dice a qué Lore va cada cosa y **espera tu aprobación** antes de escribir nada.
-
-### Qué hace con cada nota
-
-El discriminador no es la calidad de la nota: es si registra una **transformación** o solo un **hecho**.
-
-| La nota registra | Adónde va |
-|---|---|
-| Una fricción que **resolviste** | Pista Invariante en el Lore |
-| Una **tarea** o un problema abierto — *«hay que añadir X»* | `FASES.md`. Es estado, no criterio |
-| Criterio ajeno que recogiste | Arbitraje contra tu estándar |
-| Un resumen, un link, un apunte de reunión | Ruido, y te lo informa |
-
-La mayoría de una bandeja real cae en la última fila, y decirlo es parte del trabajo: un contenedor de notas acumula sobre todo información, y el criterio es lo raro que hay adentro.
-
-> [!WARNING]
-> **Por qué un barrido y no un botón de guardar.** Escribir la nota ya satisface las ganas de preservar, así que la destilación nunca ocurre y el criterio se queda dormido adentro. Separar las notas del Lore no lo arregla: eso ya se probó, y el registro siguió inerte seis semanas (ver [Caso 05](#casos-de-estudio)). Lo que sí funciona es barrer, y que cada barrido te diga cuántas notas llevan cuánto tiempo sin minar.
-
-### Dónde vive la bandeja
-
-**Donde abres la sesión.** Un bot alcanza su propia carpeta y los proyectos que federa, **no la raíz de la vault**: una bandeja en la raíz sería inalcanzable desde el bot y el barrido reportaría deuda cero sin avisar de nada. Por eso las notas de un bot van adentro del bot. Al minar se barre la bandeja local y, si es alcanzable, también la de la raíz.
-
-Cada nota minada recibe una marca con fecha y destino, **incluidas las que no produjeron nada**. Esa marca hace el barrido idempotente y hace visible la deuda. La skill **nunca borra una nota**: se mina antes de borrar, y borrar lo decides tú.
-
----
-
-## Idioma del Lore
-
-**El Lore habla tu idioma.**
-
-Las *skills* están escritas en inglés, pero el Lore que generan no: tanto el **contenido** como los **nombres de los artefactos** se escriben en el idioma en el que trabajas. `identidad.md`, `principios.md`, `FASES.md` son las formas canónicas en español; en inglés serían `identity.md`, `principles.md`, `PHASES.md`.
-
-Lo que permanece fijo en todos los idiomas:
-
-- `CLAUDE.md` (convención de Claude Code), `lore/` (el nombre del kit), `index.md` y `golden-paths.md`;
-- la estructura y la profundidad de las rutas relativas;
-- los términos técnicos de uso general en inglés (*workflow*, *commit*, *stack*, *scaffold*…).
-
-Dentro de un Área o proyecto existente mandan los nombres ya establecidos: nunca se mezclan esquemas. Si un Lore quedó en el idioma equivocado —o mezclado—, se estandariza con `transmute-lore` en modo **translate**, que traduce contenido y renombra artefactos a la vez.
-
----
-
-## Invariantes compartidas
-
-Las siete *skills* siguen las mismas reglas:
-
-- El Lore se escribe **en tu idioma**.
-- **El criterio nunca se inventa.** Todo proviene de experiencia real.
-- **Una nota es fuente, nunca criterio.**
-- **El ruido descartado se informa**, nunca se elimina en silencio.
-- Todo cambio pasa por un **HARD-GATE** antes de escribirse.
-- **Nada hace *commit* automáticamente.** Tú revisas el *diff* final.
-
----
-
-## Lore, README y notas
-
-Tres artefactos, tres preguntas distintas. Confundirlos es lo que llena un repositorio de documentos que nadie lee.
-
-| | README | Notas | **Lore** |
-|---|---|---|---|
-| Responde | ¿qué es esto? | ¿qué pasó? | **¿qué cambió por eso?** |
-| Guarda | información | material en bruto | **criterio** |
-| Está escrito para | quien llega | quien escribió | **quien decide** |
-| Su efecto | explica el pasado | preserva el pasado | **restringe el futuro** |
-
-> [!NOTE]
-> **Lore no es un segundo cerebro.** Un sistema de notas acumula información; Lore acumula criterio. Los dos sirven, y hacen cosas distintas. Por eso la separación no se negocia: nada cruza de las notas al Lore sin destilación explícita y sin que un humano apruebe el diff.
-
----
-
-## Cifrado del Lore (experimental)
-
-`create-bot` puede sellar el criterio de un bot para que viaje cifrado. Está **apagado por defecto** y **se recomienda solo para pruebas**: un bot sin cifrado está completo, y para criterio que importa, un repositorio privado es hoy la respuesta seria.
-
-**La ley: se cifra en distribución, nunca en consulta.** Las cargas viajan cifradas y se descifran **una vez** al clonar; en reposo local el criterio es Markdown plano. Cifrar en el punto donde el agente consulta no prohíbe leer: **encarece** leer, y lo caro deja de consultarse. Eso es el artefacto muriendo de costo de acceso.
-
-AES-256-GCM con clave derivada por scrypt, solo con la stdlib de Node, sin dependencias. La passphrase se pide por *stdin*, jamás como argumento ni pegada en el chat.
-
-> [!CAUTION]
-> **Estado: experimental.** La plantilla pasa su *self-test* (round-trip, passphrase incorrecta, alteración detectada por GCM, sin fuga de texto plano), pero **no ha sido auditada**, no tiene rotación de claves, ni revocación, ni respuesta para una passphrase filtrada. Es un sello para un repositorio compartido entre personas que ya confían entre sí, no un control de seguridad entre un adversario y algo que importe.
-
-Dos fronteras que se declaran siempre, y no se compensan con lenguaje que sugiera lo contrario:
-
-- Protege el repositorio y el tránsito. **No protege contra quien tiene la passphrase**: una clave compartida defiende de una filtración, no de un integrante del equipo.
-- **No cubre lo que una herramienta de IA hace con el texto** una vez cargado en su contexto.
-
-**Crédito.** La pregunta —*¿qué protege a un Lore que tiene que compartirse?*— la abrió **Mantra**, de [LonelyAchemist](https://github.com/lonelyachemist-arch), una derivación de este kit que cifraba el Lore **en reposo**. La respuesta acá está invertida, y el código es propio.
-
----
-
-## Documentación
-
-Este README cubre la motivación y la arquitectura. Para el resto hay tres documentos dedicados, en español e inglés:
-
-| Documento | Para qué sirve |
-|---|---|
-| [`USAGE_es.md`](./USAGE_es.md) · [`USAGE_en.md`](./USAGE_en.md) | Guía práctica de uso día a día: instalación, ciclo de trabajo, y cada *skill* con ejemplos. |
-| [`REFERENCE_es.md`](./REFERENCE_es.md) · [`REFERENCE_en.md`](./REFERENCE_en.md) | Referencia técnica: conceptos, especificación exacta de cada artefacto y cada *skill*. |
-| [`MIGRATION_es.md`](./MIGRATION_es.md) · [`MIGRATION_en.md`](./MIGRATION_en.md) | Cómo migrar un proyecto existente hacia Lore con `transmute-lore`. |
-
-<details>
-<summary><b>Estructura del repositorio</b></summary>
-
-<br>
-
-```text
-lore-plugin/
-  .claude-plugin/
-    plugin.json
-    marketplace.json
-
-  skills/
-    using-lore/
-    create-area/
-    create-project/
-    create-bot/
-      plantillas/        # validar.js · canon.js · sync.js · ecosistema.json
-    save-to-lore/
-    transmute-lore/
-    obsidian-lore/
-
-  README.md
-  LICENSE
-```
-
-</details>
-
----
-
-## Casos de estudio
-
-Lore no se diseñó en una pizarra: cada decisión de este kit salió de aplicarlo a proyectos reales y mirar qué se rompía. LUS documenta esas aplicaciones como **casos de estudio**.
-
-> [!NOTE]
-> **Estatus:** son casos, no demostraciones. n pequeño, y las seis evidencias documentadas vienen del mismo investigador. Lo que aquí se afirma restringe cómo usamos el kit; no pretende ser una ley.
-
-<details>
-<summary><b>Caso 01 — El Lore como forma operativa de un proyecto entero</b></summary>
-
-<br>
-
-Un proyecto real (*numerología*) construido con Lore de principio a fin, sobre una práctica de desarrollo disciplinado. Mostró que la arquitectura de seis artefactos **aguanta un proyecto completo**, no solo notas sueltas: el criterio se acumula, se consulta y sigue decidiendo meses después.
-
-</details>
-
-<details>
-<summary><b>Caso 02 — El criterio se recupera y se comparte</b></summary>
-
-<br>
-
-Cuatro proyectos de un área real (*desarrollo web*) llevados al estándar con `transmute-lore`. Dejó tres cosas que hoy son ley del kit:
-
-- **El criterio es recuperable** (modo `add`): un proyecto que nació sin Lore ya tenía criterio disperso en comentarios, decisiones y cicatrices. No se inventa: **se rescata**.
-- **El criterio es deduplicable** (modo `clean`): los módulos genéricos viven **una sola vez, en el Área**. En un proyecto, el `clean` borró 7 módulos redundantes (−866 líneas) sin perder nada: el criterio no desapareció, **cambió de dueño**.
-- **La herencia es selectiva:** cada proyecto referencia **solo** los módulos del Área que su stack realmente usa.
-
-**Frontera declarada:** los cuatro proyectos eran del mismo dominio. La transferibilidad *entre dominios* sigue siendo promesa, no evidencia.
-
-</details>
-
-<details>
-<summary><b>Caso 03 — El criterio importado no se adopta: se arbitra</b></summary>
-
-<br>
-
-El caso que originó el modo `arbitrate`. Tres áreas destilaron Lore a partir de *skills* de terceros, y lo observado contradijo la intuición:
-
-- **Lo valioso no fue el resumen de la skill, fue el desacuerdo.** En dos áreas distintas, el bloque denso del módulo resultante era *«dónde la skill contradice nuestro estándar y pierde»*. Esa parte **no existía ni en la skill ni en el Lore previo**: nació de la colisión.
-- **La misma skill, arbitrada por dos finalidades opuestas, pierde en el mismo sitio por razones inversas.** Las skills de *copywriting* fueron derrotadas en un área de marketing (*«copy aburrido y funcional le gana siempre»*) y en una de periodismo (*«no vendemos, informamos»*). El resultado no depende de la fuente: depende de **tu** finalidad.
-- **Capacidad ≠ criterio.** Una skill que *ejecuta* no se destiló: se usa como dependencia.
-
-**Frontera declarada:** las tres áreas son del mismo usuario, con la misma herramienta. El mecanismo está observado, no probado a escala.
-
-</details>
-
-<details>
-<summary><b>Caso 04 — El Lore no-software: la estructura sobrevive fuera del código</b></summary>
-
-<br>
-
-El primer caso que cruza de software a otra disciplina. Dos áreas ajenas al desarrollo —periodismo y estrategia de contenido— ya tenían Lore destilado real, no andamiaje: módulos temáticos derivados de trabajo real, consultados por proyectos reales.
-
-- **La arquitectura no es un rasgo del software.** El mismo esqueleto se reprodujo en oficios sin compilador ni test, solo con una práctica disciplinada y una finalidad explícita.
-- **Existencia no es medición.** El caso muestra que el método *produce* criterio en otro dominio; no mide todavía que ese criterio *redujo el reaprendizaje*.
-
-**Frontera declarada:** el criterio no *viajó* entre dominios — cada Lore nació fresco en su disciplina. Lo que se replica es el mecanismo.
-
-</details>
-
-<details>
-<summary><b>Caso 05 — La memoria del caso no alimenta la destilación: la desplaza</b></summary>
-
-<br>
-
-El método volvió, seis semanas después, al proyecto donde había nacido en bruto. Encontró dos artefactos de preservación conviviendo con suertes opuestas: un `lore/` de Pistas destiladas, que seguía trabajando, y un registro de incidentes que **no participó de una sola decisión** — ni siquiera cuando volvió a romperse el mismo territorio técnico que ese registro documentaba.
-
-- **Preservar no es destilar, y el parecido es el problema.** Un registro de casos satisface el impulso de preservar **sin producir criterio**. Cumplido el principio de «dejar registro», nadie destila. Al minar el registro antes de borrarlo aparecieron dos Pistas que llevaban seis semanas ahí sin destilarse.
-- **«Indexado y obligatorio» no implica «consultado».** Estaba en la tabla de consulta del `CLAUDE.md` y era ley en `principios.md`, y aun así no se cargó. La accesibilidad es necesaria y no suficiente.
-- **El filtro de admisión no mide la altitud de la Pista.** Una Pista entró un día y al siguiente no impidió el segundo síntoma de su misma causa: estaba escrita sobre la superficie que se vio, no sobre la causa.
-
-**Este caso es la razón de que `obsidian-lore` sea un barrido y no un botón.**
-
-**Frontera declarada:** es software, mismo investigador y mismo interlocutor, y no hay contrafactual. Evidencia testimonial, no medida.
-
-</details>
-
-<details>
-<summary><b>Caso 06 — La herencia entre Áreas hermanas: congelarla o enrutarla</b></summary>
-
-<br>
-
-Un proyecto necesitó criterio de cuatro Áreas, de las cuales solo una era su madre. **El modelo de herencia de Lore es vertical, y las Áreas hermanas no son madres de nadie.** Aparecieron dos soluciones independientes: **congelar** —copiar snapshots, cuando la carpeta tiene que viajar sola— y **enrutar** —decidir por tarea cuál cuerpo gobierna—. Este segundo camino es el que `create-bot` empaqueta.
-
-- **Consumir no es heredar.** Se hereda del Área madre; el criterio de un Área hermana se **consume**. La distinción decide hacia dónde promueve un criterio que se generaliza: sube a su propia Área, nunca a la que solo lo lee.
-- **Lo destilable de un conjunto de criterios es la frontera, no los criterios.** Dos Áreas hermanas tenían escrita, cada una, su mitad de la línea. Ninguna tenía la regla para decidir cuál gobierna una tarea concreta, porque cada cuerpo se escribe desde adentro de su propia finalidad y la divisoria solo se ve desde afuera de los dos.
-
-**Frontera declarada:** las dos observaciones distan 48 horas, en el mismo ecosistema y con el mismo investigador. No son dos casos independientes.
-
-</details>
-
-<br>
-
-**Alcance:** el repositorio lleva **906 clonaciones en 34 días**. Es una señal de alcance, no una demostración: nadie sabe qué hizo cada quien con su copia. No cuenta como caso, y no sustituye la pregunta que los casos sí responden.
-
----
-
-## Origen
-
-Lore nació como una destilación de **LUS (Lore User System)**, un programa de investigación que estudia cómo un ser humano y una IA acumulan criterio compartido a lo largo de una colaboración prolongada.
-
-LUS estudia la relación. Lore es una implementación operativa surgida de esa investigación. Su principio central cabe en una idea:
-
-> **La experiencia solo crea valor cuando puede volver a participar en una decisión futura.**
-
-Entre las principales influencias del programa:
-
-- **Martin Buber** — *Yo y Tú*
-- **Claude Shannon** y **Warren Weaver** — *The Mathematical Theory of Communication*
-- **Gregory Bateson** — «una diferencia que produce una diferencia»
-- **Andy Clark** y **David Chalmers** — *The Extended Mind*
-
-[Explora la investigación en el NotebookLM de LUS](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b79450)
-
-### ¿Por qué «Lore»?
-
-En los videojuegos, el *lore* es aquello que da coherencia a un universo. No son las mecánicas: es la historia acumulada, las reglas que siguen influyendo en todo lo que puede ocurrir después.
-
-Lore aplica esa misma idea al desarrollo. Los acontecimientos originales dejan de importar. El criterio permanece.
-
----
-
-## Autor
-
-**Andrés Peña Mellado** — investigador principal de LUS.
-
-<p>
-  <a href="https://github.com/andresanemic"><img src="https://img.shields.io/badge/GitHub-andresanemic-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"></a>
-  <a href="https://x.com/andresanemic"><img src="https://img.shields.io/badge/X-@andresanemic-000000?style=for-the-badge&logo=x&logoColor=white" alt="X"></a>
-  <a href="https://www.linkedin.com/in/andresanemic/"><img src="https://img.shields.io/badge/LinkedIn-Andrés%20Peña%20Mellado-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
-  <a href="https://t.me/andresanemic"><img src="https://img.shields.io/badge/Telegram-@andresanemic-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram"></a>
-  <a href="mailto:andres@healthproof.cl"><img src="https://img.shields.io/badge/Email-andres@healthproof.cl-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"></a>
-</p>
-
-¿Preguntas, casos que contradigan los nuestros, un Lore que quedó raro? La [discusión del repositorio](https://github.com/andresanemic/lore-plugin/discussions) es el lugar. Los casos que **refutan** algo son los que más sirven.
-
-> **Si Lore te ahorró volver a explicarte, una ⭐ en el repositorio ayuda a que otras personas lo encuentren.**
-
-<p align="center">
-  <img src="https://i.imgur.com/DWYL7vz.png" alt="Lore" width="100%">
-</p>
-
----
-
-# English
-
-<p align="right">
-  <strong>Language:</strong>
-  <a href="#español">Español</a> |
-  <a href="#english">English</a>
-</p>
+<a id="english"></a>
 
 <h1 align="center">Lore</h1>
 
@@ -753,9 +66,9 @@ Lore aplica esa misma idea al desarrollo. Los acontecimientos originales dejan d
 
 **Understand it**
 
+[Reach](#reach)
 [Shared invariants](#shared-invariants)
-[Lore, README and notes](#lore-readme-and-notes)
-[Encryption](#lore-encryption-experimental)
+[Encryption](#encryption-experimental)
 [Case studies](#case-studies) · [Origin](#origin)
 
 </td>
@@ -880,6 +193,34 @@ Three months later, in another project of the Area, someone asks for an entrance
 
 ---
 
+## Reach
+
+<table>
+<tr>
+<td align="center" width="25%"><h3>906</h3><sub>clones</sub></td>
+<td align="center" width="25%"><h3>34</h3><sub>days</sub></td>
+<td align="center" width="25%"><h3>~27</h3><sub>clones / day</sub></td>
+<td align="center" width="25%"><h3>130</h3><sub>peak in one day</sub></td>
+</tr>
+</table>
+
+```text
+ Jul  5 – 11   ████████████████████████████████████████████  249
+ Jul 12 – 18   ██████████████████████████████████            189
+ Jul 19 – 25   ████████████████████████████████              180
+ Jul 26 – Aug 1 ███████████████████████████                  151
+ Aug  2 –  7   ████████████████████████                      137  ← week in progress
+                                                          ───────
+                                                              906
+```
+
+After the launch spike the curve settles into a steady floor of roughly twenty clones a day, which is the more interesting number: it is not a launch, it is people still arriving. Data comes from GitHub's traffic API, stored weekly in [`data/traffic/clones.json`](./data/traffic/clones.json) because the API only keeps 14 days.
+
+> [!WARNING]
+> **This is a reach signal, not a demonstration.** Nobody knows what anyone did with their copy: how many installed it, how many distilled anything, how many opened the folder once. It does not count as a case and it does not answer the question the [case studies](#case-studies) do. Note also that the "unique cloners" the API returns are unique **per day**, not people, so they cannot be summed into a headcount.
+
+---
+
 ## Architecture
 
 ### The six artifacts
@@ -942,13 +283,13 @@ Areas and projects are places; **a bot is a lens you carry into them.** It is no
 
 | Skill | What for | When |
 |---|---|---|
-| [`using-lore`](#using-lore-1) | Entry point: explains the model and routes you to the right skill | first, always |
-| [`create-area`](#create-area-1) | Creates an Area with its shared Lore | opening a new domain |
-| [`create-project`](#create-project-1) | Creates a project that inherits from the Area | starting a piece of work |
-| [`save-to-lore`](#save-to-lore-1) | Distills a lesson and decides whether it rises to the Area | every day |
-| [`transmute-lore`](#transmute-lore-1) | Migrates old projects, cleans duplicates, or translates the Lore | inheriting something with no Lore |
-| [`create-bot`](#create-bot-1) | One place to open a session and work across several Areas at once | once there is Lore worth gathering |
-| [`obsidian-lore`](#obsidian-lore-1) | Turns your loose notes into criteria | once the inbox gets heavy |
+| [`using-lore`](#using-lore) | Entry point: explains the model and routes you to the right skill | first, always |
+| [`create-area`](#create-area) | Creates an Area with its shared Lore | opening a new domain |
+| [`create-project`](#create-project) | Creates a project that inherits from the Area | starting a piece of work |
+| [`save-to-lore`](#save-to-lore) | Distills a lesson and decides whether it rises to the Area | every day |
+| [`transmute-lore`](#transmute-lore) | Migrates old projects, cleans duplicates, or translates the Lore | inheriting something with no Lore |
+| [`create-bot`](#create-bot) | One place to open a session and work across several Areas at once | once there is Lore worth gathering |
+| [`obsidian-lore`](#obsidian--the-way-in) | Turns your loose notes into criteria | once the inbox gets heavy |
 
 ### `using-lore`
 
@@ -1079,14 +420,10 @@ All four are asked when the bot is configured for the first time. A bot with non
 
 - **The ecosystem copy (`lore-ecosistema/`).** By default the bot **points** at each project's Lore where it lives, duplicating nothing. Turning it on only makes sense if whoever will use the bot does **not** have your folders: there the pointer resolves to nothing, and the copy is the only way that criteria exists on their machine.
 - **Packaging it as a shareable plugin.** **Not created by default.** A bot is a folder with its canon and its `CLAUDE.md`: you open the session there and the criteria is already loaded, with nothing to install. Wrapping it in a skill with its own repository serves **one purpose**, handing it to a team, and if you are working alone it is scaffolding you still have to maintain.
-- **Lore encryption** — *experimental*, see [Encryption](#lore-encryption-experimental).
+- **Lore encryption** — *experimental*, see [Encryption](#encryption-experimental).
 - **Remote operation over the Telegram MCP** — the bot depends on no channel: it runs where the repository lives, and the phone is only a terminal. Requires an explicit access list and a machine left on with a session open. This plugin neither packages nor installs it.
 
 </details>
-
-### `obsidian-lore`
-
-Turns loose notes into criteria. It is the way in if you already write in Obsidian, and it has its own section below.
 
 ---
 
@@ -1094,19 +431,27 @@ Turns loose notes into criteria. It is the way in if you already write in Obsidi
 
 If you already write notes in Obsidian, you already have the raw material. Point the vault at the **mother folder of your Areas** (*Open folder as vault*) and the same file tree is both your workspace and your vault. Nothing else gets configured.
 
-```text
-<your mother folder>/     ← open it as a vault in Obsidian
-  notes/                  ← the inbox: write freely, no format
-  web-development/        ← your Areas and projects, with their Lore
-  bots/projects/my-bot/
-    notes/                ← working from a bot? its inbox goes here
-```
-
 Then, whenever you want:
 
 > "review my Obsidian notes and see what belongs in my lore"
 
 `obsidian-lore` sweeps the inbox, separates criteria from everything else, tells you which Lore each thing belongs to, and **waits for your approval** before writing anything.
+
+> [!IMPORTANT]
+> **Keep your notes in a bot. Permanently, not as one option among several.**
+>
+> That is the setup this skill was designed for, and the reason is routing. A bot carries a routing table with the purpose of every Area and project it federates written down, so a note is routed **against that table** and the border cases get asked instead of guessed. From a bare folder, routing comes from one path plus a reading of the text: a guess wearing the same confidence.
+>
+> No bot yet, and your notes touch more than one Area? The skill will propose [`create-bot`](#create-bot). Take it up on that.
+
+```text
+<your mother folder>/           ← open it as a vault in Obsidian
+  notes/                        ← the root inbox, for what has no home yet
+  web-development/              ← your Areas and projects, with their Lore
+  bots/projects/my-bot/         ← ★ open your sessions here
+    notes/                      ← the inbox that matters: routed, not guessed
+    canon/ · lore/ · CLAUDE.md
+```
 
 ### What it does with each note
 
@@ -1126,9 +471,11 @@ Most of a real inbox lands in the last row, and saying so is part of the job: a 
 
 ### Where the inbox lives
 
-**Where you open the session.** A bot reaches its own folder and the projects it federates, **not the vault root**: an inbox at the root would be unreachable from the bot and the sweep would report a debt of zero without warning anyone. So a bot's notes go inside the bot. A sweep mines the local inbox and, if reachable, the root's too.
+**Where you open the session**, which is one more reason to work from a bot. A bot reaches its own folder and the projects it federates, **not the vault root**: an inbox at the root would be unreachable from the bot and the sweep would report a debt of zero without warning anyone. So a bot's notes go inside the bot, and a sweep mines the local inbox first and the root's after, if it can reach it.
 
 Every mined note gets a mark with date and destination, **including the ones that produced nothing**. That mark makes the sweep idempotent and makes the debt visible. The skill **never deletes a note**: mine before deleting, and deleting is your call.
+
+**A note is source, never criteria.** It answers *"what happened"*; Lore answers *"what changed because of it"*. Nothing crosses without explicit distillation and a human approving the diff.
 
 ---
 
@@ -1161,39 +508,18 @@ All seven skills follow the same rules:
 
 ---
 
-## Lore, README and notes
-
-Three artifacts, three different questions. Confusing them is what fills a repository with documents nobody reads.
-
-| | README | Notes | **Lore** |
-|---|---|---|---|
-| Answers | what is this? | what happened? | **what changed because of it?** |
-| Holds | information | raw material | **criteria** |
-| Written for | whoever arrives | whoever wrote it | **whoever decides** |
-| Its effect | explains the past | preserves the past | **constrains the future** |
-
-> [!NOTE]
-> **Lore is not a second brain.** A note system accumulates information; Lore accumulates criteria. Both are useful, and they do different things. That is why the separation is not negotiable: nothing crosses from notes into Lore without explicit distillation and a human approving the diff.
-
----
-
-## Lore encryption (experimental)
+## Encryption (experimental)
 
 `create-bot` can seal a bot's criteria so it travels encrypted. It is **off by default** and **recommended for testing only**: a bot without encryption is complete, and for criteria that matters, a private repository is today's serious answer.
 
-**The law: encrypt in distribution, never at consultation.** Payloads travel encrypted and are decrypted **once** on clone; at rest the criteria is plain Markdown. Encrypting at the point where the agent consults does not forbid reading: it makes reading **expensive**, and what is expensive stops being consulted. That is the artifact dying of access cost.
+**The law: encrypt in distribution, never at consultation.** Payloads travel encrypted and are decrypted once on clone; at rest they are plain Markdown. Encrypting where the agent consults does not forbid reading, it makes reading **expensive**, and what is expensive stops being consulted.
 
-AES-256-GCM with a scrypt-derived key, using only Node's stdlib, no dependencies. The passphrase is read from *stdin*, never as an argument and never pasted into the chat.
+AES-256-GCM with a scrypt-derived key, Node stdlib only. The passphrase is read from *stdin*, never pasted into the chat.
 
 > [!CAUTION]
-> **Status: experimental.** The template passes its self-test (round-trip, wrong passphrase, GCM tamper detection, no plaintext leak), but it has **not been audited**, has no key rotation, no revocation, and no answer for a leaked passphrase. It is a seal for a repository shared among people who already trust each other, not a security control between an adversary and something that matters.
+> It has **not been audited**, has no key rotation and no revocation. It protects the repository and the transport, **not** against someone holding the passphrase, and it does not cover what an AI tool does with the text once loaded into its context.
 
-Two boundaries that are always declared, and never papered over with language suggesting otherwise:
-
-- It protects the repository and the transport. **It does not protect against someone holding the passphrase**: a shared key defends against a leak, not against a teammate.
-- It does **not cover what an AI tool does with the text** once loaded into its context.
-
-**Credit.** The question — *what protects a Lore that has to be shared?* — was opened by **Mantra**, by [LonelyAchemist](https://github.com/lonelyachemist-arch), a derivation of this kit that encrypted the Lore **at rest**. The answer here is inverted, and the code is our own.
+**Credit.** The question — *what protects a Lore that has to be shared?* — was opened by **Mantra**, by [LonelyAchemist](https://github.com/lonelyachemist-arch), which encrypted the Lore at rest. The answer here is inverted, and the code is our own.
 
 ---
 
@@ -1327,10 +653,6 @@ A project needed criteria from four Areas, only one of which was its mother. **L
 
 </details>
 
-<br>
-
-**Reach:** the repository has been cloned **906 times in 34 days**. That is a reach signal, not a demonstration: nobody knows what anyone did with their copy. It does not count as a case, and it does not replace the question the cases do answer.
-
 ---
 
 ## Origin
@@ -1375,5 +697,446 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 > **If Lore saved you from explaining yourself again, a ⭐ on the repo helps other people find it.**
 
 <p align="center">
-  <img src="https://i.imgur.com/DWYL7vz.png" alt="Lore" width="100%">
+  <img src="https://i.imgur.com/AKHwfNa.png" alt="Lore" width="100%">
+</p>
+
+---
+
+<a id="español"></a>
+
+<details>
+<summary><h2>🇪🇸 &nbsp;Leer en español</h2></summary>
+
+<br>
+
+<h1 align="center">Lore</h1>
+
+<p align="center">
+  <a href="#instalación"><img src="https://img.shields.io/badge/versión-1.0.5-F72585?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
+  <a href="#qué-es-lore"><img src="https://img.shields.io/badge/paradigma-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
+  <a href="#origen"><img src="https://img.shields.io/badge/investigación-activa-10B981?style=for-the-badge&labelColor=0B0B12" alt="Estado"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/github/license/andresanemic/lore-plugin?style=for-the-badge&color=64748B&labelColor=0B0B12" alt="Licencia"></a>
+  <a href="https://github.com/andresanemic/lore-plugin/stargazers"><img src="https://img.shields.io/github/stars/andresanemic/lore-plugin?style=for-the-badge&color=F59E0B&labelColor=0B0B12" alt="Stars"></a>
+</p>
+
+<p align="center">
+  <b>Deja de explicarle tu proyecto a la IA todas las mañanas.</b><br>
+  Lore destila lo que aprendiste en <b>criterio</b> que se carga solo en la siguiente sesión.
+</p>
+
+<p align="center">
+  <code>/plugin marketplace add andresanemic/lore-plugin</code>
+</p>
+
+<p align="center">
+  <sub><b>906 clonaciones en 34 días</b> · 7 skills · 6 casos de estudio · sin dependencias</sub>
+</p>
+
+---
+
+### El problema
+
+Todo proyecto desarrollado con inteligencia artificial acumula experiencia que costó cara:
+
+- decisiones de arquitectura;
+- incidentes en producción;
+- experimentos fallidos;
+- estándares de desarrollo;
+- y decenas de momentos de *«nunca volvamos a hacer esto»*.
+
+**La mayor parte de esa experiencia desaparece.** Mañana abres una sesión nueva y nada de eso existe: vuelves a explicar, y la IA vuelve a proponer lo que ya descartaste.
+
+Es un bucle de reexplicaciones y de soluciones mediocres que ya habías rechazado. LUS lo llama **experiencia efímera**, y no ocurre porque se olviden los datos: ocurre porque el aprendizaje nunca se convirtió en una estructura reutilizable.
+
+> [!NOTE]
+> La documentación tradicional resolvió parte del problema, pero solo preserva **información**. Los manuales describen procedimientos, los README explican instalaciones, las bases de datos guardan hechos. Casi nunca capturan lo que de verdad modifica una decisión futura.
+
+---
+
+### Qué es Lore
+
+Un kit ligero de **Spec-Driven Development** para Claude Code. Aporta tres cosas:
+
+- una convención sencilla para organizar el criterio de un proyecto;
+- siete *skills* que operan esa convención;
+- y un ciclo continuo para destilar experiencia en criterio reutilizable.
+
+A diferencia de la documentación, Lore no intenta describirlo todo. Solo conserva aquello que modifica el comportamiento futuro.
+
+Un README responde *«¿qué es esto?»*. Lore responde otra cosa:
+
+> **¿Qué aprendimos que nunca deberíamos tener que volver a aprender?**
+
+> [!IMPORTANT]
+> **Si una frase no restringe una decisión futura, no es Lore.** Esa regla es todo el filtro, y es lo que impide que el sistema se convierta en otro cementerio de documentos.
+
+---
+
+### Cómo funciona
+
+Todo problema resuelto contiene dos cosas: la solución, y la razón por la que esa solución existe. La documentación conserva la primera. **Lore conserva la segunda.**
+
+En lugar de registrar lo que pasó, lo destila en una **Pista Invariante**: una restricción pequeña que sigue sirviendo mucho después de que el contexto original desapareció.
+
+| En vez de recordar | Lore guarda |
+|---|---|
+| «Tuvimos un problema de hidratación en Next.js» | «Nunca uses estado del cliente para controlar la opacidad inicial» |
+| «Al desplegar desde Windows los assets daban 404» | «Prohibido comprimir con herramientas nativas de Windows: usar `tar.exe -a -c -f`» |
+
+El acontecimiento se olvida. El criterio sigue trabajando.
+
+```mermaid
+flowchart LR
+    A["Fricción<br/>algo se rompe"] --> B["Destilación<br/>Contexto → Causa → Pista"]
+    B --> G{"¿Restringe una<br/>decisión futura?"}
+    G -->|"sí, y es criterio"| C["lore/<br/>Pista Invariante"]
+    G -->|"es estado"| D["FASES.md"]
+    G -->|"no restringe nada"| E["Ruido<br/>informado, no borrado"]
+    C --> F["Decisiones futuras<br/>ya restringidas"]
+    F --> A
+```
+
+Cada paso del ciclo pasa por un **HARD-GATE**: se propone, tú apruebas, recién entonces se escribe.
+
+---
+
+### Instalación
+
+```bash
+/plugin marketplace add andresanemic/lore-plugin
+/plugin install lore@lore-plugin
+```
+
+Dos líneas, sin dependencias ni configuración. Después escribe `using-lore` y el kit te guía hacia la skill que necesitas.
+
+> [!TIP]
+> **¿Usas otra herramienta de IA?** Cada skill es un archivo Markdown con encabezado YAML: el empaquetado es de Claude Code, la arquitectura no. Copia la carpeta de la skill donde quieras, o pega su cuerpo como prompt de sistema.
+
+#### Así se ve en la práctica
+
+Acabas de pasar dos horas peleando con un parpadeo al cargar la página. Lo resolviste. En vez de cerrar la pestaña:
+
+```text
+› guarda en lore
+```
+
+```text
+  Destilé esto:
+
+  [animacion] Parpadeo al cargar — el estado inicial delegado a JS
+
+  Contexto ······ Next.js con animaciones de entrada en SSR
+  Causa raíz ···· el JS se hidrata después de que el navegador pintó
+                  el HTML crudo, así que el elemento aparece visible
+                  un frame antes de que la animación lo oculte
+  Pista ········· prohibido delegar el estado inicial a JS. Vive
+                  inline en el JSX (opacity: 0). Usar fromTo para
+                  transicionar, nunca para crear el estado
+  Confianza ····· confirmada — validado en la app corriendo
+
+  → proyectos/cliente-a/lore/animacion.md
+  → esta Pista es genérica y confirmada: ¿la promuevo al Área,
+    para que la vean los otros 3 proyectos?
+
+  ¿Escribo?
+```
+
+Tres meses después, en otro proyecto del Área, alguien pide una animación de entrada. El criterio ya está cargado y esa discusión no vuelve a ocurrir.
+
+---
+
+### Alcance
+
+<table>
+<tr>
+<td align="center" width="25%"><h3>906</h3><sub>clonaciones</sub></td>
+<td align="center" width="25%"><h3>34</h3><sub>días</sub></td>
+<td align="center" width="25%"><h3>~27</h3><sub>por día</sub></td>
+<td align="center" width="25%"><h3>130</h3><sub>pico en un día</sub></td>
+</tr>
+</table>
+
+```text
+  5 – 11 jul   ████████████████████████████████████████████  249
+ 12 – 18 jul   ██████████████████████████████████            189
+ 19 – 25 jul   ████████████████████████████████              180
+ 26 jul – 1 ago ███████████████████████████                  151
+  2 –  7 ago   ████████████████████████                      137  ← semana en curso
+                                                          ───────
+                                                              906
+```
+
+Pasado el pico del lanzamiento la curva se asienta en un piso de unas veinte clonaciones diarias, que es el número más interesante: no es un lanzamiento, es gente que sigue llegando. Los datos vienen de la API de tráfico de GitHub y se guardan cada semana en [`data/traffic/clones.json`](./data/traffic/clones.json), porque la API solo conserva 14 días.
+
+> [!WARNING]
+> **Es una señal de alcance, no una demostración.** Nadie sabe qué hizo cada quien con su copia: cuántos la instalaron, cuántos destilaron algo, cuántos abrieron la carpeta una vez. No cuenta como caso y no responde la pregunta que sí responden los [casos de estudio](#casos-de-estudio). Y los «clonadores únicos» que devuelve la API son únicos **por día**, no personas: no se pueden sumar para contar cabezas.
+
+---
+
+### Arquitectura
+
+#### Los seis artefactos
+
+| Artefacto | Qué guarda | Dónde |
+|---|---|---|
+| `identidad.md` | Qué es el proyecto, su propósito y su **piso de calidad** | `lore/` |
+| `principios.md` | Leyes invariantes, técnicas y de negocio | `lore/` |
+| Módulos temáticos | Cicatrices técnicas por dominio | `lore/` |
+| `index.md` | Mapa de navegación: una línea por patrón | `lore/` |
+| `FASES.md` | Estado y hoja de ruta | raíz |
+| `CLAUDE.md` | Contrato de colaboración, reducido a **punteros** | raíz |
+
+Cada uno tiene una responsabilidad. Ninguno duplica a otro.
+
+> [!IMPORTANT]
+> **El Lore es criterio (persiste); `FASES.md` es estado (avanza).** Nunca se mezclan, y `FASES.md` nunca vive dentro de `lore/`.
+
+#### Herencia Área → Proyecto
+
+```text
+desarrollo-web/
+│
+├── lore/                      ← el criterio general vive UNA sola vez
+│     identidad · principios · index · animacion · scroll · layout
+│
+├── FASES.md                   ← registro de proyectos del Área
+├── CLAUDE.md                  ← contrato del Área
+│
+└── proyectos/
+    ├── cliente-a/
+    │   └── lore/              ← solo lo propio; el index apunta al Área
+    ├── cliente-b/
+    │   └── lore/
+    └── cliente-c/
+        └── lore/
+```
+
+Arreglas una Pista genérica una vez, en el Área, y todos los proyectos la ven.
+
+#### La tercera forma: un bot
+
+| | Área | Proyecto | **Bot** |
+|---|---|---|---|
+| Contiene | proyectos | un trabajo | **una sesión de trabajo** |
+| Su Lore gobierna | el método del dominio | ese trabajo | **cómo se comporta el agente** |
+| Se abre para | ver el registro | avanzar eso | **trabajar en varios proyectos** |
+
+Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos.**
+
+---
+
+### Las siete skills
+
+| Skill | Para qué |
+|---|---|
+| `using-lore` | Punto de entrada: explica el modelo y te manda a la skill correcta. |
+| `create-area` | Crea un Área con su Lore compartido. |
+| `create-project` | Crea un proyecto que hereda del Área. |
+| `save-to-lore` | Destila una lección y decide si sube al Área. |
+| `transmute-lore` | Migra proyectos viejos, limpia duplicados o traduce el Lore. |
+| `create-bot` | Un lugar donde abrir sesión y trabajar sobre varias Áreas a la vez. |
+| `obsidian-lore` | Convierte tus notas sueltas en criterio. |
+
+#### `save-to-lore` — el flujo de todos los días
+
+Resuelves algo que costó y escribes «guarda en lore». La skill extrae el criterio detrás de la solución, lo escribe donde corresponde y **propone** —nunca ejecuta— subirlo al Área.
+
+| Modo | Fuente | Qué hace |
+|---|---|---|
+| **capture** (por defecto) | **fricción vivida**: un bug, un cliente que rechaza | Destila la cicatriz en una Pista Invariante. |
+| **arbitrate** | **criterio importado**: una skill, una guía ajena | Lo juzga contra la finalidad de **tu** proyecto. |
+
+> [!IMPORTANT]
+> **Un criterio ajeno no se destila, se arbitra.** Una skill es criterio destilado por otro, bajo otra finalidad, y llega sin declarar dónde deja de valer. Por eso `arbitrate` exige registrar **dónde la fuente contradice tu estándar y pierde**: sin esa sección no entra. Lo que la fuente pierde vale más que lo que aporta — el resumen ya existe, mejor escrito, en la fuente.
+
+Dos avisos que te dará:
+
+- **Capacidad ≠ criterio.** Una skill que **ejecuta** se **usa** como dependencia: no es Lore. Solo se arbitra la que **juzga**.
+- **Sin identidad no hay arbitraje.** Si tu `identidad.md` está vacío, frente a una fuente con autoridad lo único que puedes hacer es obedecerla.
+
+#### `transmute-lore`
+
+| Modo | Qué hace |
+|---|---|
+| **add** | Rescata el criterio ya disperso y lo cristaliza en los seis artefactos. |
+| **clean** | Elimina los módulos del proyecto que el Área ya posee. El criterio cambia de dueño. |
+| **translate** | Estandariza el idioma de un Lore existente, sin alterar estructura ni significado. |
+
+#### `create-bot`
+
+Te permite **trabajar desde un solo lugar sobre varias Áreas que forman parte de un mismo proyecto**. A eso lo llamamos *federar*.
+
+Piensa en un laboratorio de blockchain: tiene su sitio web, lleva sus redes sociales, y sostiene líneas de investigación y de transferencia tecnológica. Cada una es un Área con su propio Lore. Un bot las enruta a todas hacia una misma carpeta: abres la sesión ahí y trabajas en cualquiera de ellas.
+
+**Un bot no responde preguntas sobre los proyectos: trabaja en ellos.**
+
+> [!IMPORTANT]
+> **Su norte, y el único test que importa:** *una instrucción corta basta.* Si hubo que explicarle el proyecto al bot para obtener el resultado, faltaba criterio cargado.
+
+Dos leyes lo sostienen: **federar es apuntar, no copiar** —cada fila del manifiesto es una dirección, y ese criterio conserva un dueño y una versión— y **se enruta por tipo de tarea, no por nombre de proyecto**.
+
+**La ley que lo protege:** el bot nunca destila hacia sí mismo. Una fuente sin Lore recibe su Lore en el Área que le corresponde (`create-area` → `transmute-lore`) y recién después se federa.
+
+Empaquetarlo como plugin, la copia del ecosistema, el cifrado y Telegram son **opcionales y están apagados**.
+
+---
+
+### Obsidian — la puerta de entrada
+
+Si ya escribes notas en Obsidian, ya tienes la materia prima. Apunta la vault a la **carpeta madre de tus Áreas** (*Open folder as vault*) y el mismo árbol de archivos es a la vez tu espacio de trabajo y tu vault.
+
+Después, cuando quieras:
+
+> «revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore»
+
+`obsidian-lore` barre la bandeja, separa lo que es criterio de lo que no, te dice a qué Lore va cada cosa y **espera tu aprobación** antes de escribir nada.
+
+> [!IMPORTANT]
+> **Ten tus notas en un bot. De forma permanente, no como una opción entre varias.**
+>
+> Es la configuración para la que esta skill fue diseñada, y la razón es el enrutamiento. Un bot lleva una tabla con la finalidad de cada Área y proyecto que federa escrita ahí, así que una nota se enruta **contra esa tabla** y los casos frontera se preguntan en vez de adivinarse. Desde una carpeta suelta, el enrutamiento sale de una sola ruta y de la lectura del texto: una conjetura con la misma cara de certeza.
+>
+> ¿Todavía sin bot, y tus notas tocan más de un Área? La skill te va a proponer `create-bot`. Hazle caso.
+
+```text
+<tu carpeta madre>/             ← ábrela como vault en Obsidian
+  notas/                        ← la bandeja de la raíz, para lo que no tiene casa
+  desarrollo-web/               ← tus Áreas y proyectos, con su Lore
+  bots/proyectos/mi-bot/        ← ★ abre tus sesiones acá
+    notas/                      ← la bandeja que importa: enrutada, no adivinada
+    canon/ · lore/ · CLAUDE.md
+```
+
+#### Qué hace con cada nota
+
+El discriminador no es la calidad de la nota: es si registra una **transformación** o solo un **hecho**.
+
+| La nota registra | Adónde va |
+|---|---|
+| Una fricción que **resolviste** | Pista Invariante en el Lore |
+| Una **tarea** o un problema abierto — *«hay que añadir X»* | `FASES.md`. Es estado, no criterio |
+| Criterio ajeno que recogiste | Arbitraje contra tu estándar |
+| Un resumen, un link, un apunte de reunión | Ruido, y te lo informa |
+
+La mayoría de una bandeja real cae en la última fila, y decirlo es parte del trabajo.
+
+> [!WARNING]
+> **Por qué un barrido y no un botón de guardar.** Escribir la nota ya satisface las ganas de preservar, así que la destilación nunca ocurre y el criterio se queda dormido adentro. Separar las notas del Lore no lo arregla: eso ya se probó, y el registro siguió inerte seis semanas (Caso 05). Lo que sí funciona es barrer, y que cada barrido te diga cuántas notas llevan cuánto tiempo sin minar.
+
+#### Dónde vive la bandeja
+
+**Donde abres la sesión**, que es una razón más para trabajar desde un bot. Un bot alcanza su propia carpeta y los proyectos que federa, **no la raíz de la vault**: una bandeja en la raíz sería inalcanzable desde el bot y el barrido reportaría deuda cero sin avisar de nada. Por eso las notas de un bot van adentro del bot.
+
+Cada nota minada recibe una marca con fecha y destino, **incluidas las que no produjeron nada**. La skill **nunca borra una nota**: se mina antes de borrar, y borrar lo decides tú.
+
+**Una nota es fuente, nunca criterio.** Responde *«qué pasó»*; el Lore responde *«qué cambió por eso»*.
+
+---
+
+### Idioma del Lore
+
+**El Lore habla tu idioma.** Las *skills* están escritas en inglés, pero el Lore que generan no: tanto el **contenido** como los **nombres de los artefactos** se escriben en el idioma en el que trabajas. `identidad.md`, `principios.md`, `FASES.md` son las formas canónicas en español; en inglés serían `identity.md`, `principles.md`, `PHASES.md`.
+
+Permanecen fijos en todos los idiomas `CLAUDE.md`, `lore/`, `index.md` y `golden-paths.md`, la estructura de rutas relativas y los términos técnicos de uso general en inglés.
+
+Dentro de un Área existente mandan los nombres ya establecidos. Si un Lore quedó mezclado, se estandariza con `transmute-lore` en modo **translate**.
+
+---
+
+### Invariantes compartidas
+
+- El Lore se escribe **en tu idioma**.
+- **El criterio nunca se inventa.** Todo proviene de experiencia real.
+- **Una nota es fuente, nunca criterio.**
+- **El ruido descartado se informa**, nunca se elimina en silencio.
+- Todo cambio pasa por un **HARD-GATE** antes de escribirse.
+- **Nada hace *commit* automáticamente.** Tú revisas el *diff* final.
+
+---
+
+### Cifrado (experimental)
+
+`create-bot` puede sellar el criterio de un bot para que viaje cifrado. Está **apagado por defecto** y **se recomienda solo para pruebas**: para criterio que importa, un repositorio privado es hoy la respuesta seria.
+
+**La ley: se cifra en distribución, nunca en consulta.** Las cargas viajan cifradas y se descifran una vez al clonar; en reposo son Markdown plano. Cifrar donde el agente consulta no prohíbe leer, **encarece** leer, y lo caro deja de consultarse.
+
+AES-256-GCM con clave derivada por scrypt, solo con la stdlib de Node. La passphrase se pide por *stdin*, nunca pegada en el chat.
+
+> [!CAUTION]
+> **No ha sido auditado**, no tiene rotación de claves ni revocación. Protege el repositorio y el tránsito, **no** contra quien tiene la passphrase, y no cubre lo que una herramienta de IA hace con el texto una vez cargado en su contexto.
+
+**Crédito.** La pregunta —*¿qué protege a un Lore que tiene que compartirse?*— la abrió **Mantra**, de [LonelyAchemist](https://github.com/lonelyachemist-arch), que cifraba el Lore en reposo. La respuesta acá está invertida, y el código es propio.
+
+---
+
+### Documentación
+
+| Documento | Para qué sirve |
+|---|---|
+| [`USAGE_es.md`](./USAGE_es.md) · [`USAGE_en.md`](./USAGE_en.md) | Guía práctica de uso día a día, con ejemplos. |
+| [`REFERENCE_es.md`](./REFERENCE_es.md) · [`REFERENCE_en.md`](./REFERENCE_en.md) | Referencia técnica de cada artefacto y cada *skill*. |
+| [`MIGRATION_es.md`](./MIGRATION_es.md) · [`MIGRATION_en.md`](./MIGRATION_en.md) | Cómo migrar un proyecto existente con `transmute-lore`. |
+
+---
+
+### Casos de estudio
+
+Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía.
+
+> [!NOTE]
+> **Estatus:** son casos, no demostraciones. n pequeño, y las seis evidencias vienen del mismo investigador. Restringen cómo usamos el kit; no pretenden ser una ley.
+
+**01 — La arquitectura aguanta un proyecto entero.** Un proyecto real construido con Lore de principio a fin: el criterio se acumula, se consulta y sigue decidiendo meses después.
+
+**02 — El criterio se recupera y se comparte.** Cuatro proyectos migrados con `transmute-lore`. Un proyecto nacido sin Lore ya tenía criterio disperso: no se inventa, **se rescata**. Y el `clean` borró 7 módulos redundantes (−866 líneas) sin perder nada: el criterio **cambió de dueño**. *Frontera: mismo dominio los cuatro.*
+
+**03 — El criterio importado se arbitra, no se adopta.** Lo valioso no fue el resumen de la skill: fue el desacuerdo. La misma skill de copywriting perdió en marketing (*«el copy aburrido y funcional gana siempre»*) y en periodismo (*«no vendemos, informamos»*) por razones inversas. **El resultado depende de tu finalidad, no de la fuente.**
+
+**04 — La estructura sobrevive fuera del código.** Periodismo y community management tenían Lore destilado real, sin compilador ni test. *Frontera: el criterio no viajó entre dominios; nació fresco en cada uno.*
+
+**05 — La memoria del caso no alimenta la destilación: la desplaza.** Un registro de incidentes convivió seis semanas con un `lore/`, indexado y obligatorio, y **no participó de una sola decisión** — ni cuando volvió a romperse el territorio que documentaba. Al minarlo antes de borrarlo aparecieron dos Pistas dormidas hacía seis semanas. **Este caso es la razón de que `obsidian-lore` sea un barrido y no un botón.**
+
+**06 — La herencia entre Áreas hermanas: congelarla o enrutarla.** Un proyecto necesitó criterio de cuatro Áreas y solo una era su madre. Lo destilable de un conjunto de criterios **es la frontera, no los criterios**: cada Área tenía escrita su mitad de la línea, ninguna la regla para usar el par.
+
+---
+
+### Origen
+
+Lore nació como una destilación de **LUS (Lore User System)**, un programa de investigación que estudia cómo un ser humano y una IA acumulan criterio compartido a lo largo de una colaboración prolongada.
+
+LUS estudia la relación. Lore es su implementación operativa. Un principio lo resume:
+
+> **La experiencia solo crea valor cuando puede volver a participar en una decisión futura.**
+
+Influencias: **Martin Buber** (*Yo y Tú*), **Shannon** y **Weaver** (*The Mathematical Theory of Communication*), **Gregory Bateson** («una diferencia que produce una diferencia»), **Clark** y **Chalmers** (*The Extended Mind*).
+
+[Explora la investigación en el NotebookLM de LUS](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b79450)
+
+#### ¿Por qué «Lore»?
+
+En los videojuegos, el *lore* es aquello que da coherencia a un universo. No son las mecánicas: es la historia acumulada, las reglas que siguen influyendo en todo lo que puede ocurrir después. Los acontecimientos dejan de importar. El criterio permanece.
+
+---
+
+### Autor
+
+**Andrés Peña Mellado** — investigador principal de LUS.
+
+<p>
+  <a href="https://github.com/andresanemic"><img src="https://img.shields.io/badge/GitHub-andresanemic-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"></a>
+  <a href="https://x.com/andresanemic"><img src="https://img.shields.io/badge/X-@andresanemic-000000?style=for-the-badge&logo=x&logoColor=white" alt="X"></a>
+  <a href="https://www.linkedin.com/in/andresanemic/"><img src="https://img.shields.io/badge/LinkedIn-Andrés%20Peña%20Mellado-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
+  <a href="https://t.me/andresanemic"><img src="https://img.shields.io/badge/Telegram-@andresanemic-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram"></a>
+  <a href="mailto:andres@healthproof.cl"><img src="https://img.shields.io/badge/Email-andres@healthproof.cl-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"></a>
+</p>
+
+¿Preguntas, casos que contradigan los nuestros, un Lore que quedó raro? La [discusión del repositorio](https://github.com/andresanemic/lore-plugin/discussions) es el lugar. Los casos que **refutan** algo son los que más sirven.
+
+> **Si Lore te ahorró volver a explicarte, una ⭐ en el repositorio ayuda a que otras personas lo encuentren.**
+
+</details>
+
+<p align="center">
+  <img src="https://i.imgur.com/AKHwfNa.png" alt="Lore" width="100%">
 </p>

@@ -418,12 +418,21 @@ apunta a `create-area`. La ruta nunca se asume: es la del árbol de cada usuario
 recursivo sobre `**/*.md`, así que las subcarpetas quedan a criterio de quien escribe; la skill no
 impone ninguna.
 
+**Recomendación permanente: la bandeja vive en un bot.** No es una opción entre varias, es la
+configuración para la que esta skill fue diseñada, y la skill la recomienda en su primera ejecución
+y cada vez que un barrido ocurre fuera de un bot. La razón es el enrutamiento: un bot lleva
+`lore/enrutamiento.md`, donde está escrita la finalidad de cada Área y proyecto que federa, así que
+una nota se enruta **contra esa tabla** y los casos frontera se preguntan en vez de adivinarse. Fuera
+de un bot, el enrutamiento sale de una sola ruta y de la lectura del texto: una conjetura con la
+misma cara de certeza. Si el usuario no tiene bot y sus notas tocan más de un Área, la skill propone
+`create-bot`.
+
 **Vive donde se abre la sesión**, y esto no es cosmético:
 
 | Sesión abierta en | Su bandeja |
 |---|---|
-| La raíz de la vault | `<vault>/notas/` — la de por defecto |
-| Un **bot** | `<bot>/notas/` — **siempre**, nunca la de la raíz |
+| Un **bot** ← *recomendado* | `<bot>/notas/` — **siempre**, nunca la de la raíz |
+| La raíz de la vault | `<vault>/notas/` — el respaldo, para lo que no tiene casa |
 | Un proyecto o Área, si se quiere una ahí | el `notas/` de esa carpeta |
 
 Una sesión solo alcanza la carpeta donde se abrió más las rutas de su
