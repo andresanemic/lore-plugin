@@ -190,16 +190,22 @@ Three months later, in another project of the Area, someone asks for an entrance
 
 ## Reach
 
+<p align="center">
+  <img src="./assets/reach-en.png" alt="900+ clones and counting" width="100%">
+</p>
+
 <table>
 <tr>
-<td align="center" width="25%"><h3>906</h3><sub>clones</sub></td>
-<td align="center" width="25%"><h3>34</h3><sub>days</sub></td>
-<td align="center" width="25%"><h3>~27</h3><sub>clones / day</sub></td>
-<td align="center" width="25%"><h3>130</h3><sub>peak in one day</sub></td>
-</tr>
-</table>
+<td valign="middle" width="24%" align="center">
 
-```text
+<h2>906</h2><sub>clones</sub>
+<h2>34</h2><sub>days</sub>
+<h2>~27</h2><sub>clones / day</sub>
+<h2>130</h2><sub>peak in one day</sub>
+
+</td>
+<td valign="middle">
+<pre>
   906 ┤                                 █████
       │                                 █████
       │                         █████   █████
@@ -216,7 +222,10 @@ Three months later, in another project of the Area, someone asks for an entrance
         Jul 5   Jul 12  Jul 19  Jul 26  Aug 2
 
         cumulative clones, by week
-```
+</pre>
+</td>
+</tr>
+</table>
 
 The total has not stopped growing, and it keeps growing at a steady twenty-odd clones a day well past the launch spike. That steadiness is the more interesting part: it is not a launch bump, it is people still arriving. Data comes from GitHub's traffic API, stored weekly in [`data/traffic/clones.json`](./data/traffic/clones.json) because the API only keeps 14 days.
 
@@ -687,6 +696,7 @@ Lore applies that same idea to development. The original events stop mattering. 
   <a href="https://x.com/andresanemic"><img src="https://img.shields.io/badge/X-@andresanemic-000000?style=for-the-badge&logo=x&logoColor=white" alt="X"></a>
   <a href="https://www.linkedin.com/in/andresanemic/"><img src="https://img.shields.io/badge/LinkedIn-Andrés%20Peña%20Mellado-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
   <a href="https://t.me/andresanemic"><img src="https://img.shields.io/badge/Telegram-@andresanemic-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram"></a>
+  <img src="https://img.shields.io/badge/Discord-andresanemic-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord">
   <a href="mailto:andres@healthproof.cl"><img src="https://img.shields.io/badge/Email-andres@healthproof.cl-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"></a>
 </p>
 
@@ -884,16 +894,22 @@ Tres meses después, en otro proyecto del Área, alguien pide una animación de 
 
 ## Alcance
 
+<p align="center">
+  <img src="./assets/reach-es.png" alt="900+ clonaciones y sumando" width="100%">
+</p>
+
 <table>
 <tr>
-<td align="center" width="25%"><h3>906</h3><sub>clonaciones</sub></td>
-<td align="center" width="25%"><h3>34</h3><sub>días</sub></td>
-<td align="center" width="25%"><h3>~27</h3><sub>por día</sub></td>
-<td align="center" width="25%"><h3>130</h3><sub>pico en un día</sub></td>
-</tr>
-</table>
+<td valign="middle" width="24%" align="center">
 
-```text
+<h2>906</h2><sub>clonaciones</sub>
+<h2>34</h2><sub>días</sub>
+<h2>~27</h2><sub>por día</sub>
+<h2>130</h2><sub>pico en un día</sub>
+
+</td>
+<td valign="middle">
+<pre>
   906 ┤                                 █████
       │                                 █████
       │                         █████   █████
@@ -910,7 +926,10 @@ Tres meses después, en otro proyecto del Área, alguien pide una animación de 
         5 jul   12 jul  19 jul  26 jul  2 ago
 
         clonaciones acumuladas, por semana
-```
+</pre>
+</td>
+</tr>
+</table>
 
 El total no ha dejado de crecer, y sigue creciendo a unas veinte clonaciones diarias mucho después del pico del lanzamiento. Esa constancia es lo más interesante: no es el rebote de un lanzamiento, es gente que sigue llegando. Los datos vienen de la API de tráfico de GitHub y se guardan cada semana en [`data/traffic/clones.json`](./data/traffic/clones.json), porque la API solo conserva 14 días.
 
@@ -1342,6 +1361,7 @@ En los videojuegos, el *lore* es aquello que da coherencia a un universo. No son
   <a href="https://x.com/andresanemic"><img src="https://img.shields.io/badge/X-@andresanemic-000000?style=for-the-badge&logo=x&logoColor=white" alt="X"></a>
   <a href="https://www.linkedin.com/in/andresanemic/"><img src="https://img.shields.io/badge/LinkedIn-Andrés%20Peña%20Mellado-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
   <a href="https://t.me/andresanemic"><img src="https://img.shields.io/badge/Telegram-@andresanemic-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram"></a>
+  <img src="https://img.shields.io/badge/Discord-andresanemic-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord">
   <a href="mailto:andres@healthproof.cl"><img src="https://img.shields.io/badge/Email-andres@healthproof.cl-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"></a>
 </p>
 
