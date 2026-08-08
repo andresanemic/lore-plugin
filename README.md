@@ -1136,7 +1136,3 @@ En los videojuegos, el *lore* es aquello que da coherencia a un universo. No son
 > **Si Lore te ahorró volver a explicarte, una ⭐ en el repositorio ayuda a que otras personas lo encuentren.**
 
 </details>
-
-<p align="center">
-  <img src="https://i.imgur.com/AKHwfNa.png" alt="Lore" width="100%">
-</p>
