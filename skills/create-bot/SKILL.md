@@ -1,6 +1,6 @@
 ---
 name: create-bot
-description: Use when building a BOT — an installable Claude Code plugin that carries a body of criteria and works inside real repositories instead of answering questions about them. Scaffolds AREA/proyectos/<slug>/ as a plugin — a skill with its own always-loaded canon/, its project Lore, and (in `federar` mode) a routing table into Lore already scattered across other areas. Two modes — `nuevo` (canon born from a brainstorm plus source docs) and `federar` (canon plus routing federated from already-dissolved areas). Sources with NO Lore yet — raw folders, databases, note dumps — are chained through create-area and transmute-lore first, never absorbed into the bot. Encryption and Telegram are optional and off by default. Trigger on "create a bot for X", "I want a bot that works on <projects>", "build me a bot from these folders", "package this criteria as a bot".
+description: Use when building a BOT — an installable Claude Code plugin that carries a body of criteria and works inside real repositories instead of answering questions about them. Scaffolds AREA/proyectos/<slug>/ as a plugin — a skill with its own always-loaded canon/, its project Lore, and (in `federar` mode) a routing table into Lore scattered across other areas. Two modes — `nuevo` (canon from a brainstorm plus source docs) and `federar` (canon plus federated routing) — plus an audit pass for a bot that already exists, to fix its scope, README or sources. Scope comes from the registry of the institution the bot serves, never from the builder's folder tree. Sources with NO Lore yet are chained through create-area and transmute-lore first, never absorbed into the bot. Encryption and Telegram are optional, off by default. Trigger on "create a bot for X", "I want a bot that works on <projects>", "package this criteria as a bot", "audit my bot", "fix my bot's scope".
 ---
 
 # create-bot — Build a bot: an installable place to work
@@ -44,6 +44,26 @@ and projects are places; a bot is a lens you carry into them.
 Both produce the same artifact. `federar` adds `scripts/ecosistema.json`, `scripts/sync.js`,
 `lore-ecosistema/` and a generated `lore/enrutamiento.md`.
 
+### When the bot already exists
+
+Both modes above build from zero, and that is **not** the only way this skill gets invoked. It also
+gets pointed at a bot already in the tree — to fix its scope, rewrite its README, add a source. Run
+the audit below **instead of** the creation procedure, then rejoin at §7 (sync), §10 (packaging) and
+§11 (verify).
+
+| Check | How | Fails when |
+|---|---|---|
+| **Scope** | Contrast every entry of the manifest against the institution's registry | A source is routed that the registry does not list |
+| **Borders** | Read the canon's out-of-scope declaration | A borderline project is missing, or is listed with no reason for the confusion |
+| **Orphans** | `ls` the sync destination against the manifest | A folder survives whose source is no longer in the manifest |
+| **README** | Read it as the audience, not as the author | It argues the method, or its examples are about projects the bot no longer serves |
+| **Install** | Run the commands, do not read them | They were written from memory or copied from a public bot |
+| **Gate** | `node scripts/validar.js` | Anything but exit 0 |
+
+The audit is not a lighter procedure. It finds what a fresh build cannot: **the drift between what
+the bot was built to serve and what it serves now**, which is exactly what nobody re-derives on
+their own.
+
 ### When a source has no Lore yet
 
 The common starting point is **not** a tidy set of Lore bodies. It is raw material: folders of
@@ -63,7 +83,30 @@ raw source (no Lore)
 > prevent, and it is irreversible in practice: once the only copy of that criteria lives in the bot,
 > the area can no longer be its source of truth.
 
-Concretely, in step 2 below, **inventory every source before designing anything**:
+Concretely, in step 2 below, **inventory every source before designing anything**. The inventory
+has two questions, and **ownership comes first**.
+
+#### First question: does this belong to the institution?
+
+> **The scope of a bot comes from the registry of the institution it serves, never from the folder
+> tree of the machine it is being built on.**
+
+Before asking whether a source has Lore, ask **whose it is**. Open the institution's own registry —
+its `FASES.md`, its catalogue, its charter — and confirm the source is listed there. If it is not
+listed, it does not enter the manifest.
+
+*Why this is the first gate and not a later check:* the failure is silent. A manifest filled by
+walking the builder's project tree produces a routing table that looks complete and internally
+consistent while being wrong, and nobody re-derives it afterwards. Proximity on disk gets mistaken
+for institutional membership once, and from then on it is inherited.
+
+**A borderline source is declared, never merely omitted.** A project that shares people with the
+institution, that appears in its public showcase, or that was the bot's own first use case will
+look like it belongs. Put it in the canon as **explicitly out of scope, with the reason it gets
+confused**. A border written with its reason holds; one that is only left out gets crossed again
+the next time somebody looks at the folder tree.
+
+#### Second question: what state is its Lore in?
 
 | Source state | What to do |
 |---|---|
@@ -113,10 +156,16 @@ And the law that makes routing work:
 
 > **Route by type of task, not by name of project.**
 
-One project can own several bodies of criteria whose own principles forbid crossing them (product
-vs. communications is the common split). Saying the project's name does not select a Lore. If a
-task is ambiguous between two, **ask** — it is cheaper than six paragraphs written against the
-wrong criteria.
+**One entity can own several bodies of criteria whose own principles forbid crossing them.** The
+common split is *what it does* versus *how it tells it* — product against communications — and it
+holds whether the entity is a single project or the institution the bot serves. Naming it does not
+select a Lore: the institution appears twice in the routing table, on purpose. If a task is
+ambiguous between two, **ask** — it is cheaper than six paragraphs written against the wrong
+criteria.
+
+> Write this section from the entity the bot actually serves. The routing table is the piece a
+> reader checks against their own case, and an example carried over from another bot sends them to
+> the wrong Lore while looking authoritative.
 
 ---
 
@@ -310,8 +359,9 @@ Copy `plantillas/ecosistema.json` and fill it from the brainstorm; copy `plantil
 unchanged. Then:
 
 ```bash
-node scripts/sync.js --revisar    # dry run: reports what is missing, writes nothing
-node scripts/sync.js              # copies + generates lore/enrutamiento.md
+node scripts/sync.js --self-test  # verifies the prune classifier; touches no files
+node scripts/sync.js --revisar    # dry run: reports what is missing and what would be pruned
+node scripts/sync.js              # copies, prunes orphans, generates lore/enrutamiento.md
 ```
 
 - **The manifest is the single source of both** the copy and the routing table. Keeping them as two
@@ -320,6 +370,11 @@ node scripts/sync.js              # copies + generates lore/enrutamiento.md
 - **Sync runs one way only:** local tree → `lore-ecosistema/`. Never back. The live source of each
   Lore is its own project; the repo copy is a photograph with a visible date.
 - Run `--revisar` first and report missing sources instead of silently producing a partial copy.
+- **The manifest is also the single source of what gets deleted.** Removing a source used to be two
+  steps that nothing tied together — delete it from `ecosistema.json`, and delete its folder — and
+  doing only the first left an orphan copy the bot kept reading, now with no routing row to explain
+  it. `sync.js` closes the second step itself. Because that path deletes, its classifier ships with
+  `--self-test`; run it after touching the script.
 
 ### 8. Encryption — OPTIONAL, off by default, **EXPERIMENTAL**
 
@@ -387,15 +442,55 @@ One rule ships whenever Telegram is on, non-negotiable:
 
 `.claude-plugin/plugin.json` — `name` = `{{BOT_SLUG}}`, `version` `1.0.0`, a description naming the
 projects it serves. `.claude-plugin/marketplace.json` — `source: "./"`, so the bot installs from
-its own repository:
+its own repository. Keep the two manifests and the README on the **same version string**: a tag
+that disagrees with its manifest is the kind of mismatch nobody finds later.
 
 ```bash
-/plugin marketplace add <owner>/{{BOT_SLUG}}
+/plugin marketplace add https://github.com/<owner>/{{BOT_SLUG}}
 /plugin install {{BOT_SLUG}}@{{BOT_SLUG}}
 ```
 
-`README.md` in the user's language: what the bot is, install, first use, how to update the canon,
-and — if encryption is on — the decrypt step and its declared boundary.
+> **Private bot ⇒ the full URL, never the `owner/repo` shorthand.** The shorthand clones over SSH
+> by default. A team authenticated over HTTPS with `gh` — the ordinary case — gets a failure with
+> no visible cause. And `gh auth setup-git` belongs in the prerequisites, not in a footnote:
+> without a credential helper the plugin cannot clone at all.
+>
+> The trap is that a public bot's README works fine with the shorthand, so it gets copied across
+> and only breaks for the private one.
+
+**Verify the install commands by running them, not by writing them from memory.** They are the one
+part of the README whose failure costs a reader the whole artifact, and they are the part most
+easily copied from a bot whose repository had different visibility. Check them against the current
+official documentation too; this is a moving target.
+
+#### `README.md` — the quality floor
+
+Written in the user's language, and measured against
+[`lore-plugin/README.md`](https://github.com/andresanemic/lore-plugin). If the bot's README is
+below that, it is not ready to publish.
+
+*Why the README and not some other artifact:* it is **the only thing a teammate reads before
+installing**. Canon, routing, Lore — none of it exists for a person until the plugin is installed.
+A confusing README is not paid in aesthetics; it is paid in a bot nobody installs, and then the
+criteria inside it is worth nothing.
+
+The floor, as checkable properties:
+
+| Property | What it looks like |
+|---|---|
+| **Prose with no hard wraps** | each paragraph is **one line** in the source. Wrapping at 80 or 95 columns puts breaks mid-sentence in some viewers and the text reads broken |
+| **One idea per block** | short paragraphs separated by a blank line, `---` between sections |
+| **Badges and an index** | at the top, with anchors that resolve |
+| **Tables for anything compared** | two or more things contrasted go in a table, never in running prose |
+| **Blockquote for the laws** | the rule that is not negotiable is quoted, not narrated |
+| **Only what is to the point** | what it is for · how it works · how to install it. No "what this is not" sections, no method philosophy, no three-paragraph motivation |
+
+Content: what the bot is, install, first use, how to update the canon, and — if encryption is on —
+the decrypt step and its declared boundary.
+
+Run `humanizer` over it before publishing, **with that skill's own voice-calibration rule in
+force**: `lore-plugin/README.md` is the sample, it uses em dashes throughout, so its §14 yields.
+Scrubbing them would not clean the text, it would break the house voice.
 
 `LICENSE`: ask. A bot carrying institutional criteria is usually **not** open source; do not
 default to MIT because the surrounding kit is.
@@ -425,9 +520,17 @@ It checks each `skills/*/SKILL.md` for: frontmatter present and closed, `name` m
 grep -rn '{{[A-Z_]\+}}' "$DEST" && echo "UNRESOLVED TOKENS" || echo "OK no tokens"
 node scripts/validar.js                  # HARD-GATE: must exit 0
 node scripts/canon.js --self-test        # if encryption is on
+node scripts/sync.js --self-test         # if federar
 node scripts/sync.js --revisar           # if federar
 git -C "$DEST" status --short            # confirm .gitignore matches the encryption choice
 ```
+
+Then check the two things a script cannot:
+
+- **Scope.** Every manifest entry appears in the institution's registry, and every borderline
+  project the registry excludes is declared out of scope in the canon, with its reason.
+- **Install.** Run the README's install commands rather than reading them. A private bot needs the
+  full URL, not the `owner/repo` shorthand.
 
 - Every `index.md` link resolves; area links resolve outside the project.
 - **Report what was not verified.** Whether the plugin actually loads in Claude Code is not
@@ -456,9 +559,16 @@ git -C "$DEST" status --short            # confirm .gitignore matches the encryp
 - **The canon is distilled from the source**, never from another distillation or from the model's
   own knowledge. Each module names its origin and its boundary of validity.
 - **Route by type of task, not by name of project.** Ambiguity between two Lore bodies ⇒ ask.
+- **Scope comes from the institution's registry, never from the builder's folder tree.** A source
+  the registry does not list does not enter the manifest, and a borderline one is **declared out of
+  scope with its reason**, not silently omitted — a border written with its reason holds, one that
+  is only left out gets crossed again.
 - **Every task closes with a distillation proposal**, and discarded noise is reported.
-- **The manifest is the single source** of the copy and the routing table; `enrutamiento.md` is
-  generated, never hand-edited. Sync goes one way only.
+- **The manifest is the single source** of the copy, the routing table and the pruning;
+  `enrutamiento.md` is generated, never hand-edited. Sync goes one way only.
+- **The README is measured against `lore-plugin/README.md`, and its install commands are run, not
+  remembered.** It is the only artifact read *before* installing, so its failure costs the whole
+  bot. A private bot documents the full URL, never the `owner/repo` shorthand.
 - **Encryption and Telegram are optional and off by default.** The `.gitignore` follows the
   encryption choice; getting it backwards ships either a leak or an empty repo.
 - **`scripts/validar.js` must exit 0 before the bot is reported as done.** The frontmatter defects

@@ -3,8 +3,9 @@
  * Sincroniza el Lore del ecosistema hacia el repo del bot, y genera con el MISMO manifiesto
  * la tabla de enrutamiento que el bot consulta.
  *
- *   node scripts/sync.js            → copia + regenera lore/enrutamiento.md
- *   node scripts/sync.js --revisar  → no escribe nada; solo informa qué falta y qué cambió
+ *   node scripts/sync.js             → copia + regenera lore/enrutamiento.md
+ *   node scripts/sync.js --revisar   → no escribe nada; solo informa qué falta y qué cambió
+ *   node scripts/sync.js --self-test → verifica el clasificador de la poda, sin tocar el disco
  *
  * Un solo origen (scripts/ecosistema.json) para la copia y para la tabla: mantenerlos como dos
  * artefactos separados garantiza que se desincronicen, y una tabla desincronizada manda al bot
@@ -28,6 +29,33 @@ const DESTINO    = path.join(RAIZ, 'lore-ecosistema');
 const TABLA      = path.join(RAIZ, 'lore', 'enrutamiento.md');
 
 const revisar = process.argv.includes('--revisar');
+
+/* ── self-test del clasificador de la poda ────────────────────────────────
+ * La poda borra carpetas, así que su clasificador no puede quedar sin red.
+ * No toca el disco ni necesita manifiesto: es una función pura.
+ */
+if (process.argv.includes('--self-test')) {
+  const assert = require('assert');
+  const d = ['areas/founder', 'laboratorio/transferencia', 'laboratorio/comunicacion', 'tim'];
+  const casos = [
+    ['areas',                      'intermedio'],  // camino hacia un destino
+    ['areas/founder',              'vivo'],
+    ['areas/founder/lore',         'vivo'],        // adentro de un destino
+    ['areas/vieja',                'huerfano'],
+    ['laboratorio',                'intermedio'],
+    ['laboratorio/transferencia',  'vivo'],
+    ['laboratorio/vieja',          'huerfano'],    // anidado: el nivel superior sigue vivo
+    ['tim',                        'vivo'],
+    ['timbre',                     'huerfano'],    // colisión de prefijo: no es 'tim'
+    ['healthproof',                'huerfano'],
+  ];
+  for (const [rel, esperado] of casos) {
+    assert.strictEqual(clasificar(rel, d), esperado, `${rel} debería ser ${esperado}`);
+  }
+  console.log(`✓ clasificador de poda — ${casos.length} casos`);
+  process.exit(0);
+}
+
 const { raiz, nota, fuentes } = JSON.parse(fs.readFileSync(MANIFIESTO, 'utf8'));
 
 /* ── copia ────────────────────────────────────────────────────────────── */
@@ -75,6 +103,39 @@ for (const f of fuentes) {
   informe.push({ ...f, n, ausentes });
 }
 
+/* ── podar destinos huérfanos ─────────────────────────────────────────────
+ * Sacar una fuente del manifiesto son DOS pasos, y nada los ata entre sí:
+ * borrarla de ecosistema.json y borrar su carpeta acá. Si solo se hace el
+ * primero, la copia sobrevive y el bot la sigue leyendo — ahora sin ninguna
+ * fila del enrutamiento que la explique. Es el mismo modo de falla silencioso
+ * que el .gitignore del cifrado, así que el script cierra el segundo paso.
+ *
+ * Los destinos anidan (`laboratorio/transferencia`), así que no basta con
+ * mirar el primer nivel: hay que clasificar cada entrada del árbol.
+ */
+
+function clasificar(rel, destinos) {
+  if (destinos.some(d => rel === d || rel.startsWith(d + '/'))) return 'vivo';
+  if (destinos.some(d => d.startsWith(rel + '/'))) return 'intermedio';
+  return 'huerfano';
+}
+
+const destinos  = fuentes.map(f => f.destino.replace(/\\/g, '/').replace(/\/+$/, ''));
+const huerfanos = [];
+
+function podar(dir, rel) {
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const r = rel ? `${rel}/${e.name}` : e.name;
+    const clase = clasificar(r, destinos);
+    if (clase === 'vivo') continue;
+    if (clase === 'intermedio' && e.isDirectory()) { podar(path.join(dir, e.name), r); continue; }
+    huerfanos.push(r);
+    if (!revisar) fs.rmSync(path.join(dir, e.name), { recursive: true, force: true });
+  }
+}
+
+if (fs.existsSync(DESTINO)) podar(DESTINO, '');
+
 /* ── tabla de enrutamiento ────────────────────────────────────────────── */
 
 const porTipo = {};
@@ -117,6 +178,12 @@ for (const f of informe) {
   console.log(`${marca} ${f.destino.padEnd(28)} ${String(f.n).padStart(3)} archivo(s)` +
               (f.ausentes.length ? `  — no encontrado: ${f.ausentes.join(', ')}` : ''));
 }
+for (const h of huerfanos) {
+  console.log(`✗ ${h.padEnd(28)} huérfano — ya no está en el manifiesto` +
+              (revisar ? ' (se borraría)' : ' — borrado'));
+}
+
 console.log(`\n${revisar ? '(revisión, no se escribió nada) ' : ''}${total} archivos · ` +
-            `${fuentes.length - faltantes}/${fuentes.length} fuentes completas`);
+            `${fuentes.length - faltantes}/${fuentes.length} fuentes completas` +
+            (huerfanos.length ? ` · ${huerfanos.length} huérfano(s)` : ''));
 if (!revisar) console.log(`Tabla de enrutamiento → lore/enrutamiento.md`);
