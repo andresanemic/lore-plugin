@@ -18,6 +18,7 @@
   <a href="#installation"><img src="https://img.shields.io/badge/version-1.0.5-F72585?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/paradigm-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
+  <a href="#obsidian--the-way-in"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Obsidian compatible"></a>
   <a href="#reach"><img src="https://img.shields.io/badge/clones-900%2B-FF6B35?style=for-the-badge&labelColor=0B0B12" alt="900+ clones"></a>
   <a href="#origin"><img src="https://img.shields.io/badge/research-active-10B981?style=for-the-badge&labelColor=0B0B12" alt="Status"></a>
   <a href="./LICENSE"><img src="https://img.shields.io/github/license/andresanemic/lore-plugin?style=for-the-badge&color=64748B&labelColor=0B0B12" alt="License"></a>
@@ -700,8 +701,9 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
   <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-1.0.5-F72585?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/paradigma-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
+  <a href="#obsidian--la-puerta-de-entrada"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Compatible con Obsidian"></a>
   <a href="#alcance"><img src="https://img.shields.io/badge/clonaciones-900%2B-FF6B35?style=for-the-badge&labelColor=0B0B12" alt="900+ clonaciones"></a>
-  <a href="#origen"><img src="https://img.shields.io/badge/investigación-activa-10B981?style=for-the-badge&labelColor=0B0B12" alt="Estado"></a>
+  <a href="#origen"><img src="https://img.shields.io/badge/investigaci%C3%B3n-activa-10B981?style=for-the-badge&labelColor=0B0B12" alt="Estado"></a>
   <a href="./LICENSE"><img src="https://img.shields.io/github/license/andresanemic/lore-plugin?style=for-the-badge&color=64748B&labelColor=0B0B12" alt="Licencia"></a>
   <a href="#idioma-del-lore"><img src="https://img.shields.io/badge/multiling%C3%BCe-ES_%C2%B7_EN-64748B?style=for-the-badge&labelColor=0B0B12" alt="Multilingüe"></a>
   <a href="https://github.com/andresanemic/lore-plugin/stargazers"><img src="https://img.shields.io/github/stars/andresanemic/lore-plugin?style=for-the-badge&color=F59E0B&labelColor=0B0B12" alt="Stars"></a>
