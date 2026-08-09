@@ -123,6 +123,27 @@ promotion to the area. Never write the area silently.
    - Confidence **`conjecture`** by default; **`confirmed`** only if validated in the running app.
      **Honest confidence:** never inflate to `confirmed` just to force a promotion.
 
+#### Writing a law into a body that already has laws
+
+A Lore grows by accumulation, so a new law usually leans on a distinction an older one already made.
+**It inherits the older law's statement and not its boundary** — the boundary is written last, as a
+note about *that* law, while the reasoning the new one needs sits in the body above it. So the
+conclusion gets carried over and the condition attached to it does not, and the new law reads as
+absolute in precisely the case the first one had declared exceptional. Nothing in the text warns
+about it: the result looks complete and consistent and fails only in the rare case, which is the one
+the boundary named.
+
+Two habits, and the second is the cheap one that pays every time:
+
+- **When the clue cites another law, open it and look for its boundary of validity.** If it has one,
+  the new clue inherits it or says why it does not.
+- **State the rule by its condition, never by the category the condition usually holds in.** *«Does
+  any of this fall outside the scope?»* survives the rare case; *«only for projects»* does not,
+  because the category was a shorthand for the condition and nobody remembers that it was.
+
+*Boundary of validity:* this applies to bodies of criteria whose laws cite each other, which is any
+Lore that grows by accumulation. A flat list of independent rules has no inheritance to break.
+
 ### Step 2 — Promotion review (always, after capturing)
 
 1. Resolve the mother area: the project at `{area}/proyectos/{name}/` promotes to `{area}/lore/`.
@@ -184,6 +205,10 @@ a safe no-op for those clues.
   never English just because this skill is. Existing files are never renamed here.
 - **A note is source, never criteria.** A free note clears the same threshold as anything else, never
   enters verbatim, and is never authoritative.
+- **A validity boundary does not travel on its own to the laws that lean on it.** A clue citing an
+  older law opens it and inherits its boundary or says why not — and it states its rule by the
+  **condition**, not by the category the condition usually holds in. A rule named after the category
+  fails exactly where the boundary it never carried had said it would.
 - **Honest confidence:** `confirmed` only after real validation; never inflated to force promotion.
 - **Discarded noise is reported**, not silently dropped.
 - **No auto-commit, no push.** The user reviews and decides.

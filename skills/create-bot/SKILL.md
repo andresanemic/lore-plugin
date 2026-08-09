@@ -663,6 +663,43 @@ part of the README whose failure costs a reader the whole artifact, and they are
 easily copied from a bot whose repository had different visibility. Check them against the current
 official documentation too; this is a moving target.
 
+#### Updating a published bot — publishing is not delivering
+
+Packaging buys distribution, and distribution has a second half that nothing ties to the first. A
+change to a published bot's canon or behaviour is **not** delivered when the commit is on the
+remote. It is delivered when the copy the plugin actually loads carries it, and between those two
+there is a stretch that does not report failure.
+
+| Copy | What moves it | What the skill loads |
+|---|---|---|
+| `origin/main` on the host | `git push` | — |
+| `marketplaces/<mp>/` | `/plugin marketplace update` | — |
+| **`cache/<mp>/<plugin>/<version>/`** | **only a new version number** | **this one** |
+
+The cache is keyed by version and the install record points at that fixed path. If the version
+string does not change, the folder is already there and **nothing is copied again**. Updating the
+marketplace refreshes its clone and reinstalls nothing. The two operations have names that sound
+alike, touch different copies, and **both report success.**
+
+> **Every change to a published bot carries a version bump — even one that alters nothing the bot
+> does.** "No bump for a change that only corrects where it looks" is sound about a body of criteria
+> and false about distribution: what is published without a new number is not received.
+
+Two consequences for what gets written:
+
+- The README's update section names **both** commands, in order. `marketplace update` on its own
+  leaves the previous version installed, silently.
+- **Close an update by verifying the installed artifact** — find a literal phrase from the change
+  inside the install path — instead of trusting either command's success message.
+
+Also check the cache before choosing the number: a **stale folder at a higher version than the live
+one**, left over from an earlier numbering, is this failure already armed. Bumping into it installs
+nothing and loads the old contents.
+
+*This whole subsection applies only to a packaged bot.* An unpackaged one has no such stretch — its
+`CLAUDE.md` is read from disk, so editing it **is** delivering it. That is one more thing the
+optional seal charges for.
+
 #### `README.md` — the quality floor
 
 Written in the user's language, and measured against
@@ -732,6 +769,9 @@ Then check the two things a script cannot:
   project the registry excludes is declared out of scope in the canon, with its reason.
 - **Install.** Run the README's install commands rather than reading them. A private bot needs the
   full URL, not the `owner/repo` shorthand.
+- **Delivery, when the bot was already published.** The version string moved, and a literal phrase
+  from the change is present in the installed copy — not merely pushed. Neither update command's
+  success message is evidence of this.
 
 - Every `index.md` link resolves; area links resolve outside the project.
 - **Report what was not verified.** Whether the plugin actually loads in Claude Code is not
@@ -791,6 +831,11 @@ Then check the two things a script cannot:
 - **In a packaged bot, `scripts/validar.js` must exit 0 before it is reported as done.** The
   frontmatter defects it catches produce no error message — the skill installs, gets listed, and
   never fires. A rule in prose does not prevent them; only the gate does.
+- **Publishing a packaged bot is not delivering it.** The plugin cache is keyed by version, so every
+  change to a published bot carries a bump even when it alters nothing the bot does, and the update
+  closes by finding the change inside the installed copy. Push and marketplace update both report
+  success without moving what the skill loads. An unpackaged bot does not pay this: editing its
+  `CLAUDE.md` is delivering it.
 - **The passphrase never enters the chat.** stdin only — never an argument, never pasted. What
   enters a model's context does not come back out.
 - The bot **proposes** criteria; the human writes it. Nothing is auto-committed.
