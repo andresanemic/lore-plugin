@@ -4,7 +4,8 @@ Esta guía muestra cómo usar el plugin Lore en **Claude Code** en el trabajo di
 crear Áreas y proyectos, capturar criterio después de resolver problemas y mantener tu Lore limpio y útil.
 
 > Lore es un kit ligero de Spec‑Driven Development (SDD) para Claude Code.  
-> Te ayuda a preservar el **criterio** detrás de tus decisiones, para que tu IA nunca tenga que empezar desde cero.
+> Te ayuda a preservar el **criterio** detrás de tus decisiones, para que tu IA nunca tenga que empezar desde cero.  
+> La analogía más cercana: fine-tuning local de tus tareas, salvo que el que entrena eres tú.
 
 ---
 

@@ -11,7 +11,7 @@
     {
       "name": "lore",
       "source": "./",
-      "description": "Distill scattered project criteria into invariant Lore and operate it: using-lore, create-area, create-project, create-bot, save-to-lore, transmute-lore, obsidian-lore."
+      "description": "Local fine-tuning for your own tasks, except the one doing the training is you. Distill scattered project criteria into invariant Lore and operate it: using-lore, create-area, create-project, create-bot, save-to-lore, transmute-lore, obsidian-lore."
     }
   ]
 }

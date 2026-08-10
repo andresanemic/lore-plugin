@@ -1,13 +1,15 @@
 {
   "name": "lore",
   "version": "1.2.0",
-  "description": "A spec-driven development kit for humanist builders. Turns scattered project criteria into distilled, invariant Lore — and operates it with seven skills: using-lore, create-area, create-project, create-bot, save-to-lore, transmute-lore, obsidian-lore.",
+  "description": "Local fine-tuning for your own tasks, except the one doing the training is you. A spec-driven development kit that turns scattered project criteria into distilled, invariant Lore — and operates it with seven skills: using-lore, create-area, create-project, create-bot, save-to-lore, transmute-lore, obsidian-lore.",
   "author": {
     "name": "andresanemic"
   },
   "keywords": [
     "spec-driven-development",
     "sdd",
+    "fine-tuning",
+    "local-first",
     "lore",
     "skills",
     "context-engineering",

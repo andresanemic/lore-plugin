@@ -18,6 +18,7 @@
   <a href="#installation"><img src="https://img.shields.io/badge/version-1.2.0-F72585?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/paradigm-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
+  <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-FFBE0B?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
   <a href="#obsidian--the-way-in"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Obsidian compatible"></a>
   <a href="#origin"><img src="https://img.shields.io/badge/research-active-10B981?style=for-the-badge&labelColor=0B0B12" alt="Status"></a>
   <a href="#reach"><img src="https://img.shields.io/badge/clones-1%2C000%2B-FF6B35?style=for-the-badge&labelColor=0B0B12" alt="1,000+ clones"></a>
@@ -30,6 +31,10 @@
 
 <p align="center">
   no re-explaining the stack &nbsp;·&nbsp; no re-proposing what you ruled out last week &nbsp;·&nbsp; criteria that outlives the session
+</p>
+
+<p align="center">
+  <i>An SDD kit that gives you local fine-tuning for your own tasks — except the one doing the training is you.</i>
 </p>
 
 <p align="center">
@@ -91,11 +96,19 @@ It is a loop of re-explanations and mediocre solutions you had already rejected.
 
 ## What is Lore
 
-A lightweight **Spec-Driven Development** kit for Claude Code. It provides three things:
+A lightweight **Spec-Driven Development** kit for Claude Code. Or, in one line: **local fine-tuning for your own tasks, except the one doing the training is you.**
+
+Take that literally, including where it breaks. A fine-tune conditions a model on thousands of examples until it stops answering like a generalist. Lore gets to the same place from the other side: one written constraint per thing that went wrong. No training happens and no weights move, so your criteria stays as plain text you can read, correct in one line, and carry to a different model tomorrow.
+
+A fine-tune stops asking things of you the day it ships. Lore never stops: one distillation, every time something breaks. That is the cost, and it is worth knowing before you install anything.
+
+It provides three things:
 
 - a simple convention for organizing a project's criteria;
 - seven skills that operate that convention;
 - and a continuous loop for distilling experience into reusable criteria.
+
+Spec-driven is not a label here. `CLAUDE.md` is the contract, `FASES.md` is the state and what comes next, and `lore/` is the criteria that constrains how any of it gets built.
 
 Unlike documentation, Lore does not try to describe everything. It only preserves what changes future behavior.
 
@@ -727,6 +740,7 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
   <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-1.2.0-F72585?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/paradigma-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
+  <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-FFBE0B?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
   <a href="#obsidian--la-puerta-de-entrada"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Compatible con Obsidian"></a>
   <a href="#origen"><img src="https://img.shields.io/badge/investigaci%C3%B3n-activa-10B981?style=for-the-badge&labelColor=0B0B12" alt="Estado"></a>
   <a href="#alcance"><img src="https://img.shields.io/badge/clonaciones-1%2C000%2B-FF6B35?style=for-the-badge&labelColor=0B0B12" alt="1.000+ clonaciones"></a>
@@ -739,6 +753,10 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 
 <p align="center">
   no volver a explicar el stack &nbsp;·&nbsp; no volver a proponer lo que descartaste la semana pasada &nbsp;·&nbsp; criterio que sobrevive al cierre de la sesión
+</p>
+
+<p align="center">
+  <i>Un kit SDD que te permite hacer fine-tuning local de tus tareas — salvo que el que entrena eres tú.</i>
 </p>
 
 <p align="center">
@@ -800,11 +818,19 @@ Es un bucle de reexplicaciones y de soluciones mediocres que ya habías rechazad
 
 ## Qué es Lore
 
-Un kit ligero de **Spec-Driven Development** para Claude Code. Aporta tres cosas:
+Un kit ligero de **Spec-Driven Development** para Claude Code. O, en una línea: **fine-tuning local de tus tareas, salvo que el que entrena eres tú.**
+
+Tómalo literalmente, incluido el punto donde deja de valer. Un fine-tune condiciona un modelo con miles de ejemplos hasta que deja de responder como generalista. Lore llega al mismo lugar por el otro lado: una restricción escrita por cada cosa que salió mal. No se entrena nada y ningún peso se mueve, así que tu criterio se queda en texto plano que puedes leer, corregir en una línea y llevarte mañana a otro modelo.
+
+Un fine-tune deja de pedirte cosas el día que está listo. Lore no para nunca: una destilación, cada vez que algo se rompe. Ese es el costo, y conviene saberlo antes de instalar nada.
+
+Aporta tres cosas:
 
 - una convención sencilla para organizar el criterio de un proyecto;
 - siete *skills* que operan esa convención;
 - y un ciclo continuo para destilar experiencia en criterio reutilizable.
+
+Lo de *spec-driven* no es una etiqueta. `CLAUDE.md` es el contrato, `FASES.md` es el estado y lo que viene, y `lore/` es el criterio que restringe cómo se construye todo lo anterior.
 
 A diferencia de la documentación, Lore no intenta describirlo todo. Solo conserva aquello que modifica el comportamiento futuro.
 
