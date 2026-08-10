@@ -219,6 +219,29 @@ That question does not exist from inside either body, so neither one answers it 
 the module: the **arbitration**, not the description. Which order the steps go in, which direction
 is read and which is written, and what happens when the fact does not exist yet.
 
+**The test returns one of three states, and the third is the one nobody plans for:**
+
+| State | What you found | What the module says |
+|---|---|---|
+| **Nobody wrote it** | neither side mentions the other | the arbitration, written from scratch |
+| **One side wrote it** | the side that depends more gave it a section; the other, a line | the arbitration, completing the half that is missing |
+| **Both wrote it and they disagree** | the same fact stated two ways | which one is cited, **and why** |
+
+For the third state, the rule you would reach for by default — *product fixes the facts,
+communications tells them* — **produces false claims**, because the side that outranks by hierarchy
+is often the one that is wrong. **The corrected side wins, not the nominal owner of the fact**, and
+the date and reason for the correction go beside it: that is the only thing distinguishing a
+correction from a plain disagreement.
+
+**An arbitration of the third kind lives to be closed** — once the source is fixed, the section is
+deleted. But there is a fourth ending the module has to be able to write: the human looks at the
+divergence, understands the risk and **decides to keep it**. Record per divergence whether it is
+still open **by omission or by decision, with its date**. The arbitration of *reading* does not
+change — the corrected side is still the one cited — but the **proposal to correct** is switched off
+in writing: *«do not propose this again»*. A bot that repeats a proposal already rejected spends the
+credibility it needs for the ones that matter. Never switch a proposal off on the bot's own
+authority: that call belongs to the human and is written down with its date.
+
 > Write this section from the entity the bot actually serves. The routing table is the piece a
 > reader checks against their own case, and an example carried over from another bot sends them to
 > the wrong Lore while looking authoritative.
@@ -370,6 +393,10 @@ What earns a module:
 | The **border** (§9) | what is *not* the bot's business, with the reason it gets confused |
 | The **arbitration** between two sibling bodies of one institution | neither writes it whole (see the law section above) |
 
+An arbitration module runs the three-state test from the law section, and for every divergence it
+records whether it is still open **by omission or by decision, with its date**. Written without that,
+the module proposes the same correction in the next task, and in the next.
+
 **A minimal canon is not a half-built bot** when everything it needs is next door. A canon that
 repeats the tree **is** a broken bot, and it breaks silently. The canon grows when the ecosystem
 gets *farther away* — a teammate without the tree — not when it gets bigger.
@@ -404,29 +431,73 @@ and the trigger phrases — not just the concept.
 > This is a rule at writing time **and** a gate at packaging time (§10). Do not rely on the rule
 > alone — it is prose, and prose is what fails.
 
-#### 6.0 First use — configuration (HARD-GATE)
+#### 6.0 First use — a brainstorm, not a form (HARD-GATE)
 
-If `.{{BOT_SLUG}}.json` does not exist at the working directory root, **before anything else** ask,
-one at a time:
+If `.{{BOT_SLUG}}.json` does not exist at the working directory root, this runs **before anything
+else**. And it is not a questionnaire: this whole kit **brainstorms to build** every artifact it
+makes, so the artifact that comes out of it does not greet its first user with four fields to fill.
 
-1. **How do you want me to talk to you?** — `simple` · `complex` · `pedagogical` · `direct`
-2. **Do you want to give me a name?** — free; otherwise the bot's own name.
-3. **What are you going to use this bot for?** — free text, in the user's words.
-4. **What is your role?** — calibrates *where it opens from*, never *what is allowed*.
-5. Any condition that gates an OPTIONAL canon module.
+> **If a brainstorming skill is available, invoke it and run this through it.** If none is
+> installed, run the minimal version below yourself. A bot that cannot start without a third-party
+> skill is a bot that does not start.
 
-Write the answers **verbatim, uninterpreted**:
+##### Move 1 — show what you reach, before asking anything
+
+Resolve the pointers and put the result on screen: each federated body with whether it resolves **on
+this machine**, what the canon distills, and what is declared out of scope. Short lines, no prose.
+
+This is the presentation **and** the pre-flight at once. A broken pointer shows up here, in front of
+the person who can fix it, instead of surfacing three tasks later as an answer that quietly left a
+body of criteria out.
+
+Close the move with the coverage, never with a clean bill of health:
+
+> **What is verified is that the criteria is reachable — never that it is correct, and never that
+> the project is in good shape.** Say the first; the other two are not yours to say.
+
+##### Move 2 — brainstorm, one question at a time
+
+Follow the thread of the answers instead of walking a list. Two rules govern the whole move:
+
+**No closed options for anything that decides behaviour.** A closed list has no default for the
+answer that names two of its items, and an absent default gets filled in by the nearest match while
+the discarded half leaves no trace. Ask by the **condition** — *«does your work fall into more than
+one of these?»* — and if the answer names more than one body of criteria, **open by all of them**
+and put the border question first, before executing anything. Fields that are satisfied by being
+stored (a name, a purpose) are a different thing from fields that **pick a branch**; only the second
+kind needs this care, and confusing the two is how the mixed answer gets lost.
+
+**Ask only what changes behaviour.** What the bot will be used for, in the user's own words, and it
+is stored verbatim because it gets re-read at the start of every task. Which bodies of criteria the
+work touches. Anything the user says is out of bounds. The condition gating each OPTIONAL canon
+module. **Tone and a nickname are not asked here**: they are inferred from how the person writes and
+corrected in one sentence whenever they want, and spending the first two turns of the artifact on
+them buys nothing.
+
+##### Move 3 — close by separating configuration from criteria
+
+What is configuration goes to `.{{BOT_SLUG}}.json`, verbatim and uninterpreted:
 
 ```json
-{ "tono": "directo", "nombre": "…", "proposito": "…user's own words…", "rol": "…",
-  "telegram": false }
+{ "proposito": "…user's own words…", "cuerpos": ["…", "…"], "fuera": ["…"],
+  "entrega": "…", "tono": "directo", "telegram": false, "estreno": null }
 ```
 
-Confirm in one line and **start working in the same reply**. Configuration is not a ceremony: it
-is asked once and never mentioned again.
+What turned out to be **criteria** does not go in that file. A brainstorm about a project surfaces
+things that are true about the project rather than about the bot, and those belong to **the Lore of
+whoever paid for them with experience** — proposed there, with the usual gate, never written into
+the bot. That is §6.4 arriving early, and it is the law this whole skill is built on: a bot does not
+invent criteria, and it does not keep what is not its own.
 
-Record in the skill how each field weighs — `proposito` is re-read at the start of each task, and
-if the task does not resemble what was declared, the bot says so **before** executing.
+**`"estreno"` stays `null`, and that is the point.** Configuration is not the first use: this gate is
+answered exactly the same with an empty canon, a stale routing table and broken paths, so none of the
+failure modes the bot exists to prevent can show up in it. What the gate proves is that the gate
+works. The field is filled in when **an instruction that does not name the criteria produces a
+deliverable** — and it stores that instruction **verbatim**, because a paraphrase can no longer be
+judged for whether it was short.
+
+Close by proposing the first real task, derived from what was just said. Not *«you are all set»* —
+the artifact finishes its configuration **working**.
 
 #### 6.1 Load the canon
 
@@ -461,6 +532,29 @@ when the user asks.
 Give the bot an explicit **conflict block** for when an instruction collides with the canon:
 declare it, offer the trade-off, and **wait**. Once a human approves, execute in full and do not
 re-litigate.
+
+**And give it the rule for the report that finds nothing.** A bot that points at borrowed criteria
+inherits its coverage **and its silence**: the Lore records what somebody paid for, and what nobody
+paid for is not written down — so its absence from the corpus is indistinguishable from its absence
+from the work. The gap is not the problem; every distilled experience has one. The problem is that
+*«I found no violations»* and *«this is fine»* are written almost the same way, and the second is the
+one that gets remembered. The authority of the routed criteria transfers whole to a conclusion that
+criteria never supported, and the bot sounds most confident exactly where it knows least. A green
+mechanical gate makes it worse: it looks like a measurement and it is a checklist.
+
+> **Every negative finding is written with its coverage in the same sentence.** *«None of the laws I
+> carry are broken»*, *«it does not hit any of the five patterns that cost a session in X»* — never
+> *«it is fine»* or *«there is nothing to fix»*. In a separate paragraph the boundary gets dropped
+> the moment anyone summarizes.
+
+When the request came from something the user **felt** and the loaded criteria has no way to measure
+it, say so without being asked. That is the boundary-of-validity law applied to the case where the
+boundary is *what the bot cannot see*. It follows from the rule that the bot never invents criteria:
+for the same reason, it cannot certify what no criteria of its own covers.
+
+*This governs **negative** reports.* A positive finding stands on its own — the clue behind it is
+written and can be cited. And it does not apply to a bot that **measures** instead of checking: a
+measurement has its own margin of error, which is a different problem and is declared differently.
 
 #### 6.4 Close: always propose criteria
 
@@ -545,10 +639,22 @@ With the copy on, everything below applies. With it off, `sync.js` neither copie
   paths are written once, in the manifest**; hand-copying them into a settings file guarantees the
   two drift, and the stale one fails without saying why. The file is local and gitignored, like
   `raiz`: those paths exist on one machine.
-- **Access is declared per source, with `"trabajo": true`, never inferred from the row.** Only
-  projects carry it. An area's folder holds *all* of its projects — including the ones the registry
-  excluded (§9) — so granting every `origen` would reopen through the access door exactly what the
-  scope closed. **An area is consulted; a project is worked in.**
+- **Access is declared per source, with `"trabajo": true`, never inferred from the row.** The
+  question to ask is the **condition**, not the kind of row: ***«does any project in this folder fall
+  outside the scope?»*** When the answer is yes — the ordinary case for an area — access stays off,
+  because an area's folder holds *all* of its projects, including the ones the registry excluded
+  (§9), and granting `origen` would reopen through the access door exactly what the scope closed.
+  **When the answer is no, the premise is false and the conclusion is not inherited:** a bot
+  federating a whole area leaves no project out, so **the area carries working access**, and the
+  reason is written beside its row in the manifest, where whoever wonders why that row disobeys the
+  rule will actually read it. Without it the bot cannot reach the `lore/` it routes to, nor the gates
+  the area requires, nor its scaffold, and it cannot **write** into the live source what it proposes:
+  it cites correctly and executes nothing, which is the definition of what a bot is not.
+
+  > *Why the rule is stated by its condition and not by the category:* «only for projects» was a
+  > shorthand for the condition, and nobody remembers that it was one. A rule named after the
+  > category fails precisely in the rare case — which is the case the boundary of validity had
+  > already named.
 - **Sync runs one way only:** local tree → `lore-ecosistema/`. Never back. The live source of each
   Lore is its own project; the repo copy is a photograph with a visible date.
 - Run `--revisar` first and report missing sources instead of silently producing a partial copy.
@@ -778,6 +884,32 @@ Then check the two things a script cannot:
   verifiable from here — say so rather than implying it was checked.
 - Register the bot in the **area's** `FASES.md` (path + status + phase).
 
+### 12. The premiere — the bot is not finished when the gate is written
+
+Writing §6.0 is the last thing this skill touches, and **it is not the moment the bot can be known to
+work**. That gate is answered identically with an empty canon, a desynchronized routing table and
+broken paths: not one of the failure modes the bot exists to prevent is able to appear there.
+Configuration is the interaction with the **most ceremony** — a gate, questions in order, a file
+written — so it feels like the opening night, and the builder registers it as one. It is not. What
+the gate proves is that the gate works.
+
+The bot's acceptance criterion is *a short instruction is enough*, so that is what has to be run:
+
+1. **The builder picks a test instruction** that **does not name the body of criteria, does not
+   explain the institution and does not say where anything is** — one real task, of the kind the bot
+   was built for.
+2. Run it. Observe whether the bot routed **on its own**, whether it declared the border before
+   executing, and whether it produced a deliverable.
+3. **Record the instruction verbatim** in the area's `FASES.md`, next to what the bot did with it. A
+   paraphrase can no longer be judged for whether it was short, and the instruction *is* the evidence.
+4. Fill `"estreno"` in `.{{BOT_SLUG}}.json` with that instruction and its date.
+
+Configuration gets registered as what it is: configuration. Until the premiere runs, the bot is
+tested as a form and not as a lens — report it that way rather than as a finished artifact.
+
+*This applies to bots with a first-use gate*, which is every bot this skill builds. And it does not
+say the configuration is superfluous: it says the configuration is not evidence of the north.
+
 ## Invariants
 
 - **Speak plainly to the user.** The vocabulary of this document is for the model. A user who has to
@@ -807,7 +939,22 @@ Then check the two things a script cannot:
   bot that breaks silently. A minimal canon is not a half-built bot when the ecosystem is next door.
 - **Route by type of task, not by name of project.** Ambiguity between two Lore bodies ⇒ ask. And
   the border between two sibling bodies is not missing, it is **half-written**: the test is whether
-  either side says what to do when the task belongs to both, never whether the border exists.
+  either side says what to do when the task belongs to both, never whether the border exists. It
+  returns **three** states — nobody wrote it, one side did, or both did and they disagree — and in
+  the third **the corrected side wins, not the nominal owner of the fact**. A divergence can stay
+  open **by decision**: record it with its date and switch the correction proposal off, or the bot
+  repeats it every session.
+- **The first use is a brainstorm, not a form.** The bot shows what it reaches before asking
+  anything — that display is also the pre-flight — and asks only what changes behaviour, one
+  question at a time. **No closed options for a field that picks a branch:** ask by the condition,
+  and an answer naming more than one body of criteria opens by all of them. What turns out to be
+  criteria is proposed to the Lore that paid for it, never stored in the bot.
+- **Configuring the first use is not the first use.** The gate is answered the same with an empty
+  canon and broken paths, so it proves nothing about the north. The bot is reported as finished
+  after a **premiere**: an instruction that does not name the criteria, recorded **verbatim**.
+- **A bot certifies the absence of the scars it carries, never good health.** A negative report
+  carries its coverage in the same sentence — *«none of the laws I carry are broken»*, never *«it is
+  fine»*. It points and does not own, so it cannot sign off on what no criteria of its own covers.
 - **Scope comes from the institution's registry, never from the builder's folder tree.** A source
   the registry does not list does not enter the manifest, and a borderline one is **declared out of
   scope with its reason**, not silently omitted — a border written with its reason holds, one that

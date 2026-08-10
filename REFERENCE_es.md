@@ -196,6 +196,14 @@ genérico** se propone para promoción al `lore/` del Área (nunca se escribe el
 En el `index.md` del proyecto, una línea ya promovida se marca con el glifo ` · ↑` — re-ejecutar el
 skill sobre esa pista es un no-op seguro (idempotencia).
 
+**Corregir un hecho no es capturar criterio.** El enrutamiento de arriba está hecho para criterio, que
+vive en un solo lugar por diseño. Un **hecho verificable** —una sede, una cifra, una fecha— se
+comporta al revés: está repetido en cada artefacto que lo citó y en el documento fuente que lo
+repartió, así que corregirlo donde se notó el error deja la raíz intacta y todas las demás copias con
+ella, y ninguna de las que sobreviven da ningún error. **La unidad de trabajo es el conjunto de
+apariciones:** barrer el árbol antes de escribir, corregirlas todas en una pasada, y si el hecho está
+además en un corpus fuente que no se edita, marcarlo ahí también — tachado y fechado, nunca borrado.
+
 **Invariantes:**
 
 - El criterio nunca se inventa.
@@ -204,6 +212,8 @@ skill sobre esa pista es un no-op seguro (idempotencia).
 - Todo cambio pasa por un HARD-GATE antes de escribirse.
 - Nada hace commit automáticamente; nunca se hace `git push`.
 - Un ser humano siempre revisa el *diff* final.
+- Una Pista que cita otra ley hereda su **frontera de validez** o dice por qué no, y enuncia su regla
+  por la **condición**, no por la categoría en la que esa condición suele cumplirse.
 
 Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decisiones importantes.
 
@@ -267,6 +277,14 @@ Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decision
    nivel está en un idioma distinto, se informa el desajuste. Excepción: la integridad de enlaces
    sí cruza el límite — al renombrar módulos de un Área se actualizan (o reportan) los enlaces de
    sus proyectos hacia esos archivos.
+
+**Binarios: comparar antes de extraer, anotar después.** Un `.pdf`, `.docx` o `.xlsx` entre las
+fuentes parece trabajo pendiente para siempre, porque un binario **ya transcrito** es indistinguible
+de uno que no lo está: la transmutación escribe el `.md` con el nombre que le corresponde al contenido
+y deja el binario donde estaba, con su extensión intacta. Por eso el modo `add` compara el texto del
+binario contra el corpus existente antes de extraerlo —el solapamiento literal por tramos cuesta
+segundos— y **anota la correspondencia binario → transcripción** en el destino cuando sí transcribe
+uno. Los pendientes de extracción se redactan por **contenido, no por extensión**.
 
 En los tres modos, `transmute-lore` **no hace commit del proyecto destino**: el *diff* queda para que
 el usuario lo revise y decida.
@@ -381,8 +399,36 @@ Así la copia **se desactiva sola**, fila por fila, a medida que alguien va teni
   del modelo. Cada módulo nombra su origen y dónde deja de valer.
 - Enrutar **por tipo de tarea, no por nombre de proyecto**; ante ambigüedad entre dos Lore, preguntar.
 - Cerrar **toda** tarea con una propuesta de destilación, reportando lo descartado.
+- Escribir los informes **negativos con su cobertura en la misma frase**: *«ninguna de las leyes que
+  cargo se viola»*, nunca *«está bien»*. Un bot apunta a criterio ajeno, así que hereda su cobertura
+  **y su silencio** — lo que nadie cicatrizó no está escrito, y su ausencia del corpus se ve igual
+  que su ausencia del trabajo.
 - Modo `federar`: un solo manifiesto genera la tabla, el acceso y la poda, para que no puedan
   desincronizarse; `enrutamiento.md` no se edita a mano y la sincronización va en una sola dirección.
+
+**El primer uso es un brainstorming, no un formulario:**
+
+El kit hace un brainstorming para construir cada artefacto que produce, así que el artefacto no
+recibe a su primer usuario con cuatro campos que rellenar. Si hay una skill de brainstorming
+instalada, el bot corre el primer uso a través de ella; si no, corre uno mínimo él mismo. Tres
+movimientos:
+
+1. **Muestra qué alcanza antes de preguntar nada** — cada cuerpo federado con si resuelve *en esta
+   máquina*, qué destila el canon, qué queda fuera de alcance. Esa pantalla es también el
+   pre-flight: un puntero roto aparece delante de quien puede arreglarlo.
+2. **Pregunta solo lo que cambia comportamiento**, de a una pregunta, y **nunca con opciones cerradas
+   para un campo que decide una rama**. Una lista cerrada no tiene default para la respuesta que
+   nombra dos de sus ítems, así que la pregunta se hace por su **condición** —*«¿tu trabajo cae en
+   más de uno de estos?»*— y una respuesta que nombra dos cuerpos de criterio abre por los dos. El
+   tono y el apodo no se preguntan: se infieren y se corrigen en una frase.
+3. **Cierra separando configuración de criterio.** La configuración va a `.{slug}.json`; lo que
+   resultó ser criterio se propone **al Lore de quien lo pagó con experiencia**, nunca se guarda en
+   el bot.
+
+**Configurar el primer uso no es el primer uso.** Ese gate se contesta igual con el canon vacío y las
+rutas rotas, así que no prueba nada sobre el norte. El bot se reporta terminado después de un
+**estreno**: una instrucción que no nombra el criterio, anotada **textual** en el `FASES.md` del
+Área — una parafraseada ya no permite juzgar si era corta.
 
 **Opcionales, apagados por defecto:**
 

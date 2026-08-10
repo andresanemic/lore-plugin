@@ -197,6 +197,14 @@ a promotion.
 written silently). In the project's `index.md`, an already‑promoted line is marked with the
 ` · ↑` glyph — re‑running the skill on that clue is a safe no‑op (idempotency).
 
+**Correcting a fact is not capturing criteria.** The routing above is built for criteria, which lives
+in exactly one place by design. A **verifiable fact** — an address, a figure, a date — behaves the
+opposite way: it is repeated in every artifact that cited it and in the source document that handed
+it out, so fixing it where the error was noticed leaves the root intact and every other copy with it,
+and none of the survivors produce an error. **The unit of work is the set of appearances:** sweep the
+tree before writing, fix them all in one pass, and if the fact also sits in a source corpus that is
+not edited, mark it there too — struck through and dated, never deleted.
+
 **Invariants:**
 
 - Criteria are never invented.
@@ -205,6 +213,8 @@ written silently). In the project's `index.md`, an already‑promoted line is ma
 - Every change passes through a HARD GATE before being written.
 - Nothing commits automatically; `git push` is never run.
 - A human always reviews the final diff.
+- A clue citing an older law inherits its **boundary of validity** or says why not, and states its
+  rule by the **condition**, not by the category the condition usually holds in.
 
 Use `save-to-lore` as the main mechanism for feeding your Lore after important decisions.
 
@@ -272,6 +282,14 @@ transmutation lands as a reviewable diff.
    other level is in a different language, the mismatch is reported. Exception: link integrity does
    cross the boundary — renaming an Area's modules updates (or reports) its projects' links into
    those files.
+
+**Binaries: compare before extracting, record after.** A `.pdf`, `.docx` or `.xlsx` among the sources
+looks like pending work forever, because a binary that **has already been transcribed** is
+indistinguishable from one that has not: transmutation writes the `.md` under the name the content
+deserves and leaves the binary where it was, extension intact. So `add` mode compares a binary's text
+against the existing corpus before extracting it — literal overlap in chunks costs seconds — and
+**records the correspondence binary → transcription** in the destination when it does transcribe one.
+Pending extraction items are written by **content, not by extension**.
 
 In all three modes, `transmute-lore` **does not commit the target project** — the diff is left for
 the user to review and decide.
@@ -387,8 +405,35 @@ not opened. That way the copy **deactivates itself**, row by row, as someone acq
   knowledge. Each module names its origin and where it stops applying.
 - Route **by type of task, not by name of project**; when ambiguous between two Lore bodies, ask.
 - Close **every** task with a distillation proposal, reporting what was discarded.
+- Write **negative reports with their coverage in the same sentence**: *«none of the laws I carry are
+  broken»*, never *«it is fine»*. A bot points at borrowed criteria, so it inherits its coverage and
+  its silence — what nobody scarred is not written down, and its absence from the corpus looks
+  exactly like its absence from the work.
 - `federar` mode: one manifest generates the table, the access and the pruning so they cannot drift;
   sync runs one way only, and `enrutamiento.md` is never hand-edited.
+
+**First use — a brainstorm, not a form:**
+
+The kit brainstorms to build every artifact it makes, so the artifact does not greet its first user
+with four fields to fill. If a brainstorming skill is installed, the bot runs the first use through
+it; otherwise it runs a minimal one itself. Three moves:
+
+1. **It shows what it reaches before asking anything** — each federated body with whether it resolves
+   *on this machine*, what the canon distills, what is out of scope. That display is also the
+   pre-flight: a broken pointer surfaces in front of the person who can fix it.
+2. **It asks only what changes behaviour**, one question at a time, and **never with closed options
+   for a field that picks a branch**. A closed list has no default for the answer naming two of its
+   items, so the question is asked by its **condition** — *«does your work fall into more than one of
+   these?»* — and an answer naming two bodies of criteria opens by both. Tone and nickname are not
+   asked: they are inferred and corrected in a sentence.
+3. **It closes by separating configuration from criteria.** Configuration goes to
+   `.{slug}.json`; what turned out to be criteria is proposed to **the Lore of whoever paid for it**,
+   never stored in the bot.
+
+**Configuring the first use is not the first use.** That gate is answered identically with an empty
+canon and broken paths, so it proves nothing about the north. The bot is reported as finished after a
+**premiere**: an instruction that does not name the criteria, recorded **verbatim** in the Area's
+`FASES.md` — a paraphrase can no longer be judged for whether it was short.
 
 **Optional, off by default:**
 

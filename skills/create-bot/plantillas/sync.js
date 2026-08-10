@@ -220,11 +220,13 @@ if (!revisar) {
  * escriben UNA vez, en `origen`. Escribirlas también a mano en un settings
  * garantiza que se desincronicen, y la que se queda vieja falla sin decir por qué.
  *
- * Pero se DECLARA, no se infiere: solo las fuentes con `"trabajo": true`. Federar
- * un área trae su método, y su carpeta contiene todos sus proyectos, incluidos los
- * que quedaron fuera de alcance — conceder el origen de cada fila abriría por la
- * puerta del acceso lo que el alcance cerró. Un área se consulta; en un proyecto
- * se trabaja.
+ * Pero se DECLARA, no se infiere: solo las fuentes con `"trabajo": true`. Y lo que
+ * decide ese valor es una CONDICIÓN, no el tipo de fila: ¿queda algún proyecto de
+ * esta carpeta fuera del alcance? Si queda —el caso normal de un área— va apagado:
+ * su carpeta contiene todos sus proyectos, incluidos los que el alcance dejó fuera,
+ * y conceder el origen abriría por la puerta del acceso lo que el alcance cerró.
+ * Si no queda ninguno —un bot que federa un área entera— la premisa es falsa y el
+ * área sí lo lleva, con su `motivo` escrito en la fila del manifiesto.
  *
  * Local y no versionado, igual que `raiz`: son rutas de esta máquina. Quien
  * clona el repo sin el árbol no las tiene, y para eso existe lore-ecosistema/.

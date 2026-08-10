@@ -373,11 +373,25 @@ Qué esperar mientras corre:
   `scripts/validar.js` pase: los errores de frontmatter que revisa no dan ningún mensaje de error —
   la skill se instala, aparece en el listado y nunca se dispara.
 
-Dos cosas que vas a usar todos los días:
+**La primera vez que abres el bot corre un brainstorming, no un formulario.** Arranca mostrando qué
+alcanza: cada cuerpo de criterio que federa, si ese puntero resuelve en tu máquina, y qué queda fuera
+de alcance. Después pregunta solo lo que cambia cómo se comporta, de a una pregunta — y si tu
+respuesta nombra más de un cuerpo de criterio, abre por todos en vez de quedarse con el más parecido.
+Si tienes una skill de brainstorming instalada, corre esa conversación a través de ella.
+
+> **Contestar eso no es lo mismo que usarlo.** El gate se contesta igual con el canon vacío y las
+> rutas rotas, así que no prueba nada. El bot cuenta como estrenado cuando **una instrucción corta
+> que no nombra el criterio produce un entregable real** — esa instrucción es la evidencia, y se
+> anota tal cual.
+
+Tres cosas que vas a usar todos los días:
 
 - **Se enruta por tipo de tarea, no por nombre de proyecto.** Decir *«trabajemos en X»* no alcanza si
   X tiene criterio de producto y de comunicación por separado; el bot pregunta cuál.
 - **Toda tarea cierra proponiendo qué criterio guardar y dónde.** No espera a que se lo pidas.
+- **Un informe negativo viene con su cobertura al lado.** El bot dice *«ninguna de las leyes que
+  cargo se viola»*, nunca *«está bien»* — solo puede responder por las cicatrices que alguien ya
+  pagó, y lo que nadie cicatrizó no está escrito en ninguna parte.
 
 Opcionales y apagados por defecto: **la copia del ecosistema**, **empaquetarlo como plugin**,
 **cifrado** (*experimental*) y **Telegram**. Un bot sin ninguno de los cuatro está completo. El

@@ -371,11 +371,25 @@ What to expect while it runs:
   until `scripts/validar.js` passes — the frontmatter defects it checks produce no error message at
   all; the skill installs, gets listed, and never fires.
 
-Two things you will use every day:
+**The first time you open the bot, it runs a brainstorm — not a form.** It starts by showing what it
+reaches: each body of criteria it federates, whether that pointer resolves on your machine, and what
+is out of scope. Then it asks only what changes how it behaves, one question at a time — and if your
+answer names more than one body of criteria, it opens by all of them instead of picking the closest
+match. If you have a brainstorming skill installed, it runs that conversation through it.
+
+> **Answering that is not the same as using it.** The gate is answered identically with an empty
+> canon and broken paths, so it proves nothing. The bot counts as launched once **a short instruction
+> that does not name the criteria produces a real deliverable** — that instruction is the evidence,
+> and it gets recorded word for word.
+
+Three things you will use every day:
 
 - **Route by type of task, not by name of project.** Saying *"let's work on X"* is not enough if X
   keeps product and communications criteria apart; the bot asks which one.
 - **Every task closes by proposing what criteria to keep and where.** It does not wait to be asked.
+- **A negative report comes with its coverage attached.** The bot says *"none of the laws I carry are
+  broken"*, never *"this is fine"* — it can only vouch for the scars somebody already paid for, and
+  what nobody scarred is not written anywhere.
 
 Optional and off by default: **the ecosystem copy**, **packaging it as a plugin**, **encryption**
 (*experimental*) and **Telegram**. A bot with none of the four is complete. The detail is in the

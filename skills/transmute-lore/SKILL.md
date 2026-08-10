@@ -79,6 +79,28 @@ Inventory the existing sources of criteria and their state:
 
 Report what exists, where, and in what state (current / stale / narrative).
 
+#### Binaries: check before extracting, and leave a trace after
+
+A `.pdf`, `.docx` or `.xlsx` in the sources looks like pending work forever, because **a binary that
+has already been transcribed is indistinguishable from one that has not**. Transmutation writes the
+`.md` under the name the *content* deserves and leaves the binary exactly where it was, extension
+intact and nothing recording the correspondence — so the only evidence is the resemblance between two
+texts whose filenames do not resemble each other at all.
+
+- **Before extracting one, compare its text against the `.md` corpus already there.** Normalizing
+  whitespace and measuring literal overlap in chunks is enough and costs seconds. High overlap means
+  it was already transcribed: report it and do not extract it again.
+- **When you do transcribe one, record the correspondence in the destination** — one line in the
+  corpus `index.md`, or in the header of the generated `.md`, naming the binary it came from. That
+  single line is what prevents the whole pending item from being written in the first place.
+- **Write pending extraction items by content, never by extension.** *«Extract the binaries»* sends
+  the next person to redo work that is done; *«extract what is not yet in the corpus»* does not.
+
+*Boundary:* this applies to a corpus that has been through a prior distillation — in one that has
+not, there is nothing to compare against and every extraction is real work. Literal comparison
+catches faithful transcriptions; a deep rewrite of the same content can fall under the threshold, so
+**low overlap does not prove** the material is new.
+
 ### Phase 2 — Criteria extraction
 Walk the sources separating **criteria** from **noise** with the heuristics below. Criteria is
 anything that **constrains a future decision**. Noise is descriptive and constrains nothing.
@@ -237,6 +259,10 @@ the user reviews the diff and decides.
 
 - **Criteria is never invented.** Only already-scattered criteria is transmuted. An artifact that
   would be empty because the project lacks that criteria stays minimal and says so — never padded.
+- **A transcribed binary is not told apart by its extension.** Compare a binary's text against the
+  existing corpus before extracting it, and when transcribing one, **record the correspondence
+  binary → transcription** in the destination. Pending extraction items are written by content, not
+  by file type.
 - **Discarded noise is reported**, not silently deleted (filter transparency).
 - **Clean-tree precondition**: transmutation runs on a committed tree, to land as a reviewable diff.
 - **Do not overwrite old lore/docs without surfacing discrepancies** with code or the description.

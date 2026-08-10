@@ -15,12 +15,12 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-1.0.7-F72585?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-1.2.0-F72585?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/paradigm-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
   <a href="#obsidian--the-way-in"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Obsidian compatible"></a>
   <a href="#origin"><img src="https://img.shields.io/badge/research-active-10B981?style=for-the-badge&labelColor=0B0B12" alt="Status"></a>
-  <a href="#reach"><img src="https://img.shields.io/badge/clones-900%2B-FF6B35?style=for-the-badge&labelColor=0B0B12" alt="900+ clones"></a>
+  <a href="#reach"><img src="https://img.shields.io/badge/clones-1%2C000%2B-FF6B35?style=for-the-badge&labelColor=0B0B12" alt="1,000+ clones"></a>
 </p>
 
 <p align="center">
@@ -33,7 +33,7 @@
 </p>
 
 <p align="center">
-  <code>7 skills · 6 case studies</code>
+  <code>7 skills · 7 case studies</code>
 </p>
 
 ---
@@ -187,17 +187,19 @@ Three months later, in another project of the Area, someone asks for an entrance
 ## Reach
 
 <p align="center">
-  <img src="./assets/reach-en.png" alt="900+ clones and counting" width="100%">
+  <img src="./assets/reach-en.png" alt="1,000+ clones and counting" width="100%">
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/906-clones-F72585?style=for-the-badge&labelColor=0B0B12" alt="906 clones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/34-days-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="34 days"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/1%2C127-clones-F72585?style=for-the-badge&labelColor=0B0B12" alt="1,127 clones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/35-days-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="35 days"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~27-a_day-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="27 a day"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/130-peak-10B981?style=for-the-badge&labelColor=0B0B12" alt="130 peak"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/221-peak-10B981?style=for-the-badge&labelColor=0B0B12" alt="221 peak"></a>
 </p>
 
-The total has not stopped growing and it keeps growing at a steady twenty-odd clones a day well past the launch spike. That steadiness is the more interesting part: it is not a launch bump, it is people still arriving. Data comes from GitHub's traffic API, stored weekly in [`data/traffic/clones.json`](./data/traffic/clones.json) because the API only keeps 14 days.
+For thirty-four days the number held at a steady twenty-odd clones a day, well past the launch spike. That steadiness was the interesting part: not a launch bump, just people still arriving. Then August 8th brought 221 clones in a single day — a second peak, larger than the launch itself, and one I cannot explain. I left it in the data exactly as it arrived.
+
+The daily rate quoted above is the steady one, not the average with that day folded in. Data comes from GitHub's traffic API, stored in [`data/traffic/clones.json`](./data/traffic/clones.json) because the API only keeps 14 days.
 
 > **This is a reach signal, not a demonstration.** Nobody knows what anyone did with their copy: how many installed it, how many distilled anything, how many opened the folder once. It does not count as a case and it does not answer the question the [case studies](#case-studies) do. Note also that the "unique cloners" the API returns are unique **per day**, not people, so they cannot be summed into a headcount.
 
@@ -391,6 +393,22 @@ One entity can own several bodies of criteria whose own principles forbid crossi
 </details>
 
 <details>
+<summary><b>The first use is a brainstorm, not a form</b></summary>
+
+<br>
+
+This kit brainstorms to build every artifact it makes, so the artifact it produces does not greet its first user with four fields to fill. **If you have a brainstorming skill installed, the bot runs the first use through it**; if not, it runs a minimal one itself.
+
+- **It shows what it reaches before asking anything** — each body it federates, with whether that pointer resolves *on this machine*, what its canon distills, and what is out of scope. That screen is also the pre-flight: a broken pointer shows up in front of the person who can fix it, instead of surfacing three tasks later as an answer that quietly left a body of criteria out.
+- **It asks only what changes its behaviour**, one question at a time. Tone and a nickname are not asked — they are inferred from how you write and corrected in one sentence, and spending the artifact's first two turns on them buys nothing.
+- **No closed options for anything that picks a branch.** A closed list has no default for the answer that names two of its items, and the discarded half leaves no trace. So the question is asked by its condition — *"does your work fall into more than one of these?"* — and an answer naming two bodies of criteria opens by both.
+- **It closes by separating configuration from criteria.** What is configuration is stored. What turned out to be true about *the project* is proposed to the Lore of whoever paid for it with experience — never kept inside the bot.
+
+> **Configuring the first use is not the first use.** That gate is answered exactly the same with an empty canon, a stale routing table and broken paths — so it proves nothing except that the gate works. A bot counts as launched when **an instruction that does not name the criteria produces a deliverable**, and that instruction is recorded verbatim.
+
+</details>
+
+<details>
 <summary><b>Four optional extras, off by default</b></summary>
 
 <br>
@@ -543,7 +561,7 @@ lore-plugin/
 
 Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. LUS documents those applications as **case studies**.
 
-> **Status:** these are cases, not proofs. Small n, and all six documented cases come from the same researcher. What they claim constrains how we use the kit; it does not pretend to be a law.
+> **Status:** these are cases, not proofs. Small n, and all seven documented cases come from the same researcher. What they claim constrains how we use the kit; it does not pretend to be a law.
 
 <details>
 <summary><b>Case 01 — Lore as the operational form of an entire project</b></summary>
@@ -629,6 +647,22 @@ A project needed criteria from four Areas, only one of which was its mother. **L
 
 </details>
 
+<details>
+<summary><b>Case 07 — The same kit four times did not produce the same shape</b></summary>
+
+<br>
+
+Four bots built with `create-bot`, same ecosystem, all four sources with tidy Lore of their own. The acceptance test was **written down before any of them was used** — *a short instruction is enough*, in its falsifiable form: *did the project have to be explained to the bot to get the result?* Three of the four were put to work, and none of the three needed it.
+
+- **The method does not produce a shape; it produces shapes fitted to the distance and structure of the ecosystem.** The canon **grows when the ecosystem gets farther away** and empties out when it is next door: one bot distills a sealed corpus no pointer can reach, another ended up with a single file, because summarizing what the routing already reaches would have left two distillations of the same original inside one bot. A fourth **inverts the scope rule** of the other three and federates a whole Area — declared in writing as a boundary of validity before the bot that would exercise it existed.
+- **Passing the test is not the same as being right.** One of the three premieres routed correctly, read the right Lore, checked every scar it carries, found none, and closed with *"already compliant"*. That was literally true. The thing had three real defects, and none of them could have shown up: **nobody had scarred them yet.** What is not written is indistinguishable from what is not there, and *"I found no violations"* and *"this is fine"* are written almost the same way.
+
+That second finding is the one the test did not anticipate, and it only exists because the test was fixed beforehand — otherwise a false all-clear reads as one more success.
+
+**Declared boundary:** one builder, one ecosystem, one machine, and every source already had Lore. Three of four were used, and the missing one is precisely the only bot meant for other people — so this case says nothing yet about what happens when the builder and the user are different people.
+
+</details>
+
 ---
 
 ## Origin
@@ -690,12 +724,12 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-1.0.7-F72585?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-1.2.0-F72585?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/paradigma-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
   <a href="#obsidian--la-puerta-de-entrada"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Compatible con Obsidian"></a>
   <a href="#origen"><img src="https://img.shields.io/badge/investigaci%C3%B3n-activa-10B981?style=for-the-badge&labelColor=0B0B12" alt="Estado"></a>
-  <a href="#alcance"><img src="https://img.shields.io/badge/clonaciones-900%2B-FF6B35?style=for-the-badge&labelColor=0B0B12" alt="900+ clonaciones"></a>
+  <a href="#alcance"><img src="https://img.shields.io/badge/clonaciones-1%2C000%2B-FF6B35?style=for-the-badge&labelColor=0B0B12" alt="1.000+ clonaciones"></a>
 </p>
 
 <p align="center">
@@ -708,7 +742,7 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 </p>
 
 <p align="center">
-  <code>7 skills · 6 casos de estudio</code>
+  <code>7 skills · 7 casos de estudio</code>
 </p>
 
 ---
@@ -860,17 +894,19 @@ Tres meses después, en otro proyecto del Área, alguien pide una animación de 
 ## Alcance
 
 <p align="center">
-  <img src="./assets/reach-es.png" alt="900+ clonaciones y sumando" width="100%">
+  <img src="./assets/reach-es.png" alt="1.000+ clonaciones y sumando" width="100%">
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/906-clonaciones-F72585?style=for-the-badge&labelColor=0B0B12" alt="906 clonaciones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/34-d%C3%ADas-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="34 días"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/1%2C127-clonaciones-F72585?style=for-the-badge&labelColor=0B0B12" alt="1.127 clonaciones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/35-d%C3%ADas-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="35 días"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~27-al_d%C3%ADa-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="27 al día"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/130-pico-10B981?style=for-the-badge&labelColor=0B0B12" alt="130 pico"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/221-pico-10B981?style=for-the-badge&labelColor=0B0B12" alt="221 pico"></a>
 </p>
 
-El total no ha dejado de crecer y sigue creciendo a unas veinte clonaciones diarias mucho después del pico del lanzamiento. Esa constancia es lo más interesante: no es el rebote de un lanzamiento, es gente que sigue llegando. Los datos vienen de la API de tráfico de GitHub y se guardan cada semana en [`data/traffic/clones.json`](./data/traffic/clones.json), porque la API solo conserva 14 días.
+Durante treinta y cuatro días el número se mantuvo en unas veinte y pico de clonaciones diarias, mucho después del pico del lanzamiento. Esa constancia era lo interesante: no el rebote de un lanzamiento, sino gente que seguía llegando. Y entonces el 8 de agosto trajo 221 clonaciones en un solo día — un segundo pico, más alto que el del lanzamiento, que no sé explicar. Queda en los datos tal como llegó.
+
+El ritmo diario de arriba es el constante, no el promedio con ese día adentro. Los datos vienen de la API de tráfico de GitHub y se guardan en [`data/traffic/clones.json`](./data/traffic/clones.json), porque la API solo conserva 14 días.
 
 > **Es una señal de alcance, no una demostración.** Nadie sabe qué hizo cada quien con su copia: cuántos la instalaron, cuántos destilaron algo, cuántos abrieron la carpeta una vez. No cuenta como caso y no responde la pregunta que sí responden los [casos de estudio](#casos-de-estudio). Y los «clonadores únicos» que devuelve la API son únicos **por día**, no personas: no se pueden sumar para contar cabezas.
 
@@ -1042,6 +1078,22 @@ Una entidad puede tener varios cuerpos de criterio cuyos propios principios proh
 </details>
 
 <details>
+<summary><b>El primer uso es un brainstorming, no un formulario</b></summary>
+
+<br>
+
+Este kit hace un brainstorming para construir cada artefacto que produce, así que el artefacto no recibe a su primer usuario con cuatro campos que rellenar. **Si tienes una skill de brainstorming instalada, el bot corre el primer uso a través de ella**; si no, corre uno mínimo él mismo.
+
+- **Muestra qué alcanza antes de preguntar nada** — cada cuerpo que federa, con si ese puntero resuelve *en esta máquina*, qué destila su canon y qué queda fuera de alcance. Esa pantalla es también el pre-flight: un puntero roto aparece delante de quien puede arreglarlo, en vez de asomar tres tareas después como una respuesta a la que le faltó, sin decirlo, un cuerpo de criterio.
+- **Pregunta solo lo que cambia su comportamiento**, de a una pregunta. El tono y un apodo no se preguntan: se infieren de cómo escribes y se corrigen en una frase, y gastar en ellos los dos primeros turnos del artefacto no compra nada.
+- **Nada de opciones cerradas para lo que decide una rama.** Una lista cerrada no tiene default para la respuesta que nombra dos de sus ítems, y la mitad descartada no deja rastro. Por eso la pregunta se hace por su condición —*«¿tu trabajo cae en más de uno de estos?»*— y una respuesta que nombra dos cuerpos de criterio abre por los dos.
+- **Cierra separando configuración de criterio.** Lo que es configuración se guarda. Lo que resultó ser cierto sobre *el proyecto* se propone al Lore de quien lo pagó con experiencia — nunca se queda dentro del bot.
+
+> **Configurar el primer uso no es el primer uso.** Ese gate se contesta exactamente igual con el canon vacío, la tabla de enrutamiento desactualizada y las rutas rotas — así que no prueba nada, salvo que el gate funciona. Un bot cuenta como estrenado cuando **una instrucción que no nombra el criterio produce un entregable**, y esa instrucción se anota textual.
+
+</details>
+
+<details>
 <summary><b>Cuatro extras opcionales, apagados por defecto</b></summary>
 
 <br>
@@ -1184,7 +1236,7 @@ lore-plugin/
 
 Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía.
 
-> **Estatus:** son casos, no demostraciones. n pequeño, y las seis evidencias vienen del mismo investigador. Restringen cómo usamos el kit; no pretenden ser una ley.
+> **Estatus:** son casos, no demostraciones. n pequeño, y las siete evidencias vienen del mismo investigador. Restringen cómo usamos el kit; no pretenden ser una ley.
 
 <details>
 <summary><b>Caso 01 — El Lore como forma operativa de un proyecto entero</b></summary>
@@ -1267,6 +1319,22 @@ Un proyecto necesitó criterio de cuatro Áreas, de las cuales solo una era su m
 - **Lo destilable de un conjunto de criterios es la frontera, no los criterios.** Dos Áreas hermanas tenían escrita, cada una, su mitad de la línea. Ninguna tenía la regla para decidir cuál gobierna una tarea concreta, porque cada cuerpo se escribe desde adentro de su propia finalidad y la divisoria solo se ve desde afuera de los dos.
 
 **Frontera declarada:** las dos observaciones distan 48 horas, en el mismo ecosistema y con el mismo investigador. No son dos casos independientes.
+
+</details>
+
+<details>
+<summary><b>Caso 07 — El mismo kit cuatro veces no produjo la misma forma</b></summary>
+
+<br>
+
+Cuatro bots construidos con `create-bot`, mismo ecosistema, las cuatro fuentes con Lore propio y ordenado. La vara de aceptación **se escribió antes de usar ninguno** —*una instrucción corta basta*, en su forma falsable: *¿hubo que explicarle el proyecto al bot para obtener el resultado?*—. Tres de los cuatro se pusieron a trabajar, y a ninguno hubo que explicárselo.
+
+- **El método no produce una forma; produce formas ajustadas a la distancia y a la estructura del ecosistema.** El canon **crece cuando el ecosistema se aleja** y se vacía cuando está al lado: un bot destila un corpus sellado que ningún puntero alcanza, otro quedó en un solo archivo, porque resumir lo que el enrutamiento ya alcanza habría dejado dos destilados del mismo original dentro del mismo bot. Un cuarto **invierte la regla de alcance** de los otros tres y federa un Área entera — declarado por escrito como frontera de validez antes de que existiera el bot que la ejerciera.
+- **Pasar la vara no es lo mismo que ser correcto.** Uno de los tres estrenos enrutó bien, leyó el Lore correcto, verificó una por una las cicatrices que carga, no encontró ninguna y cerró con *«ya cumple»*. Era literalmente cierto. La cosa tenía tres defectos reales, y ninguno podía aparecer: **nadie los había cicatrizado todavía.** Lo que no está escrito es indistinguible de lo que no está, y *«no encontré violaciones»* y *«está bien»* se escriben casi igual.
+
+Ese segundo hallazgo es el que la vara no anticipaba, y existe solo porque la vara se fijó de antemano — si no, un alta falsa se lee como un éxito más.
+
+**Frontera declarada:** un constructor, un ecosistema, una máquina, y todas las fuentes ya tenían Lore. Tres de cuatro se usaron, y el que falta es justamente el único pensado para otras personas — así que el caso todavía no dice nada sobre qué pasa cuando quien construye y quien usa son distintos.
 
 </details>
 

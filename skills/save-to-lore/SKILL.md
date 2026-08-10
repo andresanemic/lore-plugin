@@ -60,6 +60,36 @@ paid for it with real friction yet). The **arbitration itself** — the defeats,
 already-validated identity — enters as **`confirmed`**. Head the module with its provenance:
 *"Distilled from `<source>`, arbitrated against `<identidad.md>`."*
 
+## Before either mode — is this a fact, or is it criteria?
+
+The routing below is built for **criteria**, which lives in exactly one place by design. A
+**verifiable fact** — an address, a figure, a date, who does what — behaves the opposite way: it is
+repeated in every artifact that ever cited it, and in the source document that handed it out. Fixing
+it where the error was noticed does not fix it.
+
+> **The unit of work for a fact is the set of its appearances, never the file where it was noticed.**
+
+A correction is made where the error turns up, and that place feels like *the* place. But the fact
+did not come in from there — it came **down** from a source corpus that distributed it to every Lore
+that cited it. Correcting downward from one leaf leaves the root intact and every other leaf with it,
+and the root hands the fact out again the next time anybody distills. None of the survivors produce
+an error: they get quoted as if they were true.
+
+When what you are saving is a fact rather than a clue:
+
+1. **Search the whole tree for the fact before writing the correction** — `grep` the figure, the
+   name, the address. Count the appearances.
+2. **Fix all of them in one pass**, and report the count. One fixed out of five is not a fix.
+3. **If it also appears in a source document that is not edited**, mark it there too — struck
+   through and dated, not deleted. A source that silently contradicts the Lore is the mechanism that
+   re-injects the error.
+
+*Boundary:* this covers **repeated, verifiable facts**. It does not authorize duplicating a clue —
+criteria lives in one place on purpose — and it does not say a source corpus may be rewritten freely:
+it says that if it is corrected, the correction is **visible**. Marking the source is a decision, not
+a validated pattern: in another project the source may need to stay untouched with the note kept
+somewhere else.
+
 ## Two triggers
 
 1. **Explicit:** the user says "save to lore…", "distill this to the lore", "guarda en lore" — or
@@ -209,6 +239,10 @@ a safe no-op for those clues.
   older law opens it and inherits its boundary or says why not — and it states its rule by the
   **condition**, not by the category the condition usually holds in. A rule named after the category
   fails exactly where the boundary it never carried had said it would.
+- **Correcting a fact is not capturing criteria.** A clue lives in one place; a verifiable fact lives
+  in every artifact that cited it and in the source that handed it out. The unit of work is the **set
+  of appearances** — sweep the tree before writing, fix them all in one pass, and mark the source
+  corpus struck through and dated if it is not edited.
 - **Honest confidence:** `confirmed` only after real validation; never inflated to force promotion.
 - **Discarded noise is reported**, not silently dropped.
 - **No auto-commit, no push.** The user reviews and decides.
