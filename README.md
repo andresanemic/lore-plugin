@@ -136,16 +136,9 @@ The event is forgotten. The criteria keeps working.
 
 ### The loop
 
-```mermaid
-flowchart LR
-    A["Friction<br/>something breaks"] --> B["Distillation<br/>Context → Cause → Clue"]
-    B --> G{"Does it constrain<br/>a future decision?"}
-    G -->|"yes, it is criteria"| C["lore/<br/>Invariant Clue"]
-    G -->|"it is state"| D["FASES.md"]
-    G -->|"constrains nothing"| E["Noise<br/>reported, not deleted"]
-    C --> F["Future decisions<br/>already constrained"]
-    F --> A
-```
+<p align="center">
+  <img src="https://i.imgur.com/y3fsT7D.png" alt="Lore" width="100%">
+</p>
 
 Every step of the loop passes a **HARD GATE**: it is proposed, you approve, only then it is written.
 
@@ -858,16 +851,9 @@ El acontecimiento se olvida. El criterio sigue trabajando.
 
 ### El ciclo
 
-```mermaid
-flowchart LR
-    A["Fricción<br/>algo se rompe"] --> B["Destilación<br/>Contexto → Causa → Pista"]
-    B --> G{"¿Restringe una<br/>decisión futura?"}
-    G -->|"sí, y es criterio"| C["lore/<br/>Pista Invariante"]
-    G -->|"es estado"| D["FASES.md"]
-    G -->|"no restringe nada"| E["Ruido<br/>informado, no borrado"]
-    C --> F["Decisiones futuras<br/>ya restringidas"]
-    F --> A
-```
+<p align="center">
+  <img src="https://i.imgur.com/I7odxus.png" alt="Lore" width="100%">
+</p>
 
 Cada paso del ciclo pasa por un **HARD-GATE**: se propone, tú apruebas, recién entonces se escribe.
 
