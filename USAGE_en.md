@@ -5,7 +5,7 @@ creating Areas and projects, capturing criteria after solving problems, and keep
 
 > Lore is a lightweight Spec‑Driven Development (SDD) kit for Claude Code.  
 > It helps you preserve the **criteria** behind your decisions, so your AI never has to start from scratch.  
-> Closest analogy: local fine-tuning for your own tasks, except the one doing the training is you.
+> Closest analogy: local fine-tuning for your own tasks, and the one doing the training is you.
 
 ---
 
@@ -411,9 +411,8 @@ Three things you will use every day:
   broken"*, never *"this is fine"* — it can only vouch for the scars somebody already paid for, and
   what nobody scarred is not written anywhere.
 
-Optional and off by default: **the ecosystem copy**, **packaging it as a plugin**, **encryption**
-(*experimental*) and **Telegram**. A bot with none of the four is complete. The detail is in the
-README.
+Optional and off by default: **the ecosystem copy**, **packaging it as a plugin**, and **encryption**
+(*experimental*, see [`ENCRYPTION.md`](./ENCRYPTION.md)). A bot with none of the three is complete.
 
 Use this once you have several projects with Lore worth carrying into a single session. It does not
 substitute for building that Lore: it federates it.

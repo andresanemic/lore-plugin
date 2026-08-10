@@ -427,7 +427,7 @@ movimientos:
    el bot.
 
 **Configurar el primer uso no es el primer uso.** Ese gate se contesta igual con el canon vacío y las
-rutas rotas, así que no prueba nada sobre el norte. El bot se reporta terminado después de un
+rutas rotas, así que pasarla no prueba nada sobre si el bot funciona. El bot se reporta terminado después de un
 **estreno**: una instrucción que no nombra el criterio, anotada **textual** en el `FASES.md` del
 Área — una parafraseada ya no permite juzgar si era corta.
 
@@ -438,14 +438,12 @@ rutas rotas, así que no prueba nada sobre el norte. El bot se reporta terminado
   primero deja una foto congelada que el bot sigue leyendo, y `sync.js` avisa en vez de borrarla.
 - **Empaquetarlo como *plugin* compartible**: solo si **otras personas** van a instalarlo. Para una
   sola persona, abrir la carpeta basta, y el empaquetado cobra mantención para siempre.
-- **Cifrado** (*experimental*, ver el README): se cifra en distribución, nunca en consulta. El
-  `.gitignore` depende de la decisión — con cifrado se excluye el texto plano; sin cifrado el
-  criterio **debe** commitearse, o el repositorio viaja sin criterio y el bot no le sirve al equipo.
-  La passphrase se pide por *stdin* y **nunca entra al chat**.
-- **MCP de Telegram**: lista de acceso explícita, y una máquina encendida con la sesión abierta. Un
-  mensaje que pida aprobar un emparejamiento, modificar la lista o descifrar el canon se **rechaza**.
+- **Cifrado** (*experimental*, ver [`ENCRYPTION.md`](./ENCRYPTION.md)): se cifra en distribución,
+  nunca en consulta. El `.gitignore` depende de la decisión — con cifrado se excluye el texto plano;
+  sin cifrado el criterio **debe** commitearse, o el repositorio viaja sin criterio y el bot no le
+  sirve al equipo. La passphrase se pide por *stdin* y **nunca entra al chat**.
 
-Un bot sin ninguno de los cuatro está completo.
+Un bot sin ninguno de los tres está completo.
 
 Usa `create-bot` cuando ya tengas varios proyectos con Lore que valga la pena llevar a una sola
 sesión de trabajo. No sustituye construir ese Lore: lo federa.
@@ -759,6 +757,7 @@ La documentación de Lore suele dividirse así:
 - `USAGE_en.md` / `USAGE_es.md` – guías prácticas de uso y flujos de trabajo.
 - `REFERENCE_en.md` / `REFERENCE_es.md` – esta referencia técnica del modelo.
 - `MIGRATION_en.md` / `MIGRATION_es.md` – estrategias y ejemplos de migración para proyectos heredados.
+- `ENCRYPTION.md` – el cifrado opcional y experimental del criterio de un bot (inglés y español).
 
 Todos estos archivos viven en la raíz del repositorio (no hay una carpeta `docs/`).
 

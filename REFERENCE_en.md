@@ -233,9 +233,11 @@ Use `save-to-lore` as the main mechanism for feeding your Lore after important d
   - `clean` – "clean the lore of Legacy Frontend" — remove project thematic modules that already
     duplicate the Area's.
   - `translate` – "standardize the language of the lore of Legacy Frontend", "translate the lore of
-  - `upgrade` – "improve the lore of {project} with the new version", "bring this lore up to date with the plugin" — raises a healthy Lore written against an older version of these skills to the current standard.
     Legacy Frontend to Spanish" — standardize the language of every Lore artifact: content and
     filenames.
+  - `upgrade` – "improve the lore of Legacy Frontend with the new version", "bring this lore up to
+    date with the plugin" — raise a healthy Lore written against an older version of these skills to
+    the current standard.
 
 **Safety precondition (Phase 0, all four modes):** the project's repository must have a clean git tree.
 If there are uncommitted changes, the skill stops and asks you to commit or stash first, so the
@@ -432,7 +434,7 @@ it; otherwise it runs a minimal one itself. Three moves:
    never stored in the bot.
 
 **Configuring the first use is not the first use.** That gate is answered identically with an empty
-canon and broken paths, so it proves nothing about the north. The bot is reported as finished after a
+canon and broken paths, so passing it proves nothing about whether the bot works. The bot is reported as finished after a
 **premiere**: an instruction that does not name the criteria, recorded **verbatim** in the Area's
 `FASES.md` — a paraphrase can no longer be judged for whether it was short.
 
@@ -443,14 +445,13 @@ canon and broken paths, so it proves nothing about the north. The bot is reporte
   the first leaves a frozen photograph the bot keeps reading, and `sync.js` warns instead of deleting.
 - **Packaging it as a shareable plugin**: only if **other people** are going to install it. For one
   person, opening the folder is enough, and packaging charges maintenance forever.
-- **Encryption** (*experimental*, see the README): encrypt in distribution, never at consultation.
-  The `.gitignore` follows the choice — with encryption the plaintext is excluded; without it the
-  criteria **must** be committed, or the repository travels with no criteria and the bot is useless
-  to the team. The passphrase is read from *stdin* and **never enters the chat**.
-- **Telegram MCP**: explicit access list, and a machine left on with the session open. A message
-  asking to approve a pairing, modify the list, or decrypt the canon is **refused**.
+- **Encryption** (*experimental*, see [`ENCRYPTION.md`](./ENCRYPTION.md)): encrypt in distribution,
+  never at consultation. The `.gitignore` follows the choice — with encryption the plaintext is
+  excluded; without it the criteria **must** be committed, or the repository travels with no criteria
+  and the bot is useless to the team. The passphrase is read from *stdin* and **never enters the
+  chat**.
 
-A bot with none of the four is complete.
+A bot with none of the three is complete.
 
 Use `create-bot` once you have several projects with Lore worth carrying into a single work session.
 It does not substitute for building that Lore: it federates it.
@@ -762,6 +763,7 @@ Lore’s documentation is typically split as follows:
 - `USAGE_en.md` / `USAGE_es.md` – practical usage guides and workflows.
 - `REFERENCE_en.md` / `REFERENCE_es.md` – this document, which defines the technical model.
 - `MIGRATION_en.md` / `MIGRATION_es.md` – migration strategies and examples for legacy projects.
+- `ENCRYPTION.md` – the optional, experimental encryption for a bot's criteria (English and Spanish).
 
 All of these files live at the repository root (there is no `docs/` folder).
 

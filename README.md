@@ -34,7 +34,7 @@
 </p>
 
 <p align="center">
-  <i>An SDD kit that gives you local fine-tuning for your own tasks — except the one doing the training is you.</i>
+  <i>An SDD kit that gives you local fine-tuning for your own tasks — and the one doing the training is you.</i>
 </p>
 
 <p align="center">
@@ -62,7 +62,7 @@
 [Architecture](#architecture)
 [The seven skills](#the-seven-skills)
 [Obsidian](#obsidian--the-way-in)
-[Lore language](#lore-language)
+[Documentation](#documentation)
 
 </td>
 <td width="33%" valign="top">
@@ -70,7 +70,6 @@
 **Understand it**
 
 [Shared invariants](#shared-invariants)
-[Encryption](#encryption-experimental)
 [Case studies](#case-studies)
 [Reach](#reach) · [Origin](#origin)
 
@@ -82,7 +81,7 @@
 
 ## The problem
 
-You open a session. You explain, again, what the project does. That the initial state cannot live in JS, because you spent an afternoon on that flash last month. That the library it is about to suggest broke the build in April.
+You open a session. You explain, again, what the project is for. Which approach you already tried and why you dropped it. Which shortcut cost you an afternoon last month, and which decision you are not reopening.
 
 You explained all of it yesterday. You will explain it again tomorrow.
 
@@ -96,9 +95,9 @@ It is a loop of re-explanations and mediocre solutions you had already rejected.
 
 ## What is Lore
 
-A lightweight **Spec-Driven Development** kit for Claude Code. Or, in one line: **local fine-tuning for your own tasks, except the one doing the training is you.**
+A lightweight **Spec-Driven Development** kit for Claude Code. Or, in one line: **local fine-tuning for your own tasks, and the one doing the training is you.**
 
-Take that literally, including where it breaks. A fine-tune conditions a model on thousands of examples until it stops answering like a generalist. Lore gets to the same place from the other side: one written constraint per thing that went wrong. No training happens and no weights move, so your criteria stays as plain text you can read, correct in one line, and carry to a different model tomorrow.
+A fine-tune conditions a model on thousands of examples until it stops answering like a generalist. Lore gets to the same place from the other side: one written constraint per thing that went wrong. No training happens and no weights move, so your criteria stays as plain text you can read, correct in one line, and carry to a different model tomorrow.
 
 A fine-tune stops asking things of you the day it ships. Lore never stops: one distillation, every time something breaks. That is the cost, and it is worth knowing before you install anything.
 
@@ -209,7 +208,7 @@ Each has one responsibility. None duplicates another.
 
 > **Lore is criteria (it persists); `FASES.md` is state (it advances).** They never mix, and `FASES.md` never lives inside `lore/`.
 
-The names shown are the Spanish canonical forms; in your language they localize. See [Lore language](#lore-language).
+The names shown are the Spanish canonical forms; in your language they localize.
 
 ### Area → Project inheritance
 
@@ -243,7 +242,7 @@ Fix a generic Clue once, in the Area, and every project sees it. Each project ke
 | Its Lore governs | the domain's method | that work | **how the agent behaves** |
 | Opened to | see the registry | advance that work | **work on any of several projects** |
 
-Areas and projects are places; **a bot is a lens you carry into them.** It is not an Area, precisely because it owns none of the criteria it routes to: an Area that accumulates criteria it never paid for starts receiving promotions that belong somewhere else.
+Areas and projects are places; **a bot is a lens you carry into them.** It is not an Area, because it owns none of the criteria it routes to. An Area that collects criteria it never earned starts receiving promotions that belong somewhere else.
 
 ---
 
@@ -374,7 +373,7 @@ And the law that makes routing work:
 
 > **Route by type of task, not by name of project.**
 
-One entity can own several bodies of criteria whose own principles forbid crossing them — what it does versus how it tells it is the common split. Naming it does not select a Lore.
+One entity can own several bodies of criteria that its own principles forbid mixing — what it does versus how it talks about it is the usual split. Saying its name does not tell the bot which one governs the task.
 
 </details>
 
@@ -390,21 +389,20 @@ This kit brainstorms to build every artifact it makes, so the artifact it produc
 - **No closed options for anything that picks a branch.** A closed list has no default for the answer that names two of its items, and the discarded half leaves no trace. So the question is asked by its condition — *"does your work fall into more than one of these?"* — and an answer naming two bodies of criteria opens by both.
 - **It closes by separating configuration from criteria.** What is configuration is stored. What turned out to be true about *the project* is proposed to the Lore of whoever paid for it with experience — never kept inside the bot.
 
-> **Configuring the first use is not the first use.** That gate is answered exactly the same with an empty canon, a stale routing table and broken paths — so it proves nothing except that the gate works. A bot counts as launched when **an instruction that does not name the criteria produces a deliverable**, and that instruction is recorded verbatim.
+> **Configuring the first use is not the first use.** That setup is answered the same way whether the canon is full or empty and whether the paths resolve or not, so passing it proves nothing about the bot. A bot counts as launched when **an instruction that does not name the criteria produces a deliverable**, and that instruction is recorded verbatim.
 
 </details>
 
 <details>
-<summary><b>Four optional extras, off by default</b></summary>
+<summary><b>Three optional extras, off by default</b></summary>
 
 <br>
 
-All four are asked when the bot is configured for the first time. A bot with none of them is complete: they are seals, not parts.
+All three are asked when the bot is configured for the first time. A bot with none of them is complete: they are seals, not parts.
 
 - **The ecosystem copy (`lore-ecosistema/`).** By default the bot **points** at each project's Lore where it lives, duplicating nothing. Turning it on only makes sense if whoever will use the bot does **not** have your folders: there the pointer resolves to nothing, and the copy is the only way that criteria exists on their machine.
 - **Packaging it as a shareable plugin.** **Not created by default.** A bot is a folder with its canon and its `CLAUDE.md`: you open the session there and the criteria is already loaded, with nothing to install. Wrapping it in a skill with its own repository serves **one purpose**, handing it to a team, and if you are working alone it is scaffolding you still have to maintain.
-- **Lore encryption** — *experimental*, see [Encryption](#encryption-experimental).
-- **Remote operation over the Telegram MCP** — the bot depends on no channel: it runs where the repository lives, and the phone is only a terminal. Requires an explicit access list and a machine left on with a session open. This plugin neither packages nor installs it.
+- **Lore encryption** — *experimental*, see [`ENCRYPTION.md`](./ENCRYPTION.md).
 
 </details>
 
@@ -446,9 +444,9 @@ The discriminator is not the quality of the note: it is whether the note records
 | Someone else's criteria you collected | Arbitration against your standard |
 | A summary, a link, a meeting jotting | Noise, and it tells you so |
 
-Most of a real inbox lands in the last row, and saying so is part of the job: a note container accumulates information above all, and criteria is the rare thing inside it.
+Most of a real inbox lands in the last row: a note folder fills up with information, and criteria is the rare thing inside it.
 
-> **Why a sweep and not a save button.** Writing the note already satisfies the urge to preserve, so the distillation never happens and the criterion stays asleep inside. Separating notes from Lore does not fix that: it was already tried, and the record stayed inert for six weeks (see [Case 05](#case-studies)). What works is sweeping, and having every sweep tell you how many notes have gone how long unmined.
+> **Why a sweep and not a save button.** Writing the note feels like preserving it, so nobody goes back to distill it. We tried keeping notes apart from the Lore, and the record sat unused for six weeks ([Case 05](#case-studies)). The sweep is what breaks that: each pass tells you how many notes are still unmined, and for how long.
 
 ### Where the inbox lives
 
@@ -457,22 +455,6 @@ Most of a real inbox lands in the last row, and saying so is part of the job: a 
 Every mined note gets a mark with date and destination, **including the ones that produced nothing**. That mark makes the sweep idempotent and makes the debt visible. The skill **never deletes a note**: mine before deleting, and deleting is your call.
 
 **A note is source, never criteria.** It answers *"what happened"*; Lore answers *"what changed because of it"*. Nothing crosses without explicit distillation and a human approving the diff.
-
----
-
-## Lore language
-
-**Lore speaks your language.**
-
-The skills are written in English, but the Lore they generate is not: both the **content** and the **artifact filenames** are written in the language you work in. `identidad.md`, `principios.md`, `FASES.md` are the Spanish canonical forms; in English they become `identity.md`, `principles.md`, `PHASES.md`.
-
-What stays fixed in every language:
-
-- `CLAUDE.md` (a Claude Code convention), `lore/` (the kit's own name), `index.md` and `golden-paths.md`;
-- structure and relative-path depth;
-- English terms of general technical use (workflow, commit, stack, scaffold…).
-
-Inside an existing Area or project the established names win: naming schemes are never mixed. If a Lore ended up in the wrong language, or mixed, it is standardized with `transmute-lore` in **translate** mode, which translates content and renames artifacts together.
 
 ---
 
@@ -489,30 +471,16 @@ All seven skills follow the same rules:
 
 ---
 
-## Encryption (experimental)
-
-`create-bot` can seal a bot's criteria so it travels encrypted. It is **off by default** and **recommended for testing only**: a bot without encryption is complete, and for criteria that matters, a private repository is today's serious answer.
-
-**The law: encrypt in distribution, never at consultation.** Payloads travel encrypted and are decrypted once on clone; at rest they are plain Markdown. Encrypting where the agent consults does not forbid reading, it makes reading **expensive**, and what is expensive stops being consulted.
-
-AES-256-GCM with a scrypt-derived key, Node stdlib only. The passphrase is read from *stdin*, never pasted into the chat.
-
-> [!CAUTION]
-> It has **not been audited**, has no key rotation and no revocation. It protects the repository and the transport, **not** against someone holding the passphrase, and it does not cover what an AI tool does with the text once loaded into its context.
-
-**Credit.** The question — *what protects a Lore that has to be shared?* — was opened by **Mantra**, by [LonelyAchemist](https://github.com/lonelyachemist-arch), which encrypted the Lore at rest. The answer here is inverted, and the code is our own.
-
----
-
 ## Documentation
 
-This README covers motivation and architecture. For everything else there are three dedicated documents, in Spanish and English:
+This README covers motivation and architecture. Everything else lives in its own document:
 
 | Document | What it's for |
 |---|---|
-| [`USAGE_en.md`](./USAGE_en.md) · [`USAGE_es.md`](./USAGE_es.md) | Practical day-to-day usage guide: installation, core loop, and each skill with examples. |
-| [`REFERENCE_en.md`](./REFERENCE_en.md) · [`REFERENCE_es.md`](./REFERENCE_es.md) | Technical reference: core concepts, the exact spec for each artifact and each skill. |
-| [`MIGRATION_en.md`](./MIGRATION_en.md) · [`MIGRATION_es.md`](./MIGRATION_es.md) | How to migrate an existing project into Lore using `transmute-lore`. |
+| [`USAGE_en.md`](./USAGE_en.md) | Practical day-to-day usage guide: installation, core loop, and each skill with examples. |
+| [`REFERENCE_en.md`](./REFERENCE_en.md) | Technical reference: core concepts, the exact spec for each artifact and each skill. |
+| [`MIGRATION_en.md`](./MIGRATION_en.md) | How to migrate an existing project into Lore using `transmute-lore`. |
+| [`ENCRYPTION.md`](./ENCRYPTION.md) | The optional, experimental encryption for a bot's criteria: what it protects and what it does not. |
 
 <details>
 <summary><b>Repository structure</b></summary>
@@ -640,10 +608,7 @@ A project needed criteria from four Areas, only one of which was its mother. **L
 
 Four bots built with `create-bot`, same ecosystem, all four sources with tidy Lore of their own. The acceptance test was **written down before any of them was used** — *a short instruction is enough*, in its falsifiable form: *did the project have to be explained to the bot to get the result?* Three of the four were put to work, and none of the three needed it.
 
-- **The method does not produce a shape; it produces shapes fitted to the distance and structure of the ecosystem.** The canon **grows when the ecosystem gets farther away** and empties out when it is next door: one bot distills a sealed corpus no pointer can reach, another ended up with a single file, because summarizing what the routing already reaches would have left two distillations of the same original inside one bot. A fourth **inverts the scope rule** of the other three and federates a whole Area — declared in writing as a boundary of validity before the bot that would exercise it existed.
-- **Passing the test is not the same as being right.** One of the three premieres routed correctly, read the right Lore, checked every scar it carries, found none, and closed with *"already compliant"*. That was literally true. The thing had three real defects, and none of them could have shown up: **nobody had scarred them yet.** What is not written is indistinguishable from what is not there, and *"I found no violations"* and *"this is fine"* are written almost the same way.
-
-That second finding is the one the test did not anticipate, and it only exists because the test was fixed beforehand — otherwise a false all-clear reads as one more success.
+- **The method does not produce a shape; it produces shapes fitted to the distance and structure of the ecosystem.** The canon **grows when the ecosystem gets farther away** and empties out when it is next door: one bot distills a sealed corpus no pointer can reach, another ended up with a single file, because summarizing what the routing already reaches would have left two distillations of the same original inside one bot. A fourth federates a whole Area instead of a set of projects, and that exception was written down as a boundary of validity before the bot existed.
 
 **Declared boundary:** one builder, one ecosystem, one machine, and every source already had Lore. Three of four were used, and the missing one is precisely the only bot meant for other people — so this case says nothing yet about what happens when the builder and the user are different people.
 
@@ -664,7 +629,7 @@ That second finding is the one the test did not anticipate, and it only exists b
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/221-peak-10B981?style=for-the-badge&labelColor=0B0B12" alt="221 peak"></a>
 </p>
 
-For thirty-four days the number held at a steady twenty-odd clones a day, well past the launch spike. That steadiness was the interesting part: not a launch bump, just people still arriving. Then August 8th brought 221 clones in a single day — a second peak, larger than the launch itself, and one I cannot explain. I left it in the data exactly as it arrived.
+For thirty-four days the number held at a steady twenty-odd clones a day, well past the launch spike. That steadiness was the interesting part: not a launch bump, just people still arriving. Then August 8th brought 221 clones in a single day — a second peak, larger than the launch itself. I left it in the data exactly as it arrived.
 
 The daily rate quoted above is the steady one, not the average with that day folded in. Data comes from GitHub's traffic API, stored in [`data/traffic/clones.json`](./data/traffic/clones.json) because the API only keeps 14 days.
 
@@ -751,7 +716,7 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 </p>
 
 <p align="center">
-  <i>Un kit SDD que te permite hacer fine-tuning local de tus tareas — salvo que el que entrena eres tú.</i>
+  <i>Un kit SDD que te permite hacer fine-tuning local de tus tareas — y el que entrena eres tú.</i>
 </p>
 
 <p align="center">
@@ -779,7 +744,7 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 [Arquitectura](#arquitectura)
 [Las siete skills](#las-siete-skills)
 [Obsidian](#obsidian--la-puerta-de-entrada)
-[Idioma del Lore](#idioma-del-lore)
+[Documentación](#documentación)
 
 </td>
 <td width="33%" valign="top">
@@ -787,7 +752,6 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 **Entenderlo**
 
 [Invariantes](#invariantes-compartidas)
-[Cifrado](#cifrado-experimental)
 [Casos de estudio](#casos-de-estudio)
 [Alcance](#alcance) · [Origen](#origen)
 
@@ -799,7 +763,7 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 
 ## El problema
 
-Abres una sesión. Explicas, otra vez, qué hace el proyecto. Que el estado inicial no puede vivir en JS, porque perdiste una tarde con ese parpadeo el mes pasado. Que la librería que está por sugerirte rompió el build en abril.
+Abres una sesión. Explicas, otra vez, para qué es el proyecto. Qué camino ya probaste y por qué lo descartaste. Qué atajo te costó una tarde el mes pasado, y qué decisión no vas a volver a abrir.
 
 Todo eso lo explicaste ayer. Mañana lo vas a explicar de nuevo.
 
@@ -813,9 +777,9 @@ Es un bucle de reexplicaciones y de soluciones mediocres que ya habías rechazad
 
 ## Qué es Lore
 
-Un kit ligero de **Spec-Driven Development** para Claude Code. O, en una línea: **fine-tuning local de tus tareas, salvo que el que entrena eres tú.**
+Un kit ligero de **Spec-Driven Development** para Claude Code. O, en una línea: **fine-tuning local de tus tareas, y el que entrena eres tú.**
 
-Tómalo literalmente, incluido el punto donde deja de valer. Un fine-tune condiciona un modelo con miles de ejemplos hasta que deja de responder como generalista. Lore llega al mismo lugar por el otro lado: una restricción escrita por cada cosa que salió mal. No se entrena nada y ningún peso se mueve, así que tu criterio se queda en texto plano que puedes leer, corregir en una línea y llevarte mañana a otro modelo.
+Un fine-tune condiciona un modelo con miles de ejemplos hasta que deja de responder como generalista. Lore llega al mismo lugar por el otro lado: una restricción escrita por cada cosa que salió mal. No se entrena nada y ningún peso se mueve, así que tu criterio se queda en texto plano que puedes leer, corregir en una línea y llevarte mañana a otro modelo.
 
 Un fine-tune deja de pedirte cosas el día que está listo. Lore no para nunca: una destilación, cada vez que algo se rompe. Ese es el costo, y conviene saberlo antes de instalar nada.
 
@@ -1067,7 +1031,7 @@ Y la ley que hace funcionar el enrutamiento:
 
 > **Se enruta por tipo de tarea, no por nombre de proyecto.**
 
-Una entidad puede tener varios cuerpos de criterio cuyos propios principios prohíben cruzarlos —lo que hace contra cómo lo cuenta es el corte habitual—. Decir su nombre no alcanza para elegir.
+Una entidad puede tener varios cuerpos de criterio que sus propios principios prohíben mezclar —lo que hace contra cómo lo cuenta es el corte habitual—. Decir su nombre no le dice al bot cuál gobierna la tarea.
 
 </details>
 
@@ -1083,21 +1047,20 @@ Este kit hace un brainstorming para construir cada artefacto que produce, así q
 - **Nada de opciones cerradas para lo que decide una rama.** Una lista cerrada no tiene default para la respuesta que nombra dos de sus ítems, y la mitad descartada no deja rastro. Por eso la pregunta se hace por su condición —*«¿tu trabajo cae en más de uno de estos?»*— y una respuesta que nombra dos cuerpos de criterio abre por los dos.
 - **Cierra separando configuración de criterio.** Lo que es configuración se guarda. Lo que resultó ser cierto sobre *el proyecto* se propone al Lore de quien lo pagó con experiencia — nunca se queda dentro del bot.
 
-> **Configurar el primer uso no es el primer uso.** Ese gate se contesta exactamente igual con el canon vacío, la tabla de enrutamiento desactualizada y las rutas rotas — así que no prueba nada, salvo que el gate funciona. Un bot cuenta como estrenado cuando **una instrucción que no nombra el criterio produce un entregable**, y esa instrucción se anota textual.
+> **Configurar el primer uso no es el primer uso.** Esa configuración se contesta igual con el canon lleno o vacío, y con las rutas sanas o rotas, así que pasarla no prueba nada sobre el bot. Un bot cuenta como estrenado cuando **una instrucción que no nombra el criterio produce un entregable**, y esa instrucción se anota textual.
 
 </details>
 
 <details>
-<summary><b>Cuatro extras opcionales, apagados por defecto</b></summary>
+<summary><b>Tres extras opcionales, apagados por defecto</b></summary>
 
 <br>
 
-Los cuatro se preguntan al configurar el bot la primera vez. Un bot sin ninguno está completo: son sellos, no piezas.
+Los tres se preguntan al configurar el bot la primera vez. Un bot sin ninguno está completo: son sellos, no piezas.
 
 - **La copia del ecosistema (`lore-ecosistema/`).** Por defecto el bot **apunta** al Lore de cada proyecto donde vive, sin duplicar nada. Encenderla solo tiene sentido si quien va a usar el bot **no** tiene tus carpetas: ahí el puntero no apunta a nada y la copia es lo único que hace existir ese criterio en su máquina.
 - **Empaquetarlo como *plugin* compartible.** Por defecto **no se crea**. Un bot es una carpeta con su canon y su `CLAUDE.md`: abres la sesión ahí y el criterio ya está cargado, sin instalar nada. Envolverlo en una skill con su repositorio propio sirve para **una sola cosa**, repartirlo a un equipo, y si vas a trabajar tú solo es andamiaje que igual hay que mantener.
-- **Cifrado del Lore** — *experimental*, ver la sección de cifrado.
-- **Operación remota por el MCP de Telegram** — el bot no depende de ningún canal: corre donde vive el repositorio y el teléfono es solo la terminal. Requiere lista de acceso explícita y dejar una máquina encendida con una sesión abierta. Este plugin no lo empaqueta ni lo instala.
+- **Cifrado del Lore** — *experimental*, ver [`ENCRYPTION.md`](./ENCRYPTION.md).
 
 </details>
 
@@ -1139,9 +1102,9 @@ El discriminador no es la calidad de la nota: es si registra una **transformaci�
 | Criterio ajeno que recogiste | Arbitraje contra tu estándar |
 | Un resumen, un link, un apunte de reunión | Ruido, y te lo informa |
 
-La mayoría de una bandeja real cae en la última fila, y decirlo es parte del trabajo.
+La mayoría de una bandeja real cae en la última fila: una carpeta de notas se llena de información, y el criterio es lo raro adentro.
 
-> **Por qué un barrido y no un botón de guardar.** Escribir la nota ya satisface las ganas de preservar, así que la destilación nunca ocurre y el criterio se queda dormido adentro. Separar las notas del Lore no lo arregla: eso ya se probó, y el registro siguió inerte seis semanas (Caso 05). Lo que sí funciona es barrer, y que cada barrido te diga cuántas notas llevan cuánto tiempo sin minar.
+> **Por qué un barrido y no un botón de guardar.** Escribir la nota ya se siente como haberla guardado, así que nadie vuelve a destilarla. Probamos separar las notas del Lore, y el registro quedó seis semanas sin usarse (Caso 05). El barrido es lo que rompe eso: cada pase te dice cuántas notas siguen sin minar, y desde cuándo.
 
 ### Dónde vive la bandeja
 
@@ -1150,16 +1113,6 @@ La mayoría de una bandeja real cae en la última fila, y decirlo es parte del t
 Cada nota minada recibe una marca con fecha y destino, **incluidas las que no produjeron nada**. La skill **nunca borra una nota**: se mina antes de borrar, y borrar lo decides tú.
 
 **Una nota es fuente, nunca criterio.** Responde *«qué pasó»*; el Lore responde *«qué cambió por eso»*.
-
----
-
-## Idioma del Lore
-
-**El Lore habla tu idioma.** Las *skills* están escritas en inglés, pero el Lore que generan no: tanto el **contenido** como los **nombres de los artefactos** se escriben en el idioma en el que trabajas. `identidad.md`, `principios.md`, `FASES.md` son las formas canónicas en español; en inglés serían `identity.md`, `principles.md`, `PHASES.md`.
-
-Permanecen fijos en todos los idiomas `CLAUDE.md`, `lore/`, `index.md` y `golden-paths.md`, la estructura de rutas relativas y los términos técnicos de uso general en inglés.
-
-Dentro de un Área existente mandan los nombres ya establecidos. Si un Lore quedó mezclado, se estandariza con `transmute-lore` en modo **translate**.
 
 ---
 
@@ -1174,28 +1127,14 @@ Dentro de un Área existente mandan los nombres ya establecidos. Si un Lore qued
 
 ---
 
-## Cifrado (experimental)
-
-`create-bot` puede sellar el criterio de un bot para que viaje cifrado. Está **apagado por defecto** y **se recomienda solo para pruebas**: para criterio que importa, un repositorio privado es hoy la respuesta seria.
-
-**La ley: se cifra en distribución, nunca en consulta.** Las cargas viajan cifradas y se descifran una vez al clonar; en reposo son Markdown plano. Cifrar donde el agente consulta no prohíbe leer, **encarece** leer, y lo caro deja de consultarse.
-
-AES-256-GCM con clave derivada por scrypt, solo con la stdlib de Node. La passphrase se pide por *stdin*, nunca pegada en el chat.
-
-> [!CAUTION]
-> **No ha sido auditado**, no tiene rotación de claves ni revocación. Protege el repositorio y el tránsito, **no** contra quien tiene la passphrase, y no cubre lo que una herramienta de IA hace con el texto una vez cargado en su contexto.
-
-**Crédito.** La pregunta —*¿qué protege a un Lore que tiene que compartirse?*— la abrió **Mantra**, de [LonelyAchemist](https://github.com/lonelyachemist-arch), que cifraba el Lore en reposo. La respuesta acá está invertida, y el código es propio.
-
----
-
 ## Documentación
 
 | Documento | Para qué sirve |
 |---|---|
-| [`USAGE_es.md`](./USAGE_es.md) · [`USAGE_en.md`](./USAGE_en.md) | Guía práctica de uso día a día, con ejemplos. |
-| [`REFERENCE_es.md`](./REFERENCE_es.md) · [`REFERENCE_en.md`](./REFERENCE_en.md) | Referencia técnica de cada artefacto y cada *skill*. |
-| [`MIGRATION_es.md`](./MIGRATION_es.md) · [`MIGRATION_en.md`](./MIGRATION_en.md) | Cómo migrar un proyecto existente con `transmute-lore`. |
+| [`USAGE_es.md`](./USAGE_es.md) | Guía práctica de uso día a día, con ejemplos. |
+| [`REFERENCE_es.md`](./REFERENCE_es.md) | Referencia técnica de cada artefacto y cada *skill*. |
+| [`MIGRATION_es.md`](./MIGRATION_es.md) | Cómo migrar un proyecto existente con `transmute-lore`. |
+| [`ENCRYPTION.md`](./ENCRYPTION.md) | El cifrado opcional y experimental del criterio de un bot: qué protege y qué no. |
 
 <details>
 <summary><b>Estructura del repositorio</b></summary>
@@ -1323,10 +1262,7 @@ Un proyecto necesitó criterio de cuatro Áreas, de las cuales solo una era su m
 
 Cuatro bots construidos con `create-bot`, mismo ecosistema, las cuatro fuentes con Lore propio y ordenado. La vara de aceptación **se escribió antes de usar ninguno** —*una instrucción corta basta*, en su forma falsable: *¿hubo que explicarle el proyecto al bot para obtener el resultado?*—. Tres de los cuatro se pusieron a trabajar, y a ninguno hubo que explicárselo.
 
-- **El método no produce una forma; produce formas ajustadas a la distancia y a la estructura del ecosistema.** El canon **crece cuando el ecosistema se aleja** y se vacía cuando está al lado: un bot destila un corpus sellado que ningún puntero alcanza, otro quedó en un solo archivo, porque resumir lo que el enrutamiento ya alcanza habría dejado dos destilados del mismo original dentro del mismo bot. Un cuarto **invierte la regla de alcance** de los otros tres y federa un Área entera — declarado por escrito como frontera de validez antes de que existiera el bot que la ejerciera.
-- **Pasar la vara no es lo mismo que ser correcto.** Uno de los tres estrenos enrutó bien, leyó el Lore correcto, verificó una por una las cicatrices que carga, no encontró ninguna y cerró con *«ya cumple»*. Era literalmente cierto. La cosa tenía tres defectos reales, y ninguno podía aparecer: **nadie los había cicatrizado todavía.** Lo que no está escrito es indistinguible de lo que no está, y *«no encontré violaciones»* y *«está bien»* se escriben casi igual.
-
-Ese segundo hallazgo es el que la vara no anticipaba, y existe solo porque la vara se fijó de antemano — si no, un alta falsa se lee como un éxito más.
+- **El método no produce una forma; produce formas ajustadas a la distancia y a la estructura del ecosistema.** El canon **crece cuando el ecosistema se aleja** y se vacía cuando está al lado: un bot destila un corpus sellado que ningún puntero alcanza, otro quedó en un solo archivo, porque resumir lo que el enrutamiento ya alcanza habría dejado dos destilados del mismo original dentro del mismo bot. Un cuarto federa un Área entera en vez de un conjunto de proyectos, y esa excepción se dejó escrita como frontera de validez antes de que el bot existiera.
 
 **Frontera declarada:** un constructor, un ecosistema, una máquina, y todas las fuentes ya tenían Lore. Tres de cuatro se usaron, y el que falta es justamente el único pensado para otras personas — así que el caso todavía no dice nada sobre qué pasa cuando quien construye y quien usa son distintos.
 
@@ -1347,7 +1283,7 @@ Ese segundo hallazgo es el que la vara no anticipaba, y existe solo porque la va
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/221-pico-10B981?style=for-the-badge&labelColor=0B0B12" alt="221 pico"></a>
 </p>
 
-Durante treinta y cuatro días el número se mantuvo en unas veinte y pico de clonaciones diarias, mucho después del pico del lanzamiento. Esa constancia era lo interesante: no el rebote de un lanzamiento, sino gente que seguía llegando. Y entonces el 8 de agosto trajo 221 clonaciones en un solo día — un segundo pico, más alto que el del lanzamiento, que no sé explicar. Queda en los datos tal como llegó.
+Durante treinta y cuatro días el número se mantuvo en unas veinte y pico de clonaciones diarias, mucho después del pico del lanzamiento. Esa constancia era lo interesante: no el rebote de un lanzamiento, sino gente que seguía llegando. Y entonces el 8 de agosto trajo 221 clonaciones en un solo día — un segundo pico, más alto que el del lanzamiento. Queda en los datos tal como llegó.
 
 El ritmo diario de arriba es el constante, no el promedio con ese día adentro. Los datos vienen de la API de tráfico de GitHub y se guardan en [`data/traffic/clones.json`](./data/traffic/clones.json), porque la API solo conserva 14 días.
 
