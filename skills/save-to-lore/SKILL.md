@@ -23,6 +23,17 @@ time and routes it to the right level.
 > `{area}/lore/`. Generic, confirmed criteria belongs in the **area** (every project sees it);
 > project-specific criteria stays in the **project**. This skill decides which is which.
 
+## Before anything: the mode is decided here, not before you arrived
+
+If you already drafted the entry and are invoking this skill to check it, **stop and classify the
+source first.** The mode is not formatting applied to a finished draft — it changes what the entry
+must contain. A draft written assuming CAPTURE, when the criteria was actually imported, is missing
+its provenance header, its confidence split and its defeats section. And a module with no defeats
+does not enter at all.
+
+The tell that you skipped this step: the draft reads like a good summary of the source. That is the
+failure state of ARBITRATE, not its output.
+
 ## Two modes — pick by the SOURCE of the criteria
 
 | Mode | Source | What it is |

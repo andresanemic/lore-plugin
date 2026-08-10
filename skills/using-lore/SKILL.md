@@ -1,6 +1,6 @@
 ---
 name: using-lore
-description: Read this first to understand the Lore system — what Lore is, the six-artifact standard, the area↔project model, and which of the Lore skills (create-area, create-project, create-bot, save-to-lore, transmute-lore, obsidian-lore) to invoke when. Use when the user mentions "lore", asks how this kit works, starts a new work area, project or bot, wants to migrate an old project to the Lore standard, or keeps Obsidian notes in the same folder tree.
+description: Read this first to understand the Lore system — what Lore is, the six-artifact standard, the area↔project model, and which of the Lore skills (create-area, create-project, create-bot, save-to-lore, transmute-lore, obsidian-lore) to invoke when. Carries the kit's HARD-GATE for its very first use on a machine with no Lore yet (a brainstorm, never a menu of commands) and the standard that governs every later one — the skill that owns an artifact is always invoked to write it, and the version that runs is the installed, up-to-date one. Use when the user mentions "lore", asks how this kit works, installs or updates the plugin, starts a new work area, project or bot, wants to migrate an old project to the Lore standard, or keeps Obsidian notes in the same folder tree.
 ---
 
 # Using Lore
@@ -13,6 +13,68 @@ future decision.
 
 This skill is the map. It teaches the model and points to the operating skills. Read it before
 invoking any other Lore skill.
+
+## 0. Very first use of the kit — a brainstorm, not a menu (HARD-GATE)
+
+**If this machine has no Lore yet** — no area with a `lore/`, no project carrying the six artifacts —
+this runs **before anything else**, and before offering any skill by name. The kit **brainstorms to
+build** every artifact it makes; it would be incoherent for the kit itself to greet its first user
+with a list of seven commands.
+
+> **If a brainstorming skill is available, invoke it and run this through it.** If none is installed,
+> run the minimal version below yourself. A kit that cannot start without a third-party skill is a
+> kit that does not start.
+
+### Move 1 — look before asking
+
+Scan the working tree and put on screen what is actually there: folders that look like work areas,
+projects with scattered criteria (a bloated `CLAUDE.md`, a kilometric `README`, an empty or stale
+`lore/`), and any free-note inbox. Short lines, no prose.
+
+This is the presentation **and** the pre-flight at once. Close it with the coverage, never with a
+clean bill of health: what you verified is that these folders exist and what shape they are in, not
+that any of it is good.
+
+### Move 2 — brainstorm, one question at a time
+
+Follow the thread of the answers instead of walking a list. **Ask only what changes which skill
+runs first:**
+
+- What do you work on, in your own words? (stored verbatim — it is the yardstick every later
+  arbitration needs)
+- Is this one kind of work or several? Ask by the **condition**, never with a closed list: *«does
+  your work fall into more than one of these?»* If the answer names more than one, that is an
+  **area per kind**, and the border question comes before executing anything.
+- Does criteria for this already exist somewhere — in your head, in a doc, in an old repo? That is
+  the difference between `create-area` and `transmute-lore`, and the user is the only one who knows.
+- Is there anything explicitly out of bounds?
+
+### Move 3 — close by naming the route, and run it
+
+State which skill runs first and why, in one line, then run it. Do not list the other six. The map
+below exists for **you**, so you can pick; it is not a menu to hand over.
+
+> **What this move must never do is end in a recommendation.** The first use of the kit produces a
+> first artifact, or it produced nothing.
+
+**Boundary:** this gate is for the **first** Lore on the machine. Once one area exists, entry is by
+the routing table below and this section is skipped.
+
+## The standard: the skill runs, and it is the current one
+
+Two rules that hold for **every** new Lore configuration the user builds, forever, not only the
+first:
+
+1. **The skill that governs an artifact is always invoked to write it.** Not consulted afterwards,
+   not imitated from memory. See *The failure these skills cannot see*, below.
+2. **The version that runs is the installed, up-to-date one.** These skills accumulate scars: a
+   version behind is a version that does not carry the last defeat somebody already paid for. If the
+   installed copy is stale, updating it comes **before** the work, not after — and the plugin cache
+   is indexed by version, so what was published without a version bump was never received.
+
+*Why this is a standard and not advice:* the value of the kit is cumulative and lives in the skills.
+An agent who writes criteria by hand, or who runs a version from three fixes ago, produces something
+that looks identical and silently lacks the gates. Nothing in the output announces it.
 
 ## What Lore is (and is not)
 
@@ -76,12 +138,40 @@ never paid for will start receiving promotions that belong somewhere else.
 | **Save a lesson** ("save to lore") — capture a clue from **lived friction** in the project and promote generic, confirmed ones up to the area | `save-to-lore` (**CAPTURE**, default) |
 | **Distill from an external body of criteria** — a skill, a style guide, a third-party playbook ("destila esta skill") | `save-to-lore` (**ARBITRATE**): imported criteria is judged against this Entre's purpose; only what survives enters, and the module must state **where the source loses** |
 | Bring an **old project with scattered criteria** up to the six-artifact standard, **clean** a project's redundant modules back down to what the area already owns, or **standardize the language** of an existing Lore | `transmute-lore` |
+| **Raise a healthy Lore to a newer version of these skills** — it is in the standard and in use, but predates gates the kit learned later. Nothing looks broken, which is why nobody upgrades it | `transmute-lore` (**UPGRADE**): arbitrates the existing Lore against the current version, adds what is missing, and leaves untouched what the project **earned** with real friction |
 | Keep **Obsidian notes in the same folder tree** as the Lore, and **mine that inbox** for what deserves to become criteria ("revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore") | `obsidian-lore` |
 | Understand the system / decide which skill applies | `using-lore` (this one) |
 
 **Order of a fresh setup:** `create-area` → `create-project` → (work, saving clues with `save-to-lore`)
 → `transmute-lore` as needed. A **bot** comes later, once several projects have Lore worth carrying
 into one session — `create-bot` federates what exists; it does not substitute for building it.
+
+### The failure these skills cannot see: not being invoked at all
+
+Every skill above describes what to do **once you are inside it**. None of them fires if you never
+enter, and the moment you decide not to enter has a specific shape — it feels like competence:
+
+| The thought | What it actually means |
+|---|---|
+| "I already know what to write" | **Invoke.** This is the signal, not the exemption. |
+| "This is faster to write by hand" | It is. That is why the skipped step is the one with the gate. |
+| "It's one clue, not a migration" | One clue is exactly `save-to-lore`'s unit of work. |
+| "I'll invoke it after I draft the file" | The skill decides the **mode**, and the mode decides what the draft must contain. |
+| "The lore is small / this project is simple" | Size is not the classifier. Source of the criteria is. |
+
+**There is no error signal for this.** Criteria written by hand comes out well-worded, lands in the
+right file, and passes human review. What is missing does not look missing, because it never got
+written: the provenance header, the confidence markers, the defeats section — and, above all, the
+**mode**. An agent who assumes CAPTURE when the source was imported produces a module with no
+defeats, which is precisely what ARBITRATE's exit gate rejects. Redacting well does not compensate
+for skipping the gate; the gate was never about prose.
+
+> **Writing into any `lore/`, `canon/` or `principios.md` without invoking the skill that governs it
+> is applying the model's knowledge where the institutional one belonged** — the exact inversion the
+> whole kit exists to prevent.
+
+*Boundary:* this governs **writing** criteria while the skill is installed. Reading a Lore needs no
+skill, and with the plugin absent you write by hand — and say that you did.
 
 ### project ↔ area routing (the key decision)
 

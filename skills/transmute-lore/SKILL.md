@@ -1,11 +1,11 @@
 ---
 name: transmute-lore
-description: Migrate a project with scattered criteria (bloated CLAUDE.md, kilometric READMEs, stale or absent lore/, criteria buried in code comments) up to the six-artifact Lore standard (ADD mode), clean a project's redundant per-project thematic modules back down to what its area already owns (CLEAN mode), OR standardize the language of an existing Lore — translating every artifact's content AND localizable filenames into one target language without touching structure or meaning (TRANSLATE mode). Recovers trapped criteria and crystallizes it into invariant clues, separating it from descriptive noise. Trigger on "transmute the lore of {project}", "this old project isn't in the new format", "migrate this project to the lore standard", "clean the lore of {project}", "standardize the language of the lore of {project}", "translate the lore of {project} to {language}", or "estandariza el idioma del lore".
+description: Repair a project's body of criteria. Four modes — migrate a project with scattered criteria (bloated CLAUDE.md, kilometric READMEs, stale or absent lore/) up to the six-artifact Lore standard (ADD); clean a project's redundant thematic modules back down to what its area already owns (CLEAN); standardize the language of an existing Lore, content and localizable filenames, without touching structure or meaning (TRANSLATE); or arbitrate a healthy Lore against a newer version of these skills and raise it to the current standard without rewriting what it already earned (UPGRADE). Trigger on "transmute the lore of {project}", "this old project isn't in the new format", "migrate this project to the lore standard", "clean the lore of {project}", "translate the lore of {project} to {language}", "estandariza el idioma del lore", "improve the lore of {project} with the new version", or "arbitra mi lore contra la version nueva".
 ---
 
 # Transmute Lore
 
-Repairs a project's body of criteria. Three modes, one skill:
+Repairs a project's body of criteria. Four modes, one skill:
 
 - **ADD** — the project **never applied** the Lore method (or has a rough/incomplete `lore/`).
   Valuable criteria is *trapped* in non-distillable forms: long READMEs, an everything-mixed
@@ -20,6 +20,10 @@ Repairs a project's body of criteria. Three modes, one skill:
   in English when the user works in Spanish). TRANSLATE standardizes every Lore artifact into one
   target language — **content and localizable filenames** — preserving structure, link integrity,
   confidence markers and — above all — **meaning**: it is a translation, never a rewrite.
+- **UPGRADE** — the Lore is **in the standard and in active use**, but was written against an older
+  version of these skills. It is structurally fine and materially behind: it lacks the gates and
+  distinctions the kit learned after it was written. UPGRADE arbitrates the existing Lore **against
+  the current version of the kit** and raises it, without rewriting what is already earned.
 
 ## When to use
 
@@ -32,6 +36,10 @@ Repairs a project's body of criteria. Three modes, one skill:
 - **TRANSLATE:** a Lore whose content is in the wrong language, or mixes languages across artifacts.
   Triggers: *"standardize the language of the lore of {project}"*, *"translate the lore of
   {project} to {language}"*, *"estandariza el idioma del lore"*.
+- **UPGRADE:** a healthy Lore that predates the installed version of the kit — nothing looks broken,
+  which is the point. Triggers: *"improve the lore of {project} with the new version"*, *"bring this
+  lore up to date with the plugin"*, *"arbitra mi lore contra la versión nueva"*, *"mejora este lore
+  con lo nuevo del plugin"*. Also the natural next step right after updating the plugin.
 
 Detect the area: a project living in `{area}/proyectos/{name}/` inherits from `{area}/lore/`.
 If the project is standalone (no parent area), CLEAN does not apply — say so.
@@ -235,6 +243,70 @@ links too (or report them if the projects cannot be touched).
 Report files translated (with source language), files renamed (old → new), links rewritten, files
 skipped and why, any nuance flagged for human review, and the diff summary. **Do not commit** —
 the user reviews the diff and decides.
+
+---
+
+## UPGRADE mode — procedure
+
+> **The premise:** these skills accumulate scars. A Lore written against an older version is
+> structurally correct and materially behind — it never got the chance to carry defeats that were
+> paid for after it was written. Nothing about it looks wrong, which is exactly why nobody upgrades
+> it.
+
+**What this mode is not:** it is not a rewrite, not a style pass, and not an excuse to regenerate a
+Lore that works. A clue that was earned with real friction **outranks** any improvement the kit
+learned later. The upgrade adds what is missing and marks what is now known to be wrong; it does not
+relitigate what the project already paid for.
+
+### Phase 0 — Safety precondition
+
+Require a clean git tree (or warn if not a repo). The upgrade must be a reviewable diff.
+
+### Phase 1 — Establish both versions
+
+- **Installed version:** read it from the plugin (`.claude-plugin/plugin.json`). If the installed
+  copy is stale, **stop and say so**: upgrading a Lore against an outdated kit writes yesterday's
+  standard into it and marks it as done. Update first.
+- **The Lore's version:** it is usually not written down. Infer it from what the artifacts carry —
+  presence of confidence markers, validity boundaries, the ` · ↑` promotion glyph, the index line
+  format, whether imported modules declare provenance and defeats.
+
+Report both, and say plainly when the second is a guess.
+
+### Phase 2 — Arbitrate the existing Lore against the current kit
+
+Go artifact by artifact and produce a finding list. Each finding is one of exactly three kinds, and
+naming the kind is what keeps this from becoming a rewrite:
+
+| Kind | What it means | What it produces |
+|---|---|---|
+| **Missing** | The kit now requires something this artifact never had (a validity boundary, a confidence marker, a defeats section on an imported module, a provenance header). | Add it — **asking the user** for anything not derivable from the text. Never fabricate a boundary. |
+| **Superseded** | The kit now knows this practice is wrong (e.g. a fact duplicated across artifacts, a rule stated by category rather than by condition, a module copied from an area). | Propose the correction, citing which rule supersedes it. |
+| **Earned** | It departs from the current standard **because this project paid for it**. | **Leave it, and write down why** so the next upgrade does not flag it again. |
+
+The third row is the one that makes the mode safe. A finding list with no `Earned` entries in a Lore
+with real history is a sign the pass is being run as a formatter.
+
+### Phase 3 — HARD-GATE
+
+Show the full finding list with content in view: file, kind, what changes, and what rule of the
+current version demands it. Nothing is written before approval. The user can accept per finding.
+
+### Phase 4 — Upgrade (only after approval)
+
+Apply the accepted findings. Two limits that do not move:
+
+- **Confidence is never raised.** A `conjecture` that survived three versions is still a conjecture:
+  time is not validation. Only real friction promotes it.
+- **A missing boundary is asked, never inferred.** The boundary says where the clue stops being
+  true, and that is knowledge from whoever lived it. If the user does not know it either, the clue
+  is marked as boundary-less rather than given a plausible one.
+
+### Phase 5 — Final report
+
+Report per kind: what was added, what was corrected, what was left as `Earned` and why, and what was
+left pending because only the user could answer it. Record the version upgraded to, in the project's
+`FASES.md` — not in the Lore. **Do not commit.**
 
 ---
 

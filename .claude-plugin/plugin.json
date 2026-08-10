@@ -1,6 +1,6 @@
 {
   "name": "lore",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Local fine-tuning for your own tasks, except the one doing the training is you. A spec-driven development kit that turns scattered project criteria into distilled, invariant Lore — and operates it with seven skills: using-lore, create-area, create-project, create-bot, save-to-lore, transmute-lore, obsidian-lore.",
   "author": {
     "name": "andresanemic"
