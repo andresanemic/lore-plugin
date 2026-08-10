@@ -44,6 +44,10 @@ infiere de la frase que uses, no de un flag.
 limpio. Si hay cambios sin commitear, el skill se detiene y pide hacer commit o `stash` primero,
 para que la migración aterrice como un *diff* revisable.
 
+> **Desde v1.2.1 hay un cuarto modo, `upgrade`.** No migra nada: pone al día un Lore que **ya está
+> en el estándar** pero se escribió contra una versión anterior de estos skills. Si tu proyecto ya
+> migró y solo quieres incorporar lo que el kit aprendió después, ese es el modo, y no `add`.
+
 ### 3.1 Modo `add` – Crear Lore donde falta
 
 **Propósito:** introducir artefactos de Lore en un proyecto heredado.

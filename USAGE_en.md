@@ -276,7 +276,7 @@ Use this as the main tool to feed your Lore over time.
 
 **Purpose:** Move legacy projects into the Lore architecture.
 
-It is not a CLI command: the mode is inferred from the phrase, not from a flag. It has three modes:
+It is not a CLI command: the mode is inferred from the phrase, not from a flag. It has four modes:
 
 - `add` – create missing Lore artifacts.
 - `clean` – remove modules that already duplicate the Area's (requires the project to have a
@@ -284,6 +284,23 @@ It is not a CLI command: the mode is inferred from the phrase, not from a flag. 
 - `translate` – standardize the Lore's language: translate content and rename localizable
   artifacts into a single language (the one you ask for or, by default, your own), rewriting
   affected links and without touching structure, code, or meaning.
+- `upgrade` – **(v1.2.1)** bring a healthy Lore up to date when it was written against an older
+  version of these skills. Nothing is broken: it is in the standard and in use, and it lacks the
+  gates the kit learned afterwards. It arbitrates what already exists against the installed version.
+
+**About `upgrade`, the mode easiest to misread.** It is not a rewrite and not a style pass. It sorts
+every finding into three kinds, and that labelling is what keeps it from degenerating:
+
+| Kind | What it means |
+|---|---|
+| **Missing** | the kit now requires something this artifact never had (a validity boundary, a confidence marker, the defeats section of an imported module) |
+| **Superseded** | the kit now knows this practice is wrong, and the rule that supersedes it is cited |
+| **Earned** | it departs from the current standard **because this project paid for it with real friction**: it is left alone and the reason written down, so the next upgrade does not flag it again |
+
+What was earned with experience outranks any improvement the kit learned later. A finding list with
+no `Earned` entries in a Lore with real history means the pass is being run as a formatter. Also:
+confidence **never** rises with age — a conjecture that survived three versions is still a conjecture
+— and a missing boundary is **asked for**, never inferred.
 
 Example prompts:
 
@@ -292,9 +309,11 @@ transmute the lore of "Legacy Frontend"
 clean the lore of "Legacy Frontend"
 standardize the language of the lore of "Legacy Frontend"
 translate the lore of "Legacy Frontend" to Spanish
+improve the lore of "Legacy Frontend" with the new version
+bring this lore up to date with the plugin
 ```
 
-**Precondition:** the project must have a clean git tree before running any of the three modes; if
+**Precondition:** the project must have a clean git tree before running any of the four modes; if
 there are uncommitted changes, the skill stops and asks you to commit or stash first.
 
 Expected behavior:

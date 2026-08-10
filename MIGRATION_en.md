@@ -44,6 +44,11 @@ the phrase you use, not from a flag.
 are uncommitted changes, the skill stops and asks you to commit or stash first, so the migration
 lands as a reviewable diff.
 
+> **Since v1.2.1 there is a fourth mode, `upgrade`.** It migrates nothing: it brings a Lore that is
+> **already in the standard** up to date when it was written against an older version of these
+> skills. If your project already migrated and you only want what the kit learned afterwards, that
+> is the mode, not `add`.
+
 ### 3.1 `add` Mode – Create Missing Lore
 
 **Purpose:** Introduce Lore artifacts into a legacy project.

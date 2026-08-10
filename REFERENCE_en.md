@@ -233,10 +233,11 @@ Use `save-to-lore` as the main mechanism for feeding your Lore after important d
   - `clean` – "clean the lore of Legacy Frontend" — remove project thematic modules that already
     duplicate the Area's.
   - `translate` – "standardize the language of the lore of Legacy Frontend", "translate the lore of
+  - `upgrade` – "improve the lore of {project} with the new version", "bring this lore up to date with the plugin" — raises a healthy Lore written against an older version of these skills to the current standard.
     Legacy Frontend to Spanish" — standardize the language of every Lore artifact: content and
     filenames.
 
-**Safety precondition (Phase 0, all three modes):** the project's repository must have a clean git tree.
+**Safety precondition (Phase 0, all four modes):** the project's repository must have a clean git tree.
 If there are uncommitted changes, the skill stops and asks you to commit or stash first, so the
 transmutation lands as a reviewable diff.
 
@@ -291,7 +292,7 @@ against the existing corpus before extracting it — literal overlap in chunks c
 **records the correspondence binary → transcription** in the destination when it does transcribe one.
 Pending extraction items are written by **content, not by extension**.
 
-In all three modes, `transmute-lore` **does not commit the target project** — the diff is left for
+In all four modes, `transmute-lore` **does not commit the target project** — the diff is left for
 the user to review and decide.
 
 Use `transmute-lore` when you already have a project and want to bring it into Lore without rebuilding everything by hand.

@@ -230,8 +230,9 @@ Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decision
   - `add` – «transmuta el lore de {proyecto}», «este proyecto viejo no está en el formato nuevo» — crea artefactos de Lore que aún no existen.
   - `clean` – «limpia el lore de {proyecto}» — elimina módulos temáticos del proyecto que ya duplican los del Área.
   - `translate` – «estandariza el idioma del lore de {proyecto}», «traduce el lore de {proyecto} a {idioma}» — estandariza el idioma de todos los artefactos del Lore: contenido y nombres de archivo.
+  - `upgrade` – «mejora el lore de {proyecto} con la versión nueva», «arbitra mi lore contra la versión nueva» — pone al día un Lore sano escrito contra una versión anterior de estos skills.
 
-**Precondición de seguridad (Fase 0, los tres modos):** el repositorio del proyecto debe tener el
+**Precondición de seguridad (Fase 0, los cuatro modos):** el repositorio del proyecto debe tener el
 árbol de git limpio. Si hay cambios sin commitear, el skill se detiene y pide hacer commit o
 `stash` primero, para que la transmutación aterrice como un *diff* revisable.
 
@@ -286,7 +287,7 @@ binario contra el corpus existente antes de extraerlo —el solapamiento literal
 segundos— y **anota la correspondencia binario → transcripción** en el destino cuando sí transcribe
 uno. Los pendientes de extracción se redactan por **contenido, no por extensión**.
 
-En los tres modos, `transmute-lore` **no hace commit del proyecto destino**: el *diff* queda para que
+En los cuatro modos, `transmute-lore` **no hace commit del proyecto destino**: el *diff* queda para que
 el usuario lo revise y decida.
 
 Usa `transmute-lore` cuando ya tienes proyectos en marcha y quieres incorporarlos a Lore sin reconstruirlo todo desde cero.

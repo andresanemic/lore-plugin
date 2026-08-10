@@ -279,7 +279,7 @@ Usa este skill como herramienta principal para alimentar tu Lore con el tiempo.
 
 **Propósito:** mover proyectos heredados hacia la arquitectura Lore.
 
-No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene tres modos:
+No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene cuatro modos:
 
 - `add` – crea artefactos de Lore que aún no existen.
 - `clean` – elimina módulos redundantes que ya duplican los del Área (requiere que el proyecto
@@ -287,6 +287,23 @@ No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene tr
 - `translate` – estandariza el idioma del Lore: traduce el contenido y renombra los artefactos
   localizables a un único idioma (el que pidas o, por defecto, el tuyo), reescribiendo los enlaces
   afectados y sin tocar estructura, código ni significado.
+- `upgrade` – **(v1.2.1)** pone al día un Lore sano escrito contra una versión anterior de estos
+  skills. No está roto: está en el estándar y en uso, y le faltan las puertas que el kit aprendió
+  después. Arbitra lo que ya existe contra la versión instalada.
+
+**Sobre `upgrade`, que es el modo que más fácil se malinterpreta.** No es un reescribir ni un pase
+de estilo. Clasifica cada hallazgo en tres tipos, y ese etiquetado es lo que impide que degenere:
+
+| Tipo | Qué significa |
+|---|---|
+| **Missing** | el kit ahora exige algo que ese artefacto nunca tuvo (una frontera de validez, un marcador de confianza, la sección de derrotas de un módulo importado) |
+| **Superseded** | el kit ahora sabe que esa práctica está mal, y se cita qué regla la reemplaza |
+| **Earned** | se aparta del estándar actual **porque este proyecto lo pagó con fricción real**: se deja como está y se anota por qué, para que el próximo upgrade no lo vuelva a marcar |
+
+Lo ganado con experiencia le gana a cualquier mejora que el kit aprendió después. Una lista de
+hallazgos sin ningún `Earned` en un Lore con historia es señal de que el pase se está corriendo como
+formateador. Además: la confianza **nunca** sube por antigüedad —una conjetura que sobrevivió tres
+versiones sigue siendo conjetura— y una frontera ausente se **pregunta**, no se infiere.
 
 Ejemplos de prompts:
 
@@ -295,10 +312,13 @@ transmuta el lore del "Frontend heredado"
 limpia el lore del "Frontend heredado"
 estandariza el idioma del lore del "Frontend heredado"
 traduce el lore del "Frontend heredado" al español
+mejora el lore del "Frontend heredado" con la versión nueva del plugin
+arbitra mi lore contra la versión nueva
 ```
 
 **Precondición:** el proyecto debe tener el árbol de git limpio antes de ejecutar cualquiera de los
-tres modos; si hay cambios sin commitear, el skill se detiene y pide hacer commit o `stash` primero.
+cuatro modos; si hay cambios sin commitear, el skill se detiene y pide hacer commit o `stash`
+primero.
 
 Comportamiento esperado:
 
