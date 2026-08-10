@@ -15,7 +15,7 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-1.2.0-F72585?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-1.2.1-F72585?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/paradigm-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-FFBE0B?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
@@ -255,7 +255,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** It is no
 | [`create-area`](#create-area) | Creates an Area with its shared Lore | opening a new domain |
 | [`create-project`](#create-project) | Creates a project that inherits from the Area | starting a piece of work |
 | [`save-to-lore`](#save-to-lore) | Distills a lesson and decides whether it rises to the Area | every day |
-| [`transmute-lore`](#transmute-lore) | Migrates old projects, cleans duplicates, or translates the Lore | inheriting something with no Lore |
+| [`transmute-lore`](#transmute-lore) | Migrates old projects, cleans duplicates, translates the Lore, or raises it to a newer version of the kit | inheriting something with no Lore, or updating the plugin |
 | [`create-bot`](#create-bot) | One place to open a session and work across several Areas at once | once there is Lore worth gathering |
 | [`obsidian-lore`](#obsidian--the-way-in) | Turns your loose notes into criteria | once the inbox gets heavy |
 
@@ -305,13 +305,14 @@ Two warnings `arbitrate` mode will give you:
 
 ### `transmute-lore`
 
-Migrates existing projects into Lore's architecture. Three modes:
+Migrates existing projects into Lore's architecture. Four modes:
 
 | Mode | What it does |
 |---|---|
 | **add** | Rescues criteria already scattered around (a bloated `CLAUDE.md`, a kilometric README, code comments) and crystallizes it into the six artifacts. |
 | **clean** | Removes the project's redundant modules that the Area already owns. The criteria does not disappear: it changes owner. |
 | **translate** | Standardizes the language of an existing Lore, translating content and renaming artifacts, without altering structure or meaning. |
+| **upgrade** | Raises a healthy Lore written against an older version of these skills. Sorts every finding into Missing, Superseded or **Earned** — and what the project paid for with real friction is left alone. |
 
 ### `create-bot`
 
@@ -731,7 +732,7 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-1.2.0-F72585?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-1.2.1-F72585?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/paradigma-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-FFBE0B?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
@@ -963,7 +964,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 | [`create-area`](#create-area) | Crea un Área con su Lore compartido | al abrir un dominio nuevo |
 | [`create-project`](#create-project) | Crea un proyecto que hereda del Área | al empezar un trabajo |
 | [`save-to-lore`](#save-to-lore) | Destila una lección y decide si sube al Área | todos los días |
-| [`transmute-lore`](#transmute-lore) | Migra proyectos viejos, limpia duplicados o traduce el Lore | al heredar algo sin Lore |
+| [`transmute-lore`](#transmute-lore) | Migra proyectos viejos, limpia duplicados, traduce el Lore o lo pone al día con una versión nueva del kit | al heredar algo sin Lore, o al actualizar el plugin |
 | [`create-bot`](#create-bot) | Un lugar donde abrir sesión y trabajar sobre varias Áreas a la vez | cuando ya hay Lore que reunir |
 | [`obsidian-lore`](#obsidian--la-puerta-de-entrada) | Convierte tus notas sueltas en criterio | cuando la bandeja pesa |
 
@@ -1006,6 +1007,7 @@ Dos avisos que te dará:
 | **add** | Rescata el criterio ya disperso y lo cristaliza en los seis artefactos. |
 | **clean** | Elimina los módulos del proyecto que el Área ya posee. El criterio cambia de dueño. |
 | **translate** | Estandariza el idioma de un Lore existente, sin alterar estructura ni significado. |
+| **upgrade** | Pone al día un Lore sano escrito contra una versión anterior de estos skills. Clasifica cada hallazgo en Missing, Superseded o **Earned**, y lo que el proyecto pagó con fricción real se deja intacto. |
 
 ### `create-bot`
 
