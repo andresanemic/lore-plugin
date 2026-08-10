@@ -480,13 +480,21 @@ misma cara de certeza. Si el usuario no tiene bot y sus notas tocan más de un �
 | Un proyecto o un Área | el `notas/` de esa carpeta |
 | **La raíz de la vault** | **ninguna. La raíz nunca tiene bandeja** |
 
-**La raíz nunca tiene bandeja, y es ley, no orden.** Nadie abre una sesión ahí: es la carpeta madre
-de las Áreas, no un lugar de trabajo. Una nota escrita en la raíz no tiene dueño ni tabla contra la
-cual enrutarse, y el fallo es silencioso — una sesión solo alcanza la carpeta donde se abrió más las
-rutas de su `.claude/settings.local.json`, que nunca incluye la raíz, así que el barrido no la lee,
-no falla y **reporta deuda cero**. La nota queda intacta, que es justo el estado que la destilación
-existe para romper. Una nota que no pertenece a ningún proyecto significa que **falta el proyecto**
-(`create-project`), no que haga falta una bandeja huérfana.
+**La raíz nunca tiene bandeja, y es ley, no orden.** Una nota escrita en la raíz no tiene dueño ni
+tabla contra la cual enrutarse, y el fallo es silencioso — una sesión solo alcanza la carpeta donde se
+abrió más las rutas de su `.claude/settings.local.json`, que nunca incluye la raíz, así que el barrido
+no la lee, no falla y **reporta deuda cero**. La nota queda intacta, que es justo el estado que la
+destilación existe para romper. Una nota que no pertenece a ningún proyecto significa que **falta el
+proyecto** (`create-project`), no que haga falta una bandeja huérfana.
+
+**Y el motivo no es que nadie trabaje en la raíz — alguien sí trabaja.** Todo lo que tiene que estar
+por encima de todas las Áreas vive ahí: un launcher que enruta a todas, una spec que decide un Área
+nueva, un script que recorre el árbol entero. La raíz es **un lugar de trabajo sin Lore** — sin dueño,
+sin `FASES.md`, sin bandeja y sin ningún `CLAUDE.md` que cargue las reglas que habrían hecho registrar
+lo que pasó. Así que el silencio va un paso más allá del párrafo anterior: **el trabajo mismo queda sin
+registrar**, y no se escribe ninguna nota que un barrido pueda encontrar. Cuando es ese el caso, lo que
+falta está un nivel por encima del proyecto: un **Área** (`create-area`). Hasta que exista, la nota va
+a la bandeja del Área que pidió el trabajo, nunca a la raíz.
 
 **Frontmatter de una nota:**
 

@@ -448,10 +448,17 @@ va a proponer `create-bot`, y conviene hacerle caso.
 | Un proyecto o un Área | el `notas/` de esa carpeta |
 | **La raíz de la vault** | **ninguna. La raíz nunca tiene bandeja** |
 
-**La raíz nunca tiene bandeja.** Nadie abre una sesión ahí, y una nota escrita en la raíz no tiene
-dueño ni tabla contra la cual enrutarse. Peor: un bot no alcanza la raíz, así que el barrido no la
-lee, no falla y **reporta deuda cero**. Si una nota no pertenece a ningún proyecto, lo que falta es
-el proyecto — `create-project`, no una bandeja huérfana.
+**La raíz nunca tiene bandeja.** Una nota escrita en la raíz no tiene dueño ni tabla contra la cual
+enrutarse. Peor: un bot no alcanza la raíz, así que el barrido no la lee, no falla y **reporta deuda
+cero**. Si una nota no pertenece a ningún proyecto, lo que falta es el proyecto — `create-project`,
+no una bandeja huérfana.
+
+**La raíz es un lugar de trabajo sin Lore, no un lugar donde nadie trabaja.** Todo lo que tiene que
+estar por encima de todas las áreas termina ahí: un launcher que enruta a todas, una spec que decide
+un área nueva. Lo que la raíz no tiene es dueño, `FASES.md`, bandeja y ningún `CLAUDE.md` que cargue
+las reglas — así que el trabajo hecho ahí queda sin registrar y no llega ni a ser una nota que barrer.
+Si eso pasó, lo que falta es un **área** — `create-area`, y mientras tanto la nota va a la bandeja del
+área que pidió el trabajo.
 
 **Cómo se usa, en dos frases:**
 

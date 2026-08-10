@@ -84,16 +84,25 @@ sweep is recursive over `**/*.md`, so subfolders are free and this skill imposes
 | An area | `<area>/notas/` |
 | **The vault root** | **none. The root never has an inbox** |
 
-> **The root never gets an inbox, and this is a hard rule rather than a matter of tidiness.** Nobody
-> opens a session at the root — it is the mother folder of the areas, not a place of work. A note
+> **The root never gets an inbox, and this is a hard rule rather than a matter of tidiness.** A note
 > written there has no owner and no routing table to be filed against, so mining it means filing by
 > eye. And the failure is silent: a bot session only reaches its own folder plus the paths in its
 > `.claude/settings.local.json`, which never includes the root, so the sweep does not read it, does
 > not fail, and **reports a debt of zero**. The note stays intact and technically preserved, which is
 > the exact state distillation exists to break.
 >
+> **The root is not a non-place of work — it is a place of work with no Lore.** Do not justify this
+> rule with *«nobody opens a session at the root»*: somebody does, and predictably. Anything that has
+> to sit above every area lives there — a launcher that routes into all of them, a spec that decides
+> a new area, a script that walks the whole tree. What the root lacks is not visitors: it is an owner,
+> a `FASES.md`, an inbox and any `CLAUDE.md` to load the rules that would have registered the work.
+> So the silence is worse than the one described above — **the work itself goes unregistered**, and no
+> note is ever written to be swept.
+>
 > **A note that belongs to no project does not go to the root — it means the project is missing.**
-> Propose `create-project` (or `create-bot`), not an orphan inbox.
+> Propose `create-project` (or `create-bot`), not an orphan inbox. And if the **work** is what had to
+> live at the root, what is missing is one level higher: an **area** → `create-area`. Until it exists,
+> the note goes to the inbox of the area that asked for the work — never to the root.
 
 Create it on the first capture, in the folder the work is happening in. Never speculatively, and
 never at the root.
@@ -227,7 +236,9 @@ what entered, where, what was discarded as noise and **why**, and the remaining 
   happens outside one; propose `create-bot` when the notes touch more than one Area.
 - **The inbox lives where the session is opened, and the vault root never has one.** A bot session
   cannot reach the root, so an inbox there fails silently and reports a debt of zero. A note that
-  belongs to no project means the project is missing, not that the root needs an inbox.
+  belongs to no project means the project is missing, not that the root needs an inbox — and **work
+  that had to happen at the root means an area is missing**, which is `create-area`, still not an
+  inbox. The root is a place of work with no Lore, never a place nobody works in.
 - **An inbox that could not be read is named**, never counted as empty.
 - **The inbox is not federated.** It holds no Lore, so a bot never routes to it — the source gets its
   Lore in the area that owns it first.

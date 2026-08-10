@@ -486,13 +486,21 @@ notes touch more than one Area, the skill proposes `create-bot`.
 | A project or an area | that folder's `notes/` |
 | **The vault root** | **none. The root never has an inbox** |
 
-**The root never has an inbox, and that is a law rather than tidiness.** Nobody opens a session
-there: it is the mother folder of the Areas, not a place of work. A note written at the root has no
-owner and no table to be routed against, and the failure is silent — a session only reaches the
-folder it was opened in plus the paths in its `.claude/settings.local.json`, which never includes the
-root, so the sweep does not read it, does not fail, and **reports a debt of zero**. The note stays
+**The root never has an inbox, and that is a law rather than tidiness.** A note written at the root
+has no owner and no table to be routed against, and the failure is silent — a session only reaches
+the folder it was opened in plus the paths in its `.claude/settings.local.json`, which never includes
+the root, so the sweep does not read it, does not fail, and **reports a debt of zero**. The note stays
 intact, which is the exact state distillation exists to break. A note that belongs to no project
 means **the project is missing** (`create-project`), not that an orphan inbox is needed.
+
+**And the reason is not that nobody works at the root — somebody does.** Anything that has to sit
+above every Area lives there: a launcher that routes into all of them, a spec that decides a new Area,
+a script that walks the whole tree. The root is **a place of work with no Lore** — no owner, no
+`FASES.md`, no inbox, no `CLAUDE.md` to load the rules that would have registered what happened. So
+the silence goes one step further than the paragraph above: **the work itself goes unregistered**, and
+no note is ever written for a sweep to find. When that is the case, what is missing is one level above
+the project: an **Area** (`create-area`). Until it exists, the note goes to the inbox of the Area that
+asked for the work, never to the root.
 
 **A note's frontmatter:**
 

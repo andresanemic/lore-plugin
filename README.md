@@ -450,7 +450,7 @@ Most of a real inbox lands in the last row: a note folder fills up with informat
 
 ### Where the inbox lives
 
-**Where you open the session** — and **the vault root never has one**. Nobody opens a session at the root, so a note written there has no owner and no table to be routed against. Worse, a bot cannot reach the root: the sweep does not read it, does not fail, and reports a debt of zero. A note that belongs to no project means the project is missing — `create-project`, not an orphan inbox.
+**Where you open the session** — and **the vault root never has one**. A note written there has no owner and no table to be routed against. Worse, a bot cannot reach the root: the sweep does not read it, does not fail, and reports a debt of zero. A note that belongs to no project means the project is missing — `create-project`, not an orphan inbox. And the reason is not that nobody works at the root: somebody does, whenever something has to sit above every Area — a launcher that routes into all of them, a spec that decides a new one. The root is a place of work **with no Lore**, so what happens there goes unregistered and never even becomes a note — which means an **Area** is missing (`create-area`), still not an inbox.
 
 Every mined note gets a mark with date and destination, **including the ones that produced nothing**. That mark makes the sweep idempotent and makes the debt visible. The skill **never deletes a note**: mine before deleting, and deleting is your call.
 
@@ -1108,7 +1108,7 @@ La mayoría de una bandeja real cae en la última fila: una carpeta de notas se 
 
 ### Dónde vive la bandeja
 
-**Donde abres la sesión** — y **la raíz de la vault nunca tiene una**. Nadie abre una sesión en la raíz, así que una nota escrita ahí no tiene dueño ni tabla contra la cual enrutarse. Peor: un bot no alcanza la raíz, de modo que el barrido no la lee, no falla y reporta deuda cero. Una nota que no pertenece a ningún proyecto significa que falta el proyecto — `create-project`, no una bandeja huérfana.
+**Donde abres la sesión** — y **la raíz de la vault nunca tiene una**. Una nota escrita ahí no tiene dueño ni tabla contra la cual enrutarse. Peor: un bot no alcanza la raíz, de modo que el barrido no la lee, no falla y reporta deuda cero. Una nota que no pertenece a ningún proyecto significa que falta el proyecto — `create-project`, no una bandeja huérfana. Y el motivo no es que nadie trabaje en la raíz: alguien trabaja ahí cada vez que algo tiene que estar por encima de todas las Áreas — un launcher que enruta a todas, una spec que decide un Área nueva. La raíz es un lugar de trabajo **sin Lore**, así que lo que pasa ahí queda sin registrar y no llega ni a ser una nota — o sea que falta un **Área** (`create-area`), tampoco una bandeja.
 
 Cada nota minada recibe una marca con fecha y destino, **incluidas las que no produjeron nada**. La skill **nunca borra una nota**: se mina antes de borrar, y borrar lo decides tú.
 

@@ -444,10 +444,17 @@ confidence. If you have no bot yet and your notes touch more than one Area, the 
 | A project or an Area | that folder's `notes/` |
 | **The vault root** | **none. The root never has an inbox** |
 
-**The root never has an inbox.** Nobody opens a session there, and a note written at the root has no
-owner and no table to be routed against. Worse: a bot cannot reach the root, so the sweep does not
-read it, does not fail, and **reports a debt of zero**. If a note belongs to no project, what is
-missing is the project — `create-project`, not an orphan inbox.
+**The root never has an inbox.** A note written at the root has no owner and no table to be routed
+against. Worse: a bot cannot reach the root, so the sweep does not read it, does not fail, and
+**reports a debt of zero**. If a note belongs to no project, what is missing is the project —
+`create-project`, not an orphan inbox.
+
+**The root is a place of work with no Lore, not a place nobody works in.** Anything that has to sit
+above every area ends up there — a launcher that routes into all of them, a spec that decides a new
+area. What the root lacks is an owner, a `FASES.md`, an inbox and any `CLAUDE.md` to load the rules,
+so the work done there goes unregistered and never even becomes a note to sweep. If that is what
+happened, what is missing is an **area** — `create-area`, and meanwhile the note goes to the inbox of
+the area that asked for the work.
 
 **How you use it, in two sentences:**
 
