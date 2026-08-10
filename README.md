@@ -69,10 +69,10 @@
 
 **Understand it**
 
-[Reach](#reach)
 [Shared invariants](#shared-invariants)
 [Encryption](#encryption-experimental)
-[Case studies](#case-studies) · [Origin](#origin)
+[Case studies](#case-studies)
+[Reach](#reach) · [Origin](#origin)
 
 </td>
 </tr>
@@ -187,27 +187,6 @@ You just spent two hours fighting a flash of unstyled content on load. You solve
 Three months later, in another project of the Area, someone asks for an entrance animation. The criteria is already loaded and that discussion never happens again.
 
 > None of it was written without a human saying yes. Same gate in all seven skills.
-
----
-
-## Reach
-
-<p align="center">
-  <img src="./assets/reach-en.png" alt="1,000+ clones and counting" width="100%">
-</p>
-
-<p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/1%2C127-clones-F72585?style=for-the-badge&labelColor=0B0B12" alt="1,127 clones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/35-days-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="35 days"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~27-a_day-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="27 a day"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/221-peak-10B981?style=for-the-badge&labelColor=0B0B12" alt="221 peak"></a>
-</p>
-
-For thirty-four days the number held at a steady twenty-odd clones a day, well past the launch spike. That steadiness was the interesting part: not a launch bump, just people still arriving. Then August 8th brought 221 clones in a single day — a second peak, larger than the launch itself, and one I cannot explain. I left it in the data exactly as it arrived.
-
-The daily rate quoted above is the steady one, not the average with that day folded in. Data comes from GitHub's traffic API, stored in [`data/traffic/clones.json`](./data/traffic/clones.json) because the API only keeps 14 days.
-
-> **This is a reach signal, not a demonstration.** Nobody knows what anyone did with their copy: how many installed it, how many distilled anything, how many opened the folder once. It does not count as a case and it does not answer the question the [case studies](#case-studies) do. Note also that the "unique cloners" the API returns are unique **per day**, not people, so they cannot be summed into a headcount.
 
 ---
 
@@ -671,6 +650,28 @@ That second finding is the one the test did not anticipate, and it only exists b
 
 ---
 
+## Reach
+
+<p align="center">
+  <img src="./assets/reach-en.png" alt="1,000+ clones and counting" width="100%">
+</p>
+
+<p align="center">
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/1%2C127-clones-F72585?style=for-the-badge&labelColor=0B0B12" alt="1,127 clones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/35-days-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="35 days"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~27-a_day-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="27 a day"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/221-peak-10B981?style=for-the-badge&labelColor=0B0B12" alt="221 peak"></a>
+</p>
+
+For thirty-four days the number held at a steady twenty-odd clones a day, well past the launch spike. That steadiness was the interesting part: not a launch bump, just people still arriving. Then August 8th brought 221 clones in a single day — a second peak, larger than the launch itself, and one I cannot explain. I left it in the data exactly as it arrived.
+
+The daily rate quoted above is the steady one, not the average with that day folded in. Data comes from GitHub's traffic API, stored in [`data/traffic/clones.json`](./data/traffic/clones.json) because the API only keeps 14 days.
+
+> **This is a reach signal, not a demonstration.** Nobody knows what anyone did with their copy: how many installed it, how many distilled anything, how many opened the folder once. It does not count as a case and it does not answer the question the [case studies](#case-studies) do. Note also that the "unique cloners" the API returns are unique **per day**, not people, so they cannot be summed into a headcount.
+
+---
+
+
 ## Origin
 
 Lore was born as a distillation of **LUS (Lore User System)**, a research program that studies how a human and an AI accumulate shared criteria over a long-term collaboration.
@@ -784,10 +785,10 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 
 **Entenderlo**
 
-[Alcance](#alcance)
 [Invariantes](#invariantes-compartidas)
 [Cifrado](#cifrado-experimental)
-[Casos de estudio](#casos-de-estudio) · [Origen](#origen)
+[Casos de estudio](#casos-de-estudio)
+[Alcance](#alcance) · [Origen](#origen)
 
 </td>
 </tr>
@@ -900,27 +901,6 @@ Acabas de pasar dos horas peleando con un parpadeo al cargar la página. Lo reso
 ```
 
 Tres meses después, en otro proyecto del Área, alguien pide una animación de entrada. El criterio ya está cargado y esa discusión no vuelve a ocurrir.
-
----
-
-## Alcance
-
-<p align="center">
-  <img src="./assets/reach-es.png" alt="1.000+ clonaciones y sumando" width="100%">
-</p>
-
-<p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/1%2C127-clonaciones-F72585?style=for-the-badge&labelColor=0B0B12" alt="1.127 clonaciones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/35-d%C3%ADas-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="35 días"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~27-al_d%C3%ADa-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="27 al día"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/221-pico-10B981?style=for-the-badge&labelColor=0B0B12" alt="221 pico"></a>
-</p>
-
-Durante treinta y cuatro días el número se mantuvo en unas veinte y pico de clonaciones diarias, mucho después del pico del lanzamiento. Esa constancia era lo interesante: no el rebote de un lanzamiento, sino gente que seguía llegando. Y entonces el 8 de agosto trajo 221 clonaciones en un solo día — un segundo pico, más alto que el del lanzamiento, que no sé explicar. Queda en los datos tal como llegó.
-
-El ritmo diario de arriba es el constante, no el promedio con ese día adentro. Los datos vienen de la API de tráfico de GitHub y se guardan en [`data/traffic/clones.json`](./data/traffic/clones.json), porque la API solo conserva 14 días.
-
-> **Es una señal de alcance, no una demostración.** Nadie sabe qué hizo cada quien con su copia: cuántos la instalaron, cuántos destilaron algo, cuántos abrieron la carpeta una vez. No cuenta como caso y no responde la pregunta que sí responden los [casos de estudio](#casos-de-estudio). Y los «clonadores únicos» que devuelve la API son únicos **por día**, no personas: no se pueden sumar para contar cabezas.
 
 ---
 
@@ -1351,6 +1331,28 @@ Ese segundo hallazgo es el que la vara no anticipaba, y existe solo porque la va
 </details>
 
 ---
+
+## Alcance
+
+<p align="center">
+  <img src="./assets/reach-es.png" alt="1.000+ clonaciones y sumando" width="100%">
+</p>
+
+<p align="center">
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/1%2C127-clonaciones-F72585?style=for-the-badge&labelColor=0B0B12" alt="1.127 clonaciones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/35-d%C3%ADas-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="35 días"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~27-al_d%C3%ADa-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="27 al día"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/221-pico-10B981?style=for-the-badge&labelColor=0B0B12" alt="221 pico"></a>
+</p>
+
+Durante treinta y cuatro días el número se mantuvo en unas veinte y pico de clonaciones diarias, mucho después del pico del lanzamiento. Esa constancia era lo interesante: no el rebote de un lanzamiento, sino gente que seguía llegando. Y entonces el 8 de agosto trajo 221 clonaciones en un solo día — un segundo pico, más alto que el del lanzamiento, que no sé explicar. Queda en los datos tal como llegó.
+
+El ritmo diario de arriba es el constante, no el promedio con ese día adentro. Los datos vienen de la API de tráfico de GitHub y se guardan en [`data/traffic/clones.json`](./data/traffic/clones.json), porque la API solo conserva 14 días.
+
+> **Es una señal de alcance, no una demostración.** Nadie sabe qué hizo cada quien con su copia: cuántos la instalaron, cuántos destilaron algo, cuántos abrieron la carpeta una vez. No cuenta como caso y no responde la pregunta que sí responden los [casos de estudio](#casos-de-estudio). Y los «clonadores únicos» que devuelve la API son únicos **por día**, no personas: no se pueden sumar para contar cabezas.
+
+---
+
 
 ## Origen
 
