@@ -135,9 +135,7 @@ Spec-driven is not a label here. `CLAUDE.md` is the contract, `FASES.md` is the 
 
 Unlike documentation, Lore does not try to describe everything. It only preserves what changes future behavior.
 
-A README answers *"what is this?"*. Lore answers something else:
-
-> **What did we learn that we should never have to learn again?**
+A README answers *"what is this?"*. Lore answers something else: **What did we learn that we should never have to learn again?**
 
 > [!IMPORTANT]
 > **If a sentence does not constrain a future decision, it is not Lore.** That rule is the whole filter, and it is what keeps the system from becoming another graveyard of documents.
@@ -831,9 +829,7 @@ Lo de *spec-driven* no es una etiqueta. `CLAUDE.md` es el contrato, `FASES.md` e
 
 A diferencia de la documentación, Lore no intenta describirlo todo. Solo conserva aquello que modifica el comportamiento futuro.
 
-Un README responde *«¿qué es esto?»*. Lore responde otra cosa:
-
-> **¿Qué aprendimos que nunca deberíamos tener que volver a aprender?**
+Un README responde *«¿qué es esto?»*. Lore responde otra cosa: **¿Qué aprendimos que nunca deberíamos tener que volver a aprender?**
 
 > [!IMPORTANT]
 > **Si una frase no restringe una decisión futura, no es Lore.** Esa regla es todo el filtro, y es lo que impide que el sistema se convierta en otro cementerio de documentos.
