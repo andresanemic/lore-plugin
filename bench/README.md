@@ -59,6 +59,24 @@ Tres decisiones que importan:
 - **Se audita que el brazo `lore` haya leído el lore.** Una corrida que pasa sin haber abierto un
   archivo de `lore/` es suerte, no mecanismo, y se reporta aparte.
 
+## Resultado Codex auditado
+
+El corte público vive en [`results/codex/results.csv`](./results/codex/results.csv): **72 corridas**,
+36 por brazo. Codex frío respetó la Pista en **25/36 (69,4%)** y Codex + Lore en **33/36 (91,7%)**:
+**+22,3 puntos porcentuales**. Lore mejoró 3 de 12 tareas, mantuvo 9 y no empeoró ninguna.
+
+| Costo del corte web | Frío | Lore | Efecto |
+|---|---:|---:|---:|
+| Tiempo por intento | 42,83 s | 52,35 s | +22,2% |
+| Intentos modelados por éxito (`1/p`) | 1,44 | **1,09** | **−24,2%** |
+| Tiempo modelado hasta éxito (`tiempo/p`) | 61,68 s | **57,11 s** | **−7,4%** |
+| Salida modelada hasta éxito (`salida/p`) | 2.077 | **2.050** | **−1,3%** |
+
+Las últimas tres filas son una **normalización exploratoria**, no reparaciones observadas. La
+extensión tarea → meta se conserva aparte: en 52 unidades por brazo y con una corrección máxima,
+frío alcanzó 39/52 metas y Lore 52/52; Lore consumió 15,2% menos tiempo observado, 25,3% menos
+intentos y 6,8% menos salida, con entrada 1,3% mayor y herramientas prácticamente iguales.
+
 ## Reproducirlo
 
 ```bash
@@ -69,17 +87,18 @@ node bench/run.mjs -n 3 --retry-na         # reintenta solo corridas fallidas o 
 node bench/run.mjs --regrade               # recalifica lo ya corrido, sin gastar
 ```
 
-Cada corrida deja su transcript íntegro en [`results/raw/`](./results/) y una fila en
-[`results/results.csv`](./results/results.csv). Los números que aparecen en el README salen de ese
-CSV, no de la memoria.
+Cada corrida deja su transcript íntegro en un directorio por proveedor y una fila en su CSV. El
+corte Codex vive en [`results/codex/raw/`](./results/codex/raw/) y
+[`results/codex/results.csv`](./results/codex/results.csv). Los números públicos se recalculan desde
+ese CSV mediante `benchmark-consistency.test.mjs`; no se transcriben desde memoria ni desde una
+tabla de presentación.
 
 Aislamiento: `--setting-sources project` (sin hooks, plugins ni skills del usuario),
 `--strict-mcp-config` (sin MCP heredado), fixtures sin `.claude/`.
 
-## Sobre el orden en que se hizo esto
+## Auditoría del instrumento y procedencia
 
-El grader se afinó **durante el piloto y contra los transcripts del piloto**, no después de ver la
-corrida completa. Aparecieron dos errores y los dos están corregidos acá:
+El piloto corrigió dos errores antes de la corrida completa:
 
 1. `opacity: 0` dentro de la configuración de GSAP contaba como estado inicial en el markup. No lo
    es: ese es exactamente el FOUC que la Pista prohíbe. Habría producido falsos **pass**.
@@ -87,8 +106,27 @@ corrida completa. Aparecieron dos errores y los dos están corregidos acá:
    —pinta antes de la hidratación, que es lo que se exige—. Habría producido falsos **fail**, en
    contra del brazo con lore.
 
-Después de esos dos arreglos se congeló `tasks.json`, se borraron los resultados del piloto y se
-corrieron las 72 desde cero.
+Después de esos arreglos se congeló `tasks.json`, se borró el piloto y se corrieron las 72. Una
+auditoría **post hoc**, sobre transcripts ya congelados, encontró además tres familias de falsos
+negativos: `min-h-svh`/`min-h-dvh`, restaurar el `overflow` previo y `origin-left`. Cada variante se
+añadió primero como regresión fallida; luego se amplió el grader y se recalificaron ambos brazos.
+El corte bruto fue 17/36 frente a 25/36; el auditado, 25/36 frente a 33/36. La diferencia permaneció
+en ocho aciertos. Se publican ambos porque corregir el instrumento no autoriza a borrar su historia.
+
+## Regla para la réplica con Claude Code
+
+Antes de gastar una corrida, **verificar el baseline Codex** ejecutando:
+
+```bash
+node --test bench/benchmark-consistency.test.mjs
+node bench/run.mjs --provider codex --regrade
+```
+
+La recalificación debe conservar **25/36 (69,4%) frío y 33/36 (91,7%) Lore**. Solo entonces repetir
+con Claude usando las mismas tareas, fixtures, grader, tres repeticiones y esfuerzo equivalente. Los
+resultados de Claude viven en su propio directorio específico del proveedor; no reemplazan ni se
+combinan con Codex. Si aparece otro defecto del grader: congelar transcripts, añadir primero una
+regresión que falle, recalificar simétricamente ambos brazos y publicar corte bruto y auditado.
 
 ## Fronteras declaradas
 

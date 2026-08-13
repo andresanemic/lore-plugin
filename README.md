@@ -15,7 +15,7 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.0.6-F72585?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.0.7-F72585?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/paradigm-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-FFBE0B?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
@@ -43,15 +43,36 @@
   <code>8 skills · 7 case studies · 72 benchmark runs</code>
 </p>
 
-<h3 align="center">Up to <strong>28% faster</strong> and <strong>24% fewer output tokens</strong> to a correct result, with <strong>+28 points of first-pass correctness.</strong></h3>
+<h3 align="center"><strong>+22.3 points of first-pass correctness</strong>, with no task made worse.</h3>
 
-<p align="center">
-| Metric | Cold Codex | Codex + Lore |
-|---|---:|---:|
-| First-pass correctness | 37% | **65% (+28 pts)** |
-| Time to a correct result | 118 s | **85 s (−28%)** |
-| Output tokens to a correct result | 4,116 | **3,119 (−24%)** |
-</p>
+<div align="center">
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th align="right">Cold Codex</th>
+      <th align="right">Codex + Lore</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Audited first-pass correctness</td>
+      <td align="right">25/36 (69.4%)</td>
+      <td align="right"><strong>33/36 (91.7%; +22.3 pts)</strong></td>
+    </tr>
+    <tr>
+      <td>Modeled time to a correct result</td>
+      <td align="right">61.68 s</td>
+      <td align="right"><strong>57.11 s (−7.4%)</strong></td>
+    </tr>
+    <tr>
+      <td>Tasks made worse</td>
+      <td align="right">—</td>
+      <td align="right"><strong>0/12</strong></td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 <p align="center"><sub>72 controlled runs · 12 frozen tasks · same agent, tools and task; only Lore changed. Lore worsened <strong>0/12</strong> task results. <a href="#benchmark">Method and limits ↓</a></sub></p>
 
@@ -533,27 +554,32 @@ All eight skills follow the same rules:
 ## Benchmark
 
 <p align="center">
-  <img src="./assets/benchmark-impact.png" alt="Lore benchmark: plus 28 points first-pass correctness, 28 percent less time and 24 percent fewer output tokens to a correct result" width="100%">
+  <img src="./assets/benchmark-impact.png" alt="Audited Lore benchmark: 22 points more first-pass correctness, 7 percent less modeled time and zero tasks made worse" width="100%">
 </p>
 
 **Lore does more before answering—so you redo less.** We tested twelve frozen tasks with three independent runs per condition: cold Codex and Codex with Lore, for 72 runs in total. Lore spends more time reading before an attempt; the useful measure is the work required to finish correctly.
 
 | Result | Cold Codex | Codex + Lore |
 |---|---:|---:|
-| Correct on the first attempt | 37% | **65%** |
-| Correct tasks per 10 attempts | 3.7 | **6.5** |
-| Correct reading of project criteria | — | **96%** |
+| Correct on the first attempt | 25/36 (69.4%) | **33/36 (91.7%)** |
+| Correct runs per 10 attempts | 6.9 | **9.2** |
+| Read Lore and obeyed the evaluated criterion | — | **31/32 (96.9%)** |
 
-That is **+28 points of first-pass correctness**. Lore never made a task result worse: it improved 3 of the 12 tasks and preserved the result in the other 9.
+That is **+22.3 points of first-pass correctness**. Lore never made a task result worse: it improved 3 of the 12 tasks and preserved the result in the other 9.
 
 | Cost to reach a correct result | Without Lore | With Lore | Effect |
 |---|---:|---:|---:|
-| Time per attempt | 44 s | 55 s | +25% |
-| Expected attempts per success | 2.70 | **1.53** | **−43%** |
-| Estimated time to success | 118 s | **85 s** | **−28%** |
-| Output tokens to success | 4,116 | **3,119** | **−24%** |
+| Time per attempt | 42.83 s | 52.35 s | +22.2% |
+| Expected attempts per success | 1.44 | **1.09** | **−24.2%** |
+| Modeled time to success | 61.68 s | **57.11 s** | **−7.4%** |
+| Modeled output tokens to success | 2,077 | **2,050** | **−1.3%** |
 
-> **Lore was slower per attempt, but faster at finishing correctly.**
+These four rows are a model based on aggregate first-pass rates, not observed repair cycles. A
+separate controlled extension measured up to one repair across 52 units per arm: Lore reached
+**52/52 goals versus 39/52**, while consuming **15.2% less observed time**, **25.3% fewer attempts**
+and **6.8% fewer output tokens**. Input tokens were 1.3% higher and tool use was effectively equal.
+
+> **Lore was slower per first attempt, but reached every measured goal within the repair limit.**
 
 The harness, frozen tasks, graders, raw outputs and declared limits are in [`bench/`](./bench/). These are Codex results, not a universal model claim. The same benchmark will be repeated with Claude Code during the week of August 17; those results will remain separate and will not change the 2.0 skills or version.
 
@@ -697,7 +723,7 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.0.6-F72585?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.0.7-F72585?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/paradigma-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-FFBE0B?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
@@ -725,15 +751,36 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
   <code>8 skills · 7 casos de estudio · 72 corridas de benchmark</code>
 </p>
 
-<h3 align="center">Hasta <strong>28% más rápido</strong> y <strong>24% menos tokens de salida</strong> para llegar a un resultado correcto, con <strong>+28 puntos de correctitud al primer intento.</strong></h3>
+<h3 align="center"><strong>+22,3 puntos de correctitud al primer intento</strong>, sin empeorar ninguna tarea.</h3>
 
-<p align="center">
-| Métrica | Codex frío | Codex + Lore |
-|---|---:|---:|
-| Correctitud al primer intento | 37% | **65% (+28 pts)** |
-| Tiempo hasta un resultado correcto | 118 s | **85 s (−28%)** |
-| Tokens de salida hasta un resultado correcto | 4.116 | **3.119 (−24%)** |
-</p>
+<div align="center">
+<table>
+  <thead>
+    <tr>
+      <th>Métrica</th>
+      <th align="right">Codex frío</th>
+      <th align="right">Codex + Lore</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Correctitud auditada al primer intento</td>
+      <td align="right">25/36 (69,4%)</td>
+      <td align="right"><strong>33/36 (91,7%; +22,3 pts)</strong></td>
+    </tr>
+    <tr>
+      <td>Tiempo modelado hasta un resultado correcto</td>
+      <td align="right">61,68 s</td>
+      <td align="right"><strong>57,11 s (−7,4%)</strong></td>
+    </tr>
+    <tr>
+      <td>Tareas que empeoraron</td>
+      <td align="right">—</td>
+      <td align="right"><strong>0/12</strong></td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 <p align="center"><sub>72 corridas controladas · 12 tareas congeladas · mismo agente, herramientas y tarea; solo cambió Lore. Lore empeoró <strong>0/12</strong> resultados. <a href="#el-benchmark">Método y límites ↓</a></sub></p>
 
@@ -1191,27 +1238,33 @@ Cada nota minada recibe una marca con fecha y destino, **incluidas las que no pr
 ## El benchmark
 
 <p align="center">
-  <img src="./assets/benchmark-impact-es.png" alt="Benchmark de Lore: 28 puntos más de correctitud al primer intento, 28 por ciento menos tiempo y 24 por ciento menos tokens de salida hasta un resultado correcto" width="100%">
+  <img src="./assets/benchmark-impact-es.png" alt="Benchmark auditado de Lore: 22 puntos más de correctitud al primer intento, 7 por ciento menos tiempo modelado y cero tareas empeoraron" width="100%">
 </p>
 
 **Lore hace más antes de responder, para que tú repitas menos.** Probamos doce tareas congeladas con tres corridas independientes por condición: Codex frío y Codex con Lore, para un total de 72 corridas. Lore dedica más tiempo a leer antes de un intento; la medida útil es el trabajo necesario para terminar correctamente.
 
 | Resultado | Codex frío | Codex + Lore |
 |---|---:|---:|
-| Correcto al primer intento | 37% | **65%** |
-| Tareas correctas cada 10 intentos | 3,7 | **6,5** |
-| Lectura correcta del criterio | — | **96%** |
+| Correcto al primer intento | 25/36 (69,4%) | **33/36 (91,7%)** |
+| Corridas correctas cada 10 intentos | 6,9 | **9,2** |
+| Leyó Lore y obedeció la Pista evaluada | — | **31/32 (96,9%)** |
 
-Son **+28 puntos de correctitud al primer intento**. Lore nunca empeoró el resultado de una tarea: mejoró 3 de las 12 y mantuvo el resultado en las otras 9.
+Son **+22,3 puntos de correctitud al primer intento**. Lore nunca empeoró el resultado de una tarea: mejoró 3 de las 12 y mantuvo el resultado en las otras 9.
 
 | Costo hasta llegar a un resultado correcto | Sin Lore | Con Lore | Efecto |
 |---|---:|---:|---:|
-| Tiempo por intento | 44 s | 55 s | +25% |
-| Intentos esperados por éxito | 2,70 | **1,53** | **−43%** |
-| Tiempo estimado hasta el éxito | 118 s | **85 s** | **−28%** |
-| Tokens de salida hasta el éxito | 4.116 | **3.119** | **−24%** |
+| Tiempo por intento | 42,83 s | 52,35 s | +22,2% |
+| Intentos esperados por éxito | 1,44 | **1,09** | **−24,2%** |
+| Tiempo modelado hasta el éxito | 61,68 s | **57,11 s** | **−7,4%** |
+| Tokens de salida modelados hasta el éxito | 2.077 | **2.050** | **−1,3%** |
 
-> **Lore fue más lento por intento, pero más rápido para terminar correctamente.**
+Estas cuatro filas son un modelo basado en tasas agregadas al primer intento, no ciclos de reparación
+observados. Una extensión controlada aparte midió hasta una reparación en 52 unidades por brazo:
+Lore alcanzó **52/52 metas frente a 39/52**, consumiendo **15,2% menos tiempo observado**, **25,3%
+menos intentos** y **6,8% menos tokens de salida**. La entrada fue 1,3% mayor y las herramientas
+quedaron prácticamente iguales.
+
+> **Lore fue más lento en el primer intento, pero alcanzó todas las metas medidas dentro del límite de reparación.**
 
 El harness, las tareas congeladas, los graders, las salidas crudas y las fronteras declaradas están en [`bench/`](./bench/). Son resultados de Codex, no una afirmación universal sobre modelos. El mismo benchmark se repetirá con Claude Code durante la semana del 17 de agosto; esos resultados quedarán separados y no cambiarán las skills ni la versión 2.0.
 
