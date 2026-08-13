@@ -1,6 +1,6 @@
 {
   "name": "lore",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Provider-neutral project criterion that persists across agents, models, and sessions.",
   "author": {
     "name": "andresanemic",

@@ -15,7 +15,7 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.0.3-F72585?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.0.4-F72585?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/paradigm-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-FFBE0B?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
@@ -158,14 +158,47 @@ Every step of the loop passes a **HARD GATE**: it is proposed, you approve, only
 
 ## Installation
 
+### Claude Code
+
+Run these commands inside Claude Code:
+
 ```bash
 /plugin marketplace add andresanemic/lore-plugin
 /plugin install lore@lore-plugin
 ```
 
-Two lines, no dependencies or configuration. Then type `use-lore` and the kit points you at the skill you need.
+Or run their CLI equivalents from a terminal:
 
-> **Using another AI tool?** Each skill is a Markdown file with a YAML header: the packaging is Claude Code's, the architecture is not. Copy the skill folder anywhere, or paste its body as a system prompt. The six artifacts and the Area↔Project model are conventions, not code.
+```bash
+claude plugin marketplace add andresanemic/lore-plugin
+claude plugin install lore@lore-plugin
+```
+
+### Codex CLI
+
+Run these commands in your terminal:
+
+```bash
+codex plugin marketplace add andresanemic/lore-plugin
+codex plugin add lore@lore-plugin
+```
+
+### Direct install from the repository
+
+Use this provider-neutral route when you prefer a local clone or want to prepare both CLIs:
+
+```bash
+git clone https://github.com/andresanemic/lore-plugin.git
+cd lore-plugin
+node scripts/lore-plugin.mjs install --target all
+codex plugin add lore@personal
+```
+
+Replace `all` with `claude` or `codex` to target only one CLI. The installer configures Claude directly; for Codex it prepares the local `personal` marketplace and prints the final `codex plugin add` command.
+
+Then start a new CLI session and type `use-lore`; the kit points you at the skill you need.
+
+> **Using another AI tool?** Each skill is a Markdown file with a YAML header. Copy the skill folder into that tool's supported skills directory, or use its body as agent instructions. The six artifacts and the Area↔Project model are provider-neutral conventions, not code.
 
 > **Investigating LUS itself?** [research-lus](https://github.com/andresanemic/research-lus)
 > carries the program's public corpus, bibliography, cases, hypotheses and scientific-research Lore
@@ -665,7 +698,7 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.0.3-F72585?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.0.4-F72585?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/paradigma-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-FFBE0B?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
@@ -808,14 +841,47 @@ Cada paso del ciclo pasa por un **HARD-GATE**: se propone, tú apruebas, recién
 
 ## Instalación
 
+### Claude Code
+
+Ejecuta estos comandos dentro de Claude Code:
+
 ```bash
 /plugin marketplace add andresanemic/lore-plugin
 /plugin install lore@lore-plugin
 ```
 
-Dos líneas, sin dependencias ni configuración. Después escribe `use-lore` y el kit te guía hacia la skill que necesitas.
+O ejecuta sus equivalentes desde una terminal:
 
-> **¿Usas otra herramienta de IA?** Cada skill es un archivo Markdown con encabezado YAML: el empaquetado es de Claude Code, la arquitectura no. Copia la carpeta de la skill donde quieras, o pega su cuerpo como prompt de sistema.
+```bash
+claude plugin marketplace add andresanemic/lore-plugin
+claude plugin install lore@lore-plugin
+```
+
+### Codex CLI
+
+Ejecuta estos comandos en tu terminal:
+
+```bash
+codex plugin marketplace add andresanemic/lore-plugin
+codex plugin add lore@lore-plugin
+```
+
+### Instalación directa desde el repositorio
+
+Usa esta ruta neutral al proveedor si prefieres un clon local o quieres preparar ambas CLI:
+
+```bash
+git clone https://github.com/andresanemic/lore-plugin.git
+cd lore-plugin
+node scripts/lore-plugin.mjs install --target all
+codex plugin add lore@personal
+```
+
+Reemplaza `all` por `claude` o `codex` para preparar solo una CLI. El instalador configura Claude directamente; para Codex prepara el marketplace local `personal` e imprime el comando final `codex plugin add`.
+
+Después abre una sesión nueva en la CLI y escribe `use-lore`; el kit te guía hacia la skill que necesitas.
+
+> **¿Usas otra herramienta de IA?** Cada skill es un archivo Markdown con encabezado YAML. Copia la carpeta de la skill en el directorio compatible de esa herramienta, o usa su contenido como instrucciones del agente. Los seis artefactos y el modelo Área↔Proyecto son convenciones neutrales al proveedor, no código.
 
 > **¿Quieres investigar LUS?** [research-lus](https://github.com/andresanemic/research-lus)
 > lleva el corpus público, la bibliografía, los casos, las hipótesis y el Lore de investigación
