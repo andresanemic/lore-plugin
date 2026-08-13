@@ -314,7 +314,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** It is no
 | [`save-to-lore`](#save-to-lore) | Distills a lesson and decides whether it rises to the Area | every day |
 | [`transmute-lore`](#transmute-lore) | Migrates, cleans, translates, upgrades or exports a safe snapshot of Lore | inheriting, maintaining, updating or sharing Lore |
 | [`create-bot`](#create-bot) | One place to open a session and work across several Areas at once | once there is Lore worth gathering |
-| [`obsidian-lore`](#obsidian--the-way-in) | Turns your loose notes into criteria | once the inbox gets heavy |
+| [`obsidian-lore`](#obsidian--the-way-in) | Mines loose notes and routes what survives | once the inbox gets heavy |
 
 ### `use-lore`
 
@@ -1005,7 +1005,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 | [`save-to-lore`](#save-to-lore) | Destila una lección y decide si sube al Área | todos los días |
 | [`transmute-lore`](#transmute-lore) | Migra, limpia, traduce, actualiza o exporta una fotografía segura del Lore | al heredar, mantener, actualizar o compartir Lore |
 | [`create-bot`](#create-bot) | Un lugar donde abrir sesión y trabajar sobre varias Áreas a la vez | cuando ya hay Lore que reunir |
-| [`obsidian-lore`](#obsidian--la-puerta-de-entrada) | Convierte tus notas sueltas en criterio | cuando la bandeja pesa |
+| [`obsidian-lore`](#obsidian--la-puerta-de-entrada) | Mina tus notas sueltas y enruta lo que sobrevive | cuando la bandeja pesa |
 
 ### `use-lore`
 
