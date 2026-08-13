@@ -27,7 +27,7 @@ test("Codex instala el plugin y crea un marketplace personal válido", () => {
   assert.equal(market.name, "personal");
   assert.deepEqual(market.plugins[0], {
     name: "lore",
-    source: { source: "local", path: "./plugins/lore" },
+    source: { source: "local", path: "./.agents/plugins/plugins/lore" },
     policy: { installation: "AVAILABLE", authentication: "ON_INSTALL" },
     category: "Productivity",
   });
@@ -50,7 +50,12 @@ test("Codex preserva otros plugins y reemplaza solo la entrada lore", () => {
   const market = JSON.parse(readFileSync(join(marketDir, "marketplace.json"), "utf8"));
   assert.equal(market.interface.displayName, "Mi marketplace");
   assert.deepEqual(market.plugins.map((entry) => entry.name), ["otro", "lore"]);
-  assert.equal(market.plugins[1].source.path, "./plugins/lore");
+  assert.equal(market.plugins[1].source.path, "./.agents/plugins/plugins/lore");
+  assert.equal(
+    existsSync(join(home, market.plugins[1].source.path)),
+    true,
+    "la ruta que Codex resuelve desde home debe existir",
+  );
 });
 
 test("Codex retira archivos obsoletos de una versión anterior de Lore", () => {

@@ -3,7 +3,9 @@ import { join } from "node:path";
 
 const loreEntry = {
   name: "lore",
-  source: { source: "local", path: "./plugins/lore" },
+  // Codex resolves local marketplace sources from the user's home directory,
+  // not from the directory that contains marketplace.json.
+  source: { source: "local", path: "./.agents/plugins/plugins/lore" },
   policy: { installation: "AVAILABLE", authentication: "ON_INSTALL" },
   category: "Productivity",
 };
