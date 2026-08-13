@@ -824,7 +824,7 @@ Un fine-tune deja de pedirte cosas el día que está listo. Lore no para nunca: 
 Aporta tres cosas:
 
 - una convención sencilla para organizar el criterio de un proyecto;
-- siete *skills* que operan esa convención;
+- ocho *skills* que operan esa convención;
 - y un ciclo continuo para destilar experiencia en criterio reutilizable.
 
 Lo de *spec-driven* no es una etiqueta. `CLAUDE.md` es el contrato, `FASES.md` es el estado y lo que viene, y `lore/` es el criterio que restringe cómo se construye todo lo anterior.
