@@ -632,10 +632,10 @@ Lore was not designed on a whiteboard: every decision in this kit came from appl
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/1%2C127-clones-F72585?style=for-the-badge&labelColor=0B0B12" alt="1,127 clones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/35-days-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="35 days"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~27-a_day-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="27 a day"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/221-peak-10B981?style=for-the-badge&labelColor=0B0B12" alt="221 peak"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/1%2C127-clones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="1,127 clones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/35-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="35 days"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~27-a_day-F94F79?style=for-the-badge&labelColor=0B0B12" alt="27 a day"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/221-peak-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="221 peak"></a>
 </p>
 
 For thirty-four days the number held at a steady twenty-odd clones a day, well past the launch spike. That steadiness was the interesting part: not a launch bump, just people still arriving. Then August 8th brought 221 clones in a single day — a second peak, larger than the launch itself. I left it in the data exactly as it arrived.
@@ -682,12 +682,12 @@ Lore applies that same idea to development. The original events stop mattering. 
 **Andrés Peña Mellado** — principal researcher of LUS.
 
 <p>
-  <a href="https://github.com/andresanemic"><img src="https://img.shields.io/badge/GitHub-andresanemic-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"></a>
-  <a href="https://x.com/andresanemic"><img src="https://img.shields.io/badge/X-@andresanemic-000000?style=for-the-badge&logo=x&logoColor=white" alt="X"></a>
-  <a href="https://www.linkedin.com/in/andresanemic/"><img src="https://img.shields.io/badge/LinkedIn-Andrés%20Peña%20Mellado-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
-  <a href="https://t.me/andresanemic"><img src="https://img.shields.io/badge/Telegram-@andresanemic-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram"></a>
-  <img src="https://img.shields.io/badge/Discord-andresanemic-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord">
-  <a href="mailto:andres@healthproof.cl"><img src="https://img.shields.io/badge/Email-andres@healthproof.cl-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"></a>
+  <a href="https://github.com/andresanemic"><img src="https://img.shields.io/badge/GitHub-andresanemic-0B1320?style=for-the-badge&logo=github&logoColor=F4F0E8&labelColor=0B0B12" alt="GitHub"></a>
+  <a href="https://x.com/andresanemic"><img src="https://img.shields.io/badge/X-@andresanemic-FF557A?style=for-the-badge&logo=x&logoColor=0B0B12&labelColor=0B0B12" alt="X"></a>
+  <a href="https://www.linkedin.com/in/andresanemic/"><img src="https://img.shields.io/badge/LinkedIn-Andrés%20Peña%20Mellado-00DFF5?style=for-the-badge&logo=linkedin&logoColor=0B0B12&labelColor=0B0B12" alt="LinkedIn"></a>
+  <a href="https://t.me/andresanemic"><img src="https://img.shields.io/badge/Telegram-@andresanemic-22D9EE?style=for-the-badge&logo=telegram&logoColor=0B0B12&labelColor=0B0B12" alt="Telegram"></a>
+  <img src="https://img.shields.io/badge/Discord-andresanemic-F94F79?style=for-the-badge&logo=discord&logoColor=0B0B12&labelColor=0B0B12" alt="Discord">
+  <a href="mailto:andres@healthproof.cl"><img src="https://img.shields.io/badge/Email-andres@healthproof.cl-35E5F5?style=for-the-badge&logo=gmail&logoColor=0B0B12&labelColor=0B0B12" alt="Email"></a>
 </p>
 
 Questions, cases that contradict ours, a Lore that came out weird? The [repository discussions](https://github.com/andresanemic/lore-plugin/discussions) are the place. The cases that **refute** something are the ones that help most.
@@ -1303,10 +1303,10 @@ Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyect
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/1%2C127-clonaciones-F72585?style=for-the-badge&labelColor=0B0B12" alt="1.127 clonaciones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/35-d%C3%ADas-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="35 días"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~27-al_d%C3%ADa-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="27 al día"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/221-pico-10B981?style=for-the-badge&labelColor=0B0B12" alt="221 pico"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/1%2C127-clonaciones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="1.127 clonaciones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/35-d%C3%ADas-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="35 días"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~27-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="27 al día"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/221-pico-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="221 pico"></a>
 </p>
 
 Durante treinta y cuatro días el número se mantuvo en unas veinte y pico de clonaciones diarias, mucho después del pico del lanzamiento. Esa constancia era lo interesante: no el rebote de un lanzamiento, sino gente que seguía llegando. Y entonces el 8 de agosto trajo 221 clonaciones en un solo día — un segundo pico, más alto que el del lanzamiento. Queda en los datos tal como llegó.
@@ -1346,12 +1346,12 @@ En los videojuegos, el *lore* es aquello que da coherencia a un universo. No son
 **Andrés Peña Mellado** — investigador principal de LUS.
 
 <p>
-  <a href="https://github.com/andresanemic"><img src="https://img.shields.io/badge/GitHub-andresanemic-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"></a>
-  <a href="https://x.com/andresanemic"><img src="https://img.shields.io/badge/X-@andresanemic-000000?style=for-the-badge&logo=x&logoColor=white" alt="X"></a>
-  <a href="https://www.linkedin.com/in/andresanemic/"><img src="https://img.shields.io/badge/LinkedIn-Andrés%20Peña%20Mellado-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
-  <a href="https://t.me/andresanemic"><img src="https://img.shields.io/badge/Telegram-@andresanemic-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram"></a>
-  <img src="https://img.shields.io/badge/Discord-andresanemic-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord">
-  <a href="mailto:andres@healthproof.cl"><img src="https://img.shields.io/badge/Email-andres@healthproof.cl-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"></a>
+  <a href="https://github.com/andresanemic"><img src="https://img.shields.io/badge/GitHub-andresanemic-0B1320?style=for-the-badge&logo=github&logoColor=F4F0E8&labelColor=0B0B12" alt="GitHub"></a>
+  <a href="https://x.com/andresanemic"><img src="https://img.shields.io/badge/X-@andresanemic-FF557A?style=for-the-badge&logo=x&logoColor=0B0B12&labelColor=0B0B12" alt="X"></a>
+  <a href="https://www.linkedin.com/in/andresanemic/"><img src="https://img.shields.io/badge/LinkedIn-Andrés%20Peña%20Mellado-00DFF5?style=for-the-badge&logo=linkedin&logoColor=0B0B12&labelColor=0B0B12" alt="LinkedIn"></a>
+  <a href="https://t.me/andresanemic"><img src="https://img.shields.io/badge/Telegram-@andresanemic-22D9EE?style=for-the-badge&logo=telegram&logoColor=0B0B12&labelColor=0B0B12" alt="Telegram"></a>
+  <img src="https://img.shields.io/badge/Discord-andresanemic-F94F79?style=for-the-badge&logo=discord&logoColor=0B0B12&labelColor=0B0B12" alt="Discord">
+  <a href="mailto:andres@healthproof.cl"><img src="https://img.shields.io/badge/Email-andres@healthproof.cl-35E5F5?style=for-the-badge&logo=gmail&logoColor=0B0B12&labelColor=0B0B12" alt="Email"></a>
 </p>
 
 ¿Preguntas, casos que contradigan los nuestros, un Lore que quedó raro? La [discusión del repositorio](https://github.com/andresanemic/lore-plugin/discussions) es el lugar. Los casos que **refutan** algo son los que más sirven.
