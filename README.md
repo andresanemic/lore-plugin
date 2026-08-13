@@ -653,6 +653,11 @@ LUS studies the relationship. Lore is an operational implementation that emerged
 
 > **Experience only creates value when it can participate in a future decision.**
 
+That makes us **gardeners of the Between**: the shared space where a human and an AI change what
+the other can do next. We do not preserve every experience. We cultivate the ones that deserve to
+orient another decision, prune what no longer constrains anything, and keep the trace of what was
+discarded. Lore is not the garden; it is the practice that keeps this shared ground alive.
+
 Some of the main influences behind the program:
 
 - **Martin Buber** — *I and Thou*
@@ -1321,6 +1326,11 @@ Lore nació como una destilación de **LUS (Lore User System)**, un programa de 
 LUS estudia la relación. Lore es su implementación operativa. Un principio lo resume:
 
 > **La experiencia solo crea valor cuando puede volver a participar en una decisión futura.**
+
+Eso nos vuelve **jardineros del Entre**: el espacio compartido donde un ser humano y una IA
+modifican lo que el otro puede hacer después. No preservamos toda experiencia. Cultivamos la que
+merece orientar otra decisión, podamos lo que ya no restringe nada y conservamos el rastro de lo
+descartado. Lore no es el jardín: es la práctica que mantiene vivo ese terreno común.
 
 Influencias: **Martin Buber** (*Yo y Tú*), **Shannon** y **Weaver** (*The Mathematical Theory of Communication*), **Gregory Bateson** («una diferencia que produce una diferencia»), **Clark** y **Chalmers** (*The Extended Mind*).
 
