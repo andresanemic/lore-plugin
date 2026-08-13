@@ -15,13 +15,18 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.0.7-F72585?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
-  <a href="#installation"><img src="https://img.shields.io/badge/AI_agents-provider--neutral-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Provider-neutral AI agents"></a>
-  <a href="#what-is-lore"><img src="https://img.shields.io/badge/paradigm-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
-  <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-FFBE0B?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.0.7-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/AI_agents-provider--neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Provider-neutral AI agents"></a>
+  <a href="#what-is-lore"><img src="https://img.shields.io/badge/paradigm-Spec--Driven_Development-F94F79?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
+  <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
   <a href="#obsidian--the-way-in"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Obsidian compatible"></a>
-  <a href="#origin"><img src="https://img.shields.io/badge/research-active-10B981?style=for-the-badge&labelColor=0B0B12" alt="Status"></a>
-  <a href="#shared-invariants"><img src="https://img.shields.io/badge/local_only-no_network-14B8A6?style=for-the-badge&labelColor=0B0B12" alt="Local only, no network"></a>
+  <a href="#origin"><img src="https://img.shields.io/badge/research-active-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Status"></a>
+  <a href="#shared-invariants"><img src="https://img.shields.io/badge/local_only-no_network-FF6685?style=for-the-badge&labelColor=0B0B12" alt="Local only, no network"></a>
+</p>
+
+<p align="center">
+  <b>Stop explaining your project to the AI every morning.</b><br>
+  Lore keeps the criteria behind your decisions and loads it into the next session.
 </p>
 
 <h3 align="center"><strong>+22.3 points of first-pass correctness</strong>, with no task made worse.</h3>
@@ -54,11 +59,6 @@
   </tbody>
 </table>
 </div>
-
-<p align="center">
-  <b>Stop explaining your project to the AI every morning.</b><br>
-  Lore keeps the criteria behind your decisions and loads it into the next session.
-</p>
 
 <p align="center">
   <i>An SDD kit that gives you local fine-tuning for your own tasks — and the one doing the training is you.</i>
@@ -711,13 +711,18 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.0.7-F72585?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
-  <a href="#instalación"><img src="https://img.shields.io/badge/agentes_de_IA-neutral_al_proveedor-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Agentes de IA neutrales al proveedor"></a>
-  <a href="#qué-es-lore"><img src="https://img.shields.io/badge/paradigma-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
-  <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-FFBE0B?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.0.7-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/agentes_de_IA-neutral_al_proveedor-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Agentes de IA neutrales al proveedor"></a>
+  <a href="#qué-es-lore"><img src="https://img.shields.io/badge/paradigma-Spec--Driven_Development-F94F79?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
+  <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
   <a href="#obsidian--la-puerta-de-entrada"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Compatible con Obsidian"></a>
-  <a href="#origen"><img src="https://img.shields.io/badge/investigaci%C3%B3n-activa-10B981?style=for-the-badge&labelColor=0B0B12" alt="Estado"></a>
-  <a href="#invariantes-compartidas"><img src="https://img.shields.io/badge/todo_local-cero_red-14B8A6?style=for-the-badge&labelColor=0B0B12" alt="Todo local, cero red"></a>
+  <a href="#origen"><img src="https://img.shields.io/badge/investigaci%C3%B3n-activa-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Estado"></a>
+  <a href="#invariantes-compartidas"><img src="https://img.shields.io/badge/todo_local-cero_red-FF6685?style=for-the-badge&labelColor=0B0B12" alt="Todo local, cero red"></a>
+</p>
+
+<p align="center">
+  <b>Deja de explicarle tu proyecto a la IA todas las mañanas.</b><br>
+  Lore guarda el criterio detrás de tus decisiones y lo carga en la siguiente sesión.
 </p>
 
 <h3 align="center"><strong>+22,3 puntos de correctitud al primer intento</strong>, sin empeorar ninguna tarea.</h3>
@@ -750,11 +755,6 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
   </tbody>
 </table>
 </div>
-
-<p align="center">
-  <b>Deja de explicarle tu proyecto a la IA todas las mañanas.</b><br>
-  Lore guarda el criterio detrás de tus decisiones y lo carga en la siguiente sesión.
-</p>
 
 <p align="center">
   <i>Un kit SDD que te permite hacer fine-tuning local de tus tareas — y el que entrena eres tú.</i>
