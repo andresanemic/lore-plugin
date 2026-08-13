@@ -16,21 +16,12 @@
 
 <p align="center">
   <a href="#installation"><img src="https://img.shields.io/badge/version-2.0.7-F72585?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
-  <a href="#installation"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/AI_agents-provider--neutral-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Provider-neutral AI agents"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/paradigm-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-FFBE0B?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
   <a href="#obsidian--the-way-in"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Obsidian compatible"></a>
   <a href="#origin"><img src="https://img.shields.io/badge/research-active-10B981?style=for-the-badge&labelColor=0B0B12" alt="Status"></a>
   <a href="#shared-invariants"><img src="https://img.shields.io/badge/local_only-no_network-14B8A6?style=for-the-badge&labelColor=0B0B12" alt="Local only, no network"></a>
-</p>
-
-<p align="center">
-  <b>Stop explaining your project to the AI every morning.</b><br>
-  Lore keeps the criteria behind your decisions and loads it into the next session.
-</p>
-
-<p align="center">
-  <i>An SDD kit that gives you local fine-tuning for your own tasks — and the one doing the training is you.</i>
 </p>
 
 <h3 align="center"><strong>+22.3 points of first-pass correctness</strong>, with no task made worse.</h3>
@@ -64,7 +55,14 @@
 </table>
 </div>
 
-<p align="center"><sub>72 controlled runs · 12 frozen tasks · same agent, tools and task; only Lore changed. Lore worsened <strong>0/12</strong> task results. <a href="#benchmark">Method and limits ↓</a></sub></p>
+<p align="center">
+  <b>Stop explaining your project to the AI every morning.</b><br>
+  Lore keeps the criteria behind your decisions and loads it into the next session.
+</p>
+
+<p align="center">
+  <i>An SDD kit that gives you local fine-tuning for your own tasks — and the one doing the training is you.</i>
+</p>
 
 ---
 
@@ -74,10 +72,10 @@
 
 **Start**
 
-[The problem](#the-problem)<hr>
-[What is Lore](#what-is-lore)<hr>
-[How it works](#how-it-works)<hr>
-[Benchmark](#benchmark)<hr>
+[The problem](#the-problem)
+[What is Lore](#what-is-lore)
+[How it works](#how-it-works)
+[Benchmark](#benchmark)
 [Installation](#installation)
 
 </td>
@@ -85,9 +83,9 @@
 
 **Use it**
 
-[Architecture](#architecture)<hr>
-[The eight skills](#the-eight-skills)<hr>
-[Obsidian](#obsidian--the-way-in)<hr>
+[Architecture](#architecture)
+[The eight skills](#the-eight-skills)
+[Obsidian](#obsidian--the-way-in)
 [Documentation](#documentation)
 
 </td>
@@ -95,10 +93,9 @@
 
 **Understand it**
 
-[Shared invariants](#shared-invariants)<hr>
-[Case studies](./CASES_en.md)<hr>
-[Reach](#reach)<hr>
-[Origin](#origin)
+[Shared invariants](#shared-invariants)
+[Case studies](./CASES_en.md)
+[Reach](#reach) · [Origin](#origin)
 
 </td>
 </tr>
@@ -715,21 +712,12 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 
 <p align="center">
   <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.0.7-F72585?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
-  <a href="#instalación"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/agentes_de_IA-neutral_al_proveedor-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Agentes de IA neutrales al proveedor"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/paradigma-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-FFBE0B?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
   <a href="#obsidian--la-puerta-de-entrada"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Compatible con Obsidian"></a>
   <a href="#origen"><img src="https://img.shields.io/badge/investigaci%C3%B3n-activa-10B981?style=for-the-badge&labelColor=0B0B12" alt="Estado"></a>
   <a href="#invariantes-compartidas"><img src="https://img.shields.io/badge/todo_local-cero_red-14B8A6?style=for-the-badge&labelColor=0B0B12" alt="Todo local, cero red"></a>
-</p>
-
-<p align="center">
-  <b>Deja de explicarle tu proyecto a la IA todas las mañanas.</b><br>
-  Lore guarda el criterio detrás de tus decisiones y lo carga en la siguiente sesión.
-</p>
-
-<p align="center">
-  <i>Un kit SDD que te permite hacer fine-tuning local de tus tareas — y el que entrena eres tú.</i>
 </p>
 
 <h3 align="center"><strong>+22,3 puntos de correctitud al primer intento</strong>, sin empeorar ninguna tarea.</h3>
@@ -763,7 +751,14 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 </table>
 </div>
 
-<p align="center"><sub>72 corridas controladas · 12 tareas congeladas · mismo agente, herramientas y tarea; solo cambió Lore. Lore empeoró <strong>0/12</strong> resultados. <a href="#el-benchmark">Método y límites ↓</a></sub></p>
+<p align="center">
+  <b>Deja de explicarle tu proyecto a la IA todas las mañanas.</b><br>
+  Lore guarda el criterio detrás de tus decisiones y lo carga en la siguiente sesión.
+</p>
+
+<p align="center">
+  <i>Un kit SDD que te permite hacer fine-tuning local de tus tareas — y el que entrena eres tú.</i>
+</p>
 
 ---
 
@@ -773,10 +768,10 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 
 **Empezar**
 
-[El problema](#el-problema)<hr>
-[Qué es Lore](#qué-es-lore)<hr>
-[Cómo funciona](#cómo-funciona)<hr>
-[Benchmark](#el-benchmark)<hr>
+[El problema](#el-problema)
+[Qué es Lore](#qué-es-lore)
+[Cómo funciona](#cómo-funciona)
+[Benchmark](#el-benchmark)
 [Instalación](#instalación)
 
 </td>
@@ -784,9 +779,9 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 
 **Usarlo**
 
-[Arquitectura](#arquitectura)<hr>
-[Las ocho skills](#las-ocho-skills)<hr>
-[Obsidian](#obsidian--la-puerta-de-entrada)<hr>
+[Arquitectura](#arquitectura)
+[Las ocho skills](#las-ocho-skills)
+[Obsidian](#obsidian--la-puerta-de-entrada)
 [Documentación](#documentación)
 
 </td>
@@ -794,10 +789,9 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 
 **Entenderlo**
 
-[Invariantes](#invariantes-compartidas)<hr>
-[Casos de estudio](./CASES_es.md)<hr>
-[Alcance](#alcance)<hr>
-[Origen](#origen)
+[Invariantes](#invariantes-compartidas)
+[Casos de estudio](./CASES_es.md)
+[Alcance](#alcance) · [Origen](#origen)
 
 </td>
 </tr>
