@@ -54,12 +54,12 @@
       <td align="right"><strong>52/52 (100%; +25.0 pp)</strong></td>
     </tr>
     <tr>
-      <td>Observed attempts to the final result</td>
+      <td>Observed attempts to goal completion</td>
       <td align="right">1.44</td>
       <td align="right"><strong>1.08 (−25.3%)</strong></td>
     </tr>
     <tr>
-      <td>Observed time to the final result</td>
+      <td>Observed time to goal completion</td>
       <td align="right">68.7 s</td>
       <td align="right"><strong>58.2 s (−15.2%)</strong></td>
     </tr>
@@ -568,8 +568,8 @@ All eight skills follow the same rules:
   <tbody>
     <tr><td>First-pass compliance</td><td align="right">51.3%</td><td align="right"><strong>95.8%</strong></td><td align="right"><strong>+44.5 pp</strong></td></tr>
     <tr><td>Goals reached with at most one correction</td><td align="right">39/52 (75.0%)</td><td align="right"><strong>52/52 (100%)</strong></td><td align="right"><strong>+25.0 pp</strong></td></tr>
-    <tr><td>Observed attempts to the final result</td><td align="right">1.44</td><td align="right"><strong>1.08</strong></td><td align="right"><strong>−25.3%</strong></td></tr>
-    <tr><td>Observed time to the final result</td><td align="right">68.7 s</td><td align="right"><strong>58.2 s</strong></td><td align="right"><strong>−15.2%</strong></td></tr>
+    <tr><td>Observed attempts to goal completion</td><td align="right">1.44</td><td align="right"><strong>1.08</strong></td><td align="right"><strong>−25.3%</strong></td></tr>
+    <tr><td>Observed time to goal completion</td><td align="right">68.7 s</td><td align="right"><strong>58.2 s</strong></td><td align="right"><strong>−15.2%</strong></td></tr>
   </tbody>
 </table>
 
@@ -790,12 +790,12 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
       <td align="right"><strong>52/52 (100%; +25,0 pp)</strong></td>
     </tr>
     <tr>
-      <td>Intentos observados hasta el resultado final</td>
+      <td>Intentos observados hasta completar la meta</td>
       <td align="right">1,44</td>
       <td align="right"><strong>1,08 (−25,3%)</strong></td>
     </tr>
     <tr>
-      <td>Tiempo observado hasta el resultado final</td>
+      <td>Tiempo observado hasta completar la meta</td>
       <td align="right">68,7 s</td>
       <td align="right"><strong>58,2 s (−15,2%)</strong></td>
     </tr>
@@ -1282,8 +1282,8 @@ Cada nota minada recibe una marca con fecha y destino, **incluidas las que no pr
   <tbody>
     <tr><td>Cumplimiento al primer intento</td><td align="right">51,3%</td><td align="right"><strong>95,8%</strong></td><td align="right"><strong>+44,5 pp</strong></td></tr>
     <tr><td>Metas alcanzadas con hasta una corrección</td><td align="right">39/52 (75,0%)</td><td align="right"><strong>52/52 (100%)</strong></td><td align="right"><strong>+25,0 pp</strong></td></tr>
-    <tr><td>Intentos observados hasta el resultado final</td><td align="right">1,44</td><td align="right"><strong>1,08</strong></td><td align="right"><strong>−25,3%</strong></td></tr>
-    <tr><td>Tiempo observado hasta el resultado final</td><td align="right">68,7 s</td><td align="right"><strong>58,2 s</strong></td><td align="right"><strong>−15,2%</strong></td></tr>
+    <tr><td>Intentos observados hasta completar la meta</td><td align="right">1,44</td><td align="right"><strong>1,08</strong></td><td align="right"><strong>−25,3%</strong></td></tr>
+    <tr><td>Tiempo observado hasta completar la meta</td><td align="right">68,7 s</td><td align="right"><strong>58,2 s</strong></td><td align="right"><strong>−15,2%</strong></td></tr>
   </tbody>
 </table>
 
