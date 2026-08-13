@@ -222,7 +222,7 @@ Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decision
 
 ### 3.5 `transmute-lore`
 
-**Rol:** Migrar proyectos existentes hacia la arquitectura Lore.
+**Rol:** Operar un cuerpo de Lore existente mediante cinco modos distintos.
 
 **Entrada:**
 
@@ -232,10 +232,12 @@ Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decision
   - `clean` – «limpia el lore de {proyecto}» — elimina módulos temáticos del proyecto que ya duplican los del Área.
   - `translate` – «estandariza el idioma del lore de {proyecto}», «traduce el lore de {proyecto} a {idioma}» — estandariza el idioma de todos los artefactos del Lore: contenido y nombres de archivo.
   - `upgrade` – «mejora el lore de {proyecto} con la versión nueva», «arbitra mi lore contra la versión nueva» — pone al día un Lore sano escrito contra una versión anterior de estos skills.
+  - `crystallize` – «cristaliza este Lore», «exporta este Lore a un solo Markdown» — resuelve el
+    enrutamiento vivo en una copia de lectura segura y trazable para un chat, proyecto de IA o notebook.
 
-**Precondición de seguridad (Fase 0, los cuatro modos):** el repositorio del proyecto debe tener el
-árbol de git limpio. Si hay cambios sin commitear, el skill se detiene y pide hacer commit o
-`stash` primero, para que la transmutación aterrice como un *diff* revisable.
+**Precondición de seguridad:** los modos que modifican artefactos fuente exigen un árbol de Git
+limpio antes de escribir. `crystallize` no escribe artefactos fuente y puede diagnosticar un árbol
+sucio, pero igualmente exige una vista previa explícita de la exportación y un HARD-GATE.
 
 **Proceso — modo `add` (conceptual):**
 
@@ -288,8 +290,15 @@ binario contra el corpus existente antes de extraerlo —el solapamiento literal
 segundos— y **anota la correspondencia binario → transcripción** en el destino cuando sí transcribe
 uno. Los pendientes de extracción se redactan por **contenido, no por extensión**.
 
-En los cuatro modos, `transmute-lore` **no hace commit del proyecto destino**: el *diff* queda para que
-el usuario lo revise y decida.
+**Proceso — modo `crystallize` (conceptual):** resolver el enrutamiento vivo del proyecto, Área o
+bot; clasificar las fuentes como incluidas, privadas, inciertas o no enrutadas; mostrar el manifiesto
+completo, el destino y si se sobrescribirá algo; esperar aprobación; y escribir una fotografía fuera
+de `lore/`. El encabezado declara que puede quedar obsoleta y apunta al árbol vivo. El material
+privado se excluye por defecto, las fuentes inciertas requieren aprobación separada y el derivado
+nunca se vuelve autoridad.
+
+`transmute-lore` **no hace commit del proyecto destino**. Los modos que cambian fuentes dejan un
+*diff* revisable; `crystallize` verifica que los hashes o tamaños de las fuentes no cambiaron.
 
 Usa `transmute-lore` cuando ya tienes proyectos en marcha y quieres incorporarlos a Lore sin reconstruirlo todo desde cero.
 

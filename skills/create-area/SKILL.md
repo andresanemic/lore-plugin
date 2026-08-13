@@ -210,7 +210,7 @@ critical paths, not a generic mold.
 ```markdown
 # CLAUDE.md — {{AREA_TITLE}}
 
-> Source of truth for Claude Code in this area. Read fully before any task.
+> Source of truth for AI agents in this area. Read fully before any task.
 > **{{AREA_TITLE}}** — a work area grouping several projects of the same kind.
 > The project registry and their status live in **`FASES.md`**.
 
@@ -246,7 +246,7 @@ These are **project** templates the area stamps — they carry `{{PROJECT_TOKENS
 ```markdown
 # CLAUDE.md — {{PROJECT_TITLE}}
 
-> Source of truth for Claude Code in this project. Read fully before any task.
+> Source of truth for AI agents in this project. Read fully before any task.
 > **{{PROJECT_TITLE}}** — {{PROJECT_DESCRIPTION}}
 > State and plan live in **`FASES.md`**. Inherited standard: this project's area Lore.
 

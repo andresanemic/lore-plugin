@@ -223,7 +223,7 @@ Use `save-to-lore` as the main mechanism for feeding your Lore after important d
 
 ### 3.5 `transmute-lore`
 
-**Role:** Migrate existing projects into Lore’s architecture.
+**Role:** Operate an existing body of Lore through five distinct modes.
 
 **Input:**
 
@@ -239,10 +239,12 @@ Use `save-to-lore` as the main mechanism for feeding your Lore after important d
   - `upgrade` – "improve the lore of Legacy Frontend with the new version", "bring this lore up to
     date with the plugin" — raise a healthy Lore written against an older version of these skills to
     the current standard.
+  - `crystallize` – "crystallize this Lore", "export this Lore to one Markdown" — resolve the live
+    routing into a safe, traceable reading copy for a chat, AI project or notebook.
 
-**Safety precondition (Phase 0, all four modes):** the project's repository must have a clean git tree.
-If there are uncommitted changes, the skill stops and asks you to commit or stash first, so the
-transmutation lands as a reviewable diff.
+**Safety precondition:** modes that modify source artifacts require a clean git tree before writing.
+`crystallize` writes no source artifact and may diagnose a dirty tree, but it still requires an
+explicit export preview and HARD GATE.
 
 **Process — `add` mode (conceptually):**
 
@@ -295,8 +297,14 @@ against the existing corpus before extracting it — literal overlap in chunks c
 **records the correspondence binary → transcription** in the destination when it does transcribe one.
 Pending extraction items are written by **content, not by extension**.
 
-In all four modes, `transmute-lore` **does not commit the target project** — the diff is left for
-the user to review and decide.
+**Process — `crystallize` mode (conceptually):** resolve the project, Area or bot's live routing;
+classify sources as included, private, uncertain or unrouted; show the full manifest, destination
+and overwrite status; wait for approval; then write one snapshot outside `lore/`. The header states
+that the copy may become stale and points back to the live tree. Private material is excluded by
+default, uncertain sources require separate approval, and the derivative is never an authority.
+
+`transmute-lore` **does not commit the target project**. Source-changing modes leave a reviewable
+diff; `crystallize` verifies that source hashes or byte counts did not change.
 
 Use `transmute-lore` when you already have a project and want to bring it into Lore without rebuilding everything by hand.
 

@@ -40,14 +40,18 @@ A pragmatic migration strategy is:
 `transmute-lore` is the main tool for migration. It is not a CLI command: the mode is inferred from
 the phrase you use, not from a flag.
 
-**Safety precondition (all modes):** the project's repository must have a clean git tree. If there
-are uncommitted changes, the skill stops and asks you to commit or stash first, so the migration
-lands as a reviewable diff.
+**Safety precondition for source-changing modes:** the project's repository must have a clean git
+tree before writing, so the migration lands as a reviewable diff.
 
 > **Since v1.2.1 there is a fourth mode, `upgrade`.** It migrates nothing: it brings a Lore that is
 > **already in the standard** up to date when it was written against an older version of these
 > skills. If your project already migrated and you only want what the kit learned afterwards, that
 > is the mode, not `add`.
+
+> **The fifth mode is `crystallize`.** It is not a migration: it exports a safe, traceable Markdown
+> snapshot for a destination that cannot navigate the live tree. It never replaces or edits Lore.
+> See [`USAGE_en.md`](./USAGE_en.md) for daily use and [`REFERENCE_en.md`](./REFERENCE_en.md) for its
+> privacy, routing and HARD-GATE contract.
 
 ### 3.1 `add` Mode – Create Missing Lore
 

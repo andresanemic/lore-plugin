@@ -274,9 +274,9 @@ Use this as the main tool to feed your Lore over time.
 
 ### 5.5 `transmute-lore` – Migrate Existing Projects
 
-**Purpose:** Move legacy projects into the Lore architecture.
+**Purpose:** operate an existing body of Lore: migrate it, remove duplication, standardize its language, upgrade its standard, or export a safe reading copy.
 
-It is not a CLI command: the mode is inferred from the phrase, not from a flag. It has four modes:
+It is not a CLI command: the mode is inferred from the phrase, not from a flag. It has five modes:
 
 - `add` – create missing Lore artifacts.
 - `clean` – remove modules that already duplicate the Area's (requires the project to have a
@@ -287,6 +287,8 @@ It is not a CLI command: the mode is inferred from the phrase, not from a flag. 
 - `upgrade` – **(v1.2.1)** bring a healthy Lore up to date when it was written against an older
   version of these skills. Nothing is broken: it is in the standard and in use, and it lacks the
   gates the kit learned afterwards. It arbitrates what already exists against the installed version.
+- `crystallize` – export the live, routed Lore as one safe and traceable Markdown for a chat, AI
+  project or notebook. The snapshot is derived, may become stale and never replaces the source.
 
 **About `upgrade`, the mode easiest to misread.** It is not a rewrite and not a style pass. It sorts
 every finding into three kinds, and that labelling is what keeps it from degenerating:
@@ -311,10 +313,13 @@ standardize the language of the lore of "Legacy Frontend"
 translate the lore of "Legacy Frontend" to Spanish
 improve the lore of "Legacy Frontend" with the new version
 bring this lore up to date with the plugin
+crystallize this lore into one Markdown for a ChatGPT project
 ```
 
-**Precondition:** the project must have a clean git tree before running any of the four modes; if
-there are uncommitted changes, the skill stops and asks you to commit or stash first.
+**Precondition:** modes that modify source artifacts require a clean git tree before writing.
+`crystallize` does not modify the source tree: it inventories routed sources, excludes private or
+uncertain material by default, shows the complete export preview and destination, and waits at its
+own HARD GATE. Overwriting an existing snapshot requires separate approval.
 
 Expected behavior:
 
@@ -329,6 +334,9 @@ Expected behavior:
     `clean` mode.
 
 Use this when you already have projects and want to bring them into Lore without rewriting everything manually.
+
+For `crystallize`, regenerate the snapshot from the live tree whenever it becomes stale; never edit
+the export as if it were authoritative Lore.
 
 ---
 

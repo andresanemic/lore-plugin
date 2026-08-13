@@ -3,7 +3,7 @@
 Esta guía muestra cómo usar el plugin Lore con **agentes de IA compatibles** en el trabajo diario:
 crear Áreas y proyectos, capturar criterio después de resolver problemas y mantener tu Lore limpio y útil.
 
-> Lore es un kit ligero de Spec‑Driven Development (SDD) para Claude Code.  
+> Lore es un kit ligero y neutral al proveedor de Spec‑Driven Development (SDD) para agentes de IA.
 > Te ayuda a preservar el **criterio** detrás de tus decisiones, para que tu IA nunca tenga que empezar desde cero.  
 > La analogía más cercana: fine-tuning local de tus tareas, y el que entrena eres tú.
 
@@ -277,9 +277,9 @@ Usa este skill como herramienta principal para alimentar tu Lore con el tiempo.
 
 ### 5.5 `transmute-lore` – Migrar proyectos existentes
 
-**Propósito:** mover proyectos heredados hacia la arquitectura Lore.
+**Propósito:** operar un cuerpo de Lore existente: migrarlo, quitar duplicación, estandarizar su idioma, actualizar su estándar o exportar una copia segura de lectura.
 
-No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene cuatro modos:
+No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene cinco modos:
 
 - `add` – crea artefactos de Lore que aún no existen.
 - `clean` – elimina módulos redundantes que ya duplican los del Área (requiere que el proyecto
@@ -290,6 +290,8 @@ No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene cu
 - `upgrade` – **(v1.2.1)** pone al día un Lore sano escrito contra una versión anterior de estos
   skills. No está roto: está en el estándar y en uso, y le faltan las puertas que el kit aprendió
   después. Arbitra lo que ya existe contra la versión instalada.
+- `crystallize` – exporta el Lore vivo y enrutado como un solo Markdown seguro y trazable para un
+  chat, proyecto de IA o notebook. La fotografía es derivada, puede quedar obsoleta y nunca reemplaza la fuente.
 
 **Sobre `upgrade`, que es el modo que más fácil se malinterpreta.** No es un reescribir ni un pase
 de estilo. Clasifica cada hallazgo en tres tipos, y ese etiquetado es lo que impide que degenere:
@@ -314,11 +316,13 @@ estandariza el idioma del lore del "Frontend heredado"
 traduce el lore del "Frontend heredado" al español
 mejora el lore del "Frontend heredado" con la versión nueva del plugin
 arbitra mi lore contra la versión nueva
+cristaliza este lore en un solo Markdown para un proyecto de ChatGPT
 ```
 
-**Precondición:** el proyecto debe tener el árbol de git limpio antes de ejecutar cualquiera de los
-cuatro modos; si hay cambios sin commitear, el skill se detiene y pide hacer commit o `stash`
-primero.
+**Precondición:** los modos que modifican artefactos fuente exigen un árbol de Git limpio antes de
+escribir. `crystallize` no modifica el árbol fuente: inventaría las fuentes enrutadas, excluye por
+defecto material privado o incierto, muestra la vista previa completa y el destino, y espera en su
+propio HARD-GATE. Sobrescribir una fotografía existente requiere una aprobación separada.
 
 Comportamiento esperado:
 
@@ -333,6 +337,9 @@ Comportamiento esperado:
     eliminan en modo `clean`.
 
 Usa este skill cuando ya tienes proyectos en marcha y quieres incorporarlos a Lore sin reescribirlo todo a mano.
+
+En `crystallize`, regenera la fotografía desde el árbol vivo cuando quede obsoleta; nunca edites la
+exportación como si fuera Lore autoritativo.
 
 ---
 
