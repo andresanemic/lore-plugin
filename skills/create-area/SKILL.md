@@ -16,7 +16,7 @@ Creates the **mother folder** of a domain (web, research, blog, video, apps…) 
 > **user's language** (the language they speak during the brainstorm), NOT the language this skill
 > is written in. The names used throughout this skill (`identidad.md`, `principios.md`, `FASES.md`,
 > `proyectos/`) are the Spanish canonical forms: localize them (e.g. English → `identity.md`,
-> `principles.md`, `PHASES.md`, `projects/`). Fixed in every language: `CLAUDE.md`, `lore/`,
+> `principles.md`, `PHASES.md`, `projects/`). Fixed in every language: `CLAUDE.md`, `AGENTS.md`, `lore/`,
 > `index.md`, `golden-paths.md`, `_starter/`. English terms of general technical use (workflow,
 > stack, commit, scaffold, starter…) stay in English regardless.
 
@@ -76,6 +76,7 @@ Resulting structure:
 ```
 {{PATH}}\
   CLAUDE.md              → area contract (pointers to lore/, how work is done here)
+  AGENTS.md              → Codex adapter; points to CLAUDE.md, never duplicates it
   FASES.md               → project registry (path + status + internal phase)
   lore\
     index.md             → map of the area's modules
@@ -84,6 +85,7 @@ Resulting structure:
     {{thematic modules, if any}}
   _starter\              → project scaffold that create-project stamps from
     CLAUDE.template.md   → project contract template (domain-tuned pointers)
+    AGENTS.md            → Codex adapter copied into every project
     FASES.md             → project phases template (domain-tuned phase map)
     golden-paths.template.md → critical-paths template (if the domain warrants it)
     {{base code scaffold, e.g. web/ for a web area}}
@@ -95,7 +97,7 @@ Resulting structure:
 Do not copy templates blind: write each file resolving the tokens with what was discussed in the
 brainstorm. Reference templates below (§Templates).
 
-Order: `lore/identidad.md` → `lore/principios.md` → `lore/index.md` → `FASES.md` → `CLAUDE.md`
+Order: `lore/identidad.md` → `lore/principios.md` → `lore/index.md` → `FASES.md` → `CLAUDE.md` → `AGENTS.md`
 (+ any thematic module agreed in the brainstorm).
 
 ### 3b. Generate the area's project scaffold (`_starter/`)
@@ -107,6 +109,8 @@ critical paths, not a generic mold.
 - `_starter/CLAUDE.template.md` — the **project** contract template (slimmed to pointers), carrying
   the area's stack/conventions and `{{TOKENS}}` for the project's own name/description. Adapted from
   the area's `identidad.md`/`principios.md`.
+- `_starter/AGENTS.md` — the same minimal Codex adapter used at the area root; it points to
+  `CLAUDE.md` and never duplicates the contract.
 - `_starter/FASES.md` — the **project** phases template: the typical phase map for a project in this
   domain (a web project's Research→Design→Build differs from a research project's phases).
 - `_starter/golden-paths.template.md` — only if the domain has critical paths worth verifying
@@ -120,6 +124,7 @@ critical paths, not a generic mold.
 
 ### 4. Verify and report
 
+- Verify `AGENTS.md` points to `CLAUDE.md` and does not duplicate the contract.
 - Verify no unresolved `{{TOKEN}}` remains in any file.
 - Verify every `index.md` link resolves to a present file.
 - Report the created structure and the **next step** (create a project with `create-project`, or
@@ -131,7 +136,7 @@ critical paths, not a generic mold.
   persists; FASES is state that advances — never mix them).
 - The content of identidad/principles is BORN from the brainstorm, never from invented defaults.
 - **Everything generated — content and artifact filenames — is in the user's language** (fixed
-  names `CLAUDE.md` / `lore/` / `index.md` / `golden-paths.md` / `_starter/` and general technical
+  names `CLAUDE.md` / `AGENTS.md` / `lore/` / `index.md` / `golden-paths.md` / `_starter/` and general technical
   English terms excluded). Never default to English/Spanish because the skill or the templates are.
 - The area carries a **domain-tuned `_starter/`** (project templates + optional code scaffold);
   `create-project` stamps from it, never from a global/hardcoded starter. This is what keeps the kit
@@ -260,9 +265,18 @@ These are **project** templates the area stamps — they carry `{{PROJECT_TOKENS
 {{AREA_STACK_AND_CONVENTIONS}}   # filled from the area's principios; e.g. Next.js + Tailwind + GSAP
 
 ## Base rules
-- No Playwright. Manual visual/functional validation.
+- {{AREA_BASE_RULES}}
 - `git push` only when the user says so.
 - Read this file fully before touching anything.
+```
+
+### `AGENTS.md` (Codex adapter)
+
+```markdown
+# AGENTS.md
+
+Read and follow [`CLAUDE.md`](./CLAUDE.md) in full before any task. It is the single contract for
+this area; do not duplicate its rules here.
 ```
 
 ### `_starter/FASES.md` (project phases)

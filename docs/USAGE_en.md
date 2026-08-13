@@ -1,7 +1,8 @@
 # Lore Plugin – Usage Guide
 
-This guide shows how to use the Lore plugin in **Claude Code** in everyday work:  
-creating Areas and projects, capturing criteria after solving problems, and keeping your Lore clean and useful.
+This guide shows how to use Lore with **Claude Code, Codex, or another skills-compatible AI agent**
+in everyday work: creating Areas and projects, capturing criteria after solving problems, and
+keeping your Lore clean and useful.
 
 > Lore is a lightweight, provider-neutral Spec‑Driven Development (SDD) kit for AI agents.
 > It helps you preserve the **criteria** behind your decisions, so your AI never has to start from scratch.  
@@ -15,16 +16,17 @@ Lore organizes experience into **criteria** that keep participating in future de
 
 - You solve a problem with AI.
 - Instead of just moving on, you capture the *reason* behind the solution.
-- That criteria is stored in Markdown artifacts that Claude Code can reuse in later sessions.
+- That criteria is stored in Markdown artifacts that an AI agent can reuse in later sessions.
 
 The Lore plugin bundles a set of **skills** that implement this loop:
 
 - `use-lore` – entry point & navigation.
+- `brainstorming-lore` – design changes to Lore artifacts before their owner skill reaches its gate.
 - `create-area` – shared Lore for a group of projects.
 - `create-project` – project‑level Lore inheriting an Area.
 - `save-to-lore` – capture criteria after solving a problem.
 - `transmute-lore` – migrate existing projects to the Lore architecture.
-- `create-bot` – package criteria as an installable plugin that works inside the repos.
+- `create-bot` – one place to work across several Areas or projects with their criteria loaded.
 - `obsidian-lore` – capture free notes in the same tree and **mine** that inbox for criteria.
 
 > **Lore speaks your language.** The skills are written in English, but everything they generate —
@@ -37,19 +39,24 @@ The Lore plugin bundles a set of **skills** that implement this loop:
 
 ## 2. Prerequisites
 
-Before using Lore:
-
-- You have **Claude Code** installed and working.
-- You can run `/plugin` commands in your Claude Code environment.
-
-Install the Lore plugin:
+Install Lore through the route for your agent. For **Claude Code**:
 
 ```bash
 /plugin marketplace add andresanemic/lore-plugin
 /plugin install lore@lore-plugin
 ```
 
-Once installed, the Lore skills become available as commands/prompts inside Claude Code.
+For **Codex CLI**:
+
+```bash
+codex plugin marketplace add andresanemic/lore-plugin
+codex plugin add lore@lore-plugin
+```
+
+For a local clone, both CLIs, or another skills-compatible agent, use the
+[direct installation route in the README](../README.md#direct-install-from-the-repository).
+
+Once installed, invoke Lore in natural language. `use-lore` is the safest first prompt.
 
 ---
 
@@ -57,7 +64,7 @@ Once installed, the Lore skills become available as commands/prompts inside Clau
 
 The everyday Lore loop is:
 
-1. Work with Claude Code to solve a problem in your project.
+1. Work with your AI agent to solve a problem in your project.
 2. Decide whether the solution revealed **criteria** that should affect future decisions.
 3. Use `save-to-lore` to capture that criteria into your Lore Markdown.
 4. Let future sessions reuse those criteria instead of starting from scratch.
@@ -67,7 +74,7 @@ The everyday Lore loop is:
 You and Claude debug a hydration issue in Next.js.  
 Instead of just fixing it, you want to capture the rule behind the fix.
 
-In Claude Code, you might run:
+You might ask:
 
 ```text
 save-to-lore "Hydration issue with initial opacity in Next.js"
@@ -90,7 +97,7 @@ An Area is a parent folder that owns shared criteria; projects inherit from it i
 
 Think of an Area as a domain like “Frontend”, “Backend”, or “Product Experiments”.
 
-In Claude Code:
+Ask your agent:
 
 ```text
 create-area "Frontend Development"
@@ -123,7 +130,7 @@ Lore will:
 
 Once your Area and project exist:
 
-1. Work on the project with Claude Code as usual.
+1. Work on the project with your AI agent as usual.
 2. Every time you solve a problem that reveals reusable criteria, call:
 
    ```text
@@ -156,7 +163,25 @@ You can ask things like:
 
 ---
 
-### 5.2 `create-area` – Shared Lore for a Domain
+### 5.2 `brainstorming-lore` – Design Lore Changes Before Writing
+
+**Purpose:** explore a new or materially changed Lore artifact without taking ownership away from
+the skill that will write it.
+
+It is usually invoked by `create-area`, `create-project`, or `create-bot` before their HARD GATE. You
+can also invoke it directly:
+
+```text
+brainstorm this Lore before we restructure it
+```
+
+It reads the current criterion first, asks one decision-changing question at a time, compares only
+the approaches that matter, and hands the approved design back to the owner skill. Read-only audits,
+small mechanical edits, and an already approved plan do not need it.
+
+---
+
+### 5.3 `create-area` – Shared Lore for a Domain
 
 **Purpose:** Create a shared Lore root for a domain (Area).
 
@@ -180,7 +205,7 @@ Use this when you want multiple projects to share a common set of criteria.
 
 ---
 
-### 5.3 `create-project` – Project Scoped Lore
+### 5.4 `create-project` – Project Scoped Lore
 
 **Purpose:** Create a project that inherits Lore from an Area.
 
@@ -196,14 +221,15 @@ Lore will:
 - Set up:
   - `lore/` for project‑specific modules (generic Area modules are only referenced, never copied).
   - `FASES.md` at the root for state and roadmap.
-  - `CLAUDE.md` at the root for collaboration contract and references.
+  - `CLAUDE.md` at the root for the single collaboration contract, plus a minimal `AGENTS.md`
+    adapter that points Codex to it without duplicating rules.
 - Wire the project to the Area’s Lore so shared criteria are visible but not duplicated.
 
 Use this whenever you start a new codebase inside a domain that already has an Area.
 
 ---
 
-### 5.4 `save-to-lore` – Capture Criteria After Solving a Problem, or Arbitrate External Criteria
+### 5.5 `save-to-lore` – Capture Criteria After Solving a Problem, or Arbitrate External Criteria
 
 **Purpose:** Distill reusable criteria. It has **two modes**, chosen by where that criteria comes
 from: **capture** (lived friction) and **arbitrate** (criteria imported from a third-party skill or
@@ -272,7 +298,7 @@ Use this as the main tool to feed your Lore over time.
 
 ---
 
-### 5.5 `transmute-lore` – Migrate Existing Projects
+### 5.6 `transmute-lore` – Operate an Existing Body of Criteria
 
 **Purpose:** operate an existing body of Lore: migrate it, remove duplication, standardize its language, upgrade its standard, or export a safe reading copy.
 
@@ -340,7 +366,7 @@ the export as if it were authoritative Lore.
 
 ---
 
-### 5.6 `create-bot` – Package criteria as a place to work
+### 5.7 `create-bot` – Work Across Several Areas or Projects
 
 **Purpose:** build a **bot**: one place to open a session and **work across several projects or Areas
 at once**, with their criteria already loaded, instead of answering questions about them.
@@ -349,8 +375,9 @@ A bot lives at `{Area}/proyectos/{slug}/` like any project. One thing sets it ap
 outward** — into Lore owned by other projects and Areas. Areas and projects are places; a bot is a
 lens you carry into them.
 
-By default **nothing gets installed**: it is a folder with its canon and its `CLAUDE.md`, and opening
-the session there is what loads the criteria. Packaging it as a plugin is optional, and serves to
+By default **nothing gets installed**: it is a folder with its canon, its `CLAUDE.md`, and a minimal
+`AGENTS.md` adapter for Codex. Opening the session there loads the same criteria in either host.
+Packaging it as a plugin is optional, and serves to
 hand it to a team.
 
 > **The test that says whether the bot is well built:** *a short instruction is enough.* If you had
@@ -363,12 +390,16 @@ create a bot to work on HealthProof and Nodo Zero, in the "bots" area
 I want a bot that federates the lore already living in founder and community-manager
 ```
 
-It has **two modes**, by where the criteria comes from:
+It has **two creation modes**, by where the criteria comes from:
 
 - `nuevo` – from zero. The canon is born from a brainstorm + the source documents.
 - `federar` – the criteria already exists, dissolved across several Areas. On top of the canon it
   generates a routing table (`lore/enrutamiento.md`) and access to the live trees
   (`.claude/settings.local.json`), so you can **work** in those projects and not just read them.
+
+If the bot already exists, the same skill runs an **audit pass** instead of rebuilding it. It checks
+the institution's real registry, scope, sources, routing, README and optional seals, then rejoins the
+normal sync, packaging and verification flow.
 
 > **Federating is pointing, not copying.** Each row is an address to the Lore where it lives, so that
 > criteria keeps one owner and one version — the same way a project references its Area's modules
@@ -419,15 +450,16 @@ Three things you will use every day:
   broken"*, never *"this is fine"* — it can only vouch for the scars somebody already paid for, and
   what nobody scarred is not written anywhere.
 
-Optional and off by default: **the ecosystem copy**, **packaging it as a plugin**, and **encryption**
-(*experimental*, see [`ENCRYPTION.md`](./ENCRYPTION.md)). A bot with none of the three is complete.
+Five extras are optional and off by default: **the ecosystem copy**, **encryption** (*experimental*,
+see [`ENCRYPTION.md`](./ENCRYPTION.md)), **Telegram access**, **a local multi-provider launcher**, and
+**packaging as a shareable plugin**. A bot with none of the five is complete.
 
 Use this once you have several projects with Lore worth carrying into a single session. It does not
 substitute for building that Lore: it federates it.
 
 ---
 
-### 5.7 `obsidian-lore` – Turn loose notes into criteria
+### 5.8 `obsidian-lore` – Capture and Mine Notes Without Treating Them as Criteria
 
 **What it is for:** if you already write notes in Obsidian, you already have the raw material. This
 skill governs the overlap between the vault and the Lore when they share a file tree.
@@ -508,6 +540,7 @@ Lore uses a fixed set of artifacts to keep criteria organized:
 - `lore/index.md` – navigation map for Lore in that project or Area.
 - `FASES.md` (root) – current state and roadmap.
 - `CLAUDE.md` (root) – collaboration contract and operational references.
+- `AGENTS.md` (root) – minimal Codex adapter to that same contract; never a second copy.
 
 General guidelines:
 
@@ -530,4 +563,4 @@ To keep your Lore useful:
   `transmute-lore` in `translate` mode.
 - Always review the diff that Lore proposes before committing changes.
 
-If you want a conceptual overview of why Lore exists and how it differs from traditional documentation, see the main [`README.md`](./README.md).
+If you want a conceptual overview of why Lore exists and how it differs from traditional documentation, see the main [`README.md`](../README.md).

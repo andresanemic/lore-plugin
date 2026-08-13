@@ -1,12 +1,12 @@
 ---
 name: create-bot
-description: Use when building a BOT — one place to open a session and work across several Areas or projects at once, with their criteria already loaded, instead of answering questions about them. Scaffolds a bot project with an always-loaded canon/, its project Lore, and (in `federar` mode) a routing table into Lore scattered across other Areas. Two modes — `nuevo` (canon from a brainstorm plus source docs) and `federar` (canon plus federated routing) — plus an audit pass for a bot that already exists, to fix its scope, README or sources. Scope comes from the registry of the institution the bot serves, never from the builder's folder tree. Sources with NO Lore go through create-area and transmute-lore first, never absorbed into the bot. Packaging as a shareable plugin, encryption and Telegram are optional and off by default. Trigger on "create a bot for X", "a bot that works on several projects", "federate these areas", "audit my bot", or "fix my bot's scope".
+description: Use when building a BOT — one place to open a session and work across several Areas or projects at once, with their criteria already loaded, instead of answering questions about them. Scaffolds a bot project with an always-loaded canon/, its project Lore, and (in `federar` mode) a routing table into Lore scattered across other Areas. Two modes — `nuevo` (canon from a brainstorm plus source docs) and `federar` (canon plus federated routing) — plus an audit pass for a bot that already exists, to fix its scope, README or sources. Scope comes from the registry of the institution the bot serves, never from the builder's folder tree. Sources with NO Lore go through create-area and transmute-lore first, never absorbed into the bot. Ecosystem copy, shareable packaging, encryption, Telegram and a local multi-provider launcher are optional and off by default. Trigger on "create a bot for X", "a bot that works on several projects", "federate these areas", "audit my bot", or "fix my bot's scope".
 ---
 
-# create-bot — Build a bot: an installable place to work
+# create-bot — Build a bot: one place to work
 
-Creates a **bot**: a folder that is at once a Claude Code **plugin**, a Lore **project**, and the
-**place a work session is opened in**. A bot does not answer questions about the projects — it
+Creates a **bot**: a Lore **project** and the **place a work session is opened in**. Packaging it
+as a Claude Code and Codex plugin is optional. A bot does not answer questions about the projects — it
 **works in them**. The instruction goes in, the bot executes it against real files, the result
 comes back.
 
@@ -30,8 +30,9 @@ A bot is the only artifact in this kit that **routes outward**. Areas and projec
 bot is a lens you carry into them.
 
 > **A bot is not automatically a plugin.** By default it is a folder with its canon and its
-> `CLAUDE.md`: open a session there and the criteria is already loaded, with nothing installed.
-> Wrapping it in a skill with `.claude-plugin/` and its own repository is an **optional seal** (§10)
+> `CLAUDE.md`, plus a minimal `AGENTS.md` adapter for Codex: open a session there and the criteria
+> is already loaded, with nothing installed. Wrapping it in a skill with provider manifests and
+> its own repository is an **optional seal** (§11)
 > that serves one purpose — handing it to a team. For one person working alone it is scaffolding
 > that still has to be maintained.
 
@@ -46,7 +47,7 @@ bot is a lens you carry into them.
 | Mode | When | What it produces |
 |---|---|---|
 | **`nuevo`** | From zero. There is no prior Lore to gather. | Canon born from a brainstorm + source documents. |
-| **`federar`** | The criteria already exists, dissolved across several areas. | Canon **plus** a synchronized copy and a routing table over those Lore bodies. |
+| **`federar`** | The criteria already exists, dissolved across several areas. | Canon plus a routing table and live access to those Lore bodies; the synchronized copy is optional. |
 
 Both produce the same artifact. `federar` adds `scripts/ecosistema.json`, `scripts/sync.js`, and
 two generated files: `lore/enrutamiento.md` (the routing table) and `.claude/settings.local.json`
@@ -56,8 +57,8 @@ two generated files: `lore/enrutamiento.md` (the routing table) and `.claude/set
 
 Both modes above build from zero, and that is **not** the only way this skill gets invoked. It also
 gets pointed at a bot already in the tree — to fix its scope, rewrite its README, add a source. Run
-the audit below **instead of** the creation procedure, then rejoin at §7 (sync), §10 (packaging) and
-§11 (verify).
+the audit below **instead of** the creation procedure, then rejoin at §7 (sync), §11 (packaging) and
+§12 (verify).
 
 | Check | How | Fails when |
 |---|---|---|
@@ -167,7 +168,8 @@ project.
 > **Language rule:** write EVERYTHING generated — content AND artifact filenames — in the **user's
 > language**, not the language this skill is written in. `identidad.md`, `principios.md`,
 > `FASES.md`, `proyectos/`, `canon/`, `enrutamiento.md` are the Spanish canonical forms: localize
-> them. Fixed in every language: `CLAUDE.md`, `lore/`, `index.md`, `skills/`, `.claude-plugin/`.
+> them. Fixed in every language: `CLAUDE.md`, `AGENTS.md`, `lore/`, `index.md`, `skills/`,
+> `.claude-plugin/`, `.codex-plugin/`.
 > The area's established names win inside its tree; flag a clash, never resolve it silently.
 
 ---
@@ -312,7 +314,7 @@ vocabulary. Agree on:
   its anti-scope.
 - **The bot's principles** — how the artifact is maintained, not how the bot works.
 - **`federar`:** the routing map — task type → which Lore governs.
-- **Optional and OFF by default:** the ecosystem copy (§7), shareable packaging (§10), encryption
+- **Optional and OFF by default:** the ecosystem copy (§7), shareable packaging (§11), encryption
   (§8), Telegram (§9) and a local multi-provider launcher (§10). Ask all five; assume none.
 
 > **Ask packaging as a question about people, not about tooling:** *«¿lo vas a usar solo tú, o lo
@@ -338,33 +340,44 @@ mkdir -p "$DEST/canon" "$DEST/lore"
   .claude/
     settings.local.json  → federar only; GENERATED; local, never committed
   lore-ecosistema/       → ONLY if the copy is on (§7); the synchronized copy
-  FASES.md · CLAUDE.md · .gitignore
+  FASES.md · CLAUDE.md · AGENTS.md · .gitignore
 ```
 
-**Unpackaged is the default shape.** The bot's behaviour (§6) lives in its `CLAUDE.md`, which Claude
-Code loads on its own when a session opens in that folder. Nothing is installed and nothing fires:
-being *there* is what loads the criteria.
+**Unpackaged is the default shape.** The bot's behaviour (§6) lives once in `CLAUDE.md`. Claude
+Code loads it directly; Codex loads the minimal `AGENTS.md` adapter, which points to that same
+contract. Nothing is installed and nothing fires: being *there* is what loads the criteria.
 
-**`README.md` follows the packaging decision, not the folder — it is NOT in the base shape.** §10
+Keep the adapter minimal:
+
+```markdown
+# AGENTS.md
+
+Read and follow [`CLAUDE.md`](./CLAUDE.md) in full before any task. It is the single contract for
+this bot; do not duplicate its rules here.
+```
+
+**`README.md` follows the packaging decision, not the folder — it is NOT in the base shape.** §11
 defines the README by its only job: *the one artifact a teammate reads **before** installing*. A bot
 nobody installs has no such reader, and everything the README would say is already said — to the
 agent that opens the session — by the `CLAUDE.md` sitting next to it. Write it when the bot is
 packaged; skip it otherwise, and do not read the skip as an unfinished bot. If the user wants one
 anyway, keep it to what the bot is for, how a session is opened in it and how the manifest is
-re-synced. **Never a second copy of the behaviour** — that is §10's duplication warning one level
+re-synced. **Never a second copy of the behaviour** — that is §11's duplication warning one level
 down, and the copy that drifts is the one nobody rereads.
 
-**If packaging was accepted (§10)**, the behaviour moves into a skill and four things are added:
+**If packaging was accepted (§11)**, the behaviour moves into a skill and five things are added:
 
 ```
   .claude-plugin/
     plugin.json          → plugin manifest
     marketplace.json     → marketplace manifest (lets it install from its own repo)
+  .codex-plugin/
+    plugin.json          → Codex plugin manifest
   skills/{{BOT_SLUG}}/
     SKILL.md             → THE BOT (§6), moved out of CLAUDE.md
     canon/               → canon/ moves in here, so it travels with the skill
-  scripts/validar.js     → the packaging gate (§10)
-  README.md              → the quality floor (§10) — the reason it exists is the install
+  scripts/validar.js     → the packaging gate (§11)
+  README.md              → the quality floor (§11) — the reason it exists is the install
   LICENSE
 ```
 
@@ -391,7 +404,7 @@ What earns a module:
 |---|---|
 | An **external or sealed source** | it is not in the tree — a corpus, a standard, a document under seal |
 | The **map** of the sources | what each one is and where its work lives; no single Lore contains the set |
-| The **border** (§9) | what is *not* the bot's business, with the reason it gets confused |
+| The **border** | what is *not* the bot's business, with the reason it gets confused |
 | The **arbitration** between two sibling bodies of one institution | neither writes it whole (see the law section above) |
 
 An arbitration module runs the three-state test from the law section, and for every divergence it
@@ -429,7 +442,7 @@ and the trigger phrases — not just the concept.
 > is dropped entirely. **The three fail silently**: the plugin installs, the skill appears in the
 > listing, and it simply never fires.
 >
-> This is a rule at writing time **and** a gate at packaging time (§10). Do not rely on the rule
+> This is a rule at writing time **and** a gate at packaging time (§11). Do not rely on the rule
 > alone — it is prose, and prose is what fails.
 
 #### 6.0 First use — a brainstorm, not a form (HARD-GATE)
@@ -645,7 +658,7 @@ With the copy on, everything below applies. With it off, `sync.js` neither copie
   question to ask is the **condition**, not the kind of row: ***«does any project in this folder fall
   outside the scope?»*** When the answer is yes — the ordinary case for an area — access stays off,
   because an area's folder holds *all* of its projects, including the ones the registry excluded
-  (§9), and granting `origen` would reopen through the access door exactly what the scope closed.
+  (see the scope gate), and granting `origen` would reopen through the access door exactly what the scope closed.
   **When the answer is no, the premise is false and the conclusion is not inherited:** a bot
   federating a whole area leaves no project out, so **the area carries working access**, and the
   reason is written beside its row in the manifest, where whoever wonders why that row disobeys the
@@ -743,6 +756,10 @@ remain available even when the separate `lore-in-the-shell` skill is not install
   selected native CLI; and exposes Telegram only when Claude is active. Test every configured path
   and both CLI commands. Do not create a second memory store: the launched folder's Lore remains
   the source of criterion.
+- When the selected folder is a federated bot, derive every Codex `--add-dir` argument from the
+  same `scripts/ecosistema.json` entries marked `"trabajo": true`. Loading `AGENTS.md` is not enough
+  if the routed repositories are outside the primary workspace; the agent must be able to write
+  where the manifest says it works. Never maintain a second path list in the launcher.
 
 The launcher is provider-neutral. Do not use a Claude-, Codex- or other provider mascot as its
 identity. Any theme is optional and needs separate approval for every target environment; absence
@@ -768,7 +785,8 @@ maintained.
 
 `.claude-plugin/plugin.json` — `name` = `{{BOT_SLUG}}`, `version` `1.0.0`, a description naming the
 projects it serves. `.claude-plugin/marketplace.json` — `source: "./"`, so the bot installs from
-its own repository. Keep the two manifests and the README on the **same version string**: a tag
+its own repository. `.codex-plugin/plugin.json` carries the same name and version and points
+`skills` to `./skills/`. Keep all manifests and the README on the **same version string**: a tag
 that disagrees with its manifest is the kind of mismatch nobody finds later.
 
 ```bash
@@ -787,7 +805,8 @@ that disagrees with its manifest is the kind of mismatch nobody finds later.
 **Verify the install commands by running them, not by writing them from memory.** They are the one
 part of the README whose failure costs a reader the whole artifact, and they are the part most
 easily copied from a bot whose repository had different visibility. Check them against the current
-official documentation too; this is a moving target.
+official documentation too; this is a moving target. A bot packaged for both supported hosts must
+document and verify both the Claude Code and Codex install routes.
 
 #### Updating a published bot — publishing is not delivering
 
@@ -878,7 +897,7 @@ It checks each `skills/*/SKILL.md` for: frontmatter present and closed, `name` m
 > separator, the line break) and refuses to guess on the two that need a human: a name mismatch and
 > an over-long description.
 
-### 11. Verify and report
+### 12. Verify and report
 
 ```bash
 grep -rn '{{[A-Z_]\+}}' "$DEST" && echo "UNRESOLVED TOKENS" || echo "OK no tokens"
@@ -900,11 +919,11 @@ Then check the two things a script cannot:
   success message is evidence of this.
 
 - Every `index.md` link resolves; area links resolve outside the project.
-- **Report what was not verified.** Whether the plugin actually loads in Claude Code is not
-  verifiable from here — say so rather than implying it was checked.
+- **Report what was not verified.** If actual loading in Claude Code or Codex could not be tested,
+  say so rather than implying it was checked.
 - Register the bot in the **area's** `FASES.md` (path + status + phase).
 
-### 12. The premiere — the bot is not finished when the gate is written
+### 13. The premiere — the bot is not finished when the gate is written
 
 Writing §6.0 is the last thing this skill touches, and **it is not the moment the bot can be known to
 work**. That gate is answered identically with an empty canon, a desynchronized routing table and

@@ -21,6 +21,9 @@ Cuatro de las doce tareas de acá reusan **esas mismas regex, literales**.
 
 Dos brazos, idénticos salvo por una cosa:
 
+El corte público de Codex se ejecutó con **`gpt-5.6-sol` y esfuerzo de razonamiento `medium`**. Cada
+salida cruda registra ambos valores; no se infieren desde la configuración actual del harness.
+
 | | `cold` | `lore` |
 |---|---|---|
 | `CLAUDE.md` | el mismo, **menos** el bloque que apunta al Lore | el mismo, con el bloque |

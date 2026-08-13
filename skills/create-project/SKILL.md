@@ -20,7 +20,7 @@ any global starter folder.
 > language**, NOT the language this skill is written in. The names used throughout this skill
 > (`identidad.md`, `principios.md`, `FASES.md`, `proyectos/`, `fuente/`) are the Spanish canonical
 > forms: localize them (e.g. English → `identity.md`, `principles.md`, `PHASES.md`, `projects/`,
-> `source/`). Fixed in every language: `CLAUDE.md`, `lore/`, `index.md`, `golden-paths.md`.
+> `source/`). Fixed in every language: `CLAUDE.md`, `AGENTS.md`, `lore/`, `index.md`, `golden-paths.md`.
 > **Consistency with the area wins:** the project uses the area's actual folder and artifact names
 > (its `proyectos/`-equivalent, its area-module filenames in inherited links); if the area's
 > language differs from the user's, flag the mismatch and let the user pick. English terms of
@@ -117,6 +117,7 @@ Resulting structure (folder names come from step 2/3):
 ```
 {{AREA_PATH}}\proyectos\{{PROJECT_SLUG}}\
   CLAUDE.md            → project contract (pointers to lore/)
+  AGENTS.md            → Codex adapter; points to CLAUDE.md, never duplicates it
   FASES.md             → state + phase map derived from the source
   lore\
     index.md           → project Lore map: points to area modules (../../../lore/<module>.md)
@@ -179,16 +180,22 @@ _(none yet — created by save-to-lore when a project-specific scar appears)_
 > Only list the area modules the project actually relies on. Project-specific clues get their own
 > local module later, added by `save-to-lore`.
 
-### 6. Write / resolve `CLAUDE.md` and `FASES.md`
+### 6. Write / resolve `CLAUDE.md`, `AGENTS.md` and `FASES.md`
 
 - **If the area starter provided them** (step 4 renamed `CLAUDE.template.md` → `CLAUDE.md` and left
   `FASES.md`): do NOT rewrite from scratch — **resolve their `{{TOKENS}}`** with the project's
   name/description and the phase map derived from the source docs.
 - **Otherwise, write them with Write:**
   - `CLAUDE.md`: slimmed to pointers — where `lore/` lives, that thematic modules are inherited from
-    the area by relative path, and the base rules (no Playwright; `git push` only when the user says).
+    the area by relative path, and the area's actual base rules; never invent a web-only rule for
+    a non-web project.
+  - `AGENTS.md`: a minimal Codex adapter that tells the agent to read `CLAUDE.md` in full. It must
+    not duplicate the contract.
   - `FASES.md`: **outside** `lore/`, with the phase map **derived from the source's timeline** and
     the initial active phase.
+
+After either path, create `AGENTS.md` if the starter did not provide it. It contains only the
+pointer to `CLAUDE.md`; an older starter must not silently break Codex continuity.
 
 Resolve every `{{TOKEN}}` with what was discussed; leave none unresolved.
 
@@ -201,6 +208,7 @@ grep -rn '{{[A-Z_]\+}}' "$DEST" && echo "UNRESOLVED TOKENS" || echo "OK no token
 
 - Verify local `index.md` links resolve to present files, and the `../../../lore/<module>.md` links
   resolve to files in the area.
+- Verify `AGENTS.md` points to `CLAUDE.md` and does not duplicate the contract.
 - Register the project in the **area's** `FASES.md` (row with path + status + internal phase).
 - Report the created structure and the next step (start the active phase; optionally `git init`).
 
@@ -214,7 +222,7 @@ grep -rn '{{[A-Z_]\+}}' "$DEST" && echo "UNRESOLVED TOKENS" || echo "OK no token
   source, not a mold.
 - Project-specific identity/principles are BORN from the brainstorm, never from invented defaults.
 - **Everything generated — content and artifact filenames — is in the user's language** (fixed
-  names `CLAUDE.md` / `lore/` / `index.md` and general technical English terms excluded); the
+  names `CLAUDE.md` / `AGENTS.md` / `lore/` / `index.md` and general technical English terms excluded); the
   area's established names win inside its tree, and a language clash with the area is flagged —
   never resolved silently.
 - No data, figures or deliverables are invented: they are derived from the source.

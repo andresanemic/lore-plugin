@@ -1,13 +1,13 @@
 # Case studies — Lore
 
-> [← Back to the README](./README.md) · [Español](./CASES_es.md)
+> [← Back to the README](../README.md) · [Español](./CASES_es.md)
 
 ---
 
 
 Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. LUS documents those applications as **case studies**.
 
-> **Status:** these are cases, not proofs. Small n, and all seven documented cases come from the same researcher. What they claim constrains how we use the kit; it does not pretend to be a law.
+> **Status:** these are cases, not proofs. Small n, and all eight documented cases come from the same researcher. What they claim constrains how we use the kit; it does not pretend to be a law. Case 08 adds controlled measurement without removing that boundary.
 
 <details>
 <summary><b>Case 01 — Lore as the operational form of an entire project</b></summary>
@@ -103,6 +103,27 @@ Four bots built with `create-bot`, same ecosystem, all four sources with tidy Lo
 - **The method does not produce a shape; it produces shapes fitted to the distance and structure of the ecosystem.** The canon **grows when the ecosystem gets farther away** and empties out when it is next door: one bot distills a sealed corpus no pointer can reach, another ended up with a single file, because summarizing what the routing already reaches would have left two distillations of the same original inside one bot. A fourth federates a whole Area instead of a set of projects, and that exception was written down as a boundary of validity before the bot existed.
 
 **Declared boundary:** one builder, one ecosystem, one machine, and every source already had Lore. Three of four were used, and the missing one is precisely the only bot meant for other people — so this case says nothing yet about what happens when the builder and the user are different people.
+
+</details>
+
+<details>
+<summary><b>Case 08 — Lore written with Claude decides again with Codex</b></summary>
+
+<br>
+
+A controlled benchmark asked whether criteria earned in work with one model could change the future
+decisions of another. In the frozen 72-run web protocol, cold Codex respected **25/36 evaluated
+Clues (69.4%)** and Codex with Lore respected **33/36 (91.7%)**: +22.3 points, with no task made
+worse. Synthetic writing and UPGRADE extensions widened the protocol beyond one web fixture.
+
+Across all three protocols, Lore respected **48/52 Clues on the first attempt versus 29/52**. With
+one controlled repair allowed, it reached **52/52 goals versus 39/52**, using fewer observed attempts
+and less observed time. The benchmark publishes raw transcripts, deterministic graders, raw and
+audited cuts, regression tests, and the exact boundary of every claim in [`bench/`](../bench/).
+
+**Declared boundary:** one model, one effort level, one machine, synthetic tasks, and the same
+researcher built the Lore, fixtures, and graders. It measures compliance with one Clue per task, not
+the integral correctness of the deliverable, universal savings, or a validated IME.
 
 </details>
 ---

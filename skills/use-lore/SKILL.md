@@ -19,7 +19,7 @@ invoking any other Lore skill.
 **If this machine has no Lore yet** — no area with a `lore/`, no project carrying the six artifacts —
 this runs **before anything else**, and before offering any skill by name. The kit **brainstorms to
 build** every artifact it makes; it would be incoherent for the kit itself to greet its first user
-with a list of seven commands.
+with a list of eight skills.
 
 > **Invoke Lore Plugin's own `brainstorming-lore` skill** (`lore:brainstorming-lore` where skills are
 > namespaced) and run this through it. If the runtime failed to expose an installed Lore skill,
@@ -52,7 +52,7 @@ runs first:**
 
 ### Move 3 — close by naming the route, and run it
 
-State which skill runs first and why, in one line, then run it. Do not list the other six. The map
+State which skill runs first and why, in one line, then run it. Do not list the other seven. The map
 below exists for **you**, so you can pick; it is not a menu to hand over.
 
 > **What this move must never do is end in a recommendation.** The first use of the kit produces a
@@ -116,14 +116,15 @@ This keeps criteria DRY: fix a generic clue once in the area, every project sees
 
 ### The third shape: a bot
 
-A **bot** is a project (it lives at `{area}/proyectos/{slug}/`) with two extra properties: it is an
-**installable plugin**, and it **routes outward** into Lore owned by other projects and areas.
+A **bot** is a project (it lives at `{area}/proyectos/{slug}/`) with one extra property: it
+**routes outward** into Lore owned by other projects and areas. Packaging it as an installable
+plugin is optional.
 
 | | Area | Project | Bot |
 |---|---|---|---|
 | Holds | projects | one piece of work | **a work session** |
 | Its Lore governs | the domain's method | that work | **how the agent behaves** |
-| Installable | no | no | **yes** |
+| Installable | no | no | **optional** |
 
 Areas and projects are places; a bot is a lens you carry into them. A bot owns none of the criteria
 it routes to — which is exactly why it is **not** an area: an area that accumulates criteria it
@@ -135,7 +136,7 @@ never paid for will start receiving promotions that belong somewhere else.
 |---|---|
 | Start a **new work area** (a mother folder for a family of projects) | `create-area` |
 | Start a **new project inside an existing area** | `create-project` |
-| Build a **bot** — an installable plugin that carries a canon and works inside real repositories, either from zero or by federating Lore already dissolved across several areas | `create-bot` |
+| Build a **bot** — a canon-driven work session that operates across real repositories, either from zero or by federating Lore already dissolved across several areas | `create-bot` |
 | Open Lore-governed bots/projects through a provider and model launcher | `create-bot`; use the separate `lore-in-the-shell` skill when installed, otherwise build its minimal fallback there |
 | **Save a lesson** ("save to lore") — capture a clue from **lived friction** in the project and promote generic, confirmed ones up to the area | `save-to-lore` (**CAPTURE**, default) |
 | **Distill from an external body of criteria** — a skill, a style guide, a third-party playbook ("destila esta skill") | `save-to-lore` (**ARBITRATE**): imported criteria is judged against this Entre's purpose; only what survives enters, and the module must state **where the source loses** |
@@ -219,8 +220,8 @@ language the user works in. The artifact names used across these skills (`identi
 language they localize (e.g. English: `identity.md`, `principles.md`, `PHASES.md`, `projects/`,
 `source/`).
 
-What stays **fixed in every language**: `CLAUDE.md` (a Claude Code convention), `lore/` (the kit's
-own name), `index.md`, `golden-paths.md`, `_starter/`, structure and relative-path depth,
+What stays **fixed in every language**: `CLAUDE.md`, its minimal Codex adapter `AGENTS.md`, `lore/`
+(the kit's own name), `index.md`, `golden-paths.md`, `_starter/`, structure and relative-path depth,
 confidence markers, and English terms of general technical use (workflow, commit, stack,
 scaffold…).
 
@@ -231,7 +232,7 @@ with `transmute-lore` (TRANSLATE mode), which translates content and renames art
 ## Invariants of the whole kit
 
 - **Lore speaks the user's language.** Content and artifact filenames in the user's language; the
-  fixed names (`CLAUDE.md`, `lore/`, `index.md`) and general technical English terms unchanged.
+  fixed names (`CLAUDE.md`, `AGENTS.md`, `lore/`, `index.md`) and general technical English terms unchanged.
   Inside an existing corpus, its established names win.
 - **Criteria is never invented.** Every artifact is distilled from what already exists (docs, code,
   the user's words). An artifact with no real criteria stays minimal and says so.
@@ -246,7 +247,7 @@ with `transmute-lore` (TRANSLATE mode), which translates content and renames art
 ## Adapting Lore to other AI tools
 
 The portable substrate is the **`SKILL.md`** file itself: YAML frontmatter (`name`, `description`)
-plus a Markdown body. The plugin packaging (`plugin.json`, `marketplace.json`) is Claude
-Code-specific, but the skills are plain Markdown — copy a skill's folder into any tool that reads
+plus a Markdown body. Native packaging is host-specific — Lore ships manifests for Claude Code and
+Codex — but the skills are plain Markdown. Copy a skill's folder into another tool that reads
 instruction files, or paste its body as a system/persona prompt. The six-artifact standard and the
 area↔project model are tool-agnostic conventions, not code.

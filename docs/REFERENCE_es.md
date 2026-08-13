@@ -4,7 +4,7 @@ Este documento es la referencia técnica del **plugin Lore**, neutral al proveed
 Define los conceptos centrales de Lore, los skills disponibles, los artefactos en Markdown y cómo encajan entre sí.
 
 Para una guía práctica de “cómo usarlo en el día a día”, consulta [`USAGE_es.md`](./USAGE_es.md).  
-Para una visión conceptual y la filosofía del proyecto, consulta el [`README.md`](./README.md).
+Para una visión conceptual y la filosofía del proyecto, consulta el [`README.md`](../README.md).
 
 ---
 
@@ -76,7 +76,27 @@ Usa `use-lore` siempre que no tengas claro dónde empezar.
 
 ---
 
-### 3.2 `create-area`
+### 3.2 `brainstorming-lore`
+
+**Rol:** Diseñar un artefacto Lore nuevo o materialmente distinto antes de que la skill dueña lo escriba.
+
+**Límite de activación:**
+
+- Peticiones directas de hacer brainstorming sobre el propio Lore.
+- Invocación por una skill dueña de artefactos antes de su HARD GATE.
+- No hace falta para inspección de solo lectura, una edición mecánica aprobada o ejecutar un plan existente.
+
+**Responsabilidades:**
+
+- Leer el criterio y los artefactos vigentes antes de preguntar.
+- Preguntar una decisión que cambie el diseño a la vez y comparar solo caminos materialmente distintos.
+- Presentar un diseño proporcional, conservar el HARD GATE de la skill dueña y devolverle el control tras la aprobación.
+- No escribir el artefacto final ni quitarle la propiedad a `create-area`, `create-project`, `create-bot`,
+  `save-to-lore`, `transmute-lore` u `obsidian-lore`.
+
+---
+
+### 3.3 `create-area`
 
 **Rol:** Inicializar una raíz de Lore compartida para un dominio (Área).
 
@@ -91,7 +111,7 @@ Usa `use-lore` siempre que no tengas claro dónde empezar.
   - `lore/principios.md`
   - `lore/index.md`
   - módulos temáticos bajo `lore/`, según se necesiten.
-- `CLAUDE.md` y `FASES.md` a nivel Área (contrato y registro de proyectos).
+- `CLAUDE.md`, su adaptador mínimo `AGENTS.md` para Codex y `FASES.md` a nivel Área (contrato y registro de proyectos).
 - Una carpeta `proyectos/` vacía, donde nacerán los proyectos futuros.
 - Una carpeta `_starter/` con las plantillas de proyecto ajustadas al dominio del Área
   (`CLAUDE.template.md`, `FASES.md` y, si aplica, `golden-paths.template.md`, más cualquier
@@ -106,7 +126,7 @@ Usa `create-area` cuando quieras que varios proyectos compartan el mismo criteri
 
 ---
 
-### 3.3 `create-project`
+### 3.4 `create-project`
 
 **Rol:** Inicializar Lore específico de un proyecto que hereda de un Área.
 
@@ -126,7 +146,8 @@ Usa `create-area` cuando quieras que varios proyectos compartan el mismo criteri
   - `lore/index.md`, que referencia los módulos temáticos del Área por ruta relativa
     (`../../../lore/<módulo>.md` — tres niveles, no dos).
   - `FASES.md` (raíz) para estado actual y hoja de ruta.
-  - `CLAUDE.md` (raíz) para contrato de colaboración y referencias operativas.
+  - `CLAUDE.md` (raíz) como contrato único de colaboración y referencias operativas.
+  - `AGENTS.md` (raíz) como adaptador mínimo de Codex hacia ese contrato.
 - Registra el nuevo proyecto en el `FASES.md` del Área.
 
 **Responsabilidades:**
@@ -138,7 +159,7 @@ Usa `create-project` siempre que arranques una nueva base de código dentro de u
 
 ---
 
-### 3.4 `save-to-lore`
+### 3.5 `save-to-lore`
 
 **Rol:** Destilar la experiencia recién adquirida en criterio reutilizable.
 
@@ -220,7 +241,7 @@ Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decision
 
 ---
 
-### 3.5 `transmute-lore`
+### 3.6 `transmute-lore`
 
 **Rol:** Operar un cuerpo de Lore existente mediante cinco modos distintos.
 
@@ -304,7 +325,7 @@ Usa `transmute-lore` cuando ya tienes proyectos en marcha y quieres incorporarlo
 
 ---
 
-### 3.6 `create-bot`
+### 3.7 `create-bot`
 
 **Rol:** Construir un **bot** — un lugar donde abrir una sesión y trabajar en varios proyectos o
 Áreas a la vez, con su criterio ya cargado, en vez de responder preguntas sobre ellos.
@@ -333,6 +354,10 @@ una sola cosa: repartirlo a un equipo.
 | `nuevo` | No hay Lore previo que reunir. | Nada; solo canon. |
 | `federar` | El criterio ya existe, disuelto en varias Áreas. | `scripts/ecosistema.json`, `scripts/sync.js` y dos archivos **generados**: `lore/enrutamiento.md` (la tabla) y `.claude/settings.local.json` (el acceso a los árboles vivos). **No copia nada** salvo que se encienda la copia. |
 
+Si el bot ya existe, la skill ejecuta una **auditoría** en vez de cualquiera de los procedimientos de
+creación. Contrasta el registro real de la institución, alcance, fuentes, enrutamiento, README y
+sellos opcionales; después retoma sincronización, empaquetado y verificación.
+
 > **Federar es apuntar, no copiar.** Cada fila del manifiesto es una **dirección**: la tabla dice qué
 > Lore gobierna una tarea y el acceso generado deja que la sesión lo alcance **donde vive**. Ese
 > criterio conserva un solo dueño y una sola versión — la misma regla DRY del resto del kit, donde un
@@ -344,9 +369,11 @@ Lore, pero la **secuencia de trabajo** —qué se lee primero, con qué skill ci
 en su `CLAUDE.md`, y el **registro de qué existe y dónde** en su `FASES.md`, incluidos los proyectos
 adoptados por ruta. Un bot que se lleva solo el Lore cita cada regla correctamente y trabaja distinto.
 
-**El acceso se declara, no se infiere:** `"trabajo": true` va **solo en proyectos**. La carpeta de un
-Área contiene todos sus proyectos, incluidos los que el alcance dejó fuera, y conceder cada `origen`
-los abriría por la puerta de atrás. Un Área se consulta; en un proyecto se trabaja.
+**El acceso se declara por fuente, no se infiere de su categoría.** Se pregunta si algún proyecto
+dentro de la carpeta queda fuera del alcance del bot. Si la respuesta es sí —el caso normal de un
+Área— el acceso de trabajo queda apagado para no reabrir proyectos excluidos por la puerta trasera.
+Si el bot federa deliberadamente el Área completa y no deja ningún proyecto fuera, esa Área puede
+llevar `"trabajo": true`, con la razón escrita junto a la fila del manifiesto.
 
 **Cadena para fuentes sin Lore:**
 
@@ -376,12 +403,12 @@ validez, Pista Invariante) es del documento de la skill, no de la conversación.
   propuesta de destilación al cerrar. Se carga solo por abrir la sesión en esa carpeta.
 - `canon/*.md` — el criterio que el bot **es**, con su origen y su frontera de validez declarados en
   cada módulo.
-- `lore/`, `FASES.md`, `README.md`, `.gitignore`.
+- `lore/`, `FASES.md`, `.gitignore`.
 - Modo `federar`: `scripts/ecosistema.json`, `scripts/sync.js`, y los generados `lore/enrutamiento.md`
   y `.claude/settings.local.json` (local, nunca se versiona).
 - **Solo si se empaqueta (§ opcional):** `.claude-plugin/plugin.json` y `marketplace.json`, el
   comportamiento se muda a `skills/{slug}/SKILL.md` con su `canon/` adentro, `scripts/validar.js`
-  (puerta de empaquetado) y `LICENSE`.
+  (puerta de empaquetado), `README.md` y `LICENSE`. Un bot sin empaquetar solo recibe README si se pide.
 - Registra el bot en el `FASES.md` del Área.
 
 **Los tres cuerpos de criterio (invariante central):**
@@ -452,18 +479,23 @@ rutas rotas, así que pasarla no prueba nada sobre si el bot funciona. El bot se
   nunca en consulta. El `.gitignore` depende de la decisión — con cifrado se excluye el texto plano;
   sin cifrado el criterio **debe** commitearse, o el repositorio viaja sin criterio y el bot no le
   sirve al equipo. La passphrase se pide por *stdin* y **nunca entra al chat**.
+- **Acceso por Telegram:** añade un canal desde el teléfono mediante un MCP de Telegram separado y
+  una lista de acceso explícita. El uso remoto requiere una máquina alcanzable y una sesión abierta.
+- **Launcher local multiproveedor:** usa Lore in the Shell si está instalado; si no, construye el
+  registro y launcher local mínimos. Elige CLI y modelo, pero nunca transporta el criterio.
 
-Un bot sin ninguno de los tres está completo.
+Un bot sin ninguno de los cinco está completo.
 
 Usa `create-bot` cuando ya tengas varios proyectos con Lore que valga la pena llevar a una sola
 sesión de trabajo. No sustituye construir ese Lore: lo federa.
 
 ---
 
-### 3.7 `obsidian-lore`
+### 3.8 `obsidian-lore`
 
 **Propósito:** gobernar el solape entre una vault de Obsidian y el Lore cuando comparten árbol de
-archivos, y convertir notas sueltas en criterio a través de `save-to-lore`.
+archivos, capturar notas y minar la bandeja. La nota siempre es material fuente; `save-to-lore` es
+dueña de cualquier criterio que sobreviva clasificación, enrutamiento y HARD GATE.
 
 **Precondición:** la vault debe ser la **carpeta madre que contiene las Áreas**, no una carpeta al
 lado. La skill verifica que al menos un hijo directo de la raíz tenga `lore/`; si no, se detiene y
@@ -728,6 +760,7 @@ Una estructura típica de Lore, con Área y proyecto, se ve así:
     golden-paths.template.md   → solo si el dominio lo justifica
   FASES.md                     → registro de proyectos del Área
   CLAUDE.md                    → contrato del Área
+  AGENTS.md                    → adaptador Codex → CLAUDE.md
 
   proyectos/
     {slug}/

@@ -4,7 +4,7 @@ This document is the technical reference for the provider-neutral **Lore plugin*
 It defines Lore’s core concepts, the available skills, the Markdown artifacts, and how they fit together.
 
 For a practical “how to use it every day” guide, see [`USAGE_en.md`](./USAGE_en.md).  
-For a conceptual overview and philosophy, see the main [`README.md`](./README.md).
+For a conceptual overview and philosophy, see the main [`README.md`](../README.md).
 
 ---
 
@@ -77,7 +77,27 @@ Use `use-lore` whenever you are unsure where to start.
 
 ---
 
-### 3.2 `create-area`
+### 3.2 `brainstorming-lore`
+
+**Role:** Design a new or materially changed Lore artifact before its owner skill writes it.
+
+**Trigger boundary:**
+
+- Direct requests to brainstorm Lore itself.
+- Invocation by an artifact-owning skill before its HARD GATE.
+- Not needed for read-only inspection, an approved mechanical edit, or execution of an existing plan.
+
+**Responsibilities:**
+
+- Read the current criterion and relevant artifacts before asking.
+- Ask one decision-changing question at a time and compare only materially different approaches.
+- Present a proportional design, preserve the owner skill's own HARD GATE, and hand control back after approval.
+- Never write the final artifact or take ownership from `create-area`, `create-project`, `create-bot`,
+  `save-to-lore`, `transmute-lore`, or `obsidian-lore`.
+
+---
+
+### 3.3 `create-area`
 
 **Role:** Initialize a shared Lore root for a domain (Area).
 
@@ -92,7 +112,7 @@ Use `use-lore` whenever you are unsure where to start.
   - `lore/principios.md`
   - `lore/index.md`
   - thematic modules under `lore/` as needed.
-- Area‑level `CLAUDE.md` and `FASES.md` (contract and project registry).
+- Area‑level `CLAUDE.md`, its minimal Codex adapter `AGENTS.md`, and `FASES.md` (contract and project registry).
 - An empty `proyectos/` folder, where future projects will be born.
 - A `_starter/` folder with project templates tuned to the Area's domain
   (`CLAUDE.template.md`, `FASES.md`, and, if applicable, `golden-paths.template.md`, plus any base
@@ -107,7 +127,7 @@ Use `create-area` when you want multiple projects to share the same foundational
 
 ---
 
-### 3.3 `create-project`
+### 3.4 `create-project`
 
 **Role:** Initialize a project‑specific Lore that inherits from an Area.
 
@@ -127,7 +147,8 @@ Use `create-area` when you want multiple projects to share the same foundational
   - `lore/index.md`, referencing the Area's thematic modules by relative path
     (`../../../lore/<module>.md` — three levels up, not two).
   - `FASES.md` (root) for current state and roadmap.
-  - `CLAUDE.md` (root) for collaboration contract and operational references.
+  - `CLAUDE.md` (root) for the single collaboration contract and operational references.
+  - `AGENTS.md` (root) as the minimal Codex adapter to that contract.
 - Registers the new project in the Area's `FASES.md`.
 
 **Responsibilities:**
@@ -139,7 +160,7 @@ Use `create-project` whenever you start a new codebase inside an existing Area.
 
 ---
 
-### 3.4 `save-to-lore`
+### 3.5 `save-to-lore`
 
 **Role:** Distill newly acquired experience into reusable criteria.
 
@@ -221,7 +242,7 @@ Use `save-to-lore` as the main mechanism for feeding your Lore after important d
 
 ---
 
-### 3.5 `transmute-lore`
+### 3.6 `transmute-lore`
 
 **Role:** Operate an existing body of Lore through five distinct modes.
 
@@ -310,7 +331,7 @@ Use `transmute-lore` when you already have a project and want to bring it into L
 
 ---
 
-### 3.6 `create-bot`
+### 3.7 `create-bot`
 
 **Role:** Build a **bot** — one place to open a session and work across several projects or Areas at
 once, with their criteria already loaded, instead of answering questions about them.
@@ -339,6 +360,10 @@ installable plugin is optional**, and serves one purpose: handing it to a team.
 | `nuevo` | No prior Lore to gather. | Nothing; canon only. |
 | `federar` | The criteria already exists, dissolved across several Areas. | `scripts/ecosistema.json`, `scripts/sync.js`, and two **generated** files: `lore/enrutamiento.md` (the table) and `.claude/settings.local.json` (access to the live trees). **It copies nothing** unless the copy is turned on. |
 
+For an existing bot, the skill runs an **audit pass** instead of either creation procedure. It checks
+the institution's actual registry, scope, sources, routing, README and optional seals, then rejoins
+the sync, packaging and verification flow.
+
 > **Federating is pointing, not copying.** Each row of the manifest is an **address**: the table says
 > which Lore governs a task, and the generated access lets the session reach it **where it lives**.
 > That criteria keeps one owner and one version — the same DRY rule the rest of the kit runs on, where
@@ -351,9 +376,11 @@ deliverable — lives in its `CLAUDE.md`, and the **registry of what exists and 
 `FASES.md`, including projects adopted by path. A bot carrying only the Lore cites every rule
 correctly and still works differently.
 
-**Access is declared, not inferred:** `"trabajo": true` goes **only on projects**. An Area's folder
-holds all of its projects, including the ones the scope excluded, and granting every `origen` would
-reopen them through the back door. An Area is consulted; a project is worked in.
+**Access is declared per source, not inferred from its category.** Ask whether any project inside the
+folder falls outside the bot's scope. If yes — the normal case for an Area — working access stays off
+so excluded projects cannot reopen through the back door. If the bot deliberately federates the
+whole Area and leaves no project out, that Area may carry `"trabajo": true`, with the reason written
+beside the manifest row.
 
 **Chain for sources with no Lore:**
 
@@ -383,12 +410,12 @@ of validity, Invariant Clue) belongs to the skill document, not to the conversat
   distillation proposal on close. It loads just for the session being opened in that folder.
 - `canon/*.md` — the criteria the bot **is**, each module declaring its origin and its boundary of
   validity.
-- `lore/`, `FASES.md`, `README.md`, `.gitignore`.
+- `lore/`, `FASES.md`, `.gitignore`.
 - `federar` mode: `scripts/ecosistema.json`, `scripts/sync.js`, and the generated
   `lore/enrutamiento.md` and `.claude/settings.local.json` (local, never committed).
 - **Only if packaged (optional):** `.claude-plugin/plugin.json` and `marketplace.json`, the behaviour
   moves into `skills/{slug}/SKILL.md` with its `canon/` inside, `scripts/validar.js` (the packaging
-  gate), and `LICENSE`.
+  gate), `README.md`, and `LICENSE`. An unpackaged bot gets a README only when explicitly requested.
 - Registers the bot in the Area's `FASES.md`.
 
 **The three bodies of criteria (the central invariant):**
@@ -459,18 +486,23 @@ canon and broken paths, so passing it proves nothing about whether the bot works
   excluded; without it the criteria **must** be committed, or the repository travels with no criteria
   and the bot is useless to the team. The passphrase is read from *stdin* and **never enters the
   chat**.
+- **Telegram access:** adds a phone channel through a separate Telegram MCP and an explicit access
+  list. Remote use requires a reachable machine and an open session.
+- **Local multi-provider launcher:** use Lore in the Shell when installed; otherwise build the
+  minimum local registry and launcher. It selects the CLI and model but never carries the criteria.
 
-A bot with none of the three is complete.
+A bot with none of the five is complete.
 
 Use `create-bot` once you have several projects with Lore worth carrying into a single work session.
 It does not substitute for building that Lore: it federates it.
 
 ---
 
-### 3.7 `obsidian-lore`
+### 3.8 `obsidian-lore`
 
 **Purpose:** govern the overlap between an Obsidian vault and the Lore when they share a file tree,
-and turn loose notes into criteria through `save-to-lore`.
+capture notes, and mine the inbox. A note is always source material; `save-to-lore` owns any criterion
+that survives classification, routing and the HARD GATE.
 
 **Precondition:** the vault must be the **mother folder containing the Areas**, not a folder beside
 them. The skill verifies that at least one direct child of the root holds a `lore/`; if none does, it
@@ -733,6 +765,7 @@ A typical Lore layout, with an Area and a project, looks like this:
     golden-paths.template.md   → only if the domain warrants it
   FASES.md                     → Area's project registry
   CLAUDE.md                    → Area contract
+  AGENTS.md                    → Codex adapter → CLAUDE.md
 
   proyectos/
     {slug}/

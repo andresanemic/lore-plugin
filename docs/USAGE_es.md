@@ -1,7 +1,8 @@
 # Plugin Lore – Guía de Uso
 
-Esta guía muestra cómo usar el plugin Lore con **agentes de IA compatibles** en el trabajo diario:
-crear Áreas y proyectos, capturar criterio después de resolver problemas y mantener tu Lore limpio y útil.
+Esta guía muestra cómo usar Lore con **Claude Code, Codex u otro agente de IA compatible con skills**
+en el trabajo diario: crear Áreas y proyectos, capturar criterio después de resolver problemas y
+mantener tu Lore limpio y útil.
 
 > Lore es un kit ligero y neutral al proveedor de Spec‑Driven Development (SDD) para agentes de IA.
 > Te ayuda a preservar el **criterio** detrás de tus decisiones, para que tu IA nunca tenga que empezar desde cero.  
@@ -15,16 +16,17 @@ Lore organiza la experiencia en **criterio** que sigue participando en decisione
 
 - Resuelves un problema con IA.
 - En lugar de simplemente seguir adelante, capturas la *razón* detrás de la solución.
-- Ese criterio se guarda en artefactos Markdown que Claude Code puede reutilizar en sesiones posteriores.
+- Ese criterio se guarda en artefactos Markdown que un agente de IA puede reutilizar en sesiones posteriores.
 
 El plugin Lore agrupa un conjunto de **skills** que implementan este ciclo:
 
 - `use-lore` – punto de entrada y navegación.
+- `brainstorming-lore` – diseña cambios en artefactos Lore antes del gate de la skill dueña.
 - `create-area` – Lore compartido para un grupo de proyectos.
 - `create-project` – Lore a nivel proyecto que hereda de un Área.
 - `save-to-lore` – captura criterio después de resolver un problema.
 - `transmute-lore` – migra proyectos existentes hacia la arquitectura Lore.
-- `create-bot` – empaqueta criterio como un *plugin* instalable que trabaja dentro de los repos.
+- `create-bot` – un lugar para trabajar en varias Áreas o proyectos con su criterio cargado.
 - `obsidian-lore` – captura notas libres en el mismo árbol y **mina** esa bandeja buscando criterio.
 
 > **El Lore habla tu idioma.** Aunque los skills están escritos en inglés, todo lo que generan —
@@ -37,19 +39,24 @@ El plugin Lore agrupa un conjunto de **skills** que implementan este ciclo:
 
 ## 2. Requisitos previos
 
-Antes de usar Lore:
-
-- Tienes **Claude Code** instalado y funcionando.
-- Puedes ejecutar comandos `/plugin` en tu entorno de Claude Code.
-
-Instala el plugin Lore:
+Instala Lore por la ruta de tu agente. Para **Claude Code**:
 
 ```bash
 /plugin marketplace add andresanemic/lore-plugin
 /plugin install lore@lore-plugin
 ```
 
-Una vez instalado, los skills de Lore quedan disponibles como comandos/prompts dentro de Claude Code.
+Para **Codex CLI**:
+
+```bash
+codex plugin marketplace add andresanemic/lore-plugin
+codex plugin add lore@lore-plugin
+```
+
+Para un clon local, ambas CLI u otro agente compatible con skills, usa la
+[instalación directa del README](../README.md#instalación-directa-desde-el-repositorio).
+
+Después de instalarlo, invoca Lore con lenguaje natural. `use-lore` es el primer prompt más seguro.
 
 ---
 
@@ -57,7 +64,7 @@ Una vez instalado, los skills de Lore quedan disponibles como comandos/prompts d
 
 El ciclo cotidiano de Lore es:
 
-1. Trabajas con Claude Code para resolver un problema en tu proyecto.
+1. Trabajas con tu agente de IA para resolver un problema en tu proyecto.
 2. Decides si la solución reveló **criterio** que debería afectar decisiones futuras.
 3. Usas `save-to-lore` para capturar ese criterio en tu Lore en Markdown.
 4. Permites que las sesiones futuras reutilicen ese criterio en lugar de empezar desde cero.
@@ -67,7 +74,7 @@ El ciclo cotidiano de Lore es:
 Tú y Claude depuran un problema de hidratación en Next.js.  
 En lugar de solo corregirlo, quieres capturar la regla detrás de la solución.
 
-En Claude Code podrías ejecutar:
+Podrías pedir:
 
 ```text
 save-to-lore "Problema de hidratación con opacidad inicial en Next.js"
@@ -90,7 +97,7 @@ Un Área es una carpeta madre que posee criterio compartido; los proyectos lo he
 
 Piensa en un Área como un dominio tipo «Frontend», «Backend» o «Experimentos de producto».
 
-En Claude Code:
+Pídele a tu agente:
 
 ```text
 create-area "Desarrollo Frontend"
@@ -128,7 +135,7 @@ Lore:
 
 Una vez que tu Área y proyecto existen:
 
-1. Trabaja en el proyecto con Claude Code como siempre.
+1. Trabaja en el proyecto con tu agente de IA como siempre.
 2. Cada vez que resuelves un problema que revela criterio reutilizable, llama a:
 
    ```text
@@ -161,7 +168,25 @@ Puedes pedir cosas como:
 
 ---
 
-### 5.2 `create-area` – Lore compartido para un dominio
+### 5.2 `brainstorming-lore` – Diseñar cambios de Lore antes de escribir
+
+**Propósito:** explorar un artefacto Lore nuevo o materialmente distinto sin quitarle la propiedad a
+la skill que lo va a escribir.
+
+Normalmente la invocan `create-area`, `create-project` o `create-bot` antes de su HARD GATE. También
+puedes invocarla directamente:
+
+```text
+haz brainstorming de este Lore antes de reestructurarlo
+```
+
+Primero lee el criterio vigente, pregunta de a una decisión que cambie el diseño, compara solo los
+caminos que importan y entrega el diseño aprobado a la skill dueña. Una auditoría de solo lectura,
+una edición mecánica pequeña o un plan ya aprobado no la necesitan.
+
+---
+
+### 5.3 `create-area` – Lore compartido para un dominio
 
 **Propósito:** crear una raíz de Lore compartida para un dominio (Área).
 
@@ -185,7 +210,7 @@ Usa este skill cuando quieres que varios proyectos compartan un conjunto común 
 
 ---
 
-### 5.3 `create-project` – Lore con alcance de proyecto
+### 5.4 `create-project` – Lore con alcance de proyecto
 
 **Propósito:** crear un proyecto que hereda Lore desde un Área.
 
@@ -201,14 +226,15 @@ Lore:
 - Prepara:
   - `lore/` para módulos específicos del proyecto (los módulos genéricos del Área solo se referencian, nunca se copian).
   - `FASES.md` en la raíz para estado y hoja de ruta.
-  - `CLAUDE.md` en la raíz para contrato de colaboración y referencias.
+  - `CLAUDE.md` en la raíz como contrato único de colaboración, más un `AGENTS.md` mínimo que
+    dirige Codex hacia él sin duplicar reglas.
 - Conecta el proyecto con el Lore del Área, de modo que el criterio compartido esté disponible sin duplicación.
 
 Usa este skill siempre que inicies una nueva base de código dentro de un dominio que ya tiene un Área.
 
 ---
 
-### 5.4 `save-to-lore` – Capturar criterio tras resolver un problema, o arbitrar criterio ajeno
+### 5.5 `save-to-lore` – Capturar criterio tras resolver un problema, o arbitrar criterio ajeno
 
 **Propósito:** destilar criterio reutilizable. Tiene **dos modos**, según de dónde venga ese criterio:
 **capture** (fricción vivida) y **arbitrate** (criterio importado de una skill o guía ajena).
@@ -275,7 +301,7 @@ Usa este skill como herramienta principal para alimentar tu Lore con el tiempo.
 
 ---
 
-### 5.5 `transmute-lore` – Migrar proyectos existentes
+### 5.6 `transmute-lore` – Operar un cuerpo de criterio existente
 
 **Propósito:** operar un cuerpo de Lore existente: migrarlo, quitar duplicación, estandarizar su idioma, actualizar su estándar o exportar una copia segura de lectura.
 
@@ -343,7 +369,7 @@ exportación como si fuera Lore autoritativo.
 
 ---
 
-### 5.6 `create-bot` – Empaquetar criterio como un lugar donde trabajar
+### 5.7 `create-bot` – Trabajar en varias Áreas o proyectos
 
 **Propósito:** construir un **bot**: un solo lugar donde abrir una sesión y **trabajar en varios
 proyectos o Áreas a la vez**, con su criterio ya cargado, en vez de responder preguntas sobre ellos.
@@ -352,8 +378,9 @@ Un bot vive en `{Área}/proyectos/{slug}/` como cualquier proyecto. Lo distingue
 hacia afuera**, hacia el Lore de otros proyectos y Áreas. Las Áreas y los proyectos son lugares; un
 bot es una lente que llevas a ellos.
 
-Por defecto **no se instala nada**: es una carpeta con su canon y su `CLAUDE.md`, y abrir la sesión
-ahí es lo que carga el criterio. Empaquetarlo como *plugin* es opcional y sirve para repartirlo a un
+Por defecto **no se instala nada**: es una carpeta con su canon, su `CLAUDE.md` y un `AGENTS.md`
+mínimo para Codex. Abrir la sesión ahí carga el mismo criterio en cualquiera de los dos hosts.
+Empaquetarlo como *plugin* es opcional y sirve para repartirlo a un
 equipo.
 
 > **El test que decide si el bot está bien hecho:** *una instrucción corta basta.* Si tuviste que
@@ -366,12 +393,16 @@ crea un bot para trabajar en HealthProof y Nodo Zero, en el área "bots"
 quiero un bot que federe el lore que ya existe en founder y community-manager
 ```
 
-Tiene **dos modos**, según de dónde salga el criterio:
+Tiene **dos modos de creación**, según de dónde salga el criterio:
 
 - `nuevo` – desde 0. El canon nace de un brainstorm + los documentos fuente.
 - `federar` – el criterio ya existe, disuelto en varias Áreas. Además del canon genera una tabla de
   enrutamiento (`lore/enrutamiento.md`) y el acceso a los árboles vivos
   (`.claude/settings.local.json`), para poder **trabajar** en esos proyectos y no solo leerlos.
+
+Si el bot ya existe, la misma skill ejecuta una **auditoría** en vez de reconstruirlo. Contrasta el
+registro real de la institución, alcance, fuentes, enrutamiento, README y sellos opcionales; después
+retoma el flujo normal de sincronización, empaquetado y verificación.
 
 > **Federar es apuntar, no copiar.** Cada fila es una dirección al Lore donde vive, así que ese
 > criterio conserva un solo dueño y una sola versión — igual que un proyecto referencia los módulos
@@ -421,16 +452,17 @@ Tres cosas que vas a usar todos los días:
   cargo se viola»*, nunca *«está bien»* — solo puede responder por las cicatrices que alguien ya
   pagó, y lo que nadie cicatrizó no está escrito en ninguna parte.
 
-Opcionales y apagados por defecto: **la copia del ecosistema**, **empaquetarlo como plugin** y el
-**cifrado** (*experimental*, ver [`ENCRYPTION.md`](./ENCRYPTION.md)). Un bot sin ninguno de los tres
-está completo.
+Cinco extras son opcionales y están apagados por defecto: **la copia del ecosistema**, el **cifrado**
+(*experimental*, ver [`ENCRYPTION.md`](./ENCRYPTION.md)), **acceso por Telegram**, **un launcher local
+multiproveedor** y **empaquetarlo como plugin compartible**. Un bot sin ninguno de los cinco está
+completo.
 
 Usa este skill cuando ya tengas varios proyectos con Lore que valga la pena llevar a una sola sesión.
 No sustituye construir ese Lore: lo federa.
 
 ---
 
-### 5.7 `obsidian-lore` – Convertir notas sueltas en criterio
+### 5.8 `obsidian-lore` – Capturar y minar notas sin tratarlas como criterio
 
 **Para qué sirve:** si ya escribes notas en Obsidian, ya tienes la materia prima. Este skill gobierna
 el solape entre la vault y el Lore cuando comparten árbol de archivos.
@@ -511,6 +543,7 @@ Lore utiliza un conjunto fijo de artefactos para mantener el criterio organizado
 - `lore/index.md` – mapa de navegación del Lore en ese proyecto o Área.
 - `FASES.md` (raíz) – estado actual y hoja de ruta del proyecto.
 - `CLAUDE.md` (raíz) – contrato de colaboración y referencias operativas.
+- `AGENTS.md` (raíz) – adaptador mínimo de Codex hacia ese mismo contrato; nunca una segunda copia.
 
 Recomendaciones generales:
 
@@ -533,4 +566,4 @@ Para que tu Lore se mantenga útil:
   `transmute-lore` en modo `translate`.
 - Revisa siempre el diff que Lore propone antes de confirmar cambios.
 
-Si quieres una visión más conceptual de por qué existe Lore y en qué se diferencia de la documentación tradicional, consulta el [`README.md`](./README.md).
+Si quieres una visión más conceptual de por qué existe Lore y en qué se diferencia de la documentación tradicional, consulta el [`README.md`](../README.md).

@@ -119,8 +119,8 @@ A note that records a friction **still open** is state, not criteria → `FASES.
 summary, a link or an agenda is **information**, and information is not distillable: report it as
 noise, or hand it to `create-area` / `create-project` / `transmute-lore` as source material.
 
-`obsidian-lore` is what sweeps an inbox and routes it here. Invoked directly on a note, do the same
-work without it.
+`obsidian-lore` is what sweeps a `notes/` or `notas/` inbox and routes it here, so invoke it first
+whenever the source lives there. A standalone source note outside an inbox may be handled directly.
 
 ## Lore threshold (for the proactive trigger, all 4 must hold)
 
@@ -150,7 +150,7 @@ does not own and **never** promotes.
 **Default posture:** always **capture in the project first** (local, safe), then **propose**
 promotion to the area. Never write the area silently.
 
-## Flow (two steps, one pass)
+## Flow (three steps, one pass)
 
 ### Step 1 — Capture (in the CURRENT project's lore/)
 
@@ -212,7 +212,7 @@ Lore that grows by accumulation. A flat list of independent rules has no inherit
 
 ### Step 3 — Inbox debt (one line, only if an inbox exists)
 
-If the tree has a free-note inbox at the vault root (see `obsidian-lore`), count the notes with an
+If the current project, area, or bot has a free-note inbox (see `obsidian-lore`), count the notes with an
 empty `destilado` and close with one line: *«N notas sin minar, la más vieja de hace X días.»*
 Nothing else — no listing, no proposal.
 

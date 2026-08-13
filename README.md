@@ -15,13 +15,15 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.0.7-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="https://github.com/andresanemic/lore-plugin/stargazers"><img src="https://img.shields.io/github/stars/andresanemic/lore-plugin?style=for-the-badge&color=FF557A&labelColor=0B0B12" alt="GitHub stars"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.0.8-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/AI_agents-provider--neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Provider-neutral AI agents"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/paradigm-Spec--Driven_Development-F94F79?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
   <a href="#obsidian--the-way-in"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Obsidian compatible"></a>
   <a href="#origin"><img src="https://img.shields.io/badge/research-active-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Status"></a>
   <a href="#shared-invariants"><img src="https://img.shields.io/badge/local_only-no_network-FF6685?style=for-the-badge&labelColor=0B0B12" alt="Local only, no network"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="MIT license"></a>
 </p>
 
 <p align="center">
@@ -94,7 +96,7 @@
 **Understand it**
 
 [Shared invariants](#shared-invariants) ·
-[Case studies](./CASES_en.md) ·
+[Case studies](./docs/CASES_en.md) ·
 [Reach](#reach) · [Origin](#origin)
 
 </td>
@@ -131,7 +133,7 @@ It provides three things:
 - eight skills that operate that convention;
 - and a continuous loop for distilling experience into reusable criteria.
 
-Spec-driven is not a label here. `CLAUDE.md` is the contract, `FASES.md` is the state and what comes next, and `lore/` is the criteria that constrains how any of it gets built.
+Spec-driven is not a label here. `CLAUDE.md` is the single contract, `AGENTS.md` lets Codex route to it without duplicating rules, `FASES.md` is the state and what comes next, and `lore/` is the criteria that constrains how any of it gets built.
 
 Unlike documentation, Lore does not try to describe everything. It only preserves what changes future behavior.
 
@@ -260,6 +262,7 @@ Every project organizes its criteria with exactly these six:
 | `index.md` | Navigation map: one line per pattern | `lore/` |
 | `FASES.md` | State and roadmap: current phase, focus | root |
 | `CLAUDE.md` | Collaboration contract, slimmed to **pointers** | root |
+| `AGENTS.md` | Minimal Codex adapter that points to the same contract | root |
 
 Each has one responsibility. None duplicates another.
 
@@ -279,6 +282,7 @@ web-development/
 │
 ├── PHASES.md                  ← the Area's project registry
 ├── CLAUDE.md                  ← the Area's contract
+├── AGENTS.md                  ← Codex adapter → CLAUDE.md
 │
 └── projects/
     ├── client-a/
@@ -460,15 +464,17 @@ This kit brainstorms to build every artifact it makes, so the artifact it produc
 </details>
 
 <details>
-<summary><b>Three optional extras, off by default</b></summary>
+<summary><b>Five optional extras, off by default</b></summary>
 
 <br>
 
-All three are asked when the bot is configured for the first time. A bot with none of them is complete: they are seals, not parts.
+All five are asked when the bot is configured for the first time. A bot with none of them is complete: they are seals, not parts.
 
 - **The ecosystem copy (`lore-ecosistema/`).** By default the bot **points** at each project's Lore where it lives, duplicating nothing. Turning it on only makes sense if whoever will use the bot does **not** have your folders: there the pointer resolves to nothing, and the copy is the only way that criteria exists on their machine.
-- **Packaging it as a shareable plugin.** **Not created by default.** A bot is a folder with its canon and its `CLAUDE.md`: you open the session there and the criteria is already loaded, with nothing to install. Wrapping it in a skill with its own repository serves **one purpose**, handing it to a team, and if you are working alone it is scaffolding you still have to maintain.
-- **Lore encryption** — *experimental*, see [`ENCRYPTION.md`](./ENCRYPTION.md).
+- **Packaging it as a shareable plugin.** **Not created by default.** A bot is a folder with its canon, its `CLAUDE.md`, and a minimal `AGENTS.md` that routes Codex to the same contract: you open the session there and the criteria is already loaded, with nothing to install. Wrapping it in a skill with its own repository serves **one purpose**, handing it to a team, and if you are working alone it is scaffolding you still have to maintain.
+- **Lore encryption** — *experimental*, see [`ENCRYPTION.md`](./docs/ENCRYPTION.md).
+- **Telegram access.** Adds a phone channel through a separate Telegram MCP, with an explicit access list. It needs a reachable machine and an open session; it is never implied by creating the bot.
+- **A local multi-provider launcher.** Uses [Lore in the Shell](https://github.com/andresanemic/lore-in-the-shell) when installed, or builds the smallest local launcher otherwise. It chooses the CLI and model; the criteria still lives in the bot.
 
 </details>
 
@@ -512,7 +518,7 @@ The discriminator is not the quality of the note: it is whether the note records
 
 Most of a real inbox lands in the last row: a note folder fills up with information, and criteria is the rare thing inside it.
 
-> **Why a sweep and not a save button.** Writing the note feels like preserving it, so nobody goes back to distill it. We tried keeping notes apart from the Lore, and the record sat unused for six weeks ([Case 05](./CASES_en.md)). The sweep is what breaks that: each pass tells you how many notes are still unmined, and for how long.
+> **Why a sweep and not a save button.** Writing the note feels like preserving it, so nobody goes back to distill it. We tried keeping notes apart from the Lore, and the record sat unused for six weeks ([Case 05](./docs/CASES_en.md)). The sweep is what breaks that: each pass tells you how many notes are still unmined, and for how long.
 
 ### Where the inbox lives
 
@@ -543,7 +549,7 @@ All eight skills follow the same rules:
   <img src="./assets/benchmark-impact.png" alt="Audited Lore benchmark: 22 points more first-pass correctness, 7 percent less modeled time and zero tasks made worse" width="100%">
 </p>
 
-**Lore does more before answering—so you redo less.** We tested twelve frozen tasks with three independent runs per condition: cold Codex and Codex with Lore, for 72 runs in total. Lore spends more time reading before an attempt; the useful measure is the work required to finish correctly.
+**Lore does more before answering—so you redo less.** We tested twelve frozen tasks with three independent runs per condition: cold Codex and Codex with Lore, for 72 runs in total. Every run used **`gpt-5.6-sol` with medium reasoning effort**; model, prompt and tools were identical between arms. Lore spends more time reading before an attempt; the useful measure is the work required to finish correctly.
 
 | Result | Cold Codex | Codex + Lore |
 |---|---:|---:|
@@ -577,11 +583,11 @@ This README covers motivation and architecture. Everything else lives in its own
 
 | Document | What it's for |
 |---|---|
-| [`USAGE_en.md`](./USAGE_en.md) | Practical day-to-day usage guide: installation, core loop, and each skill with examples. |
-| [`REFERENCE_en.md`](./REFERENCE_en.md) | Technical reference: core concepts, the exact spec for each artifact and each skill. |
-| [`MIGRATION_en.md`](./MIGRATION_en.md) | How to migrate an existing project into Lore using `transmute-lore`. |
-| [`ENCRYPTION.md`](./ENCRYPTION.md) | The optional, experimental encryption for a bot's criteria: what it protects and what it does not. |
-| [`CASES_en.md`](./CASES_en.md) | The seven case studies, each with its declared boundary. |
+| [`USAGE_en.md`](./docs/USAGE_en.md) | Practical day-to-day usage guide: installation, core loop, and each skill with examples. |
+| [`REFERENCE_en.md`](./docs/REFERENCE_en.md) | Technical reference: core concepts, the exact spec for each artifact and each skill. |
+| [`MIGRATION_en.md`](./docs/MIGRATION_en.md) | How to migrate an existing project into Lore using `transmute-lore`. |
+| [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | The optional, experimental encryption for a bot's criteria: what it protects and what it does not. |
+| [`CASES_en.md`](./docs/CASES_en.md) | The eight case studies, each with its declared boundary. |
 | [`bench/`](./bench/) | The benchmark: harness, the twelve frozen tasks, method, declared limits and the raw results. |
 
 <details>
@@ -595,8 +601,12 @@ lore-plugin/
     plugin.json
     marketplace.json
 
+  .codex-plugin/
+    plugin.json
+
   skills/
     use-lore/
+    brainstorming-lore/
     create-area/
     create-project/
     create-bot/
@@ -615,11 +625,11 @@ lore-plugin/
 
 ## Case studies
 
-Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. Those applications are documented as **case studies** — seven of them, each with its own declared boundary.
+Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. Those applications are documented as **eight case studies**, each with its own declared boundary. The first seven are qualitative; Case 08 is the controlled benchmark summarized above.
 
-> **Status:** these are cases, not proofs. Small n, and all seven come from the same researcher. What they claim constrains how we use the kit; it does not pretend to be a law. The measured claim is the [benchmark](#benchmark); this is the qualitative half.
+> **Status:** these are cases, not proofs. Small n, and all eight come from the same researcher. What they claim constrains how we use the kit; it does not pretend to be a law. The measured claim belongs to [Case 08 and its benchmark](#benchmark); the other seven are qualitative evidence.
 
-**[Read the seven case studies →](./CASES_en.md)**
+**[Read the eight case studies →](./docs/CASES_en.md)**
 
 ---
 
@@ -640,7 +650,7 @@ For thirty-four days the number held at a steady twenty-odd clones a day, well p
 
 The daily rate quoted above is the steady one, not the average with that day folded in. Data comes from GitHub's traffic API, stored in [`data/traffic/clones.json`](./data/traffic/clones.json) because the API only keeps 14 days.
 
-> **This is a reach signal, not a demonstration.** Nobody knows what anyone did with their copy: how many installed it, how many distilled anything, how many opened the folder once. It does not count as a case and it does not answer the question the [case studies](./CASES_en.md) do. Note also that the "unique cloners" the API returns are unique **per day**, not people, so they cannot be summed into a headcount.
+> **This is a reach signal, not a demonstration.** Nobody knows what anyone did with their copy: how many installed it, how many distilled anything, how many opened the folder once. It does not count as a case and it does not answer the question the [case studies](./docs/CASES_en.md) do. Note also that the "unique cloners" the API returns are unique **per day**, not people, so they cannot be summed into a headcount.
 
 ---
 
@@ -658,12 +668,17 @@ the other can do next. We do not preserve every experience. We cultivate the one
 orient another decision, prune what no longer constrains anything, and keep the trace of what was
 discarded. Lore is not the garden; it is the practice that keeps this shared ground alive.
 
-Some of the main influences behind the program:
+The program began with a foundational bibliography and has since widened its theoretical dialogue:
 
-- **Martin Buber** — *I and Thou*
-- **Claude Shannon** and **Warren Weaver** — *The Mathematical Theory of Communication*
-- **Gregory Bateson** — "a difference that makes a difference"
-- **Andy Clark** and **David Chalmers** — *The Extended Mind*
+- **Foundational bibliography:** Martin Buber; Louis Althusser; Gilbert Simondon; Claude Shannon
+  and Warren Weaver; Gregory Bateson; Norbert Wiener; Edgar Morin; Andy Clark and David Chalmers;
+  and Hubert Dreyfus.
+- **Extended bibliography and current dialogue:** Edwin Hutchins on distributed cognition; Daniel
+  Wegner on transactive memory; Karl Weick on sensemaking; **Francisco Varela on enaction**; and
+  Heinz von Foerster on second-order cybernetics.
+
+These are interlocutors, not borrowed authority: LUS uses them to expose convergences, differences
+and tensions in claims about the Between, accumulated criterion and Lore.
 
 [Explore the research in the LUS NotebookLM](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b79450)
 
@@ -714,13 +729,15 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.0.7-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="https://github.com/andresanemic/lore-plugin/stargazers"><img src="https://img.shields.io/github/stars/andresanemic/lore-plugin?style=for-the-badge&color=FF557A&labelColor=0B0B12" alt="Estrellas en GitHub"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.0.8-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/agentes_de_IA-neutral_al_proveedor-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Agentes de IA neutrales al proveedor"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/paradigma-Spec--Driven_Development-F94F79?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
   <a href="#obsidian--la-puerta-de-entrada"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Compatible con Obsidian"></a>
   <a href="#origen"><img src="https://img.shields.io/badge/investigaci%C3%B3n-activa-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Estado"></a>
   <a href="#invariantes-compartidas"><img src="https://img.shields.io/badge/todo_local-cero_red-FF6685?style=for-the-badge&labelColor=0B0B12" alt="Todo local, cero red"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/licencia-MIT-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Licencia MIT"></a>
 </p>
 
 <p align="center">
@@ -793,7 +810,7 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 **Entenderlo**
 
 [Invariantes](#invariantes-compartidas) ·
-[Casos de estudio](./CASES_es.md) ·
+[Casos de estudio](./docs/CASES_es.md) ·
 [Alcance](#alcance) · [Origen](#origen)
 
 </td>
@@ -830,7 +847,7 @@ Aporta tres cosas:
 - ocho *skills* que operan esa convención;
 - y un ciclo continuo para destilar experiencia en criterio reutilizable.
 
-Lo de *spec-driven* no es una etiqueta. `CLAUDE.md` es el contrato, `FASES.md` es el estado y lo que viene, y `lore/` es el criterio que restringe cómo se construye todo lo anterior.
+Lo de *spec-driven* no es una etiqueta. `CLAUDE.md` es el contrato único, `AGENTS.md` permite que Codex llegue a él sin duplicar reglas, `FASES.md` es el estado y lo que viene, y `lore/` es el criterio que restringe cómo se construye todo lo anterior.
 
 A diferencia de la documentación, Lore no intenta describirlo todo. Solo conserva aquello que modifica el comportamiento futuro.
 
@@ -955,6 +972,7 @@ Tres meses después, en otro proyecto del Área, alguien pide una animación de 
 | `index.md` | Mapa de navegación: una línea por patrón | `lore/` |
 | `FASES.md` | Estado y hoja de ruta | raíz |
 | `CLAUDE.md` | Contrato de colaboración, reducido a **punteros** | raíz |
+| `AGENTS.md` | Adaptador mínimo de Codex que apunta al mismo contrato | raíz |
 
 Cada uno tiene una responsabilidad. Ninguno duplica a otro.
 
@@ -970,6 +988,7 @@ desarrollo-web/
 │
 ├── FASES.md                   ← registro de proyectos del Área
 ├── CLAUDE.md                  ← contrato del Área
+├── AGENTS.md                  ← adaptador Codex → CLAUDE.md
 │
 └── proyectos/
     ├── cliente-a/
@@ -1137,15 +1156,17 @@ Este kit hace un brainstorming para construir cada artefacto que produce, así q
 </details>
 
 <details>
-<summary><b>Tres extras opcionales, apagados por defecto</b></summary>
+<summary><b>Cinco extras opcionales, apagados por defecto</b></summary>
 
 <br>
 
-Los tres se preguntan al configurar el bot la primera vez. Un bot sin ninguno está completo: son sellos, no piezas.
+Los cinco se preguntan al configurar el bot la primera vez. Un bot sin ninguno está completo: son sellos, no piezas.
 
 - **La copia del ecosistema (`lore-ecosistema/`).** Por defecto el bot **apunta** al Lore de cada proyecto donde vive, sin duplicar nada. Encenderla solo tiene sentido si quien va a usar el bot **no** tiene tus carpetas: ahí el puntero no apunta a nada y la copia es lo único que hace existir ese criterio en su máquina.
-- **Empaquetarlo como *plugin* compartible.** Por defecto **no se crea**. Un bot es una carpeta con su canon y su `CLAUDE.md`: abres la sesión ahí y el criterio ya está cargado, sin instalar nada. Envolverlo en una skill con su repositorio propio sirve para **una sola cosa**, repartirlo a un equipo, y si vas a trabajar tú solo es andamiaje que igual hay que mantener.
-- **Cifrado del Lore** — *experimental*, ver [`ENCRYPTION.md`](./ENCRYPTION.md).
+- **Empaquetarlo como *plugin* compartible.** Por defecto **no se crea**. Un bot es una carpeta con su canon, su `CLAUDE.md` y un `AGENTS.md` mínimo que dirige Codex al mismo contrato: abres la sesión ahí y el criterio ya está cargado, sin instalar nada. Envolverlo en una skill con su repositorio propio sirve para **una sola cosa**, repartirlo a un equipo, y si vas a trabajar tú solo es andamiaje que igual hay que mantener.
+- **Cifrado del Lore** — *experimental*, ver [`ENCRYPTION.md`](./docs/ENCRYPTION.md).
+- **Acceso por Telegram.** Añade un canal desde el teléfono mediante un MCP de Telegram separado, con una lista de acceso explícita. Necesita una máquina alcanzable y una sesión abierta; crear el bot no lo activa.
+- **Un launcher local multiproveedor.** Usa [Lore in the Shell](https://github.com/andresanemic/lore-in-the-shell) si está instalado o construye el launcher local mínimo si no. El launcher elige CLI y modelo; el criterio sigue viviendo en el bot.
 
 </details>
 
@@ -1218,7 +1239,7 @@ Cada nota minada recibe una marca con fecha y destino, **incluidas las que no pr
   <img src="./assets/benchmark-impact-es.png" alt="Benchmark auditado de Lore: 22 puntos más de correctitud al primer intento, 7 por ciento menos tiempo modelado y cero tareas empeoraron" width="100%">
 </p>
 
-**Lore hace más antes de responder, para que tú repitas menos.** Probamos doce tareas congeladas con tres corridas independientes por condición: Codex frío y Codex con Lore, para un total de 72 corridas. Lore dedica más tiempo a leer antes de un intento; la medida útil es el trabajo necesario para terminar correctamente.
+**Lore hace más antes de responder, para que tú repitas menos.** Probamos doce tareas congeladas con tres corridas independientes por condición: Codex frío y Codex con Lore, para un total de 72 corridas. Todas usaron **`gpt-5.6-sol` con esfuerzo de razonamiento medio**; modelo, prompt y herramientas fueron idénticos entre brazos. Lore dedica más tiempo a leer antes de un intento; la medida útil es el trabajo necesario para terminar correctamente.
 
 | Resultado | Codex frío | Codex + Lore |
 |---|---:|---:|
@@ -1251,11 +1272,11 @@ El harness, las tareas congeladas, los graders, las salidas crudas y las fronter
 
 | Documento | Para qué sirve |
 |---|---|
-| [`USAGE_es.md`](./USAGE_es.md) | Guía práctica de uso día a día, con ejemplos. |
-| [`REFERENCE_es.md`](./REFERENCE_es.md) | Referencia técnica de cada artefacto y cada *skill*. |
-| [`MIGRATION_es.md`](./MIGRATION_es.md) | Cómo migrar un proyecto existente con `transmute-lore`. |
-| [`ENCRYPTION.md`](./ENCRYPTION.md) | El cifrado opcional y experimental del criterio de un bot: qué protege y qué no. |
-| [`CASES_es.md`](./CASES_es.md) | Los siete casos de estudio, cada uno con su frontera declarada. |
+| [`USAGE_es.md`](./docs/USAGE_es.md) | Guía práctica de uso día a día, con ejemplos. |
+| [`REFERENCE_es.md`](./docs/REFERENCE_es.md) | Referencia técnica de cada artefacto y cada *skill*. |
+| [`MIGRATION_es.md`](./docs/MIGRATION_es.md) | Cómo migrar un proyecto existente con `transmute-lore`. |
+| [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | El cifrado opcional y experimental del criterio de un bot: qué protege y qué no. |
+| [`CASES_es.md`](./docs/CASES_es.md) | Los ocho casos de estudio, cada uno con su frontera declarada. |
 | [`bench/`](./bench/) | El benchmark: harness, las doce tareas congeladas, método, fronteras declaradas y los resultados crudos. |
 
 <details>
@@ -1269,8 +1290,12 @@ lore-plugin/
     plugin.json
     marketplace.json
 
+  .codex-plugin/
+    plugin.json
+
   skills/
     use-lore/
+    brainstorming-lore/
     create-area/
     create-project/
     create-bot/
@@ -1289,11 +1314,11 @@ lore-plugin/
 
 ## Casos de estudio
 
-Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía. Esas aplicaciones están documentadas como **casos de estudio** — siete, cada uno con su frontera declarada.
+Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía. Esas aplicaciones están documentadas como **ocho casos de estudio**, cada uno con su frontera declarada. Los primeros siete son cualitativos; el Caso 08 es el benchmark controlado resumido arriba.
 
-> **Estatus:** son casos, no demostraciones. n pequeño, y las siete evidencias vienen del mismo investigador. Restringen cómo usamos el kit; no pretenden ser una ley. La afirmación medida es el [benchmark](#benchmark); esto es la mitad cualitativa.
+> **Estatus:** son casos, no demostraciones. n pequeño, y las ocho evidencias vienen del mismo investigador. Restringen cómo usamos el kit; no pretenden ser una ley. La afirmación medida pertenece al [Caso 08 y su benchmark](#el-benchmark); los otros siete aportan evidencia cualitativa.
 
-**[Leer los siete casos de estudio →](./CASES_es.md)**
+**[Leer los ocho casos de estudio →](./docs/CASES_es.md)**
 
 ---
 
@@ -1314,7 +1339,7 @@ Durante treinta y cuatro días el número se mantuvo en unas veinte y pico de cl
 
 El ritmo diario de arriba es el constante, no el promedio con ese día adentro. Los datos vienen de la API de tráfico de GitHub y se guardan en [`data/traffic/clones.json`](./data/traffic/clones.json), porque la API solo conserva 14 días.
 
-> **Es una señal de alcance, no una demostración.** Nadie sabe qué hizo cada quien con su copia: cuántos la instalaron, cuántos destilaron algo, cuántos abrieron la carpeta una vez. No cuenta como caso y no responde la pregunta que sí responden los [casos de estudio](./CASES_es.md). Y los «clonadores únicos» que devuelve la API son únicos **por día**, no personas: no se pueden sumar para contar cabezas.
+> **Es una señal de alcance, no una demostración.** Nadie sabe qué hizo cada quien con su copia: cuántos la instalaron, cuántos destilaron algo, cuántos abrieron la carpeta una vez. No cuenta como caso y no responde la pregunta que sí responden los [casos de estudio](./docs/CASES_es.md). Y los «clonadores únicos» que devuelve la API son únicos **por día**, no personas: no se pueden sumar para contar cabezas.
 
 ---
 
@@ -1332,7 +1357,17 @@ modifican lo que el otro puede hacer después. No preservamos toda experiencia. 
 merece orientar otra decisión, podamos lo que ya no restringe nada y conservamos el rastro de lo
 descartado. Lore no es el jardín: es la práctica que mantiene vivo ese terreno común.
 
-Influencias: **Martin Buber** (*Yo y Tú*), **Shannon** y **Weaver** (*The Mathematical Theory of Communication*), **Gregory Bateson** («una diferencia que produce una diferencia»), **Clark** y **Chalmers** (*The Extended Mind*).
+El programa comenzó con una bibliografía fundacional y después amplió su diálogo teórico:
+
+- **Bibliografía fundacional:** Martin Buber; Louis Althusser; Gilbert Simondon; Claude Shannon y
+  Warren Weaver; Gregory Bateson; Norbert Wiener; Edgar Morin; Andy Clark y David Chalmers; y
+  Hubert Dreyfus.
+- **Bibliografía extendida y diálogo actual:** Edwin Hutchins sobre cognición distribuida; Daniel
+  Wegner sobre memoria transactiva; Karl Weick sobre *sensemaking*; **Francisco Varela sobre
+  enacción**; y Heinz von Foerster sobre cibernética de segundo orden.
+
+Son interlocutores, no autoridad prestada: LUS los usa para hacer visibles convergencias,
+diferencias y tensiones en sus afirmaciones sobre el Entre, el criterio acumulado y el Lore.
 
 [Explora la investigación en el NotebookLM de LUS](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b79450)
 

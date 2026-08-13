@@ -1,13 +1,13 @@
 # Casos de estudio — Lore
 
-> [← Volver al README](./README.md) · [English](./CASES_en.md)
+> [← Volver al README](../README.md) · [English](./CASES_en.md)
 
 ---
 
 
 Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía.
 
-> **Estatus:** son casos, no demostraciones. n pequeño, y las siete evidencias vienen del mismo investigador. Restringen cómo usamos el kit; no pretenden ser una ley.
+> **Estatus:** son casos, no demostraciones. n pequeño, y las ocho evidencias vienen del mismo investigador. Restringen cómo usamos el kit; no pretenden ser una ley. El Caso 08 añade medición controlada sin eliminar esa frontera.
 
 <details>
 <summary><b>Caso 01 — El Lore como forma operativa de un proyecto entero</b></summary>
@@ -103,6 +103,28 @@ Cuatro bots construidos con `create-bot`, mismo ecosistema, las cuatro fuentes c
 - **El método no produce una forma; produce formas ajustadas a la distancia y a la estructura del ecosistema.** El canon **crece cuando el ecosistema se aleja** y se vacía cuando está al lado: un bot destila un corpus sellado que ningún puntero alcanza, otro quedó en un solo archivo, porque resumir lo que el enrutamiento ya alcanza habría dejado dos destilados del mismo original dentro del mismo bot. Un cuarto federa un Área entera en vez de un conjunto de proyectos, y esa excepción se dejó escrita como frontera de validez antes de que el bot existiera.
 
 **Frontera declarada:** un constructor, un ecosistema, una máquina, y todas las fuentes ya tenían Lore. Tres de cuatro se usaron, y el que falta es justamente el único pensado para otras personas — así que el caso todavía no dice nada sobre qué pasa cuando quien construye y quien usa son distintos.
+
+</details>
+
+<details>
+<summary><b>Caso 08 — Un Lore nacido con Claude vuelve a decidir con Codex</b></summary>
+
+<br>
+
+Un benchmark controlado preguntó si el criterio ganado trabajando con un modelo podía cambiar las
+decisiones futuras de otro. En el protocolo web congelado de 72 corridas, Codex frío respetó
+**25/36 Pistas evaluadas (69,4%)** y Codex con Lore respetó **33/36 (91,7%)**: +22,3 puntos, sin
+empeorar ninguna tarea. Extensiones sintéticas de escritura y UPGRADE ampliaron el protocolo más
+allá de un solo fixture web.
+
+En los tres protocolos, Lore respetó **48/52 Pistas al primer intento frente a 29/52**. Con una
+corrección controlada, alcanzó **52/52 metas frente a 39/52**, consumiendo menos intentos y menos
+tiempo observados. El benchmark publica transcripts crudos, graders deterministas, cortes bruto y
+auditado, regresiones y la frontera exacta de cada afirmación en [`bench/`](../bench/).
+
+**Frontera declarada:** un modelo, un nivel de esfuerzo, una máquina, tareas sintéticas y el mismo
+investigador construyó Lore, fixtures y graders. Mide cumplimiento de una Pista por tarea, no
+correctitud integral del entregable, ahorro universal ni un IME validado.
 
 </details>
 ---
