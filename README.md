@@ -566,15 +566,14 @@ All eight skills follow the same rules:
 <table width="100%">
   <thead><tr><th width="50%">Multidomain result</th><th align="right">Cold Codex</th><th align="right">Codex + Lore</th><th align="right">Effect</th></tr></thead>
   <tbody>
-    <tr><td>First-pass compliance <sup>1</sup></td><td align="right">51.3%</td><td align="right"><strong>95.8%</strong></td><td align="right"><strong>+44.5 pp</strong></td></tr>
-    <tr><td>Goals reached with at most one correction <sup>2</sup></td><td align="right">39/52 (75.0%)</td><td align="right"><strong>52/52 (100%)</strong></td><td align="right"><strong>+25.0 pp</strong></td></tr>
-    <tr><td>Observed attempts to the final result <sup>2</sup></td><td align="right">1.44</td><td align="right"><strong>1.08</strong></td><td align="right"><strong>−25.3%</strong></td></tr>
-    <tr><td>Observed time to the final result <sup>2</sup></td><td align="right">68.7 s</td><td align="right"><strong>58.2 s</strong></td><td align="right"><strong>−15.2%</strong></td></tr>
+    <tr><td>First-pass compliance</td><td align="right">51.3%</td><td align="right"><strong>95.8%</strong></td><td align="right"><strong>+44.5 pp</strong></td></tr>
+    <tr><td>Goals reached with at most one correction</td><td align="right">39/52 (75.0%)</td><td align="right"><strong>52/52 (100%)</strong></td><td align="right"><strong>+25.0 pp</strong></td></tr>
+    <tr><td>Observed attempts to the final result</td><td align="right">1.44</td><td align="right"><strong>1.08</strong></td><td align="right"><strong>−25.3%</strong></td></tr>
+    <tr><td>Observed time to the final result</td><td align="right">68.7 s</td><td align="right"><strong>58.2 s</strong></td><td align="right"><strong>−15.2%</strong></td></tr>
   </tbody>
 </table>
 
-<sup>1</sup> Equal-weight macro-average of the Web cut (**69.4% → 91.7%**) and the Editorial cut (**33.3% → 100%**), 48 first attempts per arm. It is not the pooled 52-unit rate.<br>
-<sup>2</sup> Integrated observed protocol: 52 goal units per arm—36 Web runs, 12 Editorial runs and 4 UPGRADE runs—with at most one controlled correction.
+**Aggregation:** the first row is the equal-weight macro-average of the Web cut (**69.4% → 91.7%**) and the Editorial cut (**33.3% → 100%**), 48 first attempts per arm; it is not the pooled 52-unit rate. **Integrated protocol:** the other three rows use 52 goal units per arm—36 Web runs, 12 Editorial runs and 4 UPGRADE runs—with at most one controlled correction.
 
 We call the drop from **69.4% on Web to 33.3% on Editorial** in the cold arm the **cold-domain cliff**: a descriptive label for the domain sensitivity observed here, not a universal law. Lore held at **91.7% and 100%** across the same cuts. In the integrated repair protocol it also used **6.8% fewer output tokens**; input tokens were 1.3% higher and tool use was effectively equal.
 
@@ -1281,15 +1280,14 @@ Cada nota minada recibe una marca con fecha y destino, **incluidas las que no pr
 <table width="100%">
   <thead><tr><th width="50%">Resultado multidominio</th><th align="right">Codex frío</th><th align="right">Codex + Lore</th><th align="right">Efecto</th></tr></thead>
   <tbody>
-    <tr><td>Cumplimiento al primer intento <sup>1</sup></td><td align="right">51,3%</td><td align="right"><strong>95,8%</strong></td><td align="right"><strong>+44,5 pp</strong></td></tr>
-    <tr><td>Metas alcanzadas con hasta una corrección <sup>2</sup></td><td align="right">39/52 (75,0%)</td><td align="right"><strong>52/52 (100%)</strong></td><td align="right"><strong>+25,0 pp</strong></td></tr>
-    <tr><td>Intentos observados hasta el resultado final <sup>2</sup></td><td align="right">1,44</td><td align="right"><strong>1,08</strong></td><td align="right"><strong>−25,3%</strong></td></tr>
-    <tr><td>Tiempo observado hasta el resultado final <sup>2</sup></td><td align="right">68,7 s</td><td align="right"><strong>58,2 s</strong></td><td align="right"><strong>−15,2%</strong></td></tr>
+    <tr><td>Cumplimiento al primer intento</td><td align="right">51,3%</td><td align="right"><strong>95,8%</strong></td><td align="right"><strong>+44,5 pp</strong></td></tr>
+    <tr><td>Metas alcanzadas con hasta una corrección</td><td align="right">39/52 (75,0%)</td><td align="right"><strong>52/52 (100%)</strong></td><td align="right"><strong>+25,0 pp</strong></td></tr>
+    <tr><td>Intentos observados hasta el resultado final</td><td align="right">1,44</td><td align="right"><strong>1,08</strong></td><td align="right"><strong>−25,3%</strong></td></tr>
+    <tr><td>Tiempo observado hasta el resultado final</td><td align="right">68,7 s</td><td align="right"><strong>58,2 s</strong></td><td align="right"><strong>−15,2%</strong></td></tr>
   </tbody>
 </table>
 
-<sup>1</sup> Macromedia equiponderada del corte Web (**69,4% → 91,7%**) y el corte Editorial (**33,3% → 100%**), 48 primeros intentos por brazo. No es la tasa agrupada de las 52 unidades.<br>
-<sup>2</sup> Protocolo observado integrado: 52 unidades-meta por brazo —36 corridas Web, 12 Editoriales y 4 de UPGRADE—, con hasta una corrección controlada.
+**Agregación:** la primera fila es la macromedia equiponderada del corte Web (**69,4% → 91,7%**) y el corte Editorial (**33,3% → 100%**), 48 primeros intentos por brazo; no es la tasa agrupada de las 52 unidades. **Protocolo integrado:** las otras tres filas usan 52 unidades-meta por brazo —36 corridas Web, 12 Editoriales y 4 de UPGRADE—, con hasta una corrección controlada.
 
 Llamamos **Efecto Abismo** a la caída de **69,4% en Web a 33,3% en Editorial** del brazo frío: una etiqueta descriptiva para la sensibilidad de dominio observada aquí, no una ley universal. Lore se mantuvo en **91,7% y 100%** en los mismos cortes. En el protocolo integrado de reparación también consumió **6,8% menos tokens de salida**; la entrada fue 1,3% mayor y las herramientas quedaron prácticamente iguales.
 
