@@ -31,7 +31,7 @@
   Lore keeps the criteria behind your decisions and loads it into the next session.
 </p>
 
-<h3 align="center"><strong>+22.3 points of first-pass correctness</strong>, with no task made worse.</h3>
+<h3 align="center"><strong>+44.5 points of cross-domain first-pass compliance</strong>.</h3>
 
 <div align="center">
 <table>
@@ -44,19 +44,24 @@
   </thead>
   <tbody>
     <tr>
-      <td>Audited first-pass correctness</td>
-      <td align="right">25/36 (69.4%)</td>
-      <td align="right"><strong>33/36 (91.7%; +22.3 pts)</strong></td>
+      <td>First-pass compliance (Web–Editorial macro-average)</td>
+      <td align="right">51.3%</td>
+      <td align="right"><strong>95.8% (+44.5 pp)</strong></td>
     </tr>
     <tr>
-      <td>Modeled time to a correct result</td>
-      <td align="right">61.68 s</td>
-      <td align="right"><strong>57.11 s (−7.4%)</strong></td>
+      <td>Goals reached (≤1 correction; 52 units)</td>
+      <td align="right">39/52 (75.0%)</td>
+      <td align="right"><strong>52/52 (100%; +25.0 pp)</strong></td>
     </tr>
     <tr>
-      <td>Tasks made worse</td>
-      <td align="right">—</td>
-      <td align="right"><strong>0/12</strong></td>
+      <td>Observed attempts per unit</td>
+      <td align="right">1.44</td>
+      <td align="right"><strong>1.08 (−25.3%)</strong></td>
+    </tr>
+    <tr>
+      <td>Observed time per unit</td>
+      <td align="right">68.7 s</td>
+      <td align="right"><strong>58.2 s (−15.2%)</strong></td>
     </tr>
   </tbody>
 </table>
@@ -553,38 +558,27 @@ All eight skills follow the same rules:
 ## Benchmark
 
 <p align="center">
-  <img src="./assets/benchmark-impact.png" alt="Audited Lore benchmark: 22 points more first-pass correctness, 7 percent less modeled time and zero tasks made worse" width="100%">
+  <img src="./assets/benchmark-impact.png" alt="Audited Lore benchmark: 44.5 points more cross-domain first-pass compliance, every measured goal reached and 15.2 percent less observed time" width="100%">
 </p>
 
-**Lore does more before answering—so you redo less.** We tested twelve frozen tasks with three independent runs per condition: cold Codex and Codex with Lore, for 72 runs in total. Every run used **`gpt-5.6-sol` with medium reasoning effort**; model, prompt and tools were identical between arms. Lore spends more time reading before an attempt; the useful measure is the work required to finish correctly.
+**Lore acts as stability infrastructure when the domain changes.** The public first-pass result now reports an equal-weight macro-average across two domain families: Web and Editorial (community management plus news writing). This prevents the larger Web cut from hiding the editorial drop. Every run used **`gpt-5.6-sol` with medium reasoning effort**; model, prompt and tools were identical between arms.
 
 <table width="100%">
-  <thead><tr><th width="56%">Result</th><th align="right">Cold Codex</th><th align="right">Codex + Lore</th></tr></thead>
+  <thead><tr><th width="50%">Multidomain result</th><th align="right">Cold Codex</th><th align="right">Codex + Lore</th><th align="right">Effect</th></tr></thead>
   <tbody>
-    <tr><td>Correct on the first attempt</td><td align="right">25/36 (69.4%)</td><td align="right"><strong>33/36 (91.7%)</strong></td></tr>
-    <tr><td>Correct runs per 10 attempts</td><td align="right">6.9</td><td align="right"><strong>9.2</strong></td></tr>
-    <tr><td>Read Lore and obeyed the evaluated criterion</td><td align="right">—</td><td align="right"><strong>31/32 (96.9%)</strong></td></tr>
+    <tr><td>First-pass compliance <sup>1</sup></td><td align="right">51.3%</td><td align="right"><strong>95.8%</strong></td><td align="right"><strong>+44.5 pp</strong></td></tr>
+    <tr><td>Goals reached with at most one correction <sup>2</sup></td><td align="right">39/52 (75.0%)</td><td align="right"><strong>52/52 (100%)</strong></td><td align="right"><strong>+25.0 pp</strong></td></tr>
+    <tr><td>Observed attempts per unit <sup>2</sup></td><td align="right">1.44</td><td align="right"><strong>1.08</strong></td><td align="right"><strong>−25.3%</strong></td></tr>
+    <tr><td>Observed time per unit <sup>2</sup></td><td align="right">68.7 s</td><td align="right"><strong>58.2 s</strong></td><td align="right"><strong>−15.2%</strong></td></tr>
   </tbody>
 </table>
 
-That is **+22.3 points of first-pass correctness**. Lore never made a task result worse: it improved 3 of the 12 tasks and preserved the result in the other 9.
+<sup>1</sup> Equal-weight macro-average of the Web cut (**69.4% → 91.7%**) and the Editorial cut (**33.3% → 100%**), 48 first attempts per arm. It is not the pooled 52-unit rate.<br>
+<sup>2</sup> Integrated observed protocol: 52 goal units per arm—36 Web runs, 12 Editorial runs and 4 UPGRADE runs—with at most one controlled correction.
 
-<table width="100%">
-  <thead><tr><th width="56%">Cost to reach a correct result</th><th align="right">Without Lore</th><th align="right">With Lore</th><th align="right">Effect</th></tr></thead>
-  <tbody>
-    <tr><td>Time per attempt</td><td align="right">42.83 s</td><td align="right">52.35 s</td><td align="right">+22.2%</td></tr>
-    <tr><td>Expected attempts per success</td><td align="right">1.44</td><td align="right"><strong>1.09</strong></td><td align="right"><strong>−24.2%</strong></td></tr>
-    <tr><td>Modeled time to success</td><td align="right">61.68 s</td><td align="right"><strong>57.11 s</strong></td><td align="right"><strong>−7.4%</strong></td></tr>
-    <tr><td>Modeled output tokens to success</td><td align="right">2,077</td><td align="right"><strong>2,050</strong></td><td align="right"><strong>−1.3%</strong></td></tr>
-  </tbody>
-</table>
+We call the drop from **69.4% on Web to 33.3% on Editorial** in the cold arm the **cold-domain cliff**: a descriptive label for the domain sensitivity observed here, not a universal law. Lore held at **91.7% and 100%** across the same cuts. In the integrated repair protocol it also used **6.8% fewer output tokens**; input tokens were 1.3% higher and tool use was effectively equal.
 
-These four rows are a model based on aggregate first-pass rates, not observed repair cycles. A
-separate controlled extension measured up to one repair across 52 units per arm: Lore reached
-**52/52 goals versus 39/52**, while consuming **15.2% less observed time**, **25.3% fewer attempts**
-and **6.8% fewer output tokens**. Input tokens were 1.3% higher and tool use was effectively equal.
-
-> **Lore was slower per first attempt, but reached every measured goal within the repair limit.**
+> **Lore reached every measured goal within the repair limit, with fewer attempts and less observed time.**
 
 The harness, frozen tasks, graders, raw outputs and declared limits are in [`bench/`](./bench/). These are Codex results, not a universal model claim. The same benchmark will be repeated with Claude Code during the week of August 17; those results will remain separate and will not change the 2.0 skills or version.
 
@@ -601,7 +595,7 @@ This README covers motivation and architecture. Everything else lives in its own
 | [`MIGRATION_en.md`](./docs/MIGRATION_en.md) | How to migrate an existing project into Lore using `transmute-lore`. |
 | [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | The optional, experimental encryption for a bot's criteria: what it protects and what it does not. |
 | [`CASES_en.md`](./docs/CASES_en.md) | The eight case studies, each with its declared boundary. |
-| [`bench/`](./bench/) | The benchmark: harness, the twelve frozen tasks, method, declared limits and the raw results. |
+| [`bench/`](./bench/) | The benchmark: Web, Editorial and UPGRADE harnesses; frozen tasks; method; declared limits; and raw results. |
 
 <details>
 <summary><b>Repository structure</b></summary>
@@ -774,7 +768,7 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
   Lore guarda el criterio detrás de tus decisiones y lo carga en la siguiente sesión.
 </p>
 
-<h3 align="center"><strong>+22,3 puntos de correctitud al primer intento</strong>, sin empeorar ninguna tarea.</h3>
+<h3 align="center"><strong>+44,5 puntos de cumplimiento multidominio al primer intento</strong>.</h3>
 
 <div align="center">
 <table>
@@ -787,19 +781,24 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
   </thead>
   <tbody>
     <tr>
-      <td>Correctitud auditada al primer intento</td>
-      <td align="right">25/36 (69,4%)</td>
-      <td align="right"><strong>33/36 (91,7%; +22,3 pts)</strong></td>
+      <td>Cumplimiento al primer intento (macromedia Web–Editorial)</td>
+      <td align="right">51,3%</td>
+      <td align="right"><strong>95,8% (+44,5 pp)</strong></td>
     </tr>
     <tr>
-      <td>Tiempo modelado hasta un resultado correcto</td>
-      <td align="right">61,68 s</td>
-      <td align="right"><strong>57,11 s (−7,4%)</strong></td>
+      <td>Metas alcanzadas (≤1 corrección; 52 unidades)</td>
+      <td align="right">39/52 (75,0%)</td>
+      <td align="right"><strong>52/52 (100%; +25,0 pp)</strong></td>
     </tr>
     <tr>
-      <td>Tareas que empeoraron</td>
-      <td align="right">—</td>
-      <td align="right"><strong>0/12</strong></td>
+      <td>Intentos observados por unidad</td>
+      <td align="right">1,44</td>
+      <td align="right"><strong>1,08 (−25,3%)</strong></td>
+    </tr>
+    <tr>
+      <td>Tiempo observado por unidad</td>
+      <td align="right">68,7 s</td>
+      <td align="right"><strong>58,2 s (−15,2%)</strong></td>
     </tr>
   </tbody>
 </table>
@@ -1274,39 +1273,27 @@ Cada nota minada recibe una marca con fecha y destino, **incluidas las que no pr
 ## El benchmark
 
 <p align="center">
-  <img src="./assets/benchmark-impact-es.png" alt="Benchmark auditado de Lore: 22 puntos más de correctitud al primer intento, 7 por ciento menos tiempo modelado y cero tareas empeoraron" width="100%">
+  <img src="./assets/benchmark-impact-es.png" alt="Benchmark auditado de Lore: 44,5 puntos más de cumplimiento multidominio al primer intento, todas las metas medidas alcanzadas y 15,2 por ciento menos tiempo observado" width="100%">
 </p>
 
-**Lore hace más antes de responder, para que tú repitas menos.** Probamos doce tareas congeladas con tres corridas independientes por condición: Codex frío y Codex con Lore, para un total de 72 corridas. Todas usaron **`gpt-5.6-sol` con esfuerzo de razonamiento medio**; modelo, prompt y herramientas fueron idénticos entre brazos. Lore dedica más tiempo a leer antes de un intento; la medida útil es el trabajo necesario para terminar correctamente.
+**Lore funciona como infraestructura de estabilidad cuando cambia el dominio.** El resultado público al primer intento ahora usa una macromedia equiponderada entre dos familias: Web y Editorial (community management y redacción de noticias). Así, el mayor número de corridas Web no oculta la caída editorial. Todas las corridas usaron **`gpt-5.6-sol` con esfuerzo de razonamiento medio**; modelo, prompt y herramientas fueron idénticos entre brazos.
 
 <table width="100%">
-  <thead><tr><th width="56%">Resultado</th><th align="right">Codex frío</th><th align="right">Codex + Lore</th></tr></thead>
+  <thead><tr><th width="50%">Resultado multidominio</th><th align="right">Codex frío</th><th align="right">Codex + Lore</th><th align="right">Efecto</th></tr></thead>
   <tbody>
-    <tr><td>Correcto al primer intento</td><td align="right">25/36 (69,4%)</td><td align="right"><strong>33/36 (91,7%)</strong></td></tr>
-    <tr><td>Corridas correctas cada 10 intentos</td><td align="right">6,9</td><td align="right"><strong>9,2</strong></td></tr>
-    <tr><td>Leyó Lore y obedeció la Pista evaluada</td><td align="right">—</td><td align="right"><strong>31/32 (96,9%)</strong></td></tr>
+    <tr><td>Cumplimiento al primer intento <sup>1</sup></td><td align="right">51,3%</td><td align="right"><strong>95,8%</strong></td><td align="right"><strong>+44,5 pp</strong></td></tr>
+    <tr><td>Metas alcanzadas con hasta una corrección <sup>2</sup></td><td align="right">39/52 (75,0%)</td><td align="right"><strong>52/52 (100%)</strong></td><td align="right"><strong>+25,0 pp</strong></td></tr>
+    <tr><td>Intentos observados por unidad <sup>2</sup></td><td align="right">1,44</td><td align="right"><strong>1,08</strong></td><td align="right"><strong>−25,3%</strong></td></tr>
+    <tr><td>Tiempo observado por unidad <sup>2</sup></td><td align="right">68,7 s</td><td align="right"><strong>58,2 s</strong></td><td align="right"><strong>−15,2%</strong></td></tr>
   </tbody>
 </table>
 
-Son **+22,3 puntos de correctitud al primer intento**. Lore nunca empeoró el resultado de una tarea: mejoró 3 de las 12 y mantuvo el resultado en las otras 9.
+<sup>1</sup> Macromedia equiponderada del corte Web (**69,4% → 91,7%**) y el corte Editorial (**33,3% → 100%**), 48 primeros intentos por brazo. No es la tasa agrupada de las 52 unidades.<br>
+<sup>2</sup> Protocolo observado integrado: 52 unidades-meta por brazo —36 corridas Web, 12 Editoriales y 4 de UPGRADE—, con hasta una corrección controlada.
 
-<table width="100%">
-  <thead><tr><th width="56%">Costo hasta llegar a un resultado correcto</th><th align="right">Sin Lore</th><th align="right">Con Lore</th><th align="right">Efecto</th></tr></thead>
-  <tbody>
-    <tr><td>Tiempo por intento</td><td align="right">42,83 s</td><td align="right">52,35 s</td><td align="right">+22,2%</td></tr>
-    <tr><td>Intentos esperados por éxito</td><td align="right">1,44</td><td align="right"><strong>1,09</strong></td><td align="right"><strong>−24,2%</strong></td></tr>
-    <tr><td>Tiempo modelado hasta el éxito</td><td align="right">61,68 s</td><td align="right"><strong>57,11 s</strong></td><td align="right"><strong>−7,4%</strong></td></tr>
-    <tr><td>Tokens de salida modelados hasta el éxito</td><td align="right">2.077</td><td align="right"><strong>2.050</strong></td><td align="right"><strong>−1,3%</strong></td></tr>
-  </tbody>
-</table>
+Llamamos **Efecto Abismo** a la caída de **69,4% en Web a 33,3% en Editorial** del brazo frío: una etiqueta descriptiva para la sensibilidad de dominio observada aquí, no una ley universal. Lore se mantuvo en **91,7% y 100%** en los mismos cortes. En el protocolo integrado de reparación también consumió **6,8% menos tokens de salida**; la entrada fue 1,3% mayor y las herramientas quedaron prácticamente iguales.
 
-Estas cuatro filas son un modelo basado en tasas agregadas al primer intento, no ciclos de reparación
-observados. Una extensión controlada aparte midió hasta una reparación en 52 unidades por brazo:
-Lore alcanzó **52/52 metas frente a 39/52**, consumiendo **15,2% menos tiempo observado**, **25,3%
-menos intentos** y **6,8% menos tokens de salida**. La entrada fue 1,3% mayor y las herramientas
-quedaron prácticamente iguales.
-
-> **Lore fue más lento en el primer intento, pero alcanzó todas las metas medidas dentro del límite de reparación.**
+> **Lore alcanzó todas las metas medidas dentro del límite de reparación, con menos intentos y menos tiempo observado.**
 
 El harness, las tareas congeladas, los graders, las salidas crudas y las fronteras declaradas están en [`bench/`](./bench/). Son resultados de Codex, no una afirmación universal sobre modelos. El mismo benchmark se repetirá con Claude Code durante la semana del 17 de agosto; esos resultados quedarán separados y no cambiarán las skills ni la versión 2.0.
 
@@ -1321,7 +1308,7 @@ El harness, las tareas congeladas, los graders, las salidas crudas y las fronter
 | [`MIGRATION_es.md`](./docs/MIGRATION_es.md) | Cómo migrar un proyecto existente con `transmute-lore`. |
 | [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | El cifrado opcional y experimental del criterio de un bot: qué protege y qué no. |
 | [`CASES_es.md`](./docs/CASES_es.md) | Los ocho casos de estudio, cada uno con su frontera declarada. |
-| [`bench/`](./bench/) | El benchmark: harness, las doce tareas congeladas, método, fronteras declaradas y los resultados crudos. |
+| [`bench/`](./bench/) | El benchmark: harnesses Web, Editorial y UPGRADE; tareas congeladas; método; fronteras declaradas; y resultados crudos. |
 
 <details>
 <summary><b>Estructura del repositorio</b></summary>
