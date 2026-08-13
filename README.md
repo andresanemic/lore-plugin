@@ -21,9 +21,7 @@
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-FFBE0B?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
   <a href="#obsidian--the-way-in"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Obsidian compatible"></a>
   <a href="#origin"><img src="https://img.shields.io/badge/research-active-10B981?style=for-the-badge&labelColor=0B0B12" alt="Status"></a>
-  <a href="#benchmark"><img src="https://img.shields.io/badge/benchmark-72_runs-FF6B35?style=for-the-badge&labelColor=0B0B12" alt="Benchmark: 72 runs"></a>
   <a href="#shared-invariants"><img src="https://img.shields.io/badge/local_only-no_network-14B8A6?style=for-the-badge&labelColor=0B0B12" alt="Local only, no network"></a>
-  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-6B7280?style=for-the-badge&labelColor=0B0B12" alt="MIT"></a>
 </p>
 
 <p align="center">
@@ -729,9 +727,7 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-FFBE0B?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
   <a href="#obsidian--la-puerta-de-entrada"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Compatible con Obsidian"></a>
   <a href="#origen"><img src="https://img.shields.io/badge/investigaci%C3%B3n-activa-10B981?style=for-the-badge&labelColor=0B0B12" alt="Estado"></a>
-  <a href="#el-benchmark"><img src="https://img.shields.io/badge/benchmark-72_corridas-FF6B35?style=for-the-badge&labelColor=0B0B12" alt="Benchmark: 72 corridas"></a>
   <a href="#invariantes-compartidas"><img src="https://img.shields.io/badge/todo_local-cero_red-14B8A6?style=for-the-badge&labelColor=0B0B12" alt="Todo local, cero red"></a>
-  <a href="./LICENSE"><img src="https://img.shields.io/badge/licencia-MIT-6B7280?style=for-the-badge&labelColor=0B0B12" alt="MIT"></a>
 </p>
 
 <p align="center">
