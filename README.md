@@ -15,7 +15,7 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.0.2-F72585?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.0.3-F72585?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/paradigm-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-FFBE0B?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
@@ -665,7 +665,7 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.0.2-F72585?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.0.3-F72585?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/paradigma-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-FFBE0B?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
@@ -1130,7 +1130,7 @@ Cada nota minada recibe una marca con fecha y destino, **incluidas las que no pr
 ## El benchmark
 
 <p align="center">
-  <img src="./assets/benchmark-impact.png" alt="Benchmark de Lore: 28 puntos más de correctitud al primer intento, 28 por ciento menos tiempo y 24 por ciento menos tokens de salida hasta un resultado correcto" width="100%">
+  <img src="./assets/benchmark-impact-es.png" alt="Benchmark de Lore: 28 puntos más de correctitud al primer intento, 28 por ciento menos tiempo y 24 por ciento menos tokens de salida hasta un resultado correcto" width="100%">
 </p>
 
 **Lore hace más antes de responder, para que tú repitas menos.** Probamos doce tareas congeladas con tres corridas independientes por condición: Codex frío y Codex con Lore, para un total de 72 corridas. Lore dedica más tiempo a leer antes de un intento; la medida útil es el trabajo necesario para terminar correctamente.

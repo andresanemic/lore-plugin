@@ -1,6 +1,6 @@
 # Plugin Lore – Guía de Uso
 
-Esta guía muestra cómo usar el plugin Lore en **Claude Code** en el trabajo diario:  
+Esta guía muestra cómo usar el plugin Lore con **agentes de IA compatibles** en el trabajo diario:
 crear Áreas y proyectos, capturar criterio después de resolver problemas y mantener tu Lore limpio y útil.
 
 > Lore es un kit ligero de Spec‑Driven Development (SDD) para Claude Code.  
