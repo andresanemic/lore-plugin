@@ -1,6 +1,6 @@
 ---
-name: using-lore
-description: Read this first to understand the Lore system — what Lore is, the six-artifact standard, the area↔project model, and which of the Lore skills (create-area, create-project, create-bot, save-to-lore, transmute-lore, obsidian-lore) to invoke when. Carries the kit's HARD-GATE for its very first use on a machine with no Lore yet (a brainstorm, never a menu of commands) and the standard that governs every later one — the skill that owns an artifact is always invoked to write it, and the version that runs is the installed, up-to-date one. Use when the user mentions "lore", asks how this kit works, installs or updates the plugin, starts a new work area, project or bot, wants to migrate an old project to the Lore standard, or keeps Obsidian notes in the same folder tree.
+name: use-lore
+description: Read this first to understand the Lore system — what Lore is, the six-artifact standard, the area↔project model, and which of the Lore skills (brainstorming-lore, create-area, create-project, create-bot, save-to-lore, transmute-lore, obsidian-lore) to invoke when. Carries the kit's HARD-GATE for its very first use on a machine with no Lore yet (a brainstorm, never a menu of commands) and the standard that governs every later one — the skill that owns an artifact is always invoked to write it, and the version that runs is the installed, up-to-date one. Use when the user mentions "lore", asks how this kit works, installs or updates the plugin, starts a new work area, project or bot, wants to migrate an old project to the Lore standard, or keeps Obsidian notes in the same folder tree.
 ---
 
 # Using Lore
@@ -21,7 +21,8 @@ this runs **before anything else**, and before offering any skill by name. The k
 build** every artifact it makes; it would be incoherent for the kit itself to greet its first user
 with a list of seven commands.
 
-> **If a brainstorming skill is available, invoke it and run this through it.** If none is installed,
+> **Invoke Lore Plugin's own `brainstorming-lore` skill** (`lore:brainstorming-lore` where skills are
+> namespaced) and run this through it. If the runtime failed to expose an installed Lore skill,
 > run the minimal version below yourself. A kit that cannot start without a third-party skill is a
 > kit that does not start.
 
@@ -135,16 +136,22 @@ never paid for will start receiving promotions that belong somewhere else.
 | Start a **new work area** (a mother folder for a family of projects) | `create-area` |
 | Start a **new project inside an existing area** | `create-project` |
 | Build a **bot** — an installable plugin that carries a canon and works inside real repositories, either from zero or by federating Lore already dissolved across several areas | `create-bot` |
+| Open Lore-governed bots/projects through a provider and model launcher | `create-bot`; use the separate `lore-in-the-shell` skill when installed, otherwise build its minimal fallback there |
 | **Save a lesson** ("save to lore") — capture a clue from **lived friction** in the project and promote generic, confirmed ones up to the area | `save-to-lore` (**CAPTURE**, default) |
 | **Distill from an external body of criteria** — a skill, a style guide, a third-party playbook ("destila esta skill") | `save-to-lore` (**ARBITRATE**): imported criteria is judged against this Entre's purpose; only what survives enters, and the module must state **where the source loses** |
 | Bring an **old project with scattered criteria** up to the six-artifact standard, **clean** a project's redundant modules back down to what the area already owns, or **standardize the language** of an existing Lore | `transmute-lore` |
 | **Raise a healthy Lore to a newer version of these skills** — it is in the standard and in use, but predates gates the kit learned later. Nothing looks broken, which is why nobody upgrades it | `transmute-lore` (**UPGRADE**): arbitrates the existing Lore against the current version, adds what is missing, and leaves untouched what the project **earned** with real friction |
 | Keep **Obsidian notes in the same folder tree** as the Lore, and **mine that inbox** for what deserves to become criteria ("revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore") | `obsidian-lore` |
-| Understand the system / decide which skill applies | `using-lore` (this one) |
+| Understand the system / decide which skill applies | `use-lore` (this one) |
 
 **Order of a fresh setup:** `create-area` → `create-project` → (work, saving clues with `save-to-lore`)
 → `transmute-lore` as needed. A **bot** comes later, once several projects have Lore worth carrying
 into one session — `create-bot` federates what exists; it does not substitute for building it.
+
+**Source-side precedence:** when a request points at `notas/` or `notes/` and asks to integrate,
+extract, distill or save its contents anywhere, invoke `obsidian-lore` first. Then invoke the skill
+that owns the destination (`save-to-lore`, `research-lus`, or another domain workflow). A domain
+skill understanding the notes does not replace the mining pass or its frontmatter.
 
 ### The failure these skills cannot see: not being invoked at all
 
@@ -158,6 +165,7 @@ enter, and the moment you decide not to enter has a specific shape — it feels 
 | "It's one clue, not a migration" | One clue is exactly `save-to-lore`'s unit of work. |
 | "I'll invoke it after I draft the file" | The skill decides the **mode**, and the mode decides what the draft must contain. |
 | "The lore is small / this project is simple" | Size is not the classifier. Source of the criteria is. |
+| "The research/domain skill already read the notes" | Reading is not mining. If the source is an inbox, invoke `obsidian-lore` and leave a trace in every note. |
 
 **There is no error signal for this.** Criteria written by hand comes out well-worded, lands in the
 right file, and passes human review. What is missing does not look missing, because it never got

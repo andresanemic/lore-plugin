@@ -1,0 +1,29 @@
+{
+  "task": "cm-single-cta",
+  "arm": "lore",
+  "trial": 2,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "(?i)(?:inscr[ií]bete|reg[ií]strate|reserva tu (?:cupo|lugar))"
+  ],
+  "violation": [],
+  "text": "### Opciones de copy\n\n**1.**  \n¿Sientes que cada semana improvisas qué publicar? En nuestro webinar gratuito aprenderás a planificar contenidos con foco, orden y anticipación.\n\nCierra el ciclo de la improvisación.  \n**Reserva tu lugar y crea un plan que puedas sostener.**\n\n**2.**  \nUna buena estrategia de contenidos empieza antes de escribir el primer post. Descubre cómo organizar temas, formatos y fechas en nuestro webinar gratuito.\n\nPlanifica con claridad y publica con intención.  \n**Inscríbete gratis y construye tu calendario de contenidos.**\n\n**3.**  \nMenos estrés, más estrategia. Te invitamos a un webinar gratuito para aprender a convertir tus objetivos en un plan de contenidos práctico.\n\nHaz que cada publicación tenga un propósito.  \n**Reserva tu lugar y empieza a planificar mejor.**\n\n**4.**  \nSi tienes muchas ideas, pero no sabes cómo ordenarlas, este webinar es para ti. Aprende un método simple para planificar contenidos sin perder flexibilidad.\n\nDe las ideas sueltas a un plan accionable.  \n**Inscríbete gratis y organiza tus próximos contenidos.**\n\n**5.**  \nPlanificar contenidos no tiene que ser complicado. En este webinar gratuito compartiremos herramientas para definir temas, organizar tiempos y mantener la constancia.\n\nTu próximo mes de contenidos puede empezar hoy.  \n**Reserva tu lugar y gana claridad para crear.**\n\n### CTA alternativas\n\n- **Inscríbete gratis y crea un calendario de contenidos accionable.**\n- **Reserva tu lugar y planifica tus próximas publicaciones con claridad.**\n\n### Acompañamientos\n\n- Carrusel: “De la improvisación al calendario: 3 pasos para planificar contenidos”.\n- Imagen estática con fecha, hora, nombre del webinar y sello “Inscripción gratuita”.",
+  "error": false,
+  "stderr": "2026-08-13T00:07:40.854911Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": true,
+  "tool_calls": 4,
+  "cost_usd": null,
+  "input_tokens": 66075,
+  "output_tokens": 907,
+  "cache_read": 54272,
+  "duration_ms": 32237,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -Encoding UTF8 -LiteralPath 'lore/index.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -Encoding UTF8 -LiteralPath 'lore/creacion-publicaciones.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -Encoding UTF8 -LiteralPath 'lore/escritura.md'\""
+  ]
+}

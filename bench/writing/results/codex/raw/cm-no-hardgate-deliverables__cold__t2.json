@@ -1,0 +1,24 @@
+{
+  "task": "cm-no-hardgate-deliverables",
+  "arm": "cold",
+  "trial": 2,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "fail",
+  "compliance": [],
+  "violation": [],
+  "text": "## Menú de entregables\n\n**Publicación:** Webinar gratuito sobre planificación de contenidos\n\n1. **Post principal**\n   - Copy informativo y persuasivo\n   - Beneficios, fecha, modalidad y llamado a inscripción\n\n2. **Versión breve**\n   - Copy compacto para X, Threads o publicaciones recordatorias\n\n3. **Carrusel**\n   - Portada\n   - Problema habitual\n   - Aprendizajes del webinar\n   - Público recomendado\n   - Cierre con llamada a la acción\n\n4. **Historias**\n   - Historia de expectativa\n   - Invitación con datos clave\n   - Recordatorio con sticker de cuenta regresiva\n   - Último llamado\n\n5. **Pieza gráfica**\n   - Titular: “Planifica tus contenidos con claridad”\n   - Sello: “Webinar gratuito”\n   - Fecha, hora y plataforma\n   - Botón o indicación: “Inscríbete”\n\n6. **Texto para evento o landing**\n   - Descripción\n   - Temario\n   - Perfil de asistentes\n   - Datos del ponente\n   - Formulario o enlace de registro\n\n7. **Secuencia de difusión**\n   - Anuncio inicial\n   - Recordatorio una semana antes\n   - Recordatorio 24 horas antes\n   - Aviso de inicio\n   - Agradecimiento posterior\n\n8. **Elementos complementarios**\n   - Tres opciones de titular\n   - Hashtags\n   - Texto alternativo accesible\n   - Respuestas modelo para preguntas frecuentes\n   - Parámetros UTM para medir inscripciones",
+  "error": false,
+  "stderr": "2026-08-13T00:08:32.387780Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": false,
+  "tool_calls": 1,
+  "cost_usd": null,
+  "input_tokens": 32414,
+  "output_tokens": 483,
+  "cache_read": 30208,
+  "duration_ms": 16676,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath .\\\\CLAUDE.md\""
+  ]
+}

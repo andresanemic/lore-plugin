@@ -29,7 +29,7 @@ The Lore plugin exposes seven main skills in Claude Code:
 
 | Skill            | Purpose                                     | Typical trigger phrase                                |
 |------------------|---------------------------------------------|------------------------------------------------------|
-| `using-lore`     | Entry point, navigation, and help           | Read first; triggers when "lore" is mentioned or a new Area/project starts |
+| `use-lore`       | Entry point, navigation, and help           | Read first; triggers when "lore" is mentioned or a new Area/project starts |
 | `create-area`    | Create a new Area with shared Lore          | "create a work area for Frontend", "I want to start working on X with Lore" |
 | `create-project` | Create a project inheriting an Area         | "create a project Marketing Site in area Frontend Development" |
 | `save-to-lore`   | Capture criteria after solving a problem (**capture**) or arbitrate criteria imported from a third-party skill/guide (**arbitrate**) | "save to lore", "distill this to the lore" (capture) / "distill skill X into the lore" (arbitrate) |
@@ -56,7 +56,7 @@ triggers documented in each skill's `SKILL.md`.
 
 ## 3. Skill Details
 
-### 3.1 `using-lore`
+### 3.1 `use-lore`
 
 **Role:** Entry point into Lore.
 
@@ -72,7 +72,7 @@ triggers documented in each skill's `SKILL.md`.
 - “What artifacts exist for this project?”
 - “Which skill should I use to capture a new invariant?”
 
-Use `using-lore` whenever you are unsure where to start.
+Use `use-lore` whenever you are unsure where to start.
 
 ---
 

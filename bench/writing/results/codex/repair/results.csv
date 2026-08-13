@@ -1,0 +1,9 @@
+task,arm,trial,verdict,read_lore,compliance_hits,violation_hits,cost_usd,input_tokens,output_tokens,cache_read,tool_calls,duration_ms,num_turns
+cm-thread-numbering,cold,1,fail,false,0,0,,49558,445,44288,2,22262,1
+cm-thread-numbering,cold,2,fail,true,0,0,,49991,580,38144,2,21945,1
+cm-no-hardgate-deliverables,cold,1,fail,true,0,0,,101817,1458,86528,5,44360,1
+cm-no-hardgate-deliverables,cold,2,fail,false,0,0,,84609,2325,78592,4,62799,1
+news-dual-source,cold,1,pass,true,2,0,,66969,643,48384,3,23298,1
+news-dual-source,cold,2,pass,true,2,0,,66643,495,61440,3,23405,1
+news-seo-images,cold,1,fail,true,6,0,,85368,1284,79616,4,39412,1
+news-seo-images,cold,2,pass,true,10,0,,128233,1199,110848,6,50523,1

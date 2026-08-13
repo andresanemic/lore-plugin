@@ -1,0 +1,365 @@
+{
+  "task": "routing-gsap-ssr",
+  "arm": "cold",
+  "trial": 1,
+  "model": "sonnet",
+  "verdict": "fail",
+  "compliance": [],
+  "violation": [],
+  "text": "Para GSAP + ScrollTrigger en un client component de Next.js (App Router), el patrón correcto es: `\"use client\"` arriba, registrar el plugin de forma que no rompa SSR, y limpiar los triggers al desmontar.\n\n```tsx\n\"use client\";\n\nimport { useEffect, useRef } from \"react\";\nimport gsap from \"gsap\";\nimport { ScrollTrigger } from \"gsap/ScrollTrigger\";\n\ngsap.registerPlugin(ScrollTrigger);\n\nexport default function MiComponente() {\n  const containerRef = useRef<HTMLDivElement>(null);\n\n  useEffect(() => {\n    const ctx = gsap.context(() => {\n      gsap.to(\".target\", {\n        scrollTrigger: {\n          trigger: containerRef.current,\n          start: \"top 80%\",\n          end: \"bottom 20%\",\n          scrub: true,\n          // markers: true, // solo para debug local\n        },\n        opacity: 1,\n        y: 0,\n      });\n    }, containerRef);\n\n    return () => ctx.revert(); // limpia tweens + ScrollTriggers al desmontar\n  }, []);\n\n  return (\n    <div ref={containerRef}>\n      <div className=\"target\">...</div>\n    </div>\n  );\n}\n```\n\nPuntos clave de por qué así:\n\n- **`import { ScrollTrigger } from \"gsap/ScrollTrigger\"`**: es el path correcto en las versiones actuales del paquete (ya no `gsap/dist/ScrollTrigger`).\n- **`gsap.registerPlugin(ScrollTrigger)` a nivel de módulo**: es seguro en Next.js aunque el módulo se evalúe en SSR — `registerPlugin` no toca el DOM, solo lo hace al crear el trigger, y eso pasa dentro del `useEffect` (cliente).\n- **`gsap.context(...)` + `ctx.revert()` en el cleanup**: evita que los ScrollTrigger se acumulen entre re-renders/HMR o al navegar entre rutas del App Router (fuga clásica si no se limpia).\n- No hay pin de versión que agregar aquí — el proyecto usa GSAP en su última versión, así que asumo que ya está instalado (`gsap`) en el `package.json`; si no está, avisame y lo instalo.\n\n¿Querés que lo adapte a un componente específico que ya tengas, o lo dejo como base genérica?",
+  "error": false,
+  "stderr": "",
+  "read_lore": false,
+  "tool_calls": 0,
+  "cost_usd": 0.0445341,
+  "input_tokens": 2,
+  "output_tokens": 1187,
+  "cache_read": 15267,
+  "duration_ms": 13401,
+  "num_turns": 1,
+  "events": [
+    {
+      "type": "system",
+      "subtype": "init",
+      "cwd": "C:\\Claude\\lore-plugin\\bench\\fixtures\\cold",
+      "session_id": "02a7ab6e-70b7-488e-80f9-ab5b290cd312",
+      "tools": [
+        "Task",
+        "Bash",
+        "CronCreate",
+        "CronDelete",
+        "CronList",
+        "DesignSync",
+        "Edit",
+        "EnterWorktree",
+        "ExitWorktree",
+        "Glob",
+        "Grep",
+        "Monitor",
+        "NotebookEdit",
+        "PowerShell",
+        "PushNotification",
+        "Read",
+        "RemoteTrigger",
+        "ReportFindings",
+        "ScheduleWakeup",
+        "SendMessage",
+        "Skill",
+        "TaskCreate",
+        "TaskGet",
+        "TaskList",
+        "TaskOutput",
+        "TaskStop",
+        "TaskUpdate",
+        "ToolSearch",
+        "WebFetch",
+        "WebSearch",
+        "Write"
+      ],
+      "mcp_servers": [],
+      "model": "claude-sonnet-5",
+      "permissionMode": "default",
+      "slash_commands": [
+        "design-sync",
+        "dataviz",
+        "update-config",
+        "verify",
+        "debug",
+        "code-review",
+        "simplify",
+        "batch",
+        "fewer-permission-prompts",
+        "doctor",
+        "loop",
+        "schedule",
+        "claude-api",
+        "run",
+        "run-skill-generator",
+        "agents",
+        "autocompact",
+        "clear",
+        "color",
+        "compact",
+        "config",
+        "context",
+        "effort",
+        "fast",
+        "heapdump",
+        "init",
+        "mcp",
+        "import",
+        "model",
+        "__remote-workflow",
+        "workflow-launch-exec",
+        "reload-skills",
+        "rename",
+        "ultrareview",
+        "security-review",
+        "usage-credits",
+        "extra-usage",
+        "usage",
+        "insights",
+        "recap",
+        "goal",
+        "design",
+        "design-consent",
+        "design-revoke",
+        "team-onboarding"
+      ],
+      "apiKeySource": "none",
+      "claude_code_version": "2.1.228",
+      "output_style": "default",
+      "agents": [
+        "claude",
+        "Explore",
+        "general-purpose",
+        "Plan",
+        "statusline-setup"
+      ],
+      "skills": [
+        "design-sync",
+        "dataviz",
+        "update-config",
+        "verify",
+        "debug",
+        "code-review",
+        "simplify",
+        "batch",
+        "fewer-permission-prompts",
+        "doctor",
+        "loop",
+        "schedule",
+        "claude-api",
+        "run",
+        "run-skill-generator"
+      ],
+      "plugins": [],
+      "capabilities": [
+        "interrupt_receipt_v1",
+        "interrupt_cancel_queued_v1",
+        "msg_lifecycle_v1"
+      ],
+      "analytics_disabled": false,
+      "product_feedback_disabled": false,
+      "uuid": "3d2dc58c-63d3-462f-932c-bfd24fdfdd6a",
+      "memory_paths": {
+        "auto": "%USERPROFILE%\\.claude\\projects\\C--Claude-lore-plugin\\memory\\"
+      },
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required"
+    },
+    {
+      "type": "rate_limit_event",
+      "rate_limit_info": {
+        "status": "allowed_warning",
+        "resetsAt": 1786496400,
+        "rateLimitType": "five_hour",
+        "utilization": 0.9,
+        "isUsingOverage": false,
+        "surpassedThreshold": 0.9
+      },
+      "uuid": "48bbad56-faa1-48f9-94af-112271981efd",
+      "session_id": "02a7ab6e-70b7-488e-80f9-ab5b290cd312"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 50,
+      "estimated_tokens_delta": 50,
+      "uuid": "abb16f7a-2539-4601-b832-824a015d2fd8",
+      "session_id": "02a7ab6e-70b7-488e-80f9-ab5b290cd312"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 200,
+      "estimated_tokens_delta": 150,
+      "uuid": "c96f7f25-754f-4f5e-a2af-f6b9f94db023",
+      "session_id": "02a7ab6e-70b7-488e-80f9-ab5b290cd312"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 300,
+      "estimated_tokens_delta": 100,
+      "uuid": "aa23586c-949c-4f3a-bbbd-06db129f1ef3",
+      "session_id": "02a7ab6e-70b7-488e-80f9-ab5b290cd312"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 302,
+      "estimated_tokens_delta": 2,
+      "uuid": "c8d64197-2f23-4a47-8c64-88d076c662fd",
+      "session_id": "02a7ab6e-70b7-488e-80f9-ab5b290cd312"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011CdwjzKBWHTxnkTfaPsqmZ",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "",
+            "signature": "ErAJCokBCBAYAipAO75UTTEKtPAE8fWY7DWIjZFXT2OyelSggoTVQN/t9j0c1vcDqTk3s3+dC/FWHyL6z9BXXHLpVG9+WoGF7dkXEzIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQyYWM0Mjg1MS0zNTYyLTQ0NWQtYTc5OS02ZTdjZjc4MjUyNWYSDEpBCQSj0rIOvOEEuRoM3YApcTDRq8Depw4ZIjAW2W6sut9TDD7J1DFxLfSE9y5+n2qv+AxUPQxtFXnA7/jhCfcx42QVEnhlsTpP79cq0wd9mpbJe6ZldaX2VyQEi1G0N1F4MAHZOfJjq9BP3oEASlnbKomF9uDKH8bLkY3wVQ93j9/uwe92rKzraQyOq+HwYy7eHHAuUPs0clfyUZyayt389E0xHrMQtlPgL/bSqu0X72RwbroBvYz25RA9s55sppAd/6Lvdf+qm9YRcCWBaDCdJEwUnzNCHeni9A6S/8lW9pJsdU0LrLSsBxqgrg9iVq6S+yXIUFfyabWqMoMVW6I/wkyqIGHFRKBOjVzQ+gfB04aHd8Yk8KyeSwmMWMr8IJsCDxMjYjcqS+zYgf+9uzEIlx6AF0UCmT58P6L0tSr5JlAn8I6vBlKEGAOKmTtLAzE8BKCVWFueQtUoEIfrkNGCuRlE3RhoE6UlIpNTEylh2hE9ejX7ApGozieHAC/WKCKoGvMZKioXNXaAOjUGIf2ZbKOYtPeSG6svPhLNl79nWKtjykCCvdrFFZ70VPgtPdo4eiq196Pe8Vt+AY8pj4m1m1v+biLb5bAee9JjBhUquI+bapTqyFClRb9BKAX1czRntN89pEXR6RCfcdQ4mzxDqW91U7QJpUKwGUWCPMvleUepRjjGqvujOHNf74djtBvS+V6Z/mUh50zaJDiMeW2mbUauVR7FGZ5zWTmYwbWK6o53ZrZT/HriDsPfLBxf8xddGemLgkH5/DINeVJbsGbj5auC0FCPj8vmgx7G5D0pjd8QxX+5KuuzcRJ8gGFXHNFD0masxSeAyeGmMb/X4CKskT4SxoUgiLAG2ocDhxGwSgvUHb2g7VpOFM7de4gqarwmz3zW9K6GrwKMAYcJacA0heN7MpOAXgCI14ad+KNLxhwNgXfYy+pctAUa5iC+4uKHrEOzRLrK8glQV+zRlmqzmR3WtyTXnH7WzE/qOe18YlVAgFoBAxd92fs3X/JumA3TSNhTX0jGI4z5swofAzoga8kwDn2sLt1LMA/El+aM5HR39k44W548QmbQxZ9V2gtRDKeo55kHhpLD1ASkszYDl+5rcmU9vIPh6xOB25PmE9BDqpXvvfHwubkQ8nINAfmXdajUTpmKsznBU9xPqCY7gJTtQS8SxBr/ZCqCDO5BIrXs7Hv2m4vXfQi5szpZE8jgUeMpxoJKv5Vsj+4yf2mscAajJHOtw0lfnRclllyXXTy2jTNyxY5o2tPrHvLcOt8yXitSN2lTqKBUhe/XXtP2Uwjf0bIobG9Mj40u+iJcxk8gREDkTXW4FZJNaJeEl/lvR6GDarKjimGjEiunDJIk7B8SAy6hVd6uoZ4FoKqK+dJ6dfxK+1W30clPeLzMUquVGAE="
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 3579,
+          "cache_read_input_tokens": 15267,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3579
+          },
+          "output_tokens": 2,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "02a7ab6e-70b7-488e-80f9-ab5b290cd312",
+      "uuid": "b6224fa0-c528-4af6-b125-9e53788f8951",
+      "timestamp": "2026-08-11T22:22:24.220Z",
+      "request_id": "req_011CdwjzJSMftxwtXz64i6xe"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011CdwjzKBWHTxnkTfaPsqmZ",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "Para GSAP + ScrollTrigger en un client component de Next.js (App Router), el patrón correcto es: `\"use client\"` arriba, registrar el plugin de forma que no rompa SSR, y limpiar los triggers al desmontar.\n\n```tsx\n\"use client\";\n\nimport { useEffect, useRef } from \"react\";\nimport gsap from \"gsap\";\nimport { ScrollTrigger } from \"gsap/ScrollTrigger\";\n\ngsap.registerPlugin(ScrollTrigger);\n\nexport default function MiComponente() {\n  const containerRef = useRef<HTMLDivElement>(null);\n\n  useEffect(() => {\n    const ctx = gsap.context(() => {\n      gsap.to(\".target\", {\n        scrollTrigger: {\n          trigger: containerRef.current,\n          start: \"top 80%\",\n          end: \"bottom 20%\",\n          scrub: true,\n          // markers: true, // solo para debug local\n        },\n        opacity: 1,\n        y: 0,\n      });\n    }, containerRef);\n\n    return () => ctx.revert(); // limpia tweens + ScrollTriggers al desmontar\n  }, []);\n\n  return (\n    <div ref={containerRef}>\n      <div className=\"target\">...</div>\n    </div>\n  );\n}\n```\n\nPuntos clave de por qué así:\n\n- **`import { ScrollTrigger } from \"gsap/ScrollTrigger\"`**: es el path correcto en las versiones actuales del paquete (ya no `gsap/dist/ScrollTrigger`).\n- **`gsap.registerPlugin(ScrollTrigger)` a nivel de módulo**: es seguro en Next.js aunque el módulo se evalúe en SSR — `registerPlugin` no toca el DOM, solo lo hace al crear el trigger, y eso pasa dentro del `useEffect` (cliente).\n- **`gsap.context(...)` + `ctx.revert()` en el cleanup**: evita que los ScrollTrigger se acumulen entre re-renders/HMR o al navegar entre rutas del App Router (fuga clásica si no se limpia).\n- No hay pin de versión que agregar aquí — el proyecto usa GSAP en su última versión, así que asumo que ya está instalado (`gsap`) en el `package.json`; si no está, avisame y lo instalo.\n\n¿Querés que lo adapte a un componente específico que ya tengas, o lo dejo como base genérica?"
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 3579,
+          "cache_read_input_tokens": 15267,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3579
+          },
+          "output_tokens": 2,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "02a7ab6e-70b7-488e-80f9-ab5b290cd312",
+      "uuid": "ebd018e8-1f55-4649-8229-5c1cb7eea87e",
+      "timestamp": "2026-08-11T22:22:32.324Z",
+      "request_id": "req_011CdwjzJSMftxwtXz64i6xe"
+    },
+    {
+      "type": "rate_limit_event",
+      "rate_limit_info": {
+        "status": "allowed_warning",
+        "resetsAt": 1786496400,
+        "rateLimitType": "five_hour",
+        "utilization": 0.91,
+        "isUsingOverage": false,
+        "surpassedThreshold": 0.9
+      },
+      "uuid": "5a645906-8a4a-4ac3-b646-fc7b03c13206",
+      "session_id": "02a7ab6e-70b7-488e-80f9-ab5b290cd312"
+    },
+    {
+      "is_error": false,
+      "duration_api_ms": 14381,
+      "num_turns": 1,
+      "stop_reason": "end_turn",
+      "session_id": "02a7ab6e-70b7-488e-80f9-ab5b290cd312",
+      "total_cost_usd": 0.0445341,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 3579,
+        "cache_read_input_tokens": 15267,
+        "output_tokens": 1187,
+        "output_tokens_details": {
+          "thinking_tokens": 366
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 3579,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 1187,
+            "cache_read_input_tokens": 15267,
+            "cache_creation_input_tokens": 3579,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 3579
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 554,
+          "outputTokens": 23,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.000669,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty"
+        },
+        "claude-sonnet-5": {
+          "inputTokens": 2,
+          "outputTokens": 1187,
+          "cacheReadInputTokens": 15267,
+          "cacheCreationInputTokens": 3579,
+          "webSearchRequests": 0,
+          "costUSD": 0.0438651,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 64000,
+          "canonicalModel": "claude-sonnet-5",
+          "provider": "firstParty"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "Para GSAP + ScrollTrigger en un client component de Next.js (App Router), el patrón correcto es: `\"use client\"` arriba, registrar el plugin de forma que no rompa SSR, y limpiar los triggers al desmontar.\n\n```tsx\n\"use client\";\n\nimport { useEffect, useRef } from \"react\";\nimport gsap from \"gsap\";\nimport { ScrollTrigger } from \"gsap/ScrollTrigger\";\n\ngsap.registerPlugin(ScrollTrigger);\n\nexport default function MiComponente() {\n  const containerRef = useRef<HTMLDivElement>(null);\n\n  useEffect(() => {\n    const ctx = gsap.context(() => {\n      gsap.to(\".target\", {\n        scrollTrigger: {\n          trigger: containerRef.current,\n          start: \"top 80%\",\n          end: \"bottom 20%\",\n          scrub: true,\n          // markers: true, // solo para debug local\n        },\n        opacity: 1,\n        y: 0,\n      });\n    }, containerRef);\n\n    return () => ctx.revert(); // limpia tweens + ScrollTriggers al desmontar\n  }, []);\n\n  return (\n    <div ref={containerRef}>\n      <div className=\"target\">...</div>\n    </div>\n  );\n}\n```\n\nPuntos clave de por qué así:\n\n- **`import { ScrollTrigger } from \"gsap/ScrollTrigger\"`**: es el path correcto en las versiones actuales del paquete (ya no `gsap/dist/ScrollTrigger`).\n- **`gsap.registerPlugin(ScrollTrigger)` a nivel de módulo**: es seguro en Next.js aunque el módulo se evalúe en SSR — `registerPlugin` no toca el DOM, solo lo hace al crear el trigger, y eso pasa dentro del `useEffect` (cliente).\n- **`gsap.context(...)` + `ctx.revert()` en el cleanup**: evita que los ScrollTrigger se acumulen entre re-renders/HMR o al navegar entre rutas del App Router (fuga clásica si no se limpia).\n- No hay pin de versión que agregar aquí — el proyecto usa GSAP en su última versión, así que asumo que ya está instalado (`gsap`) en el `package.json`; si no está, avisame y lo instalo.\n\n¿Querés que lo adapte a un componente específico que ya tengas, o lo dejo como base genérica?",
+      "ttft_ms": 5265,
+      "ttft_stream_ms": 834,
+      "time_to_request_ms": 40,
+      "type": "result",
+      "duration_ms": 13401,
+      "uuid": "b6e8a5d1-d5ad-4038-bc3d-546b2da43008"
+    }
+  ]
+}

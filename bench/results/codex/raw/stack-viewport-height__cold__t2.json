@@ -1,0 +1,27 @@
+{
+  "task": "stack-viewport-height",
+  "arm": "cold",
+  "trial": 2,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "100[sd]vh|(?:min-)?h-(?:s|d)vh"
+  ],
+  "violation": [],
+  "text": "```tsx\n<section className=\"relative isolate flex min-h-svh overflow-hidden bg-[#0b0d0c] text-[#f4f1e8]\">\n  {/* Fondo */}\n  <div\n    aria-hidden=\"true\"\n    className=\"absolute inset-0 -z-20 bg-[radial-gradient(circle_at_78%_28%,rgba(190,255,117,0.16),transparent_28%),linear-gradient(135deg,#111512_0%,#080a09_70%)]\"\n  />\n  <div\n    aria-hidden=\"true\"\n    className=\"absolute inset-0 -z-10 opacity-20 [background-image:linear-gradient(rgba(255,255,255,.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.08)_1px,transparent_1px)] [background-size:4rem_4rem] [mask-image:linear-gradient(to_bottom,black,transparent_85%)]\"\n  />\n\n  <div className=\"mx-auto flex w-full max-w-7xl flex-col px-6 py-6 sm:px-10 lg:px-12\">\n    <nav className=\"flex items-center justify-between\" aria-label=\"Navegación principal\">\n      <a\n        href=\"/\"\n        className=\"text-sm font-semibold uppercase tracking-[0.28em]\"\n        aria-label=\"Ir al inicio\"\n      >\n        Norte<span className=\"text-lime-300\">/</span>\n      </a>\n\n      <a\n        href=\"#contacto\"\n        className=\"rounded-full border border-white/20 px-5 py-2.5 text-sm font-medium transition hover:border-lime-300 hover:bg-lime-300 hover:text-black focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lime-300\"\n      >\n        Hablemos\n      </a>\n    </nav>\n\n    <div className=\"grid flex-1 items-center gap-12 py-20 lg:grid-cols-[1fr_18rem]\">\n      <div className=\"max-w-5xl\">\n        <p className=\"mb-7 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.24em] text-lime-300\">\n          <span className=\"h-px w-10 bg-current\" />\n          Estudio digital independiente\n        </p>\n\n        <h1 className=\"max-w-4xl text-balance text-5xl font-medium leading-[0.92] tracking-[-0.055em] sm:text-7xl lg:text-8xl\">\n          Diseñamos lo que tu marca todavía no sabe decir.\n        </h1>\n\n        <div className=\"mt-10 flex flex-col gap-7 sm:flex-row sm:items-end sm:justify-between\">\n          <p className=\"max-w-md text-pretty text-base leading-7 text-white/60 sm:text-lg\">\n            Estrategia, identidad y experiencias digitales creadas para convertir\n            una buena idea en una presencia imposible de ignorar.\n          </p>\n\n          <a\n            href=\"#proyectos\"\n            className=\"group inline-flex w-fit items-center gap-4 text-sm font-semibold uppercase tracking-[0.16em]\"\n          >\n            Ver proyectos\n            <span className=\"grid size-12 place-items-center rounded-full bg-lime-300 text-black transition-transform duration-300 group-hover:translate-x-1\">\n              <svg\n                viewBox=\"0 0 24 24\"\n                className=\"size-5\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                strokeWidth=\"1.8\"\n                aria-hidden=\"true\"\n              >\n                <path d=\"M5 12h14M13 6l6 6-6 6\" />\n              </svg>\n            </span>\n          </a>\n        </div>\n      </div>\n\n      <aside className=\"hidden border-l border-white/15 pl-8 lg:block\">\n        <p className=\"text-7xl font-light tracking-[-0.06em] text-lime-300\">12</p>\n        <p className=\"mt-3 text-sm leading-6 text-white/50\">\n          años transformando ideas complejas en experiencias claras.\n        </p>\n      </aside>\n    </div>\n\n    <div className=\"flex items-end justify-between border-t border-white/15 pt-5 text-xs uppercase tracking-[0.18em] text-white/40\">\n      <span>Santiago, Chile</span>\n      <span>Desplázate para explorar ↓</span>\n    </div>\n  </div>\n</section>\n```",
+  "error": false,
+  "stderr": "2026-08-12T23:21:38.942913Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": false,
+  "tool_calls": 2,
+  "cost_usd": null,
+  "input_tokens": 50099,
+  "output_tokens": 1356,
+  "cache_read": 46336,
+  "duration_ms": 47792,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath .\\\\CLAUDE.md\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\frontend-design\\\\SKILL.md'\""
+  ]
+}

@@ -1,0 +1,83 @@
+Self-check OK: 12 tareas separan su violación de su cumplimiento.
+(node:17756) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[  1/72] fail  cold animation-fouc               29s  $0.0675
+[  2/72] fail  cold animation-fouc               28s  $0.0787
+[  3/72] fail  cold animation-fouc               29s  $0.0653
+[  4/72] PASS  lore animation-fouc               95s  $0.5828
+[  5/72] PASS  lore animation-fouc               123s  $0.5773
+[  6/72] PASS  lore animation-fouc               124s  $0.5920
+[  7/72] fail  cold animation-progress-scalex    36s  $0.1171
+[  8/72] fail  cold animation-progress-scalex    53s  $0.1241
+[  9/72] fail  cold animation-progress-scalex    12s  $0.0214
+[ 10/72] fail  lore animation-progress-scalex    72s  $0.3929
+[ 11/72] fail  lore animation-progress-scalex    90s  $0.3730
+[ 12/72] fail  lore animation-progress-scalex    35s  $0.2448
+[ 13/72] fail  cold routing-gsap-ssr             15s  $0.0445
+[ 14/72] fail  cold routing-gsap-ssr             22s  $0.0522
+[ 15/72] fail  cold routing-gsap-ssr             28s  $0.0587
+[ 16/72] PASS  lore routing-gsap-ssr             40s  $0.3081
+[ 17/72] PASS  lore routing-gsap-ssr             49s  $0.3077
+[ 18/72] PASS  lore routing-gsap-ssr             72s  $0.3058
+[ 19/72] PASS  cold routing-tailwind-duration    13s  $0.0593
+[ 20/72] fail  cold routing-tailwind-duration    13s  $0.0389
+[ 21/72] fail  cold routing-tailwind-duration    12s  $0.0377
+[ 22/72] PASS  lore routing-tailwind-duration    44s  $0.2789
+[ 23/72] n/a   lore routing-tailwind-duration    3s  $0.0000  [no leyó el lore]
+[ 24/72] n/a   lore routing-tailwind-duration    2s  $0.0000  [no leyó el lore]
+[ 25/72] n/a   cold routing-scroll-behavior-attr 2s  $0.0000
+[ 26/72] n/a   cold routing-scroll-behavior-attr 2s  $0.0000
+[ 27/72] n/a   cold routing-scroll-behavior-attr 3s  $0.0000
+[ 28/72] n/a   lore routing-scroll-behavior-attr 2s  $0.0000  [no leyó el lore]
+[ 29/72] n/a   lore routing-scroll-behavior-attr 5s  $0.0309
+[ 30/72] n/a   lore routing-scroll-behavior-attr 3s  $0.0000  [no leyó el lore]
+[ 31/72] n/a   cold scroll-lenis-ticker          3s  $0.0000
+[ 32/72] n/a   cold scroll-lenis-ticker          3s  $0.0000
+[ 33/72] n/a   cold scroll-lenis-ticker          2s  $0.0000
+[ 34/72] n/a   lore scroll-lenis-ticker          2s  $0.0000  [no leyó el lore]
+[ 35/72] n/a   lore scroll-lenis-ticker          2s  $0.0000  [no leyó el lore]
+[ 36/72] n/a   lore scroll-lenis-ticker          3s  $0.0000  [no leyó el lore]
+[ 37/72] n/a   cold scroll-body-unlock           3s  $0.0000
+[ 38/72] n/a   cold scroll-body-unlock           2s  $0.0000
+[ 39/72] n/a   cold scroll-body-unlock           3s  $0.0000
+[ 40/72] n/a   lore scroll-body-unlock           3s  $0.0000  [no leyó el lore]
+[ 41/72] n/a   lore scroll-body-unlock           2s  $0.0000  [no leyó el lore]
+[ 42/72] n/a   lore scroll-body-unlock           2s  $0.0000  [no leyó el lore]
+[ 43/72] n/a   cold stack-viewport-height        2s  $0.0000
+[ 44/72] n/a   cold stack-viewport-height        3s  $0.0000
+[ 45/72] n/a   cold stack-viewport-height        3s  $0.0000
+[ 46/72] n/a   lore stack-viewport-height        3s  $0.0000  [no leyó el lore]
+[ 47/72] n/a   lore stack-viewport-height        3s  $0.0000  [no leyó el lore]
+[ 48/72] n/a   lore stack-viewport-height        2s  $0.0000  [no leyó el lore]
+[ 49/72] n/a   cold identity-font                3s  $0.0000
+[ 50/72] n/a   cold identity-font                3s  $0.0000
+[ 51/72] n/a   cold identity-font                3s  $0.0000
+[ 52/72] n/a   lore identity-font                2s  $0.0000  [no leyó el lore]
+[ 53/72] n/a   lore identity-font                3s  $0.0000  [no leyó el lore]
+[ 54/72] n/a   lore identity-font                3s  $0.0000  [no leyó el lore]
+[ 55/72] n/a   cold a11y-focus-outline           3s  $0.0000
+[ 56/72] n/a   cold a11y-focus-outline           3s  $0.0000
+[ 57/72] n/a   cold a11y-focus-outline           3s  $0.0000
+[ 58/72] n/a   lore a11y-focus-outline           3s  $0.0000  [no leyó el lore]
+[ 59/72] n/a   lore a11y-focus-outline           3s  $0.0000  [no leyó el lore]
+[ 60/72] n/a   lore a11y-focus-outline           3s  $0.0000  [no leyó el lore]
+[ 61/72] n/a   cold motion-scroll-listener       2s  $0.0000
+[ 62/72] n/a   cold motion-scroll-listener       3s  $0.0000
+[ 63/72] n/a   cold motion-scroll-listener       3s  $0.0000
+[ 64/72] n/a   lore motion-scroll-listener       3s  $0.0000  [no leyó el lore]
+[ 65/72] n/a   lore motion-scroll-listener       3s  $0.0000  [no leyó el lore]
+[ 66/72] n/a   lore motion-scroll-listener       3s  $0.0000  [no leyó el lore]
+[ 67/72] n/a   cold deploy-zip-windows           3s  $0.0000
+[ 68/72] n/a   cold deploy-zip-windows           3s  $0.0000
+[ 69/72] n/a   cold deploy-zip-windows           3s  $0.0000
+[ 70/72] n/a   lore deploy-zip-windows           3s  $0.0000  [no leyó el lore]
+[ 71/72] n/a   lore deploy-zip-windows           3s  $0.0000  [no leyó el lore]
+[ 72/72] n/a   lore deploy-zip-windows           2s  $0.0000  [no leyó el lore]
+
+================================================================
+cold  1/36 pistas respetadas   $0.0213/tarea   598 tok out   8s   (24 n/a)
+lore  7/36 pistas respetadas   $0.1110/tarea   1694 tok out   21s   (26 n/a)
+
+Aviso: 25 corrida(s) del brazo lore nunca abrieron un archivo de lore/.
+
+C:\Claude\lore-plugin\bench\results\results.csv

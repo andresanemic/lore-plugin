@@ -1,0 +1,32 @@
+{
+  "task": "animation-progress-scalex",
+  "arm": "lore",
+  "trial": 1,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "scaleX",
+    "transformOrigin|origin-left"
+  ],
+  "violation": [],
+  "text": "```tsx\n\"use client\";\n\nimport { useRef } from \"react\";\nimport gsap from \"gsap\";\nimport { ScrollTrigger } from \"gsap/ScrollTrigger\";\nimport { useGSAP } from \"@gsap/react\";\n\ngsap.registerPlugin(ScrollTrigger, useGSAP);\n\nexport function ScrollProgress() {\n  const barRef = useRef<HTMLDivElement>(null);\n\n  useGSAP(() => {\n    if (!barRef.current) return;\n\n    const setProgress = gsap.quickSetter(barRef.current, \"scaleX\");\n\n    ScrollTrigger.create({\n      start: 0,\n      end: () => ScrollTrigger.maxScroll(window),\n      invalidateOnRefresh: true,\n      onUpdate: ({ progress }) => {\n        setProgress(progress);\n      },\n    });\n  }, []);\n\n  return (\n    <div\n      aria-hidden=\"true\"\n      className=\"pointer-events-none fixed inset-x-0 top-0 z-[100] h-1\"\n    >\n      <div\n        ref={barRef}\n        className=\"h-full w-full origin-left bg-current will-change-transform\"\n        style={{ transform: \"scaleX(0)\" }}\n      />\n    </div>\n  );\n}\n```\n\nUsa `scaleX` en vez de `width`, evitando reflow en cada frame. El estado inicial también está fijado en el markup, así que no aparece llena antes de que ScrollTrigger se inicialice. La limpieza del trigger queda a cargo de `useGSAP`.",
+  "error": false,
+  "stderr": "2026-08-12T22:54:26.869921Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n2026-08-12T22:54:52.103862Z ERROR codex_core::tools::router: error=`\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command '$lines = Get-Content -Encoding UTF8 -LiteralPath '\"'lore\\\\animation.md'; \"'$lines[0..46]; $lines[162..176]'` rejected: blocked by policy\n",
+  "read_lore": true,
+  "tool_calls": 6,
+  "cost_usd": null,
+  "input_tokens": 199913,
+  "output_tokens": 1561,
+  "cache_read": 166144,
+  "duration_ms": 47104,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\vercel-react-best-practices\\\\SKILL.md'; Get-Content -Raw -LiteralPath 'lore\\\\index.md'; Get-Content -Raw -LiteralPath 'lore\\\\scroll.md'; Get-Content -Raw -LiteralPath 'lore\\\\animation.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -Encoding UTF8 -LiteralPath 'lore\\\\scroll.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"rg -n --hidden --glob '\"'!node_modules'\"' \\\"ScrollTrigger|useGSAP|gsap.registerPlugin|scroll progress|progress\\\" .\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command '$lines = Get-Content -Encoding UTF8 -LiteralPath '\"'lore\\\\animation.md'; \"'$lines[0..46]; $lines[162..176]'",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Encoding UTF8 -LiteralPath 'lore\\\\animation.md' | Select-Object -First 47; Get-Content -Encoding UTF8 -LiteralPath 'lore\\\\animation.md' | Select-Object -Skip 162 -First 15\""
+  ]
+}

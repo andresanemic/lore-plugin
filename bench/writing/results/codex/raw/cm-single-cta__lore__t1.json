@@ -1,0 +1,29 @@
+{
+  "task": "cm-single-cta",
+  "arm": "lore",
+  "trial": 1,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "(?i)(?:inscr[ií]bete|reg[ií]strate|reserva tu (?:cupo|lugar))"
+  ],
+  "violation": [],
+  "text": "### Opciones de copy\n\n**1.**  \n¿Tu calendario de contenidos se improvisa semana a semana? En nuestro webinar gratuito aprenderás a planificar con foco, orden y constancia.  \n**Reserva tu lugar y crea un plan que puedas sostener.**\n\n**2.**  \nMenos improvisación, más estrategia. Súmate a nuestro webinar gratuito sobre planificación de contenidos y convierte tus ideas en un calendario accionable.  \n**Inscríbete gratis y empieza a publicar con propósito.**\n\n**3.**  \nPlanificar contenidos no tiene que ser complicado. Descubre un método práctico para organizar temas, formatos y fechas en nuestro próximo webinar gratuito.  \n**Reserva tu lugar y simplifica tu planificación.**\n\n**4.**  \n¿Muchas ideas, pero ningún plan claro? En este webinar gratuito te enseñaremos a transformarlas en una estrategia de contenidos ordenada y realista.  \n**Inscríbete y construye tu próximo calendario.**\n\n**5.**  \nLa constancia comienza antes de publicar. Aprende a planificar contenidos de manera estratégica en un webinar gratuito, práctico y aplicable desde el primer día.  \n**Asegura tu lugar y planifica con confianza.**\n\n### CTA alternativas\n\n- **Reserva tu lugar y crea un calendario de contenidos sostenible.**\n- **Inscríbete gratis y transforma tus ideas en un plan concreto.**\n\n### Acompañamientos\n\n- **Visual:** calendario editorial con tarjetas de temas, formatos y fechas. Texto destacado: “Planifica. Organiza. Publica.”\n- **Carrusel:** “3 señales de que necesitas planificar tus contenidos” y cierre con fecha, hora y enlace de inscripción.",
+  "error": false,
+  "stderr": "2026-08-13T00:07:07.233221Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": true,
+  "tool_calls": 4,
+  "cost_usd": null,
+  "input_tokens": 66006,
+  "output_tokens": 932,
+  "cache_read": 37120,
+  "duration_ms": 33606,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath .\\\\CLAUDE.md\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -Encoding UTF8 -LiteralPath .\\\\lore\\\\index.md\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -Encoding UTF8 -LiteralPath .\\\\lore\\\\escritura.md\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -Encoding UTF8 -LiteralPath .\\\\lore\\\\creacion-publicaciones.md\""
+  ]
+}

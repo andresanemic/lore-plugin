@@ -1,0 +1,34 @@
+{
+  "task": "scroll-lenis-ticker",
+  "arm": "lore",
+  "trial": 1,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "gsap\\.ticker\\.add",
+    "lagSmoothing\\s*\\(\\s*0\\s*\\)"
+  ],
+  "violation": [],
+  "text": "Como el fixture no incluye `app/`, te dejo el provider listo para incorporar como `app/providers/smooth-scroll-provider.tsx`:\n\n```tsx\n\"use client\";\n\nimport { useEffect, useRef, type PropsWithChildren } from \"react\";\nimport gsap from \"gsap\";\nimport { ScrollTrigger } from \"gsap/ScrollTrigger\";\nimport { ReactLenis, type LenisRef } from \"lenis/react\";\n\nconst LENIS_OPTIONS = {\n  autoRaf: false,\n  lerp: 0.1,\n  respectReducedMotion: true,\n} as const;\n\nexport function SmoothScrollProvider({\n  children,\n}: PropsWithChildren) {\n  const lenisRef = useRef<LenisRef>(null);\n\n  useEffect(() => {\n    const lenis = lenisRef.current?.lenis;\n\n    if (!lenis) return;\n\n    gsap.registerPlugin(ScrollTrigger);\n\n    const updateScrollTrigger = () => {\n      ScrollTrigger.update();\n    };\n\n    const updateLenis = (time: number) => {\n      // GSAP entrega segundos; Lenis espera milisegundos.\n      lenis.raf(time * 1000);\n    };\n\n    lenis.on(\"scroll\", updateScrollTrigger);\n    gsap.ticker.add(updateLenis);\n\n    // Evita saltos al regresar desde una pestaña inactiva.\n    gsap.ticker.lagSmoothing(0);\n\n    const refreshFrame = requestAnimationFrame(() => {\n      ScrollTrigger.refresh();\n    });\n\n    return () => {\n      cancelAnimationFrame(refreshFrame);\n      lenis.off(\"scroll\", updateScrollTrigger);\n      gsap.ticker.remove(updateLenis);\n    };\n  }, []);\n\n  return (\n    <ReactLenis root ref={lenisRef} options={LENIS_OPTIONS}>\n      {children}\n    </ReactLenis>\n  );\n}\n```\n\nImporta el CSS global de Lenis y monta el provider en `app/layout.tsx`:\n\n```tsx\nimport \"lenis/dist/lenis.css\";\nimport { SmoothScrollProvider } from \"./providers/smooth-scroll-provider\";\n\nexport default function RootLayout({\n  children,\n}: Readonly<{\n  children: React.ReactNode;\n}>) {\n  return (\n    <html lang=\"es\">\n      <body>\n        <SmoothScrollProvider>\n          {children}\n        </SmoothScrollProvider>\n      </body>\n    </html>\n  );\n}\n```\n\nNo requiere `scrollerProxy()` porque Lenis mantiene el scroll nativo de `window`. La integración oficial consiste en alimentar Lenis desde el ticker de GSAP, actualizar ScrollTrigger en cada evento de scroll y desactivar `lagSmoothing`. [Lenis: integración con GSAP](https://github.com/darkroomengineering/lenis#gsap-scrolltrigger), [adaptador React oficial](https://github.com/darkroomengineering/lenis/blob/main/packages/react/README.md).",
+  "error": false,
+  "stderr": "2026-08-12T23:10:24.529141Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": true,
+  "tool_calls": 8,
+  "cost_usd": null,
+  "input_tokens": 248755,
+  "output_tokens": 3254,
+  "cache_read": 196608,
+  "duration_ms": 85954,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore/index.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore/scroll.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath '%USERPROFILE%/.agents/skills/vercel-react-best-practices/SKILL.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore/scroll.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"rg --files -g 'package.json' -g 'app/**' -g 'src/**' -g 'components/**' -g 'AGENTS.md' -g '\"'!node_modules'\"'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"rg --files -g '\"'!node_modules'\"'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'package.json'\""
+  ]
+}

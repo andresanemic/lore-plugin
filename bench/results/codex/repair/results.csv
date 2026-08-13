@@ -1,0 +1,15 @@
+task,arm,trial,verdict,read_lore,compliance_hits,violation_hits,cost_usd,input_tokens,output_tokens,cache_read,tool_calls,duration_ms,num_turns
+animation-fouc,cold,1,pass,true,2,0,,86548,2096,49152,3,64110,1
+animation-fouc,cold,2,fail,false,1,0,,76876,2622,50176,4,67920,1
+animation-fouc,cold,3,fail,true,1,0,,153902,2771,141312,7,75789,1
+routing-gsap-ssr,cold,1,fail,true,1,0,,49957,829,28928,2,36295,1
+routing-gsap-ssr,cold,2,fail,true,0,0,,50075,984,17920,2,27174,1
+routing-gsap-ssr,cold,3,fail,true,0,0,,84229,643,70400,4,26922,1
+routing-gsap-ssr,lore,1,pass,true,2,0,,122848,1258,77568,5,41190,1
+routing-scroll-behavior-attr,cold,1,pass,true,1,0,,50230,594,38144,2,28475,1
+routing-scroll-behavior-attr,cold,2,pass,true,1,0,,50125,582,47360,2,26803,1
+routing-scroll-behavior-attr,cold,3,pass,true,1,0,,50245,762,47360,2,22595,1
+deploy-zip-windows,cold,2,pass,true,1,0,,49823,404,44288,2,20553,1
+deploy-zip-windows,cold,3,pass,true,1,0,,49709,462,29952,2,21730,1
+deploy-zip-windows,lore,1,pass,true,1,0,,54045,532,24832,2,25597,1
+deploy-zip-windows,lore,3,pass,true,1,0,,37075,343,30208,1,16898,1

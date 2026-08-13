@@ -1,0 +1,32 @@
+{
+  "task": "routing-gsap-ssr",
+  "arm": "lore",
+  "trial": 1,
+  "attempt": 2,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "typeof\\s+window\\s*!==\\s*['\"]undefined['\"]",
+    "lib/gsap"
+  ],
+  "violation": [],
+  "text": "Centraliza GSAP para proteger el build SSR de Next.js.\n\n```ts\n// lib/gsap.ts\nimport { useGSAP } from \"@gsap/react\";\nimport { gsap } from \"gsap\";\nimport { ScrollTrigger } from \"gsap/ScrollTrigger\";\n\nif (typeof window !== \"undefined\") {\n  gsap.registerPlugin(useGSAP, ScrollTrigger);\n}\n\nexport { gsap, ScrollTrigger, useGSAP };\n```\n\nLuego, en el componente cliente:\n\n```tsx\n\"use client\";\n\nimport { gsap, ScrollTrigger, useGSAP } from \"@/lib/gsap\";\n```\n\nEl registro queda una sola vez, a nivel de módulo y protegido por el guard de `window`. Los componentes no deben importar directamente desde `gsap`, `gsap/ScrollTrigger` ni `@gsap/react`.\n\n`gsap` y `@gsap/react` ya están declarados en `package.json`. Este fixture no contiene componentes `.tsx` ni un `lib/gsap.ts` existente donde aplicarlo directamente.",
+  "error": false,
+  "stderr": "2026-08-13T00:47:31.962969Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n2026-08-13T00:47:45.626912Z ERROR codex_core::tools::router: error=`\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"rg --files; rg -n 'gsap|ScrollTrigger|useGSAP' . -g '\"'!node_modules'\"' -g '\"'!*.lock'\"' ; Get-ChildItem -Force -Name package.json,pnpm-lock.yaml,package-lock.json,yarn.lock 2>\"'$null'` rejected: blocked by policy\n",
+  "read_lore": true,
+  "tool_calls": 5,
+  "cost_usd": null,
+  "input_tokens": 122848,
+  "output_tokens": 1258,
+  "cache_read": 77568,
+  "duration_ms": 41190,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'; Get-Content -Raw -LiteralPath 'lore/routing.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"rg --files; rg -n 'gsap|ScrollTrigger|useGSAP' . -g '\"'!node_modules'\"' -g '\"'!*.lock'\"' ; Get-ChildItem -Force -Name package.json,pnpm-lock.yaml,package-lock.json,yarn.lock 2>\"'$null'",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command 'rg --files'",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command 'rg -n \"gsap|ScrollTrigger|useGSAP\" . -g \"!node_modules\" -g \"!*.lock\"'",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'package.json'; Get-Content -Raw -LiteralPath 'lore/principios.md'\""
+  ]
+}

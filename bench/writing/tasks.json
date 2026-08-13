@@ -1,0 +1,78 @@
+{
+  "_readme": "Seis tareas sintéticas de escritura, tres por área. Cada grader nace de una Pista del Lore y se autoverifica con una respuesta que falla y otra que cumple.",
+  "_grade_scope": "full",
+  "tasks": [
+    {
+      "id": "cm-thread-numbering",
+      "fixture": "community-manager",
+      "clue": "community-manager/lore/escritura.md — apertura sin numerar; entregas siguientes con N/total al final",
+      "prompt": "Escribe un hilo de cuatro publicaciones para explicar por qué conviene preparar un calendario de contenidos antes de comenzar el mes. Déjalo listo para copiar y publicar.",
+      "compliance": ["(?m)^2/4\\s*$", "(?m)^3/4\\s*$", "(?m)^4/4\\s*$"],
+      "violation": ["(?m)^1/4\\s*$", "(?im)^#{1,6}\\s*(?:post|publicaci[oó]n|tweet|hilo)"],
+      "selftest": {
+        "bad": "1/4\nAbrimos el hilo.\n\n## Post 2\nSeguimos.\n2/4",
+        "good": "Preparar el mes evita improvisar.\n\nLa planificación ordena los mensajes.\n2/4\n\nTambién permite medir.\n3/4\n\nY deja espacio para reaccionar.\n4/4"
+      }
+    },
+    {
+      "id": "cm-single-cta",
+      "fixture": "community-manager",
+      "clue": "community-manager/lore/escritura.md — una acción primaria, específica y con beneficio",
+      "prompt": "Redacta un post breve para invitar a un webinar gratuito sobre planificación de contenidos. Incluye el cierre y la llamada a la acción.",
+      "compliance": ["(?i)(?:inscr[ií]bete|reg[ií]strate|reserva tu (?:cupo|lugar))"],
+      "violation": ["(?i)m[aá]s informaci[oó]n", "(?i)cont[aá]ctanos", "(?i)s[ií]guenos", "(?i)visita (?:nuestra|el) (?:web|sitio)"],
+      "selftest": {
+        "bad": "Descubre el webinar. Para más información, contáctanos y síguenos.",
+        "good": "Ordena tu próximo mes de contenidos. Inscríbete gratis y reserva tu lugar."
+      }
+    },
+    {
+      "id": "cm-no-hardgate-deliverables",
+      "fixture": "community-manager",
+      "clue": "community-manager/lore/creacion-publicaciones.md — sin HARD-GATE no significa sin entregables",
+      "prompt": "Sin hard-gate ni pausa de aprobación, prepara ahora el menú de entregables para una publicación sobre un webinar gratuito de planificación de contenidos.",
+      "compliance": ["(?i)5 opciones de copy", "(?i)2 opciones de CTA", "(?i)2 opciones de acompa[ñn]amiento"],
+      "violation": [],
+      "selftest": {
+        "bad": "Copy definitivo: Participa en nuestro webinar. CTA: Inscríbete.",
+        "good": "## 5 opciones de copy\nOpción 1: A\nOpción 2: B\nOpción 3: C\nOpción 4: D\nOpción 5: E\n## 2 opciones de CTA\n1. Reserva\n2. Inscríbete\n## 2 opciones de acompañamiento\n1. Gráfico\n2. Fotografía"
+      }
+    },
+    {
+      "id": "news-dual-source",
+      "fixture": "redaccion-noticias",
+      "clue": "redaccion-noticias/lore/anatomia-nota.md — fuente en texto plano y como enlace contextual en la apertura",
+      "prompt": "Redacta una nota breve a partir de estos datos sintéticos: la Agencia Solar informó el 12 de agosto de 2026 que la capacidad renovable de Puerto Claro creció 18% interanual. Fuente: https://example.com/informe-solar. Incluye la atribución correspondiente.",
+      "compliance": ["(?m)^\\*{0,2}Fuente:\\*{0,2}\\s*https://example\\.com/informe-solar\\s*$", "\\[[^\\]]+\\]\\(https://example\\.com/informe-solar\\)"],
+      "violation": ["Fuente:\\s*\\["],
+      "selftest": {
+        "bad": "La capacidad creció 18%.\n\nFuente: https://example.com/informe-solar",
+        "good": "**Fuente:** https://example.com/informe-solar\n\nLa [Agencia Solar](https://example.com/informe-solar) informó que la capacidad creció 18%."
+      }
+    },
+    {
+      "id": "news-seo-images",
+      "fixture": "redaccion-noticias",
+      "clue": "redaccion-noticias/lore/anatomia-nota.md — cinco campos SEO y dos prompts de portada 16:9",
+      "prompt": "Completa únicamente los elementos SEO y los prompts de portada para una nota sobre el crecimiento interanual de 18% de la energía solar en Puerto Claro.",
+      "compliance": ["(?i)Palabra clave principal:", "(?i)Palabras clave secundarias:", "(?i)Meta t[ií]tulo:", "(?i)Meta descripci[oó]n:", "(?i)Slug:", "(?i)Opci[oó]n A", "(?i)Opci[oó]n B", "16:9", "(?i)sin (?:texto|tipograf[ií]a)", "(?i)sin logo"],
+      "violation": [],
+      "selftest": {
+        "bad": "Palabra clave: energía solar\nMeta descripción: crecimiento solar.",
+        "good": "## Elementos SEO\nPalabra clave principal: energía solar Puerto Claro\nPalabras clave secundarias: renovables, capacidad solar\nMeta título: Energía solar crece en Puerto Claro\nMeta descripción: La capacidad solar de Puerto Claro creció 18% interanual según la Agencia Solar.\nSlug: energia-solar-puerto-claro\n## Prompts de imagen\nOpción A: paneles solares, 16:9, sin texto, sin logo.\nOpción B: ciudad y energía solar, 16:9, sin tipografía, sin logo."
+      }
+    },
+    {
+      "id": "news-remove-ai-tics",
+      "fixture": "redaccion-noticias",
+      "clue": "redaccion-noticias/lore/estilo-y-legibilidad.md — tics de IA son defectos de entrega",
+      "prompt": "Reescribe en tono periodístico neutral este borrador sintético: «En el vertiginoso mundo de la energía, cabe destacar que Puerto Claro alcanzó un hito innovador y disruptivo. En conclusión, esto plantea la pregunta de si estamos ante una revolución —una transformación— que cambiará todo». Conserva únicamente los hechos: la capacidad solar creció 18% interanual y el dato fue publicado por la Agencia Solar el 12 de agosto de 2026.",
+      "compliance": ["18\\s*%", "Agencia Solar", "12 de agosto de 2026"],
+      "violation": ["(?i)en el vertiginoso mundo", "(?i)cabe destacar", "(?i)innovador", "(?i)disruptivo", "(?i)en conclusi[oó]n", "(?i)esto plantea la pregunta", "—[\\s\\S]*—"],
+      "selftest": {
+        "bad": "En conclusión, cabe destacar que el avance innovador fue de 18%.",
+        "good": "La capacidad solar de Puerto Claro creció 18% interanual, informó la Agencia Solar el 12 de agosto de 2026."
+      }
+    }
+  ]
+}

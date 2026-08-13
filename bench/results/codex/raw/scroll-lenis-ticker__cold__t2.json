@@ -1,0 +1,31 @@
+{
+  "task": "scroll-lenis-ticker",
+  "arm": "cold",
+  "trial": 2,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "gsap\\.ticker\\.add",
+    "lagSmoothing\\s*\\(\\s*0\\s*\\)"
+  ],
+  "violation": [],
+  "text": "Este provider sincroniza Lenis con el ticker de GSAP, actualiza ScrollTrigger en cada desplazamiento y limpia todas las suscripciones correctamente.\n\n```tsx\n// components/providers/smooth-scroll-provider.tsx\n\"use client\";\n\nimport {\n  createContext,\n  useContext,\n  useEffect,\n  useState,\n  type ReactNode,\n} from \"react\";\nimport Lenis from \"lenis\";\nimport gsap from \"gsap\";\nimport { ScrollTrigger } from \"gsap/ScrollTrigger\";\n\ngsap.registerPlugin(ScrollTrigger);\n\nconst LenisContext = createContext<Lenis | null>(null);\n\ntype SmoothScrollProviderProps = {\n  children: ReactNode;\n};\n\nexport function SmoothScrollProvider({\n  children,\n}: SmoothScrollProviderProps) {\n  const [lenis, setLenis] = useState<Lenis | null>(null);\n\n  useEffect(() => {\n    const reducedMotion = window.matchMedia(\n      \"(prefers-reduced-motion: reduce)\",\n    ).matches;\n\n    if (reducedMotion) {\n      ScrollTrigger.refresh();\n      return;\n    }\n\n    const instance = new Lenis({\n      lerp: 0.1,\n      smoothWheel: true,\n      anchors: true,\n      autoRaf: false,\n    });\n\n    const updateScrollTrigger = () => {\n      ScrollTrigger.update();\n    };\n\n    const updateLenis = (time: number) => {\n      instance.raf(time * 1000);\n    };\n\n    instance.on(\"scroll\", updateScrollTrigger);\n    gsap.ticker.add(updateLenis);\n    gsap.ticker.lagSmoothing(0);\n\n    setLenis(instance);\n    ScrollTrigger.refresh();\n\n    return () => {\n      instance.off(\"scroll\", updateScrollTrigger);\n      gsap.ticker.remove(updateLenis);\n      gsap.ticker.lagSmoothing(500, 33);\n      instance.destroy();\n      setLenis(null);\n    };\n  }, []);\n\n  return (\n    <LenisContext.Provider value={lenis}>\n      {children}\n    </LenisContext.Provider>\n  );\n}\n\nexport function useLenis() {\n  return useContext(LenisContext);\n}\n```\n\nImporta los estilos de Lenis y monta el provider en el layout raíz:\n\n```tsx\n// app/layout.tsx\nimport \"lenis/dist/lenis.css\";\n\nimport { SmoothScrollProvider } from \"@/components/providers/smooth-scroll-provider\";\n\nexport default function RootLayout({\n  children,\n}: Readonly<{\n  children: React.ReactNode;\n}>) {\n  return (\n    <html lang=\"es\">\n      <body>\n        <SmoothScrollProvider>\n          {children}\n        </SmoothScrollProvider>\n      </body>\n    </html>\n  );\n}\n```\n\nNo hace falta `scrollerProxy`: Lenis mantiene el scroll nativo del documento. La sincronización recomendada es `lenis.on(\"scroll\", ScrollTrigger.update)` más `lenis.raf(time * 1000)` dentro del ticker de GSAP. [Lenis](https://github.com/darkroomengineering/lenis), [ScrollTrigger](https://gsap.com/docs/v3/Plugins/ScrollTrigger/).",
+  "error": false,
+  "stderr": "2026-08-12T23:08:00.639670Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": false,
+  "tool_calls": 5,
+  "cost_usd": null,
+  "input_tokens": 117264,
+  "output_tokens": 2259,
+  "cache_read": 103936,
+  "duration_ms": 58479,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\frontend-design\\\\SKILL.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\vercel-react-best-practices\\\\SKILL.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"rg --files -g '\"'!node_modules'\"' -g '\"'!'\"\\\\.next' | Select-Object -First 200\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'package.json'\""
+  ]
+}

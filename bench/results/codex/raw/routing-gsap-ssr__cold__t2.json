@@ -1,0 +1,25 @@
+{
+  "task": "routing-gsap-ssr",
+  "arm": "cold",
+  "trial": 2,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "fail",
+  "compliance": [],
+  "violation": [],
+  "text": "En el componente cliente, al inicio del archivo:\n\n```tsx\n\"use client\";\n\nimport { useRef } from \"react\";\nimport { gsap } from \"gsap\";\nimport { useGSAP } from \"@gsap/react\";\nimport { ScrollTrigger } from \"gsap/ScrollTrigger\";\n\ngsap.registerPlugin(useGSAP, ScrollTrigger);\n```\n\nEl registro queda a nivel de módulo. No modifiqué archivos porque el fixture todavía no contiene el componente.",
+  "error": false,
+  "stderr": "2026-08-12T22:57:17.094423Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": false,
+  "tool_calls": 2,
+  "cost_usd": null,
+  "input_tokens": 51298,
+  "output_tokens": 923,
+  "cache_read": 38144,
+  "duration_ms": 28611,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'; Write-Output \\\"\"'`n__FILES__\"; rg --files'",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\vercel-react-best-practices\\\\SKILL.md'; Write-Output \\\"\"'`n__PACKAGE__\"; Get-Content -Raw -LiteralPath '\"'package.json'\""
+  ]
+}

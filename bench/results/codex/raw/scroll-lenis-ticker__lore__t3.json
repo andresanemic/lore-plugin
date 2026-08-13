@@ -1,0 +1,37 @@
+{
+  "task": "scroll-lenis-ticker",
+  "arm": "lore",
+  "trial": 3,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "gsap\\.ticker\\.add",
+    "lagSmoothing\\s*\\(\\s*0\\s*\\)"
+  ],
+  "violation": [],
+  "text": "Este provider usa un único RAF —el ticker de GSAP—, actualiza `ScrollTrigger` con cada evento de Lenis y desactiva `lagSmoothing`. Es la integración recomendada oficialmente por [Lenis](https://github.com/darkroomengineering/lenis#gsap-scrolltrigger) y [GSAP](https://gsap.com/docs/v3/GSAP/gsap.ticker/).\n\n```tsx\n// components/providers/lenis-provider.tsx\n\"use client\";\n\nimport {\n  createContext,\n  useContext,\n  useEffect,\n  useState,\n  type PropsWithChildren,\n} from \"react\";\nimport Lenis from \"lenis\";\nimport { gsap } from \"gsap\";\nimport { ScrollTrigger } from \"gsap/ScrollTrigger\";\n\ngsap.registerPlugin(ScrollTrigger);\n\nconst LenisContext = createContext<Lenis | null>(null);\n\nexport function useLenis() {\n  return useContext(LenisContext);\n}\n\nexport function LenisProvider({ children }: PropsWithChildren) {\n  const [lenis, setLenis] = useState<Lenis | null>(null);\n\n  useEffect(() => {\n    const reducedMotion = window.matchMedia(\n      \"(prefers-reduced-motion: reduce)\",\n    );\n\n    const previousScrollRestoration =\n      window.history.scrollRestoration;\n\n    let instance: Lenis | null = null;\n    let refreshFrame: number | null = null;\n\n    const updateScrollTrigger = () => {\n      ScrollTrigger.update();\n    };\n\n    const tick = (time: number) => {\n      instance?.raf(time * 1000);\n    };\n\n    const stop = () => {\n      if (refreshFrame !== null) {\n        cancelAnimationFrame(refreshFrame);\n        refreshFrame = null;\n      }\n\n      if (!instance) return;\n\n      instance.off(\"scroll\", updateScrollTrigger);\n      gsap.ticker.remove(tick);\n      instance.destroy();\n      instance = null;\n\n      window.history.scrollRestoration =\n        previousScrollRestoration;\n    };\n\n    const start = () => {\n      if (reducedMotion.matches) {\n        setLenis(null);\n        return;\n      }\n\n      window.history.scrollRestoration = \"manual\";\n\n      instance = new Lenis({\n        autoRaf: false,\n      });\n\n      instance.on(\"scroll\", updateScrollTrigger);\n      gsap.ticker.add(tick);\n\n      // Evita saltos al volver desde una pestaña en segundo plano.\n      gsap.ticker.lagSmoothing(0);\n\n      setLenis(instance);\n\n      // Recalcula posiciones después de montar el layout.\n      refreshFrame = requestAnimationFrame(() => {\n        ScrollTrigger.refresh();\n        refreshFrame = null;\n      });\n    };\n\n    const handleMotionPreference = () => {\n      stop();\n      setLenis(null);\n      start();\n    };\n\n    start();\n    reducedMotion.addEventListener(\n      \"change\",\n      handleMotionPreference,\n    );\n\n    return () => {\n      reducedMotion.removeEventListener(\n        \"change\",\n        handleMotionPreference,\n      );\n      stop();\n    };\n  }, []);\n\n  return (\n    <LenisContext.Provider value={lenis}>\n      {children}\n    </LenisContext.Provider>\n  );\n}\n```\n\nMóntalo una sola vez en el layout raíz:\n\n```tsx\nimport \"lenis/dist/lenis.css\";\nimport { LenisProvider } from \"@/components/providers/lenis-provider\";\n\nexport default function RootLayout({\n  children,\n}: Readonly<{ children: React.ReactNode }>) {\n  return (\n    <html lang=\"es\">\n      <body>\n        <LenisProvider>{children}</LenisProvider>\n      </body>\n    </html>\n  );\n}\n```\n\nNo necesita `ScrollTrigger.scrollerProxy()`: Lenis conserva el scroll nativo y aquí ambos sistemas quedan sincronizados mediante el ticker. Desde un componente hijo puedes obtener la instancia con `useLenis()?.scrollTo(...)`.",
+  "error": false,
+  "stderr": "2026-08-12T23:12:40.387771Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n2026-08-12T23:13:02.601216Z ERROR codex_core::tools::router: error=`\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"if (Test-Path -LiteralPath 'package.json') { Get-Content -Raw -LiteralPath 'package.json' }\"` rejected: blocked by policy\n",
+  "read_lore": true,
+  "tool_calls": 11,
+  "cost_usd": null,
+  "input_tokens": 176706,
+  "output_tokens": 4411,
+  "cache_read": 141824,
+  "duration_ms": 102212,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore/index.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore/scroll.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath '%USERPROFILE%/.agents/skills/vercel-react-best-practices/SKILL.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore/animation.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore/scroll.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"rg -n -i \\\"lenis|ScrollTrigger\\\\.update|scrollerProxy|lagSmoothing|autoRaf|raf\\\\(\\\" lore . --glob '\"'!lore/animation.md'\"'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"rg --files -g 'package.json' -g 'src/**' -g 'app/**' -g 'components/**' -g 'providers/**' -g '\"'!node_modules'\"'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"if (Test-Path -LiteralPath 'package.json') { Get-Content -Raw -LiteralPath 'package.json' }\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'package.json'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command 'rg --files'"
+  ]
+}

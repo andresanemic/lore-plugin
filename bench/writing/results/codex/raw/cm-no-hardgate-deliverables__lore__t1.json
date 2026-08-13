@@ -1,0 +1,31 @@
+{
+  "task": "cm-no-hardgate-deliverables",
+  "arm": "lore",
+  "trial": 1,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "(?i)5 opciones de copy",
+    "(?i)2 opciones de CTA",
+    "(?i)2 opciones de acompa[ñn]amiento"
+  ],
+  "violation": [],
+  "text": "# Menú de entregables\n\n## 5 opciones de copy\n\n### Opción 1 — Directa\n\n¿Cada semana vuelves a preguntarte qué publicar?\n\nEn nuestro webinar gratuito aprenderás a planificar contenidos con objetivos claros, organizar tus ideas y construir un calendario que puedas sostener.\n\n📅 [Fecha]  \n🕒 [Hora]  \n💻 Online y gratuito\n\n### Opción 2 — Orientada al beneficio\n\nPlanificar contenidos no significa llenar un calendario por llenarlo.\n\nEn este webinar gratuito descubrirás cómo convertir tus objetivos en temas, formatos y publicaciones concretas para trabajar con más foco y menos improvisación.\n\n📅 [Fecha] · 🕒 [Hora]\n\n### Opción 3 — Problema y solución\n\nIdeas sueltas, publicaciones de último minuto y semanas sin saber qué comunicar.\n\nSi te resulta familiar, este webinar gratuito es para ti. Revisaremos un método práctico para ordenar tus contenidos, priorizar temas y crear un plan realista.\n\n💻 Online  \n📅 [Fecha] · 🕒 [Hora]\n\n### Opción 4 — Cercana\n\nTu próximo mes de contenidos puede empezar con algo mejor que una página en blanco.\n\nAcompáñanos en un webinar gratuito donde aprenderás a organizar ideas, definir prioridades y diseñar un calendario alineado con tus objetivos.\n\n📅 [Fecha] · 🕒 [Hora]\n\n### Opción 5 — En formato lista\n\nEn este webinar gratuito aprenderás a:\n\n- Definir objetivos para tus contenidos.\n- Encontrar temas relevantes para tu audiencia.\n- Elegir los formatos adecuados.\n- Organizar un calendario sostenible.\n\n📅 [Fecha]  \n🕒 [Hora]  \n💻 Modalidad online\n\n## 2 opciones de CTA\n\nUsar solo una por publicación:\n\n1. **Reserva tu lugar y sal del webinar con una ruta clara para planificar tus próximos contenidos: [enlace]**\n2. **Inscríbete gratis y empieza a construir un calendario de contenidos más estratégico: [enlace]**\n\n## 2 opciones de acompañamiento\n\n### Acompañamiento 1 — Carrusel\n\n1. Portada: **Planifica tus contenidos sin improvisar**\n2. Problema: **¿Cada semana empiezas desde cero?**\n3. Promesa: **Convierte objetivos e ideas en un calendario sostenible**\n4. Aprendizajes: objetivos, temas, formatos y frecuencia\n5. Cierre: **Webinar gratuito · [fecha] · [hora]**\n6. CTA elegida + enlace o código QR\n\n### Acompañamiento 2 — Pieza estática\n\nImagen principal con una vista de calendario editorial y este texto:\n\n> Webinar gratuito  \n> **Cómo planificar contenidos con estrategia**  \n> [Fecha] · [Hora] · Online\n\nPie visual: **Cupos disponibles · Inscripción gratuita**",
+  "error": false,
+  "stderr": "2026-08-13T00:08:49.072006Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": true,
+  "tool_calls": 4,
+  "cost_usd": null,
+  "input_tokens": 66088,
+  "output_tokens": 1168,
+  "cache_read": 46336,
+  "duration_ms": 35740,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath .\\\\CLAUDE.md\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -Encoding UTF8 -LiteralPath .\\\\lore\\\\index.md\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -Encoding UTF8 -LiteralPath .\\\\lore\\\\escritura.md\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -Encoding UTF8 -LiteralPath .\\\\lore\\\\creacion-publicaciones.md\""
+  ]
+}

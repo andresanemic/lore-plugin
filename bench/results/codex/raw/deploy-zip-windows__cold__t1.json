@@ -1,0 +1,28 @@
+{
+  "task": "deploy-zip-windows",
+  "arm": "cold",
+  "trial": 1,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "tar\\.exe"
+  ],
+  "violation": [],
+  "text": "En PowerShell, desde la carpeta que contiene `out/`:\n\n```powershell\ntar.exe -a -c -f .\\out.zip -C .\\out .\n```\n\nGenera `out.zip` con el contenido de `out/` en la raíz, ideal para extraerlo directamente en `public_html` desde cPanel.",
+  "error": false,
+  "stderr": "2026-08-12T23:40:46.868471Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n2026-08-12T23:40:53.512215Z ERROR codex_core::tools::router: error=`\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath .\\\\CLAUDE.md; Write-Output \\\"\"'`n__OUT_CHECK__\"; Get-Item -LiteralPath .'\"\\\\out -ErrorAction SilentlyContinue | Select-Object FullName, PSIsContainer\"` rejected: blocked by policy\n2026-08-12T23:41:00.785639Z ERROR codex_core::tools::router: error=`\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Item -LiteralPath .\\\\out | Select-Object -Property FullName,PSIsContainer\"` rejected: blocked by policy\n",
+  "read_lore": false,
+  "tool_calls": 3,
+  "cost_usd": null,
+  "input_tokens": 66054,
+  "output_tokens": 602,
+  "cache_read": 54272,
+  "duration_ms": 21339,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath .\\\\CLAUDE.md; Write-Output \\\"\"'`n__OUT_CHECK__\"; Get-Item -LiteralPath .'\"\\\\out -ErrorAction SilentlyContinue | Select-Object FullName, PSIsContainer\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath .\\\\CLAUDE.md\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Item -LiteralPath .\\\\out | Select-Object -Property FullName,PSIsContainer\""
+  ]
+}

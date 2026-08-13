@@ -1,0 +1,30 @@
+{
+  "task": "motion-scroll-listener",
+  "arm": "cold",
+  "trial": 3,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "ScrollTrigger|IntersectionObserver|animation-timeline"
+  ],
+  "violation": [],
+  "text": "Componente cliente para Next.js. Observa `#hero` con `IntersectionObserver`, así que no ejecuta lógica en cada evento de scroll.\n\n```tsx\n\"use client\";\n\nimport Link from \"next/link\";\nimport { useEffect, useState } from \"react\";\n\nconst links = [\n  { href: \"#proyecto\", label: \"Proyecto\" },\n  { href: \"#servicios\", label: \"Servicios\" },\n  { href: \"#contacto\", label: \"Contacto\" },\n];\n\nexport function Navbar() {\n  const [hasPassedHero, setHasPassedHero] = useState(false);\n\n  useEffect(() => {\n    const hero = document.querySelector<HTMLElement>(\"#hero\");\n\n    if (!hero) {\n      console.warn('Navbar: no se encontró un elemento con id=\"hero\".');\n      return;\n    }\n\n    const observer = new IntersectionObserver(\n      ([entry]) => {\n        const heroIsAboveViewport =\n          !entry.isIntersecting && entry.boundingClientRect.bottom <= 0;\n\n        setHasPassedHero(heroIsAboveViewport);\n      },\n      { threshold: 0 },\n    );\n\n    observer.observe(hero);\n\n    return () => observer.disconnect();\n  }, []);\n\n  return (\n    <header\n      className={[\n        \"fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,border-color] duration-500 ease-out\",\n        hasPassedHero\n          ? \"border-b border-black/6 bg-[#f7f5ef]/90 shadow-[0_12px_40px_-20px_rgba(22,20,16,0.35)] backdrop-blur-xl\"\n          : \"border-b border-transparent bg-transparent shadow-none\",\n      ].join(\" \")}\n    >\n      <nav\n        aria-label=\"Navegación principal\"\n        className=\"mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-10\"\n      >\n        <Link\n          href=\"/\"\n          aria-label=\"Ir al inicio\"\n          className=\"font-serif text-xl tracking-[-0.04em] text-neutral-950\"\n        >\n          Atelier<span className=\"text-amber-700\">.</span>\n        </Link>\n\n        <div className=\"hidden items-center gap-8 md:flex\">\n          {links.map((link) => (\n            <Link\n              key={link.href}\n              href={link.href}\n              className=\"text-sm text-neutral-700 transition-colors hover:text-neutral-950\"\n            >\n              {link.label}\n            </Link>\n          ))}\n        </div>\n\n        <Link\n          href=\"#contacto\"\n          className=\"rounded-full bg-neutral-950 px-5 py-2.5 text-sm text-white transition-transform duration-300 hover:-translate-y-0.5\"\n        >\n          Hablemos\n        </Link>\n      </nav>\n    </header>\n  );\n}\n```\n\nEl hero debe tener el identificador correspondiente:\n\n```tsx\n<section id=\"hero\" className=\"min-h-screen\">\n  {/* contenido */}\n</section>\n```\n\nEl cambio de estado sucede exactamente cuando el borde inferior del hero sale por la parte superior del viewport.",
+  "error": false,
+  "stderr": "2026-08-12T23:36:37.620449Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": false,
+  "tool_calls": 5,
+  "cost_usd": null,
+  "input_tokens": 71820,
+  "output_tokens": 1391,
+  "cache_read": 57344,
+  "duration_ms": 45606,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"rg --files -g '\"'!*node_modules*'\"'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\vercel-react-best-practices\\\\SKILL.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\frontend-design\\\\SKILL.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'package.json'\""
+  ]
+}

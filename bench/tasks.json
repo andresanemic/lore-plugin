@@ -1,0 +1,143 @@
+{
+  "_readme": "Doce tareas, una por Pista Invariante. Congeladas antes de la corrida completa. Cada tarea tienta la violación de la que nació la Pista. Todas las regex de `compliance` deben pegar; cualquier `violation` que pegue reprueba la corrida. Las marcadas con violation_source: preflight están copiadas literalmente de desarrollo-web/tools/preflight.mjs, la puerta mecánica del área — no fueron escritas para este benchmark.",
+  "_verdict_rule": "pass = pegan todas las de compliance Y ninguna de violation. fail = cualquier otra cosa. n/a = la corrida falló o volvió vacía (se reporta aparte, nunca cuenta como pass). Una lista de compliance vacía significa que basta con no violar.",
+  "tasks": [
+    {
+      "id": "animation-fouc",
+      "clue": "lore/animation.md — [animation] Flash de elementos antes de que arranque GSAP (FOUC de animación)",
+      "prompt": "Necesito un componente Hero con animación de entrada en GSAP: el título y el subtítulo aparecen con un fade y suben unos píxeles. Dame el componente completo.",
+      "compliance": ["style=\\{\\{[^}]*opacity:\\s*0|className=\"[^\"]*opacity-0|(?:const|let)\\s+(\\w+)(?:\\s*:\\s*[^=]+)?\\s*=\\s*\\{[^}]*opacity:\\s*0[^}]*\\}[\\s\\S]*style=\\{\\1\\}", "\\.fromTo\\s*\\("],
+      "violation": ["gsap\\s*\\.\\s*from\\s*\\("],
+      "violation_source": "preflight",
+      "_nota_compliance": "El estado inicial vale en cualquiera de sus dos formas de markup — style inline o clase Tailwind opacity-0 — porque las dos pintan antes de la hidratación, que es lo que la Pista exige. Lo que NO cuenta es un opacity: 0 dentro de la config de GSAP: ese es exactamente el FOUC que la Pista prohíbe.",
+      "selftest": {
+        "bad": "useGSAP(() => { gsap.from(ref.current, { y: 20, opacity: 0 }) })",
+        "good": "const initialReveal: CSSProperties = { opacity: 0, transform: 'translateY(20px)' }\n<h1 style={initialReveal}>Hola</h1>\ngsap.fromTo(ref.current, { y: 20, opacity: 0 }, { y: 0, opacity: 1 })"
+      }
+    },
+    {
+      "id": "animation-progress-scalex",
+      "clue": "lore/animation.md — [animation] Barra de progreso con reflow en cada frame",
+      "prompt": "Quiero una barra de progreso de scroll fija arriba de la página, que se actualice desde el onUpdate de un ScrollTrigger. Dame el componente.",
+      "compliance": ["scaleX", "transformOrigin|origin-left"],
+      "violation": ["style\\.width\\s*=", "width:\\s*[`'\"]?\\$\\{"],
+      "selftest": {
+        "bad": "onUpdate: (self) => { bar.current.style.width = `${self.progress * 100}%` }",
+        "good": "<div className=\"origin-left\" />\nonUpdate: (self) => gsap.set(bar.current, { scaleX: self.progress })"
+      }
+    },
+    {
+      "id": "routing-gsap-ssr",
+      "clue": "lore/routing.md — [routing] GSAP falla en SSR / build de Next.js (window is not defined)",
+      "prompt": "Voy a usar ScrollTrigger en un componente cliente de este proyecto. Arma los imports de GSAP y el registro del plugin como corresponde acá.",
+      "compliance": ["typeof\\s+window\\s*!==\\s*['\"]undefined['\"]", "lib/gsap"],
+      "violation": [],
+      "selftest": {
+        "bad": "import { gsap } from 'gsap'\nimport { ScrollTrigger } from 'gsap/ScrollTrigger'\ngsap.registerPlugin(ScrollTrigger)",
+        "good": "// lib/gsap.ts\nif (typeof window !== 'undefined') { gsap.registerPlugin(ScrollTrigger) }\nexport { gsap }"
+      }
+    },
+    {
+      "id": "routing-tailwind-duration",
+      "clue": "lore/routing.md — [routing] Tailwind v4: un valor fuera de la escala (duration-400) no genera utilidad",
+      "prompt": "Agrégale a este botón una transición de color en hover de 400 ms, con Tailwind.",
+      "compliance": ["duration-\\[400ms\\]"],
+      "violation": ["duration-400(?![\\w\\[])"],
+      "selftest": {
+        "bad": "<button className=\"transition-colors duration-400 hover:bg-accent\">",
+        "good": "<button className=\"transition-colors duration-[400ms] hover:bg-accent\">"
+      }
+    },
+    {
+      "id": "routing-scroll-behavior-attr",
+      "clue": "lore/routing.md — [routing] scroll-behavior: smooth en <html> exige data-scroll-behavior=\"smooth\"",
+      "prompt": "Quiero scroll suave nativo (sin librería) para las anclas internas de la landing. ¿Qué le agrego al root layout y al CSS global?",
+      "compliance": ["data-scroll-behavior=[\"']smooth[\"']"],
+      "violation": [],
+      "selftest": {
+        "bad": "<html lang=\"es\">\nhtml { scroll-behavior: smooth; }",
+        "good": "<html lang=\"es\" data-scroll-behavior=\"smooth\">\nhtml { scroll-behavior: smooth; }"
+      }
+    },
+    {
+      "id": "scroll-lenis-ticker",
+      "clue": "lore/scroll.md — [scroll] Lenis + ScrollTrigger desincronizados / salto al volver al tab",
+      "prompt": "Configura Lenis para el smooth scroll de este proyecto, de manera que funcione junto con ScrollTrigger de GSAP. Dame el provider.",
+      "compliance": ["gsap\\.ticker\\.add", "lagSmoothing\\s*\\(\\s*0\\s*\\)"],
+      "violation": [],
+      "selftest": {
+        "bad": "function raf(time) { lenis.raf(time); requestAnimationFrame(raf) }\nrequestAnimationFrame(raf)",
+        "good": "gsap.ticker.add((t) => lenis.raf(t * 1000))\ngsap.ticker.lagSmoothing(0)"
+      }
+    },
+    {
+      "id": "scroll-body-unlock",
+      "clue": "lore/scroll.md — [scroll] Scrollbar flash de ~15px al desbloquear scroll del body",
+      "prompt": "Menú móvil a pantalla completa que bloquea el scroll de la página mientras está abierto y lo desbloquea al cerrarse. Dame el componente.",
+      "compliance": ["overflow\\s*=\\s*(?:['\"]\\s*['\"]|previous\\w*(?:\\.(?:overflow|bodyOverflow|rootOverflow))?)|Object\\.assign\\s*\\(\\s*(?:document\\.)?body\\.style\\s*,\\s*previous"],
+      "violation": ["overflow\\s*=\\s*['\"](auto|visible|unset|initial|scroll)['\"]"],
+      "selftest": {
+        "bad": "open ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'auto'",
+        "good": "const previousOverflow = document.body.style.overflow\ndocument.body.style.overflow = 'hidden'\nreturn () => { document.body.style.overflow = previousOverflow }"
+      }
+    },
+    {
+      "id": "stack-viewport-height",
+      "clue": "lore/principios.md — leyes de stack: altura de viewport con 100vh desborda en iOS Safari",
+      "prompt": "Dame el markup de una sección hero que ocupe todo el alto del viewport, con Tailwind.",
+      "compliance": ["100[sd]vh|(?:min-)?h-(?:s|d)vh"],
+      "violation": ["(?<![\\w-])h-screen(?![\\w-])|height:\\s*100vh|(?<![\\w-])min-h-screen(?![\\w-])"],
+      "violation_source": "preflight",
+      "selftest": {
+        "bad": "<section className=\"h-screen flex items-center\">",
+        "good": "<section className=\"min-h-svh flex items-center\">"
+      }
+    },
+    {
+      "id": "identity-font",
+      "clue": "lore/identidad.md — tipografía: nada de fuentes por defecto de IA (Inter / Roboto / Arial / Helvetica)",
+      "prompt": "Configura la tipografía del proyecto con next/font: una fuente display para los títulos y otra para el cuerpo. Dame el archivo de fuentes y cómo se aplica en el layout.",
+      "compliance": [],
+      "violation": ["\\b(Inter|Roboto|Open_Sans)\\b[^\\n]*next/font/google", "font-family:[^;]*\\b(Inter|Roboto|Arial|Helvetica)\\b"],
+      "violation_source": "preflight",
+      "selftest": {
+        "bad": "import { Inter } from \"next/font/google\"",
+        "good": "import { Fraunces } from \"next/font/google\""
+      }
+    },
+    {
+      "id": "a11y-focus-outline",
+      "clue": "lore/principios.md — accesibilidad: el focus visible es piso no negociable",
+      "prompt": "Este botón con estilo propio muestra el contorno azul feo del navegador al hacer click y al tabular. Sácalo para que quede limpio como el diseño.",
+      "compliance": ["focus-visible"],
+      "violation": [],
+      "selftest": {
+        "bad": "<button className=\"outline-none rounded-full px-6\">",
+        "good": "<button className=\"outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full px-6\">"
+      }
+    },
+    {
+      "id": "motion-scroll-listener",
+      "clue": "lore/principios.md — leyes de motion: addEventListener('scroll') corre en cada frame, sin batching",
+      "prompt": "Navbar que cambia de aspecto (fondo y sombra) una vez que el usuario pasó el hero. Dame el componente.",
+      "compliance": ["ScrollTrigger|IntersectionObserver|animation-timeline"],
+      "violation": ["addEventListener\\s*\\(\\s*[\"'`]scroll[\"'`]"],
+      "violation_source": "preflight",
+      "selftest": {
+        "bad": "useEffect(() => { window.addEventListener('scroll', onScroll) }, [])",
+        "good": "useEffect(() => { const o = new IntersectionObserver(cb); o.observe(hero) }, [])"
+      }
+    },
+    {
+      "id": "deploy-zip-windows",
+      "clue": "lore/routing.md — [deploy] Compress-Archive genera rutas con backslash: cPanel no crea las carpetas",
+      "prompt": "Estoy en Windows. Empaqueta la carpeta out/ en un zip para subirlo por el File Manager de cPanel. Dame el comando.",
+      "compliance": ["tar\\.exe"],
+      "violation": ["^\\s*Compress-Archive"],
+      "selftest": {
+        "bad": "Compress-Archive -Path out\\* -DestinationPath sitio.zip",
+        "good": "Push-Location out ; tar.exe -a -c -f ../sitio.zip . ; Pop-Location"
+      }
+    }
+  ]
+}

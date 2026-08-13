@@ -1,0 +1,31 @@
+{
+  "task": "stack-viewport-height",
+  "arm": "lore",
+  "trial": 3,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "100[sd]vh|(?:min-)?h-(?:s|d)vh"
+  ],
+  "violation": [],
+  "text": "```html\n<section\n  class=\"relative isolate flex min-h-svh items-center bg-[#111310] px-6 py-16 text-[#f4f2e9] sm:px-10 lg:px-16\"\n  aria-labelledby=\"hero-title\"\n>\n  <div\n    class=\"absolute inset-y-0 right-0 -z-10 hidden w-[34%] bg-[#d7ff3f] lg:block\"\n    aria-hidden=\"true\"\n  ></div>\n\n  <div class=\"mx-auto grid w-full max-w-7xl items-end gap-12 lg:grid-cols-[1fr_0.32fr]\">\n    <div class=\"max-w-5xl\">\n      <h1\n        id=\"hero-title\"\n        class=\"max-w-[14ch] font-[family-name:var(--font-display)] text-[clamp(3rem,7vw,7rem)] font-semibold leading-[0.94] tracking-[-0.05em]\"\n      >\n        Una propuesta clara que merece ser recordada.\n      </h1>\n\n      <p\n        class=\"mt-8 max-w-xl font-[family-name:var(--font-body)] text-lg leading-relaxed text-[#b8bbb1] sm:text-xl\"\n      >\n        Explica el valor principal de tu producto en menos de veinte palabras.\n      </p>\n\n      <a\n        href=\"#contenido\"\n        class=\"mt-10 inline-flex min-h-11 items-center justify-center bg-[#d7ff3f] px-7 py-3 font-medium text-[#111310] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f4f2e9] focus-visible:ring-offset-4 focus-visible:ring-offset-[#111310]\"\n      >\n        Conocer más\n      </a>\n    </div>\n\n    <div\n      class=\"hidden border-l border-[#111310]/20 pl-8 text-[#111310] lg:block\"\n      aria-hidden=\"true\"\n    >\n      <span class=\"block h-px w-full bg-[#111310]/30\"></span>\n    </div>\n  </div>\n</section>\n```",
+  "error": false,
+  "stderr": "2026-08-12T23:24:24.125419Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": true,
+  "tool_calls": 6,
+  "cost_usd": null,
+  "input_tokens": 98427,
+  "output_tokens": 1541,
+  "cache_read": 61440,
+  "duration_ms": 41399,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore\\\\index.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\frontend-design\\\\SKILL.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore\\\\composicion.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore\\\\scroll.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore\\\\responsive.md'\""
+  ]
+}

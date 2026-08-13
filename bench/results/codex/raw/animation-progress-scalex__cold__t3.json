@@ -1,0 +1,29 @@
+{
+  "task": "animation-progress-scalex",
+  "arm": "cold",
+  "trial": 3,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "scaleX",
+    "transformOrigin|origin-left"
+  ],
+  "violation": [],
+  "text": "```tsx\n\"use client\";\n\nimport { useEffect, useRef } from \"react\";\nimport gsap from \"gsap\";\nimport { ScrollTrigger } from \"gsap/ScrollTrigger\";\n\nexport function ScrollProgress() {\n  const progressRef = useRef<HTMLDivElement>(null);\n\n  useEffect(() => {\n    gsap.registerPlugin(ScrollTrigger);\n\n    const progressElement = progressRef.current;\n    if (!progressElement) return;\n\n    const setProgress = gsap.quickSetter(\n      progressElement,\n      \"scaleX\",\n    ) as (value: number) => void;\n\n    const trigger = ScrollTrigger.create({\n      start: 0,\n      end: () => ScrollTrigger.maxScroll(window),\n      onUpdate: ({ progress }) => {\n        setProgress(progress);\n        progressElement.setAttribute(\n          \"aria-valuenow\",\n          Math.round(progress * 100).toString(),\n        );\n      },\n    });\n\n    return () => trigger.kill();\n  }, []);\n\n  return (\n    <div className=\"pointer-events-none fixed inset-x-0 top-0 z-[9999] h-1 bg-black/10\">\n      <div\n        ref={progressRef}\n        role=\"progressbar\"\n        aria-label=\"Progreso de lectura\"\n        aria-valuemin={0}\n        aria-valuemax={100}\n        aria-valuenow={0}\n        className=\"h-full origin-left scale-x-0 bg-emerald-400 will-change-transform\"\n      />\n    </div>\n  );\n}\n```\n\nMóntalo una sola vez en el `layout.tsx`. La escala se modifica directamente desde `onUpdate`, evitando un render de React en cada evento de scroll.",
+  "error": false,
+  "stderr": "2026-08-12T22:53:49.170069Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": false,
+  "tool_calls": 3,
+  "cost_usd": null,
+  "input_tokens": 52026,
+  "output_tokens": 1548,
+  "cache_read": 46336,
+  "duration_ms": 37646,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath .\\\\CLAUDE.md\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath \\\"C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\vercel-react-best-practices\\\\SKILL.md\\\"\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath \\\"C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\frontend-design\\\\SKILL.md\\\"\""
+  ]
+}

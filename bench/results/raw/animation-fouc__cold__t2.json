@@ -1,0 +1,608 @@
+{
+  "task": "animation-fouc",
+  "arm": "cold",
+  "trial": 2,
+  "model": "sonnet",
+  "verdict": "fail",
+  "compliance": [],
+  "violation": [],
+  "text": "Acá tenés el componente, usando `@gsap/react` (ya está en tus dependencias) con `useGSAP` para el cleanup automático del contexto de GSAP:\n\n```tsx\n// components/Hero.tsx\n\"use client\";\n\nimport { useRef } from \"react\";\nimport { gsap } from \"gsap\";\nimport { useGSAP } from \"@gsap/react\";\n\ngsap.registerPlugin(useGSAP);\n\nexport default function Hero() {\n  const containerRef = useRef<HTMLDivElement>(null);\n\n  useGSAP(\n    () => {\n      const mm = gsap.matchMedia();\n\n      mm.add(\"(prefers-reduced-motion: no-preference)\", () => {\n        const tl = gsap.timeline({\n          defaults: { ease: \"power3.out\", duration: 0.9 },\n        });\n\n        tl.from(\".hero-title\", { opacity: 0, y: 24 }).from(\n          \".hero-subtitle\",\n          { opacity: 0, y: 16 },\n          \"-=0.5\"\n        );\n      });\n\n      return () => mm.revert();\n    },\n    { scope: containerRef }\n  );\n\n  return (\n    <section\n      ref={containerRef}\n      className=\"flex min-h-[80vh] flex-col items-center justify-center px-6 text-center\"\n    >\n      <h1 className=\"hero-title text-5xl font-semibold tracking-tight sm:text-6xl\">\n        Título del hero\n      </h1>\n      <p className=\"hero-subtitle mt-6 max-w-xl text-lg text-neutral-400\">\n        Subtítulo con la propuesta de valor, en una o dos líneas.\n      </p>\n    </section>\n  );\n}\n```\n\nDetalles de la implementación:\n\n- **`useGSAP`** en vez de `useEffect` + `gsap.context` manual: crea y limpia el contexto solo, evitando animaciones fantasma en fast refresh o al desmontar.\n- **`scope: containerRef`**: las selecciones `.hero-title` / `.hero-subtitle` quedan acotadas al hero, sin colisionar con otras animaciones de la página.\n- **`matchMedia` + `prefers-reduced-motion`**: si el usuario tiene reducción de movimiento activada, no corre la animación (accesibilidad, no es opcional).\n- **`gsap.from(...)`**: fade-in + subida de píxeles como pediste; el subtítulo arranca un poco antes de que termine el título (`\"-=0.5\"`) para que se sienta como una sola entrada, no dos saltos.\n- Estilos con utilities de Tailwind v4, sin classes custom fuera del hook de selección (`hero-title`, `hero-subtitle` son solo hooks, no llevan estilos).\n\n¿Querés que lo deje con texto/props dinámicos (título y subtítulo como props) en vez de hardcodeados, o el hero es fijo?",
+  "error": false,
+  "stderr": "",
+  "read_lore": false,
+  "tool_calls": 2,
+  "cost_usd": 0.07871819999999999,
+  "input_tokens": 6,
+  "output_tokens": 1653,
+  "cache_read": 50974,
+  "duration_ms": 25392,
+  "num_turns": 3,
+  "events": [
+    {
+      "type": "system",
+      "subtype": "init",
+      "cwd": "C:\\Claude\\lore-plugin\\bench\\fixtures\\cold",
+      "session_id": "81c08c0f-81b9-447a-8ce6-14084539e03b",
+      "tools": [
+        "Task",
+        "Bash",
+        "CronCreate",
+        "CronDelete",
+        "CronList",
+        "DesignSync",
+        "Edit",
+        "EnterWorktree",
+        "ExitWorktree",
+        "Glob",
+        "Grep",
+        "Monitor",
+        "NotebookEdit",
+        "PowerShell",
+        "PushNotification",
+        "Read",
+        "RemoteTrigger",
+        "ReportFindings",
+        "ScheduleWakeup",
+        "SendMessage",
+        "Skill",
+        "TaskCreate",
+        "TaskGet",
+        "TaskList",
+        "TaskOutput",
+        "TaskStop",
+        "TaskUpdate",
+        "ToolSearch",
+        "WebFetch",
+        "WebSearch",
+        "Write"
+      ],
+      "mcp_servers": [],
+      "model": "claude-sonnet-5",
+      "permissionMode": "default",
+      "slash_commands": [
+        "design-sync",
+        "dataviz",
+        "update-config",
+        "verify",
+        "debug",
+        "code-review",
+        "simplify",
+        "batch",
+        "fewer-permission-prompts",
+        "doctor",
+        "loop",
+        "schedule",
+        "claude-api",
+        "run",
+        "run-skill-generator",
+        "agents",
+        "autocompact",
+        "clear",
+        "color",
+        "compact",
+        "config",
+        "context",
+        "effort",
+        "fast",
+        "heapdump",
+        "init",
+        "mcp",
+        "import",
+        "model",
+        "__remote-workflow",
+        "workflow-launch-exec",
+        "reload-skills",
+        "rename",
+        "ultrareview",
+        "security-review",
+        "usage-credits",
+        "extra-usage",
+        "usage",
+        "insights",
+        "recap",
+        "goal",
+        "design",
+        "design-consent",
+        "design-revoke",
+        "team-onboarding"
+      ],
+      "apiKeySource": "none",
+      "claude_code_version": "2.1.228",
+      "output_style": "default",
+      "agents": [
+        "claude",
+        "Explore",
+        "general-purpose",
+        "Plan",
+        "statusline-setup"
+      ],
+      "skills": [
+        "design-sync",
+        "dataviz",
+        "update-config",
+        "verify",
+        "debug",
+        "code-review",
+        "simplify",
+        "batch",
+        "fewer-permission-prompts",
+        "doctor",
+        "loop",
+        "schedule",
+        "claude-api",
+        "run",
+        "run-skill-generator"
+      ],
+      "plugins": [],
+      "capabilities": [
+        "interrupt_receipt_v1",
+        "interrupt_cancel_queued_v1",
+        "msg_lifecycle_v1"
+      ],
+      "analytics_disabled": false,
+      "product_feedback_disabled": false,
+      "uuid": "e71f44e6-a9fd-4cef-b696-9b5487651fff",
+      "memory_paths": {
+        "auto": "%USERPROFILE%\\.claude\\projects\\C--Claude-lore-plugin\\memory\\"
+      },
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required"
+    },
+    {
+      "type": "rate_limit_event",
+      "rate_limit_info": {
+        "status": "allowed_warning",
+        "resetsAt": 1786708800,
+        "rateLimitType": "seven_day",
+        "utilization": 0.96,
+        "isUsingOverage": false,
+        "surpassedThreshold": 0.75
+      },
+      "uuid": "dc6e240f-32ab-4c38-8743-895358ee148e",
+      "session_id": "81c08c0f-81b9-447a-8ce6-14084539e03b"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 100,
+      "estimated_tokens_delta": 100,
+      "uuid": "7018dfe1-d64f-4581-9dbc-1c45e14c11ec",
+      "session_id": "81c08c0f-81b9-447a-8ce6-14084539e03b"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 108,
+      "estimated_tokens_delta": 8,
+      "uuid": "7f7cebb8-8f84-4528-80af-8080d23c9152",
+      "session_id": "81c08c0f-81b9-447a-8ce6-14084539e03b"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011Cdwj72hPcmxvdfkuBEPuA",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "",
+            "signature": "EqcDCokBCBAYAipAgM9CEItigleOV8yunmo/CVpCpIzqfB3Tqbpxap0ehdlUbVSM9TQDWxQgDKBiT9hWPaVMd5F81ozodnw3B2IQejIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQyYWM0Mjg1MS0zNTYyLTQ0NWQtYTc5OS02ZTdjZjc4MjUyNWYSDPFeQzyjiBOzDFliNBoMav8JKxMigG2IMKvbIjBahle64kyJBoH8QXUrG5dUD9NQO9FhUHEumvT335Iq9vlDft5bbFEN3jkBqQ0ZqhMqygGIrNHfgB8KjwERHRzTwJ2JWcAcOipA9q5avAXzPYlwVFFnrzO6pVr+FMGDWgT9sQ8zJb5iaWvW0NwuIx9Op3fEr4B7lNDXzTZhuMZ0w+DInzBVdJKN8cYCffP84RXzQdl/LNAGpmam9nfwqPw/a8ubCo0TuuOVFKmIy4ESqZDEH+z9bs4Ouw1i/gzRZ8EHNCJVt+D+6M9JH6jo4Flsg7k2X/F6r3qEaf8WPnQbLK8ELy5iYXUYZ7fU3z2UZpL0yeHjEAr1GKboUMOYGAE="
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 5749,
+          "cache_read_input_tokens": 13092,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 5749
+          },
+          "output_tokens": 2,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "81c08c0f-81b9-447a-8ce6-14084539e03b",
+      "uuid": "f1cd2cf9-dff0-40dd-8370-ecd0b0303d1a",
+      "timestamp": "2026-08-11T22:10:45.431Z",
+      "request_id": "req_011Cdwj6z49BWrpVRbB4RpGc"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011Cdwj72hPcmxvdfkuBEPuA",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "toolu_0128N5mKNmQGiW9uu8E6j48v",
+            "name": "Bash",
+            "input": {
+              "command": "cd \"C:\\Claude\\lore-plugin\\bench\\fixtures\\cold\" && find . -maxdepth 3 -not -path '*/node_modules/*' -not -path '*/.git/*' | head -100"
+            },
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 5749,
+          "cache_read_input_tokens": 13092,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 5749
+          },
+          "output_tokens": 2,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "81c08c0f-81b9-447a-8ce6-14084539e03b",
+      "uuid": "9df32fbf-7d02-450a-bb92-f772003a2842",
+      "timestamp": "2026-08-11T22:10:46.276Z",
+      "request_id": "req_011Cdwj6z49BWrpVRbB4RpGc"
+    },
+    {
+      "type": "user",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "tool_use_id": "toolu_0128N5mKNmQGiW9uu8E6j48v",
+            "type": "tool_result",
+            "content": ".\n./CLAUDE.md\n./package.json",
+            "is_error": false
+          }
+        ]
+      },
+      "parent_tool_use_id": null,
+      "session_id": "81c08c0f-81b9-447a-8ce6-14084539e03b",
+      "uuid": "63f71883-2e98-4b6c-b1a3-9c18f2a70483",
+      "timestamp": "2026-08-11T22:10:47.451Z",
+      "tool_use_result": {
+        "stdout": ".\n./CLAUDE.md\n./package.json",
+        "stderr": "",
+        "interrupted": false,
+        "isImage": false,
+        "noOutputExpected": false
+      }
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 50,
+      "estimated_tokens_delta": 50,
+      "uuid": "27f07df6-4334-47b5-8a28-e36e2ee447b3",
+      "session_id": "81c08c0f-81b9-447a-8ce6-14084539e03b"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 74,
+      "estimated_tokens_delta": 24,
+      "uuid": "68e811e8-ee2e-4b1d-be06-65a9389f2093",
+      "session_id": "81c08c0f-81b9-447a-8ce6-14084539e03b"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011Cdwj7WppCk3qN7UyK6ZcK",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "",
+            "signature": "EqACCokBCBAYAipAVeppmGzLscVMj9mHVyC21/U0qO7aMSeh85KT5XNIp0sABnzMQyGbb9HRz7Y09lXSvJl6A7lwpQICzdWrGWa1RDIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQyYWM0Mjg1MS0zNTYyLTQ0NWQtYTc5OS02ZTdjZjc4MjUyNWYSDHxuxgL+81H12duvlhoMUFyGlrRP8j683S5IIjDQLI7At9lHXRpPwEit4YF7yMBgLltzoAwOHy6xae3GBdZAfO6m9WOjw353MhVz2ukqRKxiGQXcudL+x308GoH9JcVKbgijYzTnmucEtPO9q+80dHcOEgxRAm/I3rnXW5QUfR6rljd6vRWH0Dq9WqLVW7lIuriBGAE="
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 200,
+          "cache_read_input_tokens": 18841,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 200
+          },
+          "output_tokens": 9,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "81c08c0f-81b9-447a-8ce6-14084539e03b",
+      "uuid": "817871c1-9a1a-45e7-9d5a-c6870a312f5e",
+      "timestamp": "2026-08-11T22:10:51.553Z",
+      "request_id": "req_011Cdwj7KwEAhDRNS1KoZHGB"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011Cdwj7WppCk3qN7UyK6ZcK",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "toolu_01XxpQKyvx2xqapddStJyug3",
+            "name": "Read",
+            "input": {
+              "file_path": "C:\\Claude\\lore-plugin\\bench\\fixtures\\cold\\package.json"
+            },
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 200,
+          "cache_read_input_tokens": 18841,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 200
+          },
+          "output_tokens": 9,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "81c08c0f-81b9-447a-8ce6-14084539e03b",
+      "uuid": "34a0b718-46e6-4b4e-a02b-89bb4c61406b",
+      "timestamp": "2026-08-11T22:10:51.694Z",
+      "request_id": "req_011Cdwj7KwEAhDRNS1KoZHGB"
+    },
+    {
+      "type": "user",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "tool_use_id": "toolu_01XxpQKyvx2xqapddStJyug3",
+            "type": "tool_result",
+            "content": "1\t{\n2\t  \"name\": \"bench-fixture\",\n3\t  \"private\": true,\n4\t  \"type\": \"module\",\n5\t  \"scripts\": {\n6\t    \"dev\": \"next dev\",\n7\t    \"build\": \"next build\"\n8\t  },\n9\t  \"dependencies\": {\n10\t    \"next\": \"^16.2.6\",\n11\t    \"react\": \"^19.2.0\",\n12\t    \"react-dom\": \"^19.2.0\",\n13\t    \"gsap\": \"^3.13.0\",\n14\t    \"@gsap/react\": \"^2.1.2\",\n15\t    \"lenis\": \"^1.3.11\"\n16\t  },\n17\t  \"devDependencies\": {\n18\t    \"@tailwindcss/postcss\": \"^4.1.14\",\n19\t    \"tailwindcss\": \"^4.1.14\",\n20\t    \"typescript\": \"^5.9.3\"\n21\t  }\n22\t}\n23\t"
+          }
+        ]
+      },
+      "parent_tool_use_id": null,
+      "session_id": "81c08c0f-81b9-447a-8ce6-14084539e03b",
+      "uuid": "07893ff7-9263-4928-ace9-960f66300568",
+      "timestamp": "2026-08-11T22:10:51.712Z",
+      "tool_use_result": {
+        "type": "text",
+        "file": {
+          "filePath": "C:\\Claude\\lore-plugin\\bench\\fixtures\\cold\\package.json",
+          "content": "{\n  \"name\": \"bench-fixture\",\n  \"private\": true,\n  \"type\": \"module\",\n  \"scripts\": {\n    \"dev\": \"next dev\",\n    \"build\": \"next build\"\n  },\n  \"dependencies\": {\n    \"next\": \"^16.2.6\",\n    \"react\": \"^19.2.0\",\n    \"react-dom\": \"^19.2.0\",\n    \"gsap\": \"^3.13.0\",\n    \"@gsap/react\": \"^2.1.2\",\n    \"lenis\": \"^1.3.11\"\n  },\n  \"devDependencies\": {\n    \"@tailwindcss/postcss\": \"^4.1.14\",\n    \"tailwindcss\": \"^4.1.14\",\n    \"typescript\": \"^5.9.3\"\n  }\n}\n",
+          "numLines": 23,
+          "startLine": 1,
+          "totalLines": 23
+        }
+      }
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 50,
+      "estimated_tokens_delta": 50,
+      "uuid": "a70690dc-e37c-4fe8-99ee-4ceeba5f89fd",
+      "session_id": "81c08c0f-81b9-447a-8ce6-14084539e03b"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 150,
+      "estimated_tokens_delta": 100,
+      "uuid": "2380f8cb-05b3-49a4-b675-2a32ae62c3cb",
+      "session_id": "81c08c0f-81b9-447a-8ce6-14084539e03b"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 200,
+      "estimated_tokens_delta": 50,
+      "uuid": "e23de671-1420-40c9-b932-547f8de7c700",
+      "session_id": "81c08c0f-81b9-447a-8ce6-14084539e03b"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 350,
+      "estimated_tokens_delta": 150,
+      "uuid": "6aaf6537-77bf-465e-b235-339ee17985fc",
+      "session_id": "81c08c0f-81b9-447a-8ce6-14084539e03b"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 367,
+      "estimated_tokens_delta": 17,
+      "uuid": "3b0f22da-480b-42b1-aba4-a7764f273ee4",
+      "session_id": "81c08c0f-81b9-447a-8ce6-14084539e03b"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011Cdwj7gLof8oXxFP53SnSL",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "",
+            "signature": "ErULCokBCBAYAipAcQo5zPJu+ZUkWy6Cd24Rb9Q3CkbdsCdj81cbT2OTdWLMpM0zRqYp0JNn/1OXzHiOMfVxiyvpwE7ikzsVQQ9CVjIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQyYWM0Mjg1MS0zNTYyLTQ0NWQtYTc5OS02ZTdjZjc4MjUyNWYSDBSzy+qetEd7CWlFTBoMhBVspnMVdpcrsR8QIjDU2WkpKHvy26MWCd8ajO7QAd+gh5QKc+4dPg1SqE5j4fNMyKsHmDKMrfunCN3PsvAq2AkF7FwT1d+s/biWOcNrrgy4EMB8eftjt3Taa0jWX/C0uQxOtbpGlrgQKrXYlSaWNkWe4cHV7rqGjesmzzXRmOU9qpKUN5JA4AldGjvL8VW/qSP0bi7x18JG9JiZWEogyZEaI6d3s5iudPUz9voSkrvWsDGLGc3vRYjqSD0Ql7ztLuphoLHcCBWZjb/4udR7XcN18izRAjRbTt1jdeozl6nqSdZPyrEbnIxx0vsPIXSAMEaK3pu/0QEgd5XyPxcrH/hT+QzG1O/DxVpxJbMES5Cc7TACBJXwiFoWawn5CVZEc/2bBGvVGWXkIRQrg9AEsJHHvHs5gCVb/nLTGjtr16AIR7HEL9RFI7ZjQU+7a2ayCArpqCbeAK0b1anVy2mfWnR+y4/K2hUhe1dtWqVb2sDz2jV9poBus31ecZ4w5a7QuaYkhEWofmGyc4D1lr3TuRVMa1ixROvNaMK7ie87vldJYTcA7GvOPdMaeIxMGCOGRrqSRs60Oly2IXYVEihLZ2Dlk8smlEPyrONw8vEbLQO5QV4MagZXuNCa1SG0SxbFWFgACjCF/ypU5IIOfN5nf34ufUnDN8tWUT5SaMtw1KFIqlz7FxoxBxBdr5yZIUuGcjsTn1oP64oYJvSgrAXYdQomy3vT10fdHthlCVmx2tfiD5FN8TLxyGA/xuCMd1a3CRC+BHfHWEQi4JoLpsgzCQ78CRLA8yoKXIoTsTwrn9rF7FOI5xgFAyUxETzAW0YqoGhu7sYhJ3yxMyDqOVets4aq+mDKpBxWP2/vio+eBzqC0rBSs6zwzsDoRoCA5cRn+NCbPvcDOFzgb11RRDzRo7gYhehfU95Eiqwe4tS6vHodLgsjAaM5/KifHzzJbjqNu1aGxF0QREwBpUvrYwIn/oQnJ06L805J631qqoi+v8lwUMLe2wbvf6vKZtkvzQqsMoS6e7FojMyqJGP8NetYERTyUf4yz7ZpGq+/4uhY4DEJZAqy77U80qds/kEGZmnU80wsx24EeX16sh/VkF7G1NCBOLqGSzGs2SkjTmXi2TMqEGJa+0gCwpqYjv4Y45HUxaLZagAPsvoX8+wGomX8dklUBE/NJ4WD7HmZh5Nq/tqu48oVYfj3ECOuRdpScUJXyGSiArMWa6cYM5bHEBqWOr8l3ZVviR0Qb5kpa1i4/mfDe06QaxJsgBiol+quFuCOiSmEONsWPIgs9GQ2KmksBzw7FteSzYepSR85AtZNk64icwIDIzT6LqpBx+YxjTATLQFRHd690D9SOkaozJhCZnItTb7tDg03V0Enod/e5lu+KudgkuV1Ux1BWVmcaFvFeUFrtDdRl2GAGVuFFdm9K2Hw9Tw5+7LLcGdUGX3aP3toSrJxRu5OB5AzQ4MkDnh5WgZnGVpmn5LimcJit1On7mU/6KX0y1oFGyH2xou7i38XRtP9vYu71LreqCzBCnd58rp0FYkRmzOgdyPY0j5M5zxkk9pBxErtbpPysTOFkPKV+h20gpSNnqQKXLkGc5i2DSMeRAE1MahsrnzQclXpQ9fjHM041eRsiX+MulSrV1pP3r5ZJIkcdZsCQj0+HMnJ0hBhsBPp/JwrneCJVHRueQPIt4n9HuRrX3mLqECwD8pm9DNEBcbFDYkaFcZOlJ8//7oXia3hOwFWGAE="
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 377,
+          "cache_read_input_tokens": 19041,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 377
+          },
+          "output_tokens": 2,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "81c08c0f-81b9-447a-8ce6-14084539e03b",
+      "uuid": "c6376fb0-b7dc-4bb1-a2fb-9d5cceb34764",
+      "timestamp": "2026-08-11T22:10:58.500Z",
+      "request_id": "req_011Cdwj7eWRjDpANLPLppa3X"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011Cdwj7gLof8oXxFP53SnSL",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "Acá tenés el componente, usando `@gsap/react` (ya está en tus dependencias) con `useGSAP` para el cleanup automático del contexto de GSAP:\n\n```tsx\n// components/Hero.tsx\n\"use client\";\n\nimport { useRef } from \"react\";\nimport { gsap } from \"gsap\";\nimport { useGSAP } from \"@gsap/react\";\n\ngsap.registerPlugin(useGSAP);\n\nexport default function Hero() {\n  const containerRef = useRef<HTMLDivElement>(null);\n\n  useGSAP(\n    () => {\n      const mm = gsap.matchMedia();\n\n      mm.add(\"(prefers-reduced-motion: no-preference)\", () => {\n        const tl = gsap.timeline({\n          defaults: { ease: \"power3.out\", duration: 0.9 },\n        });\n\n        tl.from(\".hero-title\", { opacity: 0, y: 24 }).from(\n          \".hero-subtitle\",\n          { opacity: 0, y: 16 },\n          \"-=0.5\"\n        );\n      });\n\n      return () => mm.revert();\n    },\n    { scope: containerRef }\n  );\n\n  return (\n    <section\n      ref={containerRef}\n      className=\"flex min-h-[80vh] flex-col items-center justify-center px-6 text-center\"\n    >\n      <h1 className=\"hero-title text-5xl font-semibold tracking-tight sm:text-6xl\">\n        Título del hero\n      </h1>\n      <p className=\"hero-subtitle mt-6 max-w-xl text-lg text-neutral-400\">\n        Subtítulo con la propuesta de valor, en una o dos líneas.\n      </p>\n    </section>\n  );\n}\n```\n\nDetalles de la implementación:\n\n- **`useGSAP`** en vez de `useEffect` + `gsap.context` manual: crea y limpia el contexto solo, evitando animaciones fantasma en fast refresh o al desmontar.\n- **`scope: containerRef`**: las selecciones `.hero-title` / `.hero-subtitle` quedan acotadas al hero, sin colisionar con otras animaciones de la página.\n- **`matchMedia` + `prefers-reduced-motion`**: si el usuario tiene reducción de movimiento activada, no corre la animación (accesibilidad, no es opcional).\n- **`gsap.from(...)`**: fade-in + subida de píxeles como pediste; el subtítulo arranca un poco antes de que termine el título (`\"-=0.5\"`) para que se sienta como una sola entrada, no dos saltos.\n- Estilos con utilities de Tailwind v4, sin classes custom fuera del hook de selección (`hero-title`, `hero-subtitle` son solo hooks, no llevan estilos).\n\n¿Querés que lo deje con texto/props dinámicos (título y subtítulo como props) en vez de hardcodeados, o el hero es fijo?"
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 377,
+          "cache_read_input_tokens": 19041,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 377
+          },
+          "output_tokens": 2,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "81c08c0f-81b9-447a-8ce6-14084539e03b",
+      "uuid": "32a7c2af-afaa-4b90-be32-b6c2efe3869d",
+      "timestamp": "2026-08-11T22:11:08.125Z",
+      "request_id": "req_011Cdwj7eWRjDpANLPLppa3X"
+    },
+    {
+      "is_error": false,
+      "duration_api_ms": 25170,
+      "num_turns": 3,
+      "stop_reason": "end_turn",
+      "session_id": "81c08c0f-81b9-447a-8ce6-14084539e03b",
+      "total_cost_usd": 0.07871819999999999,
+      "usage": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 6326,
+        "cache_read_input_tokens": 50974,
+        "output_tokens": 1653,
+        "output_tokens_details": {
+          "thinking_tokens": 489
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 6326,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 1381,
+            "cache_read_input_tokens": 19041,
+            "cache_creation_input_tokens": 377,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 377
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 562,
+          "outputTokens": 19,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.000657,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty"
+        },
+        "claude-sonnet-5": {
+          "inputTokens": 6,
+          "outputTokens": 1653,
+          "cacheReadInputTokens": 50974,
+          "cacheCreationInputTokens": 6326,
+          "webSearchRequests": 0,
+          "costUSD": 0.0780612,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 64000,
+          "canonicalModel": "claude-sonnet-5",
+          "provider": "firstParty"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "Acá tenés el componente, usando `@gsap/react` (ya está en tus dependencias) con `useGSAP` para el cleanup automático del contexto de GSAP:\n\n```tsx\n// components/Hero.tsx\n\"use client\";\n\nimport { useRef } from \"react\";\nimport { gsap } from \"gsap\";\nimport { useGSAP } from \"@gsap/react\";\n\ngsap.registerPlugin(useGSAP);\n\nexport default function Hero() {\n  const containerRef = useRef<HTMLDivElement>(null);\n\n  useGSAP(\n    () => {\n      const mm = gsap.matchMedia();\n\n      mm.add(\"(prefers-reduced-motion: no-preference)\", () => {\n        const tl = gsap.timeline({\n          defaults: { ease: \"power3.out\", duration: 0.9 },\n        });\n\n        tl.from(\".hero-title\", { opacity: 0, y: 24 }).from(\n          \".hero-subtitle\",\n          { opacity: 0, y: 16 },\n          \"-=0.5\"\n        );\n      });\n\n      return () => mm.revert();\n    },\n    { scope: containerRef }\n  );\n\n  return (\n    <section\n      ref={containerRef}\n      className=\"flex min-h-[80vh] flex-col items-center justify-center px-6 text-center\"\n    >\n      <h1 className=\"hero-title text-5xl font-semibold tracking-tight sm:text-6xl\">\n        Título del hero\n      </h1>\n      <p className=\"hero-subtitle mt-6 max-w-xl text-lg text-neutral-400\">\n        Subtítulo con la propuesta de valor, en una o dos líneas.\n      </p>\n    </section>\n  );\n}\n```\n\nDetalles de la implementación:\n\n- **`useGSAP`** en vez de `useEffect` + `gsap.context` manual: crea y limpia el contexto solo, evitando animaciones fantasma en fast refresh o al desmontar.\n- **`scope: containerRef`**: las selecciones `.hero-title` / `.hero-subtitle` quedan acotadas al hero, sin colisionar con otras animaciones de la página.\n- **`matchMedia` + `prefers-reduced-motion`**: si el usuario tiene reducción de movimiento activada, no corre la animación (accesibilidad, no es opcional).\n- **`gsap.from(...)`**: fade-in + subida de píxeles como pediste; el subtítulo arranca un poco antes de que termine el título (`\"-=0.5\"`) para que se sienta como una sola entrada, no dos saltos.\n- Estilos con utilities de Tailwind v4, sin classes custom fuera del hook de selección (`hero-title`, `hero-subtitle` son solo hooks, no llevan estilos).\n\n¿Querés que lo deje con texto/props dinámicos (título y subtítulo como props) en vez de hardcodeados, o el hero es fijo?",
+      "ttft_ms": 2678,
+      "ttft_stream_ms": 1527,
+      "time_to_request_ms": 74,
+      "type": "result",
+      "duration_ms": 25392,
+      "uuid": "cd004f8b-8711-4490-bfbc-b4d21c7c1b78"
+    }
+  ]
+}

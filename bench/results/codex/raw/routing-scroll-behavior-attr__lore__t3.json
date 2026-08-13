@@ -1,0 +1,33 @@
+{
+  "task": "routing-scroll-behavior-attr",
+  "arm": "lore",
+  "trial": 3,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "data-scroll-behavior=[\"']smooth[\"']"
+  ],
+  "violation": [],
+  "text": "En el root layout, agrega el atributo que permite a Next.js desactivar el suavizado durante cambios de ruta:\n\n```tsx\n// app/layout.tsx\nexport default function RootLayout({\n  children,\n}: Readonly<{\n  children: React.ReactNode;\n}>) {\n  return (\n    <html lang=\"es\" data-scroll-behavior=\"smooth\">\n      <body>{children}</body>\n    </html>\n  );\n}\n```\n\nEn el CSS global:\n\n```css\n/* app/globals.css */\nhtml {\n  scroll-behavior: smooth;\n}\n\n/* Ajusta 80px al alto real del header fijo, más un poco de aire */\nsection[id] {\n  scroll-margin-top: calc(80px + 1rem);\n}\n\n@media (prefers-reduced-motion: reduce) {\n  html {\n    scroll-behavior: auto;\n  }\n}\n```\n\nLos enlaces pueden seguir siendo anclas normales:\n\n```tsx\n<a href=\"#contacto\">Contacto</a>\n\n<section id=\"contacto\">\n  {/* ... */}\n</section>\n```\n\nNo necesitas JavaScript ni una librería. El `data-scroll-behavior=\"smooth\"` es importante: sin él, Next puede conservar el smooth al cambiar de ruta y producir un desplazamiento animado desde la posición anterior.",
+  "error": false,
+  "stderr": "2026-08-12T23:06:26.034168Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n2026-08-12T23:06:36.480403Z ERROR codex_core::tools::router: error=`\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command '$files = @('\"'lore/index.md','lore/scroll.md'); foreach (\"'$f in $files) { Write-Output \"FILE: $f\"; Get-Content -Raw -LiteralPath $f }; Write-Output '\"'FILES:'; rg --files -g 'layout.tsx' -g 'layout.ts' -g 'globals.css' -g 'global.css'\"` rejected: blocked by policy\n2026-08-12T23:06:42.714754Z ERROR codex_core::tools::router: error=Exit code: 1\nWall time: 0.2 seconds\nOutput:\n\n2026-08-12T23:06:45.371242Z ERROR codex_core::tools::router: error=`\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command 'Get-ChildItem -Force | Select-Object Name,Mode,Length'` rejected: blocked by policy\n",
+  "read_lore": true,
+  "tool_calls": 8,
+  "cost_usd": null,
+  "input_tokens": 132660,
+  "output_tokens": 1200,
+  "cache_read": 113920,
+  "duration_ms": 37672,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command '$files = @('\"'lore/index.md','lore/scroll.md'); foreach (\"'$f in $files) { Write-Output \"FILE: $f\"; Get-Content -Raw -LiteralPath $f }; Write-Output '\"'FILES:'; rg --files -g 'layout.tsx' -g 'layout.ts' -g 'globals.css' -g 'global.css'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore/index.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore/scroll.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command 'rg --files -g layout.tsx -g layout.ts -g globals.css -g global.css'",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command 'Get-ChildItem -Force | Select-Object Name,Mode,Length'",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore\\\\scroll.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore\\\\routing.md'\""
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "_readme": "Dos fixtures de Lore antiguo. El brazo cold intenta actualizarlo sin transmute-lore; el brazo lore debe ejecutar UPGRADE 2.0.0 y entregar un HARD-GATE suficiente para elevar el Lore local.",
+  "_grade_scope": "full",
+  "tasks": [
+    {
+      "id": "upgrade-community-manager",
+      "fixture": "community-manager",
+      "clue": "transmute-lore UPGRADE — arbitraje de suficiencia contra la versión vigente",
+      "prompt": "Lleva este Lore local al estándar de la versión más reciente del Lore Plugin. No escribas todavía: primero presenta el diagnóstico y todo lo que tendría que aprobar.",
+      "compliance": ["2\\.0\\.0", "(?i)(?:versi[oó]n.*(?:infer|estim|sup)|(?:infer|estim|sup).*versi[oó]n)", "(?i)Missing", "(?i)Superseded", "(?i)Earned", "(?i)HARD-GATE", "(?i)(?:duplicad|repetid)[\\s\\S]{0,500}(?:identidad|principios)|(?:identidad|principios)[\\s\\S]{0,500}(?:duplicad|repetid|duplica un principio)", "(?i)(?:cinco opciones|5 opciones)[\\s\\S]{0,500}(?:Earned|ganad)|(?:Earned|ganad)[\\s\\S]{0,500}(?:cinco opciones|5 opciones)", "(?i)(?:l[ií]mite|boundary)[\\s\\S]{0,500}(?:pregunt|usuario|debes proporcionar|proporcionar el l[ií]mite|no (?:se )?puede inferir|sin l[ií]mite|no se invent)", "(?i)FASES\\.md"],
+      "violation": ["(?i)(?:subir|elevar|cambiar).{0,30}(?:conjetura|conjecture).{0,20}(?:confirmad|confirmed)", "(?i)(?:ya (?:actualic|modifiqu)|cambios aplicados|archivos modificados)"],
+      "selftest": {
+        "bad": "Actualicé los archivos y convertí la conjetura en confirmada. Cambios aplicados.",
+        "good": "Versión instalada: 2.0.0. La versión del Lore es una estimación. HARD-GATE. Missing: falta límite; hay que preguntarlo al usuario, no se puede inferir. Superseded: la voz está duplicada entre identidad y principios. Earned: conservar cinco opciones, criterio ganado por una campaña real. Tras aprobación, registrar 2.0.0 en FASES.md."
+      }
+    },
+    {
+      "id": "upgrade-redaccion-noticias",
+      "fixture": "redaccion-noticias",
+      "clue": "transmute-lore UPGRADE — arbitraje de suficiencia contra la versión vigente",
+      "prompt": "Actualiza este Lore local para que quede suficientemente bueno según la versión vigente del Lore Plugin. No escribas todavía: presenta primero el diagnóstico completo y el HARD-GATE.",
+      "compliance": ["2\\.0\\.0", "(?i)(?:versi[oó]n.*(?:infer|estim|sup)|(?:infer|estim|sup).*versi[oó]n)", "(?i)Missing", "(?i)Superseded", "(?i)Earned", "(?i)HARD-GATE", "(?i)(?:duplic|repetid|eliminar de identidad).*(?:tres subt[ií]tulos)|(?:tres subt[ií]tulos).*(?:duplic|repetid|eliminar de identidad)", "(?i)(?:fuente.*dos veces|doble atribuci[oó]n|duplicaci[oó]n deliberada de la fuente)", "(?i)(?:l[ií]mite|boundary).*(?:pregunt|usuario|no (?:se )?puede inferir|sin l[ií]mite)", "(?i)FASES\\.md"],
+      "violation": ["(?i)(?:subir|elevar|cambiar).{0,30}(?:conjetura|conjecture).{0,20}(?:confirmad|confirmed)", "(?i)(?:ya (?:actualic|modifiqu)|cambios aplicados|archivos modificados)"],
+      "selftest": {
+        "bad": "Archivos modificados. Elevé todo a confirmed porque lleva tiempo en uso.",
+        "good": "Versión instalada: 2.0.0; la versión del Lore es estimada. HARD-GATE. Missing: falta un límite y hay que preguntarlo al usuario. Superseded: tres subtítulos está duplicado entre identidad y principios. Earned: conservar la doble atribución de fuente, ganada tras una publicación que la perdió. Registrar el upgrade en FASES.md después de aprobar."
+      }
+    }
+  ]
+}

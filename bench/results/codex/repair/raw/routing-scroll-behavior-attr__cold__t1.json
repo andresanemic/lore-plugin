@@ -1,0 +1,28 @@
+{
+  "task": "routing-scroll-behavior-attr",
+  "arm": "cold",
+  "trial": 1,
+  "attempt": 2,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "data-scroll-behavior=[\"']smooth[\"']"
+  ],
+  "violation": [],
+  "text": "En el root layout, agrega `data-scroll-behavior=\"smooth\"` al `<html>`:\n\n```tsx\n// app/layout.tsx\nexport default function RootLayout({\n  children,\n}: Readonly<{ children: React.ReactNode }>) {\n  return (\n    <html lang=\"es\" data-scroll-behavior=\"smooth\">\n      <body>{children}</body>\n    </html>\n  );\n}\n```\n\nY define el comportamiento en el CSS global, respetando la preferencia de reducir movimiento:\n\n```css\n/* app/globals.css */\nhtml {\n  scroll-behavior: smooth;\n}\n\n@media (prefers-reduced-motion: reduce) {\n  html {\n    scroll-behavior: auto;\n  }\n}\n```\n\nLas anclas funcionan de forma nativa:\n\n```tsx\n<a href=\"#contacto\">Contacto</a>\n\n<section id=\"contacto\">\n  {/* ... */}\n</section>\n```\n\nNo hace falta ninguna librería ni la clase `scroll-smooth`. El atributo `data-scroll-behavior=\"smooth\"` cumple el contrato de routing del proyecto para todo `<html>` que use `scroll-behavior: smooth`.",
+  "error": false,
+  "stderr": "2026-08-13T00:48:13.306708Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n2026-08-13T00:48:27.583602Z ERROR codex_core::tools::router: error=Exit code: 1\nWall time: 0.3 seconds\nOutput:\nGet-Content : No se encuentra la ruta de acceso 'lore/routing.md' porque no existe.\r\nEn línea: 2 Carácter: 1\r\n+ Get-Content -Raw -LiteralPath 'lore/routing.md'\r\n+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : ObjectNotFound: (lore/routing.md:String) [Get-Content], ItemNotFoundException\r\n    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand\r\n \r\n\n",
+  "read_lore": true,
+  "tool_calls": 2,
+  "cost_usd": null,
+  "input_tokens": 50230,
+  "output_tokens": 594,
+  "cache_read": 38144,
+  "duration_ms": 28475,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore/routing.md'\""
+  ]
+}

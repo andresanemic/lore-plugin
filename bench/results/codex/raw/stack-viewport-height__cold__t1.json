@@ -1,0 +1,27 @@
+{
+  "task": "stack-viewport-height",
+  "arm": "cold",
+  "trial": 1,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "100[sd]vh|(?:min-)?h-(?:s|d)vh"
+  ],
+  "violation": [],
+  "text": "```tsx\n<section className=\"relative isolate flex min-h-svh overflow-hidden bg-[#0b0d0c] text-[#f4f1e8]\">\n  {/* Fondo */}\n  <div\n    aria-hidden=\"true\"\n    className=\"absolute inset-0 -z-10 bg-[radial-gradient(circle_at_75%_25%,rgba(190,255,116,0.16),transparent_32%),linear-gradient(to_bottom,transparent,rgba(0,0,0,0.55))]\"\n  />\n\n  <div\n    aria-hidden=\"true\"\n    className=\"absolute inset-0 -z-10 opacity-20 [background-image:linear-gradient(rgba(255,255,255,.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.08)_1px,transparent_1px)] [background-size:72px_72px]\"\n  />\n\n  <div className=\"mx-auto flex w-full max-w-7xl flex-col justify-between px-6 py-8 sm:px-10 lg:px-16\">\n    <header className=\"flex items-center justify-between border-b border-white/15 pb-6\">\n      <a\n        href=\"/\"\n        className=\"text-sm font-semibold uppercase tracking-[0.28em]\"\n        aria-label=\"Ir al inicio\"\n      >\n        Estudio Norte\n      </a>\n\n      <a\n        href=\"#contacto\"\n        className=\"rounded-full border border-white/20 px-5 py-2.5 text-sm transition hover:border-[#beff74] hover:bg-[#beff74] hover:text-black focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#beff74]\"\n      >\n        Hablemos\n      </a>\n    </header>\n\n    <div className=\"grid items-end gap-12 py-16 lg:grid-cols-[minmax(0,1fr)_18rem]\">\n      <div>\n        <p className=\"mb-6 flex items-center gap-3 text-xs font-medium uppercase tracking-[0.24em] text-[#beff74]\">\n          <span className=\"h-px w-10 bg-current\" />\n          Diseño y desarrollo digital\n        </p>\n\n        <h1 className=\"max-w-5xl text-balance text-[clamp(3.6rem,9vw,8.5rem)] font-medium leading-[0.84] tracking-[-0.065em]\">\n          Creamos sitios que dejan marca.\n        </h1>\n      </div>\n\n      <div className=\"space-y-8 lg:pb-2\">\n        <p className=\"text-pretty text-base leading-7 text-white/65\">\n          Estrategia, diseño y tecnología para convertir ideas ambiciosas en\n          experiencias digitales precisas y memorables.\n        </p>\n\n        <a\n          href=\"#proyectos\"\n          className=\"group inline-flex items-center gap-4 text-sm font-medium\"\n        >\n          Ver proyectos\n          <span\n            aria-hidden=\"true\"\n            className=\"grid size-11 place-items-center rounded-full bg-[#beff74] text-lg text-black transition-transform duration-300 group-hover:translate-x-1\"\n          >\n            →\n          </span>\n        </a>\n      </div>\n    </div>\n\n    <footer className=\"flex items-end justify-between border-t border-white/15 pt-6 text-xs uppercase tracking-[0.18em] text-white/45\">\n      <span>Santiago, Chile</span>\n      <span className=\"hidden sm:block\">Desplázate para explorar ↓</span>\n    </footer>\n  </div>\n</section>\n```\n\nUsa `min-h-svh`, que ocupa el viewport y se comporta mejor que `h-screen` en navegadores móviles. Es compatible con Tailwind v4 y JSX/TSX.",
+  "error": false,
+  "stderr": "2026-08-12T23:21:07.487685Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": false,
+  "tool_calls": 2,
+  "cost_usd": null,
+  "input_tokens": 50437,
+  "output_tokens": 1277,
+  "cache_read": 42240,
+  "duration_ms": 31452,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'; Write-Output \\\"\"'`n---FILES---\"; rg --files -g '\"'AGENTS.md' -g 'package.json' -g 'tailwind.config.*' -g 'src/**' -g 'app/**' -g 'pages/**' | Select-Object -First 80\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\frontend-design\\\\SKILL.md'; Write-Output \\\"\"'`n---PACKAGE---\"; Get-Content -Raw -LiteralPath '\"'package.json'\""
+  ]
+}

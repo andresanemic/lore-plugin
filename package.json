@@ -1,0 +1,30 @@
+{
+  "name": "@andresanemic/lore-plugin",
+  "version": "2.0.0",
+  "description": "Provider-neutral project criterion that persists across AI agents and sessions.",
+  "type": "module",
+  "license": "MIT",
+  "author": "andresanemic",
+  "homepage": "https://github.com/andresanemic/lore-plugin#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andresanemic/lore-plugin.git"
+  },
+  "bin": {
+    "lore-plugin": "./scripts/lore-plugin.mjs"
+  },
+  "files": [
+    ".claude-plugin/",
+    ".codex-plugin/",
+    "assets/",
+    "skills/",
+    "scripts/installer.mjs",
+    "scripts/lore-plugin.mjs",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test bench/*.test.mjs bench/upgrade/*.test.mjs scripts/*.test.mjs"
+  },
+  "keywords": ["lore", "ai", "skills", "codex", "claude-code", "context-engineering"]
+}

@@ -1,0 +1,1589 @@
+{
+  "task": "animation-progress-scalex",
+  "arm": "lore",
+  "trial": 2,
+  "model": "sonnet",
+  "verdict": "fail",
+  "compliance": [
+    "scaleX"
+  ],
+  "violation": [],
+  "text": "Reviso `lore/animation.md`, `lore/routing.md` y `lore/scroll.md` antes de escribir esto — hay tres patrones confirmados que aplican directo a una barra de progreso de scroll con GSAP en este stack (Next.js + Lenis):\n\n- **`scaleX`, nunca `width`** — `width` es propiedad de layout y fuerza reflow en cada frame de `onUpdate` (60fps); `scaleX` con `transformOrigin: left` es compositor puro.\n- **El JSX debe nacer en `progress=0`, no depender del primer `onUpdate`** — si el markup arranca en un estado distinto al que calculará `onUpdate(0)`, hay flash visible del estado inicial incorrecto.\n- **Imports de GSAP centralizados en `lib/gsap.ts` con guard SSR** — nunca `import { gsap } from 'gsap'` directo en el componente, porque los plugins tocan `window` en el import y Next renderiza en servidor.\n- Como el proyecto tiene **Lenis** (`package.json`), el ScrollTrigger de este componente asume que ya existe el ticker sync (`gsap.ticker.add` + `lagSmoothing(0)`) en el provider de Lenis — si todavía no está montado, va a leer el scroll desincronizado. Lo señalo pero no lo dupliqué acá porque es una ley de setup global, no de este componente.\n\n`lib/gsap.ts` (si no existe todavía en el proyecto real):\n\n```ts\n// lib/gsap.ts\nimport { gsap } from \"gsap\";\nimport { ScrollTrigger } from \"gsap/ScrollTrigger\";\n\nif (typeof window !== \"undefined\") {\n  gsap.registerPlugin(ScrollTrigger);\n}\n\nexport { gsap, ScrollTrigger };\n```\n\n`components/ScrollProgressBar.tsx`:\n\n```tsx\n\"use client\";\n\nimport { useRef } from \"react\";\nimport { useGSAP } from \"@gsap/react\";\nimport { gsap, ScrollTrigger } from \"@/lib/gsap\";\n\nexport default function ScrollProgressBar() {\n  const barRef = useRef<HTMLDivElement>(null);\n\n  useGSAP(() => {\n    if (!barRef.current) return;\n\n    // quickSetter: escritura directa al estilo, sin el overhead de gsap.set()\n    // en cada uno de los 60 frames por segundo que dispara onUpdate.\n    const setScale = gsap.quickSetter(barRef.current, \"scaleX\");\n\n    // Síncrono dentro del scope de useGSAP → se limpia solo al desmontar\n    // (no hace falta ScrollTrigger.getAll().kill(), eso mataría triggers ajenos).\n    ScrollTrigger.create({\n      start: 0,\n      end: \"max\",\n      onUpdate: (self) => setScale(self.progress),\n    });\n  }, []);\n\n  return (\n    <div\n      role=\"progressbar\"\n      aria-label=\"Progreso de lectura\"\n      aria-valuemin={0}\n      aria-valuemax={100}\n      className=\"fixed top-0 left-0 z-50 h-1 w-full\"\n    >\n      <div\n        ref={barRef}\n        className=\"h-full w-full origin-left bg-[--color-accent]\"\n        style={{ transform: \"scaleX(0)\" }}\n      />\n    </div>\n  );\n}\n```\n\nDetalles a validar en tu proyecto real:\n\n- `--color-accent`: cambiá el token por el que exista en tu `@theme` de Tailwind v4 (el candado de acento único del área — `lore/composicion.md`).\n- `style={{ transform: \"scaleX(0)\" }}` inline en vez de una clase Tailwind: es a propósito, para que el estado `progress=0` esté garantizado antes de que GSAP corra, sin depender del orden de carga del CSS de utilidades.\n- Si `lib/gsap.ts` ya existe en el proyecto real, usá ese en vez de crear uno nuevo — la ley es un único archivo centralizado, no uno por componente.",
+  "error": false,
+  "stderr": "",
+  "read_lore": true,
+  "tool_calls": 8,
+  "cost_usd": 0.37295659999999997,
+  "input_tokens": 18,
+  "output_tokens": 7678,
+  "cache_read": 327572,
+  "duration_ms": 88319,
+  "num_turns": 9,
+  "events": [
+    {
+      "type": "system",
+      "subtype": "init",
+      "cwd": "C:\\Claude\\lore-plugin\\bench\\fixtures\\lore",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "tools": [
+        "Task",
+        "Bash",
+        "CronCreate",
+        "CronDelete",
+        "CronList",
+        "DesignSync",
+        "Edit",
+        "EnterWorktree",
+        "ExitWorktree",
+        "Glob",
+        "Grep",
+        "Monitor",
+        "NotebookEdit",
+        "PowerShell",
+        "PushNotification",
+        "Read",
+        "RemoteTrigger",
+        "ReportFindings",
+        "ScheduleWakeup",
+        "SendMessage",
+        "Skill",
+        "TaskCreate",
+        "TaskGet",
+        "TaskList",
+        "TaskOutput",
+        "TaskStop",
+        "TaskUpdate",
+        "ToolSearch",
+        "WebFetch",
+        "WebSearch",
+        "Write"
+      ],
+      "mcp_servers": [],
+      "model": "claude-sonnet-5",
+      "permissionMode": "default",
+      "slash_commands": [
+        "design-sync",
+        "dataviz",
+        "update-config",
+        "verify",
+        "debug",
+        "code-review",
+        "simplify",
+        "batch",
+        "fewer-permission-prompts",
+        "doctor",
+        "loop",
+        "schedule",
+        "claude-api",
+        "run",
+        "run-skill-generator",
+        "agents",
+        "autocompact",
+        "clear",
+        "color",
+        "compact",
+        "config",
+        "context",
+        "effort",
+        "fast",
+        "heapdump",
+        "init",
+        "mcp",
+        "import",
+        "model",
+        "__remote-workflow",
+        "workflow-launch-exec",
+        "reload-skills",
+        "rename",
+        "ultrareview",
+        "security-review",
+        "usage-credits",
+        "extra-usage",
+        "usage",
+        "insights",
+        "recap",
+        "goal",
+        "design",
+        "design-consent",
+        "design-revoke",
+        "team-onboarding"
+      ],
+      "apiKeySource": "none",
+      "claude_code_version": "2.1.228",
+      "output_style": "default",
+      "agents": [
+        "claude",
+        "Explore",
+        "general-purpose",
+        "Plan",
+        "statusline-setup"
+      ],
+      "skills": [
+        "design-sync",
+        "dataviz",
+        "update-config",
+        "verify",
+        "debug",
+        "code-review",
+        "simplify",
+        "batch",
+        "fewer-permission-prompts",
+        "doctor",
+        "loop",
+        "schedule",
+        "claude-api",
+        "run",
+        "run-skill-generator"
+      ],
+      "plugins": [],
+      "capabilities": [
+        "interrupt_receipt_v1",
+        "interrupt_cancel_queued_v1",
+        "msg_lifecycle_v1"
+      ],
+      "analytics_disabled": false,
+      "product_feedback_disabled": false,
+      "uuid": "85f2c1b5-6beb-4dc5-9c84-637c02afa862",
+      "memory_paths": {
+        "auto": "%USERPROFILE%\\.claude\\projects\\C--Claude-lore-plugin\\memory\\"
+      },
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required"
+    },
+    {
+      "type": "rate_limit_event",
+      "rate_limit_info": {
+        "status": "allowed_warning",
+        "resetsAt": 1786708800,
+        "rateLimitType": "seven_day",
+        "utilization": 0.98,
+        "isUsingOverage": false,
+        "surpassedThreshold": 0.75
+      },
+      "uuid": "de3b1058-3ef8-4115-9cfb-ad21061e14be",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 100,
+      "estimated_tokens_delta": 100,
+      "uuid": "aaba4090-d636-48da-8d7e-5fb09cf5a093",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 123,
+      "estimated_tokens_delta": 23,
+      "uuid": "778faeaf-40fe-445b-a351-4589191fe9ae",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011Cdwjq4TjD9acbjUj9KMbk",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "",
+            "signature": "EuMDCokBCBAYAipAKBll1TbbMw9Uw2jJ1eNlbYt6lPl6qZXPcudeVDad02bxU91PTV0msMcKklVGijTQ4s5X7+h7iuAvllc4rXllFTIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQyYWM0Mjg1MS0zNTYyLTQ0NWQtYTc5OS02ZTdjZjc4MjUyNWYSDLPHdXTpyLVHKF4RFBoMpkmnR/zoxgC0b5SqIjCSoL3/4CflKTvl0KzlyM7C3yJzDbVUv82OnwHVERRlf/mWWRMAwot3DpCIBjsF4hYqhgL0o7q/lh3GHdCxv4148gTrTK9jSEzu48G0rDmtIbp8qs/V3nIXLQ6aGQ5jLLkQtiFVCt1y0+IQX//7yu4rKJtyg/qoKpRFN5ZByeYwDdyF7F4p+rtfvTcc+ctck77erKr8Gi0wGuITEelHpoZ6BovfVBjV5TDSxPxamKffof8F5wgBcmZTKinXsiGR+60LUEzF3ol1Ie4GPOLMSQaBP98FFzqboE0DaBkbo6TlJ97KprQ+4+vG4hFrSFY+fAtU4XiX75O4rxhR5VDRDb/RU7pE8mrIWnO8r9BusEmDSDoP2I42zLvRTarghcrxsEaf+HtphKveBOoP+DdKd+3FmGOcYr8ot6PvGAE="
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 19163,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 3,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "b93ebdb6-0c14-4cba-932c-8b6b28f64972",
+      "timestamp": "2026-08-11T22:20:15.476Z",
+      "request_id": "req_011Cdwjq3dNKKV8DjpudNWA6"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011Cdwjq4TjD9acbjUj9KMbk",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "toolu_01W4MNo4o9LiBFWPpmFtQ6bi",
+            "name": "Read",
+            "input": {
+              "file_path": "C:\\Claude\\lore-plugin\\bench\\fixtures\\lore\\lore\\index.md"
+            },
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 19163,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 3,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "3ecf7e14-f953-44f2-b937-79b6c28fbb4f",
+      "timestamp": "2026-08-11T22:20:16.488Z",
+      "request_id": "req_011Cdwjq3dNKKV8DjpudNWA6"
+    },
+    {
+      "type": "user",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "tool_use_id": "toolu_01W4MNo4o9LiBFWPpmFtQ6bi",
+            "type": "tool_result",
+            "content": "1\t# lore/index.md — Índice de patrones del área `desarrollo-web`\n2\t\n3\tUna línea por patrón. Formato: `sistema · síntoma · confianza · archivo`\n4\tLos proyectos del área heredan estos módulos por ruta relativa (`../../../lore/<archivo>`).\n5\t\n6\t---\n7\t\n8\t## Fundamentos\n9\t\n10\t- Identidad — estándar de web premium + qué somos (incluye Variante SaaS) · [identidad.md](identidad.md)\n11\t- Principios — leyes invariantes de construcción (incluye Variante SaaS) · [principios.md](principios.md)\n12\t- Calidad — sitio que alterna superficies: el CTA primario y el focus ring son un **par** de tokens que invierte, no uno; el contraste se calcula, no se estima · confirmado · [principios.md](principios.md)\n13\t- Método — el muestrario de estilos se envía en **Fase 1**, antes de investigar: su selección filtra el benchmark y siembra el brandkit; Fase 2 valida, no re-elige · confirmado · [principios.md](principios.md)\n14\t- Método — **la Fase 2 se le enseña al cliente en web y su envoltorio es neutro**: los artefactos internos son la cocina; si el cliente aprueba un documento interno no aprobó la dirección, aprobó que confía en ti. La pared de la galería es blanca (skill `entrega-cliente`) · confirmado · [principios.md](principios.md)\n15\t- Método — **la respuesta del cliente vuelve como texto y se archiva en el repo**: veredicto copiable, sin backend. Una aprobación que no se puede citar no existe · confirmado · [principios.md](principios.md)\n16\t- Método — **`FASES.md` es estado y envejece contra el trabajo**: la Mini-Fase se relee contra los artefactos que dice tocar **antes** de ejecutarla, no después. Pide lo ya hecho y —la cara peligrosa— no pide lo que cambió. El ítem que cita una sección concreta (*«los tokens que el brandkit dejó pendientes (§6.3)»*) es un puntero a una versión que ya se movió: ábrela antes de trabajar. Versionar un derivado (brandkit v1→v2) incluye su checklist en el blast radius · confirmado · [principios.md](principios.md)\n17\t- Método — **el template no se prueba solo**: nadie ejecuta `_starter/` como proyecto, así que sus fallos aparecen en el primer proyecto que lo estrena, se arreglan **ahí**, y el template se bifurca. **Cerrar una Fase incluye preguntar qué de lo aprendido era del template.** Corolario: **un template no ejecuta sus propias puertas** — córrelas contra el scaffold (el del área fallaba su propio pre-flight en 4 sitios, `Inter` incluida, porque el comando que lo detecta tenía un `../` de más) · confirmado · [principios.md](principios.md)\n18\t- Método — **un fix que entra al `_starter` no se propaga solo a los proyectos vivos que lo necesitaban ayer**: el molde se arregla hacia adelante, no hacia atrás. En `numerologia` el paso «Releer» del ritual se escribió en el `_starter` tras romper 2.1.5 y 2.2, y el mismo patrón volvió a romper 2.3/2.4/2.5.2/2.6 esa misma tarde porque el `FASES.md` ya existía y nunca recibió el fix. Cerrar la sesión que escribe un fix de método incluye preguntar qué proyecto abierto lo necesita hoy · confirmado · [principios.md](principios.md)\n19\t- Método — **un documento contradicho no se reescribe: gana un apéndice fechado**. El método vuelve sobre sus pasos dos veces por proyecto y las dos son estructurales (la visión desautoriza al benchmark; el veredicto del cliente desautoriza a la visión). Reescribir el documento auditado desde su consecuencia hace **tautológica** la auditoría de 2.5. Tres niveles: fuente primaria (no se toca) · documento contra el que se audita (apéndice) · derivado que cita sus fuentes (reescritura con changelog). El apéndice conserva **quién decidió qué** · confirmado · [principios.md](principios.md)\n20\t- Accesibilidad — **piso no negociable**: focus visible siempre, target táctil ≥44×44px, nada depende del hover, el color nunca es el único significado, CLS = 0 · confirmado · [principios.md](principios.md)\n21\t- Motion — **tokens de tiempo, no números al azar**: 150-300ms micro, easing con dirección (out al entrar / in al salir), la salida más rápida que la entrada, stagger 30-50ms, solo `transform`/`opacity` · confirmado · [principios.md](principios.md)\n22\t- Identidad — **estética de IA por defecto** (Inter/Roboto, gradiente violeta sobre blanco, emoji como icono, tres cards centradas) = señal de que nadie decidió la dirección · confirmado · [identidad.md](identidad.md)\n23\t- Identidad — **una sola dirección estética, comprometida**; y la complejidad del código la sigue (maximalista pide efectos; refinado pide restricción) · confirmado · [identidad.md](identidad.md)\n24\t- Tiers — **la puerta dura**: estado de servidor (cuenta, pago, contenido protegido) = Tier 3 sin importar cuántas páginas tenga. `numerologia` es 1 ruta y es el tier más caro: el precio sale de la clase de riesgo, no del conteo de páginas · confirmado · [tiers.md](tiers.md)\n25\t- Tiers — **el tier limita el alcance, jamás el nivel**: un Tier 1 de $250 cumple el estándar entero. Barato = menos superficie, nunca peor oficio · confirmado · [tiers.md](tiers.md)\n26\t- Tiers — **el desborde se nombra cuando aparece, no cuando duele**: precio de lista en el momento del pedido + registro en `FASES.md`. Y lo que no es web (brochure, merch, isotipos) está fuera del tier · confirmado · [tiers.md](tiers.md)\n27\t- Identidad — **la paleta \"premium\" por defecto** (crema/beige + latón + espresso; nuestro Warm Atelier) es el reflejo automático de la IA: si no la eligió el cliente en el muestrario, la eligió el reflejo, y la marca se vuelve invisible · confirmado · [identidad.md](identidad.md)\n28\t- Identidad — **disciplina del serif**: \"marca creativa = serif\" es el reflejo más delator. El serif entra solo si el encargo lo nombra o se puede argumentar; énfasis dentro de un titular = cursiva/negrita de la misma familia, nunca mezclar familias · confirmado · [identidad.md](identidad.md)\n29\t\n30\t---\n31\t\n32\t## investigacion\n33\t\n34\t- `investigacion` · **Workflow de Fase 1** (8 pasos): kickoff → entrevista → muestrario → referencias → benchmark → brandkit → `que-es-<cliente>.txt` → wireframe + Golden Paths · confirmado · [investigacion.md](investigacion.md)\n35\t- `investigacion` · La **selección del muestrario se transcribe al repo** (`seleccion-<cliente>/`: hex, etiqueta de rubro, token producido, swatches descartados con su porqué, y literal la frase de mezcla del cliente) **antes** de escribir el brandkit. Una captura en Miro, un PDF o un WhatsApp **no son archivo**: el brandkit se escribe a ciegas y la Fase 2 hereda el sesgo · confirmado · [investigacion.md](investigacion.md)\n36\t- `investigacion` · La **etiqueta de rubro** de una paleta del muestrario es un **descarte declarado** (*Deep Azure → SaaS B2B · Sorbet Dawn → spa · Mystic Arcana → tarot*): el cliente la elige **a pesar** de su rubro. La marca vive donde ninguna de las paletas elegidas se reconoce a sí misma · confirmado · [investigacion.md](investigacion.md)\n37\t- `investigacion` · **Cada decisión de dirección de diseño debe poder citar su fuente** (selección o entrevista). Una decisión que no puede citarse es del constructor, no del cliente — indefendible ante él aunque sea correcta · confirmado · [investigacion.md](investigacion.md)\n38\t- `investigacion` · Plantilla de **brandkit**: 6 secciones; la §6 de validación (tokens fantasma, contraste, CTA huérfano, regla de proporción) es la que atrapa los errores · confirmado · [investigacion.md](investigacion.md)\n39\t- `investigacion` · Plantilla de **benchmark**: tabla de 7 columnas + síntesis; cada referencia aporta una cosa distinta (sistema gráfico / esqueleto / interacción / composición), 4 bastan · confirmado · [investigacion.md](investigacion.md)\n40\t- `investigacion` · Plantilla de **wireframe**: átomo de 4 campos fijos (Layout · Contenido · CTAs · Jerarquía) en 3 documentos (landing+internas · dashboard · flujos) · confirmado · [investigacion.md](investigacion.md)\n41\t- `investigacion` · CTAs de dos velocidades: una acción gratuita de bajo compromiso + una de conversión, nunca en la misma jerarquía visual · confirmado · [investigacion.md](investigacion.md)\n42\t- `investigacion` · Una decisión de negocio pendiente no bloquea el diseño: documentar el flujo, marcar la casilla vacía en `FASES.md` y seguir · confirmado · [investigacion.md](investigacion.md)\n43\t\n44\t---\n45\t\n46\t## moodboard\n47\t\n48\t- `moodboard` · **Workflow de Fase 2.1** (4 etapas): visión de diseñador (4-5 direcciones) → búsqueda + descarga por dirección → explicación → resumen de huecos. El moodboard **abre** la Fase 2: la dirección elegida es la que afina la paleta definitiva · confirmado · [moodboard.md](moodboard.md)\n49\t- `moodboard` · La visión de diseñador **es** la Etapa 1; no hay una sub-fase posterior que la reescriba · confirmado · [moodboard.md](moodboard.md)\n50\t- `moodboard` · Imágenes de moodboard: **nunca recomprimir, convertir ni redimensionar** — se juzga textura y grano. La regla de `public/` + bump `-vN` no aplica: no se sirven al navegador · confirmado · [moodboard.md](moodboard.md)\n51\t- `moodboard` · Esa ley **protege el máster, no toda copia que salga de él**: la entrega web al cliente sirve **derivadas** (1600 px, JPEG q82), nunca los originales — 69,9 MB de tablero se sirven en 3,6 MB, y una entrega que no carga no se mira. Dos trampas de plataforma: en Windows **no hay ImageMagick** (el `convert` del `PATH` es el de FAT→NTFS) y **`npx -p sharp node …` no sirve** (npx no expone su instalación al proceso hijo) — `sharp` va en un caché del sistema, fuera de todo repo · confirmado · [moodboard.md](moodboard.md)\n52\t- `moodboard` · Licencia libre (Unsplash/Pexels/Pixabay/Kaboompics/StockSnap) alcanza para el tablero interno; **pasar una imagen a producción es otra decisión** con su propia verificación · confirmado · [moodboard.md](moodboard.md)\n53\t- `moodboard` · Link roto o sin descarga directa del original → saltarlo y buscar otro; nunca dejar el hueco. Sin API keys: WebSearch + WebFetch + `curl` · confirmado · [moodboard.md](moodboard.md)\n54\t- `moodboard` · Las direcciones conceptuales se nombran con los tokens del brandkit inicial; si no, es el moodboard de otro proyecto · confirmado · [moodboard.md](moodboard.md)\n55\t- `moodboard` · El `alt text` de los bancos de imágenes miente (3 de 8 en el primer moodboard real): es ciego a la clave tonal, la luz y la temperatura del color — mirar cada imagen antes de inventariarla y nombrar el archivo por lo que muestra; la mal etiquetada suele ir a otra carpeta, no a la basura · confirmado · [moodboard.md](moodboard.md)\n56\t- `moodboard` · **El elemento central del sitio no puede faltar** (el número en numerología, el producto en una tienda): tiene que estar decidido en la visión y tener carpeta en el tablero. Es lo que el sesgo se salta —por ser el más cargado de cliché— y **lo que no se decide lo decide el default, que es el cliché** · confirmado · [moodboard.md](moodboard.md)\n57\t- `moodboard` · **En producción, si ningún banco convence: se genera la imagen y el prompt lo escribe el constructor** — hiperrealista, con cámara/luz/materia/hex del brandkit/imperfección y los tells en negativo. Nunca generar a una persona real ni fabricar prueba (testimonios, resultados, documentos). Se mira antes de usarla y se guarda el prompt · conjecture · [moodboard.md](moodboard.md)\n58\t- `moodboard` · Un banco que devuelve **403 no está caído: filtra por User-Agent** (Kaboompics rechaza el UA de WebFetch; con `curl` + UA de navegador completo responde 200). La regla \"saltar el link roto\" es para una foto, no para un banco entero — descartar un banco es descartar su sesgo · confirmado · [moodboard.md](moodboard.md)\n59\t- `moodboard` · **El cliente no sabe qué es un moodboard**: sin decírselo cree que está viendo el sitio (*¿dónde está mi logo? ¿esa foto va en la portada?*) y juzga la cosa equivocada. La entrega **abre explicándose** con una sección fija —qué es · las imágenes son referencias, no material del sitio · qué NO es— que es **del envoltorio, no del guion**, y no se reescribe por proyecto · confirmado · [moodboard.md](moodboard.md)\n60\t- `moodboard` · **El envoltorio y el layout de la entrega son ley del área**, y viven una sola vez en `_starter/entrega/index.html`: «Qué estás mirando» → la cita desnuda → los mundos (veredicto **por mundo**) → qué sigue → **sin pie de página**. Un envoltorio retocado por proyecto son dos que divergen, y el cliente acaba viendo el viejo · confirmado · [moodboard.md](moodboard.md)\n61\t\n62\t---\n63\t\n64\t## animation\n65\t\n66\t- `animation` · HTML visible antes del estado inicial GSAP (FOUC) · confirmado · [animation.md](animation.md)\n67\t- `animation` · Marquee CSS con salto visual al reiniciar el loop · confirmado · [animation.md](animation.md)\n68\t- `animation` · Barra de progreso con `scaleX` en lugar de `width` — cero reflow · confirmado · [animation.md](animation.md)\n69\t- `animation` · Pin GSAP termina antes del último paso del timeline · confirmado · [animation.md](animation.md)\n70\t- `animation` · Columnas de scroll infinito verticales con `@keyframes` CSS · confirmado · [animation.md](animation.md)\n71\t- `animation` · Salto al inicio en pin scrubbed — señal de config errónea del ScrollTrigger · confirmado · [animation.md](animation.md)\n72\t- `animation` · `skipRef` + `onComplete` para bloquear clicks durante animación pinneada · confirmado · [animation.md](animation.md)\n73\t- `animation` · Offset vertical al salir del pin por falta de `anticipatePin: 1` · confirmado · [animation.md](animation.md)\n74\t- `animation` · Toggle de clase CSS vs GSAP para transiciones de opacidad simples · confirmado · [animation.md](animation.md)\n75\t- `animation` · Flash blanco al entrar en sección pinneada con fondo oscuro · confirmado · [animation.md](animation.md)\n76\t- `animation` · Clip + blur reveal para headings: `translateY(108%) → 0` + `blur(12px) → 0` · confirmado · [animation.md](animation.md)\n77\t- `animation` · Texto scramble / decodificación letra a letra con `setInterval` · confirmado · [animation.md](animation.md)\n78\t- `animation` · `overwrite: true` previene tweens apilados en clicks rápidos consecutivos · confirmado · [animation.md](animation.md)\n79\t- `animation` · `setState` durante tween GSAP provoca re-render con salto visual · confirmado · [animation.md](animation.md)\n80\t- `animation` · `stagger` nativo GSAP vs `delay` manual para secuencias de entrada · confirmado · [animation.md](animation.md)\n81\t- `animation` · `busyRef` + `queueRef` para encolar clics durante animación sin perderlos · confirmado · [animation.md](animation.md)\n82\t- `animation` · `gsap.fromTo` obligatorio cuando el estado inicial está en `style` inline · confirmado · [animation.md](animation.md)\n83\t- `animation` · GSAP sobreescribe `display:none` — necesita guard de viewport + CSS `!important` · confirmado · [animation.md](animation.md)\n84\t- `animation` · Pin GSAP en móvil debe desactivarse completamente con guard `isMobile` · confirmado · [animation.md](animation.md)\n85\t- `animation` · Triggers `top 88–95%` para que las animaciones disparen en cuanto el elemento asoma · confirmado · [animation.md](animation.md)\n86\t- `animation` · GSAP entrance sin bifurcación por ruta → FOUC ~1.4s en páginas no-target; **bifurcar en el `useEffect` no basta** (corre post-paint): el estado inicial que depende de la ruta se decide en el **JSX**, y un componente montado dentro de cada `page.tsx` paga el flash en cada navegación · confirmado · [animation.md](animation.md)\n87\t- `animation` · Selectores string GSAP en callbacks async (IO/eventos) no quedan scoped a `gsap.context` → colisión entre secciones con data-attrs compartidos · confirmado · [animation.md](animation.md)\n88\t- `animation` · Fallback `setTimeout` de reveal-IO revela la sección fuera de viewport → animación perdida; gatear por `getBoundingClientRect` · confirmado · [animation.md](animation.md)\n89\t- `animation` · Máscara palabra-por-palabra (`overflow:hidden` + `translateY(110%)`) recorta el titular al hacer wrap multilínea — usar rise+blur sin clip · confirmado · [animation.md](animation.md)\n90\t- `animation` · `translateY(%)` inline → GSAP lo lee como px; resetear con `yPercent`/`y:\"0%\"` no lo limpia (reveal oculto). Forzar `y:0` en fromTo + `clearProps` en reduced-motion · confirmado · [animation.md](animation.md)\n91\t- `animation` · Abrir `overflow` al final del reveal recorta descenders durante la animación (pop) — máscara alta (`pb`) + `margin` negativo en vez de togglear overflow · confirmado · [animation.md](animation.md)\n92\t- `animation` · \"Sombra fantasma\" antes del reveal: `blur()` en el estado inicial asoma por el borde de la máscara — añadir `opacity:0` inicial · confirmado · [animation.md](animation.md)\n93\t- `animation` · `next/image` lazy en acordeón/colapsable aparece de golpe (carga async desacoplada de la transición) — `opacity:0` inicial + fade en `onLoad` (Set por id), respeta reduced-motion · confirmado · [animation.md](animation.md)\n94\t- `animation` · Slider crossfade con caja que se redimensiona (fotos de orientación mixta): la foto saliente hace zoom/salto al cambiar la activa — dar a cada foto su propio marco por su proporción y cruzar solo por opacidad (no caja compartida) · confirmado · [animation.md](animation.md)\n95\t- `animation` · Parpadeo de cards sobre el pliegue solo en dev: doble montaje de StrictMode + `gsap.context`/`revert` re-corre el reveal — marcar nodos con `data-attr` (`dataset.revealed`) que sobrevive al remontaje, sin `revert` · confirmado · [animation.md](animation.md)\n96\t- `animation` · Lo que nace en un `.then()` nace FUERA del `gsap.context` de `useGSAP`: selectores sin acotar al scope y, en StrictMode, DOS timelines sobre los mismos nodos (el parpadeo). Resolver nodos con `querySelectorAll`, bandera de vida y cleanup propio · confirmado · [animation.md](animation.md)\n97\t- `animation` · `ScrollTrigger.getAll().kill()` como limpieza de un componente apaga los triggers de TODOS: `getAll()` es registro global. Cada uno se lleva lo suyo (`mq.revert()`, o `tl.scrollTrigger`). Si la limpieza nombra `getAll()`, toca algo que no es suyo · confirmado · [animation.md](animation.md)\n98\t- `animation` · **`background-attachment: fixed` en capas decorativas de sección** = repintado por frame de scroll + scroll fuera del compositor. Es invisible en revisión (una línea de estilo) y se multiplica por cada sección que monta el componente compartido · confirmado · [animation.md](animation.md)\n99\t- `animation` · **Escribir estilos directo en un handler de `mousemove` es escribir a 120 Hz**: batchear con un rAF con guarda de frame y hacer las lecturas de layout (`getBoundingClientRect`) dentro del callback, no en el handler · confirmado · [animation.md](animation.md)\n100\t- `animation` · **Portar un arreglo de performance a un sitio hermano**: el costo es del lenguaje visual, no del sitio. Grepear los cinco patrones en el destino ANTES de auditar — la pregunta es «¿monta este sitio las capas que causaron el costo?», no «¿es del mismo área?». \"Ya cumple, no hay commit\" es resultado completo · confirmado · [animation.md](animation.md)\n101\t\n102\t## testing\n103\t\n104\t- `testing` · **Puerta de pre-flight**: `node tools/preflight.mjs <ruta>` verifica mecánicamente las leyes greppables (raya, listener de scroll, `h-screen`, `gsap.from`, `outline` sin reemplazo, emoji, fuente de IA). Lo que exige criterio queda como checklist humana en `FASES.md`. Un Lore sin puerta se evapora en la tercera sesión larga · confirmado · [testing.md](testing.md)\n105\t- `testing` · El filtro de ruido **es** lo que hace usable la puerta: sin excluir comentarios, la regla de la raya daba 72 hallazgos en `enma` (la mayoría en `// comentarios`); excluyéndolos da 10, y las 10 son copy visible real · confirmado · [testing.md](testing.md)\n106\t- `testing` · **Un check greppable puede coincidir con su propio comentario**: si el código nombra lo prohibido para declarar por qué está ausente (`// WONK muerto, fuera del import`), el check dispara sobre su propia documentación — pasó 3 veces en `numerologia` con el mismo check. El caso negativo del `--selftest` tiene que incluir ese comentario, no solo código correcto · confirmado · [testing.md](testing.md)\n107\t- `testing` · MutationObserver + gap discriminator para testear `gsap.set` vs `gsap.fromTo` sin depender de timing · conjetura · [testing.md](testing.md)\n108\t- `testing` · Presencia de elementos en DOM: verificar en browser real, no por code-reading de imports — un Footer con `id=\"X\"` puede existir en páginas que no incluyen el componente específico · confirmado · [testing.md](testing.md)\n109\t- `testing` · `waitUntil:'load'` no captura comportamiento pre-load (auto-scroll nativo, pin-spacer GSAP) — para observar estados transitorios usar `addInitScript` con polling de `scrollY` desde el primer render · conjetura · [testing.md](testing.md)\n110\t- `testing` · **El dev server de Next reenvía `console.warn`/`console.error` del browser al terminal** (no `console.log`): es el canal de diagnóstico del área sin Playwright — el usuario solo hace el flujo y dice \"listo\" · confirmado · [testing.md](testing.md)\n111\t- `testing` · **Ante un bug de navegación, instrumentar la secuencia entera** (`click` en capture + `popstate` + `hashchange` + `pageshow` + efecto de ruta + tick de `scrollY`) **antes** de proponer una fix: deducir el flujo es una hipótesis, y tres seguidas fallaron en un solo incidente · confirmado · [testing.md](testing.md)\n112\t- `testing` · **Un grep prueba ausencia de un patrón, nunca velocidad**: ni el pre-flight verde ni el build (que da bytes, no tiempo) autorizan a decir \"carga rápido\". Sin Playwright el número lo produce el humano con Lighthouse — mientras no exista, se dice \"su velocidad percibida no está medida\", sin que la pregunten · confirmado · [testing.md](testing.md)\n113\t\n114\t## scroll\n115\t\n116\t- `scroll` · Lenis + ScrollTrigger desincronizados — sync via GSAP ticker es obligatorio · confirmado · [scroll.md](scroll.md)\n117\t- `scroll` · `lenis.scrollTo` fuera del Provider — acceder via `useLenis()` hook · confirmado · [scroll.md](scroll.md)\n118\t- `scroll` · `100vh` desborda en iOS Safari — usar `100svh` en secciones full-height · confirmado · [scroll.md](scroll.md)\n119\t- `scroll` · LenisProvider intercepta anchors y lanza scroll en paralelo al handler del componente · confirmado · [scroll.md](scroll.md)\n120\t- `scroll` · Navegación SPA con Lenis — scroll position no se resetea entre páginas · confirmado · [scroll.md](scroll.md)\n121\t- `scroll` · Guard `isFirstPath` en `useEffect([pathname])` sin discriminar hash — FPL a `/#seccion` queda sin corrección de posición · conjetura · [scroll.md](scroll.md)\n122\t- `scroll` · **El botón Atrás no ejecuta NINGÚN `useEffect`**: la corrección colgada de `useEffect([pathname])` es código muerto — verificar que el efecto corre antes de escribirla; lo que sí corre son los listeners de `window` · confirmado · [scroll.md](scroll.md)\n123\t- `scroll` · `popstate` **también dispara al clickear un ancla in-page** (~1ms tras el click): no distingue el Atrás, y usarlo como detector rompe la navegación del navbar · confirmado · [scroll.md](scroll.md)\n124\t- `scroll` · **Escribir el hash en la URL envenena el Atrás** si hay pin-spacers de GSAP: el scroll al ancla corre antes de instalarlos, el documento es un viewport más corto y se aterriza en el footer. Salida barata: interceptar los clicks y hacer scroll **sin escribir el hash** (una sola entrada de historial) · confirmado · [scroll.md](scroll.md)\n125\t- `scroll` · `scrollRestoration = 'manual'` es una **ley de Lenis, no del sitio**: sobrevive a su retirada y anula el Back. Al quitar una librería de scroll, auditar qué defensas caducan con ella · confirmado · [scroll.md](scroll.md)\n126\t- `scroll` · `behavior: 'auto'` **hereda el `scroll-behavior: smooth` del CSS** (el salto seco deja de serlo): `'instant'` explícito para saltar; `scrollIntoView()` **sin argumentos** para heredar el CSS y respetar `prefers-reduced-motion` gratis · confirmado · [scroll.md](scroll.md)\n127\t- `scroll` · **No tener `scroll-behavior: smooth` no se lee como «falta una animación» sino como «el sitio va a saltos»**: llega reportado con vocabulario de rendimiento y manda a auditar pintura, donde no hay nada. Y el salto seco **esconde** la falta de `scroll-margin-top` (el ancla aterriza bajo el header fijo). Las dos reglas van juntas o ninguna sirve; preguntar **qué acto** produce la sensación antes de medir · confirmado · [scroll.md](scroll.md)\n128\t\n129\t## layout\n130\t\n131\t- `layout` · `backgroundAttachment: fixed` alinea grillas continuas entre secciones · confirmado · [layout.md](layout.md)\n132\t- `layout` · Glow de cursor: dos capas absolutas + `mask-image` radial evitan repaints · confirmado · [layout.md](layout.md)\n133\t- `layout` · `line-height: 1` recorta ascenders/descenders en fuentes display con `overflow:hidden` · confirmado · [layout.md](layout.md)\n134\t- `layout` · `overflow:hidden` en `<section>` recorta el H2 por encima del marquee · confirmado · [layout.md](layout.md)\n135\t- `layout` · Gradiente dinámico: actualizar `setProperty('--sx')` en lugar de reescribir la cadena · confirmado · [layout.md](layout.md)\n136\t- `layout` · Shorthand `flex` + longhand `flexShrink` en el mismo elemento produce warning React · confirmado · [layout.md](layout.md)\n137\t- `layout` · `overflow-x: hidden` en `html` Y `body` para bloquear deriva lateral en móvil · confirmado · [layout.md](layout.md)\n138\t- `layout` · Navbar fijo transparente sobre secciones de distinto tono — contraste por `data-nav` de la sección, no por umbral de scroll · confirmado · [layout.md](layout.md)\n139\t- `layout` · `preserveAspectRatio=\"none\"` aplasta SVG con detalle (árboles) en móvil angosto — `slice` responsive vía `matchMedia` (none en desktop) · confirmado · [layout.md](layout.md)\n140\t- `layout` · Selección de texto azul (UA) rompe la paleta — definir `::selection`/`::-moz-selection` global con HEX literal (no `var()`) · confirmado · [layout.md](layout.md)\n141\t- `layout` · `object-position` con un solo % — solo mueve horizontal; para vertical usar dos valores: `\"center 75%\"` · confirmado · [layout.md](layout.md)\n142\t- `layout` · `next/image` no recupera detalle de un raster pequeño → borroso a gran escala; validar resolución intrínseca (SVG / upscale Lanczos / limitar tamaño) · confirmado · [layout.md](layout.md)\n143\t- `layout` · Tratamiento de color de foto (calidez/deslavado): CSS ajustable (filter + overlay) no procesado horneado; recortar al `object-cover` para peso; previsualizar el stack con `sharp` (incl. overlays existentes) · confirmado · [layout.md](layout.md)\n144\t- `layout` · Glow radial detrás de un PNG transparente dibuja un \"cuadrado\": el gradiente se recorta al rect del contenedor y no cierra en `transparent` antes del borde — sospechar capas CSS, no el asset · confirmado · [layout.md](layout.md)\n145\t- `layout` · **`next/image` sin `sizes` sirve `w=1920`** aunque se pinte a 24px: usar `next/image` no basta, el ancho hay que declararlo. Y bajo un condicional de scroll (`{tone === \"light\" && …}`) la decodificación se repite en cada cruce → es coste **de scroll, no de carga**; `priority` sin `sizes` prioriza los bytes que sobran · confirmado · [layout.md](layout.md)\n146\t\n147\t## responsive\n148\t\n149\t- `responsive` · Cursor personalizado en táctil: guard con `window.matchMedia('(pointer: fine)')` · confirmado · [responsive.md](responsive.md)\n150\t- `responsive` · MONO uppercase con `letterSpacing >= 0.12em` desborda en móvil si tiene `<br/>` manual · confirmado · [responsive.md](responsive.md)\n151\t- `responsive` · `<br/>` manual en H2 genera salto de línea incorrecto en móvil — usar JSX condicional · confirmado · [responsive.md](responsive.md)\n152\t- `responsive` · `clamp()` solo no basta para padding en móvil — el mínimo de 96px es demasiado · confirmado · [responsive.md](responsive.md)\n153\t- `responsive` · Un hook `useIsMobile` SSR-safe hace que el server pinte **siempre** la variante desktop → lo exclusivo de desktop parpadea en móvil: el estado inicial va **invisible (`opacity:0`), no ausente**. Inicializar el hook leyendo `window` cambia el flash por un hydration mismatch · confirmado · [responsive.md](responsive.md)\n154\t\n155\t## composicion\n156\t\n157\t- `composicion` · **Los tres candados**: un acento (mismo en toda la página), una escala de radios, un tema. Se deciden una vez; romperlos por sección es el error de composición más caro · confirmado · [composicion.md](composicion.md)\n158\t- `composicion` · El **hero entra en el primer viewport**: titular ≤2 líneas, subtexto ≤20 palabras, CTA sin scroll. Un titular de 4 líneas es error de `font-size`, no de copy · confirmado · [composicion.md](composicion.md)\n159\t- `composicion` · Máximo **4 elementos de texto en el hero**; la tira de logos, el teaser de precio y la fila de avatares van **debajo**, nunca dentro · confirmado · [composicion.md](composicion.md)\n160\t- `composicion` · **Tres cards iguales en fila: prohibido.** Cap de zigzag en 2 consecutivos. Una landing de 8 secciones usa ≥4 familias de layout distintas · confirmado · [composicion.md](composicion.md)\n161\t- `composicion` · **Bento: N ítems → N celdas**, cero huecos; y 2-3 celdas con variación visual real (no 6 cards blancas de pura tipografía) · confirmado · [composicion.md](composicion.md)\n162\t- `composicion` · Más de 5 ítems piden **otro componente**, no una lista más larga (`<ul>` + hairline por fila es la salida perezosa) · confirmado · [composicion.md](composicion.md)\n163\t- `composicion` · **Una intención, una etiqueta de CTA** en todo el sitio (\"Contactar\" + \"Hablemos\" + \"Escríbenos\" = fallo). El texto del CTA no envuelve a 2 líneas · confirmado · [composicion.md](composicion.md)\n164\t- `composicion` · El **screenshot falso hecho con `<div>`s** (falso dashboard, falsa terminal) es el *tell* nº1. Captura real, imagen generada, o ningún preview · confirmado · [composicion.md](composicion.md)\n165\t- `composicion` · Nav en **una sola línea** en desktop, altura 64-72px (tope 80) · confirmado · [composicion.md](composicion.md)\n166\t- `composicion` · Dónde las skills de diseño **contradicen nuestro estándar y pierden**: eyebrows (nosotros los prohibimos de plano), cursor personalizado, alternancia de superficies · confirmado · [composicion.md](composicion.md)\n167\t\n168\t## copy\n169\t\n170\t- `copy` · Redundancia de palabras de marca — pérdida de potencia por repetición; usar alternativas específicas (el lugar, la región, el contexto, el rubro) y reservar la palabra de marca para usos con carga conceptual · confirmado · [copy.md](copy.md)\n171\t- `copy` · **La raya (`—`) está prohibida: cero, sin excepciones.** Ni en titulares, botones, cuerpo, citas, `alt` ni nav. Rangos con guion. Un solo `—` visible es fallo de entrega · confirmado · [copy.md](copy.md)\n172\t- `copy` · Catálogo de *tells* de copy: verbos de relleno, nombres/cifras genéricos, precisión fingida, etiquetas poéticas, señales de scroll, numeración de secciones, tiras de ciudad/hora/clima · confirmado · [copy.md](copy.md)\n173\t- `copy` · **Auto-auditoría antes de entregar**: releer cada string visible; copy aburrido y funcional le gana siempre a copy \"ingenioso\" generado · confirmado · [copy.md](copy.md)\n174\t- `copy` · **La voz se deriva, no se inventa**: se rellena leyendo lo que el cliente ya escribió (entrevista, redes, web vieja) y cada decisión de voz cita su fuente, como en diseño · confirmado · [copy.md](copy.md)\n175\t- `copy` · Leyes positivas: test del \"¿y qué?\" (característica sin consecuencia se corta), claim sin prueba se suaviza o se borra (**nunca** se fabrica la prueba), una idea por sección · confirmado · [copy.md](copy.md)\n176\t- `copy` · Dónde las skills de copy (`copywriting`/`copy-editing`) **contradicen nuestro estándar y pierden**: la especificidad numérica (si el dato no está en `que-es-<cliente>.txt` se **acorta la frase**, no se inventa la cifra), los CTAs de catálogo, el \"heightened emotion\" · confirmado · [copy.md](copy.md)\n177\t- `copy` · **El borrador declarado**: al cliente que no contesta por escrito se le enseña la página con una propuesta puesta. Tres condiciones a la vez: contenido inventado en UN archivo, cada hipótesis anota de qué frase suya salió, y una nota visible que dice que es propuesta. Sin las tres se fosiliza en doctrina · confirmado · [copy.md](copy.md)\n178\t- `copy` · **El dato local en producto internacional**: un aviso de emergencia no lleva el número de un solo país si el alcance declarado es mundial (`servicios de tu localidad`), y un aviso de no sustitución nombra a quién no sustituye (`profesionales cualificados`) · confirmado · [copy.md](copy.md)\n179\t- `copy` · **El material de Fase 1 deja de mandar en el dato que el cliente corrige**: un dato de marca no es criterio, vive en todas sus apariciones. Barrer el árbol antes de corregir, un solo dueño en código, y nota fechada en el `que-es` en vez de reescribirlo · confirmado · [copy.md](copy.md)\n180\t\n181\t## seo\n182\t\n183\t- `seo` · **El criterio SEO/GEO vive en el lore del área** (`seo.md`), no dentro del scaffold de un proyecto: la checklist nació en `_starter/web/docs/seo/` y ahí solo la heredaba quien se estampaba del starter — un proyecto **adoptado** (registrado en `FASES.md` sin nacer del `_starter`) no veía nada. Fuente única, sin copia en el starter · confirmado · [seo.md](seo.md)\n184\t- `seo` · **SEO inline, auditoría de una pasada**: cada sección/página nace con `metadata`, JSON-LD y `alt` descriptivo; la Mini-Fase de auditoría **consolida**, no descubre · confirmado · [seo.md](seo.md)\n185\t- `seo` · **La auditoría llega desfasada; el disco no miente**: Lighthouse/Goodie reportan sobre el preview viejo — verificar tamaño/estado real en disco **antes** de re-encodear o \"arreglar\" · confirmado · [seo.md](seo.md)\n186\t- `seo` · De Lighthouse se aplica **todo menos el hallazgo de contraste de color** (choca con la dirección de diseño y la dirección gana); el resto de Accesibilidad sí, entero · confirmado · [seo.md](seo.md)\n187\t- `seo` · Los `.htaccess`/headers **solo aplican en Apache** (cPanel), no en Vercel: el score real sube al **re-escanear post-deploy** · confirmado · [seo.md](seo.md)\n188\t- `seo` · Next **no cascada la OG raíz** a los segmentos hijos → inyectar `og:image` en `pageMetadata()`; y `robots.txt` va **estático** en `public/` (la API de robots de Next no emite directivas custom, como el allow a bots de IA) · confirmado · [seo.md](seo.md)\n189\t- `seo` · GEO: `llms.txt` + `llms-full.txt` + allow explícito a GPTBot/ClaudeBot/PerplexityBot. Agent Discovery (MCP card, A2A, OpenAPI) se **omite a propósito** salvo Tier 3 con login o API · confirmado · [seo.md](seo.md)\n190\t\n191\t## routing\n192\t\n193\t- `routing` · GSAP plugins acceden a `window` — centralizar en `lib/gsap.ts` con guard SSR · confirmado · [routing.md](routing.md)\n194\t- `routing` · Hydration mismatch con `Date.now()` — estado inicial `null` + `useEffect` solo en cliente · confirmado · [routing.md](routing.md)\n195\t- `routing` · Next.js 16: `params` y `searchParams` son `Promise` — hacer `await params` · confirmado · [routing.md](routing.md)\n196\t- `routing` · Tailwind v4: sin `tailwind.config.ts` — tokens en `@theme {}` dentro del CSS · confirmado · [routing.md](routing.md)\n197\t- `routing` · OG image: Google Fonts no disponibles en build — cargar `.ttf` local con `readFile` · confirmado · [routing.md](routing.md)\n198\t- `routing` · `title.absolute` para que la homepage ignore el template de título del layout · confirmado · [routing.md](routing.md)\n199\t- `routing` · Tailwind v4: valor fuera de escala (`duration-400`) no genera utilidad → transición instantánea silenciosa; usar escala o `duration-[400ms]` · confirmado · [routing.md](routing.md)\n200\t- `routing` · `next/image`: reemplazar asset de `public/` con el mismo nombre sigue mostrando la versión vieja (URL del optimizador estable y cacheada) → renombrar el archivo + actualizar refs · confirmado · [routing.md](routing.md)\n201\t- `routing` · Descargar de Unsplash: `/photos/<id>/download` da 403 y los IDs no se adivinan (404) — sacar el id numérico del og:image vía WebFetch y bajar de `images.unsplash.com/photo-<id>?fm=webp&w=...`; inspeccionar la imagen y su región antes de aprobar · confirmado · [routing.md](routing.md)\n202\t- `routing` · Nav circular prev/next se auto-referencia con un solo ítem (`(i±1)%1===0`) → guard `hasMore` (prev.slug≠self) y cuidar el handoff de color de la sección que pasa a ser la última · confirmado · [routing.md](routing.md)\n203\t- `routing` · `scroll-behavior: smooth` en `<html>` exige **`data-scroll-behavior=\"smooth\"`** o Next no puede desactivarlo al cambiar de ruta: la nueva página se desliza desde la posición anterior en vez de aparecer arriba · confirmado · [routing.md](routing.md)\n204\t\n205\t## deploy\n206\t\n207\t- `deploy` · **«Conectado a Vercel» son dos vínculos distintos y ninguno implica al otro**: el `.vercel/project.json` local (enlace de CLI, despliega desde el disco de quien lo corrió) y la integración Git (vive en el panel y escucha un remoto). Un sitio del área se enlaza **por Git, nunca por CLI** — si no, el proyecto queda desplegado y sin forma de volver a desplegarlo. Al montarla: **Root Directory** = la carpeta de la app (distinta en cada sitio) · confirmado · [deploy.md](deploy.md)\n208\t- `deploy` · **Cambiar un ajuste de build en el panel de Vercel no reconstruye nada**: producción sigue sirviendo el artefacto anterior (preset «Other» → sitio en blanco) hasta que un commit dispare un build. El panel muestra el ajuste correcto y la URL el resultado viejo → se busca el error en el código. Forzar *Redeploy*; la lista de deployments manda, no los settings · confirmado · [deploy.md](deploy.md)\n209\t\n210\t---\n211\t\n212\t## Variante SaaS — patrones de sitios con backend\n213\t\n214\tLas **leyes** de backend (acceso, Supabase, Stripe) viven en la **Variante SaaS** de\n215\t`principios.md` e `identidad.md`. Las **pistas puntuales** de dominios backend viven en\n216\tsus módulos temáticos (abajo), promovidos desde `numerologia` (Introspection Solutions).\n217\t\n218\t## supabase\n219\t\n220\t- `supabase` · Client (`createBrowserClient`) vs Server (`createServerClient`) — nunca mezclar entre `'use client'` y Server Components/API Routes · conjetura · [supabase.md](supabase.md)\n221\t- `supabase` · Usar `getUser()` (revalida con Auth server), no `getSession()`, para decisiones de acceso en servidor · conjetura · [supabase.md](supabase.md)\n222\t- `supabase` · Refrescar sesión en `middleware.ts` — Server Components no pueden escribir cookies · conjetura · [supabase.md](supabase.md)\n223\t- `supabase` · RLS activo siempre; `service_role` ignora RLS → solo servidor (webhook), nunca `NEXT_PUBLIC_` · conjetura · [supabase.md](supabase.md)\n224\t- `supabase` · `profiles` no se crea solo: trigger sobre `auth.users` o insert tras signUp, o el gating por rol falla · conjetura · [supabase.md](supabase.md)\n225\t\n226\t## stripe\n227\t\n228\t- `stripe` · Webhook necesita el body crudo (`req.text()`), no `req.json()`, o la firma nunca cuadra · conjetura · [stripe.md](stripe.md)\n229\t- `stripe` · Verificar firma siempre; sin firma válida → 400 sin tocar la base (Golden Path) · conjetura · [stripe.md](stripe.md)\n230\t- `stripe` · Mapear `customer`↔usuario con `client_reference_id`/`metadata.user_id` al crear el Checkout · conjetura · [stripe.md](stripe.md)\n231\t- `stripe` · Eventos duplicados/fuera de orden → upsert idempotente por `stripe_subscription_id` · conjetura · [stripe.md](stripe.md)\n232\t- `stripe` · Cancelar ≠ perder acceso: `isPremium` respeta `cancel_at_period_end` + `current_period_end` · conjetura · [stripe.md](stripe.md)\n233\t- `stripe` · Precios y claves desde env (`STRIPE_PRICE_*`); nunca hardcodear `price_xxx` (difiere test/live) · conjetura · [stripe.md](stripe.md)\n234\t"
+          }
+        ]
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "dc4a503d-dfb1-4e07-99ec-55416e4d22bc",
+      "timestamp": "2026-08-11T22:20:16.763Z",
+      "tool_use_result": {
+        "type": "text",
+        "file": {
+          "filePath": "C:\\Claude\\lore-plugin\\bench\\fixtures\\lore\\lore\\index.md",
+          "content": "# lore/index.md — Índice de patrones del área `desarrollo-web`\n\nUna línea por patrón. Formato: `sistema · síntoma · confianza · archivo`\nLos proyectos del área heredan estos módulos por ruta relativa (`../../../lore/<archivo>`).\n\n---\n\n## Fundamentos\n\n- Identidad — estándar de web premium + qué somos (incluye Variante SaaS) · [identidad.md](identidad.md)\n- Principios — leyes invariantes de construcción (incluye Variante SaaS) · [principios.md](principios.md)\n- Calidad — sitio que alterna superficies: el CTA primario y el focus ring son un **par** de tokens que invierte, no uno; el contraste se calcula, no se estima · confirmado · [principios.md](principios.md)\n- Método — el muestrario de estilos se envía en **Fase 1**, antes de investigar: su selección filtra el benchmark y siembra el brandkit; Fase 2 valida, no re-elige · confirmado · [principios.md](principios.md)\n- Método — **la Fase 2 se le enseña al cliente en web y su envoltorio es neutro**: los artefactos internos son la cocina; si el cliente aprueba un documento interno no aprobó la dirección, aprobó que confía en ti. La pared de la galería es blanca (skill `entrega-cliente`) · confirmado · [principios.md](principios.md)\n- Método — **la respuesta del cliente vuelve como texto y se archiva en el repo**: veredicto copiable, sin backend. Una aprobación que no se puede citar no existe · confirmado · [principios.md](principios.md)\n- Método — **`FASES.md` es estado y envejece contra el trabajo**: la Mini-Fase se relee contra los artefactos que dice tocar **antes** de ejecutarla, no después. Pide lo ya hecho y —la cara peligrosa— no pide lo que cambió. El ítem que cita una sección concreta (*«los tokens que el brandkit dejó pendientes (§6.3)»*) es un puntero a una versión que ya se movió: ábrela antes de trabajar. Versionar un derivado (brandkit v1→v2) incluye su checklist en el blast radius · confirmado · [principios.md](principios.md)\n- Método — **el template no se prueba solo**: nadie ejecuta `_starter/` como proyecto, así que sus fallos aparecen en el primer proyecto que lo estrena, se arreglan **ahí**, y el template se bifurca. **Cerrar una Fase incluye preguntar qué de lo aprendido era del template.** Corolario: **un template no ejecuta sus propias puertas** — córrelas contra el scaffold (el del área fallaba su propio pre-flight en 4 sitios, `Inter` incluida, porque el comando que lo detecta tenía un `../` de más) · confirmado · [principios.md](principios.md)\n- Método — **un fix que entra al `_starter` no se propaga solo a los proyectos vivos que lo necesitaban ayer**: el molde se arregla hacia adelante, no hacia atrás. En `numerologia` el paso «Releer» del ritual se escribió en el `_starter` tras romper 2.1.5 y 2.2, y el mismo patrón volvió a romper 2.3/2.4/2.5.2/2.6 esa misma tarde porque el `FASES.md` ya existía y nunca recibió el fix. Cerrar la sesión que escribe un fix de método incluye preguntar qué proyecto abierto lo necesita hoy · confirmado · [principios.md](principios.md)\n- Método — **un documento contradicho no se reescribe: gana un apéndice fechado**. El método vuelve sobre sus pasos dos veces por proyecto y las dos son estructurales (la visión desautoriza al benchmark; el veredicto del cliente desautoriza a la visión). Reescribir el documento auditado desde su consecuencia hace **tautológica** la auditoría de 2.5. Tres niveles: fuente primaria (no se toca) · documento contra el que se audita (apéndice) · derivado que cita sus fuentes (reescritura con changelog). El apéndice conserva **quién decidió qué** · confirmado · [principios.md](principios.md)\n- Accesibilidad — **piso no negociable**: focus visible siempre, target táctil ≥44×44px, nada depende del hover, el color nunca es el único significado, CLS = 0 · confirmado · [principios.md](principios.md)\n- Motion — **tokens de tiempo, no números al azar**: 150-300ms micro, easing con dirección (out al entrar / in al salir), la salida más rápida que la entrada, stagger 30-50ms, solo `transform`/`opacity` · confirmado · [principios.md](principios.md)\n- Identidad — **estética de IA por defecto** (Inter/Roboto, gradiente violeta sobre blanco, emoji como icono, tres cards centradas) = señal de que nadie decidió la dirección · confirmado · [identidad.md](identidad.md)\n- Identidad — **una sola dirección estética, comprometida**; y la complejidad del código la sigue (maximalista pide efectos; refinado pide restricción) · confirmado · [identidad.md](identidad.md)\n- Tiers — **la puerta dura**: estado de servidor (cuenta, pago, contenido protegido) = Tier 3 sin importar cuántas páginas tenga. `numerologia` es 1 ruta y es el tier más caro: el precio sale de la clase de riesgo, no del conteo de páginas · confirmado · [tiers.md](tiers.md)\n- Tiers — **el tier limita el alcance, jamás el nivel**: un Tier 1 de $250 cumple el estándar entero. Barato = menos superficie, nunca peor oficio · confirmado · [tiers.md](tiers.md)\n- Tiers — **el desborde se nombra cuando aparece, no cuando duele**: precio de lista en el momento del pedido + registro en `FASES.md`. Y lo que no es web (brochure, merch, isotipos) está fuera del tier · confirmado · [tiers.md](tiers.md)\n- Identidad — **la paleta \"premium\" por defecto** (crema/beige + latón + espresso; nuestro Warm Atelier) es el reflejo automático de la IA: si no la eligió el cliente en el muestrario, la eligió el reflejo, y la marca se vuelve invisible · confirmado · [identidad.md](identidad.md)\n- Identidad — **disciplina del serif**: \"marca creativa = serif\" es el reflejo más delator. El serif entra solo si el encargo lo nombra o se puede argumentar; énfasis dentro de un titular = cursiva/negrita de la misma familia, nunca mezclar familias · confirmado · [identidad.md](identidad.md)\n\n---\n\n## investigacion\n\n- `investigacion` · **Workflow de Fase 1** (8 pasos): kickoff → entrevista → muestrario → referencias → benchmark → brandkit → `que-es-<cliente>.txt` → wireframe + Golden Paths · confirmado · [investigacion.md](investigacion.md)\n- `investigacion` · La **selección del muestrario se transcribe al repo** (`seleccion-<cliente>/`: hex, etiqueta de rubro, token producido, swatches descartados con su porqué, y literal la frase de mezcla del cliente) **antes** de escribir el brandkit. Una captura en Miro, un PDF o un WhatsApp **no son archivo**: el brandkit se escribe a ciegas y la Fase 2 hereda el sesgo · confirmado · [investigacion.md](investigacion.md)\n- `investigacion` · La **etiqueta de rubro** de una paleta del muestrario es un **descarte declarado** (*Deep Azure → SaaS B2B · Sorbet Dawn → spa · Mystic Arcana → tarot*): el cliente la elige **a pesar** de su rubro. La marca vive donde ninguna de las paletas elegidas se reconoce a sí misma · confirmado · [investigacion.md](investigacion.md)\n- `investigacion` · **Cada decisión de dirección de diseño debe poder citar su fuente** (selección o entrevista). Una decisión que no puede citarse es del constructor, no del cliente — indefendible ante él aunque sea correcta · confirmado · [investigacion.md](investigacion.md)\n- `investigacion` · Plantilla de **brandkit**: 6 secciones; la §6 de validación (tokens fantasma, contraste, CTA huérfano, regla de proporción) es la que atrapa los errores · confirmado · [investigacion.md](investigacion.md)\n- `investigacion` · Plantilla de **benchmark**: tabla de 7 columnas + síntesis; cada referencia aporta una cosa distinta (sistema gráfico / esqueleto / interacción / composición), 4 bastan · confirmado · [investigacion.md](investigacion.md)\n- `investigacion` · Plantilla de **wireframe**: átomo de 4 campos fijos (Layout · Contenido · CTAs · Jerarquía) en 3 documentos (landing+internas · dashboard · flujos) · confirmado · [investigacion.md](investigacion.md)\n- `investigacion` · CTAs de dos velocidades: una acción gratuita de bajo compromiso + una de conversión, nunca en la misma jerarquía visual · confirmado · [investigacion.md](investigacion.md)\n- `investigacion` · Una decisión de negocio pendiente no bloquea el diseño: documentar el flujo, marcar la casilla vacía en `FASES.md` y seguir · confirmado · [investigacion.md](investigacion.md)\n\n---\n\n## moodboard\n\n- `moodboard` · **Workflow de Fase 2.1** (4 etapas): visión de diseñador (4-5 direcciones) → búsqueda + descarga por dirección → explicación → resumen de huecos. El moodboard **abre** la Fase 2: la dirección elegida es la que afina la paleta definitiva · confirmado · [moodboard.md](moodboard.md)\n- `moodboard` · La visión de diseñador **es** la Etapa 1; no hay una sub-fase posterior que la reescriba · confirmado · [moodboard.md](moodboard.md)\n- `moodboard` · Imágenes de moodboard: **nunca recomprimir, convertir ni redimensionar** — se juzga textura y grano. La regla de `public/` + bump `-vN` no aplica: no se sirven al navegador · confirmado · [moodboard.md](moodboard.md)\n- `moodboard` · Esa ley **protege el máster, no toda copia que salga de él**: la entrega web al cliente sirve **derivadas** (1600 px, JPEG q82), nunca los originales — 69,9 MB de tablero se sirven en 3,6 MB, y una entrega que no carga no se mira. Dos trampas de plataforma: en Windows **no hay ImageMagick** (el `convert` del `PATH` es el de FAT→NTFS) y **`npx -p sharp node …` no sirve** (npx no expone su instalación al proceso hijo) — `sharp` va en un caché del sistema, fuera de todo repo · confirmado · [moodboard.md](moodboard.md)\n- `moodboard` · Licencia libre (Unsplash/Pexels/Pixabay/Kaboompics/StockSnap) alcanza para el tablero interno; **pasar una imagen a producción es otra decisión** con su propia verificación · confirmado · [moodboard.md](moodboard.md)\n- `moodboard` · Link roto o sin descarga directa del original → saltarlo y buscar otro; nunca dejar el hueco. Sin API keys: WebSearch + WebFetch + `curl` · confirmado · [moodboard.md](moodboard.md)\n- `moodboard` · Las direcciones conceptuales se nombran con los tokens del brandkit inicial; si no, es el moodboard de otro proyecto · confirmado · [moodboard.md](moodboard.md)\n- `moodboard` · El `alt text` de los bancos de imágenes miente (3 de 8 en el primer moodboard real): es ciego a la clave tonal, la luz y la temperatura del color — mirar cada imagen antes de inventariarla y nombrar el archivo por lo que muestra; la mal etiquetada suele ir a otra carpeta, no a la basura · confirmado · [moodboard.md](moodboard.md)\n- `moodboard` · **El elemento central del sitio no puede faltar** (el número en numerología, el producto en una tienda): tiene que estar decidido en la visión y tener carpeta en el tablero. Es lo que el sesgo se salta —por ser el más cargado de cliché— y **lo que no se decide lo decide el default, que es el cliché** · confirmado · [moodboard.md](moodboard.md)\n- `moodboard` · **En producción, si ningún banco convence: se genera la imagen y el prompt lo escribe el constructor** — hiperrealista, con cámara/luz/materia/hex del brandkit/imperfección y los tells en negativo. Nunca generar a una persona real ni fabricar prueba (testimonios, resultados, documentos). Se mira antes de usarla y se guarda el prompt · conjecture · [moodboard.md](moodboard.md)\n- `moodboard` · Un banco que devuelve **403 no está caído: filtra por User-Agent** (Kaboompics rechaza el UA de WebFetch; con `curl` + UA de navegador completo responde 200). La regla \"saltar el link roto\" es para una foto, no para un banco entero — descartar un banco es descartar su sesgo · confirmado · [moodboard.md](moodboard.md)\n- `moodboard` · **El cliente no sabe qué es un moodboard**: sin decírselo cree que está viendo el sitio (*¿dónde está mi logo? ¿esa foto va en la portada?*) y juzga la cosa equivocada. La entrega **abre explicándose** con una sección fija —qué es · las imágenes son referencias, no material del sitio · qué NO es— que es **del envoltorio, no del guion**, y no se reescribe por proyecto · confirmado · [moodboard.md](moodboard.md)\n- `moodboard` · **El envoltorio y el layout de la entrega son ley del área**, y viven una sola vez en `_starter/entrega/index.html`: «Qué estás mirando» → la cita desnuda → los mundos (veredicto **por mundo**) → qué sigue → **sin pie de página**. Un envoltorio retocado por proyecto son dos que divergen, y el cliente acaba viendo el viejo · confirmado · [moodboard.md](moodboard.md)\n\n---\n\n## animation\n\n- `animation` · HTML visible antes del estado inicial GSAP (FOUC) · confirmado · [animation.md](animation.md)\n- `animation` · Marquee CSS con salto visual al reiniciar el loop · confirmado · [animation.md](animation.md)\n- `animation` · Barra de progreso con `scaleX` en lugar de `width` — cero reflow · confirmado · [animation.md](animation.md)\n- `animation` · Pin GSAP termina antes del último paso del timeline · confirmado · [animation.md](animation.md)\n- `animation` · Columnas de scroll infinito verticales con `@keyframes` CSS · confirmado · [animation.md](animation.md)\n- `animation` · Salto al inicio en pin scrubbed — señal de config errónea del ScrollTrigger · confirmado · [animation.md](animation.md)\n- `animation` · `skipRef` + `onComplete` para bloquear clicks durante animación pinneada · confirmado · [animation.md](animation.md)\n- `animation` · Offset vertical al salir del pin por falta de `anticipatePin: 1` · confirmado · [animation.md](animation.md)\n- `animation` · Toggle de clase CSS vs GSAP para transiciones de opacidad simples · confirmado · [animation.md](animation.md)\n- `animation` · Flash blanco al entrar en sección pinneada con fondo oscuro · confirmado · [animation.md](animation.md)\n- `animation` · Clip + blur reveal para headings: `translateY(108%) → 0` + `blur(12px) → 0` · confirmado · [animation.md](animation.md)\n- `animation` · Texto scramble / decodificación letra a letra con `setInterval` · confirmado · [animation.md](animation.md)\n- `animation` · `overwrite: true` previene tweens apilados en clicks rápidos consecutivos · confirmado · [animation.md](animation.md)\n- `animation` · `setState` durante tween GSAP provoca re-render con salto visual · confirmado · [animation.md](animation.md)\n- `animation` · `stagger` nativo GSAP vs `delay` manual para secuencias de entrada · confirmado · [animation.md](animation.md)\n- `animation` · `busyRef` + `queueRef` para encolar clics durante animación sin perderlos · confirmado · [animation.md](animation.md)\n- `animation` · `gsap.fromTo` obligatorio cuando el estado inicial está en `style` inline · confirmado · [animation.md](animation.md)\n- `animation` · GSAP sobreescribe `display:none` — necesita guard de viewport + CSS `!important` · confirmado · [animation.md](animation.md)\n- `animation` · Pin GSAP en móvil debe desactivarse completamente con guard `isMobile` · confirmado · [animation.md](animation.md)\n- `animation` · Triggers `top 88–95%` para que las animaciones disparen en cuanto el elemento asoma · confirmado · [animation.md](animation.md)\n- `animation` · GSAP entrance sin bifurcación por ruta → FOUC ~1.4s en páginas no-target; **bifurcar en el `useEffect` no basta** (corre post-paint): el estado inicial que depende de la ruta se decide en el **JSX**, y un componente montado dentro de cada `page.tsx` paga el flash en cada navegación · confirmado · [animation.md](animation.md)\n- `animation` · Selectores string GSAP en callbacks async (IO/eventos) no quedan scoped a `gsap.context` → colisión entre secciones con data-attrs compartidos · confirmado · [animation.md](animation.md)\n- `animation` · Fallback `setTimeout` de reveal-IO revela la sección fuera de viewport → animación perdida; gatear por `getBoundingClientRect` · confirmado · [animation.md](animation.md)\n- `animation` · Máscara palabra-por-palabra (`overflow:hidden` + `translateY(110%)`) recorta el titular al hacer wrap multilínea — usar rise+blur sin clip · confirmado · [animation.md](animation.md)\n- `animation` · `translateY(%)` inline → GSAP lo lee como px; resetear con `yPercent`/`y:\"0%\"` no lo limpia (reveal oculto). Forzar `y:0` en fromTo + `clearProps` en reduced-motion · confirmado · [animation.md](animation.md)\n- `animation` · Abrir `overflow` al final del reveal recorta descenders durante la animación (pop) — máscara alta (`pb`) + `margin` negativo en vez de togglear overflow · confirmado · [animation.md](animation.md)\n- `animation` · \"Sombra fantasma\" antes del reveal: `blur()` en el estado inicial asoma por el borde de la máscara — añadir `opacity:0` inicial · confirmado · [animation.md](animation.md)\n- `animation` · `next/image` lazy en acordeón/colapsable aparece de golpe (carga async desacoplada de la transición) — `opacity:0` inicial + fade en `onLoad` (Set por id), respeta reduced-motion · confirmado · [animation.md](animation.md)\n- `animation` · Slider crossfade con caja que se redimensiona (fotos de orientación mixta): la foto saliente hace zoom/salto al cambiar la activa — dar a cada foto su propio marco por su proporción y cruzar solo por opacidad (no caja compartida) · confirmado · [animation.md](animation.md)\n- `animation` · Parpadeo de cards sobre el pliegue solo en dev: doble montaje de StrictMode + `gsap.context`/`revert` re-corre el reveal — marcar nodos con `data-attr` (`dataset.revealed`) que sobrevive al remontaje, sin `revert` · confirmado · [animation.md](animation.md)\n- `animation` · Lo que nace en un `.then()` nace FUERA del `gsap.context` de `useGSAP`: selectores sin acotar al scope y, en StrictMode, DOS timelines sobre los mismos nodos (el parpadeo). Resolver nodos con `querySelectorAll`, bandera de vida y cleanup propio · confirmado · [animation.md](animation.md)\n- `animation` · `ScrollTrigger.getAll().kill()` como limpieza de un componente apaga los triggers de TODOS: `getAll()` es registro global. Cada uno se lleva lo suyo (`mq.revert()`, o `tl.scrollTrigger`). Si la limpieza nombra `getAll()`, toca algo que no es suyo · confirmado · [animation.md](animation.md)\n- `animation` · **`background-attachment: fixed` en capas decorativas de sección** = repintado por frame de scroll + scroll fuera del compositor. Es invisible en revisión (una línea de estilo) y se multiplica por cada sección que monta el componente compartido · confirmado · [animation.md](animation.md)\n- `animation` · **Escribir estilos directo en un handler de `mousemove` es escribir a 120 Hz**: batchear con un rAF con guarda de frame y hacer las lecturas de layout (`getBoundingClientRect`) dentro del callback, no en el handler · confirmado · [animation.md](animation.md)\n- `animation` · **Portar un arreglo de performance a un sitio hermano**: el costo es del lenguaje visual, no del sitio. Grepear los cinco patrones en el destino ANTES de auditar — la pregunta es «¿monta este sitio las capas que causaron el costo?», no «¿es del mismo área?». \"Ya cumple, no hay commit\" es resultado completo · confirmado · [animation.md](animation.md)\n\n## testing\n\n- `testing` · **Puerta de pre-flight**: `node tools/preflight.mjs <ruta>` verifica mecánicamente las leyes greppables (raya, listener de scroll, `h-screen`, `gsap.from`, `outline` sin reemplazo, emoji, fuente de IA). Lo que exige criterio queda como checklist humana en `FASES.md`. Un Lore sin puerta se evapora en la tercera sesión larga · confirmado · [testing.md](testing.md)\n- `testing` · El filtro de ruido **es** lo que hace usable la puerta: sin excluir comentarios, la regla de la raya daba 72 hallazgos en `enma` (la mayoría en `// comentarios`); excluyéndolos da 10, y las 10 son copy visible real · confirmado · [testing.md](testing.md)\n- `testing` · **Un check greppable puede coincidir con su propio comentario**: si el código nombra lo prohibido para declarar por qué está ausente (`// WONK muerto, fuera del import`), el check dispara sobre su propia documentación — pasó 3 veces en `numerologia` con el mismo check. El caso negativo del `--selftest` tiene que incluir ese comentario, no solo código correcto · confirmado · [testing.md](testing.md)\n- `testing` · MutationObserver + gap discriminator para testear `gsap.set` vs `gsap.fromTo` sin depender de timing · conjetura · [testing.md](testing.md)\n- `testing` · Presencia de elementos en DOM: verificar en browser real, no por code-reading de imports — un Footer con `id=\"X\"` puede existir en páginas que no incluyen el componente específico · confirmado · [testing.md](testing.md)\n- `testing` · `waitUntil:'load'` no captura comportamiento pre-load (auto-scroll nativo, pin-spacer GSAP) — para observar estados transitorios usar `addInitScript` con polling de `scrollY` desde el primer render · conjetura · [testing.md](testing.md)\n- `testing` · **El dev server de Next reenvía `console.warn`/`console.error` del browser al terminal** (no `console.log`): es el canal de diagnóstico del área sin Playwright — el usuario solo hace el flujo y dice \"listo\" · confirmado · [testing.md](testing.md)\n- `testing` · **Ante un bug de navegación, instrumentar la secuencia entera** (`click` en capture + `popstate` + `hashchange` + `pageshow` + efecto de ruta + tick de `scrollY`) **antes** de proponer una fix: deducir el flujo es una hipótesis, y tres seguidas fallaron en un solo incidente · confirmado · [testing.md](testing.md)\n- `testing` · **Un grep prueba ausencia de un patrón, nunca velocidad**: ni el pre-flight verde ni el build (que da bytes, no tiempo) autorizan a decir \"carga rápido\". Sin Playwright el número lo produce el humano con Lighthouse — mientras no exista, se dice \"su velocidad percibida no está medida\", sin que la pregunten · confirmado · [testing.md](testing.md)\n\n## scroll\n\n- `scroll` · Lenis + ScrollTrigger desincronizados — sync via GSAP ticker es obligatorio · confirmado · [scroll.md](scroll.md)\n- `scroll` · `lenis.scrollTo` fuera del Provider — acceder via `useLenis()` hook · confirmado · [scroll.md](scroll.md)\n- `scroll` · `100vh` desborda en iOS Safari — usar `100svh` en secciones full-height · confirmado · [scroll.md](scroll.md)\n- `scroll` · LenisProvider intercepta anchors y lanza scroll en paralelo al handler del componente · confirmado · [scroll.md](scroll.md)\n- `scroll` · Navegación SPA con Lenis — scroll position no se resetea entre páginas · confirmado · [scroll.md](scroll.md)\n- `scroll` · Guard `isFirstPath` en `useEffect([pathname])` sin discriminar hash — FPL a `/#seccion` queda sin corrección de posición · conjetura · [scroll.md](scroll.md)\n- `scroll` · **El botón Atrás no ejecuta NINGÚN `useEffect`**: la corrección colgada de `useEffect([pathname])` es código muerto — verificar que el efecto corre antes de escribirla; lo que sí corre son los listeners de `window` · confirmado · [scroll.md](scroll.md)\n- `scroll` · `popstate` **también dispara al clickear un ancla in-page** (~1ms tras el click): no distingue el Atrás, y usarlo como detector rompe la navegación del navbar · confirmado · [scroll.md](scroll.md)\n- `scroll` · **Escribir el hash en la URL envenena el Atrás** si hay pin-spacers de GSAP: el scroll al ancla corre antes de instalarlos, el documento es un viewport más corto y se aterriza en el footer. Salida barata: interceptar los clicks y hacer scroll **sin escribir el hash** (una sola entrada de historial) · confirmado · [scroll.md](scroll.md)\n- `scroll` · `scrollRestoration = 'manual'` es una **ley de Lenis, no del sitio**: sobrevive a su retirada y anula el Back. Al quitar una librería de scroll, auditar qué defensas caducan con ella · confirmado · [scroll.md](scroll.md)\n- `scroll` · `behavior: 'auto'` **hereda el `scroll-behavior: smooth` del CSS** (el salto seco deja de serlo): `'instant'` explícito para saltar; `scrollIntoView()` **sin argumentos** para heredar el CSS y respetar `prefers-reduced-motion` gratis · confirmado · [scroll.md](scroll.md)\n- `scroll` · **No tener `scroll-behavior: smooth` no se lee como «falta una animación» sino como «el sitio va a saltos»**: llega reportado con vocabulario de rendimiento y manda a auditar pintura, donde no hay nada. Y el salto seco **esconde** la falta de `scroll-margin-top` (el ancla aterriza bajo el header fijo). Las dos reglas van juntas o ninguna sirve; preguntar **qué acto** produce la sensación antes de medir · confirmado · [scroll.md](scroll.md)\n\n## layout\n\n- `layout` · `backgroundAttachment: fixed` alinea grillas continuas entre secciones · confirmado · [layout.md](layout.md)\n- `layout` · Glow de cursor: dos capas absolutas + `mask-image` radial evitan repaints · confirmado · [layout.md](layout.md)\n- `layout` · `line-height: 1` recorta ascenders/descenders en fuentes display con `overflow:hidden` · confirmado · [layout.md](layout.md)\n- `layout` · `overflow:hidden` en `<section>` recorta el H2 por encima del marquee · confirmado · [layout.md](layout.md)\n- `layout` · Gradiente dinámico: actualizar `setProperty('--sx')` en lugar de reescribir la cadena · confirmado · [layout.md](layout.md)\n- `layout` · Shorthand `flex` + longhand `flexShrink` en el mismo elemento produce warning React · confirmado · [layout.md](layout.md)\n- `layout` · `overflow-x: hidden` en `html` Y `body` para bloquear deriva lateral en móvil · confirmado · [layout.md](layout.md)\n- `layout` · Navbar fijo transparente sobre secciones de distinto tono — contraste por `data-nav` de la sección, no por umbral de scroll · confirmado · [layout.md](layout.md)\n- `layout` · `preserveAspectRatio=\"none\"` aplasta SVG con detalle (árboles) en móvil angosto — `slice` responsive vía `matchMedia` (none en desktop) · confirmado · [layout.md](layout.md)\n- `layout` · Selección de texto azul (UA) rompe la paleta — definir `::selection`/`::-moz-selection` global con HEX literal (no `var()`) · confirmado · [layout.md](layout.md)\n- `layout` · `object-position` con un solo % — solo mueve horizontal; para vertical usar dos valores: `\"center 75%\"` · confirmado · [layout.md](layout.md)\n- `layout` · `next/image` no recupera detalle de un raster pequeño → borroso a gran escala; validar resolución intrínseca (SVG / upscale Lanczos / limitar tamaño) · confirmado · [layout.md](layout.md)\n- `layout` · Tratamiento de color de foto (calidez/deslavado): CSS ajustable (filter + overlay) no procesado horneado; recortar al `object-cover` para peso; previsualizar el stack con `sharp` (incl. overlays existentes) · confirmado · [layout.md](layout.md)\n- `layout` · Glow radial detrás de un PNG transparente dibuja un \"cuadrado\": el gradiente se recorta al rect del contenedor y no cierra en `transparent` antes del borde — sospechar capas CSS, no el asset · confirmado · [layout.md](layout.md)\n- `layout` · **`next/image` sin `sizes` sirve `w=1920`** aunque se pinte a 24px: usar `next/image` no basta, el ancho hay que declararlo. Y bajo un condicional de scroll (`{tone === \"light\" && …}`) la decodificación se repite en cada cruce → es coste **de scroll, no de carga**; `priority` sin `sizes` prioriza los bytes que sobran · confirmado · [layout.md](layout.md)\n\n## responsive\n\n- `responsive` · Cursor personalizado en táctil: guard con `window.matchMedia('(pointer: fine)')` · confirmado · [responsive.md](responsive.md)\n- `responsive` · MONO uppercase con `letterSpacing >= 0.12em` desborda en móvil si tiene `<br/>` manual · confirmado · [responsive.md](responsive.md)\n- `responsive` · `<br/>` manual en H2 genera salto de línea incorrecto en móvil — usar JSX condicional · confirmado · [responsive.md](responsive.md)\n- `responsive` · `clamp()` solo no basta para padding en móvil — el mínimo de 96px es demasiado · confirmado · [responsive.md](responsive.md)\n- `responsive` · Un hook `useIsMobile` SSR-safe hace que el server pinte **siempre** la variante desktop → lo exclusivo de desktop parpadea en móvil: el estado inicial va **invisible (`opacity:0`), no ausente**. Inicializar el hook leyendo `window` cambia el flash por un hydration mismatch · confirmado · [responsive.md](responsive.md)\n\n## composicion\n\n- `composicion` · **Los tres candados**: un acento (mismo en toda la página), una escala de radios, un tema. Se deciden una vez; romperlos por sección es el error de composición más caro · confirmado · [composicion.md](composicion.md)\n- `composicion` · El **hero entra en el primer viewport**: titular ≤2 líneas, subtexto ≤20 palabras, CTA sin scroll. Un titular de 4 líneas es error de `font-size`, no de copy · confirmado · [composicion.md](composicion.md)\n- `composicion` · Máximo **4 elementos de texto en el hero**; la tira de logos, el teaser de precio y la fila de avatares van **debajo**, nunca dentro · confirmado · [composicion.md](composicion.md)\n- `composicion` · **Tres cards iguales en fila: prohibido.** Cap de zigzag en 2 consecutivos. Una landing de 8 secciones usa ≥4 familias de layout distintas · confirmado · [composicion.md](composicion.md)\n- `composicion` · **Bento: N ítems → N celdas**, cero huecos; y 2-3 celdas con variación visual real (no 6 cards blancas de pura tipografía) · confirmado · [composicion.md](composicion.md)\n- `composicion` · Más de 5 ítems piden **otro componente**, no una lista más larga (`<ul>` + hairline por fila es la salida perezosa) · confirmado · [composicion.md](composicion.md)\n- `composicion` · **Una intención, una etiqueta de CTA** en todo el sitio (\"Contactar\" + \"Hablemos\" + \"Escríbenos\" = fallo). El texto del CTA no envuelve a 2 líneas · confirmado · [composicion.md](composicion.md)\n- `composicion` · El **screenshot falso hecho con `<div>`s** (falso dashboard, falsa terminal) es el *tell* nº1. Captura real, imagen generada, o ningún preview · confirmado · [composicion.md](composicion.md)\n- `composicion` · Nav en **una sola línea** en desktop, altura 64-72px (tope 80) · confirmado · [composicion.md](composicion.md)\n- `composicion` · Dónde las skills de diseño **contradicen nuestro estándar y pierden**: eyebrows (nosotros los prohibimos de plano), cursor personalizado, alternancia de superficies · confirmado · [composicion.md](composicion.md)\n\n## copy\n\n- `copy` · Redundancia de palabras de marca — pérdida de potencia por repetición; usar alternativas específicas (el lugar, la región, el contexto, el rubro) y reservar la palabra de marca para usos con carga conceptual · confirmado · [copy.md](copy.md)\n- `copy` · **La raya (`—`) está prohibida: cero, sin excepciones.** Ni en titulares, botones, cuerpo, citas, `alt` ni nav. Rangos con guion. Un solo `—` visible es fallo de entrega · confirmado · [copy.md](copy.md)\n- `copy` · Catálogo de *tells* de copy: verbos de relleno, nombres/cifras genéricos, precisión fingida, etiquetas poéticas, señales de scroll, numeración de secciones, tiras de ciudad/hora/clima · confirmado · [copy.md](copy.md)\n- `copy` · **Auto-auditoría antes de entregar**: releer cada string visible; copy aburrido y funcional le gana siempre a copy \"ingenioso\" generado · confirmado · [copy.md](copy.md)\n- `copy` · **La voz se deriva, no se inventa**: se rellena leyendo lo que el cliente ya escribió (entrevista, redes, web vieja) y cada decisión de voz cita su fuente, como en diseño · confirmado · [copy.md](copy.md)\n- `copy` · Leyes positivas: test del \"¿y qué?\" (característica sin consecuencia se corta), claim sin prueba se suaviza o se borra (**nunca** se fabrica la prueba), una idea por sección · confirmado · [copy.md](copy.md)\n- `copy` · Dónde las skills de copy (`copywriting`/`copy-editing`) **contradicen nuestro estándar y pierden**: la especificidad numérica (si el dato no está en `que-es-<cliente>.txt` se **acorta la frase**, no se inventa la cifra), los CTAs de catálogo, el \"heightened emotion\" · confirmado · [copy.md](copy.md)\n- `copy` · **El borrador declarado**: al cliente que no contesta por escrito se le enseña la página con una propuesta puesta. Tres condiciones a la vez: contenido inventado en UN archivo, cada hipótesis anota de qué frase suya salió, y una nota visible que dice que es propuesta. Sin las tres se fosiliza en doctrina · confirmado · [copy.md](copy.md)\n- `copy` · **El dato local en producto internacional**: un aviso de emergencia no lleva el número de un solo país si el alcance declarado es mundial (`servicios de tu localidad`), y un aviso de no sustitución nombra a quién no sustituye (`profesionales cualificados`) · confirmado · [copy.md](copy.md)\n- `copy` · **El material de Fase 1 deja de mandar en el dato que el cliente corrige**: un dato de marca no es criterio, vive en todas sus apariciones. Barrer el árbol antes de corregir, un solo dueño en código, y nota fechada en el `que-es` en vez de reescribirlo · confirmado · [copy.md](copy.md)\n\n## seo\n\n- `seo` · **El criterio SEO/GEO vive en el lore del área** (`seo.md`), no dentro del scaffold de un proyecto: la checklist nació en `_starter/web/docs/seo/` y ahí solo la heredaba quien se estampaba del starter — un proyecto **adoptado** (registrado en `FASES.md` sin nacer del `_starter`) no veía nada. Fuente única, sin copia en el starter · confirmado · [seo.md](seo.md)\n- `seo` · **SEO inline, auditoría de una pasada**: cada sección/página nace con `metadata`, JSON-LD y `alt` descriptivo; la Mini-Fase de auditoría **consolida**, no descubre · confirmado · [seo.md](seo.md)\n- `seo` · **La auditoría llega desfasada; el disco no miente**: Lighthouse/Goodie reportan sobre el preview viejo — verificar tamaño/estado real en disco **antes** de re-encodear o \"arreglar\" · confirmado · [seo.md](seo.md)\n- `seo` · De Lighthouse se aplica **todo menos el hallazgo de contraste de color** (choca con la dirección de diseño y la dirección gana); el resto de Accesibilidad sí, entero · confirmado · [seo.md](seo.md)\n- `seo` · Los `.htaccess`/headers **solo aplican en Apache** (cPanel), no en Vercel: el score real sube al **re-escanear post-deploy** · confirmado · [seo.md](seo.md)\n- `seo` · Next **no cascada la OG raíz** a los segmentos hijos → inyectar `og:image` en `pageMetadata()`; y `robots.txt` va **estático** en `public/` (la API de robots de Next no emite directivas custom, como el allow a bots de IA) · confirmado · [seo.md](seo.md)\n- `seo` · GEO: `llms.txt` + `llms-full.txt` + allow explícito a GPTBot/ClaudeBot/PerplexityBot. Agent Discovery (MCP card, A2A, OpenAPI) se **omite a propósito** salvo Tier 3 con login o API · confirmado · [seo.md](seo.md)\n\n## routing\n\n- `routing` · GSAP plugins acceden a `window` — centralizar en `lib/gsap.ts` con guard SSR · confirmado · [routing.md](routing.md)\n- `routing` · Hydration mismatch con `Date.now()` — estado inicial `null` + `useEffect` solo en cliente · confirmado · [routing.md](routing.md)\n- `routing` · Next.js 16: `params` y `searchParams` son `Promise` — hacer `await params` · confirmado · [routing.md](routing.md)\n- `routing` · Tailwind v4: sin `tailwind.config.ts` — tokens en `@theme {}` dentro del CSS · confirmado · [routing.md](routing.md)\n- `routing` · OG image: Google Fonts no disponibles en build — cargar `.ttf` local con `readFile` · confirmado · [routing.md](routing.md)\n- `routing` · `title.absolute` para que la homepage ignore el template de título del layout · confirmado · [routing.md](routing.md)\n- `routing` · Tailwind v4: valor fuera de escala (`duration-400`) no genera utilidad → transición instantánea silenciosa; usar escala o `duration-[400ms]` · confirmado · [routing.md](routing.md)\n- `routing` · `next/image`: reemplazar asset de `public/` con el mismo nombre sigue mostrando la versión vieja (URL del optimizador estable y cacheada) → renombrar el archivo + actualizar refs · confirmado · [routing.md](routing.md)\n- `routing` · Descargar de Unsplash: `/photos/<id>/download` da 403 y los IDs no se adivinan (404) — sacar el id numérico del og:image vía WebFetch y bajar de `images.unsplash.com/photo-<id>?fm=webp&w=...`; inspeccionar la imagen y su región antes de aprobar · confirmado · [routing.md](routing.md)\n- `routing` · Nav circular prev/next se auto-referencia con un solo ítem (`(i±1)%1===0`) → guard `hasMore` (prev.slug≠self) y cuidar el handoff de color de la sección que pasa a ser la última · confirmado · [routing.md](routing.md)\n- `routing` · `scroll-behavior: smooth` en `<html>` exige **`data-scroll-behavior=\"smooth\"`** o Next no puede desactivarlo al cambiar de ruta: la nueva página se desliza desde la posición anterior en vez de aparecer arriba · confirmado · [routing.md](routing.md)\n\n## deploy\n\n- `deploy` · **«Conectado a Vercel» son dos vínculos distintos y ninguno implica al otro**: el `.vercel/project.json` local (enlace de CLI, despliega desde el disco de quien lo corrió) y la integración Git (vive en el panel y escucha un remoto). Un sitio del área se enlaza **por Git, nunca por CLI** — si no, el proyecto queda desplegado y sin forma de volver a desplegarlo. Al montarla: **Root Directory** = la carpeta de la app (distinta en cada sitio) · confirmado · [deploy.md](deploy.md)\n- `deploy` · **Cambiar un ajuste de build en el panel de Vercel no reconstruye nada**: producción sigue sirviendo el artefacto anterior (preset «Other» → sitio en blanco) hasta que un commit dispare un build. El panel muestra el ajuste correcto y la URL el resultado viejo → se busca el error en el código. Forzar *Redeploy*; la lista de deployments manda, no los settings · confirmado · [deploy.md](deploy.md)\n\n---\n\n## Variante SaaS — patrones de sitios con backend\n\nLas **leyes** de backend (acceso, Supabase, Stripe) viven en la **Variante SaaS** de\n`principios.md` e `identidad.md`. Las **pistas puntuales** de dominios backend viven en\nsus módulos temáticos (abajo), promovidos desde `numerologia` (Introspection Solutions).\n\n## supabase\n\n- `supabase` · Client (`createBrowserClient`) vs Server (`createServerClient`) — nunca mezclar entre `'use client'` y Server Components/API Routes · conjetura · [supabase.md](supabase.md)\n- `supabase` · Usar `getUser()` (revalida con Auth server), no `getSession()`, para decisiones de acceso en servidor · conjetura · [supabase.md](supabase.md)\n- `supabase` · Refrescar sesión en `middleware.ts` — Server Components no pueden escribir cookies · conjetura · [supabase.md](supabase.md)\n- `supabase` · RLS activo siempre; `service_role` ignora RLS → solo servidor (webhook), nunca `NEXT_PUBLIC_` · conjetura · [supabase.md](supabase.md)\n- `supabase` · `profiles` no se crea solo: trigger sobre `auth.users` o insert tras signUp, o el gating por rol falla · conjetura · [supabase.md](supabase.md)\n\n## stripe\n\n- `stripe` · Webhook necesita el body crudo (`req.text()`), no `req.json()`, o la firma nunca cuadra · conjetura · [stripe.md](stripe.md)\n- `stripe` · Verificar firma siempre; sin firma válida → 400 sin tocar la base (Golden Path) · conjetura · [stripe.md](stripe.md)\n- `stripe` · Mapear `customer`↔usuario con `client_reference_id`/`metadata.user_id` al crear el Checkout · conjetura · [stripe.md](stripe.md)\n- `stripe` · Eventos duplicados/fuera de orden → upsert idempotente por `stripe_subscription_id` · conjetura · [stripe.md](stripe.md)\n- `stripe` · Cancelar ≠ perder acceso: `isPremium` respeta `cancel_at_period_end` + `current_period_end` · conjetura · [stripe.md](stripe.md)\n- `stripe` · Precios y claves desde env (`STRIPE_PRICE_*`); nunca hardcodear `price_xxx` (difiere test/live) · conjetura · [stripe.md](stripe.md)\n",
+          "numLines": 234,
+          "startLine": 1,
+          "totalLines": 234
+        }
+      }
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 50,
+      "estimated_tokens_delta": 50,
+      "uuid": "ca1cbf3b-1b03-409a-af1e-0e2b75a6096f",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 106,
+      "estimated_tokens_delta": 56,
+      "uuid": "c51ba33f-3bdc-4263-a622-294262781a20",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011CdwjqJcmYvJQafD1AaeyJ",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "",
+            "signature": "EqADCokBCBAYAipAHk2y/t0HdF+Jg1Sq0Kbtn9UBHU4DThNbmNJravwN0d/X2CNtBoFkiEuLVNK6IioW58A9vqwEIK8/YXht8WGISzIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQyYWM0Mjg1MS0zNTYyLTQ0NWQtYTc5OS02ZTdjZjc4MjUyNWYSDOWfHYLN6CJPtJW0nhoMSbunWQnl4CjidBTaIjDBWXmeB0eKE4kXS30fyIdwGjLawj2cD0vMG9XwXOCLymXyKxGc11wnA4SxmdNL7o8qwwEHm03G6aHxpd7YknAvzoGIPNIYO9XEn/DJmevnDkbMiaSyuAF4VkOE43M0+/I7O7kudzHAJ+Ix7LbbhjujbP8Xw2UbThIqEj9hitIdYmKvMBei8poX84fSj97tPB8IZ4z1sxp2AB3AzowIwiDbiExSzVkzW4ZXjQfqu7+0Vi7WM4pBWuNVmNWhXSgR0EiJEaQ2R6nQz4Lir2+voxVMh6Kkwtkz341ZBCUpqIPtQwE5a8A0+OEnDRCvSlfAoT5qusotFfYYAQ=="
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 17151,
+          "cache_read_input_tokens": 19163,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 17151
+          },
+          "output_tokens": 2,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "9ca57c7a-669f-42ac-af99-9983dd7a7d55",
+      "timestamp": "2026-08-11T22:20:18.791Z",
+      "request_id": "req_011CdwjqHqPWmPWevtTtTaSx"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011CdwjqJcmYvJQafD1AaeyJ",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "toolu_0146AZvcSSmNZoXUnvB5CXGF",
+            "name": "Grep",
+            "input": {
+              "pattern": "scaleX|Barra de progreso|progress",
+              "path": "C:\\Claude\\lore-plugin\\bench\\fixtures\\lore\\lore\\animation.md",
+              "-n": true,
+              "-C": 6
+            },
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 17151,
+          "cache_read_input_tokens": 19163,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 17151
+          },
+          "output_tokens": 2,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "59b469d7-9ee9-49c2-bbc7-b2abdc803dae",
+      "timestamp": "2026-08-11T22:20:20.141Z",
+      "request_id": "req_011CdwjqHqPWmPWevtTtTaSx"
+    },
+    {
+      "type": "user",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "tool_use_id": "toolu_0146AZvcSSmNZoXUnvB5CXGF",
+            "type": "tool_result",
+            "content": "Found 1 file\nlore\\animation.md"
+          }
+        ]
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "7c2438c0-47a4-4105-bb45-98be62da5fb0",
+      "timestamp": "2026-08-11T22:20:20.196Z",
+      "tool_use_result": {
+        "mode": "files_with_matches",
+        "filenames": [
+          "lore\\animation.md"
+        ],
+        "numFiles": 1,
+        "totalFiles": 1
+      }
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 100,
+      "estimated_tokens_delta": 100,
+      "uuid": "82671d55-82ef-4454-9631-9e521d2d3215",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 112,
+      "estimated_tokens_delta": 12,
+      "uuid": "2ee6f351-c1c8-4a7b-b5fc-980ff289ed36",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011CdwjqZMncrskyF8dUfvbM",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "",
+            "signature": "ErgDCokBCBAYAipA1LNm0q2wOqb9gYxGGOlN2bE7uxjPdfH1Fwpa1VZvdAGfC2/qGnN2y9FGiwOPm9iRfSjF5TWzFWaA6o/sBapiaDIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQyYWM0Mjg1MS0zNTYyLTQ0NWQtYTc5OS02ZTdjZjc4MjUyNWYSDAXyfyUJP22iFPrOwBoMyqQPU2jVRcida1F8IjDGIyYwQhZwHeWieZWZZ6FWT5P5xQu8V+PfxH0/Qq18ldC0qMHXGllIQw/Ivid4GFAq2wGQgVQEJ7zlwGqA4Fm2KCuhfwVoMPZatNNFstnAaEZQgM6CWA9dwb7JcoeVl2QdOQ64pD8AQH2XgV3ZSgAXCYAarD/7UU3UG06S8DkQmSz+ifqKHdAWKD8ybFCZSZvKuysrYhGVKVpdOP/WtFBvyKn/Q9+QAhIN1r95AX4pAO0ExE/n8DohBph5rhOInFvaYchO9HBjmG+3dxHRw47k9kVyfkMUVhMK5iloqnQQNqX7C30fHyKpEjAFMaYWB++bYJp205lWGKKz0qFOP+O+lFfFCLV9XgX00WGCubEYAQ=="
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 245,
+          "cache_read_input_tokens": 36314,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 245
+          },
+          "output_tokens": 2,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "bcd574a2-9292-4e71-af52-9eb88d12a4db",
+      "timestamp": "2026-08-11T22:20:22.158Z",
+      "request_id": "req_011CdwjqYc9AhgTP9Y22nBeg"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011CdwjqZMncrskyF8dUfvbM",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "toolu_01PvnB1N133KUy1j6wgNRLAh",
+            "name": "Grep",
+            "input": {
+              "pattern": "scaleX|progreso|progress|ScrollTrigger",
+              "path": "C:\\Claude\\lore-plugin\\bench\\fixtures\\lore\\lore\\animation.md",
+              "output_mode": "content",
+              "-n": true,
+              "-C": 8
+            },
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 245,
+          "cache_read_input_tokens": 36314,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 245
+          },
+          "output_tokens": 2,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "b51fbb05-0b72-4fa2-bb5c-b73bdd12193a",
+      "timestamp": "2026-08-11T22:20:23.124Z",
+      "request_id": "req_011CdwjqYc9AhgTP9Y22nBeg"
+    },
+    {
+      "type": "user",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "tool_use_id": "toolu_01PvnB1N133KUy1j6wgNRLAh",
+            "type": "tool_result",
+            "content": "1:# lore/animation.md — GSAP / ScrollTrigger / CSS Animation\n2-\n3-> Pistas históricas, NO fuente de verdad. Leads a validar, no recetas.\n4-> ⚠ Validar contra código actual antes de actuar.\n5-\n6----\n7-\n8-### [animation] Flash de elementos antes de que arranque GSAP (FOUC de animación)\n9-\n--\n20-- Contexto: Marquee infinito horizontal. Puede ocurrir con GSAP o CSS puro.\n21-- Causa probable: Pocas copias del contenido o el porcentaje del keyframe no coincide con el número de copias. Con GSAP, la medición del DOM llega tarde → el elemento aparece en `x:0` un frame antes de saltar.\n22-- Pista: Verificar número de copias (4 copias → keyframe a -25%; 2 copias → -50%). CSS puro es más confiable que GSAP para marquees porque no tiene la penalidad de la medición asíncrona del DOM. Si se usa GSAP, sospechar de `halfWidth` calculado tarde.\n23-- Confianza: confirmado\n24-- ⚠ Validar contra código actual.\n25-\n26----\n27-\n28:### [animation] Barra de progreso con reflow en cada frame\n29-\n30:- Contexto: Barra de progreso actualizada en `onUpdate` de ScrollTrigger (60fps).\n31-- Causa probable: Implementación que cambia `width` en cada frame en vez de `transform`.\n32:- Pista: `width` es propiedad de layout — recalcula geometría en cada frame. `scaleX` con `transformOrigin: 'left center'` es una operación de compositor puro. Buscar cualquier `element.style.width = ...` dentro de callbacks de 60fps.\n33-- Confianza: confirmado\n34-- ⚠ Validar contra código actual.\n35-\n36----\n37-\n38-### [animation] Scroll horizontal pinned termina en posición incorrecta al redimensionar\n39-\n40-- Contexto: Sección con `pin: true` + scroll horizontal animado (`gsap.to(track, { x: ... })`).\n41-- Causa probable: El `end` y el valor de `x` se calculan una sola vez al montar. Al redimensionar, los valores quedan obsoletos.\n42:- Pista: Convertir `x` y `end` en funciones `() => ...` para que se recalculen. Verificar que `invalidateOnRefresh: true` está activo en el ScrollTrigger. Sin esto el valor calculado en mount no responde a resize.\n43-- Confianza: confirmado\n44-- ⚠ Validar contra código actual.\n45-\n46----\n47-\n48-### [animation] Columnas de scroll infinito vertical con salto en el loop\n49-\n50-- Contexto: Columnas de cards que hacen scroll infinito vertical (similar al marquee horizontal pero vertical).\n--\n94-- ⚠ Validar contra código actual.\n95-\n96----\n97-\n98-### [animation] Flash / línea blanca en el borde inferior de sección dark con pin rápido\n99-\n100-- Contexto: Sección dark (`background: un color oscuro`) con `pin: true`, fondo del body claro (cream).\n101-- Causa probable: (A) Durante scroll rápido, GSAP activa el pin con un frame de retraso → el spacer/fondo del body asoma un instante. (B) El `.gsap-pin-spacer` hereda el fondo del body, que es cream, no dark.\n102:- Pista: Verificar `anticipatePin: 1` en el ScrollTrigger de secciones dark pinned. Verificar que el `.gsap-pin-spacer` tiene el color de fondo correcto asignado vía CSS (`:has(#id)`), no solo vía JS. El CSS es más seguro porque aplica antes del primer paint.\n103-- Confianza: confirmado\n104-- ⚠ Validar contra código actual.\n105-\n106----\n107-\n108-### [animation] Reveal de texto tipo \"cortina que sube\" (clip + blur)\n109-\n110-- Contexto: H2 o título cuyas líneas deben aparecer subiendo desde debajo mientras se despejan.\n--\n114-- ⚠ Validar contra código actual.\n115-\n116----\n117-\n118-### [animation] Texto scramble / decode efecto terminal\n119-\n120-- Contexto: Subtítulo o párrafo que aparece como ruido aleatorio y se \"decodifica\" letra a letra.\n121-- Causa probable: N/A (patrón de diseño).\n122:- Pista: `setInterval` con caracteres aleatorios que revela el texto real de izquierda a derecha. Los espacios y guiones deben preservarse (no reemplazarlos con CHARS o el texto \"baila\" lateralmente). Disparar con `IntersectionObserver`, no con ScrollTrigger — es one-shot y no necesita sincronización con el scroll.\n123-- Confianza: confirmado\n124-- ⚠ Validar contra código actual.\n125-\n126----\n127-\n128-### [animation] GSAP apila tweens sobre el mismo elemento — vibración o comportamiento indeterminado\n129-\n130-- Contexto: Manejadores de eventos (scroll, mousemove, resize) que llaman `gsap.to` repetidamente sobre el mismo elemento antes de que termine el tween anterior.\n--\n160-- Contexto: Componente con navegación por pasos. Botones que parecen habilitados pero no responden al primer clic.\n161-- Causa probable: `busyRef` (ref síncrona, se resetea inmediatamente en `onComplete`) y estado React `fading` (async, se procesa 1–2 frames después en modo concurrente) usados simultáneamente como guards. Durante la ventana de 1–2 frames, `busyRef` ya acepta clics pero el botón sigue `disabled={fading}`.\n162-- Pista: Buscar componentes donde un `disabled` en el JSX depende de un estado React que se resetea en el mismo `onComplete` que un ref. El ref siempre va a ser más rápido. Si el patrón es \"ref para bloquear la función + estado para deshabilitar el botón\", hay riesgo de carrera.\n163-- Confianza: confirmado\n164-- ⚠ Validar contra código actual.\n165-\n166----\n167-\n168:### [animation] ScrollTrigger `onUpdate` pre-llena estado visual que debería empezar vacío\n169-\n170:- Contexto: Elemento visual (barra, fill, indicador) cuyo estado inicial en el JSX difiere del valor que `onUpdate` calculará con `progress = 0`.\n171:- Causa probable: El primer frame de `onUpdate` sobreescribe el estado inicial del JSX (ej. `scaleY(1)`) con el valor correcto para `progress=0` (ej. `scaleY(0)`). El usuario ve el flash del estado inicial incorrecto.\n172:- Pista: El markup debe siempre reflejar el estado real con `progress=0` (generalmente `0`/vacío/oculto). `onUpdate` es la única fuente de verdad para cualquier valor que controle. Buscar elementos con estado inicial en JSX que también son actualizados por `onUpdate`.\n173-- Confianza: confirmado\n174-- ⚠ Validar contra código actual.\n175-\n176----\n177-\n178-### [animation] GSAP sobreescribe `display:none` de elementos que deben estar ocultos\n179-\n180-- Contexto: Elemento con `display:none` vía CSS (Tailwind `hidden`, media query) que también tiene una animación GSAP de entrada.\n--\n214-- Confianza: confirmado (dos apariciones independientes en un mismo proyecto: FOUC del nav en páginas no-target y parpadeo del nav al navegar entre rutas)\n215-- ⚠ Validar contra código actual.\n216-\n217----\n218-\n219-### [animation] Elemento con reveal al scroll queda atrapado oculto por layout shift de fuentes web\n220-\n221-- Contexto: Sección con reveal al scroll (`gsap.fromTo` + `scrollTrigger`) cuyo estado inicial oculta el elemento (`translateY(110%)` dentro de `overflow:hidden`, `opacity:0`). Síntoma: un elemento concreto (típicamente un titular display grande) nunca aparece y deja un hueco vacío, mientras que otros elementos de la misma sección con trigger más permisivo sí se revelan.\n222:[Omitted long matching line]\n223:- Pista: Llamar `document.fonts.ready.then(() => ScrollTrigger.refresh())` dentro del `useGSAP` después de crear los triggers, para recalcular los `start` una vez asentadas las fuentes. Un `ScrollTrigger.refresh()` síncrono inmediato NO basta: corre antes de `fonts.ready`. Aplicar en TODA sección con scroll-reveal de este proyecto (usa `next/font`). Si un reveal \"no aparece\" pero otros de la misma sección sí, sospechar de esto antes que del trigger.\n224-- Confianza: confirmado \n225-- ⚠ Validar contra código actual.\n226-\n227----\n228-\n229-### [animation] Selectores string GSAP en callbacks async (IO / eventos) no quedan scoped a `gsap.context`\n230-\n231-- Contexto: Reveal de una sección disparado por `IntersectionObserver` (o handler de evento) donde la función de animación usa selectores string (`gsap.fromTo(\"[data-reveal]\", ...)`). Varias secciones comparten el mismo data-attribute (`data-reveal`, `data-fade` en Hero, About y CTA).\n--\n331-- Contexto: Reveal de titular que espera a que la fuente cargue antes de medir (`document.fonts.ready.then(() => { const tl = gsap.timeline({...}); tl.fromTo(\"[data-word]\", ...) })`), todo dentro de `useGSAP(..., { scope: root })`. Se ve correcto y funciona a la primera. En dev, el texto ya visible vuelve a arrancar desde abajo: un parpadeo que no se explica leyendo el timeline.\n332-[Omitted long context line]\n333-[Omitted long context line]\n334-- Confianza: confirmado (numerologia, Fase 3.C — el mismo patrón estaba en Hero y CtaFinal)\n335-- ⚠ Validar contra código actual.\n336-\n337----\n338-\n339:### [animation] `ScrollTrigger.getAll().forEach(t => t.kill())` como limpieza de UN componente apaga los triggers de TODOS\n340-\n341:- Contexto: Varias secciones con su propio `useGSAP` + ScrollTrigger, cada una cerrando con `return () => ScrollTrigger.getAll().forEach(t => t.kill())`. Parece una limpieza responsable y pasa cualquier revisión: el componente \"se limpia al desmontar\".\n342-- Causa probable: `getAll()` es un registro **global** de la página, no del componente. Desmontar una sección mata también los triggers de sus hermanas, que siguen montadas y se quedan sin animación (o con su estado inicial inline congelado: invisibles). En producción con montaje único no se nota; aparece con Fast Refresh, con rutas que montan y desmontan secciones, o con cualquier render condicional.\n343:- Pista: cada componente se lleva solo lo suyo. Si el tween nace dentro de un `gsap.matchMedia()`, `return () => mq.revert()` — revierte exactamente lo que nació ahí dentro, ScrollTrigger incluido. Si nace suelto y síncrono, `useGSAP` ya lo limpia y no hace falta cleanup. Si nace asíncrono (ver la entrada de arriba), guardar la referencia y matar `tl.scrollTrigger` + `tl`. Regla corta: **si la limpieza nombra `getAll()`, está tocando algo que no es suyo.**\n344-- Confianza: confirmado (numerologia, Fase 3.C — estaba en dos secciones a la vez)\n345-- ⚠ Validar contra código actual.\n346-\n347----\n348-\n349-### [animation] `background-attachment: fixed` en capas de sección — el scroll de todo el sitio se siente pesado\n350-\n351-- Contexto: Capas decorativas absolutas (grilla, textura, glow) dentro de cada sección, con el patrón anclado al viewport para que las líneas queden alineadas entre secciones. Típicamente en un componente compartido que se monta en cada sección de cada página.\n--\n364-- Confianza: confirmado (blockchain-lab-uai, jul-2026)\n365-- ⚠ Validar contra código actual.\n366-\n367----\n368-\n369-### [animation] `dependencies: [isMobile]` en `useGSAP` — el reveal se ejecuta dos veces en móvil y las cards parpadean\n370-\n371-- Contexto: Componentes con reveal por scroll que además bifurcan el layout con un hook tipo `useIsMobile()` (estado que arranca en `false` y se corrige en un layout effect, para no romper la hidratación). El hook termina copiado a la lista de dependencias del `useGSAP`, se use o no dentro del callback.\n372:[Omitted long matching line]\n373:[Omitted long matching line]\n374-- Confianza: confirmado (blockchain-lab-uai, jul-2026 — 20 componentes)\n375-- ⚠ Validar contra código actual.\n376-\n377----\n378-\n379-### [animation] Portar un arreglo de performance a un sitio hermano — el costo es del lenguaje visual, no del sitio\n380-\n381-- Contexto: Un sitio del área queda notoriamente más ligero tras una sesión de performance, y se pide \"aplicarle ese mismo estándar\" a otro. Los dos comparten área, stack y Lore, así que la tarea parece un trasplante de commit."
+          }
+        ]
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "ec57492e-9227-4cc5-b5b1-6f5ed533d988",
+      "timestamp": "2026-08-11T22:20:23.178Z",
+      "tool_use_result": {
+        "mode": "content",
+        "numFiles": 0,
+        "filenames": [],
+        "content": "1:# lore/animation.md — GSAP / ScrollTrigger / CSS Animation\n2-\n3-> Pistas históricas, NO fuente de verdad. Leads a validar, no recetas.\n4-> ⚠ Validar contra código actual antes de actuar.\n5-\n6----\n7-\n8-### [animation] Flash de elementos antes de que arranque GSAP (FOUC de animación)\n9-\n--\n20-- Contexto: Marquee infinito horizontal. Puede ocurrir con GSAP o CSS puro.\n21-- Causa probable: Pocas copias del contenido o el porcentaje del keyframe no coincide con el número de copias. Con GSAP, la medición del DOM llega tarde → el elemento aparece en `x:0` un frame antes de saltar.\n22-- Pista: Verificar número de copias (4 copias → keyframe a -25%; 2 copias → -50%). CSS puro es más confiable que GSAP para marquees porque no tiene la penalidad de la medición asíncrona del DOM. Si se usa GSAP, sospechar de `halfWidth` calculado tarde.\n23-- Confianza: confirmado\n24-- ⚠ Validar contra código actual.\n25-\n26----\n27-\n28:### [animation] Barra de progreso con reflow en cada frame\n29-\n30:- Contexto: Barra de progreso actualizada en `onUpdate` de ScrollTrigger (60fps).\n31-- Causa probable: Implementación que cambia `width` en cada frame en vez de `transform`.\n32:- Pista: `width` es propiedad de layout — recalcula geometría en cada frame. `scaleX` con `transformOrigin: 'left center'` es una operación de compositor puro. Buscar cualquier `element.style.width = ...` dentro de callbacks de 60fps.\n33-- Confianza: confirmado\n34-- ⚠ Validar contra código actual.\n35-\n36----\n37-\n38-### [animation] Scroll horizontal pinned termina en posición incorrecta al redimensionar\n39-\n40-- Contexto: Sección con `pin: true` + scroll horizontal animado (`gsap.to(track, { x: ... })`).\n41-- Causa probable: El `end` y el valor de `x` se calculan una sola vez al montar. Al redimensionar, los valores quedan obsoletos.\n42:- Pista: Convertir `x` y `end` en funciones `() => ...` para que se recalculen. Verificar que `invalidateOnRefresh: true` está activo en el ScrollTrigger. Sin esto el valor calculado en mount no responde a resize.\n43-- Confianza: confirmado\n44-- ⚠ Validar contra código actual.\n45-\n46----\n47-\n48-### [animation] Columnas de scroll infinito vertical con salto en el loop\n49-\n50-- Contexto: Columnas de cards que hacen scroll infinito vertical (similar al marquee horizontal pero vertical).\n--\n94-- ⚠ Validar contra código actual.\n95-\n96----\n97-\n98-### [animation] Flash / línea blanca en el borde inferior de sección dark con pin rápido\n99-\n100-- Contexto: Sección dark (`background: un color oscuro`) con `pin: true`, fondo del body claro (cream).\n101-- Causa probable: (A) Durante scroll rápido, GSAP activa el pin con un frame de retraso → el spacer/fondo del body asoma un instante. (B) El `.gsap-pin-spacer` hereda el fondo del body, que es cream, no dark.\n102:- Pista: Verificar `anticipatePin: 1` en el ScrollTrigger de secciones dark pinned. Verificar que el `.gsap-pin-spacer` tiene el color de fondo correcto asignado vía CSS (`:has(#id)`), no solo vía JS. El CSS es más seguro porque aplica antes del primer paint.\n103-- Confianza: confirmado\n104-- ⚠ Validar contra código actual.\n105-\n106----\n107-\n108-### [animation] Reveal de texto tipo \"cortina que sube\" (clip + blur)\n109-\n110-- Contexto: H2 o título cuyas líneas deben aparecer subiendo desde debajo mientras se despejan.\n--\n114-- ⚠ Validar contra código actual.\n115-\n116----\n117-\n118-### [animation] Texto scramble / decode efecto terminal\n119-\n120-- Contexto: Subtítulo o párrafo que aparece como ruido aleatorio y se \"decodifica\" letra a letra.\n121-- Causa probable: N/A (patrón de diseño).\n122:- Pista: `setInterval` con caracteres aleatorios que revela el texto real de izquierda a derecha. Los espacios y guiones deben preservarse (no reemplazarlos con CHARS o el texto \"baila\" lateralmente). Disparar con `IntersectionObserver`, no con ScrollTrigger — es one-shot y no necesita sincronización con el scroll.\n123-- Confianza: confirmado\n124-- ⚠ Validar contra código actual.\n125-\n126----\n127-\n128-### [animation] GSAP apila tweens sobre el mismo elemento — vibración o comportamiento indeterminado\n129-\n130-- Contexto: Manejadores de eventos (scroll, mousemove, resize) que llaman `gsap.to` repetidamente sobre el mismo elemento antes de que termine el tween anterior.\n--\n160-- Contexto: Componente con navegación por pasos. Botones que parecen habilitados pero no responden al primer clic.\n161-- Causa probable: `busyRef` (ref síncrona, se resetea inmediatamente en `onComplete`) y estado React `fading` (async, se procesa 1–2 frames después en modo concurrente) usados simultáneamente como guards. Durante la ventana de 1–2 frames, `busyRef` ya acepta clics pero el botón sigue `disabled={fading}`.\n162-- Pista: Buscar componentes donde un `disabled` en el JSX depende de un estado React que se resetea en el mismo `onComplete` que un ref. El ref siempre va a ser más rápido. Si el patrón es \"ref para bloquear la función + estado para deshabilitar el botón\", hay riesgo de carrera.\n163-- Confianza: confirmado\n164-- ⚠ Validar contra código actual.\n165-\n166----\n167-\n168:### [animation] ScrollTrigger `onUpdate` pre-llena estado visual que debería empezar vacío\n169-\n170:- Contexto: Elemento visual (barra, fill, indicador) cuyo estado inicial en el JSX difiere del valor que `onUpdate` calculará con `progress = 0`.\n171:- Causa probable: El primer frame de `onUpdate` sobreescribe el estado inicial del JSX (ej. `scaleY(1)`) con el valor correcto para `progress=0` (ej. `scaleY(0)`). El usuario ve el flash del estado inicial incorrecto.\n172:- Pista: El markup debe siempre reflejar el estado real con `progress=0` (generalmente `0`/vacío/oculto). `onUpdate` es la única fuente de verdad para cualquier valor que controle. Buscar elementos con estado inicial en JSX que también son actualizados por `onUpdate`.\n173-- Confianza: confirmado\n174-- ⚠ Validar contra código actual.\n175-\n176----\n177-\n178-### [animation] GSAP sobreescribe `display:none` de elementos que deben estar ocultos\n179-\n180-- Contexto: Elemento con `display:none` vía CSS (Tailwind `hidden`, media query) que también tiene una animación GSAP de entrada.\n--\n214-- Confianza: confirmado (dos apariciones independientes en un mismo proyecto: FOUC del nav en páginas no-target y parpadeo del nav al navegar entre rutas)\n215-- ⚠ Validar contra código actual.\n216-\n217----\n218-\n219-### [animation] Elemento con reveal al scroll queda atrapado oculto por layout shift de fuentes web\n220-\n221-- Contexto: Sección con reveal al scroll (`gsap.fromTo` + `scrollTrigger`) cuyo estado inicial oculta el elemento (`translateY(110%)` dentro de `overflow:hidden`, `opacity:0`). Síntoma: un elemento concreto (típicamente un titular display grande) nunca aparece y deja un hueco vacío, mientras que otros elementos de la misma sección con trigger más permisivo sí se revelan.\n222:[Omitted long matching line]\n223:- Pista: Llamar `document.fonts.ready.then(() => ScrollTrigger.refresh())` dentro del `useGSAP` después de crear los triggers, para recalcular los `start` una vez asentadas las fuentes. Un `ScrollTrigger.refresh()` síncrono inmediato NO basta: corre antes de `fonts.ready`. Aplicar en TODA sección con scroll-reveal de este proyecto (usa `next/font`). Si un reveal \"no aparece\" pero otros de la misma sección sí, sospechar de esto antes que del trigger.\n224-- Confianza: confirmado \n225-- ⚠ Validar contra código actual.\n226-\n227----\n228-\n229-### [animation] Selectores string GSAP en callbacks async (IO / eventos) no quedan scoped a `gsap.context`\n230-\n231-- Contexto: Reveal de una sección disparado por `IntersectionObserver` (o handler de evento) donde la función de animación usa selectores string (`gsap.fromTo(\"[data-reveal]\", ...)`). Varias secciones comparten el mismo data-attribute (`data-reveal`, `data-fade` en Hero, About y CTA).\n--\n331-- Contexto: Reveal de titular que espera a que la fuente cargue antes de medir (`document.fonts.ready.then(() => { const tl = gsap.timeline({...}); tl.fromTo(\"[data-word]\", ...) })`), todo dentro de `useGSAP(..., { scope: root })`. Se ve correcto y funciona a la primera. En dev, el texto ya visible vuelve a arrancar desde abajo: un parpadeo que no se explica leyendo el timeline.\n332-[Omitted long context line]\n333-[Omitted long context line]\n334-- Confianza: confirmado (numerologia, Fase 3.C — el mismo patrón estaba en Hero y CtaFinal)\n335-- ⚠ Validar contra código actual.\n336-\n337----\n338-\n339:### [animation] `ScrollTrigger.getAll().forEach(t => t.kill())` como limpieza de UN componente apaga los triggers de TODOS\n340-\n341:- Contexto: Varias secciones con su propio `useGSAP` + ScrollTrigger, cada una cerrando con `return () => ScrollTrigger.getAll().forEach(t => t.kill())`. Parece una limpieza responsable y pasa cualquier revisión: el componente \"se limpia al desmontar\".\n342-- Causa probable: `getAll()` es un registro **global** de la página, no del componente. Desmontar una sección mata también los triggers de sus hermanas, que siguen montadas y se quedan sin animación (o con su estado inicial inline congelado: invisibles). En producción con montaje único no se nota; aparece con Fast Refresh, con rutas que montan y desmontan secciones, o con cualquier render condicional.\n343:- Pista: cada componente se lleva solo lo suyo. Si el tween nace dentro de un `gsap.matchMedia()`, `return () => mq.revert()` — revierte exactamente lo que nació ahí dentro, ScrollTrigger incluido. Si nace suelto y síncrono, `useGSAP` ya lo limpia y no hace falta cleanup. Si nace asíncrono (ver la entrada de arriba), guardar la referencia y matar `tl.scrollTrigger` + `tl`. Regla corta: **si la limpieza nombra `getAll()`, está tocando algo que no es suyo.**\n344-- Confianza: confirmado (numerologia, Fase 3.C — estaba en dos secciones a la vez)\n345-- ⚠ Validar contra código actual.\n346-\n347----\n348-\n349-### [animation] `background-attachment: fixed` en capas de sección — el scroll de todo el sitio se siente pesado\n350-\n351-- Contexto: Capas decorativas absolutas (grilla, textura, glow) dentro de cada sección, con el patrón anclado al viewport para que las líneas queden alineadas entre secciones. Típicamente en un componente compartido que se monta en cada sección de cada página.\n--\n364-- Confianza: confirmado (blockchain-lab-uai, jul-2026)\n365-- ⚠ Validar contra código actual.\n366-\n367----\n368-\n369-### [animation] `dependencies: [isMobile]` en `useGSAP` — el reveal se ejecuta dos veces en móvil y las cards parpadean\n370-\n371-- Contexto: Componentes con reveal por scroll que además bifurcan el layout con un hook tipo `useIsMobile()` (estado que arranca en `false` y se corrige en un layout effect, para no romper la hidratación). El hook termina copiado a la lista de dependencias del `useGSAP`, se use o no dentro del callback.\n372:[Omitted long matching line]\n373:[Omitted long matching line]\n374-- Confianza: confirmado (blockchain-lab-uai, jul-2026 — 20 componentes)\n375-- ⚠ Validar contra código actual.\n376-\n377----\n378-\n379-### [animation] Portar un arreglo de performance a un sitio hermano — el costo es del lenguaje visual, no del sitio\n380-\n381-- Contexto: Un sitio del área queda notoriamente más ligero tras una sesión de performance, y se pide \"aplicarle ese mismo estándar\" a otro. Los dos comparten área, stack y Lore, así que la tarea parece un trasplante de commit.",
+        "numLines": 159,
+        "totalLines": 159
+      }
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 50,
+      "estimated_tokens_delta": 50,
+      "uuid": "abf9c9ed-c438-41f0-8496-524ab2a2bf3c",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 200,
+      "estimated_tokens_delta": 150,
+      "uuid": "7841f7eb-ccb1-477c-bf15-f5a61ad49c4c",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 400,
+      "estimated_tokens_delta": 200,
+      "uuid": "b003d7a3-6874-4b1e-a4f4-b94e0bbf2fcc",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011CdwjqmakJAiXVCZPGf7Dv",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "",
+            "signature": "EsAJCokBCBAYAipA3USRccVYgzE7m+422QR7CXf0zrGpYDnvdrcfEMU8IKC4eKgAYbiivT0MOrGyYXtP+hvPCFkrFX8xgcXdD5CwkDIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQyYWM0Mjg1MS0zNTYyLTQ0NWQtYTc5OS02ZTdjZjc4MjUyNWYSDBITErDn7WPIu7X2BRoMBde0KlrZGy0H48F+IjCGYVV+OH8csLYigls5zV52vagNm2tRydX+GBVmWrjG0A66Jgb+GrBbvQvcwKR7FdYq4wd1FADgxhnGxsf8vV216Mk9saHSm95Crqo0T8pf+f3QJcXjv5Ahxb3ZSPWpsbWOejYjDqRUHGKiZJxhUI0+hIVAmGfH8+EnSQutsqO/wJl+Xr7fc2G3mufvnrrweizbLUeHqNk5X6Tz+XxLqN85MpIB7LmXrkifCRUyRFFJDKGAWdnsmM8XcFejFzL1Nb9xFJOTVkyuwzcflloOPfbhyAyw/b6UL0PATqLxUMSeeJrsGzuIFRKRoBHVe5Ih66z84Rd95E8mdp6rGT/10F8BKn+BhMcGAiXxVEakvma6zfnGZ15xJBR2+ubRfMivxdmLJYwuElf+r+/yu/+kamyY8welGeIHwwGEVARlKzP2LjL0tfvvpto7m4AFwM3Ay7slQdDd/39zwvLBSuipFBueG+t2QXjDJCe/VaDVicFPxm5dWUR9ROtiWqtgtoWkd5WlrruL1Aj1Htqblj79Cu89lF2B7HnYGkQPRzMKaLJRJRC0blMV/9skULVA5ZHvxPBMgkDMHx2fL3jGYcPW41uyMU/fKpzAn7E77cwPJawCjv8OstXvUy+m/oeY9mUhQ25+5H4gIP9tOVxQBs8fdMgIVG5fj7fPc402v0GEEoAqvHlAQqhVwrZeEtaQlXHHYkyBZuUN9b/RXnjhGvDpBeNzmunv7zwO2qKt1tde8NpiJKBxu6cyxL7QG52MqlClm1GAxlRiBrfosT2Rsjicv0nj19ZU+4oHcC2UyR66ZKlaqYs27XvJgZeoI1yXlU+pJCmrlOAb286hhBMa+Q2tYvdB5fwirY4XjfNt2h/eTzdxzR6T5HgLeBYbDCOV0iktBWdQbiD8Cc8YRuwVPJeL0+UD0feWMxVSinuqw3FOOSUPzM4Jwu9P6iqTF6aFL/tVlplG8guVcQ+sWSeV/wuvMubRAlPByJqeowmBT2KeqIe6vjT+qkgKmRLXKkHY3z/yKd/IqS/JTUaJO60RgQGkOJMFc0c2fXWb9aDPZz5rMEuoqaerovNtvD2xNFideONw/vlrlmhiWosSSUUqBsU9Mv0lawljqtkelK8q3UT0kFlrpZJIHTq1zKXkoDz2IVtWDcVyK2GUunuRgUhMNnVX50Ou5M9EJLaNiGcFOvjdHkW1uJ3ajRxd6LrUipNsgpJHiBn6yJwIylupmLVuTdTaHHPlV2a2VcF5Jd9MkmjxAOfnUKAJ6G1685EVN/jIinjTzgkbzWjvjNNvE73kPgqVJ0QZVcPNm8zVV9lxgk01gN+04htT4vY9hlMCi8KUKwpKKRXRBdh/GER533FNbOIA08Dh03FDfwcn4F9j8BmvEeDs0ENOgSVUIhgB"
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 5121,
+          "cache_read_input_tokens": 36559,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 5121
+          },
+          "output_tokens": 3,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "549176f1-cb5e-4d66-8cd8-62b80737264b",
+      "timestamp": "2026-08-11T22:20:28.347Z",
+      "request_id": "req_011Cdwjqm5yrEJ1kNN6koFkb"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011CdwjqmakJAiXVCZPGf7Dv",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "toolu_01Qx47us2mJ7EedmuXWzBVia",
+            "name": "Grep",
+            "input": {
+              "pattern": "GSAP plugins acceden a|lib/gsap.ts|SSR",
+              "path": "C:\\Claude\\lore-plugin\\bench\\fixtures\\lore\\lore\\routing.md",
+              "output_mode": "content",
+              "-n": true,
+              "-C": 6
+            },
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 5121,
+          "cache_read_input_tokens": 36559,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 5121
+          },
+          "output_tokens": 3,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "2d8a0ef3-4332-48d4-a83c-6d0c4def85f1",
+      "timestamp": "2026-08-11T22:20:29.437Z",
+      "request_id": "req_011Cdwjqm5yrEJ1kNN6koFkb"
+    },
+    {
+      "type": "user",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "tool_use_id": "toolu_01Qx47us2mJ7EedmuXWzBVia",
+            "type": "tool_result",
+            "content": "2-\n3-> Pistas históricas, NO fuente de verdad. Leads a validar, no recetas.\n4-> ⚠ Validar contra código actual antes de actuar.\n5-\n6----\n7-\n8:### [routing] GSAP falla en SSR / build de Next.js — `window is not defined`\n9-\n10-- Contexto: Cualquier proyecto Next.js con GSAP plugins (ScrollTrigger, SplitText, etc.).\n11-- Causa probable: Los plugins de GSAP acceden a `window` en el momento del import. Next.js renderiza en el servidor donde `window` no existe.\n12:- Pista: Centralizar todos los imports de GSAP en un único archivo (`lib/gsap.ts`). El registro de plugins debe estar dentro de un guard `if (typeof window !== 'undefined')`. Nunca importar `{ gsap } from 'gsap'` directamente en componentes — siempre desde el archivo centralizado donde el guard ya existe.\n13-- Confianza: confirmado\n14-- ⚠ Validar contra código actual.\n15-\n16----\n17-\n18-### [routing] Hydration mismatch en componentes con estado dependiente del tiempo\n19-\n20-- Contexto: Contadores regresivos, relojes, fechas calculadas, cualquier valor que dependa de `Date.now()`.\n21-- Causa probable: El servidor renderiza el componente con un valor de tiempo que diverge inevitablemente del primer render del cliente. React detecta la diferencia y lanza error de hydration (o parpadeo silencioso).\n22:- Pista: Estado inicial `null` en SSR + `useEffect` para asignar el valor real solo en cliente. Si el salto de altura al aparecer el componente es un problema, usar un skeleton con las mismas dimensiones. Aplica a cualquier valor que dependa de `Date`, `Math.random()`, `window`, `navigator` o `localStorage`.\n23-- Confianza: confirmado\n24-- ⚠ Validar contra código actual.\n25-\n26----\n27-\n28-### [routing] Next.js 16 — `params` y `searchParams` son Promise (breaking change)"
+          }
+        ]
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "c45c624a-4b3f-4cd5-9ff6-99dd374b5430",
+      "timestamp": "2026-08-11T22:20:29.492Z",
+      "tool_use_result": {
+        "mode": "content",
+        "numFiles": 0,
+        "filenames": [],
+        "content": "2-\n3-> Pistas históricas, NO fuente de verdad. Leads a validar, no recetas.\n4-> ⚠ Validar contra código actual antes de actuar.\n5-\n6----\n7-\n8:### [routing] GSAP falla en SSR / build de Next.js — `window is not defined`\n9-\n10-- Contexto: Cualquier proyecto Next.js con GSAP plugins (ScrollTrigger, SplitText, etc.).\n11-- Causa probable: Los plugins de GSAP acceden a `window` en el momento del import. Next.js renderiza en el servidor donde `window` no existe.\n12:- Pista: Centralizar todos los imports de GSAP en un único archivo (`lib/gsap.ts`). El registro de plugins debe estar dentro de un guard `if (typeof window !== 'undefined')`. Nunca importar `{ gsap } from 'gsap'` directamente en componentes — siempre desde el archivo centralizado donde el guard ya existe.\n13-- Confianza: confirmado\n14-- ⚠ Validar contra código actual.\n15-\n16----\n17-\n18-### [routing] Hydration mismatch en componentes con estado dependiente del tiempo\n19-\n20-- Contexto: Contadores regresivos, relojes, fechas calculadas, cualquier valor que dependa de `Date.now()`.\n21-- Causa probable: El servidor renderiza el componente con un valor de tiempo que diverge inevitablemente del primer render del cliente. React detecta la diferencia y lanza error de hydration (o parpadeo silencioso).\n22:- Pista: Estado inicial `null` en SSR + `useEffect` para asignar el valor real solo en cliente. Si el salto de altura al aparecer el componente es un problema, usar un skeleton con las mismas dimensiones. Aplica a cualquier valor que dependa de `Date`, `Math.random()`, `window`, `navigator` o `localStorage`.\n23-- Confianza: confirmado\n24-- ⚠ Validar contra código actual.\n25-\n26----\n27-\n28-### [routing] Next.js 16 — `params` y `searchParams` son Promise (breaking change)",
+        "numLines": 27,
+        "totalLines": 27
+      }
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 100,
+      "estimated_tokens_delta": 100,
+      "uuid": "cbe80168-66f9-4df0-a976-505308aac365",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011CdwjrF2VsyrGF89FjoAF5",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "",
+            "signature": "EokDCokBCBAYAipAeqaMKNZzVYGFl31LebppCP5CJ++vw8rPPmBGhTlAwSz3xncDYOBVyqV7QOFHeCn9Org6IVoA6/V45BiIfaT2FjIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQyYWM0Mjg1MS0zNTYyLTQ0NWQtYTc5OS02ZTdjZjc4MjUyNWYSDDI0hnhapHWMP8I+0xoMFmoFovN6xNDFf1CUIjAj6nXePDdoplUTI2iabv4agb0t34HNPC5TXmUwjDRi1MMYXeneKN/PK3/PqQ1BaYEqrAGRk5U0/5nHzzSCsckwXtaWcqRGSMX6ZpWtUABUmjj+K6knsUW5TsWlhyeTlgvYXGoknyIQmqv6ZRpa6DvrR4D8IDTGSwrJRfC5SlpmQ0EW8Yksdq+kC4RnqEbXhi5BxQApoNqFV3C1T0CExnBlp3UxKIyTK0fjpxKoj+NHkDHDPI/1FrE9seM5Uh9gMAaDveTeaHOy8RjdXWQGl+m43bwdo2wyIks+2HHKyC6IGAE="
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 1314,
+          "cache_read_input_tokens": 41680,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1314
+          },
+          "output_tokens": 9,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "c6779cdf-621d-43b4-9c45-2e2b79b12006",
+      "timestamp": "2026-08-11T22:20:31.666Z",
+      "request_id": "req_011CdwjrEBeVSrZaC6V6zi8A"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011CdwjrF2VsyrGF89FjoAF5",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "toolu_015xHDaNnYBK9MLeUaVZBM81",
+            "name": "Bash",
+            "input": {
+              "command": "cd \"C:\\Claude\\lore-plugin\\bench\\fixtures\\lore\" && find . -iname \"*gsap*\" -not -path \"*/node_modules/*\" -not -path \"*/lore/*\" 2>/dev/null; echo \"---lenis---\"; find . -iname \"*lenis*\" -not -path \"*/node_modules/*\" 2>/dev/null; echo \"---components---\"; find . -path \"*/node_modules/*\" -prune -o -iname \"*.tsx\" -print 2>/dev/null | head -50"
+            },
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 1314,
+          "cache_read_input_tokens": 41680,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1314
+          },
+          "output_tokens": 9,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "c431bedb-f628-404d-83bf-3cc382722231",
+      "timestamp": "2026-08-11T22:20:32.480Z",
+      "request_id": "req_011CdwjrEBeVSrZaC6V6zi8A"
+    },
+    {
+      "type": "user",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "tool_use_id": "toolu_015xHDaNnYBK9MLeUaVZBM81",
+            "type": "tool_result",
+            "content": "---lenis---\n---components---",
+            "is_error": false
+          }
+        ]
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "38490f87-1d47-4a7a-9d32-d018d0c7e808",
+      "timestamp": "2026-08-11T22:20:33.284Z",
+      "tool_use_result": {
+        "stdout": "---lenis---\n---components---",
+        "stderr": "",
+        "interrupted": false,
+        "isImage": false,
+        "noOutputExpected": false
+      }
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 50,
+      "estimated_tokens_delta": 50,
+      "uuid": "06e481e9-8cea-4717-a6dc-f2300b909507",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 103,
+      "estimated_tokens_delta": 53,
+      "uuid": "29d25637-e8f5-4528-b5fd-8b83d1298ff0",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011CdwjrXG4M8e2PM5QBKrAk",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "",
+            "signature": "EpYDCokBCBAYAipAtIsw0ZWvIP82sdNe0hS7foyLiMiNPx3YVxO2JT6kl+NfUz//31276Z0/Z4fZEHurgNYJcXc8RcVmbc/QRNpMGTIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQyYWM0Mjg1MS0zNTYyLTQ0NWQtYTc5OS02ZTdjZjc4MjUyNWYSDFNKZVIhREPEHJmf1hoMF4iPnv+2HFYU7yxWIjC/kGxHhHtFKcBY2h0pQuOMMOLH4i2BSNyIn6q6WxyUaUH88ekUn+IgDQXHQS5APVkquQFQK2Y0pG3M+iPQb3tHsOcVv7ZjBvWkag5+7ga+ee1sDSNRuKs6wVPycAyb7aQBUkwc4CzsILVxobBBU4OmpKBtfn8WNF3NEaK9QrvG4LOhLCdhtCO3C11w5B8oPKF3Ys2Lo51N6zguwZU1SFWhGQzJTdkQq3xLZvVMNFdibpr0L+IMI0udgOw3W1Qnd8pkJ2vWnqWy+gfyCH4KDPAhYogyzaKRC/b2byJTH/yHtJUiJfVAr170hflFAhgB"
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 288,
+          "cache_read_input_tokens": 42994,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 288
+          },
+          "output_tokens": 5,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "c59c47a1-872a-482e-97f2-29e9253ae9e7",
+      "timestamp": "2026-08-11T22:20:35.318Z",
+      "request_id": "req_011CdwjrWRCszPEoU5nRzymN"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011CdwjrXG4M8e2PM5QBKrAk",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "toolu_01GoPamfit1DKiGBiBzUQk4h",
+            "name": "Bash",
+            "input": {
+              "command": "cd \"C:\\Claude\\lore-plugin\\bench\\fixtures\\lore\" && find . -maxdepth 3 -not -path \"*/.git*\" | sort"
+            },
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 288,
+          "cache_read_input_tokens": 42994,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 288
+          },
+          "output_tokens": 5,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "11857f0f-4083-4adf-824e-cf2bbae4ac04",
+      "timestamp": "2026-08-11T22:20:35.524Z",
+      "request_id": "req_011CdwjrWRCszPEoU5nRzymN"
+    },
+    {
+      "type": "user",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "tool_use_id": "toolu_01GoPamfit1DKiGBiBzUQk4h",
+            "type": "tool_result",
+            "content": ".\n./CLAUDE.md\n./lore\n./lore/animation.md\n./lore/composicion.md\n./lore/copy.md\n./lore/deploy.md\n./lore/identidad.md\n./lore/index.md\n./lore/investigacion.md\n./lore/layout.md\n./lore/moodboard.md\n./lore/principios.md\n./lore/responsive.md\n./lore/routing.md\n./lore/scroll.md\n./lore/seo.md\n./lore/stripe.md\n./lore/supabase.md\n./lore/testing.md\n./lore/tiers.md\n./package.json",
+            "is_error": false
+          }
+        ]
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "a78685e3-75cd-40a5-a32a-375052528c1a",
+      "timestamp": "2026-08-11T22:20:35.658Z",
+      "tool_use_result": {
+        "stdout": ".\n./CLAUDE.md\n./lore\n./lore/animation.md\n./lore/composicion.md\n./lore/copy.md\n./lore/deploy.md\n./lore/identidad.md\n./lore/index.md\n./lore/investigacion.md\n./lore/layout.md\n./lore/moodboard.md\n./lore/principios.md\n./lore/responsive.md\n./lore/routing.md\n./lore/scroll.md\n./lore/seo.md\n./lore/stripe.md\n./lore/supabase.md\n./lore/testing.md\n./lore/tiers.md\n./package.json",
+        "stderr": "",
+        "interrupted": false,
+        "isImage": false,
+        "noOutputExpected": false
+      }
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 50,
+      "estimated_tokens_delta": 50,
+      "uuid": "0b2f424a-cb16-40e8-8406-16b1d28fd2d1",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 200,
+      "estimated_tokens_delta": 150,
+      "uuid": "338d323c-3a1f-44a8-aeca-114113dd354c",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 350,
+      "estimated_tokens_delta": 150,
+      "uuid": "930e1eb2-d302-4c3f-a1a1-ad7def365618",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 500,
+      "estimated_tokens_delta": 150,
+      "uuid": "df123a15-b2dd-405f-8ad8-e469714969b9",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 650,
+      "estimated_tokens_delta": 150,
+      "uuid": "dfe28922-9d5e-48b8-b22c-cd4c1d76f280",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 800,
+      "estimated_tokens_delta": 150,
+      "uuid": "22da8dc3-cf3a-424f-b318-f5b19b8b763b",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011CdwjrhgNi5pHDBk5WrrCG",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "",
+            "signature": "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"
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 358,
+          "cache_read_input_tokens": 43282,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 358
+          },
+          "output_tokens": 5,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "d3e8588c-c751-49ce-99c7-e0304e1e5727",
+      "timestamp": "2026-08-11T22:20:45.560Z",
+      "request_id": "req_011CdwjrggM4KHoaPsXDLeZ8"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011CdwjrhgNi5pHDBk5WrrCG",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "toolu_01G7m2ohQjTzddXpfVDnhVs7",
+            "name": "Read",
+            "input": {
+              "file_path": "C:\\Claude\\lore-plugin\\bench\\fixtures\\lore\\package.json"
+            },
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 358,
+          "cache_read_input_tokens": 43282,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 358
+          },
+          "output_tokens": 5,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "97abefdf-dd22-435f-b78d-d603ab3256ba",
+      "timestamp": "2026-08-11T22:20:45.679Z",
+      "request_id": "req_011CdwjrggM4KHoaPsXDLeZ8"
+    },
+    {
+      "type": "user",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "tool_use_id": "toolu_01G7m2ohQjTzddXpfVDnhVs7",
+            "type": "tool_result",
+            "content": "1\t{\n2\t  \"name\": \"bench-fixture\",\n3\t  \"private\": true,\n4\t  \"type\": \"module\",\n5\t  \"scripts\": {\n6\t    \"dev\": \"next dev\",\n7\t    \"build\": \"next build\"\n8\t  },\n9\t  \"dependencies\": {\n10\t    \"next\": \"^16.2.6\",\n11\t    \"react\": \"^19.2.0\",\n12\t    \"react-dom\": \"^19.2.0\",\n13\t    \"gsap\": \"^3.13.0\",\n14\t    \"@gsap/react\": \"^2.1.2\",\n15\t    \"lenis\": \"^1.3.11\"\n16\t  },\n17\t  \"devDependencies\": {\n18\t    \"@tailwindcss/postcss\": \"^4.1.14\",\n19\t    \"tailwindcss\": \"^4.1.14\",\n20\t    \"typescript\": \"^5.9.3\"\n21\t  }\n22\t}\n23\t"
+          }
+        ]
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "4f03eee3-7466-449d-aebb-c90534c3ef0f",
+      "timestamp": "2026-08-11T22:20:45.684Z",
+      "tool_use_result": {
+        "type": "text",
+        "file": {
+          "filePath": "C:\\Claude\\lore-plugin\\bench\\fixtures\\lore\\package.json",
+          "content": "{\n  \"name\": \"bench-fixture\",\n  \"private\": true,\n  \"type\": \"module\",\n  \"scripts\": {\n    \"dev\": \"next dev\",\n    \"build\": \"next build\"\n  },\n  \"dependencies\": {\n    \"next\": \"^16.2.6\",\n    \"react\": \"^19.2.0\",\n    \"react-dom\": \"^19.2.0\",\n    \"gsap\": \"^3.13.0\",\n    \"@gsap/react\": \"^2.1.2\",\n    \"lenis\": \"^1.3.11\"\n  },\n  \"devDependencies\": {\n    \"@tailwindcss/postcss\": \"^4.1.14\",\n    \"tailwindcss\": \"^4.1.14\",\n    \"typescript\": \"^5.9.3\"\n  }\n}\n",
+          "numLines": 23,
+          "startLine": 1,
+          "totalLines": 23
+        }
+      }
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 50,
+      "estimated_tokens_delta": 50,
+      "uuid": "d948d534-10c4-42d0-85b7-99ceeee325f2",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 111,
+      "estimated_tokens_delta": 61,
+      "uuid": "20ada395-adb8-420a-a183-d7bfee8c889c",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011CdwjsTT99xzfHy7Ns3wqa",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "",
+            "signature": "ErMDCokBCBAYAipAe9SQN4pf95AG+oHIx2pP2Y0IQKLtpvS1qx93QH20VOMEf5+Nk20vN7c0nSPNpisMcJZd8xCNysj+v4IxGZ8f0TIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQyYWM0Mjg1MS0zNTYyLTQ0NWQtYTc5OS02ZTdjZjc4MjUyNWYSDOPJmpV77kf48k932RoMhaHOD8nV5SqFKED8IjDpsR2p4BW3/+qKDBUWEWGCotHBvIdZLTapIoVdOXTXcLy6g7QCpaxKg9grW2SNUZQq1gFIu+kUO14PAWSy1yY4ZQsZ8L52KCaop1JOMpORRj+qtY1JFDFgoAT403fJ0xizRKLVS4Ye9Olit2G2thZIAKW02H/GDOj3BuDdMyWwb26yyzUgSN+4NlSn3mLIy3EEXpa5/bG2Kcrxi8RKFbGjokT90rQeyss+iBGgbYlBVhxwXa7vdKjuUx1c+16edu4gL/gfqF74PTto5ZhT8s6+xIq5jzc4WrGjmctCYswB0QtkPTClo032P+MOdIiilh0ePI+8S+ZJoGcYmIjPE/IcF82ZHaf++3DnGAE="
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 1137,
+          "cache_read_input_tokens": 43640,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1137
+          },
+          "output_tokens": 3,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "c9e347a4-3838-4254-8144-9d79f5ae91eb",
+      "timestamp": "2026-08-11T22:20:48.036Z",
+      "request_id": "req_011CdwjsRTamFTWgprYCSdYh"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011CdwjsTT99xzfHy7Ns3wqa",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "toolu_01PhhR7wkCnvF3kDWExop4Hp",
+            "name": "Grep",
+            "input": {
+              "pattern": "Lenis \\+ ScrollTrigger desincronizados|GSAP ticker",
+              "path": "C:\\Claude\\lore-plugin\\bench\\fixtures\\lore\\lore\\scroll.md",
+              "output_mode": "content",
+              "-n": true,
+              "-C": 10
+            },
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 1137,
+          "cache_read_input_tokens": 43640,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1137
+          },
+          "output_tokens": 3,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "ecd15b23-98e9-4e2d-9a67-7e2de9bd3c41",
+      "timestamp": "2026-08-11T22:20:49.019Z",
+      "request_id": "req_011CdwjsRTamFTWgprYCSdYh"
+    },
+    {
+      "type": "user",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "tool_use_id": "toolu_01PhhR7wkCnvF3kDWExop4Hp",
+            "type": "tool_result",
+            "content": "1-# lore/scroll.md — Lenis / Scroll nativo\n2-\n3-> Pistas históricas, NO fuente de verdad. Leads a validar, no recetas.\n4-> ⚠ Validar contra código actual antes de actuar.\n5-\n6----\n7-\n8:### [scroll] Lenis + ScrollTrigger desincronizados / salto al volver al tab\n9-\n10-- Contexto: Cualquier proyecto con Lenis y GSAP ScrollTrigger activos simultáneamente.\n11-- Causa probable: Lenis y GSAP corren sus propios `requestAnimationFrame` independientes. ScrollTrigger lee `window.scrollY` pero Lenis lo interpola en su propio tick — si los ticks no están sincronizados, ScrollTrigger lee valores obsoletos. El salto al volver al tab lo causa `gsap.ticker.lagSmoothing()` por defecto: GSAP \"compensa\" el tiempo transcurrido en segundo plano saltando hacia adelante.\n12-- Pista: Verificar si Lenis está atado al ticker de GSAP (`gsap.ticker.add(...)`) y si `lagSmoothing(0)` está activo. Sin esto, cualquier scrub o animación ligada al scroll puede desincronizarse. Si el síntoma aparece solo al volver de una pestaña en segundo plano, sospechar del lagSmoothing.\n13-- Confianza: confirmado\n14-- ⚠ Validar contra código actual.\n15-\n16----\n17-\n18-### [scroll] `lenis.scrollTo()` no disponible en componentes hijos"
+          }
+        ]
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "bed6cf41-72cb-423f-bdca-4c001aae1fce",
+      "timestamp": "2026-08-11T22:20:49.077Z",
+      "tool_use_result": {
+        "mode": "content",
+        "numFiles": 0,
+        "filenames": [],
+        "content": "1-# lore/scroll.md — Lenis / Scroll nativo\n2-\n3-> Pistas históricas, NO fuente de verdad. Leads a validar, no recetas.\n4-> ⚠ Validar contra código actual antes de actuar.\n5-\n6----\n7-\n8:### [scroll] Lenis + ScrollTrigger desincronizados / salto al volver al tab\n9-\n10-- Contexto: Cualquier proyecto con Lenis y GSAP ScrollTrigger activos simultáneamente.\n11-- Causa probable: Lenis y GSAP corren sus propios `requestAnimationFrame` independientes. ScrollTrigger lee `window.scrollY` pero Lenis lo interpola en su propio tick — si los ticks no están sincronizados, ScrollTrigger lee valores obsoletos. El salto al volver al tab lo causa `gsap.ticker.lagSmoothing()` por defecto: GSAP \"compensa\" el tiempo transcurrido en segundo plano saltando hacia adelante.\n12-- Pista: Verificar si Lenis está atado al ticker de GSAP (`gsap.ticker.add(...)`) y si `lagSmoothing(0)` está activo. Sin esto, cualquier scrub o animación ligada al scroll puede desincronizarse. Si el síntoma aparece solo al volver de una pestaña en segundo plano, sospechar del lagSmoothing.\n13-- Confianza: confirmado\n14-- ⚠ Validar contra código actual.\n15-\n16----\n17-\n18-### [scroll] `lenis.scrollTo()` no disponible en componentes hijos",
+        "numLines": 18,
+        "totalLines": 18
+      }
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 50,
+      "estimated_tokens_delta": 50,
+      "uuid": "8502a0b7-2687-4a91-b326-df5518c62542",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 150,
+      "estimated_tokens_delta": 100,
+      "uuid": "3e25f5e8-9884-41b8-ac3c-b5ddd4f674ca",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 350,
+      "estimated_tokens_delta": 200,
+      "uuid": "187defb1-9624-4cbc-9fb3-9be6d3dc9fde",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 550,
+      "estimated_tokens_delta": 200,
+      "uuid": "5164abb1-05ba-4990-9d42-ded912439e57",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 700,
+      "estimated_tokens_delta": 150,
+      "uuid": "c0cab483-ea62-4dee-84aa-9d3736f42fa5",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 800,
+      "estimated_tokens_delta": 100,
+      "uuid": "1a20fef0-29c8-44b7-9bee-f94afbfa3c74",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 950,
+      "estimated_tokens_delta": 150,
+      "uuid": "e61a75ee-ddd2-41b6-8d16-2c75c9d266b4",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 1050,
+      "estimated_tokens_delta": 100,
+      "uuid": "3d59793a-21fd-42bd-a647-138beb8051cf",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 1200,
+      "estimated_tokens_delta": 150,
+      "uuid": "d4b1ad79-b245-4012-bdb1-88df077895b8",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 1300,
+      "estimated_tokens_delta": 100,
+      "uuid": "4a8dc5b8-85b4-487b-9a0e-c54327d4bf5e",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 1400,
+      "estimated_tokens_delta": 100,
+      "uuid": "91af1b85-2e0e-409d-934f-01983b650a48",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 1550,
+      "estimated_tokens_delta": 150,
+      "uuid": "ebd5d330-9390-4c43-a2d6-2db8502092ef",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 1700,
+      "estimated_tokens_delta": 150,
+      "uuid": "2cedcfb7-2755-4b82-8a32-5f7e77c2b2f9",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 1850,
+      "estimated_tokens_delta": 150,
+      "uuid": "b5202071-ea8e-49c6-80c7-4cdaba05a85b",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 2000,
+      "estimated_tokens_delta": 150,
+      "uuid": "3c352120-8642-4bdb-a1d8-9cbfc61f908f",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 2100,
+      "estimated_tokens_delta": 100,
+      "uuid": "78e47382-18e2-4ba6-a220-0733d5f2a53a",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 2200,
+      "estimated_tokens_delta": 100,
+      "uuid": "df25fe45-ae42-446f-9869-f412a0a9b0af",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 2300,
+      "estimated_tokens_delta": 100,
+      "uuid": "28c63987-38b5-49c4-865b-a6ef7a366fd4",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 2400,
+      "estimated_tokens_delta": 100,
+      "uuid": "7177a92b-18d9-4611-80e4-bc5d118d9d04",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 2550,
+      "estimated_tokens_delta": 150,
+      "uuid": "60e49c29-b3f1-4077-a3ea-dae3aa967dcf",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 2650,
+      "estimated_tokens_delta": 100,
+      "uuid": "f019cb01-720d-42eb-a00f-9f41aa88e5bc",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 2800,
+      "estimated_tokens_delta": 150,
+      "uuid": "d2811d19-83e2-45f8-82cb-23ee57637af2",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 2900,
+      "estimated_tokens_delta": 100,
+      "uuid": "50cc1837-2373-4d29-a1b3-7dbc9149f4ea",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 3000,
+      "estimated_tokens_delta": 100,
+      "uuid": "e78400bb-77a9-4b46-b90f-57ec53ca9616",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 3100,
+      "estimated_tokens_delta": 100,
+      "uuid": "72c3781f-6fc0-4335-b0c8-34beb9658295",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 3200,
+      "estimated_tokens_delta": 100,
+      "uuid": "ce1c0a67-9e05-4765-a351-62eedd69984c",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 3300,
+      "estimated_tokens_delta": 100,
+      "uuid": "0d9a5eda-aad8-44c9-bd84-020c227781ca",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 3350,
+      "estimated_tokens_delta": 50,
+      "uuid": "3fe8ebae-1a59-4f8e-8964-39141f6eaa9b",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "system",
+      "subtype": "thinking_tokens",
+      "estimated_tokens": 3450,
+      "estimated_tokens_delta": 100,
+      "uuid": "19b92711-265f-41b6-9a06-23f506b2f4e5",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011CdwjshE7jfMAYQMEq65MQ",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "",
+            "signature": "EoJOCokBCBAYAipAVXEHB3A0O9g7TOzu2jG88r5qfDLakbUquBaaXcm+kkh2mxjUaWLVEJM1rTxL/m8fOkD9RBU729RNz2Hc43waMzIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQyYWM0Mjg1MS0zNTYyLTQ0NWQtYTc5OS02ZTdjZjc4MjUyNWYSDOpEknQ/AotxzjxCPxoMfQ9GryR1FSA2WgGbIjDjBKD4i1DX5ArqawT6o3lJJX1d9niwXBBWZ5yEizvWGtZtHGDhCcSHMj5N99ifrLgqpUwIYy9kcjP3PPXiSUPuDASiyIQAK1pBavbVamzVP4SEhYbQyv19BHe9UgcP8CVRtG6WOc/BiJnR1BnGuZfJhI42fNwtaY9nFETmeJZJYNQsxAoFdei6HNKSb2WB8vfH8NlGKzJwstZLxuvWBdCKFHJz6ClJ+lxkOQwJlWpgGbQ25ff+eE3IsbQ6EQJXDBmsJjG7lM+9QyqF4+n1De6M/t/M917zpjVrMkOS9nCD7hX2ae8LyJxYTOUpeXvSRxHoI7CGAl2MixtASjKYj17AiI7vrQeVkQc/xEgWiwYTjME+PmcyCv8PMR01e65tETDQEkhMjCcJOnK5sQAy5//IyjWSgq8CfknCkoLzT2k0Curva5tg6wMySZQa0L1mKmAlyFNNF8CDyzZ2AVFYx4e8P8ajLHPtOngLUG4d9s7hxwO/ao4NSMPIB/IJAXpgCEz02jjJdR8+7uOjD9b84b4e8KuLK5K8HNnFf/N29G01r4OONa6MvBNcElFD9Ya1ZILkEV46CfF1WP2eDd8OFvx0FnJ1Cn6q/1LC8h7RiOVoedecgRj/i/eYvUYiSjWAj7hCotWmcMWYPSPfavQzXlQ8DHZH7sMI45Qtther9grG7wpDn4WHnCamrL8d67/gnIFLnYfmPfyddALhjwWlDPMkxApgq3ldwpf6BXtK2Q/x2T45T++RqhMXB3xFIsNwO6yNpAEMuSOmCTVyLudJdsTI1XCrB4QvgHXidZCEs/vwKLbfXsqUp21UOKymrhH30MUOsdOzUAkzebJ+rjOKnN7CK2NBKpYZfdFDupxkxydkdnsrHJVcQeED/brT9QXvoF7St/HYIdZYcZOnHuxq6YwlCV/Wt9KlEoM+TcZJ4ndYNFu1W/+xCofqcRgO+Tqoxn2yiywkpY0QaCfDewD4lQf/8vBx4vnVHIJpik6gPOV//W8nfzsr6rWi/UrP0iUwHAqDL6PUlGKHZ3S2lcyQ/RMvMkaz6MVg1tKpZ6WuW8xQUB/eTihMOHYZ9kvsgT4Rl9wCwhEzrWfpI3+6+UqtliZCWwkqCreMxru3dQIO7wvVfmOqHZj2dn9SgHDApiNJbJ6YNHGqOAvGbYsVLluhxTxhUolf5lB8/DzLzXPLPU+1GIwQ+M6gSmUTfkwxJZhm7Y6Z1QkK7HE/yWJpldI2pUSS8U3BJTvOuUrR9vqQJlqawXBii4Lcql5wtCHd2btwhius1uvviidgxxMLUxsOzwNDgvQioTSYqfgkK7qtq0PT2DHOhNzm0HdvjXfEZQ4+pgtA95yixz4ZbeZwrJPRtc6xAKYubSsS5i5KaLjBvqVs/FOlXixwLVGWlm2dzwdxBnmcvBpW6Wxb+TWixCMbE81vB54QN/5ZRJOQi+2VwiaaPdHb7HQcFkjmXrQziuGycfgECBFwi3+66ZaQfjf6AtDZQDpveNb+qI8BFEXE5TTVrPaT92NadUV1dxu/hcGWYHEEPFArwlaz2YdOHYazwXqIPgfZHHzGJWKKObHPLvzdXm8wbOUodYBtnqoccq+TgnumnWV5pMRPxK+9rCCvAeQO0bx/77ZlQqDjJKIwH+nd5tx+J0s16kSTecAflXSpFzMTLiYTb6O3PNfkjnNjoWaljPBWExuHs8rOJbC7qmtZffujEUQ/zQYqkX0b4we4f82h4dGOxTVvmhLKx3JXcXKHHDRRgE9XzdnuhmcDScmKZ2zVRJg/XDksX0RfWBS6qnz/9ilt5X0Hk3QioQYY8mgobM6SE/7UTFZLiN2DBNOXFomDXcBXzaW4taLPhZ9vBXGgT1F3EF10h02xEfXxV19wnVCY7jVhTbycBR902nlS0toBXmsv1ax8ENoONeceX8rNqdLlRfBULJf1zT/JTROio2/wxtGgN/koljtxKQHiwuVK/DY5cXWwlj+1QsXMnLAjtxX5n8zZkKYOkWebssjSwxS9VDg99man3Mjm3aW5EVoPhzpdSn5mcqmaE5KKxrSf6ilxU+8TcovEkHStK/SRY0FOdajXSAs5b5FKMXxIJPlpxVFlns7CLSVfC/RcMGAAYl9ZCNhmLwxpbz/2Qd7mMcMme54VEdwtX3LDsR4hFGBHeUSPKQuQ6xVZ/rqiQu0/0XeOEF7aA/5N9j2lkQpKuNvW6GlWJ+5o+YkoQKR/Wwr0PpWYxeW8/VwQnSbaGo12Hm1BPVmcslEk/umok4XluhSJqHvpJzXxjMMSBJgTB7FrkPrkdGeJNgO+ulM+0X8AiRJ8pUDyI/T9qHBwpgkxqQ+M2IsQPK3Lhl+CGhW76OCNdPX+ALdhO6nMtxW+dHYG83347i0aema6CnEIlPS3YRXzjjV+S19Tno8m9xsavcf/U4ZlVFk0e8QUmpe9zCBFWEvxGq0DeX4RYG/Fbqk0pKxK84ArHiPIBI+OJWqf5cR4NJXNWJYWqBQCWaB2FOzyeynvg97TUJ85UFYKqV+w9CfXsdjGENQh/Msg/H8vT1swH91mb8UZBrVVTmszKtOzLc8m+MD5f+wWN6hCOpeuJtBaO6aFDZ6tIaD0Ao45wzG1MjZrwcOdsuC16xYtHXV3L9JLG7g/YI9gRJ5aAo1hVGcc9GXH4J+CwXC1tztLwFD4HojkkIuGrtXkHttQa9b8hDR4tow5NIQl6H/AqtB4sJZd5xO74qKNEd8SzQc91Lsfuf2yPWqrhPawpyf+T1n60pabpRziGbGqYEpuXwgqijBvnt5kzD7/H2as+94fOP90wdFah96a0d2jzOndHmzLC5vEeu9S4+3rbTmTJzYqqFVKgxAZO7Y3vqhoXVIcYmUjGC/UaUTZRrwDXPgJQvDCfnGdvWI2JQ0wzXikf0KoIh9bOEwYEhGXb3yWg7QiFKD8yWVpdmRbXcjQk6UU647sPkRBD1HrUHWpZTRnAaZmcmb+dKLIb3QGRAQRia2y9IRU3TfVJxIALRDv4W8OlbIOyPGkjdZJ5nWmQGU2cqmZtVqCB9TpFcccX06tJ4OeQ2yxR5o7DXIe8h4mdphW4raiCN4YTnHJT+DdvWWLhfR8mag38TAMBW2plpRBkNyEFM3r6A3JzwFu84smjxk8c9JqDBLEYLosmaLA7V1tInpaxTp0J0Q2L4ca3pjhl687k1KFwmxz2SNHwQQzPeeNHBj0fNgbbuwJujCGygzCzs5UaCuaPENCg6XjjjTzouMwHqZ9A2HytqIAXE0O8ewUBbpK4154ToQ9cKpKapKFakcamt2bnTxO+WGbZKqp3Z0jJx09ht3+vehoyVzbBNOVtAy5wR2tbQBUNB/5lj78NqdL7541fjnr8iNJ5ozCvCPH+oZsf34pGYl/H2ZGj/lyInwgCBz7u8dVZJfyKlRD3AxIvXlTcqx5ONVcuPMSwlUNM3VwIYmQwG7lLj+lVe9N0UNBt+SXIHqKYTdWixsMWwBungMAdY6ZnELWCIfY37GUYkNfxRBCO2Q+JGE2AuKiyn7fr22LloMlmObSJoc/4OR0bT/bCgc/tbgHdnwYm9qWvy3xWuSaGNx6rVAwvNKKcNKpGmtu/TX6YT6lzh/Uo6ZursPFiThYXHPQ/ydLzHpIzz43GsD6vTXAToXr1QQQbdQEFc+tfb2nmtr+Z8PT/qDFITyuuJp4Obol2Wri14wUDKXh4M55WANEscJpR71PENB58k1plfvPd9PJqm7ku7SAviKLsU4le2UQ6nNXRVET6gO/Bxp5lTbOGJ5Lwu4U61feWb8vvMSzb54u+W9OsbpIY0lwLcQ9TsPLVpOM/l57JrSntEDEymg8M5Sz0y85v0aybFtzO4MbMKtguTwt4yUxmsh4xJ9f75GBKBB2N90ONNwa2RxNt7Ud1axFLWHF3un5ZjXhlAXRIr0TglBV/yRWtiWc9+7lnIHuWrgi2HSJwyRdTQY8AQT7yBcF+mle7kR2n4iK5Tmr6UAsrX2OVb0y3tf8nHV8PhxkuLieQlFD6XeVhw4EXrdCWEWqAC4hgjqle2Vxl+o9s/wSWaz5kruYlh8VcwgH17jJHw+mNody8x7rZQ3OQQ28SXrUCaV3fkxKtr0+AYOXtwM55spkP/2L6zXbj7Bpf6QHbCMy3hn4zOjymD4odFWdQvbJTCtyBS+h0vQZMf6w5vigI5XVszGG7XOUcgR4dDYq5Sc6+IaFQ1monXowxwiPC4cSYwQ01MSrOjaXokIqp1Vk+AF4i2Vv6/72djXU9Pyqsm/HuL4LbAj5bsYPSODs8qkwnZn96dBuxjZRHxb7oYbB6JAxR11zjW/AiLR9WzYiaKGF3eFS0NbAza0l43uBejFLT6kh5Mcu+uYvBPIS7zP9kmluzyJ8etmAYd/6YP/2Zi5mKy3XPMBgFvHy69mcbNGyYWOKGzf81x41ljZIIVUdMTlPpWU5BoPuM4UhIto87UiXNp7CW/+VOyufXDcqzUORV/yRKKZiYUDgqZZwXNZjo0+J8sSoQOKTVs+xibfMaJY5CTCwMyMNJdomDzSuJce5AGqcAKi7MMYLz03hLw3rL6vaUtusGZdBE+0Ro200ySgORC+vkDW2gOP5E8HIBAjWx+wJkTWJ9KFHPLXBq9ZSg6F2i7/dzHbtVeKFWKxb0YviFkkEOPu8QxlFwaG3CboVjaMTD5nd6U4fI+l/zXenTHANn3ylp4BQuyhNdHRmmqSnuVAwKu/U1iH1XMz/bJ+esdtL572Ts9kfMK9saLfpd7qnjnBePT+uHqtbz7/AkEn+NcVHA6UxNyT7oCyvxJ9nhZhq3sKhslWucMarru0IX6yNGpahChoJS+EzVW08Xift5sdGaIgpYRzTe0p/e66t5bG9XGY0Qm8ME/uJkZE4D9nOaQf8dyUoo2o3ikHJe/B8ncNiCyK5k7DHMpJn58El7B/ci1058z9sCaxijP/zsZqLRuzKRQNVZY8vp+m13S252EivAPEOVcZE+xjcy3xbRsTxxSytXxlyXMoEJoaHTkotE4vQCTHsXKz6qMyQCO3WWNf2gXZYUmualGtsoZ8Odw3naFWQlqubUvp3r2eDKK2R+w6Tz0BsNDgeFlZJl4ohntnI7NxpT9Efp02M/lb/FvyjhsPF2zQMfEDkWMgZ5vZfpHaUiiBVcfXF2zO28B/ja01/vJ2A8vdm/tCNXqBiA6D22K1YdP8a+dPSRTQKf6iQcX8aLNfD3F9OI1AVCTtLG7yRl6HIPmpBQqXxOe9lXrxM7/qLFQ5KJ/lUXU4nZexHhTQ8THYuB63498DMxeGzqAUtVy9NyzrVZyrB5iHDzBqQHXMipvxH/inqZUKaFBkGWgrhNm99YYrs4bsufoa+gcKVudcJsQRVE5PcWOacK7Y4vtUR/fSi8eQ5AWEvqPztfu6Kua4AiNPhpqo2TmlTfLxU7Gw+h1FYj7UGyek+EZy1nwVnVuR6uX7w9gJBh9EdrvO6wmKxZbwa0LZL0Q8Pu30u0Z640hqWJmzpI089r7JRPrEYtwDfwI3VT2SHy0Wx0VuUEn7kvbA7Iy8uh9HZHJ3KawPyusk5YzmqdCmBsKvJwAJE3HoZzAhLpIeUNQWfqRIee4S+zdEfMjtofmStez1ZEjk6UxSZkpgrvfDhvPH7rAXCceNg4pqI1UvDqc19IU2dCmTsf/r4lC1+YtOr3DqnOJ+CRzslKWl3FISp5o/YXHr4zi1y5nxdDp2hXNYsMw11UOXfhvphpDxoBP3cu0GLHYymvNQaEXpWFBIMlBauHVVXGtBNOr26IMhMxVhmzZn7JqCfv3PeXU43Vh4hFHr81HUgfu8LLFqAo5Brh0z1WTm15yyWDL1bVvvZPALt6Mn86PGiT04fmffIyPVANBl3ohYlsXJIBggDFVtZag480Sj3aB6BbL6CYsILVvW3akd1gIEM8YonfcOZnHL2/TQp+RVZ3GkwBaI08uPjZCmP03ZewbSxA1Ng0bIm86VNEN4uKyS8Afq2Gsc67r68neJ67n1oqAOdTbi6B5ZWEohro+mLN3ICJYD5ZMDDSz45CqF2natR6ch0tcJwlE1rftrNZ67a+puJKfEaMSx4Gb3xg578R1PRmPSvtXMc2BZCBtzylsEa9W2XM9wdkvMTY5PTx4bz5jGpIEExTq4wZmUI3BajCGMdhy9lPjkNIIuznSPpnlNnkSH/SLpOil4sam68uSgfK7/kOp+4yyYikiiQgUeg+Mrdicw7Z7WwoETS5AFBnWGO0yEHGiceC0srlVsQbBzf1aygHVNtA92h28j1Ahd5akMCA45mZukx85sEh3EJgLAu7yJkAHAupwgHULTSHKU4tAzI+K5KGEAT3VRCvAr6DFoqc1Njdp200Npt1GhT5/eOtQZPQSkeIPX8xRIQ2aaq133fDZzRkK+/J7WZI8f48iClpkikiTW8FkA5VhmtqXlIiPaAuHIEsvBGZgIZtRSJ1E4OTN5bMGmhSut0952RUR0EEpcZEbKBiKebokgB/dPd/LzTkYomT4Y83YNTMBlE08KbU/iBBZGTDkj907jG8wpE34z+UHwmiemcYbuj+9JuRPdAwsue81RKCAQAInPVE7tLgRsQS6Z4dPPWxHvp8XF1r+4oA+VP3TvLC0iYWKNzCsgAKYAxBJpity3KbxjgR4gmXa2nwl9MR0N6rrBm9r+zYmp+1XvKjyAnQa4sVEPDheC8yF3/6oCkUWw+nMrI3cQhZTOrJELGz0vBdPjZi56ndr2F3vcCjK7G1Z+EXSHYHdaBrPT/iGOUT0vu+1BFwSbjlze+0hWOjDwZo/dBy8UzROLnSRLEEBCDlGFvsYnXUct74c6+BT11xh542Dnqr2D3Tp2p5+fbfbsNaQW7Bg+IK0jP/mSCfUcx7cH6xynjEAc4cE46Py7VXFPo2BU2l1CqZHFbUakBpay1ff4KZAl+q11y7skq8zFlmRGwoGr7QcSDsE9hq59JX86PJv6JxB4zwklUYGXEpfud1UXpYNeelAcHOtw/fXwKkJ6cwFDWF6zD6kFn21ZXZrsbLDChGw6/AAEY9PS9NEmruSMYLZLxSZmSmrqACeHs7ZUaD9imWNAW3n/Pu7VXxs2mbgqmIcmhhDtwcJiRSfWe0qUh0MDOqivmqBkwGGGP7eeFtUWAVAIDCSzvQDQdSRVeI5EtqM9GqOk5X7YBmDwrzC3HGXb6zJPx2L9usMKSbQjZVk9N7Ok1nqVre53qCZlaVJre5wVYyppXLNvdUERjv8bmuRTtPixAcgTDxbkxoVL7xlbFf0ibr49qU2w3QQQVeodveKp/wWXaPzSAQOulPgjyZWQg0hkNu7dR8VOg10n+FQc7AjxqzYugpo3EGWE0zLMkQMi3lFgkUd8ODFKv0+qYfpiLmsubhmPT+3wp+XCl6tVb7CevJ/W0j5A2cuIMyizKvpgLppBfk32PN/svW+xADJ6k8J55YjtTTzchNUPJu5r5OdX4+1BRg3pS1jA8x/oe/nPrfQAW//C1ZFl1e68FxS2jybDjzl27oKlUziYa4nsK+4VQgpOA8CxGki+DffAX7NrQYzm75gZaMhOvphetsw1TuNaZyCCGt2+FbalnmSPSkaIweqVlqQburQqm1rQrF//rRF23bITccG6DqLFcAdUeFE7FjZlcKadInVSAJyZlNmJ0AHRIAjDlIJer0YCK//O8EIqMJYsgJq5zEnmgTSBRc8worsU16ul80X4kHBEv89buQyqjKLHz6+lm/Gdad2ck0u9AHG0MpivgpSyZ3dMpSqHyH+y9E5qMERHo/28Zo0qID9Ev/JrO70dP9DbyQjt+bOVLLCDB69XEBNwetpOHPiuV4ihwshfM2KHr+Qn2Xbv7OuBmutcgjwiprSJv2INa+kSp9S1GPWjXDhkgKOwXLw45iTBQM3vd42lSidEBdAJujBRKFkoXGv1q1yNyk/MFpxvcUJMmyzw6BK8zuXq5DMp6gXSGZRqmPDN+r6kbVR0Hys5r8Z41hrr+aFEVR5HXy+M/Ar20EZTsqeqbPK5rjfKjMfFGGwrCwUE7enN9+IKXKruVCVGvgqCZ6mf+dV0JDNpDaIaTUBOZHE0pFLYKX+sGsxX5+RrngRxQz5O/hIcluvQEpz6dhyllOXMDhNxXuRlm/uqdAxn/iNZ8l50528idzFSqLCmAMG7vQUtD81kAM7HJSz9hLKfV7LqL0N+ipeGl9uTWfnJuBmV/mhUaAMqRJusvbscR+t2REzNOr4HOi71/OcErR3DlKjqIxO2f3AJDi1dtmP4yecjsaZbbrYCbzKQsYQw5PW/6oJGmsfH4BJOQR2ZJMoFQsoiIsjz298LlLIp4ZrLzl6F/b9oFssnK97WffKrn2qWowtCEW29LAtOhAXp9arEraMHK7TyrCSwsFmLhjPk6azof3qymZNnJgIYbi85jVl9SN9IafPdooULG7PiZZfy3EtX+tjW0YCFfRC5z2qeV9yPlOnbeQWoH1I9WtzG2Gz3sv0d1+usTf+5uc6QUNq0qxqrUI3U69yvXSGpGJAkp5k1LlOftcxmfT50ZRgareRy9qqSFVHnapCqvGzbTYJuccaFYMwiaPCMIvTLmxDyvrQQs9kHeWRC821VbQvzSMOv1Xtu8iLpxrqyWHxHVjLg9Go8lx3daXEZZbUTa7xWpfYZKrqwB4CvztQgFWFIR8Yd2760J55hnvHrDvkK4TPeF9IHFNqjscds432GVfkmhGviZWPmDFNl2LmvHkFJk4AgQ9YQ3QWvemN9bZfDRFv3dTIZgKaDAGUNuHDLqapwQR4z5f1FPs9QekseFiXT7tyP/clNqDsgd3isgJ6BJpqX03BBa8OtzWXygvN5+wn+5s6fGqW7w6wk6+63YOyA2bqmpk+Qqcmb3tWASO3l4t211gjvLL8AaOs1P8y0bLBJrPyjmU6YT+mGd9Skclb03qgb4aQJ9AYJ2ISXW5CeXTZJ7eJQuH3rfImlBAjq5S7/hphQ/OqUuVSciSJDyrfWrj0smEpi8DN2GZVtDzhcfBWfLTWJDWnSWq9ZQZmAwCPEG0r0F11PkO1AgvYfTF3Q64LgkVK0fu3E6yClmL2cU+2/UqcH5t5PLtzZcWeOYBUo9EFesQCgHTSCBt9uKPddhYJz+SZYXIrvoTXhdBNj589PiRTipwsfUoFs7MuElGvtI/UoapKGs8eJh6hJjeFogfHHU29QlK6SgiDNC3xAH/av4GAcKgATQyNLkjpYQhC0SPbA/PgxLEPiTguWjdB+N4KHojBq8AKj/m4VeyBAEhrfTRMYILiEfwAIO0cHDMYMeBnH0SLDB1oeizNv0ZfK8FMmh9aLxC3/dbQ+vlRtI8X6G+XXVo2AfnX0beWHyKQViMt8AHY3iSAsNw9cmWlCbI7sr2ycKSzU+nYmWIhcdNshpLIaZx/V1Z7MTqGhqYiyJEMbPL40LJmXaj4HPn4sYV5B4jbzhUVH/Ex++jGjj5KcRv4e0oFpV+LVbVbLrUFXP+rRGfpTVXeHsUkweny/Yn4lOc2Yti/tZSKHiRkinET4lPpQOo1sk+o7P4wr9VZDKnU1OLShj4TVMTy7VYrkxJcvvC2aM8H5yZtZiKFZmvZki6EzkKZ0zG7nx1N6/78Vz9/BP5siM82yLtlC5Zft8Undmiqm8VysVeQLpmO2WE1fg/JVJJwo2GNsMIxJAzXxAoRP9pEkCfzQAtcNxDORtHPmlPksG7xqLAGEcx8IPc5nCkIyhMqaPibSN0EvipyJ7bE7L11yZ7KEFP5Y304n3VIrv9tA8+KlDKACm1SH22m3Ui7m0Z3lrnSEGQvww5LZnqx+rf/038837Mx5OjdncvO8TwmzN5jwJkiv06/Mwukj2k/9ywlW3ad4PXAvt1koXesVkGjJtretz/e9gT9QgyKYAR03B7tL81HDqDp7gmgvEo10Hykwe2Fo1KpCFywBN/eE1gQHpY2obpouBx/V5wTVvCUv++tgq+C2tXmf1dYW7aPzuNRv0yOR3S6MYA/6MYgynwdemKc8/yWE8BEkUKIoMmQjnlOtxfxuPrR0rOUdhcbaTNClBypoLmgI2vvIhYkMNmXwf+4BonjHY7SdHf3t6BSB7/kFrn0LqpePtA8kkG69cqbcR5FZDUEkM22zcQyIbcOtidA6QePDlX4if2sSzuJPWG8lTQWrRUOf3gc6DsG7Y6zaYQtLIRqN0lnrL+yR2RBR7ustA0l/bRGyrRh4JAqag+0aUpV/D4366ZQLUGZZ4lALbbTu4rBZxGXIqLFGfuVoYsZvcJ5nDpJAdTzmQ3yuqk+BhuNl1oUsARapWtfwlkzlgMHanfAotEPRXVrZdLhvV0knjh3f+KADAdIB+28mE+plYp/9T44EjI2chIeIhDegzethRzYw3DgCdN52DulcVEg3xzqrfqw1diYDFxsXXu0Vk6rHBKA17PYGrWmp/VV7Pa9QP4mf4FsWti/TYoZLVwciEQ1YlkNNpSTrtcQ1tRXijARQMJM+mEOjJjabtNYKlvCnh7crzgXMedXVVqf6rvGjz7APUnUnKdYi2zxTtkzq+kt7rAFP7QFaOIorlB7K7Mwn2jWZJhznY03fO4macMbclzJBzcaIbYTfTjZsfcjQtz9KOfL7ixQE62t10XDfCvOYwjINNcHVaPj9kcyn6ccIwENp6GiRoeJQ9zEG2HU1QtRbhzDuEg096bGWViLx+xetNwEQQzWvJFSjECRQJ3XZgDODc50DXfFHZ+bEZoo/g3KsRjCXyMXB1DBr2K6CRpEcDRQOJ5yoxlyXwuSqDgpe84x7E2yn10eCyj9RF2kU2n/BJDY+Qj9qFbmesUaWxGDy9YM+VLCeU/KoJiQMBvJue9alQQtavXloPyQfeyo2gCisOZnmYn2LNrzjCq916ZkxcE7xC+fzHHUl5QTBHjA6RXfV3GaSB1LQnp9CPlgsLnGMZYc4OeUYFWwddLSBep2aAOljE4Y+SaY16QTAaJo/NOfU21hzYqQbg8+gfZNhMn7ea+Xt8wvs5H3zBvCgBK8K753gXr1UyFy1hFPx1xHyuQmTj62lG46Ve6oCRyGA8irN8RsOaLYd0/4G9KTqaYfz0pXwZrtBroj76tf7+2QcD1GXOmddkU5yPm0VDgECs+son8QEqAr9Xnsi3gNUfrMYQgANxIERUxhWINq/MB/Q1GAWoHdnxXRi0oKadD3IMd2AfSYdvLudaixlw4miKptBJxQWBcoDWLuCUK60/3gaWwaTKGf/Mlh4ZnYZs4gDjE4LfYwgS5AE7cBirdedz3gX/tuvOIY7P4SNXK/errfKAsoRPy36R1HE5zAAbZsQ/3WIuZl4ZOg/N/6VVBu77xcd/MU8X92vONXInu+AQ7vNWLlbIcB100iYGeHbV+HgRnOBE2O08BAfLf65BPeQxe9sIg0yw5nfoxMgYUW06cP0AJRQ7/WvfSUXsEythOW8T06vhh02EQn+xt6Bm/FXKtgM/2xglirNdr/zgaBa5uaOto7d6rlOlPP5YIl7Ned6JOC3bDyGzTiIQQ0oz6iJwJ21bsigMR07+//C+lOacnEJNEyVJzYhUoBhispy6PPCD/AKVu53yd2P7T0rY2n8GmjOVtQK+u1DYWUr3yhPPIc3BcuVYwc2Nrd6se+I5f/Vfotmsm7dv6MZt3IYOaiuqXml2aq5OhZYmdOdvLpeAN/Tu/5EbtQevP+13ylX2t5uCyvAg6bzzhd2zGY2vKIElG/TSAj0VOc89w2P5akAI/hnSwjTlU3bPPm7BL2yeF25y8aX1QXXgfsGK+EYlT1uQuXoEVA4UpDtF7cOMBOWJBIZmI/TdpuYKCQM7FFPKi4N74pk146qrUNVr7a6hJt+ex0bHHrx8jTOLhrRQoEbtggTC7VcmOQC4Hhu0Yn3XjJvWQAtNLVhMmR8IBk8y8qP+VP8Ce00qO1WwT6WZeSwIGoYoLbpOE7/OrW1+FwXih6329NqlGmVGDQV+CXhwh3DGvIk4uS1uHJwvyAdC8oZ+cMWrllkxd/ZSU+9iiZTtBRDNqbhKFakHONYfgEN42PcFvY0LiQJMz3pbkHGJMIUQUibbRLH6RGBV4RyGdu/kJ7g7gEfyvnDIFl4Wbblh/CWXGwgixeW3XVG6GaHN9Ha4ljhz1oWJqA3u4C35zWaRVHJwTBdUSQSlpdIkcHh4T1jcC2KbG1on3jp+b9YjnFlkuZE9SmZztzhqIVgwaKXhFfhB6E+R7VIy+SGMyIaBcIGZv1K/dXLTgxaaQukL7OKVdTH18XNFyJBpRnxs8MyfFhvV3CFu8Mq8+6JfXrF9T3gP37chgL6M7jovE2fyvcNvuf+APDMdIXu+dMOQ5uVjMzJN+Z3uvfIdJkXXI+QR7+xH0XfUyG2HT0vTFtE9yrAH4oHBusVV7pvah5KtpcDMr7ILSSCtbPM0EOnjcpQjkvGJOBfMk3M/zvlYAt0z2aeRPPGT3yRpQBU0Y/lMYm/x8IgJWP7o2hXO87LtEl7xZqOwZ3ygegKS9emNSe6u1qFzT63/FrqztWK5jKGsOnIWIWITMgtlVQBBntpT71/NZJ/nxWt6AWIA+qfYYWodVQusUwlLVEbEDo/zadSIOdw6gd1ax9npNutjNffn/9pzhEg/kS/5ATyB/E/uka2gUlS6bgRP5Y/y1JH2z7AyHNxXwOGQh5C/jB2lSDSsuQTAqkOpxob5hDVDA+FdHAI1ekgzMV7ylC3MHP8SbDtae6UPe2E9CYnfosfpgBZ6TCo9Elggpv1DR0eYrqgt6aZ+eX4Uja3oc38Fxbiko4PsucbYh2Gac811Ibey6I9UPiFab8ZVqSM3uu7GpANcvj/8/GBj2ltPAtpuV6W0tmjVr9ncUXrwYRXGHIW6EbxuxMeutKBXlbPZus3qhfZiawdLjwf+3GVkLIHGPujpyYLyW8sLyUAVhZVkNJUvpNJ+F4vR134/zoTN02qPSlbkv+6ocgpT1BNIo5C9o5m8iYLCek0HSciYIPTH8AVXx01xZFw2gnTEFNrxClIhi5gwo2A0FyN5BZp8lVxHFfuLx65CP8qzGHXD01lF+Uj66hEUSF2vZ7IktGSPSsLDVEU6MP/Fd7Ph4LWQGxpx5KO+LkyT579xXt3cSx0YAQ=="
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 852,
+          "cache_read_input_tokens": 44777,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 852
+          },
+          "output_tokens": 3,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "e6bd45d8-f7ed-42d5-abce-44c1e382ebd2",
+      "timestamp": "2026-08-11T22:21:28.629Z",
+      "request_id": "req_011CdwjsfwUjVhtS8hc1e4Er"
+    },
+    {
+      "type": "assistant",
+      "message": {
+        "model": "claude-sonnet-5",
+        "id": "msg_011CdwjshE7jfMAYQMEq65MQ",
+        "type": "message",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "Reviso `lore/animation.md`, `lore/routing.md` y `lore/scroll.md` antes de escribir esto — hay tres patrones confirmados que aplican directo a una barra de progreso de scroll con GSAP en este stack (Next.js + Lenis):\n\n- **`scaleX`, nunca `width`** — `width` es propiedad de layout y fuerza reflow en cada frame de `onUpdate` (60fps); `scaleX` con `transformOrigin: left` es compositor puro.\n- **El JSX debe nacer en `progress=0`, no depender del primer `onUpdate`** — si el markup arranca en un estado distinto al que calculará `onUpdate(0)`, hay flash visible del estado inicial incorrecto.\n- **Imports de GSAP centralizados en `lib/gsap.ts` con guard SSR** — nunca `import { gsap } from 'gsap'` directo en el componente, porque los plugins tocan `window` en el import y Next renderiza en servidor.\n- Como el proyecto tiene **Lenis** (`package.json`), el ScrollTrigger de este componente asume que ya existe el ticker sync (`gsap.ticker.add` + `lagSmoothing(0)`) en el provider de Lenis — si todavía no está montado, va a leer el scroll desincronizado. Lo señalo pero no lo dupliqué acá porque es una ley de setup global, no de este componente.\n\n`lib/gsap.ts` (si no existe todavía en el proyecto real):\n\n```ts\n// lib/gsap.ts\nimport { gsap } from \"gsap\";\nimport { ScrollTrigger } from \"gsap/ScrollTrigger\";\n\nif (typeof window !== \"undefined\") {\n  gsap.registerPlugin(ScrollTrigger);\n}\n\nexport { gsap, ScrollTrigger };\n```\n\n`components/ScrollProgressBar.tsx`:\n\n```tsx\n\"use client\";\n\nimport { useRef } from \"react\";\nimport { useGSAP } from \"@gsap/react\";\nimport { gsap, ScrollTrigger } from \"@/lib/gsap\";\n\nexport default function ScrollProgressBar() {\n  const barRef = useRef<HTMLDivElement>(null);\n\n  useGSAP(() => {\n    if (!barRef.current) return;\n\n    // quickSetter: escritura directa al estilo, sin el overhead de gsap.set()\n    // en cada uno de los 60 frames por segundo que dispara onUpdate.\n    const setScale = gsap.quickSetter(barRef.current, \"scaleX\");\n\n    // Síncrono dentro del scope de useGSAP → se limpia solo al desmontar\n    // (no hace falta ScrollTrigger.getAll().kill(), eso mataría triggers ajenos).\n    ScrollTrigger.create({\n      start: 0,\n      end: \"max\",\n      onUpdate: (self) => setScale(self.progress),\n    });\n  }, []);\n\n  return (\n    <div\n      role=\"progressbar\"\n      aria-label=\"Progreso de lectura\"\n      aria-valuemin={0}\n      aria-valuemax={100}\n      className=\"fixed top-0 left-0 z-50 h-1 w-full\"\n    >\n      <div\n        ref={barRef}\n        className=\"h-full w-full origin-left bg-[--color-accent]\"\n        style={{ transform: \"scaleX(0)\" }}\n      />\n    </div>\n  );\n}\n```\n\nDetalles a validar en tu proyecto real:\n\n- `--color-accent`: cambiá el token por el que exista en tu `@theme` de Tailwind v4 (el candado de acento único del área — `lore/composicion.md`).\n- `style={{ transform: \"scaleX(0)\" }}` inline en vez de una clase Tailwind: es a propósito, para que el estado `progress=0` esté garantizado antes de que GSAP corra, sin depender del orden de carga del CSS de utilidades.\n- Si `lib/gsap.ts` ya existe en el proyecto real, usá ese en vez de crear uno nuevo — la ley es un único archivo centralizado, no uno por componente."
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "stop_details": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 852,
+          "cache_read_input_tokens": 44777,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 852
+          },
+          "output_tokens": 3,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "diagnostics": null,
+        "context_management": null
+      },
+      "parent_tool_use_id": null,
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "uuid": "46bd24f4-d66e-4ee0-bdd6-4d1d45427acf",
+      "timestamp": "2026-08-11T22:21:41.693Z",
+      "request_id": "req_011CdwjsfwUjVhtS8hc1e4Er"
+    },
+    {
+      "is_error": false,
+      "duration_api_ms": 87980,
+      "num_turns": 9,
+      "stop_reason": "end_turn",
+      "session_id": "7c675a8c-0cd3-474a-bc41-896470036609",
+      "total_cost_usd": 0.37295659999999997,
+      "usage": {
+        "input_tokens": 18,
+        "cache_creation_input_tokens": 26466,
+        "cache_read_input_tokens": 327572,
+        "output_tokens": 7678,
+        "output_tokens_details": {
+          "thinking_tokens": 5076
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 26466,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 4896,
+            "cache_read_input_tokens": 44777,
+            "cache_creation_input_tokens": 852,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 852
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 555,
+          "outputTokens": 22,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.000665,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty"
+        },
+        "claude-sonnet-5": {
+          "inputTokens": 18,
+          "outputTokens": 7678,
+          "cacheReadInputTokens": 327572,
+          "cacheCreationInputTokens": 26466,
+          "webSearchRequests": 0,
+          "costUSD": 0.37229159999999994,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 64000,
+          "canonicalModel": "claude-sonnet-5",
+          "provider": "firstParty"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "Reviso `lore/animation.md`, `lore/routing.md` y `lore/scroll.md` antes de escribir esto — hay tres patrones confirmados que aplican directo a una barra de progreso de scroll con GSAP en este stack (Next.js + Lenis):\n\n- **`scaleX`, nunca `width`** — `width` es propiedad de layout y fuerza reflow en cada frame de `onUpdate` (60fps); `scaleX` con `transformOrigin: left` es compositor puro.\n- **El JSX debe nacer en `progress=0`, no depender del primer `onUpdate`** — si el markup arranca en un estado distinto al que calculará `onUpdate(0)`, hay flash visible del estado inicial incorrecto.\n- **Imports de GSAP centralizados en `lib/gsap.ts` con guard SSR** — nunca `import { gsap } from 'gsap'` directo en el componente, porque los plugins tocan `window` en el import y Next renderiza en servidor.\n- Como el proyecto tiene **Lenis** (`package.json`), el ScrollTrigger de este componente asume que ya existe el ticker sync (`gsap.ticker.add` + `lagSmoothing(0)`) en el provider de Lenis — si todavía no está montado, va a leer el scroll desincronizado. Lo señalo pero no lo dupliqué acá porque es una ley de setup global, no de este componente.\n\n`lib/gsap.ts` (si no existe todavía en el proyecto real):\n\n```ts\n// lib/gsap.ts\nimport { gsap } from \"gsap\";\nimport { ScrollTrigger } from \"gsap/ScrollTrigger\";\n\nif (typeof window !== \"undefined\") {\n  gsap.registerPlugin(ScrollTrigger);\n}\n\nexport { gsap, ScrollTrigger };\n```\n\n`components/ScrollProgressBar.tsx`:\n\n```tsx\n\"use client\";\n\nimport { useRef } from \"react\";\nimport { useGSAP } from \"@gsap/react\";\nimport { gsap, ScrollTrigger } from \"@/lib/gsap\";\n\nexport default function ScrollProgressBar() {\n  const barRef = useRef<HTMLDivElement>(null);\n\n  useGSAP(() => {\n    if (!barRef.current) return;\n\n    // quickSetter: escritura directa al estilo, sin el overhead de gsap.set()\n    // en cada uno de los 60 frames por segundo que dispara onUpdate.\n    const setScale = gsap.quickSetter(barRef.current, \"scaleX\");\n\n    // Síncrono dentro del scope de useGSAP → se limpia solo al desmontar\n    // (no hace falta ScrollTrigger.getAll().kill(), eso mataría triggers ajenos).\n    ScrollTrigger.create({\n      start: 0,\n      end: \"max\",\n      onUpdate: (self) => setScale(self.progress),\n    });\n  }, []);\n\n  return (\n    <div\n      role=\"progressbar\"\n      aria-label=\"Progreso de lectura\"\n      aria-valuemin={0}\n      aria-valuemax={100}\n      className=\"fixed top-0 left-0 z-50 h-1 w-full\"\n    >\n      <div\n        ref={barRef}\n        className=\"h-full w-full origin-left bg-[--color-accent]\"\n        style={{ transform: \"scaleX(0)\" }}\n      />\n    </div>\n  );\n}\n```\n\nDetalles a validar en tu proyecto real:\n\n- `--color-accent`: cambiá el token por el que exista en tu `@theme` de Tailwind v4 (el candado de acento único del área — `lore/composicion.md`).\n- `style={{ transform: \"scaleX(0)\" }}` inline en vez de una clase Tailwind: es a propósito, para que el estado `progress=0` esté garantizado antes de que GSAP corra, sin depender del orden de carga del CSS de utilidades.\n- Si `lib/gsap.ts` ya existe en el proyecto real, usá ese en vez de crear uno nuevo — la ley es un único archivo centralizado, no uno por componente.",
+      "ttft_ms": 2079,
+      "ttft_stream_ms": 937,
+      "time_to_request_ms": 40,
+      "type": "result",
+      "duration_ms": 88319,
+      "uuid": "3a4f1aa0-298f-4ff6-baa1-857cc3e4fc88"
+    }
+  ]
+}

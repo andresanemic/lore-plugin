@@ -1,0 +1,27 @@
+{
+  "task": "routing-scroll-behavior-attr",
+  "arm": "lore",
+  "trial": 2,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "data-scroll-behavior=[\"']smooth[\"']"
+  ],
+  "violation": [],
+  "text": "En el root layout, agrega el atributo que permite a Next.js controlar correctamente el scroll al cambiar de ruta:\n\n```tsx\n// app/layout.tsx\nexport default function RootLayout({\n  children,\n}: Readonly<{\n  children: React.ReactNode;\n}>) {\n  return (\n    <html lang=\"es\" data-scroll-behavior=\"smooth\">\n      <body>{children}</body>\n    </html>\n  );\n}\n```\n\nEn el CSS global:\n\n```css\n/* app/globals.css */\nhtml {\n  scroll-behavior: smooth;\n}\n\n/* Alto real del header fijo + un poco de aire */\nmain section[id] {\n  scroll-margin-top: calc(var(--header-height, 5rem) + 1rem);\n}\n\n@media (prefers-reduced-motion: reduce) {\n  html {\n    scroll-behavior: auto;\n  }\n}\n```\n\nLos enlaces siguen siendo anclas normales:\n\n```tsx\n<a href=\"#servicios\">Servicios</a>\n\n<section id=\"servicios\">\n  {/* ... */}\n</section>\n```\n\nNo necesitas JavaScript ni librería. `data-scroll-behavior=\"smooth\"` es importante: Next.js lo usa para evitar que el suavizado se filtre a los cambios entre rutas. Ajusta `--header-height` al alto real de tu navbar.",
+  "error": false,
+  "stderr": "2026-08-12T23:06:01.675228Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": true,
+  "tool_calls": 2,
+  "cost_usd": null,
+  "input_tokens": 60160,
+  "output_tokens": 735,
+  "cache_read": 37120,
+  "duration_ms": 24341,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'; Write-Output \\\"\"'`n---FILES---\"; rg --files'",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -Encoding UTF8 -LiteralPath 'lore\\\\index.md'; Write-Output \\\"\"'`n---SCROLL---\"; Get-Content -Raw -Encoding UTF8 -LiteralPath '\"'lore\\\\scroll.md'\""
+  ]
+}

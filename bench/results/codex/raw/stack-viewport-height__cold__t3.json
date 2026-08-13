@@ -1,0 +1,27 @@
+{
+  "task": "stack-viewport-height",
+  "arm": "cold",
+  "trial": 3,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "100[sd]vh|(?:min-)?h-(?:s|d)vh"
+  ],
+  "violation": [],
+  "text": "```tsx\n<section className=\"relative isolate flex min-h-svh overflow-hidden bg-stone-950 text-stone-50\">\n  {/* Fondo atmosférico */}\n  <div\n    aria-hidden=\"true\"\n    className=\"absolute inset-0 -z-10 bg-[radial-gradient(circle_at_75%_25%,rgba(245,158,11,0.18),transparent_32%),linear-gradient(to_bottom_right,#0c0a09_35%,#1c1917)]\"\n  />\n  <div\n    aria-hidden=\"true\"\n    className=\"absolute inset-0 -z-10 opacity-20 [background-image:linear-gradient(rgba(255,255,255,.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.08)_1px,transparent_1px)] [background-size:4rem_4rem] [mask-image:linear-gradient(to_bottom,black,transparent)]\"\n  />\n\n  <div className=\"mx-auto flex w-full max-w-7xl flex-col justify-between px-6 py-8 sm:px-10 lg:px-16\">\n    <nav className=\"flex items-center justify-between\" aria-label=\"Navegación principal\">\n      <a href=\"/\" className=\"text-lg font-semibold tracking-tight\">\n        Estudio®\n      </a>\n\n      <a\n        href=\"#contacto\"\n        className=\"rounded-full border border-white/20 px-5 py-2.5 text-sm font-medium transition hover:border-amber-400 hover:bg-amber-400 hover:text-stone-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-400\"\n      >\n        Hablemos\n      </a>\n    </nav>\n\n    <div className=\"grid items-end gap-12 py-20 lg:grid-cols-[1fr_18rem]\">\n      <div>\n        <p className=\"mb-6 text-xs font-semibold uppercase tracking-[0.3em] text-amber-400\">\n          Estrategia · Diseño · Desarrollo\n        </p>\n\n        <h1 className=\"max-w-5xl text-5xl font-semibold leading-[0.92] tracking-[-0.055em] text-balance sm:text-7xl lg:text-[7.5rem]\">\n          Creamos experiencias digitales imposibles de ignorar.\n        </h1>\n      </div>\n\n      <div className=\"lg:pb-3\">\n        <p className=\"text-base leading-7 text-stone-300\">\n          Transformamos ideas ambiciosas en productos digitales claros,\n          memorables y preparados para crecer.\n        </p>\n\n        <a\n          href=\"#proyectos\"\n          className=\"mt-8 inline-flex items-center gap-3 border-b border-amber-400 pb-2 text-sm font-semibold uppercase tracking-wider text-amber-400 transition hover:gap-5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-400\"\n        >\n          Ver proyectos\n          <span aria-hidden=\"true\">↗</span>\n        </a>\n      </div>\n    </div>\n\n    <div className=\"flex items-end justify-between border-t border-white/15 pt-5 text-xs uppercase tracking-[0.2em] text-stone-500\">\n      <span>Santiago · Chile</span>\n      <a href=\"#proyectos\" className=\"transition hover:text-stone-50\">\n        Explorar ↓\n      </a>\n    </div>\n  </div>\n</section>\n```\n\n`min-h-svh` ocupa el viewport completo y se comporta mejor que `h-screen` en navegadores móviles.",
+  "error": false,
+  "stderr": "2026-08-12T23:22:26.719810Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": false,
+  "tool_calls": 2,
+  "cost_usd": null,
+  "input_tokens": 50047,
+  "output_tokens": 1094,
+  "cache_read": 38144,
+  "duration_ms": 33728,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Claude\\\\lore-plugin\\\\bench\\\\fixtures\\\\cold\\\\CLAUDE.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\frontend-design\\\\SKILL.md'\""
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "task": "animation-fouc",
+  "arm": "lore",
+  "trial": 2,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "style=\\{\\{[^}]*opacity:\\s*0|className=\"[^\"]*opacity-0|(?:const|let)\\s+(\\w+)(?:\\s*:\\s*[^=]+)?\\s*=\\s*\\{[^}]*opacity:\\s*0[^}]*\\}[\\s\\S]*style=\\{\\1\\}",
+    "\\.fromTo\\s*\\("
+  ],
+  "violation": [],
+  "text": "```tsx\n\"use client\";\n\nimport { useRef } from \"react\";\nimport { gsap } from \"gsap\";\nimport { useGSAP } from \"@gsap/react\";\n\ngsap.registerPlugin(useGSAP);\n\nexport function Hero() {\n  const heroRef = useRef<HTMLElement>(null);\n  const titleRef = useRef<HTMLHeadingElement>(null);\n  const subtitleRef = useRef<HTMLParagraphElement>(null);\n\n  useGSAP(\n    () => {\n      const elements = [titleRef.current, subtitleRef.current].filter(\n        (element): element is HTMLElement => element !== null,\n      );\n\n      const media = gsap.matchMedia();\n\n      media.add(\"(prefers-reduced-motion: reduce)\", () => {\n        gsap.set(elements, {\n          clearProps: \"opacity,transform,willChange\",\n        });\n      });\n\n      media.add(\"(prefers-reduced-motion: no-preference)\", () => {\n        gsap\n          .timeline({\n            defaults: {\n              ease: \"power3.out\",\n            },\n            onComplete: () => {\n              gsap.set(elements, {\n                clearProps: \"opacity,transform,willChange\",\n              });\n            },\n          })\n          .fromTo(\n            titleRef.current,\n            {\n              autoAlpha: 0,\n              y: 24,\n            },\n            {\n              autoAlpha: 1,\n              y: 0,\n              duration: 0.8,\n            },\n          )\n          .fromTo(\n            subtitleRef.current,\n            {\n              autoAlpha: 0,\n              y: 16,\n            },\n            {\n              autoAlpha: 1,\n              y: 0,\n              duration: 0.65,\n            },\n            \"-=0.5\",\n          );\n      });\n\n      return () => media.revert();\n    },\n    { scope: heroRef },\n  );\n\n  return (\n    <section\n      ref={heroRef}\n      aria-labelledby=\"hero-title\"\n      className=\"relative isolate flex min-h-[80svh] items-center overflow-hidden bg-[#11110f] px-6 py-24 text-[#f4f0e7] sm:px-10 lg:px-16\"\n    >\n      <div\n        aria-hidden=\"true\"\n        className=\"absolute inset-0 -z-10 bg-[radial-gradient(circle_at_75%_25%,rgba(213,180,113,0.14),transparent_38%)]\"\n      />\n\n      <div className=\"mx-auto w-full max-w-6xl\">\n        <div className=\"max-w-4xl\">\n          <h1\n            ref={titleRef}\n            id=\"hero-title\"\n            className=\"text-balance text-5xl font-semibold leading-[0.95] tracking-[-0.045em] sm:text-7xl lg:text-8xl\"\n            style={{\n              opacity: 0,\n              transform: \"translate3d(0, 24px, 0)\",\n              willChange: \"transform, opacity\",\n            }}\n          >\n            Creamos experiencias que dejan huella.\n          </h1>\n\n          <p\n            ref={subtitleRef}\n            className=\"mt-8 max-w-2xl text-pretty text-lg leading-relaxed text-[#bdb8ae] sm:text-xl\"\n            style={{\n              opacity: 0,\n              transform: \"translate3d(0, 16px, 0)\",\n              willChange: \"transform, opacity\",\n            }}\n          >\n            Diseño y tecnología unidos para convertir ideas ambiciosas en\n            productos digitales claros, memorables y efectivos.\n          </p>\n        </div>\n      </div>\n    </section>\n  );\n}\n```\n\nEl estado inicial está en el propio JSX para evitar el flash previo a GSAP durante SSR. También incluye cleanup, animación limitada a `transform` y `opacity`, y soporte para `prefers-reduced-motion`.",
+  "error": false,
+  "stderr": "2026-08-12T22:49:54.843873Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n2026-08-12T22:50:22.932646Z ERROR codex_core::tools::router: error=`\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command '$lines = Get-Content -Encoding UTF8 -LiteralPath '\"'lore\\\\animation.md'; \"'$lines[0..199] -join \"`n\"'` rejected: blocked by policy\n",
+  "read_lore": true,
+  "tool_calls": 10,
+  "cost_usd": null,
+  "input_tokens": 230028,
+  "output_tokens": 2417,
+  "cache_read": 182528,
+  "duration_ms": 64354,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'; Write-Output \\\"\"'`n__FILES__\"; rg --files -g '\"'package.json' -g 'src/**' -g 'app/**' -g 'components/**' -g 'AGENTS.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Claude\\\\lore-plugin\\\\bench\\\\fixtures\\\\lore\\\\lore\\\\index.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\frontend-design\\\\SKILL.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\vercel-react-best-practices\\\\SKILL.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -Encoding UTF8 -LiteralPath 'lore\\\\animation.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -Encoding UTF8 -LiteralPath 'lore\\\\principios.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -Encoding UTF8 -LiteralPath 'package.json'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command '$lines = Get-Content -Encoding UTF8 -LiteralPath '\"'lore\\\\animation.md'; \"'$lines[0..199] -join \"`n\"'",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Encoding UTF8 -LiteralPath 'lore\\\\animation.md' | Select-Object -First 200\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Encoding UTF8 -LiteralPath 'lore\\\\animation.md' | Select-Object -Skip 200 -First 200\""
+  ]
+}

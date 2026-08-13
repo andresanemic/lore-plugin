@@ -1,6 +1,6 @@
 ---
 name: create-project
-description: Use when starting a brand-new PROJECT inside an existing WORK AREA (created with create-area). Scaffolds AREA/proyectos/<slug>/ inheriting the area's Lore — the project keeps its own identidad.md + principios.md (leading with project-specific content, pointing to the area for the shared standard) plus an index.md that references the area's thematic modules by relative path. Derives folder structure and phases FROM the project's source documents; if the area carries a starter scaffold, instantiates it. Brainstorms the project identity FIRST (HARD-GATE). Replaces the old web-only nuevo-sitio. Trigger on "create a project <X> in area <Y>", "start the project <X> inside <area>".
+description: Use when starting a brand-new PROJECT inside an existing WORK AREA (created with create-area). Scaffolds an area project inheriting the area's Lore — the project keeps its own identidad.md + principios.md (leading with project-specific content, pointing to the area for the shared standard) plus an index.md that references the area's thematic modules by relative path. Derives folder structure and phases FROM the project's source documents; if the area carries a starter scaffold, instantiates it. Brainstorms the project identity FIRST (HARD-GATE). Replaces the old web-only nuevo-sitio. Trigger on "create project X in area Y" or "start project X inside an area".
 ---
 
 # create-project — Start a new project inside an area
@@ -54,7 +54,7 @@ does not exist, **stop** and propose `create-area` first.
 
 ## Procedure (step by step)
 
-### 1. Gather inputs (ask brainstorming-style, one at a time)
+### 1. Gather inputs (through Lore's `brainstorming-lore`, one at a time)
 
 | Token | Where it comes from |
 |---|---|
@@ -81,7 +81,8 @@ does not exist, **stop** and propose `create-area` first.
 
 ### 3. Project identity brainstorm (HARD-GATE)
 
-Invoke `brainstorming`. With what you read, propose and **get the user's approval** for:
+Invoke Lore Plugin's own `brainstorming-lore` skill (`lore:brainstorming-lore` where skills are namespaced).
+With what you read, propose and **get the user's approval** for:
 - The project's **specific identity** (what it is, its own north, its anti-scope) — leads
   `identidad.md`, then a pointer to the area standard.
 - The project's **specific principles** (its own constraints) — lead `principios.md`, then a pointer

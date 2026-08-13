@@ -1,0 +1,32 @@
+{
+  "task": "routing-gsap-ssr",
+  "arm": "lore",
+  "trial": 2,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "typeof\\s+window\\s*!==\\s*['\"]undefined['\"]",
+    "lib/gsap"
+  ],
+  "violation": [],
+  "text": "Centralizalo con guard de SSR:\n\n```ts\n// lib/gsap.ts\nimport { gsap } from \"gsap\";\nimport { ScrollTrigger } from \"gsap/ScrollTrigger\";\n\nif (typeof window !== \"undefined\") {\n  gsap.registerPlugin(ScrollTrigger);\n}\n\nexport { gsap, ScrollTrigger };\n```\n\nY en el componente cliente:\n\n```tsx\n\"use client\";\n\nimport { gsap, ScrollTrigger } from \"@/lib/gsap\";\n```\n\nNo importes `gsap` ni `ScrollTrigger` directamente desde sus paquetes dentro del componente; acá el contrato exige pasar por `lib/gsap.ts` para que el registro quede centralizado y protegido durante SSR.",
+  "error": false,
+  "stderr": "2026-08-12T22:58:56.539611Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n2026-08-12T22:59:10.974705Z ERROR codex_core::tools::router: error=`\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command 'Get-ChildItem -Force | Select-Object Name,Mode'` rejected: blocked by policy\n",
+  "read_lore": true,
+  "tool_calls": 6,
+  "cost_usd": null,
+  "input_tokens": 109181,
+  "output_tokens": 1184,
+  "cache_read": 81664,
+  "duration_ms": 38131,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command 'Get-ChildItem -Force | Select-Object Name,Mode'",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -Encoding UTF8 -LiteralPath 'lore/index.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -Encoding UTF8 -LiteralPath 'lore/animation.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"rg -n --hidden --glob '\"'!node_modules'\"' \\\"gsap|ScrollTrigger\\\" .\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -Encoding UTF8 -LiteralPath 'lore/routing.md'\""
+  ]
+}

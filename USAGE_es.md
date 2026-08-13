@@ -19,7 +19,7 @@ Lore organiza la experiencia en **criterio** que sigue participando en decisione
 
 El plugin Lore agrupa un conjunto de **skills** que implementan este ciclo:
 
-- `using-lore` – punto de entrada y navegación.
+- `use-lore` – punto de entrada y navegación.
 - `create-area` – Lore compartido para un grupo de proyectos.
 - `create-project` – Lore a nivel proyecto que hereda de un Área.
 - `save-to-lore` – captura criterio después de resolver un problema.
@@ -141,14 +141,14 @@ Una vez que tu Área y proyecto existen:
 
 ## 5. Skill por skill: cómo usarlos
 
-### 5.1 `using-lore` – Punto de entrada y navegación
+### 5.1 `use-lore` – Punto de entrada y navegación
 
 **Propósito:** ayudarte a entender el modelo de Lore y dirigirte al skill adecuado.
 
 Uso típico:
 
 ```text
-using-lore
+use-lore
 ```
 
 Puedes pedir cosas como:
@@ -157,7 +157,7 @@ Puedes pedir cosas como:
 - «Muéstrame los artefactos que existen ahora.»
 - «Guíame al skill correcto para capturar una nueva pista invariante.»
 
-`using-lore` es el lugar más seguro para empezar si no tienes claro qué skill usar a continuación.
+`use-lore` es el lugar más seguro para empezar si no tienes claro qué skill usar a continuación.
 
 ---
 

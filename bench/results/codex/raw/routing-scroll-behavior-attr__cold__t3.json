@@ -1,0 +1,24 @@
+{
+  "task": "routing-scroll-behavior-attr",
+  "arm": "cold",
+  "trial": 3,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "fail",
+  "compliance": [],
+  "violation": [],
+  "text": "En el root layout, agrega la clase de Tailwind al elemento `<html>`:\n\n```tsx\n<html lang=\"es\" className=\"scroll-smooth\">\n  <body>{children}</body>\n</html>\n```\n\nY en `globals.css`, respeta la preferencia de accesibilidad y compensa el header fijo si existe:\n\n```css\nhtml {\n  scroll-padding-top: 5rem; /* ajusta a la altura del header */\n}\n\n@media (prefers-reduced-motion: reduce) {\n  html {\n    scroll-behavior: auto;\n  }\n}\n```\n\nLas anclas deben apuntar a IDs reales:\n\n```tsx\n<a href=\"#contacto\">Contacto</a>\n\n<section id=\"contacto\">\n  {/* ... */}\n</section>\n```\n\n`scroll-smooth` usa `scroll-behavior: smooth` nativo; no requiere JavaScript ni librerías.",
+  "error": false,
+  "stderr": "2026-08-12T23:05:05.353464Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n2026-08-12T23:05:13.215029Z ERROR codex_core::tools::router: error=Exit code: 1\nWall time: 0.4 seconds\nOutput:\n# CLAUDE.md â€” Desarrollo Web\n\n> Fuente de verdad para Claude Code en esta Ã¡rea. Leer completo antes de cualquier tarea.\n> **Desarrollo Web** â€” Ã¡rea de trabajo que agrupa proyectos web (sitios de marketing y webs SaaS)\n> del mismo estÃ¡ndar premium.\n\n## CÃ³mo se trabaja acÃ¡\n\n1. Leer este archivo antes de cualquier tarea.\n2. Todo entregable se juzga contra el estÃ¡ndar premium del Ã¡rea.\n\n## Stack (web)\n\nNext.js (App Router) + TypeScript Â· Tailwind v4 (`@theme`, sin config) Â· GSAP â€” Ãºltimas versiones,\nsin pins. SSR + API Routes en Vercel. Para webs SaaS: Supabase (auth + Postgres + storage) y Stripe\n(suscripciones, webhooks, portal).\n\n## Reglas base\n\n- Nada de Playwright. ValidaciÃ³n visual/funcional manual, por el usuario.\n- `git push` solo cuando el usuario lo diga.\n- Nada de env hardcodeado; error descriptivo si falta. Chequeos de acceso siempre server-side; RLS\n  siempre activo; el webhook de Stripe siempre verifica la firma.\n\r\n\n__FILES__\r\n\n",
+  "read_lore": false,
+  "tool_calls": 1,
+  "cost_usd": null,
+  "input_tokens": 32597,
+  "output_tokens": 558,
+  "cache_read": 22016,
+  "duration_ms": 20623,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath .\\\\CLAUDE.md; Write-Output \\\"\"'`n__FILES__\"; rg --files -g \"*layout*\" -g \"*global*.css\" -g \"!node_modules\"'"
+  ]
+}

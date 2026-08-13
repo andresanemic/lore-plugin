@@ -29,7 +29,7 @@ El plugin Lore expone siete skills principales en Claude Code:
 
 | Skill            | Propósito                                     | Frase disparadora típica                                   |
 |------------------|-----------------------------------------------|------------------------------------------------------------|
-| `using-lore`     | Punto de entrada, navegación y ayuda          | Se lee primero; se dispara al mencionar “lore” o al empezar una Área/proyecto |
+| `use-lore`       | Punto de entrada, navegación y ayuda          | Se lee primero; se dispara al mencionar “lore” o al empezar una Área/proyecto |
 | `create-area`    | Crear una nueva Área con Lore compartido      | «crea un área de trabajo para Frontend», «quiero empezar a trabajar en X con Lore» |
 | `create-project` | Crear un proyecto que hereda de un Área       | «crea un proyecto de Sitio de marketing en el área Frontend» |
 | `save-to-lore`   | Capturar criterio tras resolver un problema (**capture**) o arbitrar criterio importado de una skill/guía ajena (**arbitrate**) | «guarda en lore», «destila esto en el lore» (capture) / «destila la skill X en el lore» (arbitrate) |
@@ -55,7 +55,7 @@ Estos skills **no son comandos de una CLI**: son *skills* de Claude Code que se 
 
 ## 3. Detalle de skills
 
-### 3.1 `using-lore`
+### 3.1 `use-lore`
 
 **Rol:** Punto de entrada a Lore.
 
@@ -71,7 +71,7 @@ Estos skills **no son comandos de una CLI**: son *skills* de Claude Code que se 
 - «¿Qué artefactos existen para este proyecto?»
 - «¿Qué skill debería usar para capturar una nueva pista invariante?»
 
-Usa `using-lore` siempre que no tengas claro dónde empezar.
+Usa `use-lore` siempre que no tengas claro dónde empezar.
 
 ---
 

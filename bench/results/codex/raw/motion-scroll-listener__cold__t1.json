@@ -1,0 +1,30 @@
+{
+  "task": "motion-scroll-listener",
+  "arm": "cold",
+  "trial": 1,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "ScrollTrigger|IntersectionObserver|animation-timeline"
+  ],
+  "violation": [],
+  "text": "Componente para Next.js App Router. Usa `IntersectionObserver`, por lo que no agrega un listener de scroll continuo.\n\n```tsx\n// components/site-navbar.tsx\n\"use client\";\n\nimport Link from \"next/link\";\nimport { useEffect, useState } from \"react\";\n\nconst links = [\n  { href: \"#servicios\", label: \"Servicios\" },\n  { href: \"#proyectos\", label: \"Proyectos\" },\n  { href: \"#contacto\", label: \"Contacto\" },\n] as const;\n\ntype SiteNavbarProps = {\n  heroId?: string;\n};\n\nexport function SiteNavbar({ heroId = \"hero\" }: SiteNavbarProps) {\n  const [hasPassedHero, setHasPassedHero] = useState(false);\n\n  useEffect(() => {\n    const hero = document.getElementById(heroId);\n\n    if (!hero) {\n      console.warn(`SiteNavbar: no se encontró el elemento #${heroId}.`);\n      return;\n    }\n\n    const observer = new IntersectionObserver(\n      ([entry]) => {\n        setHasPassedHero(entry.boundingClientRect.bottom <= 0);\n      },\n      { threshold: 0 },\n    );\n\n    observer.observe(hero);\n\n    return () => observer.disconnect();\n  }, [heroId]);\n\n  return (\n    <header\n      className={[\n        \"fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,border-color] duration-500 ease-out\",\n        hasPassedHero\n          ? \"border-b border-black/6 bg-[#f7f4ed]/92 shadow-[0_12px_40px_-18px_rgba(20,18,14,0.3)] backdrop-blur-xl\"\n          : \"border-b border-transparent bg-transparent shadow-none\",\n      ].join(\" \")}\n    >\n      <nav\n        aria-label=\"Navegación principal\"\n        className=\"mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-10\"\n      >\n        <Link\n          href=\"/\"\n          className={[\n            \"text-lg font-semibold tracking-[-0.04em] transition-colors duration-500\",\n            hasPassedHero ? \"text-[#191712]\" : \"text-white\",\n          ].join(\" \")}\n        >\n          Estudio Norte\n        </Link>\n\n        <div className=\"flex items-center gap-2 sm:gap-6\">\n          <ul className=\"hidden items-center gap-7 md:flex\">\n            {links.map((link) => (\n              <li key={link.href}>\n                <Link\n                  href={link.href}\n                  className={[\n                    \"text-sm transition-colors duration-300\",\n                    hasPassedHero\n                      ? \"text-[#5d584e] hover:text-[#191712]\"\n                      : \"text-white/75 hover:text-white\",\n                  ].join(\" \")}\n                >\n                  {link.label}\n                </Link>\n              </li>\n            ))}\n          </ul>\n\n          <Link\n            href=\"#contacto\"\n            className={[\n              \"rounded-full px-5 py-2.5 text-sm font-medium transition-colors duration-300\",\n              hasPassedHero\n                ? \"bg-[#191712] text-white hover:bg-[#363126]\"\n                : \"bg-white text-[#191712] hover:bg-white/85\",\n            ].join(\" \")}\n          >\n            Hablemos\n          </Link>\n        </div>\n      </nav>\n    </header>\n  );\n}\n```\n\nEl hero debe llevar el mismo `id`:\n\n```tsx\n<>\n  <SiteNavbar />\n\n  <main>\n    <section id=\"hero\" className=\"min-h-screen\">\n      {/* Hero */}\n    </section>\n\n    {/* Resto de la página */}\n  </main>\n</>\n```\n\nEl cambio ocurre cuando el borde inferior del hero abandona completamente la parte superior del viewport.",
+  "error": false,
+  "stderr": "2026-08-12T23:35:12.820132Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": false,
+  "tool_calls": 5,
+  "cost_usd": null,
+  "input_tokens": 91768,
+  "output_tokens": 1954,
+  "cache_read": 76544,
+  "duration_ms": 46425,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath .\\\\CLAUDE.md\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\frontend-design\\\\SKILL.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\vercel-react-best-practices\\\\SKILL.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"rg --files -g '\"'!node_modules'\"' -g '\"'!*.lock'\"' | Select-Object -First 80\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath .\\\\package.json\""
+  ]
+}

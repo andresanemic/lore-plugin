@@ -1,0 +1,27 @@
+{
+  "task": "routing-scroll-behavior-attr",
+  "arm": "lore",
+  "trial": 1,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "data-scroll-behavior=[\"']smooth[\"']"
+  ],
+  "violation": [],
+  "text": "En el root layout, marca el `<html>` para que Next.js desactive temporalmente el suavizado durante cambios de ruta:\n\n```tsx\n// app/layout.tsx\nexport default function RootLayout({\n  children,\n}: Readonly<{\n  children: React.ReactNode\n}>) {\n  return (\n    <html lang=\"es\" data-scroll-behavior=\"smooth\">\n      <body>{children}</body>\n    </html>\n  )\n}\n```\n\nEn el CSS global:\n\n```css\n/* app/globals.css */\nhtml {\n  scroll-behavior: smooth;\n}\n\n/* Ajusta el valor al alto real del header fijo + un poco de aire */\nsection[id] {\n  scroll-margin-top: 6rem;\n}\n\n@media (prefers-reduced-motion: reduce) {\n  html {\n    scroll-behavior: auto;\n  }\n}\n```\n\nUsa anclas normales:\n\n```tsx\n<a href=\"#precios\">Precios</a>\n\n<section id=\"precios\">\n  {/* ... */}\n</section>\n```\n\nNo hace falta JavaScript ni librería. `data-scroll-behavior=\"smooth\"` es importante en Next.js 16 para evitar que el smooth se aplique también al salto al inicio durante cambios de ruta. [Documentación oficial de Next.js](https://nextjs.org/docs/messages/missing-data-scroll-behavior).",
+  "error": false,
+  "stderr": "2026-08-12T23:05:25.871793Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": true,
+  "tool_calls": 2,
+  "cost_usd": null,
+  "input_tokens": 91801,
+  "output_tokens": 1092,
+  "cache_read": 57600,
+  "duration_ms": 35828,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath .\\\\CLAUDE.md; Write-Output \\\"\"'`n__FILES__\"; rg --files -g \"*layout*\" -g \"*global*.css\" -g \"!node_modules\"'",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -Encoding UTF8 -LiteralPath .\\\\lore\\\\index.md; Write-Output \\\"\"'`n__SCROLL__\"; Get-Content -Raw -Encoding UTF8 -LiteralPath .'\"\\\\lore\\\\scroll.md\""
+  ]
+}

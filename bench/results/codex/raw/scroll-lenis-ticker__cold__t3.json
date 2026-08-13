@@ -1,0 +1,30 @@
+{
+  "task": "scroll-lenis-ticker",
+  "arm": "cold",
+  "trial": 3,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "gsap\\.ticker\\.add",
+    "lagSmoothing\\s*\\(\\s*0\\s*\\)"
+  ],
+  "violation": [],
+  "text": "El provider queda como Client Component aislado y sincroniza Lenis con el ticker de GSAP y `ScrollTrigger.update()`:\n\n```tsx\n// app/providers/lenis-provider.tsx\n\"use client\";\n\nimport \"lenis/dist/lenis.css\";\n\nimport gsap from \"gsap\";\nimport { ScrollTrigger } from \"gsap/ScrollTrigger\";\nimport { ReactLenis, type LenisRef } from \"lenis/react\";\nimport { usePathname } from \"next/navigation\";\nimport {\n  type PropsWithChildren,\n  useEffect,\n  useRef,\n} from \"react\";\n\nexport function LenisProvider({ children }: PropsWithChildren) {\n  const lenisRef = useRef<LenisRef>(null);\n  const pathname = usePathname();\n\n  useEffect(() => {\n    gsap.registerPlugin(ScrollTrigger);\n\n    const lenis = lenisRef.current?.lenis;\n\n    if (!lenis) {\n      return;\n    }\n\n    const updateScrollTrigger = () => {\n      ScrollTrigger.update();\n    };\n\n    const updateLenis = (time: number) => {\n      // GSAP entrega segundos; Lenis espera milisegundos.\n      lenis.raf(time * 1000);\n    };\n\n    lenis.on(\"scroll\", updateScrollTrigger);\n    gsap.ticker.add(updateLenis);\n    gsap.ticker.lagSmoothing(0);\n\n    ScrollTrigger.refresh();\n\n    return () => {\n      lenis.off(\"scroll\", updateScrollTrigger);\n      gsap.ticker.remove(updateLenis);\n    };\n  }, []);\n\n  useEffect(() => {\n    const frame = requestAnimationFrame(() => {\n      lenisRef.current?.lenis?.resize();\n      ScrollTrigger.refresh();\n    });\n\n    return () => cancelAnimationFrame(frame);\n  }, [pathname]);\n\n  return (\n    <ReactLenis\n      ref={lenisRef}\n      root\n      options={{\n        autoRaf: false,\n        anchors: true,\n        lerp: 0.1,\n        stopInertiaOnNavigate: true,\n      }}\n    >\n      {children}\n    </ReactLenis>\n  );\n}\n```\n\nÚsalo en el layout raíz:\n\n```tsx\n// app/layout.tsx\nimport { LenisProvider } from \"./providers/lenis-provider\";\n\nexport default function RootLayout({\n  children,\n}: Readonly<{\n  children: React.ReactNode;\n}>) {\n  return (\n    <html lang=\"es\">\n      <body>\n        <LenisProvider>{children}</LenisProvider>\n      </body>\n    </html>\n  );\n}\n```\n\nNo hace falta `ScrollTrigger.scrollerProxy()` porque `root` mantiene el scroll del documento; Lenis recomienda compartir el ticker de GSAP y convertir segundos a milisegundos. [Integración oficial de Lenis con GSAP](https://github.com/darkroomengineering/lenis/blob/main/packages/react/README.md#gsap-integration)\n\nNo pude crear el archivo porque este fixture está montado en modo solo lectura y únicamente contiene `package.json` y `CLAUDE.md`.",
+  "error": false,
+  "stderr": "2026-08-12T23:08:59.195874Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": false,
+  "tool_calls": 4,
+  "cost_usd": null,
+  "input_tokens": 143471,
+  "output_tokens": 3292,
+  "cache_read": 116992,
+  "duration_ms": 85292,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\vercel-react-best-practices\\\\SKILL.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"rg --files -g '\"'!node_modules'\"' -g '\"'!'\"\\\\.next'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'package.json'\""
+  ]
+}

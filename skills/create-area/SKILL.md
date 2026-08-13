@@ -1,6 +1,6 @@
 ---
 name: create-area
-description: Use when starting a brand-new WORK AREA that groups several projects of the same kind (web, research, blog, video, apps…). Scaffolds an area folder with its own Lore (identidad/principios + index + optional thematic modules), a CLAUDE.md contract, a FASES.md project registry and an empty proyectos/ folder. Brainstorms the area identity FIRST (HARD-GATE). Trigger on "create a work area for X", "I want to start working on <domain> with Lore".
+description: Use when starting a brand-new WORK AREA that groups several projects of the same kind (web, research, blog, video, apps…). Scaffolds an area folder with its own Lore (identidad/principios + index + optional thematic modules), a CLAUDE.md contract, a FASES.md project registry and an empty proyectos/ folder. Brainstorms the area identity FIRST (HARD-GATE). Trigger on "create a work area for X" or "I want to start working on a domain with Lore".
 ---
 
 # create-area — Start a new work area
@@ -40,7 +40,8 @@ Creates the **mother folder** of a domain (web, research, blog, video, apps…) 
 
 ### 1. Identity brainstorm (HARD-GATE)
 
-**Create no file or folder before the design is approved.** Invoke the `brainstorming` skill. Ask
+**Create no file or folder before the design is approved.** Invoke Lore Plugin's own
+`brainstorming-lore` skill (`lore:brainstorming-lore` where skills are namespaced). Ask
 **one thing at a time** and derive the tokens:
 
 | Token | Where it comes from |

@@ -1,0 +1,30 @@
+{
+  "task": "animation-fouc",
+  "arm": "cold",
+  "trial": 3,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "fail",
+  "compliance": [
+    "\\.fromTo\\s*\\("
+  ],
+  "violation": [],
+  "text": "```tsx\n// components/Hero.tsx\n\"use client\";\n\nimport { useRef } from \"react\";\nimport gsap from \"gsap\";\nimport { useGSAP } from \"@gsap/react\";\n\ngsap.registerPlugin(useGSAP);\n\ntype HeroProps = {\n  title?: string;\n  subtitle?: string;\n};\n\nexport function Hero({\n  title = \"Ideas que dejan huella.\",\n  subtitle = \"Diseñamos experiencias digitales precisas, memorables y construidas para mover tu negocio.\",\n}: HeroProps) {\n  const heroRef = useRef<HTMLElement>(null);\n\n  useGSAP(\n    () => {\n      const media = gsap.matchMedia();\n\n      media.add(\"(prefers-reduced-motion: no-preference)\", () => {\n        gsap.fromTo(\n          \"[data-hero-reveal]\",\n          {\n            autoAlpha: 0,\n            y: 24,\n          },\n          {\n            autoAlpha: 1,\n            y: 0,\n            duration: 1,\n            stagger: 0.14,\n            ease: \"power3.out\",\n            clearProps: \"transform,opacity,visibility\",\n          },\n        );\n      });\n\n      media.add(\"(prefers-reduced-motion: reduce)\", () => {\n        gsap.set(\"[data-hero-reveal]\", {\n          autoAlpha: 1,\n          y: 0,\n        });\n      });\n\n      return () => media.revert();\n    },\n    { scope: heroRef },\n  );\n\n  return (\n    <section\n      ref={heroRef}\n      aria-labelledby=\"hero-title\"\n      className=\"relative isolate flex min-h-[85svh] items-center overflow-hidden bg-[#f1eee7] px-6 py-24 text-[#171714] sm:px-10 lg:px-16\"\n    >\n      <div\n        aria-hidden=\"true\"\n        className=\"absolute inset-0 -z-10 opacity-45\"\n        style={{\n          backgroundImage:\n            \"radial-gradient(circle at 82% 18%, rgba(201,73,43,.32), transparent 26%), radial-gradient(circle at 10% 85%, rgba(37,88,73,.2), transparent 28%)\",\n        }}\n      />\n\n      <div\n        aria-hidden=\"true\"\n        className=\"absolute right-[8%] top-[12%] -z-10 h-64 w-64 rounded-full border border-[#171714]/15 sm:h-96 sm:w-96\"\n      />\n\n      <div className=\"mx-auto w-full max-w-7xl\">\n        <div className=\"max-w-5xl\">\n          <p className=\"mb-7 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.24em] text-[#a63f28]\">\n            <span className=\"h-px w-8 bg-current\" />\n            Estudio digital independiente\n          </p>\n\n          <h1\n            id=\"hero-title\"\n            data-hero-reveal\n            className=\"max-w-5xl text-balance font-serif text-[clamp(3.5rem,10vw,9rem)] leading-[0.87] tracking-[-0.055em]\"\n          >\n            {title}\n          </h1>\n\n          <p\n            data-hero-reveal\n            className=\"mt-9 max-w-2xl text-pretty text-lg leading-relaxed text-[#171714]/65 sm:ml-[18%] sm:text-xl lg:text-2xl\"\n          >\n            {subtitle}\n          </p>\n        </div>\n      </div>\n    </section>\n  );\n}\n```\n\nUso desde una página del App Router:\n\n```tsx\nimport { Hero } from \"@/components/Hero\";\n\nexport default function HomePage() {\n  return (\n    <main>\n      <Hero\n        title=\"Tu próxima gran idea empieza acá.\"\n        subtitle=\"Creamos productos digitales con una dirección visual clara y una ejecución impecable.\"\n      />\n    </main>\n  );\n}\n```\n\nLa animación queda correctamente aislada, se limpia al desmontar el componente y respeta `prefers-reduced-motion`. Las dependencias necesarias (`gsap` y `@gsap/react`) ya están presentes en el proyecto.",
+  "error": false,
+  "stderr": "2026-08-12T22:47:42.531437Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": false,
+  "tool_calls": 5,
+  "cost_usd": null,
+  "input_tokens": 71916,
+  "output_tokens": 1655,
+  "cache_read": 57344,
+  "duration_ms": 44442,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\frontend-design\\\\SKILL.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\vercel-react-best-practices\\\\SKILL.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"rg --files -g 'package.json' -g 'app/**' -g 'src/**' -g 'components/**' -g '\"'!node_modules'\"'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'package.json'\""
+  ]
+}

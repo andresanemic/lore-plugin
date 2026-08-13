@@ -1,0 +1,34 @@
+{
+  "task": "animation-fouc",
+  "arm": "lore",
+  "trial": 1,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "style=\\{\\{[^}]*opacity:\\s*0|className=\"[^\"]*opacity-0|(?:const|let)\\s+(\\w+)(?:\\s*:\\s*[^=]+)?\\s*=\\s*\\{[^}]*opacity:\\s*0[^}]*\\}[\\s\\S]*style=\\{\\1\\}",
+    "\\.fromTo\\s*\\("
+  ],
+  "violation": [],
+  "text": "Componente completo para Next.js App Router, TypeScript, Tailwind v4 y GSAP. Incluye estado inicial anti-FOUC, limpieza automática y soporte para `prefers-reduced-motion`.\n\n```tsx\n\"use client\";\n\nimport { useRef } from \"react\";\nimport { useGSAP } from \"@gsap/react\";\nimport gsap from \"gsap\";\n\ngsap.registerPlugin(useGSAP);\n\ntype HeroProps = {\n  title?: string;\n  subtitle?: string;\n};\n\nexport function Hero({\n  title = \"Diseñamos experiencias que dejan huella.\",\n  subtitle = \"Estrategia, diseño y tecnología para convertir buenas ideas en productos digitales memorables.\",\n}: HeroProps) {\n  const heroRef = useRef<HTMLElement>(null);\n  const titleRef = useRef<HTMLHeadingElement>(null);\n  const subtitleRef = useRef<HTMLParagraphElement>(null);\n\n  useGSAP(\n    () => {\n      const title = titleRef.current;\n      const subtitle = subtitleRef.current;\n\n      if (!title || !subtitle) return;\n\n      const elements = [title, subtitle];\n      const media = gsap.matchMedia();\n\n      media.add(\"(prefers-reduced-motion: reduce)\", () => {\n        gsap.set(elements, {\n          clearProps: \"opacity,transform,visibility,willChange\",\n        });\n      });\n\n      media.add(\"(prefers-reduced-motion: no-preference)\", () => {\n        const timeline = gsap.timeline({\n          defaults: {\n            ease: \"power3.out\",\n          },\n          onComplete: () => {\n            gsap.set(elements, {\n              clearProps: \"opacity,transform,visibility,willChange\",\n            });\n          },\n        });\n\n        timeline\n          .fromTo(\n            title,\n            {\n              autoAlpha: 0,\n              y: 24,\n            },\n            {\n              autoAlpha: 1,\n              y: 0,\n              duration: 0.7,\n            },\n          )\n          .fromTo(\n            subtitle,\n            {\n              autoAlpha: 0,\n              y: 18,\n            },\n            {\n              autoAlpha: 1,\n              y: 0,\n              duration: 0.65,\n            },\n            0.05,\n          );\n      });\n\n      return () => media.revert();\n    },\n    { scope: heroRef },\n  );\n\n  return (\n    <section\n      ref={heroRef}\n      aria-labelledby=\"hero-title\"\n      className=\"relative isolate flex min-h-svh items-center overflow-hidden bg-[#0d0e12] px-6 py-24 text-white sm:px-10 lg:px-16\"\n    >\n      <div\n        aria-hidden=\"true\"\n        className=\"pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_75%_25%,rgba(122,143,255,0.16),transparent_38%)]\"\n      />\n\n      <div className=\"mx-auto w-full max-w-7xl\">\n        <h1\n          ref={titleRef}\n          id=\"hero-title\"\n          className=\"max-w-5xl text-balance text-5xl font-semibold leading-[0.96] tracking-[-0.055em] sm:text-7xl lg:text-8xl\"\n          style={{\n            opacity: 0,\n            transform: \"translate3d(0, 24px, 0)\",\n            willChange: \"transform, opacity\",\n          }}\n        >\n          {title}\n        </h1>\n\n        <p\n          ref={subtitleRef}\n          className=\"mt-8 max-w-2xl text-pretty text-lg leading-relaxed text-white/65 sm:text-xl\"\n          style={{\n            opacity: 0,\n            transform: \"translate3d(0, 18px, 0)\",\n            willChange: \"transform, opacity\",\n          }}\n        >\n          {subtitle}\n        </p>\n      </div>\n    </section>\n  );\n}\n```\n\nSi aún no están instaladas las dependencias:\n\n```bash\nnpm install gsap @gsap/react\n```\n\n`useGSAP` limita la animación al componente y revierte sus cambios al desmontarlo, siguiendo la integración oficial de React de [GSAP](https://gsap.com/docs/v3/GSAP/gsap.context%28%29/).",
+  "error": false,
+  "stderr": "2026-08-12T22:48:26.972409Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n2026-08-12T22:48:50.990010Z ERROR codex_core::tools::router: error=`\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command '$p='\"'lore\\\\animation.md'; \"'$lines=Get-Content -LiteralPath $p; \"LINES=$($lines.Count)\"; for($i=0;$i -lt [Math]::Min(220,$lines.Count);$i++){ '\"'{0:D4}: {1}' -f (\"'$i+1),$lines[$i] }'` rejected: blocked by policy\n",
+  "read_lore": true,
+  "tool_calls": 8,
+  "cost_usd": null,
+  "input_tokens": 225064,
+  "output_tokens": 3320,
+  "cache_read": 174336,
+  "duration_ms": 87854,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\vercel-react-best-practices\\\\SKILL.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\frontend-design\\\\SKILL.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore\\\\animation.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore\\\\index.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command '$p='\"'lore\\\\animation.md'; \"'$lines=Get-Content -LiteralPath $p; \"LINES=$($lines.Count)\"; for($i=0;$i -lt [Math]::Min(220,$lines.Count);$i++){ '\"'{0:D4}: {1}' -f (\"'$i+1),$lines[$i] }'",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -LiteralPath 'lore\\\\animation.md' -TotalCount 220\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -LiteralPath 'lore\\\\animation.md' | Select-Object -Skip 220 -First 220\""
+  ]
+}

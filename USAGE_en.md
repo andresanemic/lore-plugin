@@ -19,7 +19,7 @@ Lore organizes experience into **criteria** that keep participating in future de
 
 The Lore plugin bundles a set of **skills** that implement this loop:
 
-- `using-lore` – entry point & navigation.
+- `use-lore` – entry point & navigation.
 - `create-area` – shared Lore for a group of projects.
 - `create-project` – project‑level Lore inheriting an Area.
 - `save-to-lore` – capture criteria after solving a problem.
@@ -136,14 +136,14 @@ Once your Area and project exist:
 
 ## 5. Skill by Skill: How to Use Them
 
-### 5.1 `using-lore` – Entry Point & Navigation
+### 5.1 `use-lore` – Entry Point & Navigation
 
 **Purpose:** Help you understand the Lore model and route you to the right skill.
 
 Typical usage:
 
 ```text
-using-lore
+use-lore
 ```
 
 You can ask things like:
@@ -152,7 +152,7 @@ You can ask things like:
 - “Show me the artifacts currently defined.”
 - “Guide me to the right skill for capturing a new invariant.”
 
-`using-lore` is the safest place to start if you’re unsure which skill to use next.
+`use-lore` is the safest place to start if you’re unsure which skill to use next.
 
 ---
 

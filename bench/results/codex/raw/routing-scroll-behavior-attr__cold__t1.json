@@ -1,0 +1,24 @@
+{
+  "task": "routing-scroll-behavior-attr",
+  "arm": "cold",
+  "trial": 1,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "fail",
+  "compliance": [],
+  "violation": [],
+  "text": "En el root layout, agrega una clase al `<html>`:\n\n```tsx\n// app/layout.tsx\nexport default function RootLayout({\n  children,\n}: Readonly<{ children: React.ReactNode }>) {\n  return (\n    <html lang=\"es\" className=\"scroll-smooth\">\n      <body>{children}</body>\n    </html>\n  );\n}\n```\n\nY en el CSS global agrega el fallback nativo y respeta “reducir movimiento”:\n\n```css\n/* app/globals.css */\nhtml {\n  scroll-behavior: smooth;\n}\n\n@media (prefers-reduced-motion: reduce) {\n  html {\n    scroll-behavior: auto;\n  }\n}\n```\n\nCon Tailwind v4, `scroll-smooth` ya genera `scroll-behavior: smooth`, así que técnicamente sería duplicado. Recomiendo elegir una sola fuente: dejar la clase en el layout y conservar únicamente el media query global:\n\n```css\n@media (prefers-reduced-motion: reduce) {\n  html {\n    scroll-behavior: auto;\n  }\n}\n```\n\nLas anclas funcionan normalmente:\n\n```tsx\n<a href=\"#contacto\">Contacto</a>\n\n<section id=\"contacto\">...</section>\n```",
+  "error": false,
+  "stderr": "2026-08-12T23:04:30.246091Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": false,
+  "tool_calls": 1,
+  "cost_usd": null,
+  "input_tokens": 32596,
+  "output_tokens": 426,
+  "cache_read": 15104,
+  "duration_ms": 17499,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath .\\\\CLAUDE.md; Write-Output \\\"\"'`n__FILES__\"; rg --files -g \"!*node_modules*\" | Select-Object -First 80'"
+  ]
+}

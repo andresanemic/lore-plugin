@@ -1,0 +1,29 @@
+{
+  "name": "lore",
+  "version": "2.0.0",
+  "description": "Provider-neutral project criterion that persists across agents, models, and sessions.",
+  "author": {
+    "name": "andresanemic",
+    "url": "https://github.com/andresanemic"
+  },
+  "homepage": "https://github.com/andresanemic/lore-plugin",
+  "repository": "https://github.com/andresanemic/lore-plugin",
+  "license": "MIT",
+  "keywords": ["lore", "skills", "context-engineering", "knowledge-management"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Lore Plugin",
+    "shortDescription": "The project remembers its criterion.",
+    "longDescription": "Create, preserve, upgrade, and carry project criterion between AI providers without retraining a model.",
+    "developerName": "andresanemic",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "websiteURL": "https://github.com/andresanemic/lore-plugin",
+    "defaultPrompt": [
+      "Use Lore to understand this project.",
+      "Save this lesson to Lore.",
+      "Upgrade this project's Lore."
+    ],
+    "brandColor": "#00D9FF"
+  }
+}

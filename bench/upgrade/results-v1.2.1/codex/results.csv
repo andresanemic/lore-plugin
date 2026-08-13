@@ -1,0 +1,9 @@
+task,arm,trial,verdict,read_lore,compliance_hits,violation_hits,cost_usd,input_tokens,output_tokens,cache_read,tool_calls,duration_ms,num_turns
+upgrade-community-manager,cold,1,fail,true,3,0,,439695,4645,390144,19,153768,1
+upgrade-community-manager,cold,2,fail,true,2,0,,435795,5984,397568,15,158744,1
+upgrade-community-manager,lore,1,pass,true,10,0,,336208,7155,288256,16,168127,1
+upgrade-community-manager,lore,2,fail,true,5,0,,148452,2339,105728,7,66107,1
+upgrade-redaccion-noticias,cold,1,fail,true,8,0,,538601,7774,473088,32,183822,1
+upgrade-redaccion-noticias,cold,2,fail,true,5,0,,191867,4160,138240,16,118102,1
+upgrade-redaccion-noticias,lore,1,pass,true,10,0,,231434,7106,204032,20,165627,1
+upgrade-redaccion-noticias,lore,2,pass,true,10,0,,229555,7200,198144,10,170971,1

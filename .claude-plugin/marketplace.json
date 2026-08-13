@@ -4,14 +4,14 @@
     "name": "andresanemic"
   },
   "metadata": {
-    "description": "The Lore marketplace — a humanist spec-driven development kit for Claude Code.",
-    "version": "1.2.1"
+    "description": "The Lore marketplace — provider-neutral project criterion for AI agents.",
+    "version": "2.0.0"
   },
   "plugins": [
     {
       "name": "lore",
       "source": "./",
-      "description": "Local fine-tuning for your own tasks, except the one doing the training is you. Distill scattered project criteria into invariant Lore and operate it: using-lore, create-area, create-project, create-bot, save-to-lore, transmute-lore, obsidian-lore."
+      "description": "Local fine-tuning for your own tasks, except the one doing the training is you. Operate Lore with use-lore, brainstorming-lore, create-area, create-project, create-bot, save-to-lore, transmute-lore, and obsidian-lore."
     }
   ]
 }

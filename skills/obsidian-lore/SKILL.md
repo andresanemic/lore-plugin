@@ -1,6 +1,14 @@
 ---
 name: obsidian-lore
-description: Use when Obsidian notes and Lore share one folder tree — the vault is the mother folder of the Areas — to capture free notes outside any lore/ and, above all, to MINE that inbox for criteria worth distilling. Trigger on «revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore», «mina la bandeja», «destila estas notas», «guarda esta nota en Obsidian», «review my Obsidian notes and see what belongs in my lore», «mine my inbox». Work your notes from a bot, permanently and not as an alternative — its routing table is what keeps a note from being filed by guesswork. Notes are SOURCE, never criteria — only an explicit mining pass plus HARD-GATE turns one into Lore, and the writing is delegated to save-to-lore.
+description: >-
+  Use when Obsidian notes and Lore share one folder tree — the vault is the mother folder of the
+  Areas — to capture or MINE free notes outside any lore/. Trigger whenever the user points to
+  `notas/` or `notes/` and asks to read, review, integrate, extract, distill, or save anything into
+  Lore, FASES, CLAUDE, corpus, hypotheses, or case studies; also on «mina la bandeja», «guarda esta
+  nota en Obsidian», or «mine my inbox». This routing takes precedence even when another domain
+  skill (for example research-lus) also applies. Work notes from a bot permanently: notes remain
+  SOURCE in their inbox after mining, with frontmatter tracing the approved destination; writing
+  is delegated to the skill that owns that destination.
 ---
 
 # obsidian-lore — The bridge between where experience piles up and where criteria is distilled
@@ -152,6 +160,12 @@ operation.
 Triggered by *«revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore»*, *«mina la
 bandeja»*, *«destila estas notas»*, or pointed at specific notes.
 
+**Cross-skill routing rule:** a request such as *«lee `LUS/notas` y guarda lo necesario en Lore y
+FASES»* invokes this skill first even though `research-lus`, `transmute-lore` or another skill may
+also govern the destination. This skill owns the source-side sweep and frontmatter; the destination
+skill owns the scientific or Lore write. Reading the notes through the domain skill alone is a
+failure: the information was loaded, but the transformation stayed untracked.
+
 ### 1. Read
 
 Sweep `<inbox>/**/*.md` — the inbox of the folder the session is open in — skipping notes with a
@@ -219,6 +233,11 @@ is what `save-to-lore` does not know.
 Write `destilado:` in every note that was mined, including the ones that produced nothing. Report:
 what entered, where, what was discarded as noise and **why**, and the remaining debt.
 
+If a pre-existing note has no frontmatter, add all three fields (`fecha`, optional `origen`, and
+`destilado`) after approval while preserving its body byte-for-byte below the header. **Never move
+or delete the note after mining.** A processed inbox is not an empty inbox; it is a traceable source
+archive whose non-empty `destilado` fields make future sweeps idempotent.
+
 ## Invariants
 
 - **A note is source, never criteria.** It is never authoritative, never loaded as if it were Lore,
@@ -230,6 +249,8 @@ what entered, where, what was discarded as noise and **why**, and the remaining 
 - **`nada` is a legitimate result** and is written down. Discarded noise is reported, never dropped in
   silence.
 - **This skill never deletes a note.** Mine before deleting, and deleting is the human's call.
+- **Mining leaves notes in `notas/` / `notes/`.** Frontmatter records where the transformation
+  landed; neither this skill nor `transmute-lore` treats processed notes as cleanup candidates.
 - **Ambiguous routing is asked, not guessed.**
 - **A bot is the recommended home for an inbox, permanently.** It is the only place where routing is
   read from a written table instead of guessed. Recommend it on first run and whenever a sweep

@@ -1,0 +1,26 @@
+{
+  "task": "news-dual-source",
+  "arm": "cold",
+  "trial": 1,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "fail",
+  "compliance": [
+    "\\[[^\\]]+\\]\\(https://example\\.com/informe-solar\\)"
+  ],
+  "violation": [],
+  "text": "## Capacidad renovable de Puerto Claro creció 18% interanual\n\nLa capacidad de generación renovable de Puerto Claro aumentó un 18% interanual, informó la Agencia Solar el 12 de agosto de 2026. La cifra fue difundida en su [informe solar](https://example.com/informe-solar).",
+  "error": false,
+  "stderr": "2026-08-13T00:09:57.551811Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": false,
+  "tool_calls": 1,
+  "cost_usd": null,
+  "input_tokens": 32482,
+  "output_tokens": 234,
+  "cache_read": 17920,
+  "duration_ms": 14113,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'\""
+  ]
+}

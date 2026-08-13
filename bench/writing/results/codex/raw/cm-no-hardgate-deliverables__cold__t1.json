@@ -1,0 +1,24 @@
+{
+  "task": "cm-no-hardgate-deliverables",
+  "arm": "cold",
+  "trial": 1,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "fail",
+  "compliance": [],
+  "violation": [],
+  "text": "# Menú de entregables — Webinar gratuito de planificación de contenidos\n\n## Pieza principal\n\n- Publicación para Instagram y LinkedIn.\n- Texto con gancho, beneficios, fecha, horario y llamada a la inscripción.\n- Versión breve adaptable a Facebook.\n- Recomendación de concepto visual.\n\n## Adaptaciones\n\n- Historia de lanzamiento con enlace de registro.\n- Historia recordatoria: “Últimos cupos”.\n- Copy corto para X.\n- Mensaje para WhatsApp o comunidad privada.\n- Texto para newsletter.\n\n## Apoyo a la conversión\n\n- Tres opciones de titular.\n- Tres llamadas a la acción.\n- Preguntas frecuentes breves.\n- Texto de confirmación de inscripción.\n- Recordatorio para enviar 24 horas antes.\n\n## Seguimiento\n\n- Publicación “Comenzamos hoy”.\n- Mensaje “Entramos en vivo”.\n- Agradecimiento posterior.\n- Copy para compartir la grabación o los aprendizajes principales.\n\n## Combo recomendado\n\n1. Publicación principal.\n2. Adaptación para LinkedIn.\n3. Dos historias.\n4. Mensaje para WhatsApp.\n5. Recordatorio de 24 horas.\n6. Publicación de agradecimiento.",
+  "error": false,
+  "stderr": "2026-08-13T00:08:13.069840Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": false,
+  "tool_calls": 1,
+  "cost_usd": null,
+  "input_tokens": 32416,
+  "output_tokens": 509,
+  "cache_read": 30208,
+  "duration_ms": 19307,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath .\\\\CLAUDE.md\""
+  ]
+}

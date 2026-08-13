@@ -1,0 +1,34 @@
+{
+  "task": "stack-viewport-height",
+  "arm": "lore",
+  "trial": 2,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "pass",
+  "compliance": [
+    "100[sd]vh|(?:min-)?h-(?:s|d)vh"
+  ],
+  "violation": [],
+  "text": "```html\n<section\n  class=\"relative isolate flex min-h-svh items-end overflow-hidden bg-[#0c1017] px-6 py-10 text-[#f4f1e8] sm:px-10 sm:py-14 lg:px-16 lg:py-16\"\n>\n  <div\n    aria-hidden=\"true\"\n    class=\"absolute inset-0 -z-20 bg-[radial-gradient(circle_at_78%_20%,rgba(183,255,60,0.16),transparent_32%)]\"\n  ></div>\n\n  <div\n    aria-hidden=\"true\"\n    class=\"absolute inset-0 -z-10 opacity-20 [background-image:linear-gradient(rgba(244,241,232,0.18)_1px,transparent_1px),linear-gradient(90deg,rgba(244,241,232,0.18)_1px,transparent_1px)] [background-size:4rem_4rem] [mask-image:linear-gradient(to_bottom,black,transparent_80%)]\"\n  ></div>\n\n  <div class=\"mx-auto grid w-full max-w-7xl gap-10 lg:grid-cols-12 lg:items-end\">\n    <div class=\"lg:col-span-9\">\n      <h1 class=\"max-w-5xl text-[clamp(3rem,8vw,8.5rem)] font-semibold leading-[0.92] tracking-[-0.055em] text-balance\">\n        Sitios que convierten atención en negocio.\n      </h1>\n    </div>\n\n    <div class=\"flex flex-col gap-8 lg:col-span-3\">\n      <p class=\"max-w-md text-base leading-7 text-[#c5c7c3] sm:text-lg\">\n        Diseñamos experiencias rápidas, claras y memorables para marcas listas para crecer.\n      </p>\n\n      <div class=\"flex flex-col gap-3 sm:flex-row lg:flex-col\">\n        <a\n          href=\"#contacto\"\n          class=\"inline-flex min-h-11 items-center justify-center rounded-full bg-[#b7ff3c] px-6 py-3 font-medium text-[#10150b] transition-transform duration-200 ease-out hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#b7ff3c] motion-reduce:transform-none motion-reduce:transition-none\"\n        >\n          Hablemos\n        </a>\n\n        <a\n          href=\"#proyectos\"\n          class=\"inline-flex min-h-11 items-center justify-center rounded-full border border-[#f4f1e8]/30 px-6 py-3 font-medium text-[#f4f1e8] transition-[transform,border-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-[#f4f1e8] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f4f1e8] motion-reduce:transform-none motion-reduce:transition-none\"\n        >\n          Ver proyectos\n        </a>\n      </div>\n    </div>\n  </div>\n</section>\n```",
+  "error": false,
+  "stderr": "2026-08-12T23:23:34.684044Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": true,
+  "tool_calls": 9,
+  "cost_usd": null,
+  "input_tokens": 100741,
+  "output_tokens": 1943,
+  "cache_read": 69632,
+  "duration_ms": 49413,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore\\\\index.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\frontend-design\\\\SKILL.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore\\\\principios.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore\\\\identidad.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore\\\\composicion.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore\\\\responsive.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore\\\\layout.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore\\\\scroll.md'\""
+  ]
+}

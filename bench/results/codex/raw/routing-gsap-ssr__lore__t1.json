@@ -1,0 +1,29 @@
+{
+  "task": "routing-gsap-ssr",
+  "arm": "lore",
+  "trial": 1,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "medium",
+  "verdict": "fail",
+  "compliance": [],
+  "violation": [],
+  "text": "En el componente cliente, el encabezado correcto es:\n\n```tsx\n\"use client\";\n\nimport { useGSAP } from \"@gsap/react\";\nimport { gsap } from \"gsap\";\nimport { ScrollTrigger } from \"gsap/ScrollTrigger\";\n\ngsap.registerPlugin(useGSAP, ScrollTrigger);\n```\n\nEl registro va una sola vez, a nivel de módulo y fuera del componente. Las dependencias necesarias ya están instaladas en el proyecto. No hay ningún componente `.tsx` en este fixture para aplicarlo directamente.",
+  "error": false,
+  "stderr": "2026-08-12T22:58:19.718368Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "read_lore": true,
+  "tool_calls": 6,
+  "cost_usd": null,
+  "input_tokens": 123954,
+  "output_tokens": 1225,
+  "cache_read": 93952,
+  "duration_ms": 36779,
+  "num_turns": 1,
+  "tools": [
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"rg --files -g '\"'!node_modules'\"' -g '\"'!.*'\"'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'C:\\\\Users\\\\andre\\\\.agents\\\\skills\\\\vercel-react-best-practices\\\\SKILL.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'lore\\\\index.md'; Get-Content -Raw -LiteralPath 'lore\\\\animation.md'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"Get-Content -Raw -LiteralPath 'package.json'; rg -n \\\"gsap|ScrollTrigger|use client|useGSAP\\\" . -g '\"'!lore/**'\"' -g '\"'!node_modules/**'\"'\"",
+    "\"C:\\\\windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"rg -n -C 4 \\\"registerPlugin|ScrollTrigger|@gsap/react|imports?|gsap/dist\\\" lore\\\\animation.md lore\\\\scroll.md\""
+  ]
+}
