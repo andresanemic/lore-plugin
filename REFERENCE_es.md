@@ -1,6 +1,6 @@
 # Plugin Lore – Referencia
 
-Este documento es la referencia técnica del **plugin Lore** para Claude Code.  
+Este documento es la referencia técnica del **plugin Lore**, neutral al proveedor.
 Define los conceptos centrales de Lore, los skills disponibles, los artefactos en Markdown y cómo encajan entre sí.
 
 Para una guía práctica de “cómo usarlo en el día a día”, consulta [`USAGE_es.md`](./USAGE_es.md).  
@@ -25,11 +25,12 @@ Lore almacena criterio que restringe lo que debería ocurrir después.
 
 ## 2. Resumen de skills
 
-El plugin Lore expone siete skills principales en Claude Code:
+El plugin Lore expone ocho skills principales a través de agentes de IA compatibles:
 
 | Skill            | Propósito                                     | Frase disparadora típica                                   |
 |------------------|-----------------------------------------------|------------------------------------------------------------|
 | `use-lore`       | Punto de entrada, navegación y ayuda          | Se lee primero; se dispara al mencionar “lore” o al empezar una Área/proyecto |
+| `brainstorming-lore` | Diseñar cambios específicos de Lore sin apropiarse del brainstorming general | «haz brainstorming de este Lore», o la invoca una skill Lore dueña del artefacto |
 | `create-area`    | Crear una nueva Área con Lore compartido      | «crea un área de trabajo para Frontend», «quiero empezar a trabajar en X con Lore» |
 | `create-project` | Crear un proyecto que hereda de un Área       | «crea un proyecto de Sitio de marketing en el área Frontend» |
 | `save-to-lore`   | Capturar criterio tras resolver un problema (**capture**) o arbitrar criterio importado de una skill/guía ajena (**arbitrate**) | «guarda en lore», «destila esto en el lore» (capture) / «destila la skill X en el lore» (arbitrate) |
@@ -49,7 +50,7 @@ inglés (workflow, commit, stack, scaffold…). Dentro de un corpus existente ma
 establecidos. Un Lore en el idioma equivocado se estandariza con `transmute-lore` en modo
 `translate`.
 
-Estos skills **no son comandos de una CLI**: son *skills* de Claude Code que se disparan por lenguaje natural según la frase que uses, no por flags o sintaxis de terminal. Las frases de la tabla son ejemplos de invocación real, tomadas de los disparadores documentados en cada `SKILL.md`.
+Estos skills **no son comandos de una CLI**: son *skills* del agente que se disparan por lenguaje natural según la frase que uses, no por flags o sintaxis de terminal. Las frases de la tabla son ejemplos de invocación real, tomadas de los disparadores documentados en cada `SKILL.md`.
 
 ---
 

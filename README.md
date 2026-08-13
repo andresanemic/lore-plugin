@@ -15,7 +15,7 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-1.2.1-F72585?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.0.2-F72585?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/paradigm-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-FFBE0B?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
@@ -43,6 +43,16 @@
   <code>8 skills · 7 case studies · 72 benchmark runs</code>
 </p>
 
+<h3 align="center">Up to <strong>28% faster</strong> and <strong>24% fewer output tokens</strong> to a correct result, with <strong>+28 points of first-pass correctness.</strong></h3>
+
+| Metric | Cold Codex | Codex + Lore |
+|---|---:|---:|
+| First-pass correctness | 37% | **65% (+28 pts)** |
+| Time to a correct result | 118 s | **85 s (−28%)** |
+| Output tokens to a correct result | 4,116 | **3,119 (−24%)** |
+
+<p align="center"><sub>72 controlled runs · 12 frozen tasks · same agent, tools and task; only Lore changed. Lore worsened <strong>0/12</strong> task results. <a href="#benchmark">Method and limits ↓</a></sub></p>
+
 ---
 
 <table>
@@ -63,7 +73,7 @@
 **Use it**
 
 [Architecture](#architecture)
-[The seven skills](#the-seven-skills)
+[The eight skills](#the-eight-skills)
 [Obsidian](#obsidian--the-way-in)
 [Documentation](#documentation)
 
@@ -98,7 +108,7 @@ It is a loop of re-explanations and mediocre solutions you had already rejected.
 
 ## What is Lore
 
-A lightweight **Spec-Driven Development** kit for Claude Code. Or, in one line: **local fine-tuning for your own tasks, and the one doing the training is you.**
+A lightweight, provider-neutral **Spec-Driven Development** kit for AI agents. Or, in one line: **local fine-tuning for your own tasks, and the one doing the training is you.**
 
 A fine-tune conditions a model on thousands of examples until it stops answering like a generalist. Lore gets to the same place from the other side: one written constraint per thing that went wrong. No training happens and no weights move, so your criteria stays as plain text you can read, correct in one line, and carry to a different model tomorrow.
 
@@ -107,7 +117,7 @@ A fine-tune stops asking things of you the day it ships. Lore never stops: one d
 It provides three things:
 
 - a simple convention for organizing a project's criteria;
-- seven skills that operate that convention;
+- eight skills that operate that convention;
 - and a continuous loop for distilling experience into reusable criteria.
 
 Spec-driven is not a label here. `CLAUDE.md` is the contract, `FASES.md` is the state and what comes next, and `lore/` is the criteria that constrains how any of it gets built.
@@ -199,7 +209,7 @@ You just spent two hours fighting a flash of unstyled content on load. You solve
 
 Three months later, in another project of the Area, someone asks for an entrance animation. The criteria is already loaded and that discussion never happens again.
 
-> None of it was written without a human saying yes. Same gate in all seven skills.
+> None of it was written without a human saying yes. The same gate governs all eight skills.
 
 ---
 
@@ -260,11 +270,12 @@ Areas and projects are places; **a bot is a lens you carry into them.** It is no
 
 ---
 
-## The seven skills
+## The eight skills
 
 | Skill | What for | When |
 |---|---|---|
 | [`use-lore`](#use-lore) | Entry point: explains the model and routes you to the right skill | first, always |
+| [`brainstorming-lore`](#brainstorming-lore) | Designs changes to Lore artifacts without colliding with general-purpose brainstorming skills | before creating or materially restructuring Lore |
 | [`create-area`](#create-area) | Creates an Area with its shared Lore | opening a new domain |
 | [`create-project`](#create-project) | Creates a project that inherits from the Area | starting a piece of work |
 | [`save-to-lore`](#save-to-lore) | Distills a lesson and decides whether it rises to the Area | every day |
@@ -278,6 +289,10 @@ Areas and projects are places; **a bot is a lens you carry into them.** It is no
 > both names installed, because duplicate entry-point triggers make routing ambiguous.
 
 The entry point. Explains Lore's model, the six-artifact standard, the Area↔Project model, and routes you to the right skill. Read it before invoking any other.
+
+### `brainstorming-lore`
+
+The kit's own design conversation. It is deliberately narrow: it activates for Lore, bots, Areas, projects and phases—not for general ideation—and hands the approved result to the skill that owns the artifact and its HARD-GATE.
 
 ### `create-area`
 
@@ -477,7 +492,7 @@ Every mined note gets a mark with date and destination, **including the ones tha
 
 ## Shared invariants
 
-All seven skills follow the same rules:
+All eight skills follow the same rules:
 
 - Lore is written **in your language**.
 - **Criteria is never invented.** Everything comes from real experience.
@@ -490,7 +505,11 @@ All seven skills follow the same rules:
 
 ## Benchmark
 
-We tested twelve frozen tasks with three independent runs per condition: cold Codex and Codex with Lore, for 72 runs in total. Lore spends more time reading before answering. The useful measure is how much work it takes to reach a correct result.
+<p align="center">
+  <img src="./assets/benchmark-impact.png" alt="Lore benchmark: plus 28 points first-pass correctness, 28 percent less time and 24 percent fewer output tokens to a correct result" width="100%">
+</p>
+
+**Lore does more before answering—so you redo less.** We tested twelve frozen tasks with three independent runs per condition: cold Codex and Codex with Lore, for 72 runs in total. Lore spends more time reading before an attempt; the useful measure is the work required to finish correctly.
 
 | Result | Cold Codex | Codex + Lore |
 |---|---:|---:|
@@ -646,7 +665,7 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-1.2.1-F72585?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.0.2-F72585?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/paradigma-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-FFBE0B?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
@@ -674,6 +693,16 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
   <code>8 skills · 7 casos de estudio · 72 corridas de benchmark</code>
 </p>
 
+<h3 align="center">Hasta <strong>28% más rápido</strong> y <strong>24% menos tokens de salida</strong> para llegar a un resultado correcto, con <strong>+28 puntos de correctitud al primer intento.</strong></h3>
+
+| Métrica | Codex frío | Codex + Lore |
+|---|---:|---:|
+| Correctitud al primer intento | 37% | **65% (+28 pts)** |
+| Tiempo hasta un resultado correcto | 118 s | **85 s (−28%)** |
+| Tokens de salida hasta un resultado correcto | 4.116 | **3.119 (−24%)** |
+
+<p align="center"><sub>72 corridas controladas · 12 tareas congeladas · mismo agente, herramientas y tarea; solo cambió Lore. Lore empeoró <strong>0/12</strong> resultados. <a href="#el-benchmark">Método y límites ↓</a></sub></p>
+
 ---
 
 <table>
@@ -694,7 +723,7 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 **Usarlo**
 
 [Arquitectura](#arquitectura)
-[Las siete skills](#las-siete-skills)
+[Las ocho skills](#las-ocho-skills)
 [Obsidian](#obsidian--la-puerta-de-entrada)
 [Documentación](#documentación)
 
@@ -883,11 +912,12 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 ---
 
-## Las siete skills
+## Las ocho skills
 
 | Skill | Para qué | Cuándo |
 |---|---|---|
 | [`use-lore`](#use-lore) | Punto de entrada: explica el modelo y te manda a la skill correcta | primero, siempre |
+| [`brainstorming-lore`](#brainstorming-lore-1) | Diseña cambios en los artefactos Lore sin chocar con skills generales de brainstorming | antes de crear o reestructurar Lore de forma material |
 | [`create-area`](#create-area) | Crea un Área con su Lore compartido | al abrir un dominio nuevo |
 | [`create-project`](#create-project) | Crea un proyecto que hereda del Área | al empezar un trabajo |
 | [`save-to-lore`](#save-to-lore) | Destila una lección y decide si sube al Área | todos los días |
@@ -901,6 +931,10 @@ El punto de entrada. Explica el modelo de Lore, el estándar de seis artefactos,
 
 > **Cambio de nombre en 2.0:** `using-lore` ahora es `use-lore`. Al actualizar, elimina la skill
 > anterior; no conserves ambos nombres instalados porque duplican el trigger de entrada.
+
+### `brainstorming-lore`
+
+La conversación de diseño propia del kit. Es deliberadamente específica: se activa para Lore, bots, Áreas, proyectos y fases —no para ideación general— y entrega el resultado aprobado a la skill dueña del artefacto y de su HARD-GATE.
 
 ### `create-area`
 
@@ -1095,7 +1129,11 @@ Cada nota minada recibe una marca con fecha y destino, **incluidas las que no pr
 
 ## El benchmark
 
-Probamos doce tareas congeladas con tres corridas independientes por condición: Codex frío y Codex con Lore, para un total de 72 corridas. Lore dedica más tiempo a leer antes de responder. La medida útil es cuánto trabajo hace falta para llegar a un resultado correcto.
+<p align="center">
+  <img src="./assets/benchmark-impact.png" alt="Benchmark de Lore: 28 puntos más de correctitud al primer intento, 28 por ciento menos tiempo y 24 por ciento menos tokens de salida hasta un resultado correcto" width="100%">
+</p>
+
+**Lore hace más antes de responder, para que tú repitas menos.** Probamos doce tareas congeladas con tres corridas independientes por condición: Codex frío y Codex con Lore, para un total de 72 corridas. Lore dedica más tiempo a leer antes de un intento; la medida útil es el trabajo necesario para terminar correctamente.
 
 | Resultado | Codex frío | Codex + Lore |
 |---|---:|---:|

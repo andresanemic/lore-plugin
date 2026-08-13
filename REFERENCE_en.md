@@ -1,6 +1,6 @@
 # Lore Plugin – Reference
 
-This document is the technical reference for the **Lore plugin** for Claude Code.  
+This document is the technical reference for the provider-neutral **Lore plugin**.
 It defines Lore’s core concepts, the available skills, the Markdown artifacts, and how they fit together.
 
 For a practical “how to use it every day” guide, see [`USAGE_en.md`](./USAGE_en.md).  
@@ -25,11 +25,12 @@ Lore stores criteria that constrain what should happen next.
 
 ## 2. Skills Overview
 
-The Lore plugin exposes seven main skills in Claude Code:
+The Lore plugin exposes eight main skills through compatible AI agents:
 
 | Skill            | Purpose                                     | Typical trigger phrase                                |
 |------------------|---------------------------------------------|------------------------------------------------------|
 | `use-lore`       | Entry point, navigation, and help           | Read first; triggers when "lore" is mentioned or a new Area/project starts |
+| `brainstorming-lore` | Design Lore-specific changes without taking over general brainstorming | "brainstorm this Lore", or invoked by an artifact-owning Lore skill |
 | `create-area`    | Create a new Area with shared Lore          | "create a work area for Frontend", "I want to start working on X with Lore" |
 | `create-project` | Create a project inheriting an Area         | "create a project Marketing Site in area Frontend Development" |
 | `save-to-lore`   | Capture criteria after solving a problem (**capture**) or arbitrate criteria imported from a third-party skill/guide (**arbitrate**) | "save to lore", "distill this to the lore" (capture) / "distill skill X into the lore" (arbitrate) |
@@ -48,7 +49,7 @@ relative-path depth, and English terms of general technical use (workflow, commi
 scaffold…). Inside an existing corpus, its established names win. A Lore in the wrong language is
 standardized with `transmute-lore` in `translate` mode.
 
-These skills are **not CLI commands**: they are Claude Code skills triggered by natural language,
+These skills are **not CLI commands**: they are agent skills triggered by natural language,
 not by flags or terminal syntax. The phrases above are real invocation examples, taken from the
 triggers documented in each skill's `SKILL.md`.
 
