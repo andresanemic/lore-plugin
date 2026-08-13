@@ -40,7 +40,7 @@
 </p>
 
 <p align="center">
-  <code>7 skills · 7 case studies · 72 benchmark runs</code>
+  <code>8 skills · 7 case studies · 72 benchmark runs</code>
 </p>
 
 ---
@@ -488,6 +488,31 @@ All seven skills follow the same rules:
 
 ---
 
+## Benchmark
+
+We tested twelve frozen tasks with three independent runs per condition: cold Codex and Codex with Lore, for 72 runs in total. Lore spends more time reading before answering. The useful measure is how much work it takes to reach a correct result.
+
+| Result | Cold Codex | Codex + Lore |
+|---|---:|---:|
+| Correct on the first attempt | 37% | **65%** |
+| Correct tasks per 10 attempts | 3.7 | **6.5** |
+| Correct reading of project criteria | — | **96%** |
+
+That is **+28 points of first-pass correctness**. Lore never made a task result worse: it improved 3 of the 12 tasks and preserved the result in the other 9.
+
+| Cost to reach a correct result | Without Lore | With Lore | Effect |
+|---|---:|---:|---:|
+| Time per attempt | 44 s | 55 s | +25% |
+| Expected attempts per success | 2.70 | **1.53** | **−43%** |
+| Estimated time to success | 118 s | **85 s** | **−28%** |
+| Output tokens to success | 4,116 | **3,119** | **−24%** |
+
+> **Lore was slower per attempt, but faster at finishing correctly.**
+
+The harness, frozen tasks, graders, raw outputs and declared limits are in [`bench/`](./bench/). These are Codex results, not a universal model claim. The same benchmark will be repeated with Claude Code during the week of August 17; those results will remain separate and will not change the 2.0 skills or version.
+
+---
+
 ## Documentation
 
 This README covers motivation and architecture. Everything else lives in its own document:
@@ -646,7 +671,7 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 </p>
 
 <p align="center">
-  <code>7 skills · 7 casos de estudio · 72 corridas de benchmark</code>
+  <code>8 skills · 7 casos de estudio · 72 corridas de benchmark</code>
 </p>
 
 ---
@@ -1065,6 +1090,31 @@ Cada nota minada recibe una marca con fecha y destino, **incluidas las que no pr
 - **El ruido descartado se informa**, nunca se elimina en silencio.
 - Todo cambio pasa por un **HARD-GATE** antes de escribirse.
 - **Nada hace *commit* automáticamente.** Tú revisas el *diff* final.
+
+---
+
+## El benchmark
+
+Probamos doce tareas congeladas con tres corridas independientes por condición: Codex frío y Codex con Lore, para un total de 72 corridas. Lore dedica más tiempo a leer antes de responder. La medida útil es cuánto trabajo hace falta para llegar a un resultado correcto.
+
+| Resultado | Codex frío | Codex + Lore |
+|---|---:|---:|
+| Correcto al primer intento | 37% | **65%** |
+| Tareas correctas cada 10 intentos | 3,7 | **6,5** |
+| Lectura correcta del criterio | — | **96%** |
+
+Son **+28 puntos de correctitud al primer intento**. Lore nunca empeoró el resultado de una tarea: mejoró 3 de las 12 y mantuvo el resultado en las otras 9.
+
+| Costo hasta llegar a un resultado correcto | Sin Lore | Con Lore | Efecto |
+|---|---:|---:|---:|
+| Tiempo por intento | 44 s | 55 s | +25% |
+| Intentos esperados por éxito | 2,70 | **1,53** | **−43%** |
+| Tiempo estimado hasta el éxito | 118 s | **85 s** | **−28%** |
+| Tokens de salida hasta el éxito | 4.116 | **3.119** | **−24%** |
+
+> **Lore fue más lento por intento, pero más rápido para terminar correctamente.**
+
+El harness, las tareas congeladas, los graders, las salidas crudas y las fronteras declaradas están en [`bench/`](./bench/). Son resultados de Codex, no una afirmación universal sobre modelos. El mismo benchmark se repetirá con Claude Code durante la semana del 17 de agosto; esos resultados quedarán separados y no cambiarán las skills ni la versión 2.0.
 
 ---
 
