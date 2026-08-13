@@ -150,8 +150,8 @@ Instead of recording what happened, it distills it into an **Invariant Clue**: a
 
 | Instead of remembering | Lore keeps |
 |---|---|
-| "We had a hydration issue in Next.js" | "Never use client-side state to control initial opacity" |
-| "Assets 404'd after deploying from Windows" | "Never compress with native Windows tools: use `tar.exe -a -c -f`" |
+| "The AI wrote a report that was too technical for the reader" | "Before drafting, identify who will read it and explain every unfamiliar term in plain language" |
+| "A meeting summary omitted who was responsible for each task" | "Every meeting summary ends with each task, its owner and its deadline" |
 
 The event is forgotten. The criteria keeps working.
 
@@ -844,8 +844,8 @@ En lugar de registrar lo que pasó, lo destila en una **Pista Invariante**: una 
 
 | En vez de recordar | Lore guarda |
 |---|---|
-| «Tuvimos un problema de hidratación en Next.js» | «Nunca uses estado del cliente para controlar la opacidad inicial» |
-| «Al desplegar desde Windows los assets daban 404» | «Prohibido comprimir con herramientas nativas de Windows: usar `tar.exe -a -c -f`» |
+| «La IA escribió un informe demasiado técnico para quien debía leerlo» | «Antes de redactar, identifica quién lo leerá y explica en lenguaje simple cada término poco familiar» |
+| «El resumen de una reunión omitió quién era responsable de cada tarea» | «Todo resumen de reunión termina con cada tarea, su responsable y su fecha límite» |
 
 El acontecimiento se olvida. El criterio sigue trabajando.
 
