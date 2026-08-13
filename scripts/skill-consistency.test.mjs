@@ -46,11 +46,22 @@ test("la documentación no conserva afirmaciones ya refutadas", () => {
   assert.doesNotMatch(text, /turn loose notes into criteria|convertir notas sueltas en criterio/i);
 });
 
-test("los creadores conservan un contrato único entre Claude Code y Codex", () => {
+test("el estándar se nombra como seis piezas, no seis archivos literales", () => {
+  const text = ["README.md", ...docs, ...skillNames.map((name) => join("skills", name, "SKILL.md"))]
+    .map((file) => readFileSync(join(root, file), "utf8"))
+    .join("\n");
+  assert.doesNotMatch(text, /six[- ]artifact|six (?:mandatory )?artifacts|seis artefactos/i);
+  assert.match(text, /six-piece standard/);
+  assert.match(text, /estándar de seis piezas/);
+});
+
+test("los creadores generan un solo contrato según el host principal", () => {
   for (const name of ["create-area", "create-project", "create-bot"]) {
     const text = readFileSync(join(skillsRoot, name, "SKILL.md"), "utf8");
     assert.match(text, /AGENTS\.md/);
     assert.match(text, /CLAUDE\.md/);
+    assert.match(text, /one (?:host-selected |instruction )?contract|exactly one/i);
+    assert.doesNotMatch(text, /plus a minimal `AGENTS\.md` adapter|minimal Codex adapter used at the area root/i);
   }
   const area = readFileSync(join(skillsRoot, "create-area", "SKILL.md"), "utf8");
   const project = readFileSync(join(skillsRoot, "create-project", "SKILL.md"), "utf8");
@@ -59,6 +70,9 @@ test("los creadores conservan un contrato único entre Claude Code y Codex", () 
   assert.match(project, /never invent a web-only rule/);
   assert.match(bot, /\.codex-plugin\//);
   assert.match(bot, /--add-dir/);
+  const sync = readFileSync(join(skillsRoot, "create-bot", "plantillas", "sync.js"), "utf8");
+  assert.match(sync, /CLAUDE\.md/);
+  assert.match(sync, /AGENTS\.md/);
 });
 
 test("las cuatro fuentes de versión publicable coinciden", () => {
@@ -68,7 +82,7 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.0.8"]));
+  assert.deepEqual(new Set(versions), new Set(["2.0.9"]));
 });
 
 test("el README identifica el modelo del benchmark en ambos idiomas", () => {
@@ -76,6 +90,10 @@ test("el README identifica el modelo del benchmark en ambos idiomas", () => {
   assert.equal((text.match(/gpt-5\.6-sol/g) ?? []).length >= 2, true);
   assert.match(text, /medium reasoning effort/);
   assert.match(text, /esfuerzo de razonamiento medio/);
+  assert.equal((text.match(/<table width="100%">/g) ?? []).length, 4);
+  assert.equal((text.match(/<th width="56%">(?:Result|Resultado|Cost|Costo)/g) ?? []).length, 4);
+  assert.equal((text.match(/Gilbert Simondon/g) ?? []).length >= 2, true);
+  assert.equal((text.match(/Francisco Varela/g) ?? []).length >= 2, true);
 });
 
 test("los enlaces Markdown locales de la documentación resuelven", () => {

@@ -1,6 +1,6 @@
 ---
 name: use-lore
-description: Read this first to understand the Lore system — what Lore is, the six-artifact standard, the area↔project model, and which of the Lore skills (brainstorming-lore, create-area, create-project, create-bot, save-to-lore, transmute-lore, obsidian-lore) to invoke when. Carries the kit's HARD-GATE for its very first use on a machine with no Lore yet (a brainstorm, never a menu of commands) and the standard that governs every later one — the skill that owns an artifact is always invoked to write it, and the version that runs is the installed, up-to-date one. Use when the user mentions "lore", asks how this kit works, installs or updates the plugin, starts a new work area, project or bot, wants to migrate an old project to the Lore standard, or keeps Obsidian notes in the same folder tree.
+description: Read this first to understand the Lore system — what Lore is, the six-piece standard, the area↔project model, and which of the Lore skills (brainstorming-lore, create-area, create-project, create-bot, save-to-lore, transmute-lore, obsidian-lore) to invoke when. Carries the kit's HARD-GATE for its very first use on a machine with no Lore yet (a brainstorm, never a menu of commands) and the standard that governs every later one — the skill that owns an artifact is always invoked to write it, and the version that runs is the installed, up-to-date one. Use when the user mentions "lore", asks how this kit works, installs or updates the plugin, starts a new work area, project or bot, wants to migrate an old project to the Lore standard, or keeps Obsidian notes in the same folder tree.
 ---
 
 # Using Lore
@@ -16,7 +16,7 @@ invoking any other Lore skill.
 
 ## 0. Very first use of the kit — a brainstorm, not a menu (HARD-GATE)
 
-**If this machine has no Lore yet** — no area with a `lore/`, no project carrying the six artifacts —
+**If this machine has no Lore yet** — no area with a `lore/`, no project carrying the six pieces —
 this runs **before anything else**, and before offering any skill by name. The kit **brainstorms to
 build** every artifact it makes; it would be incoherent for the kit itself to greet its first user
 with a list of eight skills.
@@ -86,7 +86,10 @@ a future decision, it is **not** Lore; it is description, and it stays out.
 
 Lore is **not** a README, not a changelog, not a design doc. Those describe. Lore constrains.
 
-## The six-artifact standard
+## The six-piece standard
+
+These are six structural responsibilities, not necessarily six files. The thematic-module piece
+may contain many focused files; the other five usually map to one file each.
 
 Every project's criteria lives in exactly these artifacts:
 
@@ -97,7 +100,7 @@ Every project's criteria lives in exactly these artifacts:
 | Thematic modules | Technical scars by topic (animation, layout, scroll…) as invariant clues. | `lore/` |
 | `index.md` | Navigation map of the lore: one line per pattern. | `lore/` |
 | `FASES.md` | The project's state and plan (current phase, focus). **Outside `lore/`.** | root |
-| `CLAUDE.md` | The contract, slimmed to **pointers** (never duplicated criteria). | root |
+| `CLAUDE.md` or `AGENTS.md` | The one host-selected contract, slimmed to **pointers** (never duplicated criteria). | root |
 
 > Lore is criteria (it persists); `FASES.md` is state (it advances). Never mix them.
 
@@ -140,7 +143,7 @@ never paid for will start receiving promotions that belong somewhere else.
 | Open Lore-governed bots/projects through a provider and model launcher | `create-bot`; use the separate `lore-in-the-shell` skill when installed, otherwise build its minimal fallback there |
 | **Save a lesson** ("save to lore") — capture a clue from **lived friction** in the project and promote generic, confirmed ones up to the area | `save-to-lore` (**CAPTURE**, default) |
 | **Distill from an external body of criteria** — a skill, a style guide, a third-party playbook ("destila esta skill") | `save-to-lore` (**ARBITRATE**): imported criteria is judged against this Entre's purpose; only what survives enters, and the module must state **where the source loses** |
-| Bring an **old project with scattered criteria** up to the six-artifact standard, **clean** a project's redundant modules back down to what the area already owns, or **standardize the language** of an existing Lore | `transmute-lore` |
+| Bring an **old project with scattered criteria** up to the six-piece standard, **clean** a project's redundant modules back down to what the area already owns, or **standardize the language** of an existing Lore | `transmute-lore` |
 | **Raise a healthy Lore to a newer version of these skills** — it is in the standard and in use, but predates gates the kit learned later. Nothing looks broken, which is why nobody upgrades it | `transmute-lore` (**UPGRADE**): arbitrates the existing Lore against the current version, adds what is missing, and leaves untouched what the project **earned** with real friction |
 | Export a project, Area or bot's **live routed Lore as one Markdown** for a chat, AI project or notebook | `transmute-lore` (**CRYSTALLIZE**): creates a safe, traceable snapshot without replacing the live Lore or including private material by default |
 | Keep **Obsidian notes in the same folder tree** as the Lore, and **mine that inbox** for what deserves to become criteria ("revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore") | `obsidian-lore` |
@@ -220,7 +223,8 @@ language the user works in. The artifact names used across these skills (`identi
 language they localize (e.g. English: `identity.md`, `principles.md`, `PHASES.md`, `projects/`,
 `source/`).
 
-What stays **fixed in every language**: `CLAUDE.md`, its minimal Codex adapter `AGENTS.md`, `lore/`
+What stays **fixed in every language**: the selected contract name (`CLAUDE.md` for Claude Code or
+`AGENTS.md` for Codex), `lore/`
 (the kit's own name), `index.md`, `golden-paths.md`, `_starter/`, structure and relative-path depth,
 confidence markers, and English terms of general technical use (workflow, commit, stack,
 scaffold…).
@@ -232,7 +236,7 @@ with `transmute-lore` (TRANSLATE mode), which translates content and renames art
 ## Invariants of the whole kit
 
 - **Lore speaks the user's language.** Content and artifact filenames in the user's language; the
-  fixed names (`CLAUDE.md`, `AGENTS.md`, `lore/`, `index.md`) and general technical English terms unchanged.
+  fixed names (the selected contract name, `lore/`, `index.md`) and general technical English terms unchanged.
   Inside an existing corpus, its established names win.
 - **Criteria is never invented.** Every artifact is distilled from what already exists (docs, code,
   the user's words). An artifact with no real criteria stays minimal and says so.
@@ -249,5 +253,5 @@ with `transmute-lore` (TRANSLATE mode), which translates content and renames art
 The portable substrate is the **`SKILL.md`** file itself: YAML frontmatter (`name`, `description`)
 plus a Markdown body. Native packaging is host-specific — Lore ships manifests for Claude Code and
 Codex — but the skills are plain Markdown. Copy a skill's folder into another tool that reads
-instruction files, or paste its body as a system/persona prompt. The six-artifact standard and the
+instruction files, or paste its body as a system/persona prompt. The six-piece standard and the
 area↔project model are tool-agnostic conventions, not code.

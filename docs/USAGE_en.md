@@ -25,14 +25,15 @@ The Lore plugin bundles a set of **skills** that implement this loop:
 - `create-area` – shared Lore for a group of projects.
 - `create-project` – project‑level Lore inheriting an Area.
 - `save-to-lore` – capture criteria after solving a problem.
-- `transmute-lore` – migrate existing projects to the Lore architecture.
+- `transmute-lore` – add, clean, translate, upgrade or crystallize an existing body of Lore.
 - `create-bot` – one place to work across several Areas or projects with their criteria loaded.
 - `obsidian-lore` – capture free notes in the same tree and **mine** that inbox for criteria.
 
 > **Lore speaks your language.** The skills are written in English, but everything they generate —
 > content **and artifact filenames** — is written in the language you work in. `identidad.md`,
 > `principios.md`, `FASES.md` are the Spanish canonical forms (the ones this guide uses); in
-> English they become `identity.md`, `principles.md`, `PHASES.md`. Only `CLAUDE.md`, `lore/`,
+> English they become `identity.md`, `principles.md`, `PHASES.md`. Only the selected contract name
+> (`CLAUDE.md` or `AGENTS.md`), `lore/`,
 > `index.md`, and English terms of general technical use (workflow, commit, stack…) stay fixed.
 
 ---
@@ -123,7 +124,7 @@ Lore will:
 - Instantiate the Area's `_starter/` templates into the new project, if the Area has one.
 - Set up project‑level artifacts: `lore/identidad.md` and `lore/principios.md` (own content first,
   then a pointer to the Area), `lore/index.md` (referencing Area modules by relative path), plus
-  `FASES.md` and `CLAUDE.md`.
+  `FASES.md` and the instruction contract.
 - Register the project in the Area's `FASES.md`, so general criteria is inherited, not copied.
 
 ### 4.3 Work and Capture
@@ -221,8 +222,8 @@ Lore will:
 - Set up:
   - `lore/` for project‑specific modules (generic Area modules are only referenced, never copied).
   - `FASES.md` at the root for state and roadmap.
-  - `CLAUDE.md` at the root for the single collaboration contract, plus a minimal `AGENTS.md`
-    adapter that points Codex to it without duplicating rules.
+  - one contract at the root: `CLAUDE.md` when the Area uses Claude Code, or `AGENTS.md` when it
+    uses Codex. The project inherits the Area's choice.
 - Wire the project to the Area’s Lore so shared criteria are visible but not duplicated.
 
 Use this whenever you start a new codebase inside a domain that already has an Area.
@@ -286,7 +287,7 @@ Lore will typically:
 - Suggest where to store them:
   - project modules under `lore/`;
   - Area‑level `principios.md` if they are general and confirmed;
-  - updates to `identidad.md` or `CLAUDE.md` if they change identity or collaboration rules.
+  - updates to `identidad.md` or the instruction contract if they change identity or collaboration rules.
 - Respect invariants:
   - Never invent criteria.
   - Report discarded noise.
@@ -352,7 +353,7 @@ Expected behavior:
 - Scan existing documentation and structure.
 - Propose how to map old files onto:
   - `identidad.md`, `principios.md`, `index.md`, thematic modules.
-  - `FASES.md` and `CLAUDE.md`.
+  - `FASES.md` and the instruction contract.
 - Wait for your explicit approval before writing anything (HARD GATE).
 - Ensure the result is DRY:
   - Shared rules go to the Area.
@@ -375,8 +376,8 @@ A bot lives at `{Area}/proyectos/{slug}/` like any project. One thing sets it ap
 outward** — into Lore owned by other projects and Areas. Areas and projects are places; a bot is a
 lens you carry into them.
 
-By default **nothing gets installed**: it is a folder with its canon, its `CLAUDE.md`, and a minimal
-`AGENTS.md` adapter for Codex. Opening the session there loads the same criteria in either host.
+By default **nothing gets installed**: it is a folder with its canon and the one contract selected
+by its Area. Opening the session there loads the criteria in that host.
 Packaging it as a plugin is optional, and serves to
 hand it to a team.
 
@@ -424,7 +425,7 @@ What to expect while it runs:
   what it borrows from other projects (the last never outranks its source).
 - In `federar` mode the routing table and the local access are generated from the manifest; do not
   hand-edit them. The paths are written **once**, there.
-- Federating an Area carries `lore` **plus** its `CLAUDE.md` and its `FASES.md`: the Lore brings the
+- Federating an Area carries `lore` **plus** its selected contract and its `FASES.md`: the Lore brings the
   laws, but the sequence of work and the registry of what exists live in those two.
 - It asks whether to package it as a plugin, and if you say yes it **does not call it finished**
   until `scripts/validar.js` passes — the frontmatter defects it checks produce no error message at
@@ -491,7 +492,7 @@ against. Worse: a bot cannot reach the root, so the sweep does not read it, does
 
 **The root is a place of work with no Lore, not a place nobody works in.** Anything that has to sit
 above every area ends up there — a launcher that routes into all of them, a spec that decides a new
-area. What the root lacks is an owner, a `FASES.md`, an inbox and any `CLAUDE.md` to load the rules,
+area. What the root lacks is an owner, a `FASES.md`, an inbox and any instruction contract to load the rules,
 so the work done there goes unregistered and never even becomes a note to sweep. If that is what
 happened, what is missing is an **area** — `create-area`, and meanwhile the note goes to the inbox of
 the area that asked for the work.
@@ -539,15 +540,16 @@ Lore uses a fixed set of artifacts to keep criteria organized:
 - `lore/` thematic modules – distilled experience grouped by domain.
 - `lore/index.md` – navigation map for Lore in that project or Area.
 - `FASES.md` (root) – current state and roadmap.
-- `CLAUDE.md` (root) – collaboration contract and operational references.
-- `AGENTS.md` (root) – minimal Codex adapter to that same contract; never a second copy.
+- `CLAUDE.md` **or** `AGENTS.md` (root) – the one collaboration contract and its operational references,
+  selected by the primary host.
 
 General guidelines:
 
 - Identity and principles change slowly; keep them small and intentional.
 - Thematic modules can grow, but each should focus on a specific domain.
 - `FASES.md` should reflect reality; update it when the project moves phases.
-- `CLAUDE.md` should describe how you and Claude work together (prompts, rituals, constraints).
+- The instruction contract should describe how humans and the primary host work together (prompts,
+  rituals, constraints).
 
 ---
 

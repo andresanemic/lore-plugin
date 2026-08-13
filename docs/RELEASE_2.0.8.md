@@ -1,114 +1,19 @@
-# Lore Plugin 2.0.8 — The definitive Lore Plugin 2.0
+# Lore Plugin 2.0.8 — Repository and documentation consolidation
 
-> [README](https://github.com/andresanemic/lore-plugin#readme) · [Español](#español)
+> Historical release. For the complete Lore Plugin 2.0, use
+> **[v2.0.9](https://github.com/andresanemic/lore-plugin/releases/tag/v2.0.9)**.
 
-Lore turns project experience into reusable criterion for AI agents. Version **2.0.8** is the
-canonical release of the whole 2.0 line: it carries the 2.0 foundation, every correction
-consolidated in 2.0.7, and the final repository-wide coherence pass across skills, documentation,
-benchmarks and supported hosts.
+Version 2.0.8 aligned all eight skills, made Claude Code and Codex packaging native, cleaned the
+repository root, consolidated bilingual documentation under `docs/`, identified the benchmark
+model (`gpt-5.6-sol`, medium reasoning) and restored LUS's foundational and extended bibliography.
 
-New users can start here. Releases 2.0.0–2.0.7 remain as auditable history; they are superseded by
-this release.
+It also introduced a two-file contract bridge. Version 2.0.9 supersedes that design with the
+simpler final rule: one host-selected contract per Area, inherited by its projects and bots.
 
-## What Lore Plugin 2.0 contains
-
-- **Eight focused skills:** `use-lore`, `brainstorming-lore`, `create-area`, `create-project`,
-  `create-bot`, `save-to-lore`, `transmute-lore` and `obsidian-lore`.
-- **Five transmutation modes:** ADD, CLEAN, TRANSLATE, UPGRADE and CRYSTALLIZE.
-- **A six-artifact Lore standard** and a DRY Area↔Project inheritance model.
-- **Notes as source, never criterion.** Obsidian inboxes are mined through an explicit HARD GATE.
-- **Bots that point before they copy.** Ecosystem copies, packaging, encryption, Telegram and the
-  local multi-provider launcher are all optional and off by default.
-- **Native Claude Code and Codex packaging**, plus direct repository installation for other agents
-  that understand Markdown skills.
-
-## What 2.0.8 closes
-
-- Areas, projects and unpackaged bots now generate one `CLAUDE.md` contract plus a minimal
-  `AGENTS.md` adapter for Codex. Rules are loaded across hosts without maintaining two copies.
-- Federated Codex launchers derive writable `--add-dir` roots from the existing bot manifest;
-  routing and workspace access cannot drift into separate path lists.
-- Packaged bots carry both Claude Code and Codex manifests.
-- `create-area` no longer injects a web-only “No Playwright” rule into every domain.
-- Inbox precedence is consistent across `obsidian-lore`, `save-to-lore` and every
-  `transmute-lore` mode: a vault root never becomes an orphan inbox.
-- Bot defaults, optional seals, section routing and skill counts now agree across all eight skills.
-- The README remains bilingual in one file. Usage, Reference, Migration, cases, encryption and the
-  Code of Conduct now live under `docs/`, leaving a clean repository root.
-- GitHub-facing copy now explains Lore as a provider-neutral SDD kit instead of a Claude-only
-  plugin. The Origin section distinguishes the foundational and extended LUS bibliographies,
-  including Francisco Varela's enaction.
-
-## Audited benchmark
-
-Every published Codex run used **`gpt-5.6-sol` with medium reasoning effort**. Model, prompt and
-tools were identical between arms.
-
-| Result | Cold Codex | Codex + Lore |
-|---|---:|---:|
-| Evaluated criterion respected at first attempt | 25/36 (69.4%) | **33/36 (91.7%)** |
-| Modeled time to a conforming result | 61.68 s | **57.11 s (−7.4%)** |
-| Tasks made worse | — | **0/12** |
-
-A separate controlled extension measured up to one repair across 52 units per arm. Lore reached
-**52/52 goals versus 39/52**, with 15.2% less observed time and 25.3% fewer attempts inside that
-limit. These are Codex results, not a universal model claim; modeled and observed costs remain
-separate in the documentation.
-
-## Verification
-
-- 41 automated tests passing.
-- The public 72-run CSV is recalculated by regression test.
-- All local documentation links resolve after the `docs/` move.
-- All eight skills have their own bilingual Usage and Reference sections.
-- Four publishable version sources agree on `2.0.8`.
-- The npm package dry-run and local Claude Code/Codex installation are verified before release.
-
-## Install or upgrade
-
-### Claude Code
-
-```text
-/plugin marketplace add andresanemic/lore-plugin
-/plugin install lore@lore-plugin
-```
-
-### Codex CLI
-
-```bash
-codex plugin marketplace add andresanemic/lore-plugin
-codex plugin add lore@lore-plugin
-```
-
-### Direct from the repository
-
-```bash
-git clone https://github.com/andresanemic/lore-plugin.git
-cd lore-plugin
-node scripts/lore-plugin.mjs install --target all
-```
-
-**Full changelog:** https://github.com/andresanemic/lore-plugin/compare/v1.2.1...v2.0.8
-
----
+**Changes:** https://github.com/andresanemic/lore-plugin/compare/v2.0.7...v2.0.8
 
 ## Español
 
-Lore convierte la experiencia de un proyecto en criterio reutilizable para agentes de IA. La
-**2.0.8** es la versión canónica de toda la línea 2.0: reúne la base de 2.0.0, las correcciones
-consolidadas en 2.0.7 y la auditoría final del repositorio, sus ocho skills, la documentación y los
-hosts soportados.
-
-- Ocho skills y cinco modos de `transmute-lore`.
-- Un solo contrato `CLAUDE.md`, con un `AGENTS.md` mínimo para que Codex llegue a él sin duplicar
-  reglas.
-- Bots federados con rutas de trabajo Codex derivadas del mismo manifiesto.
-- README bilingüe en un archivo y documentación complementaria ordenada bajo `docs/`.
-- Benchmark identificado: **`gpt-5.6-sol`, razonamiento medio**, 72 corridas web auditadas.
-- Bibliografía fundacional y extendida de LUS representadas con claridad, incluido Francisco
-  Varela.
-- Pruebas de coherencia que cubren versiones, enlaces, modos, documentación y continuidad entre
-  Claude Code y Codex.
-
-Las versiones 2.0.0–2.0.7 permanecen como historia auditable, pero para instalaciones nuevas y
-actualizaciones corresponde usar **v2.0.8**.
+La 2.0.8 consolidó las ocho skills, el empaquetado nativo para Claude Code y Codex, la documentación
+bilingüe, el benchmark identificado y la bibliografía de LUS. Su puente de dos archivos de contrato
+fue reemplazado en 2.0.9 por un único contrato elegido según el host principal.

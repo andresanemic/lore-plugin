@@ -30,7 +30,8 @@ A bot is the only artifact in this kit that **routes outward**. Areas and projec
 bot is a lens you carry into them.
 
 > **A bot is not automatically a plugin.** By default it is a folder with its canon and its
-> `CLAUDE.md`, plus a minimal `AGENTS.md` adapter for Codex: open a session there and the criteria
+> one instruction contract selected by its Area (`CLAUDE.md` for Claude Code or `AGENTS.md` for
+> Codex): open a session there and the criteria
 > is already loaded, with nothing installed. Wrapping it in a skill with provider manifests and
 > its own repository is an **optional seal** (§11)
 > that serves one purpose — handing it to a team. For one person working alone it is scaffolding
@@ -168,7 +169,8 @@ project.
 > **Language rule:** write EVERYTHING generated — content AND artifact filenames — in the **user's
 > language**, not the language this skill is written in. `identidad.md`, `principios.md`,
 > `FASES.md`, `proyectos/`, `canon/`, `enrutamiento.md` are the Spanish canonical forms: localize
-> them. Fixed in every language: `CLAUDE.md`, `AGENTS.md`, `lore/`, `index.md`, `skills/`,
+> them. Fixed in every language: the Area's selected contract name (`CLAUDE.md` or `AGENTS.md`),
+> `lore/`, `index.md`, `skills/`,
 > `.claude-plugin/`, `.codex-plugin/`.
 > The area's established names win inside its tree; flag a clash, never resolve it silently.
 
@@ -276,6 +278,7 @@ Everything else is derived from those three, or read from disk. Do not interroga
 | `{{BOT_SLUG}}` | the name, in kebab-case; **this is also the skill name, if it is packaged** |
 | `{{BOT_TITLE}}` | the name as given |
 | `{{AREA_PATH}}` | the `bots` area by default — propose it, confirm in one line |
+| `{{CONTRACT_FILE}}` | inherited from that Area's one contract: `CLAUDE.md` or `AGENTS.md` |
 | `{{MODE}}` | `federar` if there are existing sources, `nuevo` if there are none |
 | `{{PURPOSE}}` | answer 2, verbatim |
 | `{{SOURCE_DOCS}}` / `{{ECOSYSTEM}}` | answer 3, after inspecting each path on disk |
@@ -340,26 +343,19 @@ mkdir -p "$DEST/canon" "$DEST/lore"
   .claude/
     settings.local.json  → federar only; GENERATED; local, never committed
   lore-ecosistema/       → ONLY if the copy is on (§7); the synchronized copy
-  FASES.md · CLAUDE.md · AGENTS.md · .gitignore
+  FASES.md · {{CONTRACT_FILE}} · .gitignore
 ```
 
-**Unpackaged is the default shape.** The bot's behaviour (§6) lives once in `CLAUDE.md`. Claude
-Code loads it directly; Codex loads the minimal `AGENTS.md` adapter, which points to that same
-contract. Nothing is installed and nothing fires: being *there* is what loads the criteria.
-
-Keep the adapter minimal:
-
-```markdown
-# AGENTS.md
-
-Read and follow [`CLAUDE.md`](./CLAUDE.md) in full before any task. It is the single contract for
-this bot; do not duplicate its rules here.
-```
+**Unpackaged is the default shape.** The bot's behaviour (§6) lives once in
+`{{CONTRACT_FILE}}`. The selected host loads it directly. Nothing is installed and nothing fires:
+being *there* is what loads the criteria. Do not create the other provider's contract by default.
+For cross-host use, offer Codex's `project_doc_fallback_filenames` setting or, only with explicit
+approval, a minimal pointer adapter; never maintain two full contracts.
 
 **`README.md` follows the packaging decision, not the folder — it is NOT in the base shape.** §11
 defines the README by its only job: *the one artifact a teammate reads **before** installing*. A bot
 nobody installs has no such reader, and everything the README would say is already said — to the
-agent that opens the session — by the `CLAUDE.md` sitting next to it. Write it when the bot is
+agent that opens the session — by the selected contract sitting next to it. Write it when the bot is
 packaged; skip it otherwise, and do not read the skip as an unfinished bot. If the user wants one
 anyway, keep it to what the bot is for, how a session is opened in it and how the manifest is
 re-synced. **Never a second copy of the behaviour** — that is §11's duplication warning one level
@@ -374,14 +370,14 @@ down, and the copy that drifts is the one nobody rereads.
   .codex-plugin/
     plugin.json          → Codex plugin manifest
   skills/{{BOT_SLUG}}/
-    SKILL.md             → THE BOT (§6), moved out of CLAUDE.md
+    SKILL.md             → THE BOT (§6), moved out of the project contract
     canon/               → canon/ moves in here, so it travels with the skill
   scripts/validar.js     → the packaging gate (§11)
   README.md              → the quality floor (§11) — the reason it exists is the install
   LICENSE
 ```
 
-The `CLAUDE.md` then keeps only what it always was for any project: how the bot is **maintained**.
+The selected contract then keeps only what it always was for any project: how the bot is **maintained**.
 Do not write the behaviour twice — a duplicated rule drifts, and the copy that drifts is the one
 nobody rereads.
 
@@ -426,12 +422,12 @@ with its **boundary of validity** — where it stops applying.
 Mark conditional modules **OPTIONAL** in their own heading, and state the condition in the load
 table (§6.1). A canon that always loads everything stops being a canon and becomes a preamble.
 
-### 6. Write the bot — its `CLAUDE.md`, or `skills/{{BOT_SLUG}}/SKILL.md` if packaged
+### 6. Write the bot — its `{{CONTRACT_FILE}}`, or `skills/{{BOT_SLUG}}/SKILL.md` if packaged
 
 This is the deliverable, and it is the same content either way. The shape below is **shape, not
 literal text**: it is written from the brainstorm, in the user's language.
 
-Unpackaged, it goes in the bot's `CLAUDE.md` and there is no frontmatter to write — the file loads
+Unpackaged, it goes in the bot's selected contract and there is no frontmatter to write — the file loads
 because the session opens in that folder. **Skip the rest of this preamble and go to §6.0.**
 
 Packaged, the `description` in the frontmatter is what makes the bot fire. Name the projects, the task types
@@ -636,13 +632,14 @@ With the copy on, everything below applies. With it off, `sync.js` neither copie
   it (if not, it does not enter), and does it carry a module distilling a source the canon already
   declares (if so, one of the two goes — two summaries of the same original inside one bot is worse
   than none, because the winner is the one nearest the lookup index, not the better one).
-- **An area is federated the way it is opened: `lore` **plus** its `CLAUDE.md` and its `FASES.md`.**
+- **An area is federated the way it is opened: `lore` **plus** its selected contract and its `FASES.md`.**
   Federating `<area>/lore` alone is the asymmetry to avoid, and it is invisible from inside: the
   area's **laws** live in the Lore, but the **sequence of work** — what is read first, which skill
-  closes a deliverable, what is checked before starting — lives in its `CLAUDE.md`, and the
+  closes a deliverable, what is checked before starting — lives in its `CLAUDE.md` or `AGENTS.md`, and the
   **registry of what exists and where** lives in its `FASES.md`, including projects adopted by path,
   which are recorded nowhere else. A bot federating only `lore/` cites every rule correctly and
-  still works differently from the area it borrowed them from. Name the pieces in `incluir`; never
+  still works differently from the area it borrowed them from. Name the area's actual contract in
+  `incluir`; never
   federate an area's whole tree, which would drag in every project it holds.
 - **The manifest is the single source of the routing table.** Keeping them as two artifacts
   guarantees they drift, and a drifted routing table sends the bot to the wrong Lore without
@@ -757,7 +754,7 @@ remain available even when the separate `lore-in-the-shell` skill is not install
   and both CLI commands. Do not create a second memory store: the launched folder's Lore remains
   the source of criterion.
 - When the selected folder is a federated bot, derive every Codex `--add-dir` argument from the
-  same `scripts/ecosistema.json` entries marked `"trabajo": true`. Loading `AGENTS.md` is not enough
+  same `scripts/ecosistema.json` entries marked `"trabajo": true`. Loading the contract is not enough
   if the routed repositories are outside the primary workspace; the agent must be able to write
   where the manifest says it works. Never maintain a second path list in the launcher.
 
@@ -770,7 +767,7 @@ of the specialist skill is never permission to alter terminal or CLI preferences
 Ask, in terms of people rather than tooling: *«¿lo vas a usar solo tú, o lo van a instalar otras
 personas?»*
 
-**If it is for one person, skip this whole section.** The bot is finished: its `CLAUDE.md` carries
+**If it is for one person, skip this whole section.** The bot is finished: its selected contract carries
 the behaviour, `canon/` sits beside it, and opening a session in the folder loads everything. No
 `.claude-plugin/`, no `skills/`, no `scripts/validar.js`, no separate repository, no `LICENSE`
 decision. Packaging a solo bot adds a manifest, a marketplace entry, a version string and a
@@ -779,8 +776,8 @@ going to happen.
 
 Everything below applies **only when the bot is going to a team.**
 
-Move the behaviour from `CLAUDE.md` into `skills/{{BOT_SLUG}}/SKILL.md` and `canon/` into
-`skills/{{BOT_SLUG}}/canon/`, so both travel with the plugin. `CLAUDE.md` keeps only how the bot is
+Move the behaviour from the selected contract into `skills/{{BOT_SLUG}}/SKILL.md` and `canon/` into
+`skills/{{BOT_SLUG}}/canon/`, so both travel with the plugin. The contract keeps only how the bot is
 maintained.
 
 `.claude-plugin/plugin.json` — `name` = `{{BOT_SLUG}}`, `version` `1.0.0`, a description naming the
@@ -842,7 +839,7 @@ one**, left over from an earlier numbering, is this failure already armed. Bumpi
 nothing and loads the old contents.
 
 *This whole subsection applies only to a packaged bot.* An unpackaged one has no such stretch — its
-`CLAUDE.md` is read from disk, so editing it **is** delivering it. That is one more thing the
+The selected contract is read from disk, so editing it **is** delivering it. That is one more thing the
 optional seal charges for.
 
 #### `README.md` — the quality floor
@@ -1011,7 +1008,7 @@ say the configuration is superfluous: it says the configuration is not evidence 
   remembered.** It is the only artifact read *before* installing, so its failure costs the whole
   bot. A private bot documents the full URL, never the `owner/repo` shorthand.
 - **The copy, packaging, encryption and Telegram are optional and off by default.** A bot for one person is a
-  folder with its canon and its `CLAUDE.md`, and it is finished — packaging it buys a distribution
+  folder with its canon and its selected contract, and it is finished — packaging it buys a distribution
   that is not going to happen and charges maintenance forever. The `.gitignore` follows the
   encryption choice; getting it backwards ships either a leak or an empty repo.
 - **In a packaged bot, `scripts/validar.js` must exit 0 before it is reported as done.** The
@@ -1021,7 +1018,7 @@ say the configuration is superfluous: it says the configuration is not evidence 
   change to a published bot carries a bump even when it alters nothing the bot does, and the update
   closes by finding the change inside the installed copy. Push and marketplace update both report
   success without moving what the skill loads. An unpackaged bot does not pay this: editing its
-  `CLAUDE.md` is delivering it.
+  selected contract is delivering it.
 - **The passphrase never enters the chat.** stdin only — never an argument, never pasted. What
   enters a model's context does not come back out.
 - The bot **proposes** criteria; the human writes it. Nothing is auto-committed.

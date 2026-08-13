@@ -48,11 +48,11 @@ The vault must be the **mother folder that contains the Areas**, not a folder be
 ```text
 <vault>/                                  ← opened as a vault in Obsidian
   <area>/                                 ← no inbox at the root, ever
-    lore/ · CLAUDE.md · FASES.md
+    lore/ · contract (`CLAUDE.md` or `AGENTS.md`) · FASES.md
     proyectos/<project>/
   bots/proyectos/<bot>/
     notas/                                ← the bot's own inbox (see below)
-    canon/ · lore/ · CLAUDE.md
+    canon/ · lore/ · contract (`CLAUDE.md` or `AGENTS.md`)
 ```
 
 Verify before anything else: at least one direct child of the root holds a `lore/`. If none does,
@@ -103,7 +103,7 @@ sweep is recursive over `**/*.md`, so subfolders are free and this skill imposes
 > rule with *«nobody opens a session at the root»*: somebody does, and predictably. Anything that has
 > to sit above every area lives there — a launcher that routes into all of them, a spec that decides
 > a new area, a script that walks the whole tree. What the root lacks is not visitors: it is an owner,
-> a `FASES.md`, an inbox and any `CLAUDE.md` to load the rules that would have registered the work.
+> a `FASES.md`, an inbox and any instruction contract to load the rules that would have registered the work.
 > So the silence is worse than the one described above — **the work itself goes unregistered**, and no
 > note is ever written to be swept.
 >
@@ -153,7 +153,7 @@ is mined all the same — treat a missing field as empty, and add the field when
 operation.
 
 > **HARD: never write a note inside `lore/`,** and never touch `identidad.md`, `principios.md`, a
-> thematic module, `FASES.md` or `CLAUDE.md` from a capture. A capture writes one file, in the inbox.
+> thematic module, `FASES.md` or instruction contract from a capture. A capture writes one file, in the inbox.
 
 ## Mining — the sweep
 
@@ -186,7 +186,7 @@ The discriminator is **not the quality of the note**. It is whether the note rec
 
 A fifth destination exists and is rarer: a note that changes **how we work together** rather than
 what is true about the domain (what gets read first, what closes a deliverable) belongs in
-`CLAUDE.md`, not in the Lore.
+the instruction contract, not in the Lore.
 
 **Signals of a resolved friction**, which is the only bucket that produces Lore directly: a
 quoted error, a decision that was reversed, a *«no funcionó»*, a *«al final tuvimos que»*, a
@@ -242,7 +242,7 @@ archive whose non-empty `destilado` fields make future sweeps idempotent.
 
 - **A note is source, never criteria.** It is never authoritative, never loaded as if it were Lore,
   and never cited as a rule.
-- **Nothing enters `lore/`, `FASES.md` or `CLAUDE.md` without a mining pass and a HARD-GATE.** A
+- **Nothing enters `lore/`, `FASES.md` or the instruction contract without a mining pass and a HARD-GATE.** A
   capture writes one file in the inbox, and nothing else.
 - **The sweep, not the availability of a command, is what releases the criteria.** Every pass reports
   the debt.

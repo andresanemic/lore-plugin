@@ -1,6 +1,6 @@
 ---
 name: transmute-lore
-description: Operate a project's body of criteria in five modes — migrate scattered criteria to the six-artifact Lore standard (ADD); remove project copies of criteria already owned by its area (CLEAN); standardize language without changing meaning (TRANSLATE); arbitrate healthy Lore against a newer kit and raise it without rewriting earned criterion (UPGRADE); or generate a safe, traceable single-Markdown snapshot for chats, AI projects and notebooks without replacing the live artifacts (CRYSTALLIZE). Trigger on requests to transmute, migrate, clean, translate, upgrade, bring Lore up to date, crystallize Lore, export Lore to one Markdown, or prepare Lore as a chat/notebook source.
+description: Operate a project's body of criteria in five modes — migrate scattered criteria to the six-piece Lore standard (ADD); remove project copies of criteria already owned by its area (CLEAN); standardize language without changing meaning (TRANSLATE); arbitrate healthy Lore against a newer kit and raise it without rewriting earned criterion (UPGRADE); or generate a safe, traceable single-Markdown snapshot for chats, AI projects and notebooks without replacing the live artifacts (CRYSTALLIZE). Trigger on requests to transmute, migrate, clean, translate, upgrade, bring Lore up to date, crystallize Lore, export Lore to one Markdown, or prepare Lore as a chat/notebook source.
 ---
 
 # Transmute Lore
@@ -9,7 +9,7 @@ Operates a project's body of criteria. Five modes, one skill:
 
 - **ADD** — the project **never applied** the Lore method (or has a rough/incomplete `lore/`).
   Valuable criteria is *trapped* in non-distillable forms: long READMEs, an everything-mixed
-  `CLAUDE.md`, comments, tacit knowledge. ADD extracts it and lifts it to the six-artifact
+  instruction contracts (`CLAUDE.md` or `AGENTS.md`), comments, tacit knowledge. ADD extracts it and lifts it to the six-piece
   standard **without losing it and without inventing what never existed**.
 - **CLEAN** — the project already has the standard, but carries **per-project copies of thematic
   modules that duplicate what its area already owns**. CLEAN removes those modules, keeps
@@ -32,7 +32,7 @@ Operates a project's body of criteria. Five modes, one skill:
 ## When to use
 
 - **ADD:** a project with real criteria but no standard structure — no `lore/identidad.md` or
-  `lore/principios.md`, state living inline in `CLAUDE.md`, or an incomplete/stale `lore/`.
+  `lore/principios.md`, state living inline in the instruction contract, or an incomplete/stale `lore/`.
   Triggers: *"transmute the lore of {project}"*, *"this old project isn't in the new format"*,
   *"migrate this project to the lore standard"*.
 - **CLEAN:** a project inside an area that has redundant thematic modules (e.g. its own
@@ -51,7 +51,7 @@ Operates a project's body of criteria. Five modes, one skill:
 Detect the area: a project living in `{area}/proyectos/{name}/` inherits from `{area}/lore/`.
 If the project is standalone (no parent area), CLEAN does not apply — say so.
 
-## Target — the six-artifact standard
+## Target — the six-piece standard
 
 | Artifact | Holds | Location |
 |---|---|---|
@@ -60,13 +60,21 @@ If the project is standalone (no parent area), CLEAN does not apply — say so.
 | Thematic modules | Technical scars by topic (animation, layout, scroll…) as clues. | `lore/` |
 | `index.md` | Navigation map of the lore: one line per pattern. | `lore/` |
 | `FASES.md` | The project's state and plan (current phase, focus). **Outside `lore/`.** | root |
-| `CLAUDE.md` | The contract slimmed to **pointers** (no duplicated criteria). | root |
+| `CLAUDE.md` or `AGENTS.md` | The one host-selected contract slimmed to **pointers** (no duplicated criteria). | root |
+
+These are six structural pieces, not six literal files: thematic modules may be many.
+
+> **Scope boundary for contracts:** “one contract” applies at the Lore scope root. Do not delete,
+> rename or absorb nested instruction files managed by a framework or another tool (for example a
+> Next.js or HyperFrames `AGENTS.md`). If both names already exist at the target root, compare their
+> contents, identify ownership and present the choice at the HARD GATE; never discard unique rules
+> merely to satisfy the one-file default.
 
 > **No `logos.md` is generated.** That is specific to research projects, not the generic standard.
 
 > **Artifact names are localized.** The names above are the Spanish canonical forms; per the kit's
 > language rule they render in the user's language (e.g. English: `identity.md`, `principles.md`,
-> `PHASES.md`). Fixed in every language: `CLAUDE.md`, `lore/`, `index.md`, `golden-paths.md`.
+> `PHASES.md`). Fixed in every language: the selected contract name, `lore/`, `index.md`, `golden-paths.md`.
 > Inside an existing corpus, its established names win.
 
 ---
@@ -130,7 +138,7 @@ anything that **constrains a future decision**. Noise is descriptive and constra
 | Technical scar by topic (bug → cause → fix) | module `lore/<topic>.md` (clue) |
 | State, current phase, work focus, active branch | `FASES.md` |
 | Critical paths / mandatory verification | `golden-paths.md` (if applicable) |
-| Stack, folder structure, navigation map | `CLAUDE.md` (pointers/reference) |
+| Stack, folder structure, navigation map | instruction contract (pointers/reference) |
 | Descriptive with no constraint | **discard** (reported, see invariants) |
 
 **Area-aware routing:** if the project belongs to an area, a generic thematic clue that the **area
@@ -148,14 +156,14 @@ module instead. Only project-specific scars become project-local modules.
 ### Phase 5 — HARD-GATE
 Do not write yet. Present **one** mapping document containing:
 1. The **real proposed content** of each new artifact (not just a routing table).
-2. What changes in `CLAUDE.md` (what moves to lore, what stays as a pointer).
+2. What changes in the instruction contract (what moves to lore, what stays as a pointer).
 3. The **discarded-noise report**, justified piece by piece.
 4. Any **discrepancy** found between old lore/docs and the code or the user's description.
 
 Wait for explicit approval before writing.
 
 ### Phase 6 — Writing (only after approval)
-Create the artifacts, slim `CLAUDE.md` to pointers, build/update `index.md`. **Do not overwrite old
+Create the artifacts, slim the instruction contract to pointers, build/update `index.md`. **Do not overwrite old
 `lore/` without surfacing discrepancies**: if old content contradicts current code or the user's
 words, report it instead of proceeding blind.
 
@@ -212,7 +220,7 @@ reviewable diff.
 ### Phase 1 — Language inventory
 1. Resolve the **target language**: the one the user asked for; if unstated, the **user's own
    language** (the one they are speaking in).
-2. Scan the scope's artifacts — `lore/*.md`, `FASES.md`, `CLAUDE.md`, `golden-paths.md` if present —
+2. Scan the scope's artifacts — `lore/*.md`, `FASES.md`, the instruction contract, `golden-paths.md` if present —
    and record each file's current language (or "mixed").
 3. Scope boundary: translating a **project** does NOT touch its area's `lore/`; translating an
    **area** does NOT touch its projects. If the other level is in a different language, report the
@@ -223,7 +231,7 @@ Present the plan before writing: file-by-file current language → target, inclu
 localizable artifact names move to the target language too (e.g. `identidad.md` ↔ `identity.md`,
 `principios.md` ↔ `principles.md`, `FASES.md` ↔ `PHASES.md`, `proyectos/` ↔ `projects/`,
 `fuente/` ↔ `source/`, thematic modules) — plus what will NOT be translated or renamed:
-- the fixed names: `CLAUDE.md`, `lore/`, `index.md`, `golden-paths.md`, `_starter/`;
+- the fixed names: the selected contract filename, `lore/`, `index.md`, `golden-paths.md`, `_starter/`;
 - code blocks, identifiers, commands, quoted error messages / log excerpts;
 - confidence markers (`conjecture` / `confirmed`) and the promotion glyph ` · ↑`;
 - English terms of general technical use (workflow, commit, stack, scaffold…);
@@ -238,7 +246,7 @@ Wait for explicit approval.
 ### Phase 3 — Translate (only after approval)
 Translate each file's prose to the target language, preserving Markdown structure (headings,
 tables, list shapes) line-for-line where possible. Apply the approved renames with `git mv` and
-**rewrite every link that touches a renamed file** — in the scope's `index.md`, `CLAUDE.md`,
+**rewrite every link that touches a renamed file** — in the scope's `index.md`, instruction contract,
 cross-references between artifacts, and inherited-path links. **Meaning-preserving above all**: a
 clue's constraint must survive translation intact — when a nuance is ambiguous, flag it in the
 report instead of guessing.
@@ -345,13 +353,13 @@ such as `lore-crystallized.md` / `lore-cristalizado.md` at a user-approved expor
 inside `lore/`.
 
 CRYSTALLIZE **does not replace the six live artifacts**. It writes no source artifact and never
-changes `CLAUDE.md`, `FASES.md`, `lore/`, a bot's canon, or any federated source.
+changes the instruction contract, `FASES.md`, `lore/`, a bot's canon, or any federated source.
 
 ### Phase 1 — Resolve the live routing
 
 Read in this order and record every resolved path:
 
-1. the target contract (`CLAUDE.md` or the bot's equivalent);
+1. the target contract (`CLAUDE.md`, `AGENTS.md`, or the bot's equivalent);
 2. `FASES.md` or the target's current state artifact;
 3. `lore/index.md`, identity, and principles;
 4. thematic modules routed by the index, including inherited area modules;
@@ -433,7 +441,7 @@ the live project tree for updates and warn agents not to write changes back into
 
 **Signals of NOISE** (does not enter `principios`/`identidad`; stays as descriptive doc or is discarded):
 - Description of what a component does without constraining anything.
-- Folder-structure and stack inventories → `CLAUDE.md` as reference, not `principios.md`.
+- Folder-structure and stack inventories → the instruction contract as reference, not `principios.md`.
 - Historical narrative with no criteria ("first we tried X, then Y").
 - One-off process instructions already completed.
 
@@ -459,7 +467,7 @@ the live project tree for updates and warn agents not to write changes back into
 - **CLEAN never deletes `identidad.md` / `principios.md` / `index.md`** — only thematic modules, and
   only after confirming their criteria already lives in the area (otherwise reported, not deleted).
 - **ADD writes new artifacts in the user's language — content and filenames** (fixed names
-  `CLAUDE.md` / `lore/` / `index.md` / `golden-paths.md` and general technical English terms
+  selected contract name / `lore/` / `index.md` / `golden-paths.md` and general technical English terms
   excluded) — never in English just because this skill is.
 - **TRANSLATE is meaning-preserving**: it changes the language of content and localizable
   filenames, never the criteria or the structure, and never leaves a broken link behind.

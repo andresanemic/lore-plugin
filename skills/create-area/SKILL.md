@@ -1,6 +1,6 @@
 ---
 name: create-area
-description: Use when starting a brand-new WORK AREA that groups several projects of the same kind (web, research, blog, video, apps…). Scaffolds an area folder with its own Lore (identidad/principios + index + optional thematic modules), a CLAUDE.md contract, a FASES.md project registry and an empty proyectos/ folder. Brainstorms the area identity FIRST (HARD-GATE). Trigger on "create a work area for X" or "I want to start working on a domain with Lore".
+description: Use when starting a brand-new WORK AREA that groups several projects of the same kind (web, research, blog, video, apps…). Scaffolds an area folder with its own Lore (identidad/principios + index + optional thematic modules), one host-selected instruction contract, a FASES.md project registry and an empty proyectos/ folder. Brainstorms the area identity FIRST (HARD-GATE). Trigger on "create a work area for X" or "I want to start working on a domain with Lore".
 ---
 
 # create-area — Start a new work area
@@ -16,14 +16,15 @@ Creates the **mother folder** of a domain (web, research, blog, video, apps…) 
 > **user's language** (the language they speak during the brainstorm), NOT the language this skill
 > is written in. The names used throughout this skill (`identidad.md`, `principios.md`, `FASES.md`,
 > `proyectos/`) are the Spanish canonical forms: localize them (e.g. English → `identity.md`,
-> `principles.md`, `PHASES.md`, `projects/`). Fixed in every language: `CLAUDE.md`, `AGENTS.md`, `lore/`,
+> `principles.md`, `PHASES.md`, `projects/`). Fixed in every language: the selected contract name
+> (`CLAUDE.md` or `AGENTS.md`), `lore/`,
 > `index.md`, `golden-paths.md`, `_starter/`. English terms of general technical use (workflow,
 > stack, commit, scaffold, starter…) stay in English regardless.
 
 ## Area model (federated + hybrid)
 
-- The area is a **light** folder: `CLAUDE.md` + `FASES.md` + `lore/` + `proyectos/` + `_starter/`.
-- The area carries its own **project scaffold** in `_starter/` — the templates (`CLAUDE.template.md`,
+- The area is a **light** folder: one instruction contract + `FASES.md` + `lore/` + `proyectos/` + `_starter/`.
+- The area carries its own **project scaffold** in `_starter/` — the templates (`{{CONTRACT_FILE}}.template.md`,
   `FASES.md`, and `golden-paths.template.md` when the domain warrants it) **tuned to this area's
   domain**, plus any base code scaffold (e.g. a Next.js app for a web area). `create-project` stamps
   new projects from `{area}/_starter/`, so each area's projects are born in that area's shape.
@@ -49,6 +50,7 @@ Creates the **mother folder** of a domain (web, research, blog, video, apps…) 
 | `{{AREA_SLUG}}` | area name in kebab-case (e.g. `desarrollo-web`) |
 | `{{AREA_TITLE}}` | readable name (e.g. "Desarrollo Web") |
 | `{{PATH}}` | mother path; default `{{ROOT}}/{{AREA_SLUG}}`, where `{{ROOT}}` is the user's own root of areas — ask for it, never assume one |
+| `{{CONTRACT_FILE}}` | the user's primary host: Claude Code → `CLAUDE.md`; Codex → `AGENTS.md` |
 | `{{PURPOSE}}` | what does the area produce and for whom? → `identidad.md` |
 | `{{NORTH}}` | quality standard: what is every deliverable judged against? → `identidad.md` |
 | `{{ANTI_SCOPE}}` | what the area is NOT / what practice it rejects → `identidad.md` |
@@ -75,8 +77,7 @@ Resulting structure:
 
 ```
 {{PATH}}\
-  CLAUDE.md              → area contract (pointers to lore/, how work is done here)
-  AGENTS.md              → Codex adapter; points to CLAUDE.md, never duplicates it
+  {{CONTRACT_FILE}}      → the one area contract (pointers to lore/, how work is done here)
   FASES.md               → project registry (path + status + internal phase)
   lore\
     index.md             → map of the area's modules
@@ -84,8 +85,7 @@ Resulting structure:
     principios.md        → invariant laws of the method
     {{thematic modules, if any}}
   _starter\              → project scaffold that create-project stamps from
-    CLAUDE.template.md   → project contract template (domain-tuned pointers)
-    AGENTS.md            → Codex adapter copied into every project
+    {{CONTRACT_FILE}}.template.md → project contract template (domain-tuned pointers)
     FASES.md             → project phases template (domain-tuned phase map)
     golden-paths.template.md → critical-paths template (if the domain warrants it)
     {{base code scaffold, e.g. web/ for a web area}}
@@ -97,7 +97,7 @@ Resulting structure:
 Do not copy templates blind: write each file resolving the tokens with what was discussed in the
 brainstorm. Reference templates below (§Templates).
 
-Order: `lore/identidad.md` → `lore/principios.md` → `lore/index.md` → `FASES.md` → `CLAUDE.md` → `AGENTS.md`
+Order: `lore/identidad.md` → `lore/principios.md` → `lore/index.md` → `FASES.md` → `{{CONTRACT_FILE}}`
 (+ any thematic module agreed in the brainstorm).
 
 ### 3b. Generate the area's project scaffold (`_starter/`)
@@ -106,11 +106,9 @@ Write the project templates **tuned to this area's domain** into `_starter/`. Th
 `create-project` stamps for every new project — so they must reflect this area's stack, phases and
 critical paths, not a generic mold.
 
-- `_starter/CLAUDE.template.md` — the **project** contract template (slimmed to pointers), carrying
+- `_starter/{{CONTRACT_FILE}}.template.md` — the **project** contract template (slimmed to pointers), carrying
   the area's stack/conventions and `{{TOKENS}}` for the project's own name/description. Adapted from
   the area's `identidad.md`/`principios.md`.
-- `_starter/AGENTS.md` — the same minimal Codex adapter used at the area root; it points to
-  `CLAUDE.md` and never duplicates the contract.
 - `_starter/FASES.md` — the **project** phases template: the typical phase map for a project in this
   domain (a web project's Research→Design→Build differs from a research project's phases).
 - `_starter/golden-paths.template.md` — only if the domain has critical paths worth verifying
@@ -124,7 +122,9 @@ critical paths, not a generic mold.
 
 ### 4. Verify and report
 
-- Verify `AGENTS.md` points to `CLAUDE.md` and does not duplicate the contract.
+- Verify the area and starter each contain exactly one contract file. Do not generate both names by
+  default. If the user needs both hosts, offer Codex's `project_doc_fallback_filenames` setting or,
+  only with explicit approval, a minimal pointer adapter.
 - Verify no unresolved `{{TOKEN}}` remains in any file.
 - Verify every `index.md` link resolves to a present file.
 - Report the created structure and the **next step** (create a project with `create-project`, or
@@ -136,7 +136,7 @@ critical paths, not a generic mold.
   persists; FASES is state that advances — never mix them).
 - The content of identidad/principles is BORN from the brainstorm, never from invented defaults.
 - **Everything generated — content and artifact filenames — is in the user's language** (fixed
-  names `CLAUDE.md` / `AGENTS.md` / `lore/` / `index.md` / `golden-paths.md` / `_starter/` and general technical
+  selected contract name (`CLAUDE.md` or `AGENTS.md`) / `lore/` / `index.md` / `golden-paths.md` / `_starter/` and general technical
   English terms excluded). Never default to English/Spanish because the skill or the templates are.
 - The area carries a **domain-tuned `_starter/`** (project templates + optional code scaffold);
   `create-project` stamps from it, never from a global/hardcoded starter. This is what keeps the kit
@@ -150,7 +150,7 @@ critical paths, not a generic mold.
 
 > These templates are **shape, not literal text**: render every heading, sentence AND localizable
 > filename in the user's language (per the language rule above), keeping structure and the fixed
-> names (`CLAUDE.md`, `lore/`, `index.md`) as-is.
+> names (the selected contract filename, `lore/`, `index.md`) as-is.
 
 ### `lore/identidad.md`
 
@@ -210,10 +210,10 @@ critical paths, not a generic mold.
 - {{DATE}} — area created.
 ```
 
-### `CLAUDE.md` (area contract)
+### `{{CONTRACT_FILE}}` (area contract)
 
 ```markdown
-# CLAUDE.md — {{AREA_TITLE}}
+# {{CONTRACT_FILE}} — {{AREA_TITLE}}
 
 > Source of truth for AI agents in this area. Read fully before any task.
 > **{{AREA_TITLE}}** — a work area grouping several projects of the same kind.
@@ -246,10 +246,10 @@ if a fact does not constrain a future decision, it does not enter.
 These are **project** templates the area stamps — they carry `{{PROJECT_TOKENS}}` that
 `create-project` resolves per project. Tune them to the area's domain.
 
-### `_starter/CLAUDE.template.md` (project contract)
+### `_starter/{{CONTRACT_FILE}}.template.md` (project contract)
 
 ```markdown
-# CLAUDE.md — {{PROJECT_TITLE}}
+# {{CONTRACT_FILE}} — {{PROJECT_TITLE}}
 
 > Source of truth for AI agents in this project. Read fully before any task.
 > **{{PROJECT_TITLE}}** — {{PROJECT_DESCRIPTION}}
@@ -268,15 +268,6 @@ These are **project** templates the area stamps — they carry `{{PROJECT_TOKENS
 - {{AREA_BASE_RULES}}
 - `git push` only when the user says so.
 - Read this file fully before touching anything.
-```
-
-### `AGENTS.md` (Codex adapter)
-
-```markdown
-# AGENTS.md
-
-Read and follow [`CLAUDE.md`](./CLAUDE.md) in full before any task. It is the single contract for
-this area; do not duplicate its rules here.
 ```
 
 ### `_starter/FASES.md` (project phases)

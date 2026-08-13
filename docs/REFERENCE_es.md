@@ -34,7 +34,7 @@ El plugin Lore expone ocho skills principales a través de agentes de IA compati
 | `create-area`    | Crear una nueva Área con Lore compartido      | «crea un área de trabajo para Frontend», «quiero empezar a trabajar en X con Lore» |
 | `create-project` | Crear un proyecto que hereda de un Área       | «crea un proyecto de Sitio de marketing en el área Frontend» |
 | `save-to-lore`   | Capturar criterio tras resolver un problema (**capture**) o arbitrar criterio importado de una skill/guía ajena (**arbitrate**) | «guarda en lore», «destila esto en el lore» (capture) / «destila la skill X en el lore» (arbitrate) |
-| `transmute-lore` | Migrar proyectos existentes hacia Lore        | «transmuta el lore del Frontend heredado» (add) / «limpia el lore del Frontend heredado» (clean) / «estandariza el idioma del lore del Frontend heredado» (translate) |
+| `transmute-lore` | Operar un Lore existente en cinco modos | add / clean / translate / upgrade / crystallize |
 | `create-bot`     | Construir un bot: un solo lugar donde abrir sesión y trabajar en varios proyectos a la vez, con su criterio ya cargado | «crea un bot para trabajar en X e Y» (nuevo) / «quiero un bot que federe el lore que ya existe en A y B» (federar) |
 | `obsidian-lore`  | Capturar notas libres en el mismo árbol donde vive el Lore, y **minar** esa bandeja buscando lo que merece volverse criterio | «revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore», «mina la bandeja», «guarda esta nota en Obsidian» |
 
@@ -44,7 +44,8 @@ Cada skill opera sobre, o crea, artefactos Markdown específicos dentro de tu re
 **idioma del usuario** — tanto el contenido como los nombres de los artefactos. `identidad.md`,
 `principios.md`, `FASES.md`, `proyectos/` son las formas canónicas en español (y así aparecen en
 este documento); en inglés, por ejemplo, serían `identity.md`, `principles.md`, `PHASES.md`,
-`projects/`. Permanecen fijos en todos los idiomas: `CLAUDE.md`, `lore/`, `index.md`,
+`projects/`. Permanecen fijos en todos los idiomas: el nombre del contrato elegido (`CLAUDE.md` o
+`AGENTS.md`), `lore/`, `index.md`,
 `golden-paths.md`, la profundidad de las rutas relativas y los términos técnicos de uso general en
 inglés (workflow, commit, stack, scaffold…). Dentro de un corpus existente mandan los nombres ya
 establecidos. Un Lore en el idioma equivocado se estandariza con `transmute-lore` en modo
@@ -111,10 +112,12 @@ Usa `use-lore` siempre que no tengas claro dónde empezar.
   - `lore/principios.md`
   - `lore/index.md`
   - módulos temáticos bajo `lore/`, según se necesiten.
-- `CLAUDE.md`, su adaptador mínimo `AGENTS.md` para Codex y `FASES.md` a nivel Área (contrato y registro de proyectos).
+- Un contrato a nivel Área —`CLAUDE.md` para Claude Code o `AGENTS.md` para Codex— y `FASES.md`
+  (contrato y registro de proyectos).
 - Una carpeta `proyectos/` vacía, donde nacerán los proyectos futuros.
 - Una carpeta `_starter/` con las plantillas de proyecto ajustadas al dominio del Área
-  (`CLAUDE.template.md`, `FASES.md` y, si aplica, `golden-paths.template.md`, más cualquier
+  (`CLAUDE.template.md` o `AGENTS.template.md`, `FASES.md` y, si aplica,
+  `golden-paths.template.md`, más cualquier
   scaffold de código base). `create-project` instancia estas plantillas al crear cada proyecto.
 
 **Responsabilidades:**
@@ -146,8 +149,8 @@ Usa `create-area` cuando quieras que varios proyectos compartan el mismo criteri
   - `lore/index.md`, que referencia los módulos temáticos del Área por ruta relativa
     (`../../../lore/<módulo>.md` — tres niveles, no dos).
   - `FASES.md` (raíz) para estado actual y hoja de ruta.
-  - `CLAUDE.md` (raíz) como contrato único de colaboración y referencias operativas.
-  - `AGENTS.md` (raíz) como adaptador mínimo de Codex hacia ese contrato.
+  - `CLAUDE.md` o `AGENTS.md` (raíz) como contrato único y referencias operativas; el proyecto
+    hereda la elección de host del Área.
 - Registra el nuevo proyecto en el `FASES.md` del Área.
 
 **Responsabilidades:**
@@ -201,7 +204,7 @@ arbitrado contra `<identidad.md>`."*
 3. Decidir dónde guardarlas:
    - Módulos de proyecto bajo `lore/`.
    - `principios.md` a nivel Área para reglas generales.
-   - Actualizaciones en `identidad.md` o `CLAUDE.md` si cambian identidad o colaboración.
+   - Actualizaciones en `identidad.md` o el contrato si cambian identidad o colaboración.
 
 **Umbral de Lore (disparo proactivo):** para que Claude proponga guardar algo sin que se lo pidas,
 deben cumplirse las 4 condiciones a la vez: **restricción** (prohíbe un error futuro o exige un
@@ -268,7 +271,7 @@ sucio, pero igualmente exige una vista previa explícita de la exportación y un
 2. Separar **criterio** (restringe una decisión futura) de **ruido** (solo describe).
 3. Proponer cómo mapear ese criterio a:
    - `identidad.md`, `principios.md`, `index.md`, módulos temáticos bajo `lore/`.
-   - `FASES.md` y `CLAUDE.md` en la raíz.
+   - `FASES.md` y el contrato de instrucciones en la raíz.
 4. Presentar el mapeo completo (contenido real, no solo una tabla de rutas) y **esperar aprobación
    explícita** antes de escribir nada (HARD-GATE).
 
@@ -285,12 +288,12 @@ sucio, pero igualmente exige una vista previa explícita de la exportación y un
 **Proceso — modo `translate` (conceptual):**
 
 1. Resolver el **idioma destino**: el que pidas; si no lo indicas, tu propio idioma.
-2. Inventariar el idioma actual de cada artefacto del ámbito (`lore/*.md`, `FASES.md`, `CLAUDE.md`,
+2. Inventariar el idioma actual de cada artefacto del ámbito (`lore/*.md`, `FASES.md`, el contrato,
    `golden-paths.md` si existe), incluyendo los que estén mezclados.
 3. Presentar el plan archivo por archivo — incluyendo los **renombrados** de artefactos
    localizables (p. ej. `identidad.md` ↔ `identity.md`, `FASES.md` ↔ `PHASES.md`) — y **esperar
    aprobación explícita** antes de escribir (HARD-GATE), indicando lo que NO se traduce ni se
-   renombra: `CLAUDE.md`, `lore/`, `index.md`, `golden-paths.md`, bloques de código,
+   renombra: el nombre del contrato elegido, `lore/`, `index.md`, `golden-paths.md`, bloques de código,
    identificadores, mensajes de error citados, marcadores de confianza (`conjecture`/`confirmed`),
    el glifo ` · ↑`, términos técnicos de uso general en inglés y nombres propios. Renombrar
    `proyectos/` es opcional y se propone aparte (puede haber referencias externas a esa ruta).
@@ -332,7 +335,7 @@ Usa `transmute-lore` cuando ya tienes proyectos en marcha y quieres incorporarlo
 
 Un bot es hermano de `create-project`, no de `create-area`: vive en `{área}/proyectos/{slug}/`. Lo
 distingue **una** propiedad: **enruta hacia afuera**, hacia Lore que pertenece a otros proyectos y
-Áreas. Por defecto es una carpeta con su canon y su `CLAUDE.md` —abres la sesión ahí y el criterio ya
+Áreas. Por defecto es una carpeta con su canon y su contrato elegido por host —abres la sesión ahí y el criterio ya
 está cargado, sin instalar nada—. **Empaquetarlo como *plugin* instalable es opcional** y sirve para
 una sola cosa: repartirlo a un equipo.
 
@@ -363,10 +366,10 @@ sellos opcionales; después retoma sincronización, empaquetado y verificación.
 > criterio conserva un solo dueño y una sola versión — la misma regla DRY del resto del kit, donde un
 > proyecto referencia los módulos de su Área en vez de duplicarlos.
 
-**Un Área se federa como se abre:** `lore` **más** su `CLAUDE.md` y su `FASES.md`. Federar solo su
+**Un Área se federa como se abre:** `lore` **más** su contrato elegido y su `FASES.md`. Federar solo su
 `lore/` es la asimetría a evitar, y es invisible desde adentro: las **leyes** del Área viven en el
 Lore, pero la **secuencia de trabajo** —qué se lee primero, con qué skill cierra un entregable— vive
-en su `CLAUDE.md`, y el **registro de qué existe y dónde** en su `FASES.md`, incluidos los proyectos
+en su `CLAUDE.md` o `AGENTS.md`, y el **registro de qué existe y dónde** en su `FASES.md`, incluidos los proyectos
 adoptados por ruta. Un bot que se lleva solo el Lore cita cada regla correctamente y trabaja distinto.
 
 **El acceso se declara por fuente, no se infiere de su categoría.** Se pregunta si algún proyecto
@@ -399,7 +402,7 @@ validez, Pista Invariante) es del documento de la skill, no de la conversación.
 
 **Crea / actualiza:**
 
-- `CLAUDE.md` — **el bot**: configuración de primer uso, carga del canon, enrutamiento, ejecución y
+- `CLAUDE.md` o `AGENTS.md` — **el bot**: configuración de primer uso, carga del canon, enrutamiento, ejecución y
   propuesta de destilación al cerrar. Se carga solo por abrir la sesión en esa carpeta.
 - `canon/*.md` — el criterio que el bot **es**, con su origen y su frontera de validez declarados en
   cada módulo.
@@ -532,7 +535,7 @@ proyecto** (`create-project`), no que haga falta una bandeja huérfana.
 **Y el motivo no es que nadie trabaje en la raíz — alguien sí trabaja.** Todo lo que tiene que estar
 por encima de todas las Áreas vive ahí: un launcher que enruta a todas, una spec que decide un Área
 nueva, un script que recorre el árbol entero. La raíz es **un lugar de trabajo sin Lore** — sin dueño,
-sin `FASES.md`, sin bandeja y sin ningún `CLAUDE.md` que cargue las reglas que habrían hecho registrar
+sin `FASES.md`, sin bandeja y sin ningún contrato que cargue las reglas que habrían hecho registrar
 lo que pasó. Así que el silencio va un paso más allá del párrafo anterior: **el trabajo mismo queda sin
 registrar**, y no se escribe ninguna nota que un barrido pueda encontrar. Cuando es ese el caso, lo que
 falta está un nivel por encima del proyecto: un **Área** (`create-area`). Hasta que exista, la nota va
@@ -552,7 +555,7 @@ destilado:                      # vacío = sin minar
 
 | Operación | Qué hace |
 |---|---|
-| **Capturar** | Escribe un `.md` en la bandeja con ese frontmatter. Nunca dentro de `lore/`, y nunca toca `identidad.md`, `principios.md`, un módulo, `FASES.md` ni `CLAUDE.md`. |
+| **Capturar** | Escribe un `.md` en la bandeja con ese frontmatter. Nunca dentro de `lore/`, y nunca toca `identidad.md`, `principios.md`, un módulo, `FASES.md` ni el contrato. |
 | **Minar** | Barre la bandeja, reporta la deuda, clasifica, enruta, propone y espera aprobación. La escritura la ejecuta `save-to-lore`. |
 
 **Las cuatro cubetas.** El discriminador no es la calidad de la nota: es si registra una
@@ -566,7 +569,7 @@ destilado:                      # vacío = sin minar
 | Un resumen, una cita, un enlace, un apunte | información | fuente de `create-area` / `create-project` / `transmute-lore`, o **ruido informado** |
 
 Existe un quinto destino, más raro: una nota que cambia **cómo se trabaja en conjunto** (qué se lee
-primero, con qué cierra un entregable) pertenece a `CLAUDE.md`, no al Lore.
+primero, con qué cierra un entregable) pertenece al contrato de instrucciones, no al Lore.
 
 **Enrutamiento**, en orden, deteniéndose en el primero que resuelva: el `origen` de la nota → si la
 sesión corre en un bot, su `lore/enrutamiento.md` → el proyecto o Área donde corre la sesión →
@@ -706,7 +709,7 @@ Lore usa un conjunto fijo de artefactos Markdown para mantener el criterio estru
 
 ---
 
-### 4.6 `CLAUDE.md`
+### 4.6 `CLAUDE.md` o `AGENTS.md`
 
 **Ámbito:** Proyecto (nivel raíz).
 
@@ -737,7 +740,7 @@ Lore usa un conjunto fijo de artefactos Markdown para mantener el criterio estru
 - Documentar las rutas/flujos críticos que deben verificarse manualmente (por ejemplo, rutas web
   clave en un Área de frontend).
 
-No es uno de los seis artefactos obligatorios: `create-area` y `create-project` solo lo generan
+No forma parte del núcleo de seis piezas: `create-area` y `create-project` solo lo generan
 cuando el dominio lo justifica (por ejemplo, un Área web con rutas críticas). Si el dominio no lo
 necesita, simplemente no existe.
 
@@ -755,12 +758,11 @@ Una estructura típica de Lore, con Área y proyecto, se ve así:
     index.md
     <módulos-temáticos>.md
   _starter/                    → plantillas que create-project instancia
-    CLAUDE.template.md
+    CLAUDE.template.md o AGENTS.template.md
     FASES.md
     golden-paths.template.md   → solo si el dominio lo justifica
   FASES.md                     → registro de proyectos del Área
-  CLAUDE.md                    → contrato del Área
-  AGENTS.md                    → adaptador Codex → CLAUDE.md
+  CLAUDE.md o AGENTS.md        → contrato único del Área, elegido por host
 
   proyectos/
     {slug}/
@@ -770,7 +772,7 @@ Una estructura típica de Lore, con Área y proyecto, se ve así:
         index.md                → apunta a los módulos del Área por ../../../lore/<módulo>.md
         <módulos propios>.md    → solo criterio específico de este proyecto
       FASES.md
-      CLAUDE.md
+      CLAUDE.md o AGENTS.md
 ```
 
 Puntos clave de esta jerarquía:
@@ -787,7 +789,8 @@ Puntos clave de esta jerarquía:
 
 El comportamiento de Lore está gobernado por un conjunto de invariantes compartidas:
 
-- **El Lore se escribe en el idioma del usuario** – contenido y nombres de artefactos; solo `CLAUDE.md`, `lore/`, `index.md`, `golden-paths.md` y los términos técnicos de uso general en inglés permanecen fijos.
+- **El Lore se escribe en el idioma del usuario** – contenido y nombres de artefactos; solo el
+  nombre del contrato elegido, `lore/`, `index.md`, `golden-paths.md` y los términos técnicos de uso general en inglés permanecen fijos.
 - **El criterio nunca se inventa** – todas las reglas provienen de experiencia real.
 - **Todo proviene de trabajo real** – experimentos, incidentes, decisiones.
 - **El ruido descartado se informa** – nada se elimina en silencio.

@@ -25,14 +25,15 @@ El plugin Lore agrupa un conjunto de **skills** que implementan este ciclo:
 - `create-area` – Lore compartido para un grupo de proyectos.
 - `create-project` – Lore a nivel proyecto que hereda de un Área.
 - `save-to-lore` – captura criterio después de resolver un problema.
-- `transmute-lore` – migra proyectos existentes hacia la arquitectura Lore.
+- `transmute-lore` – añade, limpia, traduce, actualiza o cristaliza un cuerpo de Lore existente.
 - `create-bot` – un lugar para trabajar en varias Áreas o proyectos con su criterio cargado.
 - `obsidian-lore` – captura notas libres en el mismo árbol y **mina** esa bandeja buscando criterio.
 
 > **El Lore habla tu idioma.** Aunque los skills están escritos en inglés, todo lo que generan —
 > contenido **y nombres de artefactos** — se escribe en el idioma en el que trabajas. `identidad.md`,
 > `principios.md`, `FASES.md` son las formas canónicas en español (las que usa esta guía); en inglés
-> serían `identity.md`, `principles.md`, `PHASES.md`. Solo permanecen fijos `CLAUDE.md`, `lore/`,
+> serían `identity.md`, `principles.md`, `PHASES.md`. Solo permanecen fijos el nombre del contrato
+> elegido (`CLAUDE.md` o `AGENTS.md`), `lore/`,
 > `index.md` y los términos técnicos de uso general en inglés (workflow, commit, stack…).
 
 ---
@@ -128,7 +129,7 @@ Lore:
   - `lore/identidad.md` y `lore/principios.md`, con contenido propio primero y un puntero al Área después.
   - `lore/index.md`, que referencia los módulos temáticos del Área por ruta relativa (`../../../lore/<módulo>.md`).
   - `FASES.md` en la raíz para estado y hoja de ruta.
-  - `CLAUDE.md` en la raíz para contrato de colaboración y referencias operativas.
+  - el contrato elegido en la raíz para colaboración y referencias operativas.
 - Registra el proyecto en el `FASES.md` del Área, de modo que el criterio general se herede sin duplicarse.
 
 ### 4.3 Trabajar y capturar
@@ -226,8 +227,8 @@ Lore:
 - Prepara:
   - `lore/` para módulos específicos del proyecto (los módulos genéricos del Área solo se referencian, nunca se copian).
   - `FASES.md` en la raíz para estado y hoja de ruta.
-  - `CLAUDE.md` en la raíz como contrato único de colaboración, más un `AGENTS.md` mínimo que
-    dirige Codex hacia él sin duplicar reglas.
+  - un contrato en la raíz: `CLAUDE.md` cuando el Área usa Claude Code o `AGENTS.md` cuando usa
+    Codex. El proyecto hereda la elección del Área.
 - Conecta el proyecto con el Lore del Área, de modo que el criterio compartido esté disponible sin duplicación.
 
 Usa este skill siempre que inicies una nueva base de código dentro de un dominio que ya tiene un Área.
@@ -290,7 +291,7 @@ Lore normalmente:
 - Sugiere dónde guardarlas:
   - módulos del proyecto bajo `lore/`;
   - `principios.md` del Área si son reglas generales y están confirmadas;
-  - actualizaciones de `identidad.md` o `CLAUDE.md` si afectan identidad o colaboración.
+  - actualizaciones de `identidad.md` o del contrato si afectan identidad o colaboración.
 - Respeta invariantes:
   - Nunca inventa criterio.
   - Informa el ruido descartado.
@@ -355,7 +356,7 @@ Comportamiento esperado:
 - Escanear la documentación y estructura existentes.
 - Proponer cómo mapear archivos antiguos a:
   - `identidad.md`, `principios.md`, `index.md`, módulos temáticos.
-  - `FASES.md` y `CLAUDE.md`.
+  - `FASES.md` y el contrato de instrucciones.
 - Esperar tu aprobación explícita antes de escribir nada (HARD-GATE).
 - Garantizar que el resultado sea DRY:
   - Las reglas compartidas van al Área.
@@ -378,8 +379,8 @@ Un bot vive en `{Área}/proyectos/{slug}/` como cualquier proyecto. Lo distingue
 hacia afuera**, hacia el Lore de otros proyectos y Áreas. Las Áreas y los proyectos son lugares; un
 bot es una lente que llevas a ellos.
 
-Por defecto **no se instala nada**: es una carpeta con su canon, su `CLAUDE.md` y un `AGENTS.md`
-mínimo para Codex. Abrir la sesión ahí carga el mismo criterio en cualquiera de los dos hosts.
+Por defecto **no se instala nada**: es una carpeta con su canon y el único contrato elegido por su
+Área. Abrir la sesión ahí carga el criterio en ese host.
 Empaquetarlo como *plugin* es opcional y sirve para repartirlo a un
 equipo.
 
@@ -426,7 +427,7 @@ Qué esperar mientras corre:
   bot, y lo que toma prestado de otros proyectos (esto último nunca manda sobre su fuente).
 - En modo `federar`, la tabla de enrutamiento y el acceso local se generan solos desde el manifiesto;
   no los edites a mano. Las rutas se escriben **una vez**, ahí.
-- Al federar un Área se lleva `lore` **más** su `CLAUDE.md` y su `FASES.md`: el Lore trae las leyes,
+- Al federar un Área se lleva `lore` **más** su contrato elegido y su `FASES.md`: el Lore trae las leyes,
   pero la secuencia de trabajo y el registro de qué existe viven en esos dos.
 - Te pregunta si empaquetarlo como *plugin*, y si dices que sí **no lo da por terminado** hasta que
   `scripts/validar.js` pase: los errores de frontmatter que revisa no dan ningún mensaje de error —
@@ -494,7 +495,7 @@ no una bandeja huérfana.
 
 **La raíz es un lugar de trabajo sin Lore, no un lugar donde nadie trabaja.** Todo lo que tiene que
 estar por encima de todas las áreas termina ahí: un launcher que enruta a todas, una spec que decide
-un área nueva. Lo que la raíz no tiene es dueño, `FASES.md`, bandeja y ningún `CLAUDE.md` que cargue
+un área nueva. Lo que la raíz no tiene es dueño, `FASES.md`, bandeja ni contrato que cargue
 las reglas — así que el trabajo hecho ahí queda sin registrar y no llega ni a ser una nota que barrer.
 Si eso pasó, lo que falta es un **área** — `create-area`, y mientras tanto la nota va a la bandeja del
 área que pidió el trabajo.
@@ -542,15 +543,16 @@ Lore utiliza un conjunto fijo de artefactos para mantener el criterio organizado
 - Módulos temáticos en `lore/` – experiencia destilada agrupada por dominio.
 - `lore/index.md` – mapa de navegación del Lore en ese proyecto o Área.
 - `FASES.md` (raíz) – estado actual y hoja de ruta del proyecto.
-- `CLAUDE.md` (raíz) – contrato de colaboración y referencias operativas.
-- `AGENTS.md` (raíz) – adaptador mínimo de Codex hacia ese mismo contrato; nunca una segunda copia.
+- `CLAUDE.md` **o** `AGENTS.md` (raíz) – el único contrato de colaboración y sus referencias
+  operativas, elegido según el host principal.
 
 Recomendaciones generales:
 
 - Identidad y principios cambian poco; mantenlos breves e intencionales.
 - Los módulos temáticos pueden crecer, pero cada uno debería enfocarse en un dominio específico.
 - `FASES.md` debe reflejar la realidad; actualízalo cuando el proyecto cambie de fase.
-- `CLAUDE.md` debe describir cómo trabajan tú y Claude juntos (prompts, rituales, restricciones).
+- El contrato debe describir cómo trabajan las personas y el host principal (prompts, rituales,
+  restricciones).
 
 ---
 

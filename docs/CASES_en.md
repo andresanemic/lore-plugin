@@ -14,7 +14,7 @@ Lore was not designed on a whiteboard: every decision in this kit came from appl
 
 <br>
 
-A real project (*numerología*) built with Lore from start to finish, on top of a disciplined development practice. It showed that the six-artifact architecture **holds up across a whole project**, not just scattered notes: criteria accumulate, get consulted, and keep making decisions months later.
+A real project (*numerología*) built with Lore from start to finish, on top of a disciplined development practice. It showed that the six-piece architecture **holds up across a whole project**, not just scattered notes: criteria accumulate, get consulted, and keep making decisions months later.
 
 </details>
 

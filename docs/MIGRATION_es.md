@@ -70,7 +70,9 @@ Conceptualmente, Lore:
   - `lore/principios.md`
   - `lore/index.md`
   - módulos temáticos bajo `lore/`
-  - `FASES.md` y `CLAUDE.md` en la raíz.
+  - `FASES.md` y un contrato existente o elegido por host (`CLAUDE.md` o `AGENTS.md`) en la raíz.
+    Los archivos de instrucciones anidados que pertenecen a frameworks u otras herramientas se
+    mantienen en su ámbito más estrecho.
 - Sugiere qué partes son criterio y cuáles son información pura.
 
 Tú revisas y confirmas o ajustas la estructura propuesta.
@@ -117,12 +119,15 @@ traduce el lore del "Frontend heredado" al español
 
 Conceptualmente, Lore:
 
-- Detecta el idioma actual de cada artefacto (`lore/*.md`, `FASES.md`, `CLAUDE.md`).
+- Detecta el idioma actual de cada artefacto (`lore/*.md`, `FASES.md` y el contrato de instrucciones).
+- Si ambos nombres de contrato existen en la raíz migrada, compara su contenido y propiedad en el
+  HARD-GATE. Conserva las reglas únicas; nunca borres un archivo gestionado por un framework solo
+  para forzar el valor por defecto.
 - Propone un plan archivo por archivo — incluyendo los renombrados de artefactos localizables
   (p. ej. `identidad.md` ↔ `identity.md`, `FASES.md` ↔ `PHASES.md`) — y espera tu aprobación
   antes de escribir (HARD-GATE).
 - Traduce contenido y renombra artefactos **preservando el significado**, reescribiendo todo enlace
-  afectado; nunca toca `CLAUDE.md`, `lore/`, `index.md`, bloques de código, marcadores de confianza
+  afectado; nunca toca el nombre del contrato elegido, `lore/`, `index.md`, bloques de código, marcadores de confianza
   ni términos técnicos de uso general en inglés (workflow, commit, stack…).
 - No es una reescritura: ninguna pista se añade, se elimina ni se reinterpreta.
 
@@ -157,8 +162,9 @@ Enfócate en reglas que aún restringen decisiones hoy; ignora detalles obsoleto
 
 ### 4.4 Notas de onboarding y “cómo trabajamos”
 
-- Guías de onboarding y notas de colaboración → `CLAUDE.md` (para la parte específica de IA) + `identidad.md` / `principios.md` según corresponda.
-- Cualquier acuerdo explícito sobre cómo el equipo usa IA → `CLAUDE.md`.
+- Guías de onboarding y notas de colaboración → el contrato de instrucciones (para la parte
+  específica de IA) + `identidad.md` / `principios.md` según corresponda.
+- Cualquier acuerdo explícito sobre cómo el equipo usa IA → el contrato de instrucciones.
 
 ---
 
@@ -187,7 +193,7 @@ Enfócate en reglas que aún restringen decisiones hoy; ignora detalles obsoleto
    ```
 
    - El proyecto debe tener el árbol de git limpio antes de esto (precondición de `transmute-lore`).
-   - Revisar los `identidad.md`, `principios.md`, módulos, `FASES.md`, `CLAUDE.md` propuestos, y
+   - Revisar los `identidad.md`, `principios.md`, módulos, `FASES.md`, contrato propuesto, y
      aprobar el mapeo antes de que se escriba nada (HARD-GATE).
 
 4. **Limpiar módulos redundantes** una vez que el Área ya tiene sus propios módulos generales:
@@ -229,7 +235,7 @@ Tras ejecutar `transmute-lore` y ajustar artefactos, verifica:
   - La fase actual es correcta.
   - La hoja de ruta está alineada con cómo trabajáis de verdad.
 
-- **`CLAUDE.md` coincide con vuestra colaboración:**
+- **El contrato de instrucciones coincide con vuestra colaboración:**
   - Describe cómo usáis Claude en la práctica.
   - Incluye restricciones innegociables sobre el comportamiento de la IA.
 

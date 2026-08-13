@@ -61,7 +61,7 @@ not silently approve every later artifact mutation.
 
 Resolve the nearest project or area root and **read before asking**:
 
-1. `CLAUDE.md` — contract and routing;
+1. `CLAUDE.md` or `AGENTS.md` — the host-selected contract and routing;
 2. `FASES.md` — current state and already-decided work;
 3. `lore/index.md` — map of applicable criterion;
 4. identity, principles, and only the thematic Lore modules routed by the index;

@@ -16,7 +16,7 @@
 
 <p align="center">
   <a href="https://github.com/andresanemic/lore-plugin/stargazers"><img src="https://img.shields.io/github/stars/andresanemic/lore-plugin?style=for-the-badge&color=FF557A&labelColor=0B0B12" alt="GitHub stars"></a>
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.0.8-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.0.9-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/AI_agents-provider--neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Provider-neutral AI agents"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/paradigm-Spec--Driven_Development-F94F79?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
@@ -133,7 +133,14 @@ It provides three things:
 - eight skills that operate that convention;
 - and a continuous loop for distilling experience into reusable criteria.
 
-Spec-driven is not a label here. `CLAUDE.md` is the single contract, `AGENTS.md` lets Codex route to it without duplicating rules, `FASES.md` is the state and what comes next, and `lore/` is the criteria that constrains how any of it gets built.
+Spec-driven is not a label here. The project has one host-selected contract—`CLAUDE.md` for Claude Code or `AGENTS.md` for Codex—`FASES.md` is the state and what comes next, and `lore/` is the criteria that constrains how any of it gets built. If you use both hosts, Codex can fall back to `CLAUDE.md`; you still do not need two contracts.
+
+> **Which contract should you keep?** Use `CLAUDE.md` when Claude Code is your regular host and
+> `AGENTS.md` when Codex is. For a Claude-first project that occasionally opens in Codex, add
+> `project_doc_fallback_filenames = ["CLAUDE.md"]` to your Codex `config.toml`
+> ([official reference](https://developers.openai.com/codex/config-reference/)). Only create a
+> pointer adapter when the other host cannot be configured and you explicitly choose that tradeoff;
+> never keep two copies of the rules.
 
 Unlike documentation, Lore does not try to describe everything. It only preserves what changes future behavior.
 
@@ -211,7 +218,7 @@ Replace `all` with `claude` or `codex` to target only one CLI. The installer con
 
 Then start a new CLI session and type `use-lore`; the kit points you at the skill you need.
 
-> **Using another AI tool?** Each skill is a Markdown file with a YAML header. Copy the skill folder into that tool's supported skills directory, or use its body as agent instructions. The six artifacts and the Area↔Project model are provider-neutral conventions, not code.
+> **Using another AI tool?** Each skill is a Markdown file with a YAML header. Copy the skill folder into that tool's supported skills directory, or use its body as agent instructions. The six-piece architecture and the Area↔Project model are provider-neutral conventions, not code.
 
 ## What it looks like in practice
 
@@ -250,19 +257,20 @@ Three months later, in another project of the Area, someone asks for an entrance
 
 ## Architecture
 
-### The six artifacts
+### The six pieces
 
-Every project organizes its criteria with exactly these six:
+Every project organizes its criteria and state through six structural pieces. They are not
+necessarily six files: thematic modules are one piece implemented by as many focused files as the
+work earns.
 
-| Artifact | What it holds | Where |
+| Piece | What it holds | Where |
 |---|---|---|
 | `identidad.md` | What the project is, its purpose and its **quality floor** | `lore/` |
 | `principios.md` | Invariant laws, technical and business: prohibitions and imperatives | `lore/` |
 | Thematic modules | Technical scars by domain (animation, layout, scroll…) | `lore/` |
 | `index.md` | Navigation map: one line per pattern | `lore/` |
 | `FASES.md` | State and roadmap: current phase, focus | root |
-| `CLAUDE.md` | Collaboration contract, slimmed to **pointers** | root |
-| `AGENTS.md` | Minimal Codex adapter that points to the same contract | root |
+| `CLAUDE.md` **or** `AGENTS.md` | One collaboration contract, selected by primary host and slimmed to **pointers** | root |
 
 Each has one responsibility. None duplicates another.
 
@@ -281,8 +289,7 @@ web-development/
 │     identity · principles · index · animation · scroll · layout
 │
 ├── PHASES.md                  ← the Area's project registry
-├── CLAUDE.md                  ← the Area's contract
-├── AGENTS.md                  ← Codex adapter → CLAUDE.md
+├── CLAUDE.md or AGENTS.md     ← the Area's one host-selected contract
 │
 └── projects/
     ├── client-a/
@@ -325,7 +332,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** It is no
 > **2.0 rename:** `using-lore` is now `use-lore`. Remove the old skill when updating; do not keep
 > both names installed, because duplicate entry-point triggers make routing ambiguous.
 
-The entry point. Explains Lore's model, the six-artifact standard, the Area↔Project model, and routes you to the right skill. Read it before invoking any other.
+The entry point. Explains Lore's model, the six-piece standard, the Area↔Project model, and routes you to the right skill. Read it before invoking any other.
 
 ### `brainstorming-lore`
 
@@ -333,7 +340,7 @@ The kit's own design conversation. It is deliberately narrow: it activates for L
 
 ### `create-area`
 
-Creates a new Area with its own shared Lore: `identity` + `principles`, an `index.md`, a `CLAUDE.md`, a `PHASES.md` acting as project registry, and an empty `projects/` folder. It brainstorms the identity **before** touching disk.
+Creates a new Area with its own shared Lore: `identity` + `principles`, an `index.md`, one host-selected contract, a `PHASES.md` acting as project registry, and an empty `projects/` folder. It brainstorms the identity **before** touching disk.
 
 ### `create-project`
 
@@ -377,7 +384,7 @@ Operates existing Lore in five modes:
 
 | Mode | What it does |
 |---|---|
-| **add** | Rescues criteria already scattered around (a bloated `CLAUDE.md`, a kilometric README, code comments) and crystallizes it into the six artifacts. |
+| **add** | Rescues criteria already scattered around (a bloated `CLAUDE.md`, a kilometric README, code comments) and crystallizes it into the six-piece architecture. |
 | **clean** | Removes the project's redundant modules that the Area already owns. The criteria does not disappear: it changes owner. |
 | **translate** | Standardizes the language of an existing Lore, translating content and renaming artifacts, without altering structure or meaning. |
 | **upgrade** | Raises a healthy Lore written against an older version of these skills. Sorts every finding into Missing, Superseded or **Earned** — and what the project paid for with real friction is left alone. |
@@ -471,7 +478,7 @@ This kit brainstorms to build every artifact it makes, so the artifact it produc
 All five are asked when the bot is configured for the first time. A bot with none of them is complete: they are seals, not parts.
 
 - **The ecosystem copy (`lore-ecosistema/`).** By default the bot **points** at each project's Lore where it lives, duplicating nothing. Turning it on only makes sense if whoever will use the bot does **not** have your folders: there the pointer resolves to nothing, and the copy is the only way that criteria exists on their machine.
-- **Packaging it as a shareable plugin.** **Not created by default.** A bot is a folder with its canon, its `CLAUDE.md`, and a minimal `AGENTS.md` that routes Codex to the same contract: you open the session there and the criteria is already loaded, with nothing to install. Wrapping it in a skill with its own repository serves **one purpose**, handing it to a team, and if you are working alone it is scaffolding you still have to maintain.
+- **Packaging it as a shareable plugin.** **Not created by default.** A bot is a folder with its canon and one contract selected by its Area: you open the session there and the criteria is already loaded, with nothing to install. Wrapping it in a skill with its own repository serves **one purpose**, handing it to a team, and if you are working alone it is scaffolding you still have to maintain.
 - **Lore encryption** — *experimental*, see [`ENCRYPTION.md`](./docs/ENCRYPTION.md).
 - **Telegram access.** Adds a phone channel through a separate Telegram MCP, with an explicit access list. It needs a reachable machine and an open session; it is never implied by creating the bot.
 - **A local multi-provider launcher.** Uses [Lore in the Shell](https://github.com/andresanemic/lore-in-the-shell) when installed, or builds the smallest local launcher otherwise. It chooses the CLI and model; the criteria still lives in the bot.
@@ -502,7 +509,7 @@ Then, whenever you want:
   web-development/              ← your Areas and projects, with their Lore
   bots/projects/my-bot/         ← ★ open your sessions here
     notes/                      ← the inbox that matters: routed, not guessed
-    canon/ · lore/ · CLAUDE.md
+    canon/ · lore/ · CLAUDE.md or AGENTS.md
 ```
 
 ### What it does with each note
@@ -551,20 +558,26 @@ All eight skills follow the same rules:
 
 **Lore does more before answering—so you redo less.** We tested twelve frozen tasks with three independent runs per condition: cold Codex and Codex with Lore, for 72 runs in total. Every run used **`gpt-5.6-sol` with medium reasoning effort**; model, prompt and tools were identical between arms. Lore spends more time reading before an attempt; the useful measure is the work required to finish correctly.
 
-| Result | Cold Codex | Codex + Lore |
-|---|---:|---:|
-| Correct on the first attempt | 25/36 (69.4%) | **33/36 (91.7%)** |
-| Correct runs per 10 attempts | 6.9 | **9.2** |
-| Read Lore and obeyed the evaluated criterion | — | **31/32 (96.9%)** |
+<table width="100%">
+  <thead><tr><th width="56%">Result</th><th align="right">Cold Codex</th><th align="right">Codex + Lore</th></tr></thead>
+  <tbody>
+    <tr><td>Correct on the first attempt</td><td align="right">25/36 (69.4%)</td><td align="right"><strong>33/36 (91.7%)</strong></td></tr>
+    <tr><td>Correct runs per 10 attempts</td><td align="right">6.9</td><td align="right"><strong>9.2</strong></td></tr>
+    <tr><td>Read Lore and obeyed the evaluated criterion</td><td align="right">—</td><td align="right"><strong>31/32 (96.9%)</strong></td></tr>
+  </tbody>
+</table>
 
 That is **+22.3 points of first-pass correctness**. Lore never made a task result worse: it improved 3 of the 12 tasks and preserved the result in the other 9.
 
-| Cost to reach a correct result | Without Lore | With Lore | Effect |
-|---|---:|---:|---:|
-| Time per attempt | 42.83 s | 52.35 s | +22.2% |
-| Expected attempts per success | 1.44 | **1.09** | **−24.2%** |
-| Modeled time to success | 61.68 s | **57.11 s** | **−7.4%** |
-| Modeled output tokens to success | 2,077 | **2,050** | **−1.3%** |
+<table width="100%">
+  <thead><tr><th width="56%">Cost to reach a correct result</th><th align="right">Without Lore</th><th align="right">With Lore</th><th align="right">Effect</th></tr></thead>
+  <tbody>
+    <tr><td>Time per attempt</td><td align="right">42.83 s</td><td align="right">52.35 s</td><td align="right">+22.2%</td></tr>
+    <tr><td>Expected attempts per success</td><td align="right">1.44</td><td align="right"><strong>1.09</strong></td><td align="right"><strong>−24.2%</strong></td></tr>
+    <tr><td>Modeled time to success</td><td align="right">61.68 s</td><td align="right"><strong>57.11 s</strong></td><td align="right"><strong>−7.4%</strong></td></tr>
+    <tr><td>Modeled output tokens to success</td><td align="right">2,077</td><td align="right"><strong>2,050</strong></td><td align="right"><strong>−1.3%</strong></td></tr>
+  </tbody>
+</table>
 
 These four rows are a model based on aggregate first-pass rates, not observed repair cycles. A
 separate controlled extension measured up to one repair across 52 units per arm: Lore reached
@@ -668,12 +681,28 @@ the other can do next. We do not preserve every experience. We cultivate the one
 orient another decision, prune what no longer constrains anything, and keep the trace of what was
 discarded. Lore is not the garden; it is the practice that keeps this shared ground alive.
 
-The program began with a foundational bibliography and has since widened its theoretical dialogue:
+The program began with a foundational bibliography whose concepts map directly onto the practice:
 
-- **Foundational bibliography:** Martin Buber; Louis Althusser; Gilbert Simondon; Claude Shannon
-  and Warren Weaver; Gregory Bateson; Norbert Wiener; Edgar Morin; Andy Clark and David Chalmers;
-  and Hubert Dreyfus.
-- **Extended bibliography and current dialogue:** Edwin Hutchins on distributed cognition; Daniel
+- **Martin Buber, _Ich und Du_ (1923):** the *Between*—knowledge emerges in the relation, not in
+  the prompt or model alone.
+- **Louis Althusser, “Ideology and Ideological State Apparatuses” (1970):** interpellation—the AI
+  does not merely answer; it calls the human into a position of judgment and responsibility.
+- **Gilbert Simondon, _Individuation in Light of Notions of Form and Information_ (1958):**
+  transduction—friction crystallizes into a structure that changes the next interaction.
+- **Claude Shannon and Warren Weaver, _The Mathematical Theory of Communication_ (1949):** signal,
+  entropy and noise—the reason raw logs are filtered into Context, Root cause and Invariant Clue.
+- **Gregory Bateson, _Steps to an Ecology of Mind_ (1972):** “a difference that makes a
+  difference”—the test for whether an experience can constrain future action.
+- **Norbert Wiener, _Cybernetics_ (1948):** feedback—the error from real work returns to stabilize
+  the human–AI system.
+- **Edgar Morin, _Introduction to Complex Thought_ (1990):** dialogic and organizational recursion—the
+  parts and the whole keep reshaping one another.
+- **Andy Clark and David Chalmers, “The Extended Mind” (1998):** coupled external memory—Lore can
+  participate in cognition instead of sitting beside it as passive documentation.
+- **Hubert Dreyfus, _What Computers Still Can't Do_ (1992):** situated, tacit knowledge—the human
+  friction that Lore translates into usable constraints for a general model.
+
+The **extended bibliography and current dialogue** includes Edwin Hutchins on distributed cognition; Daniel
   Wegner on transactive memory; Karl Weick on sensemaking; **Francisco Varela on enaction**; and
   Heinz von Foerster on second-order cybernetics.
 
@@ -730,7 +759,7 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 
 <p align="center">
   <a href="https://github.com/andresanemic/lore-plugin/stargazers"><img src="https://img.shields.io/github/stars/andresanemic/lore-plugin?style=for-the-badge&color=FF557A&labelColor=0B0B12" alt="Estrellas en GitHub"></a>
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.0.8-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.0.9-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/agentes_de_IA-neutral_al_proveedor-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Agentes de IA neutrales al proveedor"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/paradigma-Spec--Driven_Development-F94F79?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
@@ -847,7 +876,14 @@ Aporta tres cosas:
 - ocho *skills* que operan esa convención;
 - y un ciclo continuo para destilar experiencia en criterio reutilizable.
 
-Lo de *spec-driven* no es una etiqueta. `CLAUDE.md` es el contrato único, `AGENTS.md` permite que Codex llegue a él sin duplicar reglas, `FASES.md` es el estado y lo que viene, y `lore/` es el criterio que restringe cómo se construye todo lo anterior.
+Lo de *spec-driven* no es una etiqueta. El proyecto tiene un solo contrato elegido según su host principal —`CLAUDE.md` para Claude Code o `AGENTS.md` para Codex—, `FASES.md` es el estado y lo que viene, y `lore/` es el criterio que restringe cómo se construye todo lo anterior. Si usas ambos hosts, Codex puede tomar `CLAUDE.md` como fallback; sigues sin necesitar dos contratos.
+
+> **¿Qué contrato conservas?** Usa `CLAUDE.md` si tu host habitual es Claude Code y `AGENTS.md` si
+> es Codex. Si el proyecto usa principalmente Claude pero a veces se abre en Codex, añade
+> `project_doc_fallback_filenames = ["CLAUDE.md"]` al `config.toml` de Codex
+> ([referencia oficial](https://developers.openai.com/codex/config-reference/)). Crea un adaptador
+> de puntero solo cuando el otro host no se pueda configurar y apruebes ese costo de forma
+> explícita; nunca mantengas dos copias de las reglas.
 
 A diferencia de la documentación, Lore no intenta describirlo todo. Solo conserva aquello que modifica el comportamiento futuro.
 
@@ -925,7 +961,7 @@ Reemplaza `all` por `claude` o `codex` para preparar solo una CLI. El instalador
 
 Después abre una sesión nueva en la CLI y escribe `use-lore`; el kit te guía hacia la skill que necesitas.
 
-> **¿Usas otra herramienta de IA?** Cada skill es un archivo Markdown con encabezado YAML. Copia la carpeta de la skill en el directorio compatible de esa herramienta, o usa su contenido como instrucciones del agente. Los seis artefactos y el modelo Área↔Proyecto son convenciones neutrales al proveedor, no código.
+> **¿Usas otra herramienta de IA?** Cada skill es un archivo Markdown con encabezado YAML. Copia la carpeta de la skill en el directorio compatible de esa herramienta, o usa su contenido como instrucciones del agente. La arquitectura de seis piezas y el modelo Área↔Proyecto son convenciones neutrales al proveedor, no código.
 
 ## Así se ve en la práctica
 
@@ -962,17 +998,20 @@ Tres meses después, en otro proyecto del Área, alguien pide una animación de 
 
 ## Arquitectura
 
-### Los seis artefactos
+### Las seis piezas
 
-| Artefacto | Qué guarda | Dónde |
+Cada proyecto organiza su criterio y su estado mediante seis piezas estructurales. No son
+necesariamente seis archivos: los módulos temáticos son una pieza implementada por tantos archivos
+enfocados como el trabajo haya ganado.
+
+| Pieza | Qué guarda | Dónde |
 |---|---|---|
 | `identidad.md` | Qué es el proyecto, su propósito y su **piso de calidad** | `lore/` |
 | `principios.md` | Leyes invariantes, técnicas y de negocio | `lore/` |
 | Módulos temáticos | Cicatrices técnicas por dominio | `lore/` |
 | `index.md` | Mapa de navegación: una línea por patrón | `lore/` |
 | `FASES.md` | Estado y hoja de ruta | raíz |
-| `CLAUDE.md` | Contrato de colaboración, reducido a **punteros** | raíz |
-| `AGENTS.md` | Adaptador mínimo de Codex que apunta al mismo contrato | raíz |
+| `CLAUDE.md` **o** `AGENTS.md` | Un contrato de colaboración, elegido por host principal y reducido a **punteros** | raíz |
 
 Cada uno tiene una responsabilidad. Ninguno duplica a otro.
 
@@ -987,8 +1026,7 @@ desarrollo-web/
 │     identidad · principios · index · animacion · scroll · layout
 │
 ├── FASES.md                   ← registro de proyectos del Área
-├── CLAUDE.md                  ← contrato del Área
-├── AGENTS.md                  ← adaptador Codex → CLAUDE.md
+├── CLAUDE.md o AGENTS.md      ← contrato único del Área, elegido por host
 │
 └── proyectos/
     ├── cliente-a/
@@ -1028,7 +1066,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 ### `use-lore`
 
-El punto de entrada. Explica el modelo de Lore, el estándar de seis artefactos, el modelo Área↔Proyecto, y te guía hacia la skill adecuada. Léelo antes de invocar cualquier otro.
+El punto de entrada. Explica el modelo de Lore, el estándar de seis piezas, el modelo Área↔Proyecto, y te guía hacia la skill adecuada. Léelo antes de invocar cualquier otro.
 
 > **Cambio de nombre en 2.0:** `using-lore` ahora es `use-lore`. Al actualizar, elimina la skill
 > anterior; no conserves ambos nombres instalados porque duplican el trigger de entrada.
@@ -1039,7 +1077,7 @@ La conversación de diseño propia del kit. Es deliberadamente específica: se a
 
 ### `create-area`
 
-Crea un Área nueva con su propio Lore compartido: `identidad.md` + `principios.md`, un `index.md`, un `CLAUDE.md`, un `FASES.md` que hace de registro de proyectos, y una carpeta `proyectos/` vacía. Hace un brainstorm de la identidad **antes** de tocar el disco.
+Crea un Área nueva con su propio Lore compartido: `identidad.md` + `principios.md`, un `index.md`, un contrato elegido por host, un `FASES.md` que hace de registro de proyectos, y una carpeta `proyectos/` vacía. Hace un brainstorm de la identidad **antes** de tocar el disco.
 
 ### `create-project`
 
@@ -1071,7 +1109,7 @@ Opera un Lore existente en cinco modos:
 
 | Modo | Qué hace |
 |---|---|
-| **add** | Rescata el criterio ya disperso y lo cristaliza en los seis artefactos. |
+| **add** | Rescata el criterio ya disperso y lo cristaliza en la arquitectura de seis piezas. |
 | **clean** | Elimina los módulos del proyecto que el Área ya posee. El criterio cambia de dueño. |
 | **translate** | Estandariza el idioma de un Lore existente, sin alterar estructura ni significado. |
 | **upgrade** | Pone al día un Lore sano escrito contra una versión anterior de estos skills. Clasifica cada hallazgo en Missing, Superseded o **Earned**, y lo que el proyecto pagó con fricción real se deja intacto. |
@@ -1163,7 +1201,7 @@ Este kit hace un brainstorming para construir cada artefacto que produce, así q
 Los cinco se preguntan al configurar el bot la primera vez. Un bot sin ninguno está completo: son sellos, no piezas.
 
 - **La copia del ecosistema (`lore-ecosistema/`).** Por defecto el bot **apunta** al Lore de cada proyecto donde vive, sin duplicar nada. Encenderla solo tiene sentido si quien va a usar el bot **no** tiene tus carpetas: ahí el puntero no apunta a nada y la copia es lo único que hace existir ese criterio en su máquina.
-- **Empaquetarlo como *plugin* compartible.** Por defecto **no se crea**. Un bot es una carpeta con su canon, su `CLAUDE.md` y un `AGENTS.md` mínimo que dirige Codex al mismo contrato: abres la sesión ahí y el criterio ya está cargado, sin instalar nada. Envolverlo en una skill con su repositorio propio sirve para **una sola cosa**, repartirlo a un equipo, y si vas a trabajar tú solo es andamiaje que igual hay que mantener.
+- **Empaquetarlo como *plugin* compartible.** Por defecto **no se crea**. Un bot es una carpeta con su canon y un solo contrato elegido por su Área: abres la sesión ahí y el criterio ya está cargado, sin instalar nada. Envolverlo en una skill con su repositorio propio sirve para **una sola cosa**, repartirlo a un equipo, y si vas a trabajar tú solo es andamiaje que igual hay que mantener.
 - **Cifrado del Lore** — *experimental*, ver [`ENCRYPTION.md`](./docs/ENCRYPTION.md).
 - **Acceso por Telegram.** Añade un canal desde el teléfono mediante un MCP de Telegram separado, con una lista de acceso explícita. Necesita una máquina alcanzable y una sesión abierta; crear el bot no lo activa.
 - **Un launcher local multiproveedor.** Usa [Lore in the Shell](https://github.com/andresanemic/lore-in-the-shell) si está instalado o construye el launcher local mínimo si no. El launcher elige CLI y modelo; el criterio sigue viviendo en el bot.
@@ -1194,7 +1232,7 @@ Después, cuando quieras:
   desarrollo-web/               ← tus Áreas y proyectos, con su Lore
   bots/proyectos/mi-bot/        ← ★ abre tus sesiones acá
     notas/                      ← la bandeja que importa: enrutada, no adivinada
-    canon/ · lore/ · CLAUDE.md
+    canon/ · lore/ · CLAUDE.md o AGENTS.md
 ```
 
 ### Qué hace con cada nota
@@ -1241,20 +1279,26 @@ Cada nota minada recibe una marca con fecha y destino, **incluidas las que no pr
 
 **Lore hace más antes de responder, para que tú repitas menos.** Probamos doce tareas congeladas con tres corridas independientes por condición: Codex frío y Codex con Lore, para un total de 72 corridas. Todas usaron **`gpt-5.6-sol` con esfuerzo de razonamiento medio**; modelo, prompt y herramientas fueron idénticos entre brazos. Lore dedica más tiempo a leer antes de un intento; la medida útil es el trabajo necesario para terminar correctamente.
 
-| Resultado | Codex frío | Codex + Lore |
-|---|---:|---:|
-| Correcto al primer intento | 25/36 (69,4%) | **33/36 (91,7%)** |
-| Corridas correctas cada 10 intentos | 6,9 | **9,2** |
-| Leyó Lore y obedeció la Pista evaluada | — | **31/32 (96,9%)** |
+<table width="100%">
+  <thead><tr><th width="56%">Resultado</th><th align="right">Codex frío</th><th align="right">Codex + Lore</th></tr></thead>
+  <tbody>
+    <tr><td>Correcto al primer intento</td><td align="right">25/36 (69,4%)</td><td align="right"><strong>33/36 (91,7%)</strong></td></tr>
+    <tr><td>Corridas correctas cada 10 intentos</td><td align="right">6,9</td><td align="right"><strong>9,2</strong></td></tr>
+    <tr><td>Leyó Lore y obedeció la Pista evaluada</td><td align="right">—</td><td align="right"><strong>31/32 (96,9%)</strong></td></tr>
+  </tbody>
+</table>
 
 Son **+22,3 puntos de correctitud al primer intento**. Lore nunca empeoró el resultado de una tarea: mejoró 3 de las 12 y mantuvo el resultado en las otras 9.
 
-| Costo hasta llegar a un resultado correcto | Sin Lore | Con Lore | Efecto |
-|---|---:|---:|---:|
-| Tiempo por intento | 42,83 s | 52,35 s | +22,2% |
-| Intentos esperados por éxito | 1,44 | **1,09** | **−24,2%** |
-| Tiempo modelado hasta el éxito | 61,68 s | **57,11 s** | **−7,4%** |
-| Tokens de salida modelados hasta el éxito | 2.077 | **2.050** | **−1,3%** |
+<table width="100%">
+  <thead><tr><th width="56%">Costo hasta llegar a un resultado correcto</th><th align="right">Sin Lore</th><th align="right">Con Lore</th><th align="right">Efecto</th></tr></thead>
+  <tbody>
+    <tr><td>Tiempo por intento</td><td align="right">42,83 s</td><td align="right">52,35 s</td><td align="right">+22,2%</td></tr>
+    <tr><td>Intentos esperados por éxito</td><td align="right">1,44</td><td align="right"><strong>1,09</strong></td><td align="right"><strong>−24,2%</strong></td></tr>
+    <tr><td>Tiempo modelado hasta el éxito</td><td align="right">61,68 s</td><td align="right"><strong>57,11 s</strong></td><td align="right"><strong>−7,4%</strong></td></tr>
+    <tr><td>Tokens de salida modelados hasta el éxito</td><td align="right">2.077</td><td align="right"><strong>2.050</strong></td><td align="right"><strong>−1,3%</strong></td></tr>
+  </tbody>
+</table>
 
 Estas cuatro filas son un modelo basado en tasas agregadas al primer intento, no ciclos de reparación
 observados. Una extensión controlada aparte midió hasta una reparación en 52 unidades por brazo:
@@ -1357,12 +1401,28 @@ modifican lo que el otro puede hacer después. No preservamos toda experiencia. 
 merece orientar otra decisión, podamos lo que ya no restringe nada y conservamos el rastro de lo
 descartado. Lore no es el jardín: es la práctica que mantiene vivo ese terreno común.
 
-El programa comenzó con una bibliografía fundacional y después amplió su diálogo teórico:
+El programa comenzó con una bibliografía fundacional cuyos conceptos se traducen directamente en la práctica:
 
-- **Bibliografía fundacional:** Martin Buber; Louis Althusser; Gilbert Simondon; Claude Shannon y
-  Warren Weaver; Gregory Bateson; Norbert Wiener; Edgar Morin; Andy Clark y David Chalmers; y
-  Hubert Dreyfus.
-- **Bibliografía extendida y diálogo actual:** Edwin Hutchins sobre cognición distribuida; Daniel
+- **Martin Buber, _Yo y Tú_ (1923):** el *Entre*—el conocimiento emerge en la relación, no solo en
+  el prompt ni en el modelo.
+- **Louis Althusser, “Ideología y aparatos ideológicos de Estado” (1970):** la interpelación—la IA
+  no se limita a responder; llama al humano a ocupar una posición de criterio y responsabilidad.
+- **Gilbert Simondon, _La individuación a la luz de las nociones de forma y de información_ (1958):**
+  la transducción—la fricción cristaliza en una estructura que modifica la siguiente interacción.
+- **Claude Shannon y Warren Weaver, _The Mathematical Theory of Communication_ (1949):** señal,
+  entropía y ruido—la razón de filtrar los registros crudos en Contexto, Causa y Pista Invariante.
+- **Gregory Bateson, _Pasos hacia una ecología de la mente_ (1972):** «una diferencia que hace una
+  diferencia»—la prueba de que una experiencia puede restringir una acción futura.
+- **Norbert Wiener, _Cybernetics_ (1948):** la retroalimentación—el error del trabajo real vuelve
+  para estabilizar el sistema humano–IA.
+- **Edgar Morin, _Introducción al pensamiento complejo_ (1990):** dialógica y recursividad
+  organizacional—las partes y el todo se transforman mutuamente.
+- **Andy Clark y David Chalmers, “The Extended Mind” (1998):** memoria externa acoplada—el Lore
+  puede participar en la cognición, en vez de quedar al lado como documentación pasiva.
+- **Hubert Dreyfus, _What Computers Still Can't Do_ (1992):** conocimiento situado y tácito—la
+  fricción humana que Lore traduce en restricciones útiles para un modelo generalista.
+
+La **bibliografía extendida y el diálogo actual** incluyen a Edwin Hutchins sobre cognición distribuida; Daniel
   Wegner sobre memoria transactiva; Karl Weick sobre *sensemaking*; **Francisco Varela sobre
   enacción**; y Heinz von Foerster sobre cibernética de segundo orden.
 

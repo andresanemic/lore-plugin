@@ -161,9 +161,10 @@ const porTipo = {};
 for (const f of informe) (porTipo[f.tipo] ??= []).push(f);
 
 /* Dónde se define el comportamiento del bot depende de si está empaquetado, y el bot SIN
- * empaquetar es el caso por defecto: ahí no hay skill y la ley vive en su CLAUDE.md. Nombrar
+ * empaquetar es el caso por defecto: ahí no hay skill y la ley vive en su contrato. Nombrar
  * «la skill» siempre mandaba al lector, en el caso más común, a un archivo que no existe. */
-const LEY = fs.existsSync(path.join(RAIZ, 'skills')) ? 'la skill del bot' : 'el `CLAUDE.md` del bot';
+const contrato = fs.existsSync(path.join(RAIZ, 'CLAUDE.md')) ? '`CLAUDE.md`' : '`AGENTS.md`';
+const LEY = fs.existsSync(path.join(RAIZ, 'skills')) ? 'la skill del bot' : `el ${contrato} del bot`;
 
 const tabla = `# Enrutamiento — a qué Lore va cada tarea
 

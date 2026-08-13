@@ -20,7 +20,8 @@ any global starter folder.
 > language**, NOT the language this skill is written in. The names used throughout this skill
 > (`identidad.md`, `principios.md`, `FASES.md`, `proyectos/`, `fuente/`) are the Spanish canonical
 > forms: localize them (e.g. English → `identity.md`, `principles.md`, `PHASES.md`, `projects/`,
-> `source/`). Fixed in every language: `CLAUDE.md`, `AGENTS.md`, `lore/`, `index.md`, `golden-paths.md`.
+> `source/`). Fixed in every language: the area's selected contract name (`CLAUDE.md` or
+> `AGENTS.md`), `lore/`, `index.md`, `golden-paths.md`.
 > **Consistency with the area wins:** the project uses the area's actual folder and artifact names
 > (its `proyectos/`-equivalent, its area-module filenames in inherited links); if the area's
 > language differs from the user's, flag the mismatch and let the user pick. English terms of
@@ -63,10 +64,12 @@ does not exist, **stop** and propose `create-area` first.
 | `{{DESCRIPTION}}` | one line: what the project is |
 | `{{SOURCE_DOCS}}` | paths of the documents defining the project (spec PDF, brief, **free notes** the user already wrote about it…) |
 | `{{INITIAL_PHASE}}` | active phase at start (derived from the source; see step 3) |
+| `{{CONTRACT_FILE}}` | inherited from the Area's one contract: `CLAUDE.md` or `AGENTS.md` |
 
 ### 2. Read context (MANDATORY before creating anything)
 
-1. Read the area Lore: `{{AREA_PATH}}/lore/identidad.md` + `principios.md` (+ `index.md` and any
+1. Read the area's one instruction contract and its Lore: `{{AREA_PATH}}/lore/identidad.md` +
+   `principios.md` (+ `index.md` and any
    thematic modules that carry reusable criteria).
 2. Read the area `FASES.md` (project registry) and prior projects' Lore/docs if they offer reusable
    criteria.
@@ -106,7 +109,9 @@ mkdir -p "$DEST/lore"
   ```bash
   STARTER="{{AREA_PATH}}/_starter"
   cp -r "$STARTER/." "$DEST/"                          # templates + code scaffold (web/, …)
-  [ -f "$DEST/CLAUDE.template.md" ]       && mv "$DEST/CLAUDE.template.md"       "$DEST/CLAUDE.md"
+  for CONTRACT in CLAUDE AGENTS; do
+    [ -f "$DEST/$CONTRACT.template.md" ] && mv "$DEST/$CONTRACT.template.md" "$DEST/$CONTRACT.md"
+  done
   [ -f "$DEST/golden-paths.template.md" ] && mv "$DEST/golden-paths.template.md" "$DEST/golden-paths.md"
   # $DEST/FASES.md comes from the starter as-is; tokens are resolved in step 6.
   ```
@@ -116,8 +121,7 @@ Resulting structure (folder names come from step 2/3):
 
 ```
 {{AREA_PATH}}\proyectos\{{PROJECT_SLUG}}\
-  CLAUDE.md            → project contract (pointers to lore/)
-  AGENTS.md            → Codex adapter; points to CLAUDE.md, never duplicates it
+  {{CONTRACT_FILE}}    → the one project contract (pointers to lore/)
   FASES.md             → state + phase map derived from the source
   lore\
     index.md           → project Lore map: points to area modules (../../../lore/<module>.md)
@@ -180,22 +184,20 @@ _(none yet — created by save-to-lore when a project-specific scar appears)_
 > Only list the area modules the project actually relies on. Project-specific clues get their own
 > local module later, added by `save-to-lore`.
 
-### 6. Write / resolve `CLAUDE.md`, `AGENTS.md` and `FASES.md`
+### 6. Write / resolve `{{CONTRACT_FILE}}` and `FASES.md`
 
-- **If the area starter provided them** (step 4 renamed `CLAUDE.template.md` → `CLAUDE.md` and left
+- **If the area starter provided them** (step 4 renamed the contract template and left
   `FASES.md`): do NOT rewrite from scratch — **resolve their `{{TOKENS}}`** with the project's
   name/description and the phase map derived from the source docs.
 - **Otherwise, write them with Write:**
-  - `CLAUDE.md`: slimmed to pointers — where `lore/` lives, that thematic modules are inherited from
+  - `{{CONTRACT_FILE}}`: slimmed to pointers — where `lore/` lives, that thematic modules are inherited from
     the area by relative path, and the area's actual base rules; never invent a web-only rule for
     a non-web project.
-  - `AGENTS.md`: a minimal Codex adapter that tells the agent to read `CLAUDE.md` in full. It must
-    not duplicate the contract.
   - `FASES.md`: **outside** `lore/`, with the phase map **derived from the source's timeline** and
     the initial active phase.
 
-After either path, create `AGENTS.md` if the starter did not provide it. It contains only the
-pointer to `CLAUDE.md`; an older starter must not silently break Codex continuity.
+After either path, verify there is exactly one instruction contract and that its name matches the
+Area. Do not create a second contract merely because another host might be used later.
 
 Resolve every `{{TOKEN}}` with what was discussed; leave none unresolved.
 
@@ -208,7 +210,8 @@ grep -rn '{{[A-Z_]\+}}' "$DEST" && echo "UNRESOLVED TOKENS" || echo "OK no token
 
 - Verify local `index.md` links resolve to present files, and the `../../../lore/<module>.md` links
   resolve to files in the area.
-- Verify `AGENTS.md` points to `CLAUDE.md` and does not duplicate the contract.
+- Verify exactly one of `CLAUDE.md` or `AGENTS.md` exists. For cross-host use, offer Codex's
+  `project_doc_fallback_filenames` setting or, only with explicit approval, a minimal adapter.
 - Register the project in the **area's** `FASES.md` (row with path + status + internal phase).
 - Report the created structure and the next step (start the active phase; optionally `git init`).
 
@@ -222,7 +225,7 @@ grep -rn '{{[A-Z_]\+}}' "$DEST" && echo "UNRESOLVED TOKENS" || echo "OK no token
   source, not a mold.
 - Project-specific identity/principles are BORN from the brainstorm, never from invented defaults.
 - **Everything generated — content and artifact filenames — is in the user's language** (fixed
-  names `CLAUDE.md` / `AGENTS.md` / `lore/` / `index.md` and general technical English terms excluded); the
+  selected contract name (`CLAUDE.md` or `AGENTS.md`) / `lore/` / `index.md` and general technical English terms excluded); the
   area's established names win inside its tree, and a language clash with the area is flagged —
   never resolved silently.
 - No data, figures or deliverables are invented: they are derived from the source.

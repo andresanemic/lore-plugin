@@ -71,7 +71,8 @@ Conceptually, Lore will:
   - `lore/principios.md`
   - `lore/index.md`
   - thematic modules under `lore/`
-  - `FASES.md` and `CLAUDE.md` at the root.
+  - `FASES.md` and one existing or host-selected contract (`CLAUDE.md` or `AGENTS.md`) at the root.
+    Nested instruction files owned by frameworks or other tools remain in their narrower scope.
 - Suggest which parts are criteria vs. pure information.
 
 You then review and confirm or adjust the proposed structure.
@@ -117,11 +118,13 @@ translate the lore of "Legacy Frontend" to Spanish
 
 Conceptually, Lore will:
 
-- Detect the current language of each artifact (`lore/*.md`, `FASES.md`, `CLAUDE.md`).
+- Detect the current language of each artifact (`lore/*.md`, `FASES.md`, and the instruction contract).
+- If both contract names exist at the migration root, compare their contents and ownership at the
+  HARD GATE. Preserve unique rules; never delete a framework-managed file to force the default.
 - Propose a file-by-file plan — including renames of localizable artifacts (e.g. `identidad.md` ↔
   `identity.md`, `FASES.md` ↔ `PHASES.md`) — and wait for your approval before writing (HARD GATE).
 - Translate content and rename artifacts **preserving meaning**, rewriting every affected link; it
-  never touches `CLAUDE.md`, `lore/`, `index.md`, code blocks, confidence markers, or English terms
+  never touches the selected contract filename, `lore/`, `index.md`, code blocks, confidence markers, or English terms
   of general technical use (workflow, commit, stack…).
 - It is not a rewrite: no clue is added, removed, or reinterpreted.
 
@@ -156,8 +159,9 @@ Focus on rules that still constrain decisions today; ignore outdated details.
 
 ### 4.4 Onboarding Notes and “How We Work”
 
-- Onboarding guides and collaboration notes → `CLAUDE.md` (for AI‑specific parts) + `identidad.md` / `principios.md` where relevant.
-- Any explicit agreements on how the team uses AI → `CLAUDE.md`.
+- Onboarding guides and collaboration notes → the instruction contract (for AI‑specific parts) +
+  `identidad.md` / `principios.md` where relevant.
+- Any explicit agreements on how the team uses AI → the instruction contract.
 
 ---
 
@@ -187,7 +191,7 @@ Focus on rules that still constrain decisions today; ignore outdated details.
    ```
 
    - The project must have a clean git tree before this (`transmute-lore`'s precondition).
-   - Review proposed `identidad.md`, `principios.md`, modules, `FASES.md`, `CLAUDE.md`, and approve
+   - Review proposed `identidad.md`, `principios.md`, modules, `FASES.md`, instruction contract, and approve
      the mapping before anything is written (HARD GATE).
 
 4. **Clean redundant modules** once the Area already owns its own general modules:
@@ -229,7 +233,7 @@ After running `transmute-lore` and adjusting artifacts, verify:
   - Current phase is accurate.
   - Roadmap aligns with how you actually work.
 
-- **`CLAUDE.md` matches your collaboration:**
+- **The instruction contract matches your collaboration:**
   - Describes how you use Claude in practice.
   - Includes non‑negotiable constraints on AI behavior.
 

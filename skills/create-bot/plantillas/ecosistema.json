@@ -10,7 +10,7 @@
     "",
     "tipo = el tipo de TAREA que ese Lore gobierna, NO el nombre del proyecto. Agrupa la tabla.",
     "incluir = opcional; piezas concretas en vez de la carpeta entera. Acepta rutas anidadas.",
-    "Un área se federa COMO SE ABRE: lore + CLAUDE.md + FASES.md, nunca su lore/ a secas, y",
+    "Un área se federa COMO SE ABRE: lore + su contrato seleccionado + FASES.md, nunca su lore/ a secas, y",
     "siempre por `incluir`: sin él entraría su árbol entero, con todos sus proyectos adentro.",
     "trabajo = true donde se TRABAJA: sync.js le abre la puerta a ese árbol vivo. La pregunta",
     "es la CONDICIÓN, no el tipo de fila: ¿queda algún proyecto de esta carpeta fuera del",
@@ -36,7 +36,7 @@
     {
       "destino": "mi-producto/producto",
       "origen": "un-area/proyectos/mi-producto",
-      "incluir": ["lore", "CLAUDE.md", "FASES.md"],
+      "incluir": ["lore", "{{CONTRACT_FILE}}", "FASES.md"],
       "trabajo": true,
       "proyecto": "Mi Producto — producto",
       "tipo": "producto y arquitectura",
@@ -54,7 +54,7 @@
     {
       "destino": "areas/un-area",
       "origen": "un-area",
-      "incluir": ["lore", "CLAUDE.md", "FASES.md"],
+      "incluir": ["lore", "{{CONTRACT_FILE}}", "FASES.md"],
       "proyecto": "Área madre del producto",
       "tipo": "método del dominio",
       "cuando": "antes de una decisión de método, no de contenido"
