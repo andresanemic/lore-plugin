@@ -72,10 +72,10 @@
 
 **Start**
 
-[The problem](#the-problem)
-[What is Lore](#what-is-lore)
-[How it works](#how-it-works)
-[Benchmark](#benchmark)
+[The problem](#the-problem) ·
+[What is Lore](#what-is-lore) ·
+[How it works](#how-it-works) ·
+[Benchmark](#benchmark) ·
 [Installation](#installation)
 
 </td>
@@ -83,9 +83,9 @@
 
 **Use it**
 
-[Architecture](#architecture)
-[The eight skills](#the-eight-skills)
-[Obsidian](#obsidian--the-way-in)
+[Architecture](#architecture) ·
+[The eight skills](#the-eight-skills) ·
+[Obsidian](#obsidian--the-way-in) ·
 [Documentation](#documentation)
 
 </td>
@@ -93,8 +93,8 @@
 
 **Understand it**
 
-[Shared invariants](#shared-invariants)
-[Case studies](./CASES_en.md)
+[Shared invariants](#shared-invariants) ·
+[Case studies](./CASES_en.md) ·
 [Reach](#reach) · [Origin](#origin)
 
 </td>
@@ -768,10 +768,10 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 
 **Empezar**
 
-[El problema](#el-problema)
-[Qué es Lore](#qué-es-lore)
-[Cómo funciona](#cómo-funciona)
-[Benchmark](#el-benchmark)
+[El problema](#el-problema) ·
+[Qué es Lore](#qué-es-lore) ·
+[Cómo funciona](#cómo-funciona) ·
+[Benchmark](#el-benchmark) ·
 [Instalación](#instalación)
 
 </td>
@@ -779,9 +779,9 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 
 **Usarlo**
 
-[Arquitectura](#arquitectura)
-[Las ocho skills](#las-ocho-skills)
-[Obsidian](#obsidian--la-puerta-de-entrada)
+[Arquitectura](#arquitectura) ·
+[Las ocho skills](#las-ocho-skills) ·
+[Obsidian](#obsidian--la-puerta-de-entrada) ·
 [Documentación](#documentación)
 
 </td>
@@ -789,8 +789,8 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 
 **Entenderlo**
 
-[Invariantes](#invariantes-compartidas)
-[Casos de estudio](./CASES_es.md)
+[Invariantes](#invariantes-compartidas) ·
+[Casos de estudio](./CASES_es.md) ·
 [Alcance](#alcance) · [Origen](#origen)
 
 </td>
