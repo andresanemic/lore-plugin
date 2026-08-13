@@ -30,15 +30,7 @@
 </p>
 
 <p align="center">
-  no re-explaining the stack &nbsp;·&nbsp; no re-proposing what you ruled out last week &nbsp;·&nbsp; criteria that outlives the session
-</p>
-
-<p align="center">
   <i>An SDD kit that gives you local fine-tuning for your own tasks — and the one doing the training is you.</i>
-</p>
-
-<p align="center">
-  <code>8 skills · 7 case studies · 72 benchmark runs</code>
 </p>
 
 <h3 align="center"><strong>+22.3 points of first-pass correctness</strong>, with no task made worse.</h3>
@@ -82,10 +74,10 @@
 
 **Start**
 
-[The problem](#the-problem)
-[What is Lore](#what-is-lore)
-[How it works](#how-it-works)
-[Benchmark](#benchmark)
+[The problem](#the-problem)<hr>
+[What is Lore](#what-is-lore)<hr>
+[How it works](#how-it-works)<hr>
+[Benchmark](#benchmark)<hr>
 [Installation](#installation)
 
 </td>
@@ -93,9 +85,9 @@
 
 **Use it**
 
-[Architecture](#architecture)
-[The eight skills](#the-eight-skills)
-[Obsidian](#obsidian--the-way-in)
+[Architecture](#architecture)<hr>
+[The eight skills](#the-eight-skills)<hr>
+[Obsidian](#obsidian--the-way-in)<hr>
 [Documentation](#documentation)
 
 </td>
@@ -103,9 +95,10 @@
 
 **Understand it**
 
-[Shared invariants](#shared-invariants)
-[Case studies](./CASES_en.md)
-[Reach](#reach) · [Origin](#origin)
+[Shared invariants](#shared-invariants)<hr>
+[Case studies](./CASES_en.md)<hr>
+[Reach](#reach)<hr>
+[Origin](#origin)
 
 </td>
 </tr>
@@ -736,15 +729,7 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 </p>
 
 <p align="center">
-  no volver a explicar el stack &nbsp;·&nbsp; no volver a proponer lo que descartaste la semana pasada &nbsp;·&nbsp; criterio que sobrevive al cierre de la sesión
-</p>
-
-<p align="center">
   <i>Un kit SDD que te permite hacer fine-tuning local de tus tareas — y el que entrena eres tú.</i>
-</p>
-
-<p align="center">
-  <code>8 skills · 7 casos de estudio · 72 corridas de benchmark</code>
 </p>
 
 <h3 align="center"><strong>+22,3 puntos de correctitud al primer intento</strong>, sin empeorar ninguna tarea.</h3>
@@ -788,10 +773,10 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 
 **Empezar**
 
-[El problema](#el-problema)
-[Qué es Lore](#qué-es-lore)
-[Cómo funciona](#cómo-funciona)
-[Benchmark](#el-benchmark)
+[El problema](#el-problema)<hr>
+[Qué es Lore](#qué-es-lore)<hr>
+[Cómo funciona](#cómo-funciona)<hr>
+[Benchmark](#el-benchmark)<hr>
 [Instalación](#instalación)
 
 </td>
@@ -799,9 +784,9 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 
 **Usarlo**
 
-[Arquitectura](#arquitectura)
-[Las ocho skills](#las-ocho-skills)
-[Obsidian](#obsidian--la-puerta-de-entrada)
+[Arquitectura](#arquitectura)<hr>
+[Las ocho skills](#las-ocho-skills)<hr>
+[Obsidian](#obsidian--la-puerta-de-entrada)<hr>
 [Documentación](#documentación)
 
 </td>
@@ -809,9 +794,10 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 
 **Entenderlo**
 
-[Invariantes](#invariantes-compartidas)
-[Casos de estudio](./CASES_es.md)
-[Alcance](#alcance) · [Origen](#origen)
+[Invariantes](#invariantes-compartidas)<hr>
+[Casos de estudio](./CASES_es.md)<hr>
+[Alcance](#alcance)<hr>
+[Origen](#origen)
 
 </td>
 </tr>
