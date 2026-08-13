@@ -15,7 +15,7 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.0.4-F72585?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.0.5-F72585?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/paradigm-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-FFBE0B?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
@@ -100,7 +100,7 @@ You explained all of it yesterday. You will explain it again tomorrow.
 
 Meanwhile the project keeps accumulating what actually cost you — architectural decisions, production incidents, failed experiments, dozens of *"let's never do that again"* moments — and **none of it survives the session**.
 
-It is a loop of re-explanations and mediocre solutions you had already rejected. LUS calls it **ephemeral experience**, and it does not happen because facts get forgotten: it happens because the learning never became a reusable structure.
+It is a loop of re-explanations and mediocre solutions you had already rejected. Lore calls this **ephemeral experience**: the facts may survive, but the learning never became a reusable structure.
 
 > Traditional documentation solved part of the problem, but it only preserves **information**. Manuals describe procedures, READMEs explain installs, databases store facts. They rarely capture what actually changes a future decision.
 
@@ -158,6 +158,8 @@ Every step of the loop passes a **HARD GATE**: it is proposed, you approve, only
 
 ## Installation
 
+Choose **one** of the following routes. Claude Code and Codex use different commands; do not mix them.
+
 ### Claude Code
 
 Run these commands inside Claude Code:
@@ -185,7 +187,7 @@ codex plugin add lore@lore-plugin
 
 ### Direct install from the repository
 
-Use this provider-neutral route when you prefer a local clone or want to prepare both CLIs:
+Use this provider-neutral route when you prefer a local clone or want to prepare both CLIs. It requires Git and Node.js:
 
 ```bash
 git clone https://github.com/andresanemic/lore-plugin.git
@@ -200,18 +202,7 @@ Then start a new CLI session and type `use-lore`; the kit points you at the skil
 
 > **Using another AI tool?** Each skill is a Markdown file with a YAML header. Copy the skill folder into that tool's supported skills directory, or use its body as agent instructions. The six artifacts and the Area↔Project model are provider-neutral conventions, not code.
 
-> **Investigating LUS itself?** [research-lus](https://github.com/andresanemic/research-lus)
-> carries the program's public corpus, bibliography, cases, hypotheses and scientific-research Lore
-> into a critical research session. It keeps each researcher's conversation with Logos private and
-> works independently; install Lore Plugin alongside it only when you also need to create, preserve
-> or upgrade Lore in your own projects.
-
-> **Want one door into those projects?** [Lore in the Shell](https://github.com/andresanemic/lore-in-the-shell)
-> opens a Lore-governed folder with the Claude Code or Codex CLI and model you choose. Lore Plugin's
-> `create-bot` can build a minimal launcher without it; install the standalone plugin for the
-> maintained provider/model workflow, optional colors and future updates.
-
-### What it looks like in practice
+## What it looks like in practice
 
 You just spent two hours fighting a flash of unstyled content on load. You solved it. Instead of closing the tab:
 
@@ -312,7 +303,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** It is no
 | [`create-area`](#create-area) | Creates an Area with its shared Lore | opening a new domain |
 | [`create-project`](#create-project) | Creates a project that inherits from the Area | starting a piece of work |
 | [`save-to-lore`](#save-to-lore) | Distills a lesson and decides whether it rises to the Area | every day |
-| [`transmute-lore`](#transmute-lore) | Migrates old projects, cleans duplicates, translates the Lore, or raises it to a newer version of the kit | inheriting something with no Lore, or updating the plugin |
+| [`transmute-lore`](#transmute-lore) | Migrates, cleans, translates, upgrades or exports a safe snapshot of Lore | inheriting, maintaining, updating or sharing Lore |
 | [`create-bot`](#create-bot) | One place to open a session and work across several Areas at once | once there is Lore worth gathering |
 | [`obsidian-lore`](#obsidian--the-way-in) | Turns your loose notes into criteria | once the inbox gets heavy |
 
@@ -369,7 +360,7 @@ Two warnings `arbitrate` mode will give you:
 
 ### `transmute-lore`
 
-Migrates existing projects into Lore's architecture. Four modes:
+Operates existing Lore in five modes:
 
 | Mode | What it does |
 |---|---|
@@ -377,6 +368,7 @@ Migrates existing projects into Lore's architecture. Four modes:
 | **clean** | Removes the project's redundant modules that the Area already owns. The criteria does not disappear: it changes owner. |
 | **translate** | Standardizes the language of an existing Lore, translating content and renaming artifacts, without altering structure or meaning. |
 | **upgrade** | Raises a healthy Lore written against an older version of these skills. Sorts every finding into Missing, Superseded or **Earned** — and what the project paid for with real friction is left alone. |
+| **crystallize** | Exports a safe, traceable single-Markdown snapshot for a chat or notebook without replacing the live Lore or exposing private material. |
 
 ### `create-bot`
 
@@ -609,7 +601,7 @@ lore-plugin/
 
 ## Case studies
 
-Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. LUS documents those applications as **case studies** — seven of them, each with its own declared boundary.
+Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. Those applications are documented as **case studies** — seven of them, each with its own declared boundary.
 
 > **Status:** these are cases, not proofs. Small n, and all seven come from the same researcher. What they claim constrains how we use the kit; it does not pretend to be a law. The measured claim is the [benchmark](#benchmark); this is the qualitative half.
 
@@ -662,6 +654,11 @@ In video games, *lore* is what gives a universe coherence. Not the mechanics: th
 
 Lore applies that same idea to development. The original events stop mattering. The criteria remain.
 
+### Ecosystem
+
+- **[research-lus](https://github.com/andresanemic/research-lus)** opens a critical research session with LUS's public corpus, bibliography, cases, hypotheses and scientific-research Lore. Each researcher keeps their own private conversation with Logos. It works independently; add Lore Plugin when you also need to create, preserve or upgrade Lore in your own projects.
+- **[Lore in the Shell](https://github.com/andresanemic/lore-in-the-shell)** is the maintained launcher for opening a Lore-governed folder with the Claude Code or Codex CLI and model you choose. Lore Plugin's `create-bot` can build a minimal launcher without it; the standalone plugin adds the maintained provider/model workflow, optional theme and future updates.
+
 ---
 
 ## Author
@@ -698,7 +695,7 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.0.4-F72585?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.0.5-F72585?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/Claude_Code-plugin-7B2CBF?style=for-the-badge&labelColor=0B0B12" alt="Claude Code"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/paradigma-Spec--Driven_Development-00D9FF?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-FFBE0B?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
@@ -783,7 +780,7 @@ Todo eso lo explicaste ayer. Mañana lo vas a explicar de nuevo.
 
 Mientras tanto el proyecto sigue acumulando lo que de verdad te costó —decisiones de arquitectura, incidentes en producción, experimentos fallidos, decenas de momentos de *«nunca volvamos a hacer esto»*— y **nada de eso sobrevive a la sesión**.
 
-Es un bucle de reexplicaciones y de soluciones mediocres que ya habías rechazado. LUS lo llama **experiencia efímera**, y no ocurre porque se olviden los datos: ocurre porque el aprendizaje nunca se convirtió en una estructura reutilizable.
+Es un bucle de reexplicaciones y de soluciones mediocres que ya habías rechazado. Lore llama a esto **experiencia efímera**: los datos pueden sobrevivir, pero el aprendizaje nunca se convirtió en una estructura reutilizable.
 
 > La documentación tradicional resolvió parte del problema, pero solo preserva **información**. Los manuales describen procedimientos, los README explican instalaciones, las bases de datos guardan hechos. Casi nunca capturan lo que de verdad modifica una decisión futura.
 
@@ -791,7 +788,7 @@ Es un bucle de reexplicaciones y de soluciones mediocres que ya habías rechazad
 
 ## Qué es Lore
 
-Un kit ligero de **Spec-Driven Development** para Claude Code. O, en una línea: **fine-tuning local de tus tareas, y el que entrena eres tú.**
+Un kit ligero y neutral al proveedor de **Spec-Driven Development** para agentes de IA. O, en una línea: **fine-tuning local de tus tareas, y el que entrena eres tú.**
 
 Un fine-tune condiciona un modelo con miles de ejemplos hasta que deja de responder como generalista. Lore llega al mismo lugar por el otro lado: una restricción escrita por cada cosa que salió mal. No se entrena nada y ningún peso se mueve, así que tu criterio se queda en texto plano que puedes leer, corregir en una línea y llevarte mañana a otro modelo.
 
@@ -841,6 +838,8 @@ Cada paso del ciclo pasa por un **HARD-GATE**: se propone, tú apruebas, recién
 
 ## Instalación
 
+Elige **una** de las siguientes rutas. Claude Code y Codex usan comandos distintos; no los mezcles.
+
 ### Claude Code
 
 Ejecuta estos comandos dentro de Claude Code:
@@ -868,7 +867,7 @@ codex plugin add lore@lore-plugin
 
 ### Instalación directa desde el repositorio
 
-Usa esta ruta neutral al proveedor si prefieres un clon local o quieres preparar ambas CLI:
+Usa esta ruta neutral al proveedor si prefieres un clon local o quieres preparar ambas CLI. Requiere Git y Node.js:
 
 ```bash
 git clone https://github.com/andresanemic/lore-plugin.git
@@ -883,18 +882,7 @@ Después abre una sesión nueva en la CLI y escribe `use-lore`; el kit te guía 
 
 > **¿Usas otra herramienta de IA?** Cada skill es un archivo Markdown con encabezado YAML. Copia la carpeta de la skill en el directorio compatible de esa herramienta, o usa su contenido como instrucciones del agente. Los seis artefactos y el modelo Área↔Proyecto son convenciones neutrales al proveedor, no código.
 
-> **¿Quieres investigar LUS?** [research-lus](https://github.com/andresanemic/research-lus)
-> lleva el corpus público, la bibliografía, los casos, las hipótesis y el Lore de investigación
-> científica del programa a una sesión crítica. Mantiene privada la conversación de cada
-> investigador con Logos y funciona por sí solo; instala Lore Plugin a su lado solo si además
-> necesitas crear, preservar o actualizar el Lore de tus propios proyectos.
-
-> **¿Quieres una sola puerta para entrar a esos proyectos?** [Lore in the Shell](https://github.com/andresanemic/lore-in-the-shell)
-> abre una carpeta gobernada por Lore con la CLI y el modelo de Claude Code o Codex que elijas.
-> `create-bot` de Lore Plugin puede crear un launcher mínimo sin esa skill; instala el plugin
-> separado para recibir el flujo mantenido de proveedor/modelo, colores opcionales y actualizaciones.
-
-### Así se ve en la práctica
+## Así se ve en la práctica
 
 Acabas de pasar dos horas peleando con un parpadeo al cargar la página. Lo resolviste. En vez de cerrar la pestaña:
 
@@ -987,7 +975,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 | [`create-area`](#create-area) | Crea un Área con su Lore compartido | al abrir un dominio nuevo |
 | [`create-project`](#create-project) | Crea un proyecto que hereda del Área | al empezar un trabajo |
 | [`save-to-lore`](#save-to-lore) | Destila una lección y decide si sube al Área | todos los días |
-| [`transmute-lore`](#transmute-lore) | Migra proyectos viejos, limpia duplicados, traduce el Lore o lo pone al día con una versión nueva del kit | al heredar algo sin Lore, o al actualizar el plugin |
+| [`transmute-lore`](#transmute-lore) | Migra, limpia, traduce, actualiza o exporta una fotografía segura del Lore | al heredar, mantener, actualizar o compartir Lore |
 | [`create-bot`](#create-bot) | Un lugar donde abrir sesión y trabajar sobre varias Áreas a la vez | cuando ya hay Lore que reunir |
 | [`obsidian-lore`](#obsidian--la-puerta-de-entrada) | Convierte tus notas sueltas en criterio | cuando la bandeja pesa |
 
@@ -1032,12 +1020,15 @@ Dos avisos que te dará:
 
 ### `transmute-lore`
 
+Opera un Lore existente en cinco modos:
+
 | Modo | Qué hace |
 |---|---|
 | **add** | Rescata el criterio ya disperso y lo cristaliza en los seis artefactos. |
 | **clean** | Elimina los módulos del proyecto que el Área ya posee. El criterio cambia de dueño. |
 | **translate** | Estandariza el idioma de un Lore existente, sin alterar estructura ni significado. |
 | **upgrade** | Pone al día un Lore sano escrito contra una versión anterior de estos skills. Clasifica cada hallazgo en Missing, Superseded o **Earned**, y lo que el proyecto pagó con fricción real se deja intacto. |
+| **crystallize** | Exporta una fotografía trazable en un solo Markdown para un chat o notebook, sin reemplazar el Lore vivo ni exponer material privado. |
 
 ### `create-bot`
 
@@ -1264,7 +1255,7 @@ lore-plugin/
 
 ## Casos de estudio
 
-Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía. LUS documenta esas aplicaciones como **casos de estudio** — siete, cada uno con su frontera declarada.
+Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía. Esas aplicaciones están documentadas como **casos de estudio** — siete, cada uno con su frontera declarada.
 
 > **Estatus:** son casos, no demostraciones. n pequeño, y las siete evidencias vienen del mismo investigador. Restringen cómo usamos el kit; no pretenden ser una ley. La afirmación medida es el [benchmark](#benchmark); esto es la mitad cualitativa.
 
@@ -1309,6 +1300,11 @@ Influencias: **Martin Buber** (*Yo y Tú*), **Shannon** y **Weaver** (*The Mathe
 ### ¿Por qué «Lore»?
 
 En los videojuegos, el *lore* es aquello que da coherencia a un universo. No son las mecánicas: es la historia acumulada, las reglas que siguen influyendo en todo lo que puede ocurrir después. Los acontecimientos dejan de importar. El criterio permanece.
+
+### Ecosistema
+
+- **[research-lus](https://github.com/andresanemic/research-lus)** abre una sesión crítica con el corpus público, la bibliografía, los casos, las hipótesis y el Lore de investigación científica de LUS. Cada investigador conserva su propia conversación privada con Logos. Funciona por sí solo; añade Lore Plugin cuando también necesites crear, preservar o actualizar Lore en tus proyectos.
+- **[Lore in the Shell](https://github.com/andresanemic/lore-in-the-shell)** es el launcher mantenido para abrir una carpeta gobernada por Lore con la CLI y el modelo de Claude Code o Codex que elijas. `create-bot` puede construir un launcher mínimo sin esa skill; el plugin independiente añade el flujo mantenido de proveedor/modelo, el tema opcional y futuras actualizaciones.
 
 ---
 
