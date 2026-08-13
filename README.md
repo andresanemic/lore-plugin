@@ -45,11 +45,13 @@
 
 <h3 align="center">Up to <strong>28% faster</strong> and <strong>24% fewer output tokens</strong> to a correct result, with <strong>+28 points of first-pass correctness.</strong></h3>
 
+<p align="center">
 | Metric | Cold Codex | Codex + Lore |
 |---|---:|---:|
 | First-pass correctness | 37% | **65% (+28 pts)** |
 | Time to a correct result | 118 s | **85 s (−28%)** |
 | Output tokens to a correct result | 4,116 | **3,119 (−24%)** |
+</p>
 
 <p align="center"><sub>72 controlled runs · 12 frozen tasks · same agent, tools and task; only Lore changed. Lore worsened <strong>0/12</strong> task results. <a href="#benchmark">Method and limits ↓</a></sub></p>
 
@@ -725,11 +727,13 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 
 <h3 align="center">Hasta <strong>28% más rápido</strong> y <strong>24% menos tokens de salida</strong> para llegar a un resultado correcto, con <strong>+28 puntos de correctitud al primer intento.</strong></h3>
 
+<p align="center">
 | Métrica | Codex frío | Codex + Lore |
 |---|---:|---:|
 | Correctitud al primer intento | 37% | **65% (+28 pts)** |
 | Tiempo hasta un resultado correcto | 118 s | **85 s (−28%)** |
 | Tokens de salida hasta un resultado correcto | 4.116 | **3.119 (−24%)** |
+</p>
 
 <p align="center"><sub>72 corridas controladas · 12 tareas congeladas · mismo agente, herramientas y tarea; solo cambió Lore. Lore empeoró <strong>0/12</strong> resultados. <a href="#el-benchmark">Método y límites ↓</a></sub></p>
 
