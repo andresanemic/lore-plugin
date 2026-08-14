@@ -116,21 +116,6 @@ añadió primero como regresión fallida; luego se amplió el grader y se recali
 El corte bruto fue 17/36 frente a 25/36; el auditado, 25/36 frente a 33/36. La diferencia permaneció
 en ocho aciertos. Se publican ambos porque corregir el instrumento no autoriza a borrar su historia.
 
-## Regla para la réplica con Claude Code
-
-Antes de gastar una corrida, **verificar el baseline Codex** ejecutando:
-
-```bash
-node --test bench/benchmark-consistency.test.mjs
-node bench/run.mjs --provider codex --regrade
-```
-
-La recalificación debe conservar **25/36 (69,4%) frío y 33/36 (91,7%) Lore**. Solo entonces repetir
-con Claude usando las mismas tareas, fixtures, grader, tres repeticiones y esfuerzo equivalente. Los
-resultados de Claude viven en su propio directorio específico del proveedor; no reemplazan ni se
-combinan con Codex. Si aparece otro defecto del grader: congelar transcripts, añadir primero una
-regresión que falle, recalificar simétricamente ambos brazos y publicar corte bruto y auditado.
-
 ## Fronteras declaradas
 
 Lo que este benchmark **no** demuestra:

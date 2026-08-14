@@ -542,7 +542,7 @@ We call the drop from **69.4% on Web to 33.3% on Editorial** in the cold arm the
 
 > **Lore reached every measured goal within the repair limit, with fewer attempts and less observed time.**
 
-The harness, frozen tasks, graders, raw outputs and declared limits are in [`bench/`](./bench/). These are Codex results, not a universal model claim. The same benchmark will be repeated with Claude Code during the week of August 17; those results will remain separate and will not change the 2.0 skills or version.
+The harness, frozen tasks, graders, raw outputs and declared limits are in [`bench/`](./bench/). These are Codex results, not a universal model claim.
 
 ---
 
@@ -1219,7 +1219,7 @@ Llamamos **Efecto Abismo** a la caída de **69,4% en Web a 33,3% en Editorial** 
 
 > **Lore alcanzó todas las metas medidas dentro del límite de reparación, con menos intentos y menos tiempo observado.**
 
-El harness, las tareas congeladas, los graders, las salidas crudas y las fronteras declaradas están en [`bench/`](./bench/). Son resultados de Codex, no una afirmación universal sobre modelos. El mismo benchmark se repetirá con Claude Code durante la semana del 17 de agosto; esos resultados quedarán separados y no cambiarán las skills ni la versión 2.0.
+El harness, las tareas congeladas, los graders, las salidas crudas y las fronteras declaradas están en [`bench/`](./bench/). Son resultados de Codex, no una afirmación universal sobre modelos.
 
 ---
 
