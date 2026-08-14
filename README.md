@@ -536,11 +536,7 @@ All eight skills follow the same rules:
   </tbody>
 </table>
 
-**Aggregation:** the first row is the equal-weight macro-average of the Web cut (**69.4% → 91.7%**) and the Editorial cut (**33.3% → 100%**), 48 first attempts per arm; it is not the pooled 52-unit rate. **Integrated protocol:** the other three rows use 52 goal units per arm—36 Web runs, 12 Editorial runs and 4 UPGRADE runs—with at most one controlled correction.
-
-We call the drop from **69.4% on Web to 33.3% on Editorial** in the cold arm the **cold-domain cliff**: a descriptive label for the domain sensitivity observed here, not a universal law. Lore held at **91.7% and 100%** across the same cuts. In the integrated repair protocol it also used **6.8% fewer output tokens**; input tokens were 1.3% higher and tool use was effectively equal.
-
-> **Lore reached every measured goal within the repair limit, with fewer attempts and less observed time.**
+**Lore reached every measured goal within the repair limit, with fewer attempts and less observed time.**
 
 The harness, frozen tasks, graders, raw outputs and declared limits are in [`bench/`](./bench/). These are Codex results, not a universal model claim.
 
@@ -1213,11 +1209,7 @@ Agrega una carpeta `notas/` dentro de aquello en lo que estés trabajando —un 
   </tbody>
 </table>
 
-**Agregación:** la primera fila es la macromedia equiponderada del corte Web (**69,4% → 91,7%**) y el corte Editorial (**33,3% → 100%**), 48 primeros intentos por brazo; no es la tasa agrupada de las 52 unidades. **Protocolo integrado:** las otras tres filas usan 52 unidades-meta por brazo —36 corridas Web, 12 Editoriales y 4 de UPGRADE—, con hasta una corrección controlada.
-
-Llamamos **Efecto Abismo** a la caída de **69,4% en Web a 33,3% en Editorial** del brazo frío: una etiqueta descriptiva para la sensibilidad de dominio observada aquí, no una ley universal. Lore se mantuvo en **91,7% y 100%** en los mismos cortes. En el protocolo integrado de reparación también consumió **6,8% menos tokens de salida**; la entrada fue 1,3% mayor y las herramientas quedaron prácticamente iguales.
-
-> **Lore alcanzó todas las metas medidas dentro del límite de reparación, con menos intentos y menos tiempo observado.**
+**Lore alcanzó todas las metas medidas dentro del límite de reparación, con menos intentos y menos tiempo observado.**
 
 El harness, las tareas congeladas, los graders, las salidas crudas y las fronteras declaradas están en [`bench/`](./bench/). Son resultados de Codex, no una afirmación universal sobre modelos.
 
