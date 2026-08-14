@@ -15,7 +15,6 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="https://github.com/andresanemic/lore-plugin/stargazers"><img src="https://img.shields.io/github/stars/andresanemic/lore-plugin?style=for-the-badge&color=FF557A&labelColor=0B0B12" alt="GitHub stars"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/version-2.0.9-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/AI_agents-provider--neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Provider-neutral AI agents"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/paradigm-Spec--Driven_Development-F94F79?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
@@ -23,7 +22,6 @@
   <a href="#obsidian--the-way-in"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Obsidian compatible"></a>
   <a href="#origin"><img src="https://img.shields.io/badge/research-active-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Status"></a>
   <a href="#shared-invariants"><img src="https://img.shields.io/badge/local_only-no_network-FF6685?style=for-the-badge&labelColor=0B0B12" alt="Local only, no network"></a>
-  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="MIT license"></a>
 </p>
 
 <p align="center">
@@ -116,7 +114,7 @@ You open a session. You explain, again, what the project is for. Which approach 
 
 You explained all of it yesterday. You will explain it again tomorrow.
 
-Meanwhile the project keeps accumulating what actually cost you — architectural decisions, production incidents, failed experiments, dozens of *"let's never do that again"* moments — and **none of it survives the session**.
+Meanwhile you keep paying to learn: architectural decisions, production incidents, failed experiments, dozens of *"let's never do that again"* moments. That is what actually cost you, and **none of it survives the session**.
 
 It is a loop of re-explanations and mediocre solutions you had already rejected. Lore calls this **ephemeral experience**: the facts may survive, but the learning never became a reusable structure.
 
@@ -138,7 +136,7 @@ It provides three things:
 - eight skills that operate that convention;
 - and a continuous loop for distilling experience into reusable criteria.
 
-Spec-driven is not a label here. The project has one host-selected contract—`CLAUDE.md` for Claude Code or `AGENTS.md` for Codex—`FASES.md` is the state and what comes next, and `lore/` is the criteria that constrains how any of it gets built. If you use both hosts, Codex can fall back to `CLAUDE.md`; you still do not need two contracts.
+Spec-driven is not a label here. The project has one host-selected contract—`CLAUDE.md` for Claude Code or `AGENTS.md` for Codex—`FASES.md` is the state, the roadmap and the task list, and `lore/` is the criteria that constrains how any of it gets built. If you use both hosts, Codex can fall back to `CLAUDE.md`; you still do not need two contracts.
 
 > **Which contract should you keep?** Use `CLAUDE.md` when Claude Code is your regular host and
 > `AGENTS.md` when Codex is. For a Claude-first project that occasionally opens in Codex, add
@@ -227,7 +225,7 @@ Then start a new CLI session and type `use-lore`; the kit points you at the skil
 
 ## What it looks like in practice
 
-You just spent two hours fighting a flash of unstyled content on load. You solved it. Instead of closing the tab:
+You just spent two hours chasing a bug: some dates showed up one day off, but only for some people. You found it. Instead of closing the tab:
 
 ```text
 › save to lore
@@ -236,25 +234,24 @@ You just spent two hours fighting a flash of unstyled content on load. You solve
 ```text
   Distilled this:
 
-  [animation] Flash on load — initial state delegated to JS
+  [dates] Off-by-one day — dates stored with a local timezone
 
-  Context ······· Next.js with entrance animations under SSR
-  Root cause ···· the JS hydrates after the browser painted the raw
-                  HTML, so the element shows up for one frame before
-                  the animation hides it
-  Clue ·········· never delegate the initial state to JS. It lives
-                  inline in the JSX (opacity: 0). Use fromTo to
-                  transition, never to create the state
-  Confidence ···· confirmed — validated in the running app
+  Context ······· the server runs in UTC, the users do not
+  Root cause ···· each date was saved with the timezone of whoever
+                  created it, so the same record read differently
+                  depending on who opened it
+  Clue ·········· always store dates in UTC. Convert only when
+                  displaying, never when saving
+  Confidence ···· confirmed — verified in production
 
-  → projects/client-a/lore/animation.md
+  → projects/client-a/lore/dates.md
   → this Clue is generic and confirmed: promote it to the Area,
     so the other 3 projects see it?
 
   Write it?
 ```
 
-Three months later, in another project of the Area, someone asks for an entrance animation. The criteria is already loaded and that discussion never happens again.
+Three months later, in another project of the Area, someone adds a calendar. The criteria is already loaded and that bug never happens again.
 
 > None of it was written without a human saying yes. The same gate governs all eight skills.
 
@@ -496,47 +493,13 @@ All five are asked when the bot is configured for the first time. A bot with non
 
 If you already write notes in Obsidian, you already have the raw material. Point the vault at the **mother folder of your Areas** (*Open folder as vault*) and the same file tree is both your workspace and your vault. Nothing else gets configured.
 
-Then, whenever you want:
+Add a `notes/` folder inside whatever you are working on — a project, an Area or a bot — and write your notes there. When you want them read:
 
 > "review my Obsidian notes and see what belongs in my lore"
 
-`obsidian-lore` sweeps the inbox, separates criteria from everything else, tells you which Lore each thing belongs to, and **waits for your approval** before writing anything.
+`obsidian-lore` sweeps that inbox, separates criteria from tasks and from noise, tells you which Lore each thing belongs to, and **waits for your approval** before writing anything. Every mined note gets a mark with date and destination, so the next sweep skips it and the pending debt stays visible. The skill never deletes a note.
 
-> [!IMPORTANT]
-> **Work your notes from a bot. Permanently, not as an alternative.**
->
-> That is the setup this skill was designed for, and the reason is routing. A bot carries a routing table with the purpose of every Area and project it federates written down, so a note is routed **against that table** and the border cases get asked instead of guessed. From a bare folder, routing comes from one path plus a reading of the text: a guess wearing the same confidence.
->
-> No bot yet, and your notes touch more than one Area? The skill will propose [`create-bot`](#create-bot). Take it up on that.
-
-```text
-<your mother folder>/           ← open it as a vault in Obsidian
-  web-development/              ← your Areas and projects, with their Lore
-  bots/projects/my-bot/         ← ★ open your sessions here
-    notes/                      ← the inbox that matters: routed, not guessed
-    canon/ · lore/ · CLAUDE.md or AGENTS.md
-```
-
-### What it does with each note
-
-The discriminator is not the quality of the note: it is whether the note records a **transformation** or only a **fact**.
-
-| The note records | Where it goes |
-|---|---|
-| A friction you **resolved** | Invariant Clue in the Lore |
-| A **task** or an open problem — *"we need to add X"* | `FASES.md`. That is state, not criteria |
-| Someone else's criteria you collected | Arbitration against your standard |
-| A summary, a link, a meeting jotting | Noise, and it tells you so |
-
-Most of a real inbox lands in the last row: a note folder fills up with information, and criteria is the rare thing inside it.
-
-> **Why a sweep and not a save button.** Writing the note feels like preserving it, so nobody goes back to distill it. We tried keeping notes apart from the Lore, and the record sat unused for six weeks ([Case 05](./docs/CASES_en.md)). The sweep is what breaks that: each pass tells you how many notes are still unmined, and for how long.
-
-### Where the inbox lives
-
-**Where you open the session** — and **the vault root never has one**. A note written there has no owner and no table to be routed against. Worse, a bot cannot reach the root: the sweep does not read it, does not fail, and reports a debt of zero. A note that belongs to no project means the project is missing — `create-project`, not an orphan inbox. And the reason is not that nobody works at the root: somebody does, whenever something has to sit above every Area — a launcher that routes into all of them, a spec that decides a new one. The root is a place of work **with no Lore**, so what happens there goes unregistered and never even becomes a note — which means an **Area** is missing (`create-area`), still not an inbox.
-
-Every mined note gets a mark with date and destination, **including the ones that produced nothing**. That mark makes the sweep idempotent and makes the debt visible. The skill **never deletes a note**: mine before deleting, and deleting is your call.
+> **Work your notes from a bot when you can.** A bot carries a routing table with the purpose of every Area and project it federates written down, so a note gets routed against that table instead of guessed. The root of the vault never gets an inbox: a note there has no owner and no table to route it against.
 
 **A note is source, never criteria.** It answers *"what happened"*; Lore answers *"what changed because of it"*. Nothing crosses without explicit distillation and a human approving the diff.
 
@@ -751,7 +714,6 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="https://github.com/andresanemic/lore-plugin/stargazers"><img src="https://img.shields.io/github/stars/andresanemic/lore-plugin?style=for-the-badge&color=FF557A&labelColor=0B0B12" alt="Estrellas en GitHub"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.0.9-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/agentes_de_IA-neutral_al_proveedor-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Agentes de IA neutrales al proveedor"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/paradigma-Spec--Driven_Development-F94F79?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
@@ -759,7 +721,6 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
   <a href="#obsidian--la-puerta-de-entrada"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Compatible con Obsidian"></a>
   <a href="#origen"><img src="https://img.shields.io/badge/investigaci%C3%B3n-activa-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Estado"></a>
   <a href="#invariantes-compartidas"><img src="https://img.shields.io/badge/todo_local-cero_red-FF6685?style=for-the-badge&labelColor=0B0B12" alt="Todo local, cero red"></a>
-  <a href="./LICENSE"><img src="https://img.shields.io/badge/licencia-MIT-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Licencia MIT"></a>
 </p>
 
 <p align="center">
@@ -852,7 +813,7 @@ Abres una sesión. Explicas, otra vez, para qué es el proyecto. Qué camino ya 
 
 Todo eso lo explicaste ayer. Mañana lo vas a explicar de nuevo.
 
-Mientras tanto el proyecto sigue acumulando lo que de verdad te costó —decisiones de arquitectura, incidentes en producción, experimentos fallidos, decenas de momentos de *«nunca volvamos a hacer esto»*— y **nada de eso sobrevive a la sesión**.
+Mientras tanto sigues pagando por aprender: decisiones de arquitectura, incidentes en producción, experimentos fallidos, decenas de momentos de *«nunca volvamos a hacer esto»*. Eso es lo que de verdad te costó, y **nada de eso sobrevive a la sesión**.
 
 Es un bucle de reexplicaciones y de soluciones mediocres que ya habías rechazado. Lore llama a esto **experiencia efímera**: los datos pueden sobrevivir, pero el aprendizaje nunca se convirtió en una estructura reutilizable.
 
@@ -874,7 +835,7 @@ Aporta tres cosas:
 - ocho *skills* que operan esa convención;
 - y un ciclo continuo para destilar experiencia en criterio reutilizable.
 
-Lo de *spec-driven* no es una etiqueta. El proyecto tiene un solo contrato elegido según su host principal —`CLAUDE.md` para Claude Code o `AGENTS.md` para Codex—, `FASES.md` es el estado y lo que viene, y `lore/` es el criterio que restringe cómo se construye todo lo anterior. Si usas ambos hosts, Codex puede tomar `CLAUDE.md` como fallback; sigues sin necesitar dos contratos.
+Lo de *spec-driven* no es una etiqueta. El proyecto tiene un solo contrato elegido según su host principal —`CLAUDE.md` para Claude Code o `AGENTS.md` para Codex—, `FASES.md` es el estado, la hoja de ruta y el listado de tareas, y `lore/` es el criterio que restringe cómo se construye todo lo anterior. Si usas ambos hosts, Codex puede tomar `CLAUDE.md` como fallback; sigues sin necesitar dos contratos.
 
 > **¿Qué contrato conservas?** Usa `CLAUDE.md` si tu host habitual es Claude Code y `AGENTS.md` si
 > es Codex. Si el proyecto usa principalmente Claude pero a veces se abre en Codex, añade
@@ -963,7 +924,7 @@ Después abre una sesión nueva en la CLI y escribe `use-lore`; el kit te guía 
 
 ## Así se ve en la práctica
 
-Acabas de pasar dos horas peleando con un parpadeo al cargar la página. Lo resolviste. En vez de cerrar la pestaña:
+Acabas de pasar dos horas persiguiendo un error: algunas fechas aparecían corridas un día, pero solo para algunas personas. Lo encontraste. En vez de cerrar la pestaña:
 
 ```text
 › guarda en lore
@@ -972,25 +933,24 @@ Acabas de pasar dos horas peleando con un parpadeo al cargar la página. Lo reso
 ```text
   Destilé esto:
 
-  [animacion] Parpadeo al cargar — el estado inicial delegado a JS
+  [fechas] Corrimiento de un día — fechas guardadas con zona local
 
-  Contexto ······ Next.js con animaciones de entrada en SSR
-  Causa raíz ···· el JS se hidrata después de que el navegador pintó
-                  el HTML crudo, así que el elemento aparece visible
-                  un frame antes de que la animación lo oculte
-  Pista ········· prohibido delegar el estado inicial a JS. Vive
-                  inline en el JSX (opacity: 0). Usar fromTo para
-                  transicionar, nunca para crear el estado
-  Confianza ····· confirmada — validado en la app corriendo
+  Contexto ······ el servidor corre en UTC, los usuarios no
+  Causa raíz ···· cada fecha se guardaba con la zona horaria de quien
+                  la creó, así que el mismo registro se leía distinto
+                  según quién lo abriera
+  Pista ········· guardar siempre las fechas en UTC. Convertir solo
+                  al mostrarlas, nunca al guardarlas
+  Confianza ····· confirmada — verificado en producción
 
-  → proyectos/cliente-a/lore/animacion.md
+  → proyectos/cliente-a/lore/fechas.md
   → esta Pista es genérica y confirmada: ¿la promuevo al Área,
     para que la vean los otros 3 proyectos?
 
   ¿Escribo?
 ```
 
-Tres meses después, en otro proyecto del Área, alguien pide una animación de entrada. El criterio ya está cargado y esa discusión no vuelve a ocurrir.
+Tres meses después, en otro proyecto del Área, alguien agrega un calendario. El criterio ya está cargado y ese error no vuelve a ocurrir.
 
 ---
 
@@ -1212,49 +1172,15 @@ Los cinco se preguntan al configurar el bot la primera vez. Un bot sin ninguno e
 
 Si ya escribes notas en Obsidian, ya tienes la materia prima. Apunta la vault a la **carpeta madre de tus Áreas** (*Open folder as vault*) y el mismo árbol de archivos es a la vez tu espacio de trabajo y tu vault.
 
-Después, cuando quieras:
+Agrega una carpeta `notas/` dentro de aquello en lo que estés trabajando —un proyecto, un Área o un bot— y escribe ahí tus notas. Cuando quieras que se lean:
 
 > «revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore»
 
-`obsidian-lore` barre la bandeja, separa lo que es criterio de lo que no, te dice a qué Lore va cada cosa y **espera tu aprobación** antes de escribir nada.
+`obsidian-lore` barre esa bandeja, separa el criterio de las tareas y del ruido, te dice a qué Lore va cada cosa y **espera tu aprobación** antes de escribir nada. Cada nota minada recibe una marca con fecha y destino, así el siguiente barrido la saltea y la deuda pendiente queda a la vista. La skill nunca borra una nota.
 
-> [!IMPORTANT]
-> **Ten tus notas en un bot. De forma permanente, no como una opción entre varias.**
->
-> Es la configuración para la que esta skill fue diseñada, y la razón es el enrutamiento. Un bot lleva una tabla con la finalidad de cada Área y proyecto que federa escrita ahí, así que una nota se enruta **contra esa tabla** y los casos frontera se preguntan en vez de adivinarse. Desde una carpeta suelta, el enrutamiento sale de una sola ruta y de la lectura del texto: una conjetura con la misma cara de certeza.
->
-> ¿Todavía sin bot, y tus notas tocan más de un Área? La skill te va a proponer `create-bot`. Hazle caso.
+> **Ten tus notas en un bot cuando puedas.** Un bot lleva una tabla con la finalidad de cada Área y proyecto que federa escrita ahí, así que una nota se enruta contra esa tabla en vez de adivinarse. La raíz de la vault nunca lleva bandeja: una nota ahí no tiene dueño ni tabla contra la cual enrutarse.
 
-```text
-<tu carpeta madre>/             ← ábrela como vault en Obsidian
-  desarrollo-web/               ← tus Áreas y proyectos, con su Lore
-  bots/proyectos/mi-bot/        ← ★ abre tus sesiones acá
-    notas/                      ← la bandeja que importa: enrutada, no adivinada
-    canon/ · lore/ · CLAUDE.md o AGENTS.md
-```
-
-### Qué hace con cada nota
-
-El discriminador no es la calidad de la nota: es si registra una **transformación** o solo un **hecho**.
-
-| La nota registra | Adónde va |
-|---|---|
-| Una fricción que **resolviste** | Pista Invariante en el Lore |
-| Una **tarea** o un problema abierto — *«hay que añadir X»* | `FASES.md`. Es estado, no criterio |
-| Criterio ajeno que recogiste | Arbitraje contra tu estándar |
-| Un resumen, un link, un apunte de reunión | Ruido, y te lo informa |
-
-La mayoría de una bandeja real cae en la última fila: una carpeta de notas se llena de información, y el criterio es lo raro adentro.
-
-> **Por qué un barrido y no un botón de guardar.** Escribir la nota ya se siente como haberla guardado, así que nadie vuelve a destilarla. Probamos separar las notas del Lore, y el registro quedó seis semanas sin usarse (Caso 05). El barrido es lo que rompe eso: cada pase te dice cuántas notas siguen sin minar, y desde cuándo.
-
-### Dónde vive la bandeja
-
-**Donde abres la sesión** — y **la raíz de la vault nunca tiene una**. Una nota escrita ahí no tiene dueño ni tabla contra la cual enrutarse. Peor: un bot no alcanza la raíz, de modo que el barrido no la lee, no falla y reporta deuda cero. Una nota que no pertenece a ningún proyecto significa que falta el proyecto — `create-project`, no una bandeja huérfana. Y el motivo no es que nadie trabaje en la raíz: alguien trabaja ahí cada vez que algo tiene que estar por encima de todas las Áreas — un launcher que enruta a todas, una spec que decide un Área nueva. La raíz es un lugar de trabajo **sin Lore**, así que lo que pasa ahí queda sin registrar y no llega ni a ser una nota — o sea que falta un **Área** (`create-area`), tampoco una bandeja.
-
-Cada nota minada recibe una marca con fecha y destino, **incluidas las que no produjeron nada**. La skill **nunca borra una nota**: se mina antes de borrar, y borrar lo decides tú.
-
-**Una nota es fuente, nunca criterio.** Responde *«qué pasó»*; el Lore responde *«qué cambió por eso»*.
+**Una nota es fuente, nunca criterio.** Responde *«qué pasó»*; el Lore responde *«qué cambió por eso»*. Nada cruza sin destilación explícita y sin que un humano apruebe el diff.
 
 ---
 
@@ -1418,7 +1344,9 @@ diferencias y tensiones en sus afirmaciones sobre el Entre, el criterio acumulad
 
 ### ¿Por qué «Lore»?
 
-En los videojuegos, el *lore* es aquello que da coherencia a un universo. No son las mecánicas: es la historia acumulada, las reglas que siguen influyendo en todo lo que puede ocurrir después. Los acontecimientos dejan de importar. El criterio permanece.
+En los videojuegos, el *lore* es aquello que da coherencia a un universo. No son las mecánicas: es la historia acumulada, las reglas que siguen influyendo en todo lo que puede ocurrir después.
+
+Lore lleva esa misma idea al desarrollo. Los acontecimientos originales dejan de importar. El criterio permanece.
 
 ### Ecosistema
 
