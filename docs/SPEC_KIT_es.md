@@ -58,6 +58,21 @@ entre los dos y no gobierna ninguno.
 | Qué es trabajo bueno — estándares, prohibiciones, cicatrices | tu `lore/` |
 | Dónde se registra un hallazgo | `save-to-lore` |
 
+Tu `lore/` le gana al ciclo **dentro de su frontera de validez declarada**, no en todas partes. Donde
+una Pista no llega, lo que tienes no es una excepción concedida por spec-kit: es territorio sin
+criterio todavía, y la diferencia decide si obedeces al ciclo o abres un arbitraje.
+
+### Quién puede escribir
+
+La constitución lleva un principio que no delega nada: **nada se commitea ni se publica por
+iniciativa del ciclo.** Commits, pushes, tags, releases y cualquier publicación ocurren solo con tu
+autorización explícita, y `/speckit-implement` y todo hook de extensión quedan sujetos a eso.
+
+No se puede delegar al `lore/`, porque es una regla sobre spec-kit y el `lore/` no gobierna los
+internos de spec-kit: gobierna qué es trabajo bueno. Y no se puede omitir: `implement` es un bucle de
+escritura autónomo, así que una frontera que media entre dos kits sin decir quién puede escribir es
+una frontera con la puerta abierta.
+
 ## Adónde va una cicatriz cuando el ciclo termina
 
 Por `save-to-lore`, hacia el `lore/` que la posee. **`specs/` no se conserva como historia del
@@ -80,10 +95,23 @@ autoritativa sin una identidad escrita con la que juzgarla, la única jugada dis
 
 ## Antes de pasar de `specify` a `plan`
 
-1. **Destino declarado** — ¿el spec dice en qué repositorio aterriza y quién posee su criterio?
+1. **Destino declarado** — ¿el spec dice quién posee el criterio con el que va a ser juzgado? En un
+   repositorio que no tiene código propio —un bot, un área— eso incluye nombrar el repositorio donde
+   aterriza el trabajo.
 2. **Sin copias** — ¿alguna sección reproduce criterio que ya tiene dueño en otra ruta?
 3. **Sin excepciones disfrazadas** — ¿algún requisito pide romper una Pista? Entonces lo que se abre
    es un arbitraje, no una excepción.
+
+## Latencia declarada
+
+Las skills que un kit instala **a mitad de sesión no quedan invocables de inmediato.** El runtime las
+registra de forma asíncrona, y hay una ventana en que están en disco pero no en la sesión. Verificado
+el 2026-08-14: `speckit-*` no era invocable justo después de `specify init`, y sí lo era minutos
+después — dentro de la **misma** sesión.
+
+Entonces: si después de `specify init` los comandos no aparecen, no te falta un paso. Espera, o abre
+una sesión nueva. Y de forma más general, nada de lo que escribas debería depender de surtir efecto
+en el turno siguiente al que lo escribió. Escríbelo y después confirma que está vivo.
 
 ## El hook opcional de Claude Code
 

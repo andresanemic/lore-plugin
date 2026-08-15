@@ -58,6 +58,21 @@ the two and governs neither.
 | What good work is — standards, prohibitions, scars | your `lore/` |
 | Where a finding gets recorded | `save-to-lore` |
 
+Your `lore/` wins against the cycle **within its declared validity boundary**, not everywhere. Where
+a clue does not reach, what you have is not an exception granted by spec-kit — it is territory with
+no criteria yet, and the difference decides whether you follow the cycle or open an arbitration.
+
+### Who may write
+
+The constitution carries one principle that delegates nothing: **nothing is committed or published on
+the cycle's own initiative.** Commits, pushes, tags, releases and any publication happen only with
+your explicit authorization, and `/speckit-implement` and every extension hook are subject to it.
+
+It cannot be delegated to `lore/`, because it is a rule about spec-kit and `lore/` does not govern
+spec-kit's internals — it governs what good work is. And it cannot be left out: `implement` is an
+autonomous write loop, so a border that mediates between two kits while saying nothing about who may
+write is a border with an open gate.
+
 ## Where a scar goes when the cycle ends
 
 Through `save-to-lore`, into the `lore/` that owns it. **`specs/` is not kept as project history.**
@@ -79,11 +94,23 @@ written identity to judge it by, the only available move is to obey it.
 
 ## Before moving from `specify` to `plan`
 
-1. **Declared destination** — does the spec say which repository it lands in, and who owns its
-   criteria?
+1. **Declared destination** — does the spec say who owns the criteria it will be judged by? In a
+   repository that holds no code of its own — a bot, an area — this also means naming the repository
+   the work lands in.
 2. **No copies** — does any section reproduce criteria that already has an owner at another path?
 3. **No disguised exceptions** — does any requirement ask to break a clue? Then what is open is an
    arbitration, not an exception.
+
+## Declared latency
+
+Skills a kit installs **mid-session do not become invocable immediately.** The runtime registers them
+asynchronously, and there is a window in which they are on disk but not in the session. Verified on
+2026-08-14: `speckit-*` was not invocable right after `specify init`, and was invocable minutes
+later — within the **same** session.
+
+So: after `specify init`, if the commands are not there, you are not missing a step. Wait, or start a
+new session. And more generally, nothing you write should depend on taking effect on the turn after
+the one that wrote it. Write it, then confirm it is live.
 
 ## The optional Claude Code hook
 
