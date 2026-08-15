@@ -321,7 +321,15 @@ choosing the variant by shape (area, project, bot). Rules and ceiling are in `us
 Two cases that are **not** `Missing`: a contract whose pointer section the project rewrote for its
 own reasons is `Earned` — wrap it, do not normalize its wording; and a contract with markers already
 present whose content differs from the canonical is a divergence, which is reported and waits, never
-silently overwritten. This is the path by which an already-installed ecosystem receives the block:
+silently overwritten.
+
+**And one case that is neither: the existing section carries more than the block's three things.**
+This is the common shape in a contract written by hand, where loading and routing were never
+separated — a numbered procedure that starts by naming the paths and then keeps going into what to do
+with them. Do **not** wrap that section: wrapping it drags a procedure inside a block whose contents
+are fixed at three, and the ceiling goes with it. Insert the block, then **reduce the section to what
+the block does not carry** and report both moves together in the gate. The pointers end up in one
+place, and the place they end up in is the one the skills re-stamp. This is the path by which an already-installed ecosystem receives the block:
 without it the feature only ever reaches projects created after it existed, which is the smaller
 half of any installed base.
 
@@ -331,6 +339,11 @@ document from another kit is present — the clearest case being spec-kit's
 not own? A clause of the *«this document supersedes all other practices»* family is a `Superseded`
 finding, and the correction is not to delete it but to **revoke it in writing, with its reason**.
 Deleting leaves a hole that the next template regeneration fills back in.
+
+Check one more thing, which is a `Missing` finding: **does the document say who may write?** A border
+that revokes the other kit's supremacy and then says nothing about commits, pushes, releases or
+publication is half a border — the other kit's build step is an autonomous write loop, and revoking
+its authority over criteria does not revoke its authority over the repository.
 
 Two limits on this. The document is **not migrated into `lore/`** — it stays where it lives and keeps
 its owner; what UPGRADE proposes is an edit inside it. And if the user wants it arbitrated properly
