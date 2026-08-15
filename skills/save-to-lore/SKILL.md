@@ -62,6 +62,19 @@ failure state of TRANSPLANT, not its output.
 > time" is a valid result and is written as such** — a recurring pass that always finds something
 > stopped looking and started justifying itself.
 
+> **A third-party skill you *invoke* carries criteria too, and it applies it without asking.**
+> TRANSPLANT is for criteria that arrives as a **document** to be read. The harder case is criteria
+> that arrives as a **tool that runs**: a formatter, a linter, a style checker, a writing reviewer.
+> Nobody arbitrates those, because they look like capacity. They are not: every opinionated tool
+> ships a body of criteria, and yours loses silently every time the tool runs.
+>
+> **Feed it your Lore, in the invocation, as its input.** Most such tools have a calibration clause
+> that makes a provided sample outrank their defaults; the ones that do not should be treated as
+> capacity and kept away from anything the Lore governs. Observed case: a writing-cleanup skill
+> flags emoji and short-fragment bursts as machine tells. A brand whose distilled voice is built on
+> exactly those two devices ran it cold and would have had its voice erased by a tool that was right
+> about everything except this corpus. **A tool is not neutral because it is useful.**
+
 ### TRANSPLANT — the four gates
 
 1. **Capacity or criteria?** A source that brings **capacity** (it *executes* something: renders,
@@ -267,6 +280,31 @@ a safe no-op for those clues.
 - **Same clue in the area with different text** (it evolved) → do NOT overwrite; flag for the user's
   manual review and report.
 - **No candidates** → report "nothing to promote", no-op.
+
+## Confidence only moves on evidence, and evidence needs a scheduled moment
+
+`conjecture` and `confirmed` are the two ends of a promotion nobody schedules. The kit is strict
+about how confidence is **assigned** and silent about when it is **revisited**, so in practice a
+`conjecture` written on a Tuesday stays a `conjecture` forever: the friction that would confirm it
+happens months later, in a session with other work to do, and nobody goes back.
+
+**Every `conjecture` is written with its promotion condition, in the clue itself.** Not «this may be
+confirmed later» but the falsifiable thing that would do it: *«rises to `confirmed` when a monthly
+report shows pieces under the ceiling outperform the ones over it»*.
+
+> **A clue with no written promotion condition cannot be promoted**, because there is nothing to
+> check against. Finding those and adding the missing condition is usually the largest result of the
+> first pass that goes looking.
+
+**And the pass has to be attached to something the project already does** — a monthly report, a
+release, a retrospective — never scheduled on its own. A review with no host event is a review that
+does not happen. Two rules govern it:
+
+- **Surviving time is not evidence, and surviving a `PRUNE` is not evidence either.** Only a
+  measurement moves confidence. This is the same reason `transmute-lore` PRUNE forbids raising it.
+- **`refuted` is a real outcome and the clue stays.** A law the evidence contradicted is marked, not
+  deleted: a refuted law teaches more than an absent one, and deleting it invites someone to
+  rediscover it next year.
 
 ## Invariants
 

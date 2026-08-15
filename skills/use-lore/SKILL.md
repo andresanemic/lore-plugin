@@ -316,6 +316,15 @@ with `transmute-lore` (TRANSLATE mode), which translates content and renames art
   >
   > *Until 2.0.9 this was called a HARD-GATE. Same rule, same force, and no exception was softened —
   > only the word, which came from a register this kit does not otherwise speak.*
+
+  > **The threshold guards the skills, and nothing guards the text editor.** `save-to-lore` demands a
+  > confidence marker and a validity boundary; `transmute-lore` UPGRADE catches their absence on a
+  > later pass, which may be months away. **Opening a `lore/` file and typing has no gate at all** —
+  > and that is the path most criteria actually takes. Measured once: an author of this kit spent a
+  > day writing 241 lines of criteria into a Lore he had diagnosed that same morning for missing
+  > boundaries, and produced one. The defect survived the best possible case, so it is a property of
+  > the mechanism, not of anyone's discipline. Until a gate exists, **the check is a count**: clues
+  > added against boundaries declared. It costs one `grep`.
 - **No automatic commits.** The user reviews the diff and commits when they choose.
 - **State ≠ criteria.** `FASES.md` never lives inside `lore/`.
 - **A note is source, never criteria.** Free notes are never loaded as if they were Lore; they cross
