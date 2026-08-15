@@ -217,7 +217,24 @@ verificar que el bloque sigue llegando por el contrato.
 
 - **SC-001**: En una tarea que hoy se resuelve escribiendo criterio a mano, la presencia del bloque
   hace que se invoque la skill que gobierna el artefacto. Se corre en frío y con bloque, mismo modelo
-  y mismo prompt. **Si no cambia nada, la capacidad B no entra en 2.1 y el descarte se reporta.**
+  y mismo prompt. ~~**Si no cambia nada, la capacidad B no entra en 2.1 y el descarte se reporta.**~~
+
+  > **Enmienda del 2026-08-15 — SC-001 deja de ser puerta de release.** Auditado antes de publicar
+  > 2.1: nunca se corrió y **no es corrible con el instrumento actual**. El banco monta como entorno
+  > un fixture con `CLAUDE.md` y una carpeta `lore/`, **sin skills instaladas**, así que no hay nada
+  > que el bloque pueda hacer invocar: el criterio no puede pasar ni fallar. Es la misma causa que
+  > anuló el pre-registro de `bench/preregistro-2026-08-14_genealogia.md` el día que se escribió.
+  >
+  > No se disimula convirtiéndolo en otra cosa más barata. Se **reclasifica**: SC-001 pasa a ser un
+  > **requisito de lo que el IME tiene que poder medir** — unidad de comparación *la presencia del
+  > bloque en el contrato*, salida observable *si el agente invoca la skill o escribe a mano*, en un
+  > repositorio con las skills realmente instaladas. Queda registrado en el `FASES.md` de LUS, que es
+  > donde vive la puerta de la Fase VIII.
+  >
+  > **La capacidad B entra en 2.1 sin medición, y eso se declara en las release notes.** Lo que la
+  > sostiene es SC-002 —que sí se cerró, con cinco tests en `scripts/always-on-block.test.mjs`— y su
+  > derivación de diseño. Nada más. Publicar sin decirlo habría sido el modo de falla que este kit
+  > existe para evitar.
 - **SC-002**: Ejecutar el estampado tres veces seguidas deja exactamente un bloque, y el diff del
   contrato tras la segunda y la tercera ejecución está vacío.
 - **SC-003**: Una persona que ya usa spec-kit puede añadir Lore, o al revés, siguiendo la

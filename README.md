@@ -15,7 +15,7 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.0.9-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.1.0-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/AI_agents-provider--neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Provider-neutral AI agents"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/paradigm-Spec--Driven_Development-F94F79?style=for-the-badge&labelColor=0B0B12" alt="SDD"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
@@ -436,10 +436,16 @@ The usual starting point is not a tidy set of Lore bodies. It is raw material: f
 
 ```text
 raw folder (no Lore)
-   └─ create-area                → the Area that will OWN that criteria
-        └─ transmute-lore (add)     → rescues the criteria already scattered inside it
-             └─ create-bot (federar)  → the bot routes to that Lore
+   └─ create-area                → creates the Area that will OWN that criteria — clean
+        └─ adopt by registration   → the existing folder is listed in FASES.md, by path,
+        │                              and stays where it is. Nothing moves.
+        └─ transmute-lore (add)    → rescues the criteria already scattered inside it
+             └─ create-bot (federar) → the bot routes to that Lore
 ```
+
+**`create-area` does not swallow the folder.** It creates the Area clean, which is why the second
+step exists: an already-existing folder is **adopted by registration — by path, without moving it**.
+Skipping that link is what makes the chain look like the Area consumes what it is supposed to govern.
 
 **The law: the bot never distills into itself.** A source with no Lore first gets its Lore **in the Area it belongs to**. Only then can the bot federate it. Otherwise the bot becomes the sole owner of criteria earned elsewhere, and the Area can no longer act as their source of truth.
 
@@ -1143,10 +1149,16 @@ El punto de partida habitual no es un conjunto ordenado de Lore. Es material en 
 
 ```text
 carpeta en bruto (sin Lore)
-   └─ create-area                → el Área que va a ser DUEÑA de ese criterio
-        └─ transmute-lore (add)     → rescata el criterio que ya estaba disperso adentro
-             └─ create-bot (federar)   → el bot enruta hacia ese Lore
+   └─ create-area                → crea el Área que va a ser DUEÑA de ese criterio — limpia
+        └─ adopción por registro   → la carpeta que ya existe se registra en FASES.md,
+        │                              por ruta, y se queda donde está. No se mueve nada.
+        └─ transmute-lore (add)    → rescata el criterio que ya estaba disperso adentro
+             └─ create-bot (federar) → el bot enruta hacia ese Lore
 ```
+
+**`create-area` no se traga la carpeta.** Crea el Área limpia, y por eso existe el segundo paso: una
+carpeta que ya existe se **adopta por registro — por ruta, sin moverla**. Saltarse ese eslabón es lo
+que hace parecer que el Área consume aquello que debería gobernar.
 
 **La ley: el bot nunca destila hacia sí mismo.** Una fuente sin Lore primero recibe su Lore **en el Área que le corresponde**. Solo entonces el bot puede federarla. De otro modo, el bot queda como único dueño de un criterio ganado en otro lugar y el Área deja de ser su fuente de verdad.
 
