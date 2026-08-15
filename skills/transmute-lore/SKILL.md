@@ -283,10 +283,16 @@ Phases 1–3. If the target is not a repository, warn that there will be no diff
 
 ### Phase 1 — Establish both versions
 
-- **Installed version:** read it from the active plugin manifest (`.claude-plugin/plugin.json`,
-  `.codex-plugin/plugin.json`, or the equivalent manifest used by the current agent). If the installed
-  copy is stale, **stop and say so**: upgrading a Lore against an outdated kit writes yesterday's
-  standard into it and marks it as done. Update first.
+- **Installed version:** read it from the **host's installation registry**
+  (`~/.claude/plugins/installed_plugins.json`, or the equivalent record the current agent keeps of
+  what it actually loaded) — **not** from a `plugin.json` found by walking the working tree. Those two
+  answer different questions: the manifest in the repository is the *source's* version, and the
+  registry is the version that will run. They diverge routinely, and the case where they diverge most
+  is the one where this matters most — working inside the kit's own repository, where the source is
+  always ahead of what is installed.
+- If the installed copy is stale, **stop and say so**: upgrading a Lore against an outdated kit writes
+  yesterday's standard into it and marks it as done. Update first, or run deliberately from source and
+  **declare it in the gate** — a pass run from source proves nothing about the published kit.
 - **The Lore's version:** it is usually not written down. Infer it from what the artifacts carry —
   presence of confidence markers, validity boundaries, the ` · ↑` promotion glyph, the index line
   format, whether imported modules declare provenance and defeats.
@@ -307,10 +313,17 @@ naming the kind is what keeps this from becoming a rewrite:
 |---|---|---|
 | **Missing** | The kit now requires something this artifact never had (a validity boundary, a confidence marker, a defeats section on an imported module, a provenance header). | Add it — **asking the user** for anything not derivable from the text. Never fabricate a boundary. |
 | **Superseded** | The kit now knows this practice is wrong (e.g. a fact duplicated across artifacts, a rule stated by category rather than by condition, a module copied from an area). | Propose the correction, citing which rule supersedes it. |
-| **Earned** | It departs from the current standard **because this project paid for it**. | **Leave it, and write down why** so the next upgrade does not flag it again. |
+| **Earned** | It departs from the current standard **because this project paid for it**. | **Leave it, and write down why** so the next upgrade does not flag it again — in `FASES.md`, see below. |
 
 The third row is the one that makes the mode safe. A finding list with no `Earned` entries in a Lore
 with real history is a sign the pass is being run as a formatter.
+
+**Where an `Earned` note is written: the Lore owner's `FASES.md`, not the artifact it defends.**
+Writing it inside the artifact is the obvious move and it is wrong in exactly the case that produces
+the most `Earned` findings — a **generated** file, where the next run of its script erases the note
+and the pass after that flags the same thing again. `FASES.md` is the only piece of the standard that
+is hand-kept, dated and read by the next pass before it starts, which is what an exemption needs. One
+line per exemption: what departs, and what the project paid to learn it.
 
 **The contract is an artifact of this pass, not an afterthought.** A Lore that predates the
 always-on block has the pointer section but no markers, so nothing can find it and nothing can
@@ -332,6 +345,16 @@ the block does not carry** and report both moves together in the gate. The point
 place, and the place they end up in is the one the skills re-stamp. This is the path by which an already-installed ecosystem receives the block:
 without it the feature only ever reaches projects created after it existed, which is the smaller
 half of any installed base.
+
+**Check the index against its own row format, not just its links.** `index.md` is `topic · when to
+consult · file`, and the failure to look for is a middle field that has quietly split in two — some
+rows saying *when to open this*, others carrying a confidence marker or a one-word description of
+what the file is. That is a `Superseded` finding: confidence belongs inside the Pista, next to its
+validity boundary, because that is the only place the two mean anything together. The drift is worth
+a dedicated check because of how it hides — **a malformed list looks exactly as well-formed as a
+complete one**, and every row reads fine on its own. Repair the rows and put the format in one line
+at the top of the file, so the next pass arbitrates against a written contract instead of a majority
+vote among the rows.
 
 **A second kit sharing the repository is part of the diagnosis, not out of scope.** If a governing
 document from another kit is present — the clearest case being spec-kit's

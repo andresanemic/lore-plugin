@@ -211,6 +211,7 @@ never paid for will start receiving promotions that belong somewhere else.
 | Export a project, Area or bot's **live routed Lore as one Markdown** for a chat, AI project or notebook | `transmute-lore` (**CRYSTALLIZE**): creates a safe, traceable snapshot without replacing the live Lore or including private material by default |
 | Keep **Obsidian notes in the same folder tree** as the Lore, and **mine that inbox** for what deserves to become criteria ("revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore") | `obsidian-lore` |
 | Work in a repository that **also** has GitHub's spec-kit (`.specify/` is present) | Nothing new to invoke. Read [`docs/SPEC_KIT_en.md`](../../docs/SPEC_KIT_en.md) and copy `assets/constitucion-puntero.md` over the constitution `specify init` generated. **Lore never depends on spec-kit** — this row is recognition, not a dependency |
+| **Decide whether to add spec-kit** to a repository that has Lore | Answer by level before installing anything: an **area** does not take it — its unit of work is a clue, not a feature; a **project** takes the whole cycle; a **bot** takes `specify → plan → tasks` only, and `implement` runs in the destination repository its spec names. Table and the closing clause for the bot case: [`docs/SPEC_KIT_en.md`](../../docs/SPEC_KIT_en.md) |
 | Understand the system / decide which skill applies | `use-lore` (this one) |
 
 **Order of a fresh setup:** `create-area` → `create-project` → (work, saving clues with `save-to-lore`)

@@ -13,6 +13,11 @@ day before, and the comparison ran in both directions. Added here, because the h
 them and this did not: Principle IV (write and publish authority), the disjoint-channels finding
 under Division of authority, and Declared latency. The hand-written file, in turn, took from here the
 validity-boundary condition on "Lore wins" and the declared trigger for amendments.
+
+Revision 2026-08-15b — Principle V added (where the feature lands), and the old placeholder moved to
+VI. The hand-written file had this too and this did not: it only appeared here as an aside inside a
+verification check. It is a principle, because it decides whether this kit belongs in the repository
+at all. Levels and their answers are in docs/SPEC_KIT_*.md.
 -->
 
 # Constitution — {{PROJECT_NAME}}
@@ -57,7 +62,24 @@ mediates between two kits while saying nothing about who may write is a border w
 Delegating it would not work either: it is a rule about spec-kit, and `lore/` does not govern
 spec-kit's internals — it governs what good work is.
 
-### V. {{PROJECT_SPECIFIC_PRINCIPLE}}
+### V. Where the feature lands is declared, and it may not be here
+<!-- Keep ONE of the two paragraphs below and delete the other. -->
+
+**In a repository with code:** the cycle lands here. `implement` writes in this repository and
+nowhere else; a spec whose work belongs to another repository is not this project's spec.
+
+**In a repository without code — a bot, a lens:** *no feature lands here.* This project runs
+`specify → plan → tasks` because this is where the criteria is loaded, and **`implement` runs in the
+destination repository the spec names**. A spec without a declared destination does not proceed to
+`plan`. When the destination reports the work done, the scar leaves through `save-to-lore` and
+`specs/<id>/` is deleted **here** — otherwise this repository accumulates the case memory of work it
+did not do.
+
+An area — a folder that groups projects and owns criteria — takes neither paragraph: it should not
+have `.specify/` at all. Its unit of work is a clue, not a feature, and its register of state is
+`FASES.md`; a `specs/` beside it is a second register in a disjoint channel.
+
+### VI. {{PROJECT_SPECIFIC_PRINCIPLE}}
 <!-- Add the delegations this project actually needs — one per body of criteria it answers to.
      Owner and path, no restated content. Delete this comment. -->
 
@@ -142,4 +164,4 @@ Three checks, all cheap:
 spec-kit's section headings are fixed names and stay as they are. **The content is written in the
 language of the destination Lore** — that is where it will be read from.
 
-**Version**: 1.0.0 | **Ratified**: {{DATE}} | **Last amended**: {{DATE}}
+**Version**: 1.1.0 | **Ratified**: {{DATE}} | **Last amended**: {{DATE}}

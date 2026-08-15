@@ -82,6 +82,38 @@ Un `specs/` guardado «por si acaso» es memoria del caso: satisface el impulso 
 producir criterio, y lo destilable queda dentro, inerte. Esta tiene evidencia longitudinal detrás —
 ver [los casos de estudio](./CASES_es.md).
 
+## Dónde va spec-kit, y dónde no
+
+Antes de los escenarios de entrada hay una pregunta anterior, y es la que suele saltarse: **¿este
+repositorio quiere spec-kit?** La respuesta sale de un solo hecho — la unidad de trabajo de spec-kit
+es una **feature**, y su paso terminal escribe código. Va donde una feature aterriza.
+
+| Nivel | Su unidad de trabajo | spec-kit | Qué corre |
+|---|---|---|---|
+| **Área** | una pista — criterio | **no** | Nada. Un área no tiene entregable propio, y `specs/NNN-*/` sería un segundo registro de estado corriendo en paralelo a `FASES.md` por un canal disjunto — la forma exacta que produce omisión en vez de error |
+| **Proyecto** | una feature | **sí** | El ciclo completo, `specify → implement`. Es el único nivel donde `implement` tiene dónde aterrizar |
+| **Bot** | una instrucción corta | **sí, la mitad pensante** | `specify → plan → tasks`. **`implement` corre en el repositorio de destino**, que el spec nombra |
+
+La fila del bot es la que necesita explicación, porque parece una solución de compromiso y no lo es.
+Un bot custodia criterio federado de varias áreas y opera en repositorios que no tienen nada de él.
+El spec vale más escrito donde ese criterio ya está cargado que donde el código resulta vivir — un
+spec es un documento sobre *qué es trabajo bueno acá*, y eso es todo el contenido de un bot. Lo que
+un bot no puede es terminar: no tiene qué compilar, así que `implement` cruza.
+
+**Esto tiene un costo y el costo tiene su cláusula.** Los artefactos del ciclo quedan en un
+repositorio y el código en otro, y el Principio III dice que `specs/` no se conserva. Así que la
+jugada de cierre es explícita y es del bot, no del destino: **cuando el destino reporta la
+implementación terminada, el bot destila la cicatriz por `save-to-lore` y borra `specs/NNN-*/`.** Sin
+esa cláusula un bot acumula despacio specs de trabajo que no hizo, que es memoria del caso con el
+nombre de otro — el fallo que este kit existe para evitar, entrando por la puerta de servicio.
+
+Dos consecuencias que conviene decir sin rodeos. Un spec escrito en un bot **tiene que** nombrar su
+repositorio de destino, y el que no lo hace no está listo para `plan` — es el primero de los tres
+chequeos de más abajo, y este es el caso para el que se escribió. Y hay exactamente **una**
+constitución que mantener por repositorio con `.specify/`, que es la razón práctica para no instalar
+el kit en los tres niveles: cada instalación es otro documento de gobierno que se declara supremo y
+hay que revocar por escrito.
+
 ## Tres escenarios de entrada
 
 | Llegas con | Qué corre primero |

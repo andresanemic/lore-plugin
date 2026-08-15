@@ -81,6 +81,38 @@ A `specs/` folder retained "just in case" is case memory: it satisfies the urge 
 producing criteria, and what was distillable stays inert inside it. This one has longitudinal
 evidence behind it — see [the case studies](./CASES_en.md).
 
+## Where spec-kit belongs, and where it does not
+
+Before the entry scenarios there is an earlier question, and it is the one usually skipped: **does
+this repository want spec-kit at all?** The answer follows from a single fact — spec-kit's unit of
+work is a **feature**, and its terminal step writes code. So it belongs where a feature lands.
+
+| Level | Its unit of work | spec-kit | What runs |
+|---|---|---|---|
+| **Area** | a clue — criteria | **no** | Nothing. An area has no deliverable of its own, and `specs/NNN-*/` would be a second register of state running parallel to `FASES.md` in a disjoint channel — the exact shape that produces omission rather than error |
+| **Project** | a feature | **yes** | The whole cycle, `specify → implement`. This is the only level where `implement` has somewhere to land |
+| **Bot** | one short instruction | **yes, the thinking half** | `specify → plan → tasks`. **`implement` runs in the destination repository**, which the spec names |
+
+The bot row is the one that needs explaining, because it looks like a compromise and is not. A bot
+holds federated criteria from several areas and operates in repositories that hold none of it. The
+spec is worth more written where that criteria is already loaded than written where the code happens
+to live — a spec is a document about *what good work is here*, and that is the bot's whole content.
+What a bot cannot do is finish: it has nothing to compile, so `implement` crosses over.
+
+**This has a cost and the cost has a clause.** The cycle's artifacts end up in one repository and the
+code in another, and Principle III says `specs/` is not kept. So the closing move is explicit and it
+belongs to the bot, not to the destination: **when the destination reports the implementation done,
+the bot distils the scar through `save-to-lore` and deletes `specs/NNN-*/`.** Without that clause a
+bot slowly accumulates specs for work it did not do, which is case memory with someone else's name on
+it — the failure this kit exists to prevent, arrived by the side door.
+
+Two consequences worth stating plainly. A spec written in a bot **must** name its destination
+repository, and one that does not is not ready for `plan` — this is the first of the three checks
+below, and this is the case it was written for. And there is exactly **one** constitution to maintain
+per repository that has `.specify/`, which is the practical reason not to install the kit at all
+three levels: every installation is another governing document that declares itself supreme and has
+to be revoked in writing.
+
 ## Three entry scenarios
 
 | You arrive with | What runs first |
