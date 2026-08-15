@@ -548,11 +548,13 @@ This README covers motivation and architecture. Everything else lives in its own
 
 | Document | What it's for |
 |---|---|
+| [`90_SECONDS_en.md`](./docs/90_SECONDS_en.md) | **Start here.** The whole mechanism, short enough to read before deciding whether to install anything. |
 | [`USAGE_en.md`](./docs/USAGE_en.md) | Practical day-to-day usage guide: installation, core loop, and each skill with examples. |
 | [`REFERENCE_en.md`](./docs/REFERENCE_en.md) | Technical reference: core concepts, the exact spec for each artifact and each skill. |
 | [`MIGRATION_en.md`](./docs/MIGRATION_en.md) | How to migrate an existing project into Lore using `transmute-lore`. |
 | [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | The optional, experimental encryption for a bot's criteria: what it protects and what it does not. |
 | [`CASES_en.md`](./docs/CASES_en.md) | The eight case studies, each with its declared boundary. |
+| [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md) | Using Lore alongside GitHub's spec-kit: who governs what, and the constitution that draws the border. Optional — Lore never depends on it. |
 | [`bench/`](./bench/) | The benchmark: Web, Editorial and UPGRADE harnesses; frozen tasks; method; declared limits; and raw results. |
 
 <details>
@@ -679,6 +681,19 @@ Lore applies that same idea to development. The original events stop mattering. 
 ## Author
 
 **Andrés Peña Mellado** — principal researcher of LUS.
+
+Builder in Web3: two blockchain projects as a founder, and community management at ChatterPay.
+Previously on the editorial team at **Polkadot Español** and an editor at **BeInCrypto**.
+
+Teaching and research: part of the team that established the bibliographic and methodological
+foundations of the **Design Thinking** course at UTEM's School of Informatics Engineering (2023), and
+its lecturer from 2023 to 2025. Linux Foundation badge for participating in a Cloud Native Computing
+Foundation event.
+
+*Why this is here and not on a personal page:* the criteria this kit distills came out of that
+work — the reason a `lore/` is a **decentralized** body of criteria, owned where it was paid for and
+never pooled into one authority, is that it was built by someone who works in systems designed that
+way. That is genealogy of the form, not an argument for it.
 
 <p>
   <a href="https://github.com/andresanemic"><img src="https://img.shields.io/badge/GitHub-andresanemic-0B1320?style=for-the-badge&logo=github&logoColor=F4F0E8&labelColor=0B0B12" alt="GitHub"></a>
@@ -1219,11 +1234,13 @@ El harness, las tareas congeladas, los graders, las salidas crudas y las fronter
 
 | Documento | Para qué sirve |
 |---|---|
+| [`90_SECONDS_es.md`](./docs/90_SECONDS_es.md) | **Empieza acá.** El mecanismo completo, corto como para leerlo antes de decidir si instalas algo. |
 | [`USAGE_es.md`](./docs/USAGE_es.md) | Guía práctica de uso día a día, con ejemplos. |
 | [`REFERENCE_es.md`](./docs/REFERENCE_es.md) | Referencia técnica de cada artefacto y cada *skill*. |
 | [`MIGRATION_es.md`](./docs/MIGRATION_es.md) | Cómo migrar un proyecto existente con `transmute-lore`. |
 | [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | El cifrado opcional y experimental del criterio de un bot: qué protege y qué no. |
 | [`CASES_es.md`](./docs/CASES_es.md) | Los ocho casos de estudio, cada uno con su frontera declarada. |
+| [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md) | Usar Lore conviviendo con spec-kit de GitHub: quién gobierna qué, y la constitución que traza la frontera. Opcional — Lore no depende de él. |
 | [`bench/`](./bench/) | El benchmark: harnesses Web, Editorial y UPGRADE; tareas congeladas; método; fronteras declaradas; y resultados crudos. |
 
 <details>
@@ -1350,6 +1367,19 @@ Lore lleva esa misma idea al desarrollo. Los acontecimientos originales dejan de
 ## Autor
 
 **Andrés Peña Mellado** — investigador principal de LUS.
+
+Construyendo en Web3: dos proyectos blockchain como founder, y community management en ChatterPay.
+Antes, parte del equipo editorial de **Polkadot Español** y editor en **BeInCrypto**.
+
+Docencia e investigación: integró el equipo que estableció las bases bibliográficas y metodológicas
+de la asignatura **Design Thinking** de la Escuela de Ingeniería en Informática de la UTEM (2023), y
+la dictó desde 2023 hasta 2025. Badge de la Linux Foundation por participar en un evento de la Cloud
+Native Computing Foundation.
+
+*Por qué esto está acá y no en una página personal:* el criterio que este kit destila salió de ese
+trabajo — que un `lore/` sea un cuerpo de criterio **descentralizado**, poseído donde se pagó y nunca
+acumulado en una sola autoridad, viene de que lo construyó alguien que trabaja en sistemas diseñados
+así. Es genealogía de la forma, no un argumento a su favor.
 
 <p>
   <a href="https://github.com/andresanemic"><img src="https://img.shields.io/badge/GitHub-andresanemic-0B1320?style=for-the-badge&logo=github&logoColor=F4F0E8&labelColor=0B0B12" alt="GitHub"></a>
