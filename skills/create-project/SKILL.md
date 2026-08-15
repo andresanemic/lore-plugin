@@ -199,6 +199,14 @@ _(none yet — created by save-to-lore when a project-specific scar appears)_
 After either path, verify there is exactly one instruction contract and that its name matches the
 Area. Do not create a second contract merely because another host might be used later.
 
+**Stamp the always-on block** (project variant) in that contract — the pointer section wrapped in
+`<!-- lore:always-on -->` / `<!-- /lore:always-on -->`, pointing at this project's own layer and its
+mother area's, plus the signal to invoke instead of writing by hand. The area starter template
+already carries it; if the contract was written from scratch, add it. Rules, ceiling and the
+idempotency table are in `use-lore` — this happens inside the HARD-GATE this skill already has, and
+never as a second pass afterwards. If a block is already there and differs, report it and wait: a
+human edit inside the block is a decision.
+
 Resolve every `{{TOKEN}}` with what was discussed; leave none unresolved.
 
 ### 7. Verify and report

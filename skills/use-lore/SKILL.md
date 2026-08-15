@@ -113,6 +113,49 @@ Every project's criteria lives in exactly these artifacts:
 
 > Lore is criteria (it persists); `FASES.md` is state (it advances). Never mix them.
 
+### The always-on block inside the contract
+
+The contract is the only artifact **both** hosts load without being asked. That makes it the kit's
+always-on channel, and the pointer section that lives there is delimited so it can be found and
+re-stamped without touching anything else:
+
+```markdown
+<!-- lore:always-on -->
+…what Lore governs here · where it lives · when to invoke instead of writing by hand…
+<!-- /lore:always-on -->
+```
+
+Markers are **literal**: no spacing variants, no attributes, no version number. They are located by
+full-line match after trimming whitespace.
+
+**Contents — exactly three things, in this order.** What Lore governs here; where it lives (relative
+paths that resolve from the root); and the signal that writing criteria by hand feels like
+competence and is the moment to invoke the skill. Nothing else. Reproducing a clue, listing the
+eight skills or explaining what Lore is belongs elsewhere and already has an owner.
+
+**Ceiling: 25 lines, markers included.** Hard limit, not guidance. If a variant's content does not
+fit, the answer is never to raise the ceiling — it is to move content into `lore/`, where it lives.
+The first exception to a ceiling is how the ceiling dies.
+
+**Three variants**, same ceiling: an **area** points at its own `lore/`; a **project** points at its
+own layer and its mother area's; a **bot** points at `canon/` and at its **routing table**, never at
+the federated Lores one by one — a bot that federates many sources fits precisely because it
+delegates to the table.
+
+**Stamping is idempotent**, and it is done by the skills that already write the contract
+(`create-area`, `create-project`, `create-bot`), inside the HARD-GATE they already have —
+`transmute-lore` in UPGRADE mode adds it to contracts that predate it. No new gate, no operation to
+remember:
+
+| What is on disk | What happens |
+|---|---|
+| No markers | Insert the block after the contract's first H1 (or at the top if there is none) |
+| One well-formed pair, content identical | **NO-OP — write nothing.** Rewriting identical content dirties the diff and makes `git status` lie |
+| One well-formed pair, content differs | **Report the divergence and wait for a decision.** A human edit inside the block is a decision, not a sync error |
+| Duplicated or broken markers | **Stop and report.** Never guess |
+
+Apart from the block, the file does not change — not one blank line, not a different line ending.
+
 ## The area ↔ project model
 
 Lore scales through **work areas**:

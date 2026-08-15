@@ -219,6 +219,7 @@ critical paths, not a generic mold.
 > **{{AREA_TITLE}}** — a work area grouping several projects of the same kind.
 > The project registry and their status live in **`FASES.md`**.
 
+<!-- lore:always-on -->
 ## The Lore — where the area's criteria lives
 The area's distilled memory lives in **`lore/`**. Before deciding anything about method:
 - `lore/index.md` — map: topic · when to consult · file
@@ -226,6 +227,11 @@ The area's distilled memory lives in **`lore/`**. Before deciding anything about
 - `lore/principios.md` — invariant laws of the method
 
 > **`FASES.md` does NOT live in `lore/`.** Lore is criteria (persists); FASES is state (advances).
+
+> **Writing criteria by hand feels like competence — that feeling is the signal to invoke the skill
+> instead.** `save-to-lore` to capture or arbitrate one clue, `transmute-lore` to restructure.
+> Nothing is written into `lore/` without them.
+<!-- /lore:always-on -->
 
 ## How work is done here
 1. Read this file + `FASES.md` + `lore/identidad.md` + `lore/principios.md`.
@@ -255,11 +261,16 @@ These are **project** templates the area stamps — they carry `{{PROJECT_TOKENS
 > **{{PROJECT_TITLE}}** — {{PROJECT_DESCRIPTION}}
 > State and plan live in **`FASES.md`**. Inherited standard: this project's area Lore.
 
+<!-- lore:always-on -->
 ## The Lore — where the criteria lives
 - `lore/index.md` — map; thematic modules are **inherited from the area** by relative path
   (`../../../lore/<module>.md`).
 - `lore/identidad.md` — this project's identity + pointer to the area standard.
 - `lore/principios.md` — this project's laws + pointer to the area laws.
+
+> **Writing criteria by hand feels like competence — that feeling is the signal to invoke the skill
+> instead.** `save-to-lore` decides whether a clue stays here or is promoted to the area.
+<!-- /lore:always-on -->
 
 ## Stack / conventions
 {{AREA_STACK_AND_CONVENTIONS}}   # filled from the area's principios; e.g. Next.js + Tailwind + GSAP

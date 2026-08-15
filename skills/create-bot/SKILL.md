@@ -441,6 +441,16 @@ and the trigger phrases — not just the concept.
 > This is a rule at writing time **and** a gate at packaging time (§11). Do not rely on the rule
 > alone — it is prose, and prose is what fails.
 
+**Either way, the bot's contract carries the always-on block** (bot variant), delimited by
+`<!-- lore:always-on -->` / `<!-- /lore:always-on -->`. It points at `canon/` and at
+`lore/enrutamiento.md` — **the routing table, never the federated Lores one by one.** That is the
+whole reason a bot that reaches a dozen bodies of criteria still fits under the 25-line ceiling: the
+block delegates to the table, which is what the table is for. Listing the federated sources inside
+the block puts the routing table's job in two places, and the copy is the one that goes stale.
+
+Rules, ceiling and the idempotency table are in `use-lore`. This is stamped inside the HARD-GATE
+this skill already has, never as a pass afterwards.
+
 #### 6.0 First use — a brainstorm, not a form (HARD-GATE)
 
 If `.{{BOT_SLUG}}.json` does not exist at the working directory root, this runs **before anything

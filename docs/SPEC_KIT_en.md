@@ -1,0 +1,110 @@
+# Lore alongside spec-kit
+
+> [← Back to the README](../README.md) · [Versión en español](./SPEC_KIT_es.md)
+
+GitHub's [spec-kit](https://github.com/github/spec-kit) and Lore Plugin are both kits of criteria,
+and they cover **the same failure mode on two different surfaces**: what is missing does not look
+missing. spec-kit makes you fill boxes you would have left empty without noticing, before building.
+Lore does the same for criteria, after. They do not compete.
+
+**Lore does not depend on spec-kit, and never will.** Nothing on this page is required to use the
+kit. If you do not use spec-kit, stop reading here.
+
+## The conflict is about authority, not files
+
+Installing spec-kit over a project with Lore touches no file Lore owns. It does not edit `CLAUDE.md`
+or `AGENTS.md`, it does not enter `lore/`. Everything lands in `.specify/`, `specs/` and its own
+skills.
+
+Which is exactly why the collision is easy to miss: **two kits on disjoint channels do not fail —
+they omit.** No error appears. What appears is a cycle that runs without ever consulting the
+criteria, and produces a plan that looks complete.
+
+The one thing spec-kit does claim is authority. Its default constitution template says:
+
+> *Constitution supersedes all other practices*
+
+A kit installed this week, declaring itself supreme over criteria that was paid for with friction
+before it existed.
+
+## The fix: a constitution that is a border
+
+Copy [`assets/constitucion-puntero.md`](../assets/constitucion-puntero.md) over the
+`.specify/memory/constitution.md` that `specify init` generated empty, and adapt it.
+
+It holds delegations with an owner and a path, an explicit order of precedence, the three entry
+scenarios, and the supremacy clause **revoked in writing** — not omitted. An omission leaves a hole,
+and the next template regeneration fills it back in.
+
+**Lore Plugin does not write this file for you.** Automating another kit's constitution would be
+claiming over it the authority the document itself denies it over Lore. You copy it, you adapt it,
+you own it.
+
+### Order of precedence
+
+```text
+canon/  →  lore/ of the project  →  lore/ of the mother area  →  federated Lore at its source
+        →  the constitution  →  specs/<id>/
+```
+
+The constitution sits **below every `lore/` and above the cycle's artifacts**. It mediates between
+the two and governs neither.
+
+### Division of authority
+
+| Governs | Owner |
+|---|---|
+| The build cycle — specify, clarify, plan, tasks, implement | spec-kit |
+| What good work is — standards, prohibitions, scars | your `lore/` |
+| Where a finding gets recorded | `save-to-lore` |
+
+## Where a scar goes when the cycle ends
+
+Through `save-to-lore`, into the `lore/` that owns it. **`specs/` is not kept as project history.**
+
+A `specs/` folder retained "just in case" is case memory: it satisfies the urge to preserve without
+producing criteria, and what was distillable stays inert inside it. This one has longitudinal
+evidence behind it — see [the case studies](./CASES_en.md).
+
+## Three entry scenarios
+
+| You arrive with | What runs first |
+|---|---|
+| Lore in place, adding spec-kit | The constitution, **before** the first `/speckit-specify` |
+| spec-kit in place, adding Lore | `transmute-lore` over the existing criteria, **then** the constitution — an existing constitution is imported criteria and goes through ARBITRATE |
+| Both from zero | `create-area` / `create-project`, then `specify init`, then the constitution |
+
+The middle row matters most: arbitration needs a yardstick. Against an authoritative source with no
+written identity to judge it by, the only available move is to obey it.
+
+## Before moving from `specify` to `plan`
+
+1. **Declared destination** — does the spec say which repository it lands in, and who owns its
+   criteria?
+2. **No copies** — does any section reproduce criteria that already has an owner at another path?
+3. **No disguised exceptions** — does any requirement ask to break a clue? Then what is open is an
+   arbitration, not an exception.
+
+## The optional Claude Code hook
+
+Claude Code can run a `SessionStart` hook that injects text at the start of every session. It is a
+legitimate way to make a Lore louder, and it is **optional on purpose**:
+
+- It is **provider-specific**. Codex has no equivalent, so a kit that relied on it would stop being
+  neutral — and the contract, which both hosts already load, is the channel that is not.
+- It is **not the primary mechanism**. The always-on block inside the contract is. The hook adds
+  emphasis to something that already works without it.
+
+If you want it, add it to your own `.claude/settings.json`. Lore Plugin does not install it.
+
+> **Never gitignore all of `.claude/`.** It is a common reflex and it takes the installed skills
+> with it.
+
+## Validity boundary
+
+Verified against `specify-cli 0.16.5.dev0` (commit `bf88c9f`) on 2026-08-14, in a real installation
+over a **bot** — a project whose product is records, not code.
+
+**This has not been exercised in a repository with code where the cycle actually lands**, which is
+spec-kit's majority case. The delegations and the precedence order are sound; the ergonomics of the
+full cycle under this border are untested. Treat that as the open question it is.

@@ -312,6 +312,19 @@ naming the kind is what keeps this from becoming a rewrite:
 The third row is the one that makes the mode safe. A finding list with no `Earned` entries in a Lore
 with real history is a sign the pass is being run as a formatter.
 
+**The contract is an artifact of this pass, not an afterthought.** A Lore that predates the
+always-on block has the pointer section but no markers, so nothing can find it and nothing can
+re-stamp it. That is a `Missing` finding like any other: wrap the existing pointer section in
+`<!-- lore:always-on -->` / `<!-- /lore:always-on -->` and add the invocation signal if it is absent,
+choosing the variant by shape (area, project, bot). Rules and ceiling are in `use-lore`.
+
+Two cases that are **not** `Missing`: a contract whose pointer section the project rewrote for its
+own reasons is `Earned` — wrap it, do not normalize its wording; and a contract with markers already
+present whose content differs from the canonical is a divergence, which is reported and waits, never
+silently overwritten. This is the path by which an already-installed ecosystem receives the block:
+without it the feature only ever reaches projects created after it existed, which is the smaller
+half of any installed base.
+
 ### Phase 3 — HARD-GATE
 
 Show the full finding list with content in view: file, kind, what changes, and what rule of the
