@@ -119,7 +119,7 @@ to be revoked in writing.
 |---|---|
 | Lore in place, adding spec-kit | The constitution, **before** the first `/speckit-specify` |
 | spec-kit in place, adding Lore | `transmute-lore` over the existing criteria, **then** the constitution — an existing constitution is imported criteria and goes through ARBITRATE |
-| Both from zero | `create-area` / `create-project`, then `specify init`, then the constitution |
+| Both from zero | `create-area` / `create-project`, then `specify init` **in the project**, then the constitution |
 
 The middle row matters most: arbitration needs a yardstick. Against an authoritative source with no
 written identity to judge it by, the only available move is to obey it.
@@ -167,3 +167,10 @@ over a **bot** — a project whose product is records, not code.
 **This has not been exercised in a repository with code where the cycle actually lands**, which is
 spec-kit's majority case. The delegations and the precedence order are sound; the ergonomics of the
 full cycle under this border are untested. Treat that as the open question it is.
+
+That boundary covers the levels table above too, and it is worth saying plainly because the table
+reads more confident than the evidence behind it. The **bot** row was exercised. The **project** row —
+the whole cycle in a repository with code — **is reasoning, not experience**: it follows from where
+`implement` can land, and nobody has run it. The **area** row is a design decision about a second
+register of state, taken on the strength of a distilled failure mode rather than on an area that tried
+it and suffered. Use the table; do not cite it as a result.

@@ -120,7 +120,7 @@ hay que revocar por escrito.
 |---|---|
 | Lore ya puesto, agregas spec-kit | La constitución, **antes** del primer `/speckit-specify` |
 | spec-kit ya puesto, agregas Lore | `transmute-lore` sobre el criterio existente y **después** la constitución — una constitución preexistente es criterio importado y pasa por ARBITRATE |
-| Los dos desde cero | `create-area` / `create-project`, después `specify init`, después la constitución |
+| Los dos desde cero | `create-area` / `create-project`, después `specify init` **en el proyecto**, después la constitución |
 
 La fila del medio es la que más importa: el arbitraje necesita una vara. Frente a una fuente
 autoritativa sin una identidad escrita con la que juzgarla, la única jugada disponible es obedecerla.
@@ -168,3 +168,10 @@ sobre un **bot** — un proyecto cuyo producto son registros, no código.
 **No se ha ejercido en un repositorio con código donde el ciclo sí aterriza**, que es el caso
 mayoritario de spec-kit. Las delegaciones y el orden de precedencia se sostienen; la ergonomía del
 ciclo completo bajo esta frontera está sin probar. Trátalo como la pregunta abierta que es.
+
+Esa frontera cubre también la tabla de niveles de más arriba, y conviene decirlo sin rodeos porque la
+tabla se lee más segura que la evidencia que tiene detrás. La fila del **bot** se ejerció. La fila del
+**proyecto** —el ciclo completo en un repositorio con código— **es razonamiento, no experiencia**: se
+sigue de dónde puede aterrizar `implement`, y nadie la ha corrido. La fila del **área** es una decisión
+de diseño sobre un segundo registro de estado, tomada por la fuerza de un modo de falla ya destilado y
+no por un área que lo intentara y lo sufriera. Usa la tabla; no la cites como resultado.
