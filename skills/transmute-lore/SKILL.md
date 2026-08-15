@@ -1,11 +1,11 @@
 ---
 name: transmute-lore
-description: Operate a project's body of criteria in five modes — migrate scattered criteria to the six-piece Lore standard (ADD); remove project copies of criteria already owned by its area (CLEAN); standardize language without changing meaning (TRANSLATE); arbitrate healthy Lore against a newer kit and raise it without rewriting earned criterion (UPGRADE); or generate a safe, traceable single-Markdown snapshot for chats, AI projects and notebooks without replacing the live artifacts (CRYSTALLIZE). Trigger on requests to transmute, migrate, clean, translate, upgrade, bring Lore up to date, crystallize Lore, export Lore to one Markdown, or prepare Lore as a chat/notebook source.
+description: Operate a project's body of criteria in six modes — migrate scattered criteria to the six-piece Lore standard (ADD); remove project copies of criteria already owned by its area (CLEAN); standardize language without changing meaning (TRANSLATE); arbitrate healthy Lore against a newer kit and raise it without rewriting earned criterion (UPGRADE); prune a Lore that decayed by accumulating correct things, until it fits the deliverable again (PRUNE); or generate a safe, traceable single-Markdown snapshot for chats, AI projects and notebooks without replacing the live artifacts (CRYSTALLIZE). Trigger on requests to transmute, migrate, clean, translate, upgrade, bring Lore up to date, prune the Lore, "prune-lore", "poda en lore", "poda el lore de {proyecto}", crystallize Lore, export Lore to one Markdown, or prepare Lore as a chat/notebook source.
 ---
 
 # Transmute Lore
 
-Operates a project's body of criteria. Five modes, one skill:
+Operates a project's body of criteria. Six modes, one skill:
 
 - **ADD** — the project **never applied** the Lore method (or has a rough/incomplete `lore/`).
   Valuable criteria is *trapped* in non-distillable forms: long READMEs, an everything-mixed
@@ -24,6 +24,11 @@ Operates a project's body of criteria. Five modes, one skill:
   version of these skills. It is structurally fine and materially behind: it lacks the gates and
   distinctions the kit learned after it was written. UPGRADE arbitrates the existing Lore **against
   the current version of the kit** and raises it, without rewriting what is already earned.
+- **PRUNE** — the Lore is in the standard, in active use, and **nothing in it is wrong**. It decayed
+  by accumulating correct things until their sum no longer fits the deliverable. PRUNE is the only
+  mode that asks *does any of this need to be here?*, counts apparatus against content, and treats a
+  **smaller** corpus as the result rather than as a loss. It is not CLEAN: nothing here is a
+  duplicate.
 - **CRYSTALLIZE** — the Lore is healthy and must travel as a **single Markdown derivative** into a
   chat, an AI project, or a notebook such as NotebookLM. It resolves the live routing into one
   traceable snapshot while leaving every source untouched. It **does not replace the six live
@@ -44,6 +49,12 @@ Operates a project's body of criteria. Five modes, one skill:
   which is the point. Triggers: *"improve the lore of {project} with the new version"*, *"bring this
   lore up to date with the plugin"*, *"arbitra mi lore contra la versión nueva"*, *"mejora este lore
   con lo nuevo del plugin"*. Also the natural next step right after updating the plugin.
+- **PRUNE:** a Lore nobody can point at a defect in, whose *output* has degraded — deliverables that
+  go in circles, hedge, or arrive wrapped in more apparatus than content, and a human who has started
+  writing the thing by hand instead. That last symptom is the loudest one: **the owner bypassing
+  their own system is the measurement.** Triggers: *"prune the lore of {project}"*, *"prune-lore"*,
+  *"poda en lore"*, *"poda el lore de {proyecto}"*, *"this lore has too much in it"*. Also the
+  scheduled pass of a pruning ritual, run **before** producing the week's work and never after.
 - **CRYSTALLIZE:** a project or bot whose routed criteria must be attached to a chat, AI project, or
   notebook as one `.md`. Triggers: *"crystallize this Lore"*, *"export this Lore to one Markdown"*,
   *"prepare this bot as a ChatGPT source"*, *"cristaliza el lore en un solo archivo"*.
@@ -67,7 +78,7 @@ These are six structural pieces, not six literal files: thematic modules may be 
 > **Scope boundary for contracts:** “one contract” applies at the Lore scope root. Do not delete,
 > rename or absorb nested instruction files managed by a framework or another tool (for example a
 > Next.js or HyperFrames `AGENTS.md`). If both names already exist at the target root, compare their
-> contents, identify ownership and present the choice at the HARD GATE; never discard unique rules
+> contents, identify ownership and present the choice at the threshold; never discard unique rules
 > merely to satisfy the one-file default.
 
 > **No `logos.md` is generated.** That is specific to research projects, not the generic standard.
@@ -153,7 +164,7 @@ module instead. Only project-specific scars become project-local modules.
 - **Index** → `index.md`, one line per pattern (`topic · symptom · confidence · file`), area
   modules linked by relative path (`../../../lore/<topic>.md`).
 
-### Phase 5 — HARD-GATE
+### Phase 5 — Threshold
 Do not write yet. Present **one** mapping document containing:
 1. The **real proposed content** of each new artifact (not just a routing table).
 2. What changes in the instruction contract (what moves to lore, what stays as a pointer).
@@ -188,7 +199,7 @@ Same as ADD: require a clean git tree (or warn if not a repo). The cleanup must 
    - Any clue **not** in the area → project-specific (or not yet promoted). **Do not delete it.**
      Report it so the user can decide (keep as project module, or promote to the area first).
 
-### Phase 2 — HARD-GATE
+### Phase 2 — Threshold
 Present: which modules will be removed (fully redundant with the area), which are kept (and why),
 and the exact rewritten `index.md` pointing to the area modules. Wait for explicit approval.
 
@@ -226,7 +237,7 @@ reviewable diff.
    **area** does NOT touch its projects. If the other level is in a different language, report the
    mismatch and let the user decide whether to run TRANSLATE there too.
 
-### Phase 2 — HARD-GATE
+### Phase 2 — Threshold
 Present the plan before writing: file-by-file current language → target, including **renames** —
 localizable artifact names move to the target language too (e.g. `identidad.md` ↔ `identity.md`,
 `principios.md` ↔ `principles.md`, `FASES.md` ↔ `PHASES.md`, `proyectos/` ↔ `projects/`,
@@ -277,7 +288,7 @@ relitigate what the project already paid for.
 ### Phase 0 — Safety precondition
 
 Inspect `git status` and report whether the tree is clean, but **do not stop the diagnosis**. UPGRADE
-is useful before the user is ready to write: it can read, arbitrate and present the full HARD-GATE
+is useful before the user is ready to write: it can read, arbitrate and present the full threshold
 in a dirty or read-only tree. A clean tree is a precondition for **Phase 4 (writing)**, not for
 Phases 1–3. If the target is not a repository, warn that there will be no diff safety net.
 
@@ -302,7 +313,7 @@ Report both, and say plainly when the second is a guess.
 ### Phase 2 — Arbitrate the existing Lore against the current kit
 
 Before the artifact pass, detect a local `notas/` or `notes/` inbox. If one exists, invoke
-`obsidian-lore` to report its debt and mine it through its own HARD-GATE. **The notes stay in their
+`obsidian-lore` to report its debt and mine it through its own threshold. **The notes stay in their
 inbox after mining**; they are source and provenance, never migration debris. UPGRADE must not move,
 delete or absorb them into `lore/`.
 
@@ -373,7 +384,7 @@ its owner; what UPGRADE proposes is an edit inside it. And if the user wants it 
 rather than patched, that is `save-to-lore` in ARBITRATE mode, which is where imported criteria
 belongs. When no second kit is present this check costs nothing and produces no finding.
 
-### Phase 3 — HARD-GATE
+### Phase 3 — Threshold
 
 Show the full finding list with content in view: file, kind, what changes, and what rule of the
 current version demands it. Nothing is written before approval. The user can accept per finding.
@@ -397,6 +408,123 @@ Apply the accepted findings. Two limits that do not move:
 Report per kind: what was added, what was corrected, what was left as `Earned` and why, and what was
 left pending because only the user could answer it. Record the version upgraded to, in the project's
 `FASES.md` — not in the Lore. **Do not commit.**
+
+---
+
+## PRUNE mode — procedure
+
+> **The premise, and it is not the same as CLEAN.** CLEAN removes *duplicates* — modules the area
+> already owns. PRUNE removes *weight*: criteria that is not duplicated, not wrong, and not
+> superseded, and whose only defect is that it is still there. A Lore in daily use does not decay by
+> going stale. It decays by **accumulating correct things**, and no other mode asks the subtractive
+> question.
+>
+> Every check below comes from one observed failure, not from a preference. They are named in the
+> phases so a future pass can tell which ones were earned and which were assumed.
+
+**The unit this mode counts is not the Lore. It is the deliverable.** A body of criteria is not too
+big in the abstract; it is too big *for the thing it has to produce*. Ask for the artifact the
+project actually ships — a post, a page, a component, a report — before reading a single module.
+Without it, PRUNE has no denominator and turns into taste.
+
+### Phase 0 — Safety precondition
+
+Clean tree before writing. Diagnosis may run on a dirty tree; writing may not.
+
+### Phase 1 — Measure before reading
+
+Produce the count first, because the defect this mode exists for **is invisible when reading files
+one at a time** — every law reads fine on its own.
+
+| What | Why it is counted |
+|---|---|
+| Laws in `principios.md`, area + project | These are all active at once on every task. |
+| Clues across thematic modules | Same. |
+| Clues **with no validity boundary** | A clue with no boundary applies *always*. This is the multiplier. |
+| Guardrails from the active strategy or phase | Also active at once, and usually forgotten in the count. |
+| **Scaffolding vs. content in the last three deliverables** | Lines of apparatus (justifications, discards, checklists, applied-guardrail notes) against lines of the thing actually published. |
+
+The last row is the one that finds what reading cannot. A ratio where apparatus dwarfs content is a
+finding on its own, and it belongs to no single clue — which is exactly why no per-artifact pass has
+ever caught it.
+
+**Also inventory, per piece type the project ships: is there a declared length ceiling?** The piece
+with no ceiling is the piece that will bloat, and the trap is that it is usually the *most* published
+one — a ceiling gets written for the rare formats and skipped for the daily one, because the daily
+one felt too obvious to bound.
+
+### Phase 2 — Classify, four kinds
+
+| Kind | What it means | What it produces |
+|---|---|---|
+| **Deadwood** | It constrains no future decision. The decision it once shaped no longer exists, or it was adopted from elsewhere and never bit. | **Comes out** — after its residue is written (below). |
+| **Crowding** | Correct, earned, not refutable — and yet its *sum* with the others saturates the deliverable. | **Does not come out.** It receives a **validity boundary**, or a **destination** for the artifact it demands, or a **ceiling**. |
+| **Rooted** | Load-bearing. A real scar behind it and a decision that still depends on it. | Untouched, and **not re-examined by the next pass**. |
+| **Half-grafted** | Declared applied and only partly applied — the correction landed in one place and not in its siblings. | **Finish it or unmark it.** It may not stay declared-and-false. |
+
+**A prune list with no `Rooted` entries is a pass being run as a chainsaw.** This is the mirror of
+UPGRADE's `Earned` rule and it exists for the same reason: a mode that only removes will always find
+something to remove.
+
+**`Crowding` is the kind that does the work, and the one a careless pass will misfile as
+`Deadwood`.** The three-clue case that produced this mode had every clue correct, every scar dated,
+and nothing to refute — and their sum put ~120 lines of apparatus around 5 lines of copy. The defect
+was not in any clue. It was that **none of them declared where the artifact it demands lives**, so
+all of them landed on the same surface: the one the deliverable is published from. Look for that
+first: a clue that mandates an artifact and does not name its home is `Crowding`, not `Deadwood`, and
+the repair is a **destination**, not a deletion.
+
+**`Half-grafted` exists because nothing else verifies it.** A clue that says *"the dialect was
+corrected"* is cited by every later pass as done. `save-to-lore` already carries the rule — *one fixed
+out of five is not a fix* — and **no mode checks it on a later pass**. For every clue that declares a
+correction applied, grep the corpus for the pattern it claims to have removed. A clue that is
+declared applied and is not is worse than a missing clue: it is trusted.
+
+### Phase 3 — Two questions that are not about any single clue
+
+**Is a law actually plumbing?** `principios.md` holds **invariant law**. Where a file is stored, what
+status a new entry starts in, what a deliverable is made of — those are storage convention and flow
+specification. They belong to the contract or the schema. The cost is not tidiness: whoever is about
+to work loads ten "principles" of which several are pipework, and the two that are real criteria are
+buried among them. Route them out; this is `Crowding`, and its repair is a move, not a cut.
+
+**Does the review pipeline have a subtractive pass?** Count the passes an editing module prescribes
+and ask how many of them can *remove*. A pipeline whose passes all check clarity, voice, proof,
+specificity, emotion and risk — and none of which asks *is any of this unnecessary?* — has its output
+shape decided in advance, no matter how good each pass is. A missing subtractive pass is `Crowding`
+on the pipeline itself.
+
+### Phase 4 — Threshold
+
+Present the four lists with content in view, plus the Phase 1 counts **before and after**. Nothing is
+written before approval, and the user can accept per finding.
+
+**State the density result plainly and do not apologize for it.** Fewer clues is the intended
+outcome, not a loss to be explained away. The report says what the corpus weighs now and what it will
+weigh, and treats a drop as the result — a Lore that only ever grows has no mechanism for being
+wrong about its own size.
+
+### Phase 5 — Prune (only after approval)
+
+**Nothing comes out without residue.** Every `Deadwood` removal is written as one dated line in the
+owner's `FASES.md`: what came out, and what it used to be for. Pruning without residue is not
+distillation, it is amnesia — and the next person to meet the same friction will re-derive the clue
+from scratch and believe it is new.
+
+Three limits that do not move:
+
+- **A clue whose scar you cannot see is `Rooted`, not `Deadwood`.** Absence of a visible reason is
+  absence of evidence. Criteria you did not pay for is not yours to remove; ask, or leave it.
+- **A boundary is asked, never inferred** — same rule as UPGRADE. `Crowding` repaired with an invented
+  boundary is worse than `Crowding` left alone, because it now reads as knowledge.
+- **Confidence is never raised by pruning.** Surviving a prune is not evidence. A `conjecture` that
+  came through untouched is still a `conjecture`.
+
+### Phase 6 — Final report
+
+Report the counts before and after, the four lists, and — separately — **what was removed and where
+its residue was written**. Record the pass and its date in `FASES.md`, not in the Lore. **Do not
+commit.**
 
 ---
 
@@ -442,7 +570,7 @@ included, name it separately in the preview and require explicit approval for th
 If a source carries its own visibility or distribution rule, that rule outranks convenience. A
 source that cannot be redistributed is represented only by a notice that it was omitted.
 
-### Phase 3 — Build the preview and HARD-GATE
+### Phase 3 — Build the preview and threshold
 
 Before writing, present:
 
@@ -518,12 +646,12 @@ the live project tree for updates and warn agents not to write changes back into
   by file type.
 - **Discarded noise is reported**, not silently deleted (filter transparency).
 - **Clean tree gates writing, not diagnosis:** ADD/CLEAN/TRANSLATE keep their existing Phase 0
-  precondition; UPGRADE may diagnose and present its HARD-GATE in a dirty/read-only tree, then
+  precondition; UPGRADE may diagnose and present its threshold in a dirty/read-only tree, then
   requires a clean tree immediately before applying the approved findings.
 - **Free notes survive transmutation.** A `notas/` / `notes/` inbox is mined by `obsidian-lore`,
   receives traceable frontmatter, and remains in place. No transmute mode deletes it as cleanup.
 - **Do not overwrite old lore/docs without surfacing discrepancies** with code or the description.
-- **HARD-GATE**: present the mapping with content in view and wait for approval before writing.
+- **Threshold**: present the mapping with content in view and wait for approval before writing.
 - **Do not auto-commit the target project.** The user reviews the diff and decides.
 - **CLEAN never deletes `identidad.md` / `principios.md` / `index.md`** — only thematic modules, and
   only after confirming their criteria already lives in the area (otherwise reported, not deleted).
@@ -533,6 +661,10 @@ the live project tree for updates and warn agents not to write changes back into
 - **TRANSLATE is meaning-preserving**: it changes the language of content and localizable
   filenames, never the criteria or the structure, and never leaves a broken link behind.
   Ambiguous nuances are flagged, not guessed.
+- **PRUNE never removes criteria it did not pay for.** No visible scar behind a clue means `Rooted`,
+  not `Deadwood` — absence of a visible reason is not evidence of no reason. And **nothing comes out
+  without residue**: every removal is a dated line in `FASES.md` saying what it used to be for, or the
+  next person to meet that friction re-derives the clue and believes it is new.
 - **CRYSTALLIZE is a derivative, never authority.** It follows routed owners, excludes private and
   unrouted material by default, writes no source artifact, and declares that its snapshot may become
   stale. Regenerate it from the live tree instead of editing it as Lore.

@@ -1,6 +1,6 @@
 ---
 name: save-to-lore
-description: Use when saving a lesson to the Lore or right after solving a problem worth keeping, AND when distilling Lore from an external body of criteria (a skill, a style guide, a third-party playbook). Two modes — CAPTURE (default — distill lived friction into an invariant clue) and ARBITRATE (judge imported criteria against this Entre's purpose; only what survives enters). Captures in the CURRENT project's lore/ and — for confirmed, generic clues — proposes promoting up to the mother AREA lore (project ↔ area routing). Trigger on "save to lore", "distill this to the lore", "guarda en lore", "distill this skill", "destila esta skill", or proactively after resolving a friction that passes the Lore threshold (constraint + signal + executability + genericity).
+description: Use when saving a lesson to the Lore or right after solving a problem worth keeping, AND when distilling Lore from an external body of criteria (a skill, a style guide, a third-party playbook). Two modes — CAPTURE (default — distill lived friction into an invariant clue) and ARBITRATE (judge imported criteria against this Entre's purpose; only what survives enters). Captures in the CURRENT project's lore/ and — for confirmed, generic clues — proposes promoting up to the mother AREA lore (project ↔ area routing). Trigger on "save to lore", "distill this to the lore", "guarda en lore", "distill this skill", "destila esta skill", or proactively after resolving a friction that passes the Lore bar (constraint + signal + executability + genericity).
 ---
 
 # save-to-lore — Incremental capture and promotion
@@ -62,7 +62,7 @@ failure state of ARBITRATE, not its output.
    future decision **here**. Where source and standard conflict, **the standard wins** and the
    conflict is resolved into a new clue (that resolution is usually the most valuable line produced:
    it exists in neither body).
-4. **Exit HARD-GATE — the defeats section.** The resulting module MUST carry an explicit section
+4. **Exit threshold — the defeats section.** The resulting module MUST carry an explicit section
    naming where the source contradicts our standard and loses. **No defeats = no entry:** either
    nothing was arbitrated (it was a copy), or the source carried capacity, not criteria.
 
@@ -133,7 +133,7 @@ noise, or hand it to `create-area` / `create-project` / `transmute-lore` as sour
 `obsidian-lore` is what sweeps a `notes/` or `notas/` inbox and routes it here, so invoke it first
 whenever the source lives there. A standalone source note outside an inbox may be handled directly.
 
-## Lore threshold (for the proactive trigger, all 4 must hold)
+## The Lore bar (for the proactive trigger, all 4 must hold)
 
 1. **Constraint** — does it forbid a future error or demand a standard? If it constrains no future
    action, it is redundant literature → do not save.

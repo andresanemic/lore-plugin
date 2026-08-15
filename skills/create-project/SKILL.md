@@ -1,6 +1,6 @@
 ---
 name: create-project
-description: Use when starting a brand-new PROJECT inside an existing WORK AREA (created with create-area). Scaffolds an area project inheriting the area's Lore — the project keeps its own identidad.md + principios.md (leading with project-specific content, pointing to the area for the shared standard) plus an index.md that references the area's thematic modules by relative path. Derives folder structure and phases FROM the project's source documents; if the area carries a starter scaffold, instantiates it. Brainstorms the project identity FIRST (HARD-GATE). Replaces the old web-only nuevo-sitio. Trigger on "create project X in area Y" or "start project X inside an area".
+description: Use when starting a brand-new PROJECT inside an existing WORK AREA (created with create-area). Scaffolds an area project inheriting the area's Lore — the project keeps its own identidad.md + principios.md (leading with project-specific content, pointing to the area for the shared standard) plus an index.md that references the area's thematic modules by relative path. Derives folder structure and phases FROM the project's source documents; if the area carries a starter scaffold, instantiates it. Brainstorms the project identity FIRST (threshold). Replaces the old web-only nuevo-sitio. Trigger on "create project X in area Y" or "start project X inside an area".
 ---
 
 # create-project — Start a new project inside an area
@@ -82,7 +82,7 @@ does not exist, **stop** and propose `create-area` first.
    the structure and the identity; they are never copied into the Lore, and nothing in them is
    criteria until it is distilled.
 
-### 3. Project identity brainstorm (HARD-GATE)
+### 3. Project identity brainstorm (threshold)
 
 Invoke Lore Plugin's own `brainstorming-lore` skill (`lore:brainstorming-lore` where skills are namespaced).
 With what you read, propose and **get the user's approval** for:
@@ -203,7 +203,7 @@ Area. Do not create a second contract merely because another host might be used 
 `<!-- lore:always-on -->` / `<!-- /lore:always-on -->`, pointing at this project's own layer and its
 mother area's, plus the signal to invoke instead of writing by hand. The area starter template
 already carries it; if the contract was written from scratch, add it. Rules, ceiling and the
-idempotency table are in `use-lore` — this happens inside the HARD-GATE this skill already has, and
+idempotency table are in `use-lore` — this happens inside the threshold this skill already has, and
 never as a second pass afterwards. If a block is already there and differs, report it and wait: a
 human edit inside the block is a decision.
 

@@ -173,7 +173,7 @@ The event is forgotten. The criteria keeps working.
   <img src="https://i.imgur.com/y3fsT7D.png" alt="Lore" width="100%">
 </p>
 
-Every step of the loop passes a **HARD GATE**: it is proposed, you approve, only then it is written.
+Every step of the loop passes a **threshold**: it is proposed, you approve, only then it is written.
 
 ---
 
@@ -294,7 +294,7 @@ Three things and no more, under a hard ceiling of **25 lines**. It points at `lo
 
 Three variants: an **area** points at its own `lore/`; a **project** at its own layer and its mother area's; a **bot** at `canon/` and its **routing table** — never at the federated Lores one by one, which is why a bot that reaches twenty bodies of criteria still fits.
 
-Stamping is idempotent and belongs to the skills that already write the contract, inside the HARD-GATE they already have. `transmute-lore` UPGRADE adds it to contracts that predate it. Identical content is a **no-op that writes nothing**; a block edited by hand is a **divergence that gets reported, never overwritten**. The marker pair is literal and never localizes.
+Stamping is idempotent and belongs to the skills that already write the contract, inside the threshold they already have. `transmute-lore` UPGRADE adds it to contracts that predate it. Identical content is a **no-op that writes nothing**; a block edited by hand is a **divergence that gets reported, never overwritten**. The marker pair is literal and never localizes.
 
 ### Area → Project inheritance
 
@@ -341,7 +341,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** It is no
 | [`create-area`](#create-area) | Creates an Area with its shared Lore | opening a new domain |
 | [`create-project`](#create-project) | Creates a project that inherits from the Area | starting a piece of work |
 | [`save-to-lore`](#save-to-lore) | Distills a lesson and decides whether it rises to the Area | every day |
-| [`transmute-lore`](#transmute-lore) | Migrates, cleans, translates, upgrades or exports a safe snapshot of Lore | inheriting, maintaining, updating or sharing Lore |
+| [`transmute-lore`](#transmute-lore) | Migrates, cleans, translates, upgrades, prunes or exports a safe snapshot of Lore | inheriting, maintaining, updating or sharing Lore |
 | [`create-bot`](#create-bot) | One place to open a session and work across several Areas at once | once there is Lore worth gathering |
 | [`obsidian-lore`](#obsidian--the-way-in) | Mines loose notes and routes what survives | once the inbox gets heavy |
 
@@ -354,7 +354,7 @@ The entry point. Explains Lore's model, the six-piece standard, the Area↔Proje
 
 ### `brainstorming-lore`
 
-The kit's own design conversation. It is deliberately narrow: it activates for Lore, bots, Areas, projects and phases—not for general ideation—and hands the approved result to the skill that owns the artifact and its HARD-GATE.
+The kit's own design conversation. It is deliberately narrow: it activates for Lore, bots, Areas, projects and phases—not for general ideation—and hands the approved result to the skill that owns the artifact and its threshold.
 
 ### `create-area`
 
@@ -387,7 +387,7 @@ It has **two modes**, chosen by where the criteria comes from:
 >
 > A skill is criteria already distilled **by someone else, under someone else's purpose**, and it arrives without declaring where it stops being valid. Copying it into your Lore produces **redundant literature wearing the authority of an Invariant Clue**: criteria nobody paid for with real experience.
 >
-> That is why `arbitrate` has an exit HARD GATE: the resulting module **must** record **where the source contradicts your standard and loses**. No defeats section, no entry — either nothing was arbitrated (it was a copy), or the source carried no criteria at all.
+> That is why `arbitrate` has an exit threshold: the resulting module **must** record **where the source contradicts your standard and loses**. No defeats section, no entry — either nothing was arbitrated (it was a copy), or the source carried no criteria at all.
 >
 > **What the source loses is worth more than what it offers:** the summary already exists, better written, in the source. The disagreement exists nowhere else.
 
@@ -398,7 +398,7 @@ Two warnings `arbitrate` mode will give you:
 
 ### `transmute-lore`
 
-Operates existing Lore in five modes:
+Operates existing Lore in six modes:
 
 | Mode | What it does |
 |---|---|
@@ -406,7 +406,13 @@ Operates existing Lore in five modes:
 | **clean** | Removes the project's redundant modules that the Area already owns. The criteria does not disappear: it changes owner. |
 | **translate** | Standardizes the language of an existing Lore, translating content and renaming artifacts, without altering structure or meaning. |
 | **upgrade** | Raises a healthy Lore written against an older version of these skills. Sorts every finding into Missing, Superseded or **Earned** — and what the project paid for with real friction is left alone. |
+| **prune** | Prunes a Lore that decayed by **accumulating correct things**. Sorts every finding into Deadwood, Crowding, Rooted or **Half-grafted**, counts apparatus against content, and treats a smaller corpus as the result. Nothing comes out without its residue written down. |
 | **crystallize** | Exports a safe, traceable single-Markdown snapshot for a chat or notebook without replacing the live Lore or exposing private material. |
+
+> **Why pruning is its own mode and not part of `clean`.** `clean` removes *duplicates*. `prune`
+> removes *weight*: criteria that is not duplicated, not wrong and not superseded, and whose only
+> defect is still being there. A Lore in daily use rarely decays by going stale — it decays by
+> growing, and every other mode in this table can only add.
 
 ### `create-bot`
 
@@ -535,7 +541,7 @@ All eight skills follow the same rules:
 - **Criteria is never invented.** Everything comes from real experience.
 - **A note is source, never criteria.**
 - **Discarded noise is reported**, never silently deleted.
-- Every change passes a **HARD GATE** before being written.
+- Every change passes a **threshold** before being written.
 - **Nothing commits automatically.** You review the final diff.
 
 ---
@@ -906,7 +912,15 @@ El acontecimiento se olvida. El criterio sigue trabajando.
   <img src="https://i.imgur.com/I7odxus.png" alt="Lore" width="100%">
 </p>
 
-Cada paso del ciclo pasa por un **HARD-GATE**: se propone, tú apruebas, recién entonces se escribe.
+Cada paso del ciclo pasa por un **umbral**: se propone, tú apruebas, recién entonces se escribe.
+
+> **Un umbral no se cruza en solitario.** La máquina propone con el contenido a la vista, el humano
+> aprueba, y recién entonces se escribe algo. No es un cuadro de confirmación y no se negocia: una
+> skill que escribe antes del umbral falló, por bueno que sea el resultado.
+>
+> *Hasta 2.0.9 esto se llamaba HARD-GATE. Misma regla y misma fuerza — no se ablandó ninguna
+> excepción. Cambió solo la palabra, que venía de un registro que este kit no habla en ningún otro
+> lado.*
 
 ---
 
@@ -1023,7 +1037,7 @@ Tres cosas y ninguna más, con un techo duro de **25 líneas**. Apunta al `lore/
 
 Tres variantes: un **área** apunta a su propio `lore/`; un **proyecto** a su capa y a la del área madre; un **bot** a `canon/` y a su **tabla de enrutamiento** — nunca a los Lore federados uno por uno, que es por lo que un bot que alcanza veinte cuerpos de criterio sigue cabiendo.
 
-El estampado es idempotente y lo hacen las skills que ya escriben el contrato, dentro del HARD-GATE que ya tienen. `transmute-lore` UPGRADE lo agrega a los contratos anteriores a él. Contenido idéntico es un **no-op que no escribe nada**; un bloque editado a mano es una **divergencia que se reporta, nunca se sobrescribe**. El par de marcadores es literal y no se localiza.
+El estampado es idempotente y lo hacen las skills que ya escriben el contrato, dentro del umbral que ya tienen. `transmute-lore` UPGRADE lo agrega a los contratos anteriores a él. Contenido idéntico es un **no-op que no escribe nada**; un bloque editado a mano es una **divergencia que se reporta, nunca se sobrescribe**. El par de marcadores es literal y no se localiza.
 
 ### Herencia Área → Proyecto
 
@@ -1068,7 +1082,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 | [`create-area`](#create-area) | Crea un Área con su Lore compartido | al abrir un dominio nuevo |
 | [`create-project`](#create-project) | Crea un proyecto que hereda del Área | al empezar un trabajo |
 | [`save-to-lore`](#save-to-lore) | Destila una lección y decide si sube al Área | todos los días |
-| [`transmute-lore`](#transmute-lore) | Migra, limpia, traduce, actualiza o exporta una fotografía segura del Lore | al heredar, mantener, actualizar o compartir Lore |
+| [`transmute-lore`](#transmute-lore) | Migra, limpia, traduce, actualiza, poda o exporta una fotografía segura del Lore | al heredar, mantener, actualizar o compartir Lore |
 | [`create-bot`](#create-bot) | Un lugar donde abrir sesión y trabajar sobre varias Áreas a la vez | cuando ya hay Lore que reunir |
 | [`obsidian-lore`](#obsidian--la-puerta-de-entrada) | Mina tus notas sueltas y enruta lo que sobrevive | cuando la bandeja pesa |
 
@@ -1081,7 +1095,7 @@ El punto de entrada. Explica el modelo de Lore, el estándar de seis piezas, el 
 
 ### `brainstorming-lore`
 
-La conversación de diseño propia del kit. Es deliberadamente específica: se activa para Lore, bots, Áreas, proyectos y fases —no para ideación general— y entrega el resultado aprobado a la skill dueña del artefacto y de su HARD-GATE.
+La conversación de diseño propia del kit. Es deliberadamente específica: se activa para Lore, bots, Áreas, proyectos y fases —no para ideación general— y entrega el resultado aprobado a la skill dueña del artefacto y de su umbral.
 
 ### `create-area`
 
@@ -1113,7 +1127,7 @@ Dos avisos que te dará:
 
 ### `transmute-lore`
 
-Opera un Lore existente en cinco modos:
+Opera un Lore existente en seis modos:
 
 | Modo | Qué hace |
 |---|---|
@@ -1121,7 +1135,13 @@ Opera un Lore existente en cinco modos:
 | **clean** | Elimina los módulos del proyecto que el Área ya posee. El criterio cambia de dueño. |
 | **translate** | Estandariza el idioma de un Lore existente, sin alterar estructura ni significado. |
 | **upgrade** | Pone al día un Lore sano escrito contra una versión anterior de estos skills. Clasifica cada hallazgo en Missing, Superseded o **Earned**, y lo que el proyecto pagó con fricción real se deja intacto. |
+| **prune** | Poda un Lore que se degradó **acumulando cosas correctas**. Clasifica cada hallazgo en Deadwood, Crowding, Rooted o **Half-grafted**, cuenta aparato contra contenido, y trata un corpus más chico como el resultado. Nada sale sin dejar su residuo escrito. |
 | **crystallize** | Exporta una fotografía trazable en un solo Markdown para un chat o notebook, sin reemplazar el Lore vivo ni exponer material privado. |
+
+> **Por qué la poda es un modo propio y no parte de `clean`.** `clean` quita *duplicados*. `prune`
+> quita *peso*: criterio que no está duplicado, no está mal y no está superado, y cuyo único defecto
+> es seguir ahí. Un Lore en uso diario rara vez se degrada por quedar viejo — se degrada por crecer,
+> y todos los demás modos de esta tabla solo saben agregar.
 
 ### `create-bot`
 
@@ -1246,7 +1266,7 @@ Agrega una carpeta `notas/` dentro de aquello en lo que estés trabajando —un 
 - **El criterio nunca se inventa.** Todo proviene de experiencia real.
 - **Una nota es fuente, nunca criterio.**
 - **El ruido descartado se informa**, nunca se elimina en silencio.
-- Todo cambio pasa por un **HARD-GATE** antes de escribirse.
+- Todo cambio pasa por un **umbral** antes de escribirse.
 - **Nada hace *commit* automáticamente.** Tú revisas el *diff* final.
 
 ---

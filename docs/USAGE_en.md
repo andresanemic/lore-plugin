@@ -169,7 +169,7 @@ You can ask things like:
 **Purpose:** explore a new or materially changed Lore artifact without taking ownership away from
 the skill that will write it.
 
-It is usually invoked by `create-area`, `create-project`, or `create-bot` before their HARD GATE. You
+It is usually invoked by `create-area`, `create-project`, or `create-bot` before their threshold. You
 can also invoke it directly:
 
 ```text
@@ -346,7 +346,7 @@ crystallize this lore into one Markdown for a ChatGPT project
 **Precondition:** modes that modify source artifacts require a clean git tree before writing.
 `crystallize` does not modify the source tree: it inventories routed sources, excludes private or
 uncertain material by default, shows the complete export preview and destination, and waits at its
-own HARD GATE. Overwriting an existing snapshot requires separate approval.
+own threshold. Overwriting an existing snapshot requires separate approval.
 
 Expected behavior:
 
@@ -354,7 +354,7 @@ Expected behavior:
 - Propose how to map old files onto:
   - `identidad.md`, `principios.md`, `index.md`, thematic modules.
   - `FASES.md` and the instruction contract.
-- Wait for your explicit approval before writing anything (HARD GATE).
+- Wait for your explicit approval before writing anything (threshold).
 - Ensure the result is DRY:
   - Shared rules go to the Area.
   - Project keeps only specific criteria; `identidad.md` and `principios.md` are never deleted in

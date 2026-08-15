@@ -84,14 +84,14 @@ Usa `use-lore` siempre que no tengas claro dónde empezar.
 **Límite de activación:**
 
 - Peticiones directas de hacer brainstorming sobre el propio Lore.
-- Invocación por una skill dueña de artefactos antes de su HARD GATE.
+- Invocación por una skill dueña de artefactos antes de su umbral.
 - No hace falta para inspección de solo lectura, una edición mecánica aprobada o ejecutar un plan existente.
 
 **Responsabilidades:**
 
 - Leer el criterio y los artefactos vigentes antes de preguntar.
 - Preguntar una decisión que cambie el diseño a la vez y comparar solo caminos materialmente distintos.
-- Presentar un diseño proporcional, conservar el HARD GATE de la skill dueña y devolverle el control tras la aprobación.
+- Presentar un diseño proporcional, conservar el umbral de la skill dueña y devolverle el control tras la aprobación.
 - No escribir el artefacto final ni quitarle la propiedad a `create-area`, `create-project`, `create-bot`,
   `save-to-lore`, `transmute-lore` u `obsidian-lore`.
 
@@ -182,7 +182,7 @@ Usa `create-project` siempre que arranques una nueva base de código dentro de u
 3. **Colisionar, no copiar.** Solo entra lo que restringe una decisión futura **aquí**. Donde fuente
    y estándar chocan, **gana el estándar**, y esa resolución suele ser la línea más valiosa: no
    existe en ninguno de los dos cuerpos.
-4. **HARD-GATE de salida — la sección de derrotas.** El módulo **debe** registrar dónde la fuente
+4. **Umbral de salida — la sección de derrotas.** El módulo **debe** registrar dónde la fuente
    contradice el estándar y **pierde**. **Sin derrotas, no entra:** o no hubo arbitraje (fue copia),
    o la fuente traía capacidad, no criterio.
 
@@ -234,7 +234,7 @@ además en un corpus fuente que no se edita, marcarlo ahí también — tachado 
 - El criterio nunca se inventa.
 - Todo proviene de experiencia real.
 - El ruido descartado se informa; nunca se elimina en silencio.
-- Todo cambio pasa por un HARD-GATE antes de escribirse.
+- Todo cambio pasa por un umbral antes de escribirse.
 - Nada hace commit automáticamente; nunca se hace `git push`.
 - Un ser humano siempre revisa el *diff* final.
 - Una Pista que cita otra ley hereda su **frontera de validez** o dice por qué no, y enuncia su regla
@@ -261,7 +261,7 @@ Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decision
 
 **Precondición de seguridad:** los modos que modifican artefactos fuente exigen un árbol de Git
 limpio antes de escribir. `crystallize` no escribe artefactos fuente y puede diagnosticar un árbol
-sucio, pero igualmente exige una vista previa explícita de la exportación y un HARD-GATE.
+sucio, pero igualmente exige una vista previa explícita de la exportación y un umbral.
 
 **Proceso — modo `add` (conceptual):**
 
@@ -273,7 +273,7 @@ sucio, pero igualmente exige una vista previa explícita de la exportación y un
    - `identidad.md`, `principios.md`, `index.md`, módulos temáticos bajo `lore/`.
    - `FASES.md` y el contrato de instrucciones en la raíz.
 4. Presentar el mapeo completo (contenido real, no solo una tabla de rutas) y **esperar aprobación
-   explícita** antes de escribir nada (HARD-GATE).
+   explícita** antes de escribir nada (umbral).
 
 **Proceso — modo `clean` (conceptual):**
 
@@ -292,7 +292,7 @@ sucio, pero igualmente exige una vista previa explícita de la exportación y un
    `golden-paths.md` si existe), incluyendo los que estén mezclados.
 3. Presentar el plan archivo por archivo — incluyendo los **renombrados** de artefactos
    localizables (p. ej. `identidad.md` ↔ `identity.md`, `FASES.md` ↔ `PHASES.md`) — y **esperar
-   aprobación explícita** antes de escribir (HARD-GATE), indicando lo que NO se traduce ni se
+   aprobación explícita** antes de escribir (umbral), indicando lo que NO se traduce ni se
    renombra: el nombre del contrato elegido, `lore/`, `index.md`, `golden-paths.md`, bloques de código,
    identificadores, mensajes de error citados, marcadores de confianza (`conjecture`/`confirmed`),
    el glifo ` · ↑`, términos técnicos de uso general en inglés y nombres propios. Renombrar
@@ -435,7 +435,7 @@ Así la copia **se desactiva sola**, fila por fila, a medida que alguien va teni
 
 **Responsabilidades:**
 
-- Brainstorm del canon **antes** de crear nada (HARD-GATE).
+- Brainstorm del canon **antes** de crear nada (umbral).
 - Destilar el canon **desde la fuente**, nunca desde otro destilado ni desde el conocimiento propio
   del modelo. Cada módulo nombra su origen y dónde deja de valer.
 - Enrutar **por tipo de tarea, no por nombre de proyecto**; ante ambigüedad entre dos Lore, preguntar.
@@ -498,7 +498,7 @@ sesión de trabajo. No sustituye construir ese Lore: lo federa.
 
 **Propósito:** gobernar el solape entre una vault de Obsidian y el Lore cuando comparten árbol de
 archivos, capturar notas y minar la bandeja. La nota siempre es material fuente; `save-to-lore` es
-dueña de cualquier criterio que sobreviva clasificación, enrutamiento y HARD GATE.
+dueña de cualquier criterio que sobreviva clasificación, enrutamiento y umbral.
 
 **Precondición:** la vault debe ser la **carpeta madre que contiene las Áreas**, no una carpeta al
 lado. La skill verifica que al menos un hijo directo de la raíz tenga `lore/`; si no, se detiene y
@@ -749,7 +749,7 @@ canal siempre-activo del kit — su sección de punteros, delimitada por un par 
   escribir criterio a mano. Apunta al `lore/` y nunca reproduce una Pista.
 - **Tres variantes.** Área → su propio `lore/`. Proyecto → su capa más la del área madre. Bot →
   `canon/` más la tabla de enrutamiento, nunca los Lore federados uno por uno.
-- **Quién estampa:** `create-area`, `create-project` y `create-bot`, dentro del HARD-GATE que ya
+- **Quién estampa:** `create-area`, `create-project` y `create-bot`, dentro del umbral que ya
   tienen; `transmute-lore` UPGRADE para contratos anteriores al bloque.
 - **Idempotencia:** sin marcadores → insertar tras el primer H1. Un par bien formado con contenido
   idéntico → **no-op, no se escribe nada**. Un par bien formado con contenido distinto → **reportar
@@ -760,7 +760,7 @@ canal siempre-activo del kit — su sección de punteros, delimitada por un par 
   carga, y estamparlo deja dos copias de los mismos punteros. El bloque es el que las skills
   reestampan, así que la copia que se desactualiza es la escrita a mano. Los punteros quedan solo
   dentro del bloque y esa sección se reduce a lo que el bloque no lleva — reportado en el mismo
-  HARD-GATE, nunca en silencio.
+  umbral, nunca en silencio.
 
 ---
 
@@ -827,7 +827,7 @@ El comportamiento de Lore está gobernado por un conjunto de invariantes compart
 - **El criterio nunca se inventa** – todas las reglas provienen de experiencia real.
 - **Todo proviene de trabajo real** – experimentos, incidentes, decisiones.
 - **El ruido descartado se informa** – nada se elimina en silencio.
-- **Todo cambio pasa por un HARD-GATE** – el criterio debe revisarse antes de escribirse.
+- **Todo cambio pasa por un umbral** – el criterio debe revisarse antes de escribirse.
 - **Nada hace commit automáticamente** – la revisión humana es obligatoria.
 - **Un humano revisa siempre el diff final** – la IA asiste, pero no modifica Lore en secreto.
 

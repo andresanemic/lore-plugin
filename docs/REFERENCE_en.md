@@ -85,14 +85,14 @@ Use `use-lore` whenever you are unsure where to start.
 **Trigger boundary:**
 
 - Direct requests to brainstorm Lore itself.
-- Invocation by an artifact-owning skill before its HARD GATE.
+- Invocation by an artifact-owning skill before its threshold.
 - Not needed for read-only inspection, an approved mechanical edit, or execution of an existing plan.
 
 **Responsibilities:**
 
 - Read the current criterion and relevant artifacts before asking.
 - Ask one decision-changing question at a time and compare only materially different approaches.
-- Present a proportional design, preserve the owner skill's own HARD GATE, and hand control back after approval.
+- Present a proportional design, preserve the owner skill's own threshold, and hand control back after approval.
 - Never write the final artifact or take ownership from `create-area`, `create-project`, `create-bot`,
   `save-to-lore`, `transmute-lore`, or `obsidian-lore`.
 
@@ -183,7 +183,7 @@ Use `create-project` whenever you start a new codebase inside an existing Area.
 3. **Collide, don't copy.** Only what constrains a future decision **here** gets in. Where source and
    standard conflict, **the standard wins**, and that resolution is usually the most valuable line
    produced: it exists in neither body.
-4. **Exit HARD GATE — the defeats section.** The module **must** record where the source contradicts
+4. **Exit threshold — the defeats section.** The module **must** record where the source contradicts
    the standard and **loses**. **No defeats, no entry:** either nothing was arbitrated (it was a
    copy), or the source carried capacity, not criteria.
 
@@ -207,7 +207,7 @@ from `<source>`, arbitrated against `<identidad.md>`."*
    - Area‑level `principios.md` for general rules.
    - Updates to `identidad.md` or the instruction contract if identity or collaboration changed.
 
-**Lore threshold (proactive trigger):** for Claude to propose saving something unprompted, all 4
+**The Lore bar (proactive trigger):** for Claude to propose saving something unprompted, all 4
 conditions must hold at once: **constraint** (forbids a future error or demands a standard),
 **signal** (distillable to Context → Cause → Clue, no raw logs), **executability** (an unambiguous
 directive), and **genericity** (would help another project in the Area). Cosmetic changes never
@@ -235,7 +235,7 @@ not edited, mark it there too — struck through and dated, never deleted.
 - Criteria are never invented.
 - Everything comes from real experience.
 - Discarded noise is reported, never silently removed.
-- Every change passes through a HARD GATE before being written.
+- Every change passes through a threshold before being written.
 - Nothing commits automatically; `git push` is never run.
 - A human always reviews the final diff.
 - A clue citing an older law inherits its **boundary of validity** or says why not, and states its
@@ -268,7 +268,7 @@ Use `save-to-lore` as the main mechanism for feeding your Lore after important d
 
 **Safety precondition:** modes that modify source artifacts require a clean git tree before writing.
 `crystallize` writes no source artifact and may diagnose a dirty tree, but it still requires an
-explicit export preview and HARD GATE.
+explicit export preview and threshold.
 
 **Process — `add` mode (conceptually):**
 
@@ -280,7 +280,7 @@ explicit export preview and HARD GATE.
    - `identidad.md`, `principios.md`, `index.md`, thematic modules under `lore/`.
    - `FASES.md` and the instruction contract at the root.
 4. Present the full mapping (real content, not just a routing table) and **wait for explicit
-   approval** before writing anything (HARD GATE).
+   approval** before writing anything (threshold).
 
 **Process — `clean` mode (conceptually):**
 
@@ -299,7 +299,7 @@ explicit export preview and HARD GATE.
    `golden-paths.md` if present), including mixed-language files.
 3. Present the file-by-file plan — including **renames** of localizable artifacts (e.g.
    `identidad.md` ↔ `identity.md`, `FASES.md` ↔ `PHASES.md`) — and **wait for explicit approval**
-   before writing (HARD GATE), stating what will NOT be translated or renamed: the selected contract name,
+   before writing (threshold), stating what will NOT be translated or renamed: the selected contract name,
    `lore/`, `index.md`, `golden-paths.md`, code blocks, identifiers, quoted error messages,
    confidence markers (`conjecture`/`confirmed`), the ` · ↑` glyph, English terms of general
    technical use, and proper nouns. Renaming `proyectos/` is opt-in and proposed separately
@@ -442,7 +442,7 @@ not opened. That way the copy **deactivates itself**, row by row, as someone acq
 
 **Responsibilities:**
 
-- Brainstorm the canon **before** creating anything (HARD GATE).
+- Brainstorm the canon **before** creating anything (threshold).
 - Distill the canon **from the source**, never from another distillation nor from the model's own
   knowledge. Each module names its origin and where it stops applying.
 - Route **by type of task, not by name of project**; when ambiguous between two Lore bodies, ask.
@@ -505,7 +505,7 @@ It does not substitute for building that Lore: it federates it.
 
 **Purpose:** govern the overlap between an Obsidian vault and the Lore when they share a file tree,
 capture notes, and mine the inbox. A note is always source material; `save-to-lore` owns any criterion
-that survives classification, routing and the HARD GATE.
+that survives classification, routing and the threshold.
 
 **Precondition:** the vault must be the **mother folder containing the Areas**, not a folder beside
 them. The skill verifies that at least one direct child of the root holds a `lore/`; if none does, it
@@ -754,7 +754,7 @@ always-on channel — its pointer section, delimited by a marker pair:
   of writing criteria by hand. It points at `lore/` and never reproduces a clue.
 - **Three variants.** Area → its own `lore/`. Project → its own layer plus the mother area's. Bot →
   `canon/` plus the routing table, never the federated Lores one by one.
-- **Who stamps:** `create-area`, `create-project` and `create-bot`, inside the HARD-GATE they already
+- **Who stamps:** `create-area`, `create-project` and `create-bot`, inside the threshold they already
   have; `transmute-lore` UPGRADE for contracts that predate the block.
 - **Idempotency:** no markers → insert after the first H1. One well-formed pair with identical
   content → **no-op, write nothing**. One well-formed pair with different content → **report the
@@ -764,7 +764,7 @@ always-on channel — its pointer section, delimited by a marker pair:
   them. A contract older than the block usually already names the same paths in a load section, and
   stamping leaves two copies of the same pointers. The block is the one the skills re-stamp, so the
   stale copy is the hand-written section. Leave the pointers only inside the block and reduce that
-  section to what the block does not carry — reported in the same HARD-GATE, never silently.
+  section to what the block does not carry — reported in the same threshold, never silently.
 
 ---
 
@@ -831,7 +831,7 @@ Lore’s behavior is governed by a set of shared invariants:
 - **Criteria are never invented** – all rules come from actual experience.
 - **Everything comes from real work** – experiments, incidents, decisions.
 - **Discarded noise is reported** – nothing is silently removed.
-- **Every change passes through a HARD GATE** – criteria must be reviewed before being written.
+- **Every change passes through a threshold** – criteria must be reviewed before being written.
 - **Nothing commits automatically** – human review is required.
 - **A human always reviews the final diff** – AI assists, but does not silently change Lore.
 

@@ -218,7 +218,7 @@ The first time an ambiguity is resolved, the **border** itself may be worth keep
 written in neither body, because each is written from inside its own purpose. Propose it as a Clue
 only the first time; the noise filter applies here too.
 
-### 4. Propose, then write (HARD-GATE)
+### 4. Propose, then write (threshold)
 
 Present, per note, in one table: the bucket, the destination, and the proposed line. Then **wait**.
 Nothing is written before a human approves.
@@ -242,7 +242,7 @@ archive whose non-empty `destilado` fields make future sweeps idempotent.
 
 - **A note is source, never criteria.** It is never authoritative, never loaded as if it were Lore,
   and never cited as a rule.
-- **Nothing enters `lore/`, `FASES.md` or the instruction contract without a mining pass and a HARD-GATE.** A
+- **Nothing enters `lore/`, `FASES.md` or the instruction contract without a mining pass and a threshold.** A
   capture writes one file in the inbox, and nothing else.
 - **The sweep, not the availability of a command, is what releases the criteria.** Every pass reports
   the debt.

@@ -50,7 +50,7 @@ tener el árbol de Git limpio antes de escribir, para que la migración aterrice
 > **El quinto modo es `crystallize`.** No es una migración: exporta una fotografía Markdown segura y
 > trazable para un destino que no puede navegar el árbol vivo. Nunca reemplaza ni edita el Lore.
 > Consulta [`USAGE_es.md`](./USAGE_es.md) para el uso cotidiano y [`REFERENCE_es.md`](./REFERENCE_es.md)
-> para su contrato de privacidad, enrutamiento y HARD-GATE.
+> para su contrato de privacidad, enrutamiento y umbral.
 
 ### 3.1 Modo `add` – Crear Lore donde falta
 
@@ -121,11 +121,11 @@ Conceptualmente, Lore:
 
 - Detecta el idioma actual de cada artefacto (`lore/*.md`, `FASES.md` y el contrato de instrucciones).
 - Si ambos nombres de contrato existen en la raíz migrada, compara su contenido y propiedad en el
-  HARD-GATE. Conserva las reglas únicas; nunca borres un archivo gestionado por un framework solo
+  umbral. Conserva las reglas únicas; nunca borres un archivo gestionado por un framework solo
   para forzar el valor por defecto.
 - Propone un plan archivo por archivo — incluyendo los renombrados de artefactos localizables
   (p. ej. `identidad.md` ↔ `identity.md`, `FASES.md` ↔ `PHASES.md`) — y espera tu aprobación
-  antes de escribir (HARD-GATE).
+  antes de escribir (umbral).
 - Traduce contenido y renombra artefactos **preservando el significado**, reescribiendo todo enlace
   afectado; nunca toca el nombre del contrato elegido, `lore/`, `index.md`, bloques de código, marcadores de confianza
   ni términos técnicos de uso general en inglés (workflow, commit, stack…).
@@ -194,7 +194,7 @@ Enfócate en reglas que aún restringen decisiones hoy; ignora detalles obsoleto
 
    - El proyecto debe tener el árbol de git limpio antes de esto (precondición de `transmute-lore`).
    - Revisar los `identidad.md`, `principios.md`, módulos, `FASES.md`, contrato propuesto, y
-     aprobar el mapeo antes de que se escriba nada (HARD-GATE).
+     aprobar el mapeo antes de que se escriba nada (umbral).
 
 4. **Limpiar módulos redundantes** una vez que el Área ya tiene sus propios módulos generales:
 

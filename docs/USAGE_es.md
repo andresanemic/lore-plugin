@@ -174,7 +174,7 @@ Puedes pedir cosas como:
 **Propósito:** explorar un artefacto Lore nuevo o materialmente distinto sin quitarle la propiedad a
 la skill que lo va a escribir.
 
-Normalmente la invocan `create-area`, `create-project` o `create-bot` antes de su HARD GATE. También
+Normalmente la invocan `create-area`, `create-project` o `create-bot` antes de su umbral. También
 puedes invocarla directamente:
 
 ```text
@@ -349,7 +349,7 @@ cristaliza este lore en un solo Markdown para un proyecto de ChatGPT
 **Precondición:** los modos que modifican artefactos fuente exigen un árbol de Git limpio antes de
 escribir. `crystallize` no modifica el árbol fuente: inventaría las fuentes enrutadas, excluye por
 defecto material privado o incierto, muestra la vista previa completa y el destino, y espera en su
-propio HARD-GATE. Sobrescribir una fotografía existente requiere una aprobación separada.
+propio umbral. Sobrescribir una fotografía existente requiere una aprobación separada.
 
 Comportamiento esperado:
 
@@ -357,7 +357,7 @@ Comportamiento esperado:
 - Proponer cómo mapear archivos antiguos a:
   - `identidad.md`, `principios.md`, `index.md`, módulos temáticos.
   - `FASES.md` y el contrato de instrucciones.
-- Esperar tu aprobación explícita antes de escribir nada (HARD-GATE).
+- Esperar tu aprobación explícita antes de escribir nada (umbral).
 - Garantizar que el resultado sea DRY:
   - Las reglas compartidas van al Área.
   - El proyecto conserva solo el criterio específico; `identidad.md` y `principios.md` nunca se

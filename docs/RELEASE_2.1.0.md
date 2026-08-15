@@ -9,7 +9,7 @@ capabilities to the 2.0 foundation and changes nothing about how the kit is inst
 
 **The always-on block.** The pointer to a project's criteria now lives inside the instruction
 contract between two literal markers, `<!-- lore:always-on -->` and `<!-- /lore:always-on -->`. The
-six skills that write contracts stamp it inside the HARD GATE they already had — no new gate, no
+six skills that write contracts stamp it inside the threshold they already had — no new gate, no
 operation to remember. It is idempotent: N runs leave exactly one block and an empty diff. It has a
 hard ceiling of **25 lines** and three variants — area, project, bot — and it holds pointers only,
 never criteria. `transmute-lore` in UPGRADE mode stamps it into contracts that already exist, so the
@@ -88,7 +88,7 @@ Lore convierte la experiencia de un proyecto en criterio reutilizable para agent
 
 **El bloque siempre-activo.** El puntero al criterio de un proyecto ahora vive dentro del contrato de
 instrucciones, entre dos marcadores literales: `<!-- lore:always-on -->` y `<!-- /lore:always-on -->`.
-Las seis skills que escriben contratos lo estampan dentro del HARD GATE que ya tenían — sin puerta
+Las seis skills que escriben contratos lo estampan dentro del umbral que ya tenían — sin puerta
 nueva y sin operación que haya que recordar. Es idempotente: N ejecuciones dejan exactamente un bloque
 y un diff vacío. Tiene un techo duro de **25 líneas** y tres variantes —área, proyecto, bot— y lleva
 punteros, nunca criterio. `transmute-lore` en modo UPGRADE lo estampa en contratos que ya existen, de

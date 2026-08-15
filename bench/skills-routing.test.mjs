@@ -46,7 +46,7 @@ test("brainstorming-lore es neutral al dominio y entrega al plan nativo", () => 
 
 test("brainstorming-lore preserva las puertas de las skills propietarias", () => {
   const text = skill("brainstorming-lore");
-  assert.match(text, /owner\s+skill's HARD-GATE/);
+  assert.match(text, /owner\s+skill's threshold/);
   assert.match(text, /one question at a time/);
   assert.match(text, /two or three approaches/);
 });
@@ -92,7 +92,7 @@ test("CRYSTALLIZE produce una fotografía derivada sin reemplazar el Lore vivo",
 test("CRYSTALLIZE protege material privado y exige vista previa", () => {
   const text = skill("transmute-lore");
   assert.match(text, /conversations, secrets, ignored files, undistilled notes/);
-  assert.match(text, /HARD-GATE/);
+  assert.match(text, /threshold/);
   assert.match(text, /exact source manifest/);
   assert.match(text, /writes no source artifact/);
 });

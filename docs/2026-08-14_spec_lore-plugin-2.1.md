@@ -28,7 +28,7 @@ Claude Code documentado como amplificador opcional y no como mecanismo.
 
 ### Session 2026-08-14
 
-- Q: ¿Quién estampa el bloque siempre-activo en el contrato, y con qué alcance sobre lo que ya existe? → A: Lo estampan las skills que ya escriben el contrato (`create-area`, `create-project`, `create-bot`), dentro del HARD-GATE que ya tienen; y `transmute-lore` en modo UPGRADE lo añade retroactivamente a los proyectos existentes.
+- Q: ¿Quién estampa el bloque siempre-activo en el contrato, y con qué alcance sobre lo que ya existe? → A: Lo estampan las skills que ya escriben el contrato (`create-area`, `create-project`, `create-bot`), dentro del umbral que ya tienen; y `transmute-lore` en modo UPGRADE lo añade retroactivamente a los proyectos existentes.
 - Q: ¿El bloque dice lo mismo en un área, un proyecto y un bot? → A: Tres variantes, con el mismo techo de 25 líneas. El bot apunta a su `canon/` y a la tabla de enrutamiento, nunca a los Lore federados uno por uno.
 
 ## User Scenarios & Testing *(mandatory)*
@@ -91,7 +91,7 @@ precedencia.
 1. **Given** un proyecto con Lore y sin spec-kit, **When** se corre `specify init` y se aplica el
    contrato, **Then** la constitución no contiene ninguna copia del criterio de `lore/` y sí contiene
    el orden de precedencia y la revocación de la cláusula de supremacía.
-2. **Given** un proyecto con spec-kit y sin Lore, **When** se corre el HARD-GATE de primer uso de
+2. **Given** un proyecto con spec-kit y sin Lore, **When** se corre el umbral de primer uso de
    `use-lore`, **Then** la constitución existente se trata como **criterio importado** y pasa por
    `save-to-lore` en modo ARBITRATE, con su sección de derrotas — no se copia al `lore/`.
 3. **Given** un proyecto que arranca los dos desde cero, **When** se sigue la documentación, **Then**
@@ -149,7 +149,7 @@ verificar que el bloque sigue llegando por el contrato.
 **Capacidad B — Lore siempre activo**
 
 - **FR-001**: `create-area`, `create-project` y `create-bot` MUST estampar en el contrato que ya
-  escriben un bloque delimitado por marcadores estables y reconocibles, **dentro del HARD-GATE que ya
+  escriben un bloque delimitado por marcadores estables y reconocibles, **dentro del umbral que ya
   tienen**. No se añade una puerta nueva ni una operación que haya que recordar invocar.
 - **FR-001b**: `transmute-lore` en modo UPGRADE MUST añadir el bloque a los contratos de proyectos que
   ya existen, de modo que el ecosistema instalado lo reciba por el camino de migración ya previsto y no
@@ -196,7 +196,7 @@ verificar que el bloque sigue llegando por el contrato.
 
 **Transversales**
 
-- **FR-017**: Cualquier cambio a una skill MUST pasar por arbitraje, HARD-GATE y prueba de
+- **FR-017**: Cualquier cambio a una skill MUST pasar por arbitraje, umbral y prueba de
   comportamiento antes de publicarse.
 - **FR-018**: Todo artefacto nuevo MUST escribirse en el idioma del Lore de destino; los nombres fijos
   (`lore/`, `index.md`, el nombre del contrato) no se traducen.

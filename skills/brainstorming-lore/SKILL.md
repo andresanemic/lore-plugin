@@ -5,7 +5,7 @@ description: >-
   or module, work area, Lore-governed project scaffold, bot, FASES structure, routing contract,
   transmutation, distillation flow, or Lore Plugin skill. Reads the contract, state, and applicable
   Lore before asking questions; explores alternatives one question at a time; presents a
-  proportional design; preserves the HARD-GATE of the owner skill; then hands the approved result
+  proportional design; preserves the threshold of the owner skill; then hands the approved result
   to the current agent's native planning mechanism. Do not trigger for generic brainstorming,
   ideation, writing, product design, software features, research questions, or any task unrelated
   to operating Lore.
@@ -34,7 +34,7 @@ Typical triggers:
 - create an area, a Lore-governed project scaffold, or a bot through its owner skill;
 - design or materially restructure `lore/`, `FASES.md`, a routing contract, or a Lore transmutation;
 - create or materially modify a Lore Plugin skill;
-- a Lore owner skill explicitly requires `brainstorming-lore` before its HARD-GATE.
+- a Lore owner skill explicitly requires `brainstorming-lore` before its threshold.
 
 ### Explicit non-triggers
 
@@ -48,13 +48,13 @@ read-only inspection, an approved mechanical edit, or execution of an existing p
 second design ceremony. If another skill owns the artifact, this skill explores the design but does
 not replace that owner.
 
-## HARD-GATE
+## The threshold
 
 Do not implement the designed change until the user has approved the presented design. The amount
 of design scales with uncertainty; the approval does not disappear.
 
-This gate is additive, not imperial: when an owner skill has its own HARD-GATE, preserve the **owner
-skill's HARD-GATE** and its exact evidence or preview requirements. Approval of a broad idea does
+This gate is additive, not imperial: when an owner skill has its own threshold, preserve the **owner
+skill's threshold** and its exact evidence or preview requirements. Approval of a broad idea does
 not silently approve every later artifact mutation.
 
 ## 1. Ground the conversation before asking
@@ -137,7 +137,7 @@ For a direct design, this can be a few sentences. For exploratory work, split it
 sections and request feedback as needed. Use domain vocabulary; do not force every design into
 software headings such as components, data flow, or error handling.
 
-Then state the HARD-GATE plainly and wait for explicit approval.
+Then state the threshold plainly and wait for explicit approval.
 
 ## 6. Handoff after approval
 
@@ -146,7 +146,7 @@ After approval:
 1. record the approved design in the active task state when the environment supports it;
 2. hand execution to the **native Plan Mode** or planning mechanism available in the current agent;
 3. invoke the artifact's owner skill at the point it becomes responsible;
-4. keep any later owner-specific HARD-GATE intact.
+4. keep any later owner-specific threshold intact.
 
 This skill **does not require `writing-plans`** or any other third-party planning skill. It also
 **does not create a spec file or commit by default**. Create a design document only when the user,
@@ -175,6 +175,6 @@ identity, it loses in five places:
 - One question at a time.
 - Compare two or three approaches when a consequential choice exists.
 - Design depth scales; explicit approval remains.
-- Owner skills keep ownership and their own HARD-GATE.
+- Owner skills keep ownership and their own threshold.
 - No spec file, commit, push or implementation is implied by brainstorming approval.
 - The workflow remains provider-neutral and domain-neutral.

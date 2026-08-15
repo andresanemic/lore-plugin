@@ -1,6 +1,6 @@
 ---
 name: use-lore
-description: Read this first to understand the Lore system — what Lore is, the six-piece standard, the area↔project model, and which of the Lore skills (brainstorming-lore, create-area, create-project, create-bot, save-to-lore, transmute-lore, obsidian-lore) to invoke when. Carries the kit's HARD-GATE for its very first use on a machine with no Lore yet (a brainstorm, never a menu of commands) and the standard that governs every later one — the skill that owns an artifact is always invoked to write it, and the version that runs is the installed, up-to-date one. Use when the user mentions "lore", asks how this kit works, installs or updates the plugin, starts a new work area, project or bot, wants to migrate an old project to the Lore standard, or keeps Obsidian notes in the same folder tree.
+description: Read this first to understand the Lore system — what Lore is, the six-piece standard, the area↔project model, and which of the Lore skills (brainstorming-lore, create-area, create-project, create-bot, save-to-lore, transmute-lore, obsidian-lore) to invoke when. Carries the kit's threshold for its very first use on a machine with no Lore yet (a brainstorm, never a menu of commands) and the standard that governs every later one — the skill that owns an artifact is always invoked to write it, and the version that runs is the installed, up-to-date one. Use when the user mentions "lore", asks how this kit works, installs or updates the plugin, starts a new work area, project or bot, wants to migrate an old project to the Lore standard, or keeps Obsidian notes in the same folder tree.
 ---
 
 # Using Lore
@@ -14,7 +14,7 @@ future decision.
 This skill is the map. It teaches the model and points to the operating skills. Read it before
 invoking any other Lore skill.
 
-## 0. Very first use of the kit — a brainstorm, not a menu (HARD-GATE)
+## 0. Very first use of the kit — a brainstorm, not a menu (threshold)
 
 **If this machine has no Lore yet** — no area with a `lore/`, no project carrying the six pieces —
 this runs **before anything else**, and before offering any skill by name. The kit **brainstorms to
@@ -143,7 +143,7 @@ the federated Lores one by one — a bot that federates many sources fits precis
 delegates to the table.
 
 **Stamping is idempotent**, and it is done by the skills that already write the contract
-(`create-area`, `create-project`, `create-bot`), inside the HARD-GATE they already have —
+(`create-area`, `create-project`, `create-bot`), inside the threshold they already have —
 `transmute-lore` in UPGRADE mode adds it to contracts that predate it. No new gate, no operation to
 remember:
 
@@ -164,7 +164,7 @@ human is more likely to read first.
 
 The fix is never to skip the block. It is to leave the pointers **only** inside it and reduce the
 pre-existing section to what the block does not carry: routing, procedure, gates. Report the
-collision and the proposed reduction inside the same HARD-GATE, and never do it silently — deleting
+collision and the proposed reduction inside the same threshold, and never do it silently — deleting
 a line somebody wrote by hand is a decision, not a cleanup.
 
 ## The area ↔ project model
@@ -208,6 +208,7 @@ never paid for will start receiving promotions that belong somewhere else.
 | **Distill from an external body of criteria** — a skill, a style guide, a third-party playbook ("destila esta skill") | `save-to-lore` (**ARBITRATE**): imported criteria is judged against this Entre's purpose; only what survives enters, and the module must state **where the source loses** |
 | Bring an **old project with scattered criteria** up to the six-piece standard, **clean** a project's redundant modules back down to what the area already owns, or **standardize the language** of an existing Lore | `transmute-lore` |
 | **Raise a healthy Lore to a newer version of these skills** — it is in the standard and in use, but predates gates the kit learned later. Nothing looks broken, which is why nobody upgrades it | `transmute-lore` (**UPGRADE**): arbitrates the existing Lore against the current version, adds what is missing, and leaves untouched what the project **earned** with real friction |
+| **Prune a Lore that grew** — nothing in it is wrong, and the work coming out of it goes in circles, hedges, or arrives buried in apparatus. The loudest symptom is the owner writing the deliverable by hand instead ("poda en lore") | `transmute-lore` (**PRUNE**): counts apparatus against content, separates criteria that no longer constrains anything from criteria that is correct but **saturating in sum**, and treats a smaller corpus as the result. Nothing comes out without its residue written down |
 | Export a project, Area or bot's **live routed Lore as one Markdown** for a chat, AI project or notebook | `transmute-lore` (**CRYSTALLIZE**): creates a safe, traceable snapshot without replacing the live Lore or including private material by default |
 | Keep **Obsidian notes in the same folder tree** as the Lore, and **mine that inbox** for what deserves to become criteria ("revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore") | `obsidian-lore` |
 | Work in a repository that **also** has GitHub's spec-kit (`.specify/` is present) | Nothing new to invoke. Read [`docs/SPEC_KIT_en.md`](../../docs/SPEC_KIT_en.md) and copy `assets/constitucion-puntero.md` over the constitution `specify init` generated. **Lore never depends on spec-kit** — this row is recognition, not a dependency |
@@ -267,7 +268,7 @@ Lore answers *«what changed in the relationship because of what happened»*. Th
 has three steps and the middle one is an act, not a folder:
 
 ```text
-experience piled up (notes)  →  distillation (an explicit pass + HARD-GATE)  →  criteria (lore/)
+experience piled up (notes)  →  distillation (an explicit pass + threshold)  →  criteria (lore/)
 ```
 
 `obsidian-lore` governs the first arrow when the notes live in the same tree as the Lore — the
@@ -306,8 +307,15 @@ with `transmute-lore` (TRANSLATE mode), which translates content and renames art
 - **Criteria is never invented.** Every artifact is distilled from what already exists (docs, code,
   the user's words). An artifact with no real criteria stays minimal and says so.
 - **Discarded noise is reported**, never deleted silently — the filter is transparent.
-- **HARD-GATE before writing.** The skills that produce or restructure Lore present the proposed
+- **The threshold, before writing.** The skills that produce or restructure Lore present the proposed
   content and wait for explicit approval before touching disk.
+
+  > **A threshold is never crossed alone.** The machine proposes with the content in view, the human
+  > approves, and only then does anything get written. It is not a confirmation prompt and it is not
+  > negotiable: a skill that writes before the threshold has failed, however good the result.
+  >
+  > *Until 2.0.9 this was called a HARD-GATE. Same rule, same force, and no exception was softened —
+  > only the word, which came from a register this kit does not otherwise speak.*
 - **No automatic commits.** The user reviews the diff and commits when they choose.
 - **State ≠ criteria.** `FASES.md` never lives inside `lore/`.
 - **A note is source, never criteria.** Free notes are never loaded as if they were Lore; they cross

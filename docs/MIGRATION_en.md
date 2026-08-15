@@ -51,7 +51,7 @@ tree before writing, so the migration lands as a reviewable diff.
 > **The fifth mode is `crystallize`.** It is not a migration: it exports a safe, traceable Markdown
 > snapshot for a destination that cannot navigate the live tree. It never replaces or edits Lore.
 > See [`USAGE_en.md`](./USAGE_en.md) for daily use and [`REFERENCE_en.md`](./REFERENCE_en.md) for its
-> privacy, routing and HARD-GATE contract.
+> privacy, routing and threshold contract.
 
 ### 3.1 `add` Mode – Create Missing Lore
 
@@ -120,9 +120,9 @@ Conceptually, Lore will:
 
 - Detect the current language of each artifact (`lore/*.md`, `FASES.md`, and the instruction contract).
 - If both contract names exist at the migration root, compare their contents and ownership at the
-  HARD GATE. Preserve unique rules; never delete a framework-managed file to force the default.
+  threshold. Preserve unique rules; never delete a framework-managed file to force the default.
 - Propose a file-by-file plan — including renames of localizable artifacts (e.g. `identidad.md` ↔
-  `identity.md`, `FASES.md` ↔ `PHASES.md`) — and wait for your approval before writing (HARD GATE).
+  `identity.md`, `FASES.md` ↔ `PHASES.md`) — and wait for your approval before writing (threshold).
 - Translate content and rename artifacts **preserving meaning**, rewriting every affected link; it
   never touches the selected contract filename, `lore/`, `index.md`, code blocks, confidence markers, or English terms
   of general technical use (workflow, commit, stack…).
@@ -192,7 +192,7 @@ Focus on rules that still constrain decisions today; ignore outdated details.
 
    - The project must have a clean git tree before this (`transmute-lore`'s precondition).
    - Review proposed `identidad.md`, `principios.md`, modules, `FASES.md`, instruction contract, and approve
-     the mapping before anything is written (HARD GATE).
+     the mapping before anything is written (threshold).
 
 4. **Clean redundant modules** once the Area already owns its own general modules:
 

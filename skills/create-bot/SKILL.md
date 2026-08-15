@@ -301,7 +301,7 @@ answer 3 into the inventory of step 2. Never ask the user to classify their own 
    its **anti-scope** — the anti-scope is what tells you where the boundary between two siblings
    runs, and the boundary is the only thing here that is genuinely distillable.
 
-### 3. Canon brainstorm (HARD-GATE)
+### 3. Canon brainstorm (threshold)
 
 Invoke Lore Plugin's own `brainstorming-lore` skill (`lore:brainstorming-lore` where skills are namespaced).
 **Create no file before the design is approved.** Keep the plain-language
@@ -448,7 +448,7 @@ whole reason a bot that reaches a dozen bodies of criteria still fits under the 
 block delegates to the table, which is what the table is for. Listing the federated sources inside
 the block puts the routing table's job in two places, and the copy is the one that goes stale.
 
-Rules, ceiling and the idempotency table are in `use-lore`. This is stamped inside the HARD-GATE
+Rules, ceiling and the idempotency table are in `use-lore`. This is stamped inside the threshold
 this skill already has, never as a pass afterwards. Shape, in the user's language — the markers
 themselves never localize:
 
@@ -471,7 +471,7 @@ themselves never localize:
 Thirteen lines under a ceiling of twenty-five, and it stays there whether the bot federates two
 bodies of criteria or twenty — because what grows is the table, not the block.
 
-#### 6.0 First use — a brainstorm, not a form (HARD-GATE)
+#### 6.0 First use — a brainstorm, not a form (threshold)
 
 If `.{{BOT_SLUG}}.json` does not exist at the working directory root, this runs **before anything
 else**. And it is not a questionnaire: this whole kit **brainstorms to build** every artifact it
@@ -904,7 +904,7 @@ Scrubbing them would not clean the text, it would break the house voice.
 `LICENSE`: ask. A bot carrying institutional criteria is usually **not** open source; do not
 default to MIT because the surrounding kit is.
 
-#### The packaging gate (HARD-GATE)
+#### The packaging gate (threshold)
 
 Copy `plantillas/validar.js` to `scripts/validar.js` — **in every packaged bot, both modes** — and
 run it. **It must exit 0 before the bot is reported as finished.** An unpackaged bot has no
@@ -928,7 +928,7 @@ It checks each `skills/*/SKILL.md` for: frontmatter present and closed, `name` m
 
 ```bash
 grep -rn '{{[A-Z_]\+}}' "$DEST" && echo "UNRESOLVED TOKENS" || echo "OK no tokens"
-node scripts/validar.js                  # if packaged — HARD-GATE: must exit 0
+node scripts/validar.js                  # if packaged — Threshold: must exit 0
 node scripts/canon.js --self-test        # if encryption is on
 node scripts/sync.js --self-test         # if federar
 node scripts/sync.js --revisar           # if federar
