@@ -7,6 +7,12 @@ Source: Lore Plugin, plantilla constitucion-puntero. Verified against specify-cl
 (commit bf88c9f) on 2026-08-14, in a real installation over a bot.
 Validity boundary: NOT yet exercised in a repository with code where the cycle actually lands,
 which is spec-kit's majority case. Treat the delegations as sound and the ergonomics as untested.
+
+Revision 2026-08-15 — case study: this template was applied over a constitution written by hand the
+day before, and the comparison ran in both directions. Added here, because the hand-written file had
+them and this did not: Principle IV (write and publish authority), the disjoint-channels finding
+under Division of authority, and Declared latency. The hand-written file, in turn, took from here the
+validity-boundary condition on "Lore wins" and the declared trigger for amendments.
 -->
 
 # Constitution — {{PROJECT_NAME}}
@@ -39,11 +45,29 @@ When a cycle produces a lesson, it exits into the `lore/` that owns it. **`specs
 project history.** A `specs/` folder retained "just in case" is case memory: it satisfies the urge to
 preserve without producing criteria, and what was distillable stays inert inside it.
 
-### IV. {{PROJECT_SPECIFIC_PRINCIPLE}}
+### IV. Nothing is committed or published on the cycle's own initiative
+`git commit`, `git push`, tags, releases and any form of publication happen only with the owner's
+explicit authorization. `/speckit-implement` and every extension hook are subject to this without
+exception.
+
+This is the one principle here that does **not** delegate, and it is deliberate. Everything else in
+this document points at criteria that already has an owner; this points at nothing, because it
+constrains the cycle itself. `implement` is an autonomous write loop, and a border document that
+mediates between two kits while saying nothing about who may write is a border with an open gate.
+Delegating it would not work either: it is a rule about spec-kit, and `lore/` does not govern
+spec-kit's internals — it governs what good work is.
+
+### V. {{PROJECT_SPECIFIC_PRINCIPLE}}
 <!-- Add the delegations this project actually needs — one per body of criteria it answers to.
      Owner and path, no restated content. Delete this comment. -->
 
 ## Division of authority
+
+The two kits write through **disjoint channels** — `.specify/` on one side, the contract and `lore/`
+on the other — and that is precisely why this document is needed. Neither kit reads the other's
+files, so a conflict between them **produces no error: it produces an omission.** Nothing breaks,
+nothing warns, and the criteria that should have constrained the cycle simply never reaches it. A
+border you would notice does not need to be written down.
 
 | Governs | Owner | Loses when |
 |---|---|---|
@@ -59,6 +83,16 @@ preserve without producing criteria, and what was distillable stays inert inside
 | Lore already in place, adding spec-kit | Copy this constitution **before** the first `/speckit-specify` | The default template declares itself supreme; running a cycle first means the cycle is governed by criteria nobody arbitrated |
 | spec-kit already in place, adding Lore | `transmute-lore` over the existing criteria, **then** this file | An existing constitution is imported criteria: it goes through ARBITRATE, and what survives is recorded with where the source loses |
 | Both from zero | `create-area` / `create-project`, then `specify init`, then this file | The Lore is the yardstick the arbitration needs. Without it the only available move against an authoritative source is to obey it |
+
+### Declared latency
+
+Skills a kit installs **mid-session do not become invocable immediately**: the runtime registers them
+asynchronously, and there is a window in which they exist on disk but not in the session. Verified on
+2026-08-14: `speckit-*` was not invocable right after `specify init` and was invocable minutes later,
+within the **same** session.
+
+Nothing here may depend on an artifact taking effect on the turn after the one that wrote it — this
+constitution included. Write it, then confirm it is live; do not assume.
 
 ## Governance
 
@@ -96,8 +130,9 @@ of them changes. A change to what good work is belongs in `lore/` and needs no a
 
 Three checks, all cheap:
 
-1. **Declared destination** — does the spec say which repository it lands in and who owns its
-   criteria?
+1. **Declared destination** — does the spec say who owns the criteria it will be judged by? In a
+   repository that holds no code of its own — a bot, an area — this also means naming the repository
+   the work lands in, and a spec without one does not proceed to `plan`.
 2. **No copies** — does any section reproduce criteria that already has an owner at another path?
 3. **No disguised exceptions** — does any requirement ask to break a clue? If so, what is open is an
    arbitration, not an exception.
