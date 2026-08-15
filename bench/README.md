@@ -116,6 +116,31 @@ añadió primero como regresión fallida; luego se amplió el grader y se recali
 El corte bruto fue 17/36 frente a 25/36; el auditado, 25/36 frente a 33/36. La diferencia permaneció
 en ocho aciertos. Se publican ambos porque corregir el instrumento no autoriza a borrar su historia.
 
+## Quién cierra esta cifra — el banco tiene dos custodios
+
+Esta medición no es solo del producto. El mismo resultado vive como **Caso 08** en el programa de
+investigación LUS, con finalidades distintas: acá sirve para decir qué hace el kit; allá sirve como
+evidencia de una hipótesis. Una sola evidencia, dos responsabilidades.
+
+**Ya falló una vez, y por eso está escrito:** Lore Plugin divulgó un corte provisional distinto del
+resultado auditado que LUS había preservado. Nadie mintió — producto e investigación cerraron sus
+documentos por separado, y la distinción entre **estimación modelada** y **reparación observada**
+desapareció al convertir la evidencia en comunicación.
+
+**La regla.** Un benchmark que cruza producto e investigación **no cierra** mientras este repositorio
+y el caso LUS difieran en **cifra, denominador o tipo de costo**. El producto apunta a la evidencia
+científica vigente; LUS conserva el corte bruto, auditado, con sus fronteras. Estimación modelada y
+reparación observada nunca se presentan como el mismo resultado.
+
+**Dónde deja de regir.** Solo donde una **sola medición tiene dos custodios con finalidades
+distintas**, y solo sobre quién puede cerrarla y con qué cifra. No dice nada sobre *cómo* se mide, no
+aplica a benchmarks de terceros —no hay corte bruto propio que preservar— y no cubre el caso inverso,
+dos mediciones distintas del mismo objeto: ahí el problema no es la divergencia sino cuál es la
+vigente.
+
+> Promovida desde el `lore/principios.md` del bot LUS + Lore Plugin el 2026-08-15. Confianza:
+> `confirmed`.
+
 ## Fronteras declaradas
 
 Lo que este benchmark **no** demuestra:
