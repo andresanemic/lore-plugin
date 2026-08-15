@@ -55,6 +55,13 @@ failure state of TRANSPLANT, not its output.
 > what the source *offers* — the summary already exists (better written) in the source; the
 > disagreement exists nowhere else.
 
+> **When TRANSPLANT runs on a schedule, it starts by reading what already lost.** A one-off import
+> reads the source cold; a recurring pass over a field that moves slower than the schedule will keep
+> meeting the same material. The defeats sections this mode already writes **are** that ledger: read
+> them first, and do not re-arbitrate or re-report what is already in them. **"Nothing entered this
+> time" is a valid result and is written as such** — a recurring pass that always finds something
+> stopped looking and started justifying itself.
+
 ### TRANSPLANT — the four gates
 
 1. **Capacity or criteria?** A source that brings **capacity** (it *executes* something: renders,
