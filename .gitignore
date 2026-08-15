@@ -1,1 +1,11 @@
 .claude/settings.local.json
+
+# Andamiaje de trabajo del propio kit — local, nunca se publica ni se instala.
+# El criterio con que se construye Lore Plugin es de su mantenedor; el producto
+# son las skills, docs, assets y scripts que sí viajan.
+lore/
+FASES.md
+CLAUDE.md
+AGENTS.md
+.specify/
+.claude/skills/
