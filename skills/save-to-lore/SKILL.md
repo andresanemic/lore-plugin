@@ -39,7 +39,7 @@ failure state of ARBITRATE, not its output.
 | Mode | Source | What it is |
 |---|---|---|
 | **CAPTURE** (default) | **lived friction** — a bug, a collapse, a client rejection | The scar. Everything below (threshold, routing, promotion) is written for this mode. |
-| **ARBITRATE** | **imported criteria** — a skill, a style guide, a third-party playbook | Criteria already distilled **by someone else, under someone else's purpose**, arriving with no validity boundary declared. |
+| **ARBITRATE** | **imported criteria** — a skill, a style guide, a third-party playbook, **another kit's constitution or governing document** | Criteria already distilled **by someone else, under someone else's purpose**, arriving with no validity boundary declared. |
 
 > **The law of ARBITRATE: an external body of criteria is not distilled — it is arbitrated.** Only
 > what survives the collision with **this** Entre's purpose enters the Lore, and the record must
@@ -65,6 +65,17 @@ failure state of ARBITRATE, not its output.
 4. **Exit HARD-GATE — the defeats section.** The resulting module MUST carry an explicit section
    naming where the source contradicts our standard and loses. **No defeats = no entry:** either
    nothing was arbitrated (it was a copy), or the source carried capacity, not criteria.
+
+> **A governing document is the hardest case of ARBITRATE, and the one most often skipped.** When a
+> second kit ships a constitution, a charter or a set of rules that declares its own authority, the
+> reflex is to treat it as configuration and adopt it. It is not configuration: it is criteria
+> written under someone else's purpose, and a clause claiming supremacy is precisely the kind that
+> **loses** — a kit installed this week cannot govern criteria paid for with friction before it
+> existed. That defeat is written down, not merely omitted: an omission leaves a hole, and the next
+> template regeneration fills it back in.
+>
+> The one thing that does **not** happen is deferring to it while deciding. Arbitration is judgment,
+> not negotiation.
 
 **Confidence in ARBITRATE:** what is adopted *from* the source enters as **`conjecture`** (nobody has
 paid for it with real friction yet). The **arbitration itself** — the defeats, derived from an

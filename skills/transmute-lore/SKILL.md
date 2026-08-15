@@ -325,6 +325,18 @@ silently overwritten. This is the path by which an already-installed ecosystem r
 without it the feature only ever reaches projects created after it existed, which is the smaller
 half of any installed base.
 
+**A second kit sharing the repository is part of the diagnosis, not out of scope.** If a governing
+document from another kit is present — the clearest case being spec-kit's
+`.specify/memory/constitution.md` — check one thing: does it claim authority over criteria it does
+not own? A clause of the *«this document supersedes all other practices»* family is a `Superseded`
+finding, and the correction is not to delete it but to **revoke it in writing, with its reason**.
+Deleting leaves a hole that the next template regeneration fills back in.
+
+Two limits on this. The document is **not migrated into `lore/`** — it stays where it lives and keeps
+its owner; what UPGRADE proposes is an edit inside it. And if the user wants it arbitrated properly
+rather than patched, that is `save-to-lore` in ARBITRATE mode, which is where imported criteria
+belongs. When no second kit is present this check costs nothing and produces no finding.
+
 ### Phase 3 — HARD-GATE
 
 Show the full finding list with content in view: file, kind, what changes, and what rule of the

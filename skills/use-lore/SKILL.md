@@ -199,6 +199,7 @@ never paid for will start receiving promotions that belong somewhere else.
 | **Raise a healthy Lore to a newer version of these skills** — it is in the standard and in use, but predates gates the kit learned later. Nothing looks broken, which is why nobody upgrades it | `transmute-lore` (**UPGRADE**): arbitrates the existing Lore against the current version, adds what is missing, and leaves untouched what the project **earned** with real friction |
 | Export a project, Area or bot's **live routed Lore as one Markdown** for a chat, AI project or notebook | `transmute-lore` (**CRYSTALLIZE**): creates a safe, traceable snapshot without replacing the live Lore or including private material by default |
 | Keep **Obsidian notes in the same folder tree** as the Lore, and **mine that inbox** for what deserves to become criteria ("revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore") | `obsidian-lore` |
+| Work in a repository that **also** has GitHub's spec-kit (`.specify/` is present) | Nothing new to invoke. Read [`docs/SPEC_KIT_en.md`](../../docs/SPEC_KIT_en.md) and copy `assets/constitucion-puntero.md` over the constitution `specify init` generated. **Lore never depends on spec-kit** — this row is recognition, not a dependency |
 | Understand the system / decide which skill applies | `use-lore` (this one) |
 
 **Order of a fresh setup:** `create-area` → `create-project` → (work, saving clues with `save-to-lore`)
@@ -299,6 +300,11 @@ with `transmute-lore` (TRANSLATE mode), which translates content and renames art
 - **State ≠ criteria.** `FASES.md` never lives inside `lore/`.
 - **A note is source, never criteria.** Free notes are never loaded as if they were Lore; they cross
   only through an explicit distillation with its gate.
+- **Lore never defers to another kit's authority, and never depends on one.** Where a second kit of
+  criteria shares the repository, it is **recognized, not obeyed**: its declarations are imported
+  criteria and get arbitrated like any other. This is not a claim of supremacy — it is what makes
+  precedence structural instead of declared. A body of criteria that does not consult another cannot
+  be overruled by it, and that holds no matter what the other body's files say about themselves.
 
 ## Adapting Lore to other AI tools
 

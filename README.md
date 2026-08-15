@@ -687,8 +687,9 @@ Previously on the editorial team at **Polkadot Español** and an editor at **BeI
 
 Teaching and research: part of the team that established the bibliographic and methodological
 foundations of the **Design Thinking** course at UTEM's School of Informatics Engineering (2023), and
-its lecturer from 2023 to 2025. Linux Foundation badge for participating in a Cloud Native Computing
-Foundation event.
+its lecturer from 2023 to 2025. **Speaker at [KCD El Salvador
+2023](https://www.credly.com/badges/ad17002a-16be-474b-ada4-d7ba0df3a0fd)** — Kubernetes Community
+Days, the CNCF's community event program.
 
 *Why this is here and not on a personal page:* the criteria this kit distills came out of that
 work — the reason a `lore/` is a **decentralized** body of criteria, owned where it was paid for and
@@ -1373,8 +1374,9 @@ Antes, parte del equipo editorial de **Polkadot Español** y editor en **BeInCry
 
 Docencia e investigación: integró el equipo que estableció las bases bibliográficas y metodológicas
 de la asignatura **Design Thinking** de la Escuela de Ingeniería en Informática de la UTEM (2023), y
-la dictó desde 2023 hasta 2025. Badge de la Linux Foundation por participar en un evento de la Cloud
-Native Computing Foundation.
+la dictó desde 2023 hasta 2025. **Speaker en [KCD El Salvador
+2023](https://www.credly.com/badges/ad17002a-16be-474b-ada4-d7ba0df3a0fd)** — Kubernetes Community
+Days, el programa de eventos comunitarios de la CNCF.
 
 *Por qué esto está acá y no en una página personal:* el criterio que este kit destila salió de ese
 trabajo — que un `lore/` sea un cuerpo de criterio **descentralizado**, poseído donde se pagó y nunca
