@@ -118,7 +118,7 @@ to be revoked in writing.
 | You arrive with | What runs first |
 |---|---|
 | Lore in place, adding spec-kit | The constitution, **before** the first `/speckit-specify` |
-| spec-kit in place, adding Lore | `transmute-lore` over the existing criteria, **then** the constitution — an existing constitution is imported criteria and goes through ARBITRATE |
+| spec-kit in place, adding Lore | `transmute-lore` over the existing criteria, **then** the constitution — an existing constitution is imported criteria and goes through TRANSPLANT |
 | Both from zero | `create-area` / `create-project`, then `specify init` **in the project**, then the constitution |
 
 The middle row matters most: arbitration needs a yardstick. Against an authoritative source with no

@@ -93,7 +93,7 @@ precedencia.
    el orden de precedencia y la revocación de la cláusula de supremacía.
 2. **Given** un proyecto con spec-kit y sin Lore, **When** se corre el umbral de primer uso de
    `use-lore`, **Then** la constitución existente se trata como **criterio importado** y pasa por
-   `save-to-lore` en modo ARBITRATE, con su sección de derrotas — no se copia al `lore/`.
+   `save-to-lore` en modo TRANSPLANT, con su sección de derrotas — no se copia al `lore/`.
 3. **Given** un proyecto que arranca los dos desde cero, **When** se sigue la documentación, **Then**
    Lore se construye primero y la constitución se escribe después, apuntando a él.
 4. **Given** un ciclo de spec-kit terminado que dejó una cicatriz, **When** se cierra, **Then** la
@@ -186,7 +186,7 @@ verificar que el bloque sigue llegando por el contrato.
 - **FR-012**: La documentación MUST cubrir los tres escenarios de entrada y decir qué corre primero en
   cada uno.
 - **FR-013**: Una constitución preexistente MUST tratarse como criterio importado y pasar por
-  `save-to-lore` ARBITRATE con su sección de derrotas. MUST NOT copiarse al `lore/`.
+  `save-to-lore` TRANSPLANT con su sección de derrotas. MUST NOT copiarse al `lore/`.
 - **FR-014**: La documentación MUST declarar que una cicatriz nacida en un ciclo de spec-kit sale por
   `save-to-lore` y no se conserva dentro de `specs/`.
 - **FR-015**: Se MUST citar la ruta de la constitución con la versión de `specify-cli` contra la que se

@@ -181,7 +181,7 @@ The discriminator is **not the quality of the note**. It is whether the note rec
 |---|---|---|
 | A friction **that was resolved** — it broke, it was reverted, the client rejected it, it turned out that… | **experience** | `save-to-lore` **CAPTURE** |
 | A **task**, a pending item, or a friction **still open** — *«we need to add X»*, *«nobody closed this yet»* | **state**, not criteria | `FASES.md` |
-| Someone else's criteria that **judges** — a style guide, a playbook, an article on what good X is | **imported criteria** | `save-to-lore` **ARBITRATE** — no defeats section, no entry |
+| Someone else's criteria that **judges** — a style guide, a playbook, an article on what good X is | **imported criteria** | `save-to-lore` **TRANSPLANT** — no defeats section, no entry |
 | A summary, a quote, a link, a meeting note with no decision in it | **information** | source for `create-area` / `create-project` / `transmute-lore` — or **noise, reported** |
 
 A fifth destination exists and is rarer: a note that changes **how we work together** rather than
@@ -223,7 +223,7 @@ only the first time; the noise filter applies here too.
 Present, per note, in one table: the bucket, the destination, and the proposed line. Then **wait**.
 Nothing is written before a human approves.
 
-On approval, **delegate the writing to `save-to-lore`** (CAPTURE by default, ARBITRATE when the
+On approval, **delegate the writing to `save-to-lore`** (CAPTURE by default, TRANSPLANT when the
 source is someone else's criteria). That skill owns the Clue format, the index line, the confidence
 marker and the project ↔ area promotion — this skill contributes the routing and the source, which
 is what `save-to-lore` does not know.

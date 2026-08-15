@@ -18,7 +18,7 @@ deliverables shipped, and sorts findings into four kinds:
 | **Deadwood** | Constrains no future decision. | Comes out — after its residue is written. |
 | **Crowding** | Correct, earned, irrefutable — and saturating **in sum**. | Stays, and receives a boundary, a destination or a ceiling. |
 | **Rooted** | Load-bearing, with a real scar behind it. | Untouched. |
-| **Half-grafted** | Declared applied, and only partly applied. | Finished, or unmarked. |
+| **Unhealed** | Declared applied, and only partly applied. | Finished, or unmarked. |
 
 `Crowding` is the one that does the work, and it names a defect the existing
 `Missing`/`Superseded`/`Earned` triad had no slot for: **correct laws whose sum saturates the
@@ -29,9 +29,17 @@ each removal is a dated line in `FASES.md` saying what it used to be for. Prunin
 not distillation, it is amnesia. Fewer clues is reported as the **result**, not apologized for as a
 loss.
 
-**A skill was not renamed, and the reason is part of the release.** `prune-lore` was considered and
-rejected: it would name five sixths of the skill after one sixth. What did carry a foreign register
-was **`HARD-GATE`**, now the **threshold** (*umbral*) — same rule, same force, no exception softened.
+**The other pass gets its name: `save-to-lore` ARBITRATE is now `TRANSPLANT`.** What grew well in
+another soil does not necessarily take in this one, and a transplant nobody watches is a dead plant
+with good intentions. The mode is unchanged — imported criteria is still judged against this Entre's
+purpose, only what survives enters, and the module still has to say **where the source loses**. What
+the name adds is the pair: **pruning removes what the plant grew on its own; transplanting judges
+what came from outside.** Those are the two passes of a maintained Lore, and having one without the
+other is why a body of criteria either bloats or ossifies.
+
+**Two names changed, one did not.** `prune-lore` as a skill name was considered and rejected: it
+would name five sixths of `transmute-lore` after one sixth. What did carry a foreign register was
+**`HARD-GATE`**, now the **threshold** (*umbral*) — same rule, same force, no exception softened.
 *A threshold is never crossed alone: the machine proposes with content in view, the human approves,
 and only then is anything written.* Trigger phrases carry the garden vocabulary where a human
 actually touches it: *"prune the lore of X"*, *"poda en lore"*.
@@ -132,7 +140,7 @@ contenido** en los últimos entregables publicados y clasifica los hallazgos en 
 | **Deadwood** | No condiciona ninguna decisión futura. | Sale — después de escribir su residuo. |
 | **Crowding** | Correcto, ganado, irrefutable — y saturante **en suma**. | Se queda, y recibe una frontera, un destino o un techo. |
 | **Rooted** | Sostiene peso, con una cicatriz real detrás. | Intacto. |
-| **Half-grafted** | Declarado aplicado, y aplicado a medias. | Se termina, o se desmarca. |
+| **Unhealed** | Declarado aplicado, y aplicado a medias. | Se termina, o se desmarca. |
 
 `Crowding` es la clase que hace el trabajo, y nombra un defecto para el que la tríada
 `Missing`/`Superseded`/`Earned` no tenía casilla: **leyes correctas cuya suma satura la superficie
@@ -143,8 +151,16 @@ remoción es una línea fechada en `FASES.md` diciendo para qué servía. Podar 
 destilación, es amnesia. Tener menos Pistas se reporta como **el resultado**, no se pide disculpas
 por ello.
 
-**Una skill no se renombró, y la razón es parte del release.** `prune-lore` se evaluó y se descartó:
-nombraría cinco sextos de la skill por un sexto. Lo que sí venía de un registro ajeno era
+**La otra pasada recibe su nombre: el modo ARBITRATE de `save-to-lore` pasa a ser `TRANSPLANT`.** Lo
+que crecía bien en otra tierra no necesariamente prende en esta, y un trasplante que nadie mira es
+una planta muerta con buena intención. El modo no cambia — el criterio importado se sigue juzgando
+contra el propósito de este Entre, solo entra lo que sobrevive, y el módulo sigue teniendo que decir
+**dónde pierde la fuente**. Lo que agrega el nombre es el par: **la poda quita lo que la planta
+creció sola; el trasplante juzga lo que vino de afuera.** Son las dos pasadas de un Lore mantenido, y
+tener una sin la otra es la razón de que un cuerpo de criterio se infle o se osifique.
+
+**Dos nombres cambiaron, uno no.** `prune-lore` como nombre de skill se evaluó y se descartó:
+nombraría cinco sextos de `transmute-lore` por un sexto. Lo que sí venía de un registro ajeno era
 **`HARD-GATE`**, que pasa a ser el **umbral** — misma regla, misma fuerza, sin ablandar ninguna
 excepción. *Un umbral no se cruza en solitario: la máquina propone con el contenido a la vista, el
 humano aprueba, y recién entonces se escribe algo.* Las frases disparadoras llevan el vocabulario del

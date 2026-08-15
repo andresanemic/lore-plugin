@@ -381,7 +381,7 @@ its authority over criteria does not revoke its authority over the repository.
 
 Two limits on this. The document is **not migrated into `lore/`** — it stays where it lives and keeps
 its owner; what UPGRADE proposes is an edit inside it. And if the user wants it arbitrated properly
-rather than patched, that is `save-to-lore` in ARBITRATE mode, which is where imported criteria
+rather than patched, that is `save-to-lore` in TRANSPLANT mode, which is where imported criteria
 belongs. When no second kit is present this check costs nothing and produces no finding.
 
 ### Phase 3 — Threshold
@@ -460,7 +460,7 @@ one felt too obvious to bound.
 | **Deadwood** | It constrains no future decision. The decision it once shaped no longer exists, or it was adopted from elsewhere and never bit. | **Comes out** — after its residue is written (below). |
 | **Crowding** | Correct, earned, not refutable — and yet its *sum* with the others saturates the deliverable. | **Does not come out.** It receives a **validity boundary**, or a **destination** for the artifact it demands, or a **ceiling**. |
 | **Rooted** | Load-bearing. A real scar behind it and a decision that still depends on it. | Untouched, and **not re-examined by the next pass**. |
-| **Half-grafted** | Declared applied and only partly applied — the correction landed in one place and not in its siblings. | **Finish it or unmark it.** It may not stay declared-and-false. |
+| **Unhealed** | Declared applied and only partly applied — the correction landed in one place and not in its siblings. | **Finish it or unmark it.** It may not stay declared-and-false. |
 
 **A prune list with no `Rooted` entries is a pass being run as a chainsaw.** This is the mirror of
 UPGRADE's `Earned` rule and it exists for the same reason: a mode that only removes will always find
@@ -474,7 +474,7 @@ all of them landed on the same surface: the one the deliverable is published fro
 first: a clue that mandates an artifact and does not name its home is `Crowding`, not `Deadwood`, and
 the repair is a **destination**, not a deletion.
 
-**`Half-grafted` exists because nothing else verifies it.** A clue that says *"the dialect was
+**`Unhealed` exists because nothing else verifies it.** A clue that says *"the dialect was
 corrected"* is cited by every later pass as done. `save-to-lore` already carries the rule — *one fixed
 out of five is not a fix* — and **no mode checks it on a later pass**. For every clue that declares a
 correction applied, grep the corpus for the pattern it claims to have removed. A clue that is

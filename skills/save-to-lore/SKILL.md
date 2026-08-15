@@ -1,6 +1,6 @@
 ---
 name: save-to-lore
-description: Use when saving a lesson to the Lore or right after solving a problem worth keeping, AND when distilling Lore from an external body of criteria (a skill, a style guide, a third-party playbook). Two modes — CAPTURE (default — distill lived friction into an invariant clue) and ARBITRATE (judge imported criteria against this Entre's purpose; only what survives enters). Captures in the CURRENT project's lore/ and — for confirmed, generic clues — proposes promoting up to the mother AREA lore (project ↔ area routing). Trigger on "save to lore", "distill this to the lore", "guarda en lore", "distill this skill", "destila esta skill", or proactively after resolving a friction that passes the Lore bar (constraint + signal + executability + genericity).
+description: Use when saving a lesson to the Lore or right after solving a problem worth keeping, AND when distilling Lore from an external body of criteria (a skill, a style guide, a third-party playbook). Two modes — CAPTURE (default — distill lived friction into an invariant clue) and TRANSPLANT (judge imported criteria against this Entre's purpose; only what survives enters). Captures in the CURRENT project's lore/ and — for confirmed, generic clues — proposes promoting up to the mother AREA lore (project ↔ area routing). Trigger on "save to lore", "distill this to the lore", "guarda en lore", "distill this skill", "destila esta skill", or proactively after resolving a friction that passes the Lore bar (constraint + signal + executability + genericity).
 ---
 
 # save-to-lore — Incremental capture and promotion
@@ -32,23 +32,30 @@ its provenance header, its confidence split and its defeats section. And a modul
 does not enter at all.
 
 The tell that you skipped this step: the draft reads like a good summary of the source. That is the
-failure state of ARBITRATE, not its output.
+failure state of TRANSPLANT, not its output.
 
 ## Two modes — pick by the SOURCE of the criteria
 
 | Mode | Source | What it is |
 |---|---|---|
 | **CAPTURE** (default) | **lived friction** — a bug, a collapse, a client rejection | The scar. Everything below (threshold, routing, promotion) is written for this mode. |
-| **ARBITRATE** | **imported criteria** — a skill, a style guide, a third-party playbook, **another kit's constitution or governing document** | Criteria already distilled **by someone else, under someone else's purpose**, arriving with no validity boundary declared. |
+| **TRANSPLANT** | **imported criteria** — a skill, a style guide, a third-party playbook, **another kit's constitution or governing document** | Criteria already distilled **by someone else, under someone else's purpose**, arriving with no validity boundary declared. |
 
-> **The law of ARBITRATE: an external body of criteria is not distilled — it is arbitrated.** Only
+> **Why it is called transplanting, and the metaphor is load-bearing.** What grew well in another
+> soil does not necessarily take in this one. A transplant nobody watches is a dead plant with good
+> intentions: you say what took and what did not. This mode is the exact counterpart of
+> `transmute-lore` PRUNE — **pruning removes what the plant grew on its own; transplanting judges
+> what came from outside.** Those are the two passes of a maintained Lore, and having one without the
+> other is why a body of criteria either bloats or ossifies.
+
+> **The law of TRANSPLANT: an external body of criteria is not distilled — it is arbitrated.** Only
 > what survives the collision with **this** Entre's purpose enters the Lore, and the record must
 > state **where the source loses**. A faithful summary of a skill is not Lore: it is redundant
 > literature wearing the authority of an Invariant Clue. What the source *loses* is worth more than
 > what the source *offers* — the summary already exists (better written) in the source; the
 > disagreement exists nowhere else.
 
-### ARBITRATE — the four gates
+### TRANSPLANT — the four gates
 
 1. **Capacity or criteria?** A source that brings **capacity** (it *executes* something: renders,
    crawls, compiles) is **not Lore** — record it as a dependency (how and when to invoke it) and
@@ -66,7 +73,7 @@ failure state of ARBITRATE, not its output.
    naming where the source contradicts our standard and loses. **No defeats = no entry:** either
    nothing was arbitrated (it was a copy), or the source carried capacity, not criteria.
 
-> **A governing document is the hardest case of ARBITRATE, and the one most often skipped.** When a
+> **A governing document is the hardest case of TRANSPLANT, and the one most often skipped.** When a
 > second kit ships a constitution, a charter or a set of rules that declares its own authority, the
 > reflex is to treat it as configuration and adopt it. It is not configuration: it is criteria
 > written under someone else's purpose, and a clause claiming supremacy is precisely the kind that
@@ -77,7 +84,7 @@ failure state of ARBITRATE, not its output.
 > The one thing that does **not** happen is deferring to it while deciding. Arbitration is judgment,
 > not negotiation.
 
-**Confidence in ARBITRATE:** what is adopted *from* the source enters as **`conjecture`** (nobody has
+**Confidence in TRANSPLANT:** what is adopted *from* the source enters as **`conjecture`** (nobody has
 paid for it with real friction yet). The **arbitration itself** — the defeats, derived from an
 already-validated identity — enters as **`confirmed`**. Head the module with its provenance:
 *"Distilled from `<source>`, arbitrated against `<identidad.md>`."*
@@ -115,7 +122,7 @@ somewhere else.
 ## Two triggers
 
 1. **Explicit:** the user says "save to lore…", "distill this to the lore", "guarda en lore" — or
-   points at a source: "distill this skill", "destila esta skill" (→ ARBITRATE).
+   points at a source: "distill this skill", "destila esta skill" (→ TRANSPLANT).
 2. **Proactive:** you just solved a friction and propose saving it — **only** if it clears the
    **threshold** (below). Cosmetic changes (color, aesthetic reshuffle) do NOT count.
 
@@ -124,7 +131,7 @@ somewhere else.
 One or several **free notes** — an Obsidian inbox, a folder of Markdown, meeting minutes — are a
 valid input to either mode. The note is **source, never criteria**: it does not skip the threshold,
 it does not enter verbatim, and it is never cited as a rule. Pick the mode by what the note records —
-a friction the user lived through → CAPTURE; someone else's criteria the user collected → ARBITRATE.
+a friction the user lived through → CAPTURE; someone else's criteria the user collected → TRANSPLANT.
 
 A note that records a friction **still open** is state, not criteria → `FASES.md`. A note that is a
 summary, a link or an agenda is **information**, and information is not distillable: report it as
@@ -258,7 +265,7 @@ a safe no-op for those clues.
 
 - **Capture first in the project; promotion to the area is always gated** — never written silently.
 - **Criteria is never invented**; only distilled from what happened.
-- **Imported criteria is arbitrated, never adopted** (ARBITRATE): it was distilled under someone
+- **Imported criteria is arbitrated, never adopted** (TRANSPLANT): it was distilled under someone
   else's purpose. No defeats section → no entry.
 - **Clues and new filenames follow the lore's established language** (or the user's, if none) —
   never English just because this skill is. Existing files are never renamed here.

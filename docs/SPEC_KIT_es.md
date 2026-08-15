@@ -119,7 +119,7 @@ hay que revocar por escrito.
 | Llegas con | Qué corre primero |
 |---|---|
 | Lore ya puesto, agregas spec-kit | La constitución, **antes** del primer `/speckit-specify` |
-| spec-kit ya puesto, agregas Lore | `transmute-lore` sobre el criterio existente y **después** la constitución — una constitución preexistente es criterio importado y pasa por ARBITRATE |
+| spec-kit ya puesto, agregas Lore | `transmute-lore` sobre el criterio existente y **después** la constitución — una constitución preexistente es criterio importado y pasa por TRANSPLANT |
 | Los dos desde cero | `create-area` / `create-project`, después `specify init` **en el proyecto**, después la constitución |
 
 La fila del medio es la que más importa: el arbitraje necesita una vara. Frente a una fuente
