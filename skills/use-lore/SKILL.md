@@ -86,6 +86,15 @@ a future decision, it is **not** Lore; it is description, and it stays out.
 
 Lore is **not** a README, not a changelog, not a design doc. Those describe. Lore constrains.
 
+**Most of what happens does not survive, and that is the design.** A Lore is not an archive of the
+work; it is the narrow part of the work that still gets a say. Its worth is counted in future
+decisions changed, never in experience held — and a body that grew by preserving fails without any
+visible symptom, because a full folder looks exactly like a healthy one.
+
+Which means the filter above is not a quality bar an entry has to clear. It is what is left over
+after accepting that the rest is gone. Read the other way round — *keep what might matter someday* —
+the same sentence licenses everything, and the Lore stops constraining the moment it stops losing.
+
 ## The six-piece standard
 
 These are six structural responsibilities, not necessarily six files. The thematic-module piece

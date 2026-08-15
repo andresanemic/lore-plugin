@@ -130,6 +130,13 @@ whenever the source lives there. A standalone source note outside an inbox may b
 3. **Executability** — an unambiguous directive you can act on next time?
 4. **Genericity** — would it help another project in the area (not a client-only quirk)?
 
+> **What the threshold is holding back is not bad entries — it is the pull that produces them.**
+> Having lived something creates an urge to keep it, and that urge peaks right after the friction,
+> which is the exact moment this skill runs. An entry that fails the threshold almost never looks
+> wrong; it looks like something worth keeping, written by someone who was there. Saying no to it is
+> not hygiene applied to a folder. It is accepting a loss on purpose, one entry at a time, so that
+> what stays keeps its force.
+
 ## Routing — project vs area
 
 **"The domain is the classifier."** A clue is generic if it belongs to a domain the **area owns**
