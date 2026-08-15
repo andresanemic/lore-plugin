@@ -1,11 +1,40 @@
-# Lore Plugin 2.1.0 — Always on, and a border with spec-kit
+# Lore Plugin 2.1.0 — The garden: always on, pruned, and bordered
 
 > [README](https://github.com/andresanemic/lore-plugin#readme) · [Español](#español)
 
-Lore turns project experience into reusable criteria for AI agents. Version **2.1.0** adds two
+Lore turns project experience into reusable criteria for AI agents. Version **2.1.0** adds three
 capabilities to the 2.0 foundation and changes nothing about how the kit is installed or used.
 
 ## What 2.1.0 adds
+
+**Pruning — `transmute-lore` gains a sixth mode, `PRUNE`.** Until now every mode in this kit could
+only add. A Lore in daily use rarely decays by going stale; it decays by **accumulating correct
+things** until their sum no longer fits the deliverable it has to produce. `PRUNE` is the only mode
+that asks *does any of this need to be here?* It counts **apparatus against content** in the last
+deliverables shipped, and sorts findings into four kinds:
+
+| Kind | Meaning | Result |
+|---|---|---|
+| **Deadwood** | Constrains no future decision. | Comes out — after its residue is written. |
+| **Crowding** | Correct, earned, irrefutable — and saturating **in sum**. | Stays, and receives a boundary, a destination or a ceiling. |
+| **Rooted** | Load-bearing, with a real scar behind it. | Untouched. |
+| **Half-grafted** | Declared applied, and only partly applied. | Finished, or unmarked. |
+
+`Crowding` is the one that does the work, and it names a defect the existing
+`Missing`/`Superseded`/`Earned` triad had no slot for: **correct laws whose sum saturates the
+surface of the deliverable**. It is found by counting, not by reading — every law reads fine on its
+own. Two invariants keep the mode safe: a finding list with **no `Rooted` entries is a pass running
+as a chainsaw** (the mirror of UPGRADE's `Earned` rule), and **nothing comes out without residue** —
+each removal is a dated line in `FASES.md` saying what it used to be for. Pruning without residue is
+not distillation, it is amnesia. Fewer clues is reported as the **result**, not apologized for as a
+loss.
+
+**A skill was not renamed, and the reason is part of the release.** `prune-lore` was considered and
+rejected: it would name five sixths of the skill after one sixth. What did carry a foreign register
+was **`HARD-GATE`**, now the **threshold** (*umbral*) — same rule, same force, no exception softened.
+*A threshold is never crossed alone: the machine proposes with content in view, the human approves,
+and only then is anything written.* Trigger phrases carry the garden vocabulary where a human
+actually touches it: *"prune the lore of X"*, *"poda en lore"*.
 
 **The always-on block.** The pointer to a project's criteria now lives inside the instruction
 contract between two literal markers, `<!-- lore:always-on -->` and `<!-- /lore:always-on -->`. The
@@ -40,6 +69,12 @@ This is the part worth reading before you trust either capability.
   there is nothing the block could cause to be invoked. The criterion has been reclassified as a
   requirement for the measurement instrument still being built, and the capability ships **on design
   derivation, not on evidence**. Saying so is the point.
+- **Derived from one case, not measured.** Every check in `PRUNE` comes from a documented failure in
+  a single real Lore — an area whose output had degraded while nothing in it was wrong — and **not one
+  of them comes from a preference**. That is its strength and its whole limit: `n=1`, one operator,
+  one corpus. The mode has **never been run end to end**, and the density claim (*fewer clues, better
+  deliverable*) is a **conjecture** until a pruned Lore produces work its owner accepts. Whether a
+  prune improves output, or merely feels tidier, is exactly what this release cannot tell you.
 - **Not exercised.** The border with spec-kit was verified on a **bot** — a repository whose product
   is records, not code — against `specify-cli 0.16.5.dev0` (commit `bf88c9f`). The full cycle in a
   repository with code, which is spec-kit's majority case, has not been run. The levels table is
@@ -79,12 +114,41 @@ and have its Lore arbitrated against this version.
 
 <a id="español"></a>
 
-# Lore Plugin 2.1.0 — Siempre activo, y una frontera con spec-kit
+# Lore Plugin 2.1.0 — El jardín: siempre activo, podado y con frontera
 
 Lore convierte la experiencia de un proyecto en criterio reutilizable para agentes de IA. La versión
-**2.1.0** añade dos capacidades sobre la base 2.0 y no cambia nada de cómo se instala ni se usa.
+**2.1.0** añade tres capacidades sobre la base 2.0 y no cambia nada de cómo se instala ni se usa.
 
 ## Qué añade 2.1.0
+
+**La poda — `transmute-lore` gana un sexto modo, `PRUNE`.** Hasta ahora todos los modos de este kit
+solo sabían agregar. Un Lore en uso diario rara vez se degrada por quedar viejo: se degrada
+**acumulando cosas correctas** hasta que su suma ya no cabe en el entregable que tiene que producir.
+`PRUNE` es el único modo que pregunta *¿hace falta que esto esté acá?* Cuenta **aparato contra
+contenido** en los últimos entregables publicados y clasifica los hallazgos en cuatro clases:
+
+| Clase | Qué significa | Resultado |
+|---|---|---|
+| **Deadwood** | No condiciona ninguna decisión futura. | Sale — después de escribir su residuo. |
+| **Crowding** | Correcto, ganado, irrefutable — y saturante **en suma**. | Se queda, y recibe una frontera, un destino o un techo. |
+| **Rooted** | Sostiene peso, con una cicatriz real detrás. | Intacto. |
+| **Half-grafted** | Declarado aplicado, y aplicado a medias. | Se termina, o se desmarca. |
+
+`Crowding` es la clase que hace el trabajo, y nombra un defecto para el que la tríada
+`Missing`/`Superseded`/`Earned` no tenía casilla: **leyes correctas cuya suma satura la superficie
+del entregable**. Se encuentra contando, no leyendo — cada ley se ve bien por separado. Dos
+invariantes lo mantienen seguro: una lista de hallazgos **sin ningún `Rooted` es una pasada corriendo
+como motosierra** (espejo de la regla `Earned` de UPGRADE), y **nada sale sin residuo** — cada
+remoción es una línea fechada en `FASES.md` diciendo para qué servía. Podar sin residuo no es
+destilación, es amnesia. Tener menos Pistas se reporta como **el resultado**, no se pide disculpas
+por ello.
+
+**Una skill no se renombró, y la razón es parte del release.** `prune-lore` se evaluó y se descartó:
+nombraría cinco sextos de la skill por un sexto. Lo que sí venía de un registro ajeno era
+**`HARD-GATE`**, que pasa a ser el **umbral** — misma regla, misma fuerza, sin ablandar ninguna
+excepción. *Un umbral no se cruza en solitario: la máquina propone con el contenido a la vista, el
+humano aprueba, y recién entonces se escribe algo.* Las frases disparadoras llevan el vocabulario del
+jardín adonde un humano de verdad lo toca: *«poda en lore»*, *«poda el lore de X»*.
 
 **El bloque siempre-activo.** El puntero al criterio de un proyecto ahora vive dentro del contrato de
 instrucciones, entre dos marcadores literales: `<!-- lore:always-on -->` y `<!-- /lore:always-on -->`.
@@ -119,6 +183,13 @@ Esta es la parte que conviene leer antes de confiar en cualquiera de las dos cap
   nada que el bloque pueda hacer invocar. El criterio queda reclasificado como requisito del
   instrumento de medida que todavía se está construyendo, y la capacidad sale **por derivación de
   diseño, no por evidencia**. Decirlo es justamente el punto.
+- **Derivado de un caso, no medido.** Cada chequeo de `PRUNE` viene de un fallo documentado en un
+  Lore real —un área cuyo resultado se había degradado sin que nada en ella estuviera mal— y **ninguno
+  viene de una preferencia**. Esa es su fuerza y también todo su límite: `n=1`, un operador, un
+  corpus. El modo **nunca se corrió de punta a punta**, y la afirmación de densidad —*menos Pistas,
+  mejor entregable*— es una **conjetura** hasta que un Lore podado produzca trabajo que su dueño
+  acepte. Si podar mejora el resultado o solo se siente más ordenado es exactamente lo que este
+  release no puede decirte.
 - **Sin ejercer.** La frontera con spec-kit se verificó sobre un **bot** —un repositorio cuyo producto
   son registros, no código— contra `specify-cli 0.16.5.dev0` (commit `bf88c9f`). El ciclo completo en
   un repositorio con código, que es el caso mayoritario de spec-kit, no se ha corrido. La tabla de
