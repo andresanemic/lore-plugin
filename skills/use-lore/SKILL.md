@@ -156,6 +156,17 @@ remember:
 
 Apart from the block, the file does not change — not one blank line, not a different line ending.
 
+**The table covers the markers; it does not cover the prose around them.** A contract written before
+the block usually already has a load section naming the same paths, and stamping leaves the project
+with two copies of its own pointers. Of the two, the one that goes stale is **not** the block — the
+skills re-stamp that one — so the drift lands in the hand-written section, which is also the one a
+human is more likely to read first.
+
+The fix is never to skip the block. It is to leave the pointers **only** inside it and reduce the
+pre-existing section to what the block does not carry: routing, procedure, gates. Report the
+collision and the proposed reduction inside the same HARD-GATE, and never do it silently — deleting
+a line somebody wrote by hand is a decision, not a cleanup.
+
 ## The area ↔ project model
 
 Lore scales through **work areas**:

@@ -760,6 +760,11 @@ always-on channel — its pointer section, delimited by a marker pair:
   content → **no-op, write nothing**. One well-formed pair with different content → **report the
   divergence and wait**. Duplicated or broken markers → **stop and report**; never guess. Apart from
   the block, the file does not change.
+- **Collision with pre-existing prose.** The rules above cover the markers, not the text around
+  them. A contract older than the block usually already names the same paths in a load section, and
+  stamping leaves two copies of the same pointers. The block is the one the skills re-stamp, so the
+  stale copy is the hand-written section. Leave the pointers only inside the block and reduce that
+  section to what the block does not carry — reported in the same HARD-GATE, never silently.
 
 ---
 

@@ -755,6 +755,12 @@ canal siempre-activo del kit — su sección de punteros, delimitada por un par 
   idéntico → **no-op, no se escribe nada**. Un par bien formado con contenido distinto → **reportar
   la divergencia y esperar**. Marcadores duplicados o rotos → **detener y reportar**; nunca adivinar.
   Salvo el bloque, el archivo no cambia.
+- **Colisión con prosa preexistente.** Las reglas de arriba cubren los marcadores, no el texto que
+  los rodea. Un contrato anterior al bloque suele nombrar ya las mismas rutas en una sección de
+  carga, y estamparlo deja dos copias de los mismos punteros. El bloque es el que las skills
+  reestampan, así que la copia que se desactualiza es la escrita a mano. Los punteros quedan solo
+  dentro del bloque y esa sección se reduce a lo que el bloque no lleva — reportado en el mismo
+  HARD-GATE, nunca en silencio.
 
 ---
 
