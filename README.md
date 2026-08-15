@@ -544,6 +544,13 @@ All eight skills follow the same rules:
 - Every change passes a **threshold** before being written.
 - **Nothing commits automatically.** You review the final diff.
 
+Those last two are the whole bet, and they are worth stating against the alternative. A growing class
+of agent frameworks keeps a memory of its own successes and failures and generates its own reusable
+skills from the patterns it finds. That is a real capability and it is the opposite choice: there,
+the agent gets better. Here, **the person does.** Lore's criteria live in files you own, in your
+language, and nothing enters them without you approving it with the content in view. If you want a
+system that learns behind your back, this is not it, and it never will be.
+
 ---
 
 ## Benchmark
@@ -1268,6 +1275,13 @@ Agrega una carpeta `notas/` dentro de aquello en lo que estés trabajando —un 
 - **El ruido descartado se informa**, nunca se elimina en silencio.
 - Todo cambio pasa por un **umbral** antes de escribirse.
 - **Nada hace *commit* automáticamente.** Tú revisas el *diff* final.
+
+Esas dos últimas son la apuesta entera, y conviene decirla contra la alternativa. Hay una clase
+creciente de frameworks de agentes que guarda memoria de sus propios éxitos y fracasos y **genera sus
+propias skills** a partir de los patrones que encuentra. Es una capacidad real y es la elección
+contraria: ahí mejora el agente. Acá **mejoras tú.** El criterio de Lore vive en archivos que son
+tuyos, en tu idioma, y nada entra en ellos sin que lo apruebes con el contenido a la vista. Si
+quieres un sistema que aprenda a tus espaldas, este no es, y no va a serlo.
 
 ---
 
