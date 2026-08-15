@@ -18,7 +18,7 @@ Creates the **mother folder** of a domain (web, research, blog, video, apps…) 
 > `proyectos/`) are the Spanish canonical forms: localize them (e.g. English → `identity.md`,
 > `principles.md`, `PHASES.md`, `projects/`). Fixed in every language: the selected contract name
 > (`CLAUDE.md` or `AGENTS.md`), `lore/`,
-> `index.md`, `golden-paths.md`, `_starter/`. English terms of general technical use (workflow,
+> `index.md`, `golden-paths.md`, `_starter/`, the `<!-- lore:always-on -->` marker pair (literal, never localized — localizing it breaks idempotent stamping silently). English terms of general technical use (workflow,
 > stack, commit, scaffold, starter…) stay in English regardless.
 
 ## Area model (federated + hybrid)

@@ -16,8 +16,8 @@ time and routes it to the right level.
 > in the target lore's language, and existing files are never renamed by this skill (that is
 > `transmute-lore` TRANSLATE's job). Artifact names in this skill (`identidad.md`, `principios.md`,
 > `proyecto.md`…) are Spanish canonical forms — use the corpus's actual localized names. Relative
-> paths, confidence markers (`conjecture`/`confirmed`), the ` · ↑` glyph and general technical
-> English terms stay as-is.
+> paths, confidence markers (`conjecture`/`confirmed`), the ` · ↑` glyph, the `<!-- lore:always-on -->`
+> marker pair and general technical English terms stay as-is.
 
 > **The area is the shared corpus.** A project lives in `{area}/proyectos/{name}/` and inherits from
 > `{area}/lore/`. Generic, confirmed criteria belongs in the **area** (every project sees it);

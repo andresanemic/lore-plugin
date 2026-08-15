@@ -278,7 +278,7 @@ language they localize (e.g. English: `identity.md`, `principles.md`, `PHASES.md
 
 What stays **fixed in every language**: the selected contract name (`CLAUDE.md` for Claude Code or
 `AGENTS.md` for Codex), `lore/`
-(the kit's own name), `index.md`, `golden-paths.md`, `_starter/`, structure and relative-path depth,
+(the kit's own name), `index.md`, `golden-paths.md`, `_starter/`, the `<!-- lore:always-on -->` marker pair (literal, never localized — localizing it breaks idempotent stamping silently), structure and relative-path depth,
 confidence markers, and English terms of general technical use (workflow, commit, stack,
 scaffold…).
 

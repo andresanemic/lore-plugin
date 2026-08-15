@@ -171,7 +171,7 @@ project.
 > `FASES.md`, `proyectos/`, `canon/`, `enrutamiento.md` are the Spanish canonical forms: localize
 > them. Fixed in every language: the Area's selected contract name (`CLAUDE.md` or `AGENTS.md`),
 > `lore/`, `index.md`, `skills/`,
-> `.claude-plugin/`, `.codex-plugin/`.
+> `.claude-plugin/`, `.codex-plugin/`, the `<!-- lore:always-on -->` marker pair (literal, never localized — localizing it breaks idempotent stamping silently).
 > The area's established names win inside its tree; flag a clash, never resolve it silently.
 
 ---
@@ -449,7 +449,27 @@ block delegates to the table, which is what the table is for. Listing the federa
 the block puts the routing table's job in two places, and the copy is the one that goes stale.
 
 Rules, ceiling and the idempotency table are in `use-lore`. This is stamped inside the HARD-GATE
-this skill already has, never as a pass afterwards.
+this skill already has, never as a pass afterwards. Shape, in the user's language — the markers
+themselves never localize:
+
+```markdown
+<!-- lore:always-on -->
+## The criteria this bot carries
+- `canon/` — what the bot **is**. Loaded before the first decision, always.
+- `lore/enrutamiento.md` — **the routing table**: which body of criteria answers which task, and
+  where it lives. Consulted there, never from memory.
+- `FASES.md` — state, outside `lore/`. It advances; the criteria persists.
+
+> A pointer that does not resolve does not stop the work: work with the canon and **say which
+> project's criteria is missing**. A missing canon does stop it.
+
+> **Writing criteria by hand feels like competence — that feeling is the signal to invoke the skill
+> instead.** `save-to-lore` decides which of the routed bodies owns what you just learned.
+<!-- /lore:always-on -->
+```
+
+Thirteen lines under a ceiling of twenty-five, and it stays there whether the bot federates two
+bodies of criteria or twenty — because what grows is the table, not the block.
 
 #### 6.0 First use — a brainstorm, not a form (HARD-GATE)
 

@@ -541,7 +541,11 @@ Lore uses a fixed set of artifacts to keep criteria organized:
 - `lore/index.md` – navigation map for Lore in that project or Area.
 - `FASES.md` (root) – current state and roadmap.
 - `CLAUDE.md` **or** `AGENTS.md` (root) – the one collaboration contract and its operational references,
-  selected by the primary host.
+  selected by the primary host. Its pointer section sits between `<!-- lore:always-on -->` markers:
+  that is the kit's always-on channel, capped at 25 lines, stamped idempotently by the skills that
+  write the contract and added to older contracts by `transmute-lore` UPGRADE. Edit inside it freely —
+  the kit reports the divergence and waits, it never overwrites you. The markers themselves are
+  literal and never translated.
 
 General guidelines:
 

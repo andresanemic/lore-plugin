@@ -280,6 +280,22 @@ Each has one responsibility. None duplicates another.
 
 The names shown are the Spanish canonical forms; in your language they localize.
 
+#### The always-on block
+
+The contract is the only artifact **both** hosts load without being asked, which makes it the kit's always-on channel. Its pointer section is delimited so it can be found and re-stamped without touching anything else:
+
+```markdown
+<!-- lore:always-on -->
+…what Lore governs here · where it lives · when to invoke instead of writing by hand…
+<!-- /lore:always-on -->
+```
+
+Three things and no more, under a hard ceiling of **25 lines**. It points at `lore/`; it never reproduces a clue. If a variant does not fit, the answer is to move content into `lore/`, not to raise the ceiling.
+
+Three variants: an **area** points at its own `lore/`; a **project** at its own layer and its mother area's; a **bot** at `canon/` and its **routing table** — never at the federated Lores one by one, which is why a bot that reaches twenty bodies of criteria still fits.
+
+Stamping is idempotent and belongs to the skills that already write the contract, inside the HARD-GATE they already have. `transmute-lore` UPGRADE adds it to contracts that predate it. Identical content is a **no-op that writes nothing**; a block edited by hand is a **divergence that gets reported, never overwritten**. The marker pair is literal and never localizes.
+
 ### Area → Project inheritance
 
 Lore scales through **Areas**. An Area is a mother folder with its own Lore, and projects inherit it instead of copying it:
@@ -986,6 +1002,22 @@ enfocados como el trabajo haya ganado.
 Cada uno tiene una responsabilidad. Ninguno duplica a otro.
 
 > **El Lore es criterio (persiste); `FASES.md` es estado (avanza).** Nunca se mezclan, y `FASES.md` nunca vive dentro de `lore/`.
+
+#### El bloque siempre-activo
+
+El contrato es el único artefacto que **los dos** hosts cargan sin que nadie se lo pida, y eso lo convierte en el canal siempre-activo del kit. Su sección de punteros va delimitada para poder encontrarla y re-estamparla sin tocar nada más:
+
+```markdown
+<!-- lore:always-on -->
+…qué Lore gobierna acá · dónde vive · cuándo invocar en vez de escribir a mano…
+<!-- /lore:always-on -->
+```
+
+Tres cosas y ninguna más, con un techo duro de **25 líneas**. Apunta al `lore/`; nunca reproduce una Pista. Si una variante no cabe, la respuesta es mover contenido al `lore/`, no subir el techo.
+
+Tres variantes: un **área** apunta a su propio `lore/`; un **proyecto** a su capa y a la del área madre; un **bot** a `canon/` y a su **tabla de enrutamiento** — nunca a los Lore federados uno por uno, que es por lo que un bot que alcanza veinte cuerpos de criterio sigue cabiendo.
+
+El estampado es idempotente y lo hacen las skills que ya escriben el contrato, dentro del HARD-GATE que ya tienen. `transmute-lore` UPGRADE lo agrega a los contratos anteriores a él. Contenido idéntico es un **no-op que no escribe nada**; un bloque editado a mano es una **divergencia que se reporta, nunca se sobrescribe**. El par de marcadores es literal y no se localiza.
 
 ### Herencia Área → Proyecto
 

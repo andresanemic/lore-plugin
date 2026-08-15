@@ -21,7 +21,7 @@ any global starter folder.
 > (`identidad.md`, `principios.md`, `FASES.md`, `proyectos/`, `fuente/`) are the Spanish canonical
 > forms: localize them (e.g. English → `identity.md`, `principles.md`, `PHASES.md`, `projects/`,
 > `source/`). Fixed in every language: the area's selected contract name (`CLAUDE.md` or
-> `AGENTS.md`), `lore/`, `index.md`, `golden-paths.md`.
+> `AGENTS.md`), `lore/`, `index.md`, `golden-paths.md`, the `<!-- lore:always-on -->` marker pair (literal, never localized — localizing it breaks idempotent stamping silently).
 > **Consistency with the area wins:** the project uses the area's actual folder and artifact names
 > (its `proyectos/`-equivalent, its area-module filenames in inherited links); if the area's
 > language differs from the user's, flag the mismatch and let the user pick. English terms of

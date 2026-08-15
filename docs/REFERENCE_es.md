@@ -729,6 +729,33 @@ Lore usa un conjunto fijo de artefactos Markdown para mantener el criterio estru
 - Piensa en este archivo como el “acuerdo de trabajo” para la colaboración humano–IA.
 - Mantén el contenido explícito y práctico.
 
+**El bloque siempre-activo:**
+
+El contrato es el único artefacto que los dos hosts cargan sin que nadie se lo pida, así que lleva el
+canal siempre-activo del kit — su sección de punteros, delimitada por un par de marcadores:
+
+```markdown
+<!-- lore:always-on -->
+…qué Lore gobierna acá · dónde vive · cuándo invocar en vez de escribir a mano…
+<!-- /lore:always-on -->
+```
+
+- **Los marcadores son literales.** Sin variantes de espaciado, sin atributos, sin número de versión;
+  se localizan por coincidencia de línea completa tras recortar espacios, y **nunca se traducen** —
+  traducirlos rompe la idempotencia del estampado sin producir ningún error.
+- **Techo: 25 líneas, marcadores incluidos.** Es un límite duro. Si una variante no cabe, el
+  contenido se mueve al `lore/`; el techo no se mueve.
+- **Exactamente tres cosas:** qué Lore gobierna acá, dónde vive, y la señal de invocar en vez de
+  escribir criterio a mano. Apunta al `lore/` y nunca reproduce una Pista.
+- **Tres variantes.** Área → su propio `lore/`. Proyecto → su capa más la del área madre. Bot →
+  `canon/` más la tabla de enrutamiento, nunca los Lore federados uno por uno.
+- **Quién estampa:** `create-area`, `create-project` y `create-bot`, dentro del HARD-GATE que ya
+  tienen; `transmute-lore` UPGRADE para contratos anteriores al bloque.
+- **Idempotencia:** sin marcadores → insertar tras el primer H1. Un par bien formado con contenido
+  idéntico → **no-op, no se escribe nada**. Un par bien formado con contenido distinto → **reportar
+  la divergencia y esperar**. Marcadores duplicados o rotos → **detener y reportar**; nunca adivinar.
+  Salvo el bloque, el archivo no cambia.
+
 ---
 
 ### 4.7 `golden-paths.md` (opcional)

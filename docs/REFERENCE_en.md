@@ -734,6 +734,33 @@ Lore uses a fixed set of Markdown artifacts to keep criteria structured.
 - Think of it as the “working agreement” for human–AI collaboration.
 - Keep it explicit and practical.
 
+**The always-on block:**
+
+The contract is the only artifact both hosts load without being asked, so it carries the kit's
+always-on channel — its pointer section, delimited by a marker pair:
+
+```markdown
+<!-- lore:always-on -->
+…what Lore governs here · where it lives · when to invoke instead of writing by hand…
+<!-- /lore:always-on -->
+```
+
+- **Markers are literal.** No spacing variants, no attributes, no version number; located by
+  full-line match after trimming whitespace, and **never localized** — localizing them breaks
+  idempotent stamping with no error.
+- **Ceiling: 25 lines, markers included.** Hard limit. If a variant does not fit, content moves into
+  `lore/`; the ceiling does not move.
+- **Exactly three things:** what Lore governs here, where it lives, and the signal to invoke instead
+  of writing criteria by hand. It points at `lore/` and never reproduces a clue.
+- **Three variants.** Area → its own `lore/`. Project → its own layer plus the mother area's. Bot →
+  `canon/` plus the routing table, never the federated Lores one by one.
+- **Who stamps:** `create-area`, `create-project` and `create-bot`, inside the HARD-GATE they already
+  have; `transmute-lore` UPGRADE for contracts that predate the block.
+- **Idempotency:** no markers → insert after the first H1. One well-formed pair with identical
+  content → **no-op, write nothing**. One well-formed pair with different content → **report the
+  divergence and wait**. Duplicated or broken markers → **stop and report**; never guess. Apart from
+  the block, the file does not change.
+
 ---
 
 ### 4.7 `golden-paths.md` (optional)

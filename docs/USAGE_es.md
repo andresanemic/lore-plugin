@@ -544,7 +544,11 @@ Lore utiliza un conjunto fijo de artefactos para mantener el criterio organizado
 - `lore/index.md` – mapa de navegación del Lore en ese proyecto o Área.
 - `FASES.md` (raíz) – estado actual y hoja de ruta del proyecto.
 - `CLAUDE.md` **o** `AGENTS.md` (raíz) – el único contrato de colaboración y sus referencias
-  operativas, elegido según el host principal.
+  operativas, elegido según el host principal. Su sección de punteros va entre marcadores
+  `<!-- lore:always-on -->`: ese es el canal siempre-activo del kit, con techo de 25 líneas,
+  estampado de forma idempotente por las skills que escriben el contrato y agregado a los contratos
+  antiguos por `transmute-lore` UPGRADE. Edita dentro con libertad — el kit reporta la divergencia y
+  espera, nunca te sobrescribe. Los marcadores en sí son literales y no se traducen.
 
 Recomendaciones generales:
 

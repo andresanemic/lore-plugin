@@ -74,7 +74,7 @@ These are six structural pieces, not six literal files: thematic modules may be 
 
 > **Artifact names are localized.** The names above are the Spanish canonical forms; per the kit's
 > language rule they render in the user's language (e.g. English: `identity.md`, `principles.md`,
-> `PHASES.md`). Fixed in every language: the selected contract name, `lore/`, `index.md`, `golden-paths.md`.
+> `PHASES.md`). Fixed in every language: the selected contract name, `lore/`, `index.md`, `golden-paths.md`, the `<!-- lore:always-on -->` marker pair (literal, never localized — localizing it breaks idempotent stamping silently).
 > Inside an existing corpus, its established names win.
 
 ---

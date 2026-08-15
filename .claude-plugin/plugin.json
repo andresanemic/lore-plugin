@@ -1,6 +1,6 @@
 {
   "name": "lore",
-  "version": "2.0.9",
+  "version": "2.1.0",
   "description": "Local fine-tuning for your own tasks, except the one doing the training is you. A provider-neutral kit that turns scattered project criteria into distilled, invariant Lore — and operates it with eight skills: use-lore, brainstorming-lore, create-area, create-project, create-bot, save-to-lore, transmute-lore, obsidian-lore.",
   "author": {
     "name": "andresanemic"
