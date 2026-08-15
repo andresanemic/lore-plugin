@@ -26,9 +26,9 @@ Operates a project's body of criteria. Six modes, one skill:
   the current version of the kit** and raises it, without rewriting what is already earned.
 - **PRUNE** — the Lore is in the standard, in active use, and **nothing in it is wrong**. It decayed
   by accumulating correct things until their sum no longer fits the deliverable. PRUNE is the only
-  mode that asks *does any of this need to be here?*, counts apparatus against content, and treats a
-  **smaller** corpus as the result rather than as a loss. It is not CLEAN: nothing here is a
-  duplicate.
+  mode that asks *does any of this need to be here?* and counts apparatus against content. What it
+  shrinks is **the deliverable's surface**, not necessarily the corpus — see the warning in Phase 4.
+  It is not CLEAN: nothing here is a duplicate.
 - **CRYSTALLIZE** — the Lore is healthy and must travel as a **single Markdown derivative** into a
   chat, an AI project, or a notebook such as NotebookLM. It resolves the live routing into one
   traceable snapshot while leaving every source untouched. It **does not replace the six live
@@ -499,10 +499,16 @@ on the pipeline itself.
 Present the four lists with content in view, plus the Phase 1 counts **before and after**. Nothing is
 written before approval, and the user can accept per finding.
 
-**State the density result plainly and do not apologize for it.** Fewer clues is the intended
-outcome, not a loss to be explained away. The report says what the corpus weighs now and what it will
-weigh, and treats a drop as the result — a Lore that only ever grows has no mechanism for being
-wrong about its own size.
+**Report both sizes, and do not confuse them.** What PRUNE shrinks is **the deliverable's surface**;
+the corpus may go either way. A `Crowding`-dominated Lore gets **bigger** when it is pruned
+correctly, because the repair for `Crowding` is to *add* a boundary, a destination or a ceiling —
+only `Deadwood` subtracts. The first real run of this mode ended with a corpus **35 lines larger**
+and the apparatus inside its deliverable down from ~120 lines to none. That is a success, and
+counting clues would have called it a failure.
+
+> **Never optimize for the smaller number.** A pass judged on corpus size has exactly one cheap way
+> to win: delete earned criteria. Say what the corpus weighs before and after, say what the
+> deliverable weighs before and after, and let the second one be the verdict.
 
 ### Phase 5 — Prune (only after approval)
 
