@@ -7,7 +7,7 @@
 
 Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía.
 
-> **Estatus:** son casos, no demostraciones. n pequeño, y las ocho evidencias vienen del mismo investigador. Restringen cómo usamos el kit; no pretenden ser una ley. El Caso 08 añade medición controlada sin eliminar esa frontera.
+> **Estatus:** son casos, no demostraciones. n pequeño, y las nueve evidencias vienen del mismo investigador. Restringen cómo usamos el kit; no pretenden ser una ley. El Caso 08 añade medición controlada sin eliminar esa frontera, y el Caso 09 es el que mide este kit contra sí mismo.
 
 <details>
 <summary><b>Caso 01 — El Lore como forma operativa de un proyecto entero</b></summary>
@@ -125,6 +125,32 @@ auditado, regresiones y la frontera exacta de cada afirmación en [`bench/`](../
 **Frontera declarada:** un modelo, un nivel de esfuerzo, una máquina, tareas sintéticas y el mismo
 investigador construyó Lore, fixtures y graders. Mide cumplimiento de una Pista por tarea, no
 correctitud integral del entregable, ahorro universal ni un IME validado.
+
+</details>
+
+<details>
+<summary><b>Caso 09 — La forma devuelta al caso del que salió</b></summary>
+
+<br>
+
+Dos capacidades de esta versión —el bloque siempre-activo y la constitución-puntero— se generalizaron
+desde **un solo caso** y se dieron por terminadas sin volver a aplicarse sobre él. Devolverlas a ese
+caso produjo **cinco defectos, ninguno detectable leyendo los archivos**.
+
+El reparto es el hallazgo, no el número: **dos defectos los encontró la forma en el caso y tres los
+encontró el caso en la forma** —incluido el más caro, que una plantilla que media entre dos kits no
+dijera nada sobre quién puede escribir en el repositorio—. Generalizar es una operación con pérdida en
+las dos direcciones, y ninguna de las dos se ve desde el lado en que uno está parado: leyendo solo la
+forma no se ve lo que le falta, porque está completa respecto de sí misma.
+
+La práctica que deja es barata y mecánica: **antes de publicar una generalización, superponerla sobre
+el caso del que salió y anotar las diferencias en las dos direcciones.** Las que van forma → caso son
+defectos del caso; las que van caso → forma son las que se iban a publicar.
+
+**Frontera declarada:** un constructor, una máquina, un repositorio sin código, cero ciclos completados
+del segundo kit y el auto-sellado más fuerte de la serie —el autor del kit, el del caso y el operador
+son la misma persona—. La vara se fijó tarde y cubre solo uno de los tres tramos, cosa que el caso
+declara en vez de disimular.
 
 </details>
 ---

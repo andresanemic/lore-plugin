@@ -7,7 +7,7 @@
 
 Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. LUS documents those applications as **case studies**.
 
-> **Status:** these are cases, not proofs. Small n, and all eight documented cases come from the same researcher. What they claim constrains how we use the kit; it does not pretend to be a law. Case 08 adds controlled measurement without removing that boundary.
+> **Status:** these are cases, not proofs. Small n, and all nine documented cases come from the same researcher. What they claim constrains how we use the kit; it does not pretend to be a law. Case 08 adds controlled measurement without removing that boundary, and Case 09 is the one that measures this kit against itself.
 
 <details>
 <summary><b>Case 01 — Lore as the operational form of an entire project</b></summary>
@@ -124,6 +124,32 @@ audited cuts, regression tests, and the exact boundary of every claim in [`bench
 **Declared boundary:** one model, one effort level, one machine, synthetic tasks, and the same
 researcher built the Lore, fixtures, and graders. It measures compliance with one Clue per task, not
 the integral correctness of the deliverable, universal savings, or a validated IME.
+
+</details>
+
+<details>
+<summary><b>Case 09 — The form returned to the case it came from</b></summary>
+
+<br>
+
+Two capabilities of this release — the always-on block and the pointer constitution — were
+generalized from **a single case** and then declared finished without being applied back to it.
+Applying them back produced **five defects, none of them visible by reading the files**.
+
+The split is the finding, not the number: **two defects were found by the form in the case, and three
+by the case in the form** — including the most expensive one, a template that mediates between two
+kits and said nothing about who may write in the repository. Generalizing loses in both directions,
+and neither loss is visible from where you stand: reading the form alone you cannot see what it
+lacks, because it is complete with respect to itself.
+
+The practice this leaves is cheap and mechanical: **before publishing a generalization, lay it back
+over the case it came from and write down the differences in both directions.** The ones running
+form → case are defects of the case; the ones running case → form are what you were about to ship.
+
+**Declared boundary:** one builder, one machine, a repository with no code, zero completed cycles of
+the second kit, and the strongest self-sealing in the series — the author of the kit, of the case, and
+the operator are the same person. The yardstick was fixed late and covers only one of the three
+stages, which the case declares rather than hides.
 
 </details>
 ---
