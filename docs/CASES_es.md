@@ -7,7 +7,7 @@
 
 Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía.
 
-> **Estatus:** son casos, no demostraciones. n pequeño, y las nueve evidencias vienen del mismo investigador. Restringen cómo usamos el kit; no pretenden ser una ley. El Caso 08 añade medición controlada sin eliminar esa frontera, y el Caso 09 es el que mide este kit contra sí mismo.
+> **Estatus:** son casos, no demostraciones. n pequeño, y las diez evidencias vienen del mismo investigador. Restringen cómo usamos el kit; no pretenden ser una ley. El Caso 08 añade medición controlada sin eliminar esa frontera, y los Casos 09 y 10 son los que miden este kit contra sí mismo — el 10, usándolo un día entero contra un Lore vivo.
 
 <details>
 <summary><b>Caso 01 — El Lore como forma operativa de un proyecto entero</b></summary>
@@ -151,6 +151,27 @@ defectos del caso; las que van caso → forma son las que se iban a publicar.
 del segundo kit y el auto-sellado más fuerte de la serie —el autor del kit, el del caso y el operador
 son la misma persona—. La vara se fijó tarde y cubre solo uno de los tres tramos, cosa que el caso
 declara en vez de disimular.
+
+</details>
+
+<details>
+<summary><b>Caso 10 — El kit usado un día entero contra un Lore vivo, mientras se medía a sí mismo</b></summary>
+
+<br>
+
+El origen no fue una hipótesis: fue una nota de enojo. *«No me están gustando para nada los resultados de los copy… al final termino yo haciendo los copy a mano.»* Un área de community management con Lore completo, criterio destilado y método escrito, produciendo trabajo que su dueño desechaba. **El destilador saltándose su propio sistema es la única medición que importaba**, y estaba en rojo.
+
+De ese día salieron `PRUNE`, `TRANSPLANT` y el umbral. Pero lo que el caso aporta no son las capacidades: es lo que se vio al usarlas.
+
+- **El defecto no era criterio malo: era criterio correcto acumulado.** Escribir un post de cinco líneas cargaba ~797 líneas de criterio activo. Ninguna Pista estaba refutada, ninguna ley sobraba por separado, y **cada una se veía bien leída sola**. Se detecta contando artefacto contra contenido —~120 líneas de aparato alrededor de 5 de copy—, nunca leyendo archivos. Es la clase de hallazgo para la que `Missing`/`Superseded`/`Earned` no tenía casilla, y por eso `PRUNE` trajo `Crowding`.
+- **Podar bien un Lore así lo deja MÁS grande.** El corpus terminó 35 líneas por encima y el aparato del entregable bajó de ~120 a ninguna. Cuatro de seis hallazgos fueron `Crowding`, y reparar un `Crowding` es *agregar* una frontera, un destino o un techo. **Medido por tamaño de corpus, la reparación correcta se reporta como fracaso** — y el incentivo pasa a ser borrar criterio ganado. La skill afirmaba lo contrario esa misma mañana y su primera corrida la desmintió.
+- **El umbral protege a las skills y nada protege al editor de texto.** Ese día se escribieron 241 líneas de criterio nuevo en un Lore que se había diagnosticado por fronteras ausentes ocho horas antes. Produjeron **una**. `save-to-lore` las exige si se lo invoca; `UPGRADE` las atrapa meses después; abrir el archivo y escribir no tiene ninguna puerta, y es el camino por donde pasa casi todo. **El defecto sobrevivió al mejor caso posible** —el autor de la regla, el mismo día, con la regla fresca—, así que es del mecanismo y no de la disciplina de nadie.
+- **La omisión entre dos kits corre en las dos direcciones.** El Caso 09 mostró que el ciclo puede correr sin consultar el criterio. Acá pasó lo inverso: el criterio corrió sin consultar el ciclo, y la versión ganó tres capacidades mientras su spec seguía describiendo dos. Nada falló y nada avisó, **porque un spec desactualizado se ve idéntico a uno vigente**.
+- **Una herramienta no es neutral por ser útil.** Un revisor de escritura de terceros marca los emoji y las ráfagas de frases cortas como tics de máquina. La marca cuya voz destilada se construye sobre esos dos recursos lo corrió en seco: la habría borrado teniendo razón en todo menos en ese corpus. `TRANSPLANT` cubría el criterio que llega como documento; el que llega como **herramienta que se invoca** no lo cubría nadie.
+
+**El hallazgo que ninguna de las cinco viñetas contiene, y es el más importante:** casi todos esos defectos los encontró **el dueño del proyecto, no el kit ni el agente**. El revisor que no estaba corriendo, los saltos de línea que la superficie de almacenamiento destruía, el ruido que se colaba de vuelta bajo cada entrega, la forma de estrofa de las publicaciones que sí habían rendido. El kit no tiene ningún mecanismo que hubiera atrapado eso, y llamarlo «supervisión humana» sería suavizarlo: **el instrumento pasó el día equivocándose y el humano fue el único detector.**
+
+**Frontera declarada, y es la más ancha de la serie.** Un operador, una máquina, un área, un día. La medición terminal —*«ya no siento que los tengo que hacer a mano»*— llegó de una sesión **interactiva**, mientras los copies que originaron la queja salieron de una corrida automática sin nadie presente: **la variable más grande que cambió no es el Lore, es que había alguien mirando**, y separarlas exige una corrida desatendida que todavía no ocurrió. Añádase el auto-sellado del Caso 09, intacto: autor del kit, autor del caso y operador siguen siendo la misma persona.
 
 </details>
 ---

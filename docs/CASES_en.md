@@ -7,7 +7,7 @@
 
 Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. LUS documents those applications as **case studies**.
 
-> **Status:** these are cases, not proofs. Small n, and all nine documented cases come from the same researcher. What they claim constrains how we use the kit; it does not pretend to be a law. Case 08 adds controlled measurement without removing that boundary, and Case 09 is the one that measures this kit against itself.
+> **Status:** these are cases, not proofs. Small n, and all ten documented cases come from the same researcher. What they claim constrains how we use the kit; it does not pretend to be a law. Case 08 adds controlled measurement without removing that boundary, and Cases 09 and 10 are the ones that measure this kit against itself — Case 10 by using it for a full day against a live Lore.
 
 <details>
 <summary><b>Case 01 — Lore as the operational form of an entire project</b></summary>
@@ -150,6 +150,27 @@ form → case are defects of the case; the ones running case → form are what y
 the second kit, and the strongest self-sealing in the series — the author of the kit, of the case, and
 the operator are the same person. The yardstick was fixed late and covers only one of the three
 stages, which the case declares rather than hides.
+
+</details>
+
+<details>
+<summary><b>Case 10 — The kit used for a full day against a live Lore, while measuring itself</b></summary>
+
+<br>
+
+It did not start from a hypothesis. It started from an angry note: *«I don't like the copy results at all… I end up writing the copy by hand myself.»* A community-management area with a complete Lore, distilled criteria and a written method, producing work its owner discarded. **The distiller bypassing his own system is the only measurement that mattered**, and it was red.
+
+`PRUNE`, `TRANSPLANT` and the threshold came out of that day. But what the case contributes is not the capabilities: it is what became visible while using them.
+
+- **The defect was not bad criteria: it was correct criteria, accumulated.** Writing a five-line post loaded ~797 lines of active criteria. Nothing was refuted, no single law was superfluous, and **each one read fine on its own**. You find it by counting apparatus against content — ~120 lines of scaffolding around 5 lines of copy — never by reading files. It is the class of finding `Missing`/`Superseded`/`Earned` had no slot for, which is why `PRUNE` brought `Crowding`.
+- **Pruning such a Lore correctly leaves it BIGGER.** The corpus ended 35 lines larger and the apparatus inside the deliverable went from ~120 lines to none. Four of six findings were `Crowding`, and repairing `Crowding` means *adding* a boundary, a destination or a ceiling. **Measured by corpus size, the correct repair reports as a failure** — and the incentive becomes deleting earned criteria. The skill claimed the opposite that same morning, and its first run disproved it.
+- **The threshold guards the skills and nothing guards the text editor.** That day 241 lines of new criteria went into a Lore that had been diagnosed eight hours earlier for missing boundaries. They produced **one**. `save-to-lore` demands them if you invoke it; `UPGRADE` catches them months later; opening the file and typing has no gate at all, and that is the path most criteria takes. **The defect survived the best possible case** — the author of the rule, the same day, with the rule fresh — so it belongs to the mechanism, not to anyone's discipline.
+- **The omission between two kits runs both ways.** Case 09 showed the cycle can run without ever consulting the criteria. Here the inverse happened: the criteria ran without ever consulting the cycle, and the version gained three capabilities while its spec still described two. Nothing failed and nothing warned, **because a stale spec looks exactly like a current one**.
+- **A tool is not neutral because it is useful.** A third-party writing reviewer flags emoji and short-fragment bursts as machine tells. The brand whose distilled voice is built on exactly those two devices ran it cold: it would have erased that voice while being right about everything except this corpus. `TRANSPLANT` covered criteria arriving as a document; criteria arriving as **a tool you invoke** was covered by nobody.
+
+**The finding none of the five bullets contains, and the most important one:** almost all of those defects were found by **the project's owner, not by the kit and not by the agent**. The reviewer that was not running, the line breaks the storage surface was destroying, the noise creeping back under every delivery, the stanza form of the posts that had actually performed. The kit has no mechanism that would have caught any of it, and calling that «human supervision» would be softening it: **the instrument spent the day being wrong and the human was the only detector.**
+
+**Declared boundary, the widest in the series.** One operator, one machine, one area, one day. The terminal measurement — *«I no longer feel I have to write them by hand»* — came from an **interactive** session, while the copy that caused the complaint came from an unattended automated run: **the biggest variable that changed is not the Lore, it is that someone was watching**, and separating them requires an unattended run that has not happened yet. Add Case 09's self-sealing, intact: kit author, case author and operator are still the same person.
 
 </details>
 ---
