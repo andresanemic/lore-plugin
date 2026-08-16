@@ -24,8 +24,6 @@
     "README.md",
     "LICENSE"
   ],
-  "scripts": {
-    "test": "node --test bench/*.test.mjs bench/upgrade/*.test.mjs scripts/*.test.mjs"
-  },
+  "scripts": {},
   "keywords": ["lore", "ai", "skills", "codex", "claude-code", "context-engineering"]
 }
