@@ -210,7 +210,8 @@ Area. Do not create a second contract merely because another host might be used 
 
 **Stamp the always-on block** (project variant) in that contract — the pointer section wrapped in
 `<!-- lore:always-on -->` / `<!-- /lore:always-on -->`, pointing at this project's own layer and its
-mother area's, plus the signal to invoke instead of writing by hand. The area starter template
+mother area's, at its own `FASES.md` in one line, plus the signal to invoke instead of writing by
+hand. The area starter template
 already carries it; if the contract was written from scratch, add it. Rules, ceiling and the
 idempotency table are in `use-lore` — this happens inside the threshold this skill already has, and
 never as a second pass afterwards. If a block is already there and differs, report it and wait: a

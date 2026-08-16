@@ -238,7 +238,9 @@ The area's distilled memory lives in **`lore/`**. Before deciding anything about
 - `lore/identidad.md` — what we are, our north, and what we are NOT
 - `lore/principios.md` — invariant laws of the method
 
-> **`FASES.md` does NOT live in `lore/`.** Lore is criteria (persists); FASES is state (advances).
+**Where the state lives: `FASES.md`, at the root.** It does **NOT** live in `lore/` — Lore is criteria
+(persists), FASES is state (advances). Read it alongside the Lore: the criteria says how, the state
+says which.
 
 > **Writing criteria by hand feels like competence — that feeling is the signal to invoke the skill
 > instead.** `save-to-lore` to capture or arbitrate one clue, `transmute-lore` to restructure.
@@ -279,6 +281,8 @@ These are **project** templates the area stamps — they carry `{{PROJECT_TOKENS
   (`../../../lore/<module>.md`).
 - `lore/identidad.md` — this project's identity + pointer to the area standard.
 - `lore/principios.md` — this project's laws + pointer to the area laws.
+
+**Where the state lives: `FASES.md`, at the project root** — never inside `lore/`.
 
 > **Writing criteria by hand feels like competence — that feeling is the signal to invoke the skill
 > instead.** `save-to-lore` decides whether a clue stays here or is promoted to the area.

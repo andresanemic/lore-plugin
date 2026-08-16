@@ -380,7 +380,7 @@ silently overwritten.
 This is the common shape in a contract written by hand, where loading and routing were never
 separated — a numbered procedure that starts by naming the paths and then keeps going into what to do
 with them. Do **not** wrap that section: wrapping it drags a procedure inside a block whose contents
-are fixed at three, and the ceiling goes with it. Insert the block, then **reduce the section to what
+are fixed at four, and the ceiling goes with it. Insert the block, then **reduce the section to what
 the block does not carry** and report both moves together in the gate. The pointers end up in one
 place, and the place they end up in is the one the skills re-stamp. This is the path by which an already-installed ecosystem receives the block:
 without it the feature only ever reaches projects created after it existed, which is the smaller
