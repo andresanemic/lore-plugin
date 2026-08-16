@@ -13,9 +13,14 @@ description: >-
 
 # brainstorming-lore — Design changes to the Lore system
 
-`brainstorming-lore` is the bridge between accumulated criterion and a change to the **Lore system
-itself**. It does not begin from a blank prompt: it discovers what this Entre already knows, makes
-the unresolved choices visible, and obtains approval before changing a Lore-owned artifact.
+Changing the Lore is not like changing code. Code tells you when you broke it; a body of criteria
+accepts a bad addition silently and keeps reading perfectly well — the cost arrives months later, in
+a decision that goes the wrong way for a reason nobody can trace back.
+
+So this one slows down on purpose. `brainstorming-lore` is the bridge between accumulated criterion
+and a change to the **Lore system itself**. It does not begin from a blank prompt: it discovers what
+this Entre already knows, makes the unresolved choices visible, and obtains approval before changing
+a Lore-owned artifact.
 
 > **Provenance.** Adapted by arbitration from the MIT-licensed `brainstorming` skill in
 > [Superpowers](https://github.com/obra/superpowers), copyright © 2025 Jesse Vincent. Lore keeps

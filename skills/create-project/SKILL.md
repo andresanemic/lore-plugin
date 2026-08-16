@@ -5,9 +5,13 @@ description: Use when starting a brand-new PROJECT inside an existing WORK AREA 
 
 # create-project — Start a new project inside an area
 
-Creates a concrete **project** inside an existing work area (made with `create-area`). The project
-**inherits the area Lore** and derives its **folder structure and phases from its source
-documents** (a spec PDF, a brief, a proposal), not from a fixed mold. If the area carries a project
+New project, same domain. The standard has not changed, the anti-scope has not changed, the four
+things you always get wrong have not changed — and you are about to explain all of it again, because
+the folder is empty and empty folders know nothing.
+
+They do not have to. This skill creates a concrete **project** inside an existing work area (made
+with `create-area`). The project **inherits the area Lore** and derives its **folder structure and
+phases from its source documents** (a spec PDF, a brief, a proposal), not from a fixed mold. If the area carries a project
 **starter scaffold** (`{area}/_starter/`, e.g. a Next.js template), the project is instantiated
 from it — this is how `create-project` replaces the old web-only `nuevo-sitio` without depending on
 any global starter folder.

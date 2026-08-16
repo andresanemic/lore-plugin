@@ -5,10 +5,14 @@ description: Use when building a BOT — one place to open a session and work ac
 
 # create-bot — Build a bot: one place to work
 
-Creates a **bot**: a Lore **project** and the **place a work session is opened in**. Packaging it
-as a Claude Code and Codex plugin is optional. A bot does not answer questions about the projects — it
-**works in them**. The instruction goes in, the bot executes it against real files, the result
-comes back.
+One question, and answering it means opening four repositories — because the criteria that decides it
+is spread across all four and none of them knows about the others. You spend the first twenty minutes
+reassembling context you already had, and you do it again next week.
+
+A bot is one place to open that session. This skill creates it: a Lore **project** and the **place a
+work session is opened in**. Packaging it as a Claude Code and Codex plugin is optional. A bot does
+not answer questions about the projects — it **works in them**. The instruction goes in, the bot
+executes it against real files, the result comes back.
 
 > **The north, and the only test that matters:** *a short instruction is enough.* If the project
 > had to be explained to the bot to get the result, criteria were missing from the load.

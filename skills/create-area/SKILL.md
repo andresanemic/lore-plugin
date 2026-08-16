@@ -5,9 +5,14 @@ description: Use when starting a brand-new WORK AREA that groups several project
 
 # create-area — Start a new work area
 
-Creates the **mother folder** of a domain (web, research, blog, video, apps…) with its own
-**body of criteria** (area Lore) that its projects will inherit. It is the "mold of molds":
-`create-project` creates projects INSIDE an area; `create-area` creates the area.
+You are writing the same rule into a third repository. Not copying it — rewriting it, slightly
+differently each time, because you half-remember how you phrased it last time. In six months those
+three versions will disagree and none of them will be marked as the wrong one.
+
+That is the problem an area solves. This skill creates the **mother folder** of a domain (web,
+research, blog, video, apps…) with its own **body of criteria** (area Lore) that its projects
+inherit. It is the "mold of molds": `create-project` creates projects INSIDE an area; `create-area`
+creates the area.
 
 > **Startup golden rule:** the Lore's content is BORN from a brainstorm, not from a template
 > filled in blind. The template gives the *shape*; the brainstorm gives the *content*.

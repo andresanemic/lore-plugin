@@ -5,10 +5,14 @@ description: Use when saving a lesson to the Lore or right after solving a probl
 
 # save-to-lore — Incremental capture and promotion
 
-Captures a friction into the **current project's** `lore/`, then promotes to the project's **mother
-area** the clues that are already **confirmed + generic**. This is the incremental counterpart to
-the structural skills: `transmute-lore` migrates a whole project; `save-to-lore` adds one clue at a
-time and routes it to the right level.
+The bug is fixed. The tests pass. You are already reaching for the next thing — and the most
+expensive part of the last two hours is not the patch, it is the sentence you would say if someone
+asked *why it had to be done that way*. That sentence has about a minute left before it is gone.
+
+This skill catches it. It captures a friction into the **current project's** `lore/`, then promotes
+to the project's **mother area** the clues that are already **confirmed + generic**. It is the
+incremental counterpart to the structural skills: `transmute-lore` migrates a whole project;
+`save-to-lore` adds one clue at a time and routes it to the right level.
 
 > **Language rule:** write every clue, index line and law in the **language the target lore already
 > uses** (consistency wins); if the lore has no established language yet, use the **user's

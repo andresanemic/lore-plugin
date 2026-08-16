@@ -13,6 +13,10 @@ description: >-
 
 # obsidian-lore — The bridge between where experience piles up and where criteria is distilled
 
+The note you wrote at midnight is the honest one. It is also the one that never becomes anything:
+notes accumulate faster than anyone re-reads them, and an inbox that only grows stops being a source
+and becomes a pile you feel bad about.
+
 Obsidian and Lore can share one folder tree: the **vault is the mother folder of the Areas**, so the
 same files are at once the work space of Claude Code and the note space of Obsidian. This skill
 governs that overlap. It does two things and refuses a third.

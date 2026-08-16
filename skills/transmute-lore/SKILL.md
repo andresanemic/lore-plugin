@@ -5,7 +5,11 @@ description: Operate a project's body of criteria in six modes — migrate scatt
 
 # Transmute Lore
 
-Operates a project's body of criteria. Six modes, one skill:
+The criteria is already there. It is in a README nobody finishes, in a `CLAUDE.md` that grew by
+accretion, in a comment that says *don't touch this, it breaks hydration* — written by people who
+paid for it, sitting in shapes nothing can load. Nothing is missing. Nothing is reachable either.
+
+This skill operates a project's body of criteria. Six modes, one skill:
 
 - **ADD** — the project **never applied** the Lore method (or has a rough/incomplete `lore/`).
   Valuable criteria is *trapped* in non-distillable forms: long READMEs, an everything-mixed

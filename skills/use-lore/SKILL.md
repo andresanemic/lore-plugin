@@ -5,13 +5,17 @@ description: Read this first to understand the Lore system — what Lore is, the
 
 # Using Lore
 
-Lore is a **spec-driven development kit for humanist builders**. Where other SDD kits speak
-in pure engineering terms, Lore borrows a linguistic, epistemic, communicational vocabulary —
-*lore, identity, principles, transmutation, distillation* — to name the same discipline: turn
-scattered, tacit project knowledge into **distilled, invariant criteria** that constrain every
-future decision.
+Yesterday you and an agent solved something hard. You argued about the edges, you threw away two
+approaches, and the thing finally worked. Today, new session, you are explaining it again from the
+beginning — and the agent is not worse. It simply never received what the two of you worked out. The
+facts may have survived in a file somewhere. **The reason you changed your mind did not.**
 
-This skill is the map. It teaches the model and points to the operating skills. Read it before
+Lore is a **spec-driven development kit** built for that gap: it turns scattered, tacit project
+knowledge into **distilled, invariant criteria** that constrain every future decision. Where other
+SDD kits speak in pure engineering terms, this one borrows a linguistic and epistemic vocabulary —
+*lore, identity, principles, transmutation, distillation* — to name the same discipline.
+
+This skill is the map. It teaches the model and points at the operating skills. Read it before
 invoking any other Lore skill.
 
 ## 0. Very first use of the kit — a brainstorm, not a menu (threshold)
