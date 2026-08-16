@@ -7,7 +7,7 @@
 
 Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía.
 
-> **Estatus:** son casos, no demostraciones. n pequeño, y las diez evidencias vienen del mismo investigador. Restringen cómo usamos el kit; no pretenden ser una ley. El Caso 08 añade medición controlada sin eliminar esa frontera, y los Casos 09 y 10 son los que miden este kit contra sí mismo — el 10, usándolo un día entero contra un Lore vivo.
+> **Estatus:** son casos, no demostraciones. n pequeño, y las once evidencias vienen del mismo investigador. Restringen cómo usamos el kit; no pretenden ser una ley. El Caso 08 añade medición controlada sin eliminar esa frontera, y los Casos 09, 10 y 11 son los que miden este kit contra sí mismo — el 10 usándolo un día entero contra un Lore vivo, y el 11 corriendo dos de sus propias versiones cabeza a cabeza y juzgando la salida a ciegas.
 
 <details>
 <summary><b>Caso 01 — El Lore como forma operativa de un proyecto entero</b></summary>
@@ -172,6 +172,33 @@ De ese día salieron `PRUNE`, `TRANSPLANT` y el umbral. Pero lo que el caso apor
 **El hallazgo que ninguna de las cinco viñetas contiene, y es el más importante:** casi todos esos defectos los encontró **el dueño del proyecto, no el kit ni el agente**. El revisor que no estaba corriendo, los saltos de línea que la superficie de almacenamiento destruía, el ruido que se colaba de vuelta bajo cada entrega, la forma de estrofa de las publicaciones que sí habían rendido. El kit no tiene ningún mecanismo que hubiera atrapado eso, y llamarlo «supervisión humana» sería suavizarlo: **el instrumento pasó el día equivocándose y el humano fue el único detector.**
 
 **Frontera declarada, y es la más ancha de la serie.** Un operador, una máquina, un área, un día. La medición terminal —*«ya no siento que los tengo que hacer a mano»*— llegó de una sesión **interactiva**, mientras los copies que originaron la queja salieron de una corrida automática sin nadie presente: **la variable más grande que cambió no es el Lore, es que había alguien mirando**, y separarlas exige una corrida desatendida que todavía no ocurrió. Añádase el auto-sellado del Caso 09, intacto: autor del kit, autor del caso y operador siguen siendo la misma persona.
+
+</details>
+
+<details>
+<summary><b>Caso 11 — Los contadores decían una cosa y el juez decía la otra</b></summary>
+
+<br>
+
+Dos versiones de este kit estaban a punto de separarse por un número. La `v1.2.1` y la `2.1.0` corrieron **la misma tarea sobre el mismo corpus**, en sesiones de agente separadas, cada una contra un worktree congelado en el mismo commit. Después el dueño del corpus leyó cuatro pares del trabajo resultante **a ciegas** —mismo tema por par, orden sorteado con un tiro independiente, sin ninguna marca de quién escribió qué— y se le hizo una sola pregunta: *¿cuál firmarías como tuyo?*
+
+**Eligió la 2.1 tres veces de cuatro.** Ninguna de sus cuatro razones nombra una capacidad del kit: hablan de escritura.
+
+Y la versión vieja había ganado **todas las medidas mecánicas**:
+
+| Medida | `v1.2.1` | `2.1.0` |
+|---|---|---|
+| Fronteras de validez declaradas | **23** | 20 |
+| Marcas de confianza agregadas | **+22** | +1 |
+| Líneas de criterio producidas | 1539 | 1571 |
+
+- **Contar los artefactos del criterio cuenta actos de escritura.** Ocurren el día de la corrida. Lo que esos artefactos valen llega meses después, la primera vez que alguien abre la Pista y le cambia una decisión. Una corrida que puntúa bien declaró sus fronteras; no demostró que valiera la pena declararlas. Este es el contraejemplo que lo zanja, y con uno basta: **para romper la afirmación de que una medida sigue a la calidad, alcanza un caso donde apunte al perdedor.**
+- **La única derrota no es una victoria de la versión vieja.** Eligió el copy viejo criticándolo en la misma frase, y lo que hundió al nuevo no fue su forma sino que no lo pudo seguir: *«me parece extraño decir que la tecnología murió en tuesday, siento que no entiendo realmente»*. Tres pares los ganó el copy con los saltos de línea y el cuarto el que no los tenía — no es inconsistencia. **La forma manda mientras el texto se entienda, y deja de mandar en cuanto no.**
+- **El hallazgo más caro no pertenece a ninguna de las dos versiones.** Preguntado por la forma de entrega que realmente quería, respondió: *«opciones y 1 sugerencia para yo hacer el copy definitivo»*. Ningún brazo entregó eso, y **ninguno podría haberlo hecho**, porque ese criterio no estaba escrito en ningún `lore/`. Un test diseñado para separar dos versiones destapó un hueco que es de las dos. Es también la respuesta a *«¿qué habría cambiado una versión mejor?»* — nada.
+
+**Qué cambió en el kit, que es para lo que el caso existe:** el invariante de `use-lore` recomendaba contar Pistas contra fronteras como el chequeo barato mientras no exista una puerta. Lo sigue recomendando. Ahora queda escrito como **chequeo de completitud, nunca de calidad** — porque este repositorio publica una cifra de banco, y la distinción no es académica.
+
+**Frontera declarada, y siete confundidores publicados junto al resultado.** `n=1`, un juez, una sesión, un corpus. Un corte de luz a mitad de corrida destruyó las decisiones de umbral del segundo brazo — la skill escribe el resultado, no las decisiones. Tres de los cuatro pares salieron con el brazo viejo en primera posición. Los pares los armó la misma persona que corrió el test. El pegado a mano corrompió tramos de los dos entregables, y un copy del lunes se perdió antes de entrar a ningún par. Los dos brazos corrieron contra árboles distintos en naturaleza: uno congelado en un tag, otro el repositorio vivo. Y el brazo viejo corrió primero, con el juez sin haber visto todavía ninguna salida.
 
 </details>
 ---

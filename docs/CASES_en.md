@@ -7,7 +7,7 @@
 
 Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. LUS documents those applications as **case studies**.
 
-> **Status:** these are cases, not proofs. Small n, and all ten documented cases come from the same researcher. What they claim constrains how we use the kit; it does not pretend to be a law. Case 08 adds controlled measurement without removing that boundary, and Cases 09 and 10 are the ones that measure this kit against itself — Case 10 by using it for a full day against a live Lore.
+> **Status:** these are cases, not proofs. Small n, and all eleven documented cases come from the same researcher. What they claim constrains how we use the kit; it does not pretend to be a law. Case 08 adds controlled measurement without removing that boundary, and Cases 09, 10 and 11 are the ones that measure this kit against itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head and judging the output blind.
 
 <details>
 <summary><b>Case 01 — Lore as the operational form of an entire project</b></summary>
@@ -171,6 +171,33 @@ It did not start from a hypothesis. It started from an angry note: *«I don't li
 **The finding none of the five bullets contains, and the most important one:** almost all of those defects were found by **the project's owner, not by the kit and not by the agent**. The reviewer that was not running, the line breaks the storage surface was destroying, the noise creeping back under every delivery, the stanza form of the posts that had actually performed. The kit has no mechanism that would have caught any of it, and calling that «human supervision» would be softening it: **the instrument spent the day being wrong and the human was the only detector.**
 
 **Declared boundary, the widest in the series.** One operator, one machine, one area, one day. The terminal measurement — *«I no longer feel I have to write them by hand»* — came from an **interactive** session, while the copy that caused the complaint came from an unattended automated run: **the biggest variable that changed is not the Lore, it is that someone was watching**, and separating them requires an unattended run that has not happened yet. Add Case 09's self-sealing, intact: kit author, case author and operator are still the same person.
+
+</details>
+
+<details>
+<summary><b>Case 11 — The counters said one thing and the judge said the other</b></summary>
+
+<br>
+
+Two versions of this kit were about to be separated by a number. Version `v1.2.1` and version `2.1.0` ran **the same task on the same corpus**, in separate agent sessions, each against a frozen worktree at the same commit. Then the corpus owner read four pairs of the resulting work **blind** — same theme per pair, order drawn independently, nothing marking which version wrote what — and was asked one question: *which one would you sign as yours?*
+
+**He picked 2.1 three times out of four.** None of his four reasons named a capability of the kit; they were about writing.
+
+And the older version had won **every mechanical measure**:
+
+| Measure | `v1.2.1` | `2.1.0` |
+|---|---|---|
+| Validity boundaries declared | **23** | 20 |
+| Confidence markers added | **+22** | +1 |
+| Lines of criteria produced | 1539 | 1571 |
+
+- **Counting the artifacts of criteria counts acts of writing.** Those happen on the day of the run. What the artifacts are worth arrives months later, the first time somebody opens the clue and it changes a decision. A run that scores well on the count has declared its boundaries; it has not shown they were worth declaring. This is the counter-example that settles it, and one is enough: **to break a claim that a measure tracks quality, you only need a case where it points at the loser.**
+- **The single loss is not a win for the old version.** He chose the older copy while criticising it in the same sentence, and what sank the newer one was not its form but that he could not follow it: *«it feels strange to say the technology died on Tuesday, I don't really understand.»* Three pairs were won by the copy with the line breaks and the fourth by the one without — not an inconsistency. **Form rules while the text is understood, and stops ruling the moment it is not.**
+- **The most expensive finding belongs to neither version.** Asked which delivery shape he actually wanted, he answered: *«options and one suggestion, so I write the final copy myself»*. Neither arm produced that, and **neither could have**, because that criterion was not written in any `lore/`. A test designed to separate two versions uncovered a hole that belongs to both. It is also the answer to *«what would a better version have changed?»* — nothing.
+
+**What it changed in the kit, and this is why the case exists:** the invariant in `use-lore` used to recommend counting clues against boundaries as the cheap check while no gate exists. It still does. It is now written as a **completeness check, never a quality one** — because this repository publishes a benchmark figure, and the distinction is not academic.
+
+**Declared boundary, and seven confounders published with the result.** `n=1`, one judge, one session, one corpus. A power cut mid-run destroyed the second arm's threshold decisions — the skill writes the result, not the decisions. Three of four pairs happened to place the older arm first. The pairs were assembled by the same person who ran the test. Manual copy-paste corrupted stretches of both deliverables, and one Monday copy was lost before it could enter a pair. The two arms ran against trees that differed in nature: one frozen at a tag, one the live working repository. And the older arm ran first, with the judge having seen no output yet.
 
 </details>
 ---
