@@ -46,6 +46,11 @@ agitación entierra el criterio.
 El criterio genérico vive **una sola vez**, en el área madre, y todos los proyectos lo heredan.
 Corriges una Pista en un lugar y lo ve todo.
 
+Y una pieza carga antes que todas las demás. El contrato de tu agente —`CLAUDE.md` o `AGENTS.md`— es
+el único archivo que los dos hosts leen sin que nadie se lo pida, así que el kit le estampa un bloque
+delimitado que apunta a dónde vive el Lore. Ese bloque es la razón por la que algo de esto llega a la
+sesión: sin un ancla que cargue siempre primero, un `lore/` es una carpeta que el agente nunca abre.
+
 ## Qué no es
 
 No es un README, no es un changelog, no es un documento de diseño. Esos describen. Lore restringe.

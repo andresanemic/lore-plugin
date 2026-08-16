@@ -83,10 +83,22 @@ This is the part worth reading before you trust either capability.
   one corpus. The mode has **never been run end to end**, and the density claim (*fewer clues, better
   deliverable*) is a **conjecture** until a pruned Lore produces work its owner accepts. Whether a
   prune improves output, or merely feels tidier, is exactly what this release cannot tell you.
-- **Not exercised.** The border with spec-kit was verified on a **bot** — a repository whose product
-  is records, not code — against `specify-cli 0.16.5.dev0` (commit `bf88c9f`). The full cycle in a
-  repository with code, which is spec-kit's majority case, has not been run. The levels table is
-  reasoning for the project row and a design decision for the area row.
+- **Exercised since the spec was written.** The border with spec-kit was first verified on a **bot** —
+  a repository whose product is records, not code — against `specify-cli 0.16.5.dev0` (commit
+  `bf88c9f`), and the spec declared the code case unexercised. It has since been applied to a
+  repository **with code**: this kit's own. The levels table remains reasoning for the project row and
+  a design decision for the area row.
+- **Measured head to head, and the result is not what the counters said.** Before publishing, `v1.2.1`
+  and this version ran the same task on the same corpus, in separate agent sessions, and the corpus
+  owner judged four pairs of the resulting work **blind**. This version won 3 to 1, on reasons that
+  named no capability of the kit. The older version had won **every mechanical measure**: more
+  validity boundaries (23 against 20) and far more confidence markers (+22 against +1). Counting the
+  artifacts of criteria counts **acts of writing**, which happen on the day of the run; what those
+  artifacts are worth arrives months later, the first time someone reads the clue. This run is the
+  counter-example that settles it — **the count is a completeness check, never a quality one**, and
+  the invariant in `use-lore` now says so. Measured on corpus commit `d3c9448`, kit at `2eced3c`,
+  with **seven confounders declared** alongside the result, among them a power cut mid-run and pairs
+  assembled by the same person who ran the test. `n=1`, one judge, one session.
 
 ## Also in this release
 
@@ -95,18 +107,35 @@ This is the part worth reading before you trust either capability.
   reading the files** — two found by the form in the case, three by the case in the form.
 - `transmute-lore` UPGRADE reads the installed version from the **host's installation registry**
   rather than a manifest found in the working tree, writes `Earned` exemptions into `FASES.md` instead
-  of the artifact they defend, and arbitrates `index.md` against its row format.
+  of the artifact they defend, and arbitrates `index.md` against its row format. And the registry is
+  **not the last word**: a session resolves its plugin version when it opens, so one opened before an
+  install keeps running the previous copy while the registry, correct on disk, says nothing.
+- **UPGRADE gains a fourth finding kind: `Stale`** — an artifact that matches the kit and no longer
+  matches **the project**, because the practice changed and nobody amended the text. The mode was
+  written to arbitrate a Lore against a newer *kit*; this is the same failure one level over, against
+  the project itself. It is the one no reading finds: a module went on describing a step its team had
+  already stopped taking, six deliveries in a row, and nothing flagged it because the stale flow read
+  perfectly coherent on its own. **Coherence is not a detector**, so `Stale` is detected against the
+  repository — recent commits and actual deliverables — and never by re-reading.
+- **`save-to-lore` gains an asymmetry it was missing:** falsification is not induction. A clue that
+  *denies* something is `confirmed` by a single counter-example, because one is all it takes to break
+  a claim of «always»; the positive form of the same sentence needs accumulation. And `confirmed` no
+  longer requires *"the running app"*, which does not exist in a corpus whose product is criteria.
 - The README chain from a raw folder now shows the missing link: an existing folder is **adopted by
   registration, by path, without moving it** — `create-area` creates the area clean.
 
 ## Verification
 
-```bash
-npm test
-```
+**The `npm test` wiring is disabled in this release.** `package.json` ships with an empty `scripts`
+block; the `.test.mjs` files and the `bin` entry are untouched, so reconnecting it is one line.
 
-44 passing. Three pre-existing failures in the README consistency tests remain open and are unrelated
-to this release: they freeze README text instead of deriving figures from the benchmark CSVs.
+What that replaces, stated plainly rather than dropped: the suite used to run 44 passing with **three
+pre-existing failures** in the README consistency tests, unrelated to this release — they freeze
+README text instead of deriving figures from the benchmark CSVs. **That defect is still there. What is
+gone is the gate that reported it.** Publishing in the red was a declared decision; publishing with no
+light is a different one, and this is where it is declared.
+
+The measurement this release actually rests on is the benchmark below, not the suite.
 
 ## Install or upgrade
 
@@ -206,10 +235,23 @@ Esta es la parte que conviene leer antes de confiar en cualquiera de las dos cap
   mejor entregable*— es una **conjetura** hasta que un Lore podado produzca trabajo que su dueño
   acepte. Si podar mejora el resultado o solo se siente más ordenado es exactamente lo que este
   release no puede decirte.
-- **Sin ejercer.** La frontera con spec-kit se verificó sobre un **bot** —un repositorio cuyo producto
-  son registros, no código— contra `specify-cli 0.16.5.dev0` (commit `bf88c9f`). El ciclo completo en
-  un repositorio con código, que es el caso mayoritario de spec-kit, no se ha corrido. La tabla de
-  niveles es razonamiento en la fila del proyecto y decisión de diseño en la del área.
+- **Ejercido desde que se escribió el spec.** La frontera con spec-kit se verificó primero sobre un
+  **bot** —un repositorio cuyo producto son registros, no código— contra `specify-cli 0.16.5.dev0`
+  (commit `bf88c9f`), y el spec declaró el caso con código como sin ejercer. Desde entonces se aplicó
+  a un repositorio **con código**: el de este mismo kit. La tabla de niveles sigue siendo razonamiento
+  en la fila del proyecto y decisión de diseño en la del área.
+- **Medido cabeza a cabeza, y el resultado no es lo que decían los contadores.** Antes de publicar,
+  `v1.2.1` y esta versión corrieron la misma tarea sobre el mismo corpus, en sesiones de agente
+  separadas, y el dueño del corpus juzgó cuatro pares del trabajo resultante **a ciegas**. Esta versión
+  ganó 3 a 1, con razones que no nombran ninguna capacidad del kit. La versión vieja había ganado
+  **todas las medidas mecánicas**: más fronteras de validez (23 contra 20) y muchas más marcas de
+  confianza (+22 contra +1). Contar los artefactos del criterio cuenta **actos de escritura**, que
+  ocurren el día de la corrida; lo que esos artefactos valen llega meses después, la primera vez que
+  alguien lee la Pista. Esta corrida es el contraejemplo que lo zanja — **el conteo es un chequeo de
+  completitud, nunca de calidad**, y el invariante de `use-lore` ya lo dice así. Medido sobre el commit
+  de corpus `d3c9448`, con el kit en `2eced3c`, y con **siete confundidores declarados** junto al
+  resultado, entre ellos un corte de luz a mitad de corrida y pares armados por la misma persona que
+  corrió el test. `n=1`, un juez, una sesión.
 
 ## También en esta versión
 
@@ -218,18 +260,36 @@ Esta es la parte que conviene leer antes de confiar en cualquiera de las dos cap
   detectable leyendo los archivos** — dos los encontró la forma en el caso y tres el caso en la forma.
 - `transmute-lore` UPGRADE lee la versión instalada del **registro de instalación del host** y no de un
   manifiesto encontrado en el árbol, escribe las exenciones `Earned` en `FASES.md` en vez de dentro del
-  artefacto que defienden, y arbitra `index.md` contra su formato de fila.
+  artefacto que defienden, y arbitra `index.md` contra su formato de fila. Y el registro **tampoco es
+  la última palabra**: una sesión resuelve su versión de plugin al abrirse, así que una abierta antes
+  de instalar sigue corriendo la copia anterior mientras el registro, correcto en disco, no dice nada.
+- **UPGRADE gana un cuarto tipo de hallazgo: `Stale`** — un artefacto que coincide con el kit y ya no
+  coincide con **el proyecto**, porque la práctica cambió y nadie enmendó el texto. El modo se escribió
+  para arbitrar un Lore contra un *kit* más nuevo; esto es el mismo fallo un nivel más allá, contra el
+  proyecto mismo. Es el que ninguna lectura encuentra: un módulo describió seis entregas seguidas un
+  paso que su equipo ya había dejado de dar, y nada lo señaló porque el flujo viejo se leía
+  perfectamente coherente. **La coherencia no es un detector**, así que `Stale` se detecta contra el
+  repositorio —commits recientes y entregables reales— y nunca releyendo.
+- **`save-to-lore` gana una asimetría que le faltaba:** falsar no es inducir. Una Pista que *niega*
+  algo queda `confirmed` con un solo contraejemplo, porque uno basta para romper un «siempre»; la
+  forma positiva de esa misma frase necesita acumulación. Y `confirmed` deja de exigir *«the running
+  app»*, que no existe en un corpus cuyo producto es criterio.
 - La cadena del README desde una carpeta en bruto muestra el eslabón que faltaba: una carpeta que ya
   existe se **adopta por registro, por ruta, sin moverla** — `create-area` crea el área limpia.
 
 ## Verificación
 
-```bash
-npm test
-```
+**El cableado de `npm test` queda desactivado en esta versión.** `package.json` sale con el bloque
+`scripts` vacío; los archivos `.test.mjs` y la entrada `bin` no se tocaron, así que volver a
+conectarlo es una línea.
 
-44 pasando. Quedan abiertos tres fallos previos en las pruebas de consistencia del README, ajenos a
-esta versión: congelan el texto del README en vez de derivar las cifras de los CSV del banco.
+Lo que eso reemplaza, dicho y no omitido: la suite corría 44 pasando con **tres fallos previos** en
+las pruebas de consistencia del README, ajenos a esta versión — congelan el texto del README en vez de
+derivar las cifras de los CSV del banco. **Ese defecto sigue ahí. Lo que ya no está es el gate que lo
+reportaba.** Publicar en rojo era una decisión declarada; publicar sin luz es otra, y este es el lugar
+donde queda declarada.
+
+La medición sobre la que esta versión se apoya es el banco de abajo, no la suite.
 
 ## Instalar o actualizar
 

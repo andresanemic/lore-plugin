@@ -52,6 +52,11 @@ tener el árbol de Git limpio antes de escribir, para que la migración aterrice
 > Consulta [`USAGE_es.md`](./USAGE_es.md) para el uso cotidiano y [`REFERENCE_es.md`](./REFERENCE_es.md)
 > para su contrato de privacidad, enrutamiento y umbral.
 
+> **Desde la 2.1.0 hay un sexto modo, `prune`.** Tampoco es una migración, y es el único sustractivo:
+> le quita **peso** a un Lore que se degradó acumulando cosas que por separado son correctas. No lo
+> uses mientras migras — un Lore recién migrado no tuvo tiempo de acumular nada. Es el pase para un
+> corpus que lleva tiempo en uso diario, y la unidad que cuenta es el **entregable**, no el Lore.
+
 ### 3.1 Modo `add` – Crear Lore donde falta
 
 **Propósito:** introducir artefactos de Lore en un proyecto heredado.

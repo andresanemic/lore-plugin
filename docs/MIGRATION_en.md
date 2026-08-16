@@ -53,6 +53,12 @@ tree before writing, so the migration lands as a reviewable diff.
 > See [`USAGE_en.md`](./USAGE_en.md) for daily use and [`REFERENCE_en.md`](./REFERENCE_en.md) for its
 > privacy, routing and threshold contract.
 
+> **Since 2.1.0 there is a sixth mode, `prune`.** It is not a migration either, and it is the only
+> subtractive one: it removes **weight** from a Lore that decayed by accumulating things that are each
+> individually correct. Do not reach for it while migrating — a freshly migrated Lore has not had time
+> to accumulate anything. It is the pass for a corpus that has been in daily use, and the unit it
+> counts is the **deliverable**, not the Lore.
+
 ### 3.1 `add` Mode – Create Missing Lore
 
 **Purpose:** Introduce Lore artifacts into a legacy project.

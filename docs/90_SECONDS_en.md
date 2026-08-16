@@ -45,6 +45,11 @@ churn buries the criteria.
 Generic criteria lives **once**, in the mother area, and every project inherits it. Fix a clue in one
 place, everything sees it.
 
+And one piece loads before all the rest. Your agent's contract — `CLAUDE.md` or `AGENTS.md` — is the
+only file both hosts read without being asked, so the kit stamps a small delimited block into it
+pointing at where the Lore lives. That block is why any of this reaches the session at all: without an
+anchor that always loads first, a `lore/` is a folder the agent never opens.
+
 ## What it is not
 
 Not a README, not a changelog, not a design doc. Those describe. Lore constrains.
