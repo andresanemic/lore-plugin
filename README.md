@@ -118,6 +118,8 @@ Meanwhile you keep paying to learn: architectural decisions, production incident
 
 It is a loop of re-explanations and mediocre solutions you had already rejected. Lore calls this **ephemeral experience**: the facts may survive, but the learning never became a reusable structure.
 
+> The picture is *Groundhog Day*. The world resets and **the only thing that crosses the reset is what Phil learned** — the facts are wiped every February 2nd, the criteria are not. Every session of an agent is a February 2nd.
+
 > Traditional documentation solved part of the problem, but it only preserves **information**. Manuals describe procedures, READMEs explain installs, databases store facts. They rarely capture what actually changes a future decision.
 
 ---
@@ -278,11 +280,15 @@ Each has one responsibility. None duplicates another.
 
 > **Lore is criteria (it persists); `FASES.md` is state (it advances).** They never mix, and `FASES.md` never lives inside `lore/`.
 
+The clearest picture of why these are two files and not one is *50 First Dates*. Lucy wakes with no memory and watches a video that brings her up to date, and the video works because it hands her **both things at once: who she is, and where things stand**. It is not her memory — give her everything she ever lived and she could not carry it, give her only the facts and she would not know what to do with them. Here the two halves stay in separate files because they age at different speeds.
+
 The names shown are the Spanish canonical forms; in your language they localize.
 
 #### The always-on block
 
 The contract is the only artifact **both** hosts load without being asked, which makes it the kit's always-on channel. Its pointer section is delimited so it can be found and re-stamped without touching anything else:
+
+> **Why a delimited block and not just a paragraph.** There is a playlist that always opens with the same song — *Party Theme*, by Anemone — and after that one, ordered or shuffled, it makes no difference. That is the shape: one piece loads first, without exception, and only then can the rest be read in any order. It is not a hierarchy of importance. The anchor is what makes everything behind it legible.
 
 ```markdown
 <!-- lore:always-on -->
@@ -413,6 +419,12 @@ Operates existing Lore in six modes:
 > removes *weight*: criteria that is not duplicated, not wrong and not superseded, and whose only
 > defect is still being there. A Lore in daily use rarely decays by going stale — it decays by
 > growing, and every other mode in this table can only add.
+
+> **And why weight is not harmless.** Tei Shi's *Keep Running* asks the other person to keep up with
+> **who she is now**, not with who she was when they met. Criteria that never gets reviewed does not
+> go neutral: it keeps operating, and it operates on someone who already changed. That is the failure
+> `prune` exists to attack, and it is why the load is on both sides — the burden was never having a
+> memory, it is keeping it current.
 
 ### `create-bot`
 
@@ -700,11 +712,30 @@ and tensions in claims about the Between, accumulated criterion and Lore.
 
 [Explore the research in the LUS NotebookLM](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b79450)
 
+> **How to read it.** It is generated over the LUS corpus, and it explains the mechanism more
+> accessibly than this page does — which is what it is for, and also where it turns risky. Checked
+> against the corpus they were built from, three generated artifacts — two podcasts and a video —
+> gained accessibility and lost precision: six deviations, among them one that inverted the kit's own
+> mechanism, one that raised an image the corpus declares illustrative to the status of a law, and
+> one that quoted a benchmark figure this README had deliberately replaced.
+>
+> So take the **analogy**, never the claim. Where the notebook and this repository disagree about
+> what the kit does, the repository is the source; where they disagree about a number, the current
+> benchmark cut wins.
+
 ### Why "Lore"?
 
 In video games, *lore* is what gives a universe coherence. Not the mechanics: the accumulated story, the rules that keep influencing everything that can happen afterwards.
 
 Lore applies that same idea to development. The original events stop mattering. The criteria remain.
+
+**And the debt to video games is not only in the name.** The art direction of this project — the
+palette, the graphic treatment, the sensibility of this page and of the master deck — comes from
+***Tales of Berseria*** (Bandai Namco, 2016) before it comes from any software design reference. It
+is declared here for the same reason every other provenance in this repository is declared: the
+aesthetics of a technical artifact are not neutral and do not appear from nowhere, and knowing where
+they came from is what lets you tell a design decision from an inherited taste. That distinction
+matters on the day somebody proposes changing it.
 
 ### Ecosystem
 
@@ -863,6 +894,8 @@ Todo eso lo explicaste ayer. Mañana lo vas a explicar de nuevo.
 Mientras tanto sigues pagando por aprender: decisiones de arquitectura, incidentes en producción, experimentos fallidos, decenas de momentos de *«nunca volvamos a hacer esto»*. Eso es lo que de verdad te costó, y **nada de eso sobrevive a la sesión**.
 
 Es un bucle de reexplicaciones y de soluciones mediocres que ya habías rechazado. Lore llama a esto **experiencia efímera**: los datos pueden sobrevivir, pero el aprendizaje nunca se convirtió en una estructura reutilizable.
+
+> La imagen es *El día de la marmota*. El mundo se reinicia y **lo único que atraviesa el reinicio es lo que Phil aprendió**: los hechos se borran cada 2 de febrero, el criterio no. Cada sesión de un agente es un 2 de febrero.
 
 > La documentación tradicional resolvió parte del problema, pero solo preserva **información**. Los manuales describen procedimientos, los README explican instalaciones, las bases de datos guardan hechos. Casi nunca capturan lo que de verdad modifica una decisión futura.
 
@@ -1030,9 +1063,13 @@ Cada uno tiene una responsabilidad. Ninguno duplica a otro.
 
 > **El Lore es criterio (persiste); `FASES.md` es estado (avanza).** Nunca se mezclan, y `FASES.md` nunca vive dentro de `lore/`.
 
+La imagen más clara de por qué son dos archivos y no uno es *50 First Dates*. Lucy despierta sin memoria y ve un video que la pone al día, y el video funciona porque le da **las dos cosas a la vez: quién es y en qué punto está**. No es su memoria: si le devolvieran todo lo vivido no podría con ello, y si le devolvieran solo los hechos no sabría qué hacer con ellos. Acá las dos mitades viven en archivos separados porque envejecen a velocidades distintas.
+
 #### El bloque siempre-activo
 
 El contrato es el único artefacto que **los dos** hosts cargan sin que nadie se lo pida, y eso lo convierte en el canal siempre-activo del kit. Su sección de punteros va delimitada para poder encontrarla y re-estamparla sin tocar nada más:
+
+> **Por qué un bloque delimitado y no un párrafo cualquiera.** Hay una playlist que siempre empieza por la misma canción —*Party Theme*, de Anemone— y después de esa, en orden o en *shuffle*, da igual. Esa es la forma: una pieza se carga primero, sin excepción, y recién entonces el resto puede leerse en cualquier orden. No es una jerarquía de importancia. El ancla es lo que vuelve legible todo lo que viene detrás.
 
 ```markdown
 <!-- lore:always-on -->
@@ -1149,6 +1186,12 @@ Opera un Lore existente en seis modos:
 > quita *peso*: criterio que no está duplicado, no está mal y no está superado, y cuyo único defecto
 > es seguir ahí. Un Lore en uso diario rara vez se degrada por quedar viejo — se degrada por crecer,
 > y todos los demás modos de esta tabla solo saben agregar.
+
+> **Y por qué el peso no es inofensivo.** En *Keep Running*, de Tei Shi, la cantante le pide al otro
+> que se mantenga al día con **quién es ella ahora**, no con quien fue cuando se conocieron. Un
+> criterio que no se revisa no queda neutral: sigue operando, y opera sobre alguien que ya cambió. Ese
+> es el defecto que `prune` existe para atacar, y por eso la carga es de las dos partes — nunca estuvo
+> en tener memoria, está en mantenerla vigente.
 
 ### `create-bot`
 
@@ -1430,11 +1473,30 @@ diferencias y tensiones en sus afirmaciones sobre el Entre, el criterio acumulad
 
 [Explora la investigación en el NotebookLM de LUS](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b79450)
 
+> **Cómo leerlo.** Está generado sobre el corpus de LUS y explica el mecanismo de forma más accesible
+> que esta página — que es para lo que sirve, y también donde se vuelve riesgoso. Contrastados contra
+> el corpus del que salieron, tres artefactos generados —dos podcasts y un vídeo— ganaron
+> accesibilidad y perdieron precisión: seis desvíos, entre ellos uno que invierte el mecanismo del
+> propio kit, otro que asciende a ley una imagen que el corpus declara divulgativa, y otro que cita
+> una cifra del banco que este README había reemplazado a propósito.
+>
+> Así que tomá **la analogía**, nunca la afirmación. Donde el notebook y este repositorio no coincidan
+> sobre qué hace el kit, la fuente es el repositorio; donde no coincidan en un número, manda el corte
+> vigente del banco.
+
 ### ¿Por qué «Lore»?
 
 En los videojuegos, el *lore* es aquello que da coherencia a un universo. No son las mecánicas: es la historia acumulada, las reglas que siguen influyendo en todo lo que puede ocurrir después.
 
 Lore lleva esa misma idea al desarrollo. Los acontecimientos originales dejan de importar. El criterio permanece.
+
+**Y la deuda con los videojuegos no está solo en el nombre.** La dirección de arte de este proyecto
+—la paleta, el tratamiento gráfico, la sensibilidad de esta página y del deck maestro— viene de
+***Tales of Berseria*** (Bandai Namco, 2016) antes que de cualquier referencia de diseño de software.
+Queda declarado acá por la misma razón que toda otra procedencia en este repositorio: la estética de
+un artefacto técnico no es neutral ni surge del vacío, y saber de dónde viene es lo que permite
+distinguir una decisión de criterio de un gusto heredado. Esa distinción importa el día que alguien
+proponga cambiarla.
 
 ### Ecosistema
 
