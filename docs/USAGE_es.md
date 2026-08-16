@@ -235,10 +235,16 @@ Usa este skill siempre que inicies una nueva base de código dentro de un domini
 
 ---
 
-### 5.5 `save-to-lore` – Capturar criterio tras resolver un problema, o arbitrar criterio ajeno
+### 5.5 `save-to-lore` – Capturar criterio tras resolver un problema, o trasplantar criterio ajeno
 
 **Propósito:** destilar criterio reutilizable. Tiene **dos modos**, según de dónde venga ese criterio:
-**capture** (fricción vivida) y **arbitrate** (criterio importado de una skill o guía ajena).
+**capture** (fricción vivida) y **transplant** (criterio importado de una skill, una guía ajena o el
+documento de gobierno de otro kit).
+
+> *Renombrado en 2.1.0: hasta la 2.0.9 el segundo modo se llamaba `arbitrate`. Misma ley, mismas
+> cuatro puertas — el nombre nuevo dice qué es la operación. Lo que creció bien en otro suelo no
+> necesariamente prende en este, y un trasplante que nadie mira es una planta muerta con buenas
+> intenciones.*
 
 #### Modo `capture` (por defecto) — la cicatriz
 
@@ -250,13 +256,13 @@ save-to-lore "Decisión: siempre preferir renderizado estático en páginas de m
 save-to-lore "Estándar: los mensajes de error deben ser humanistas y accionables"
 ```
 
-#### Modo `arbitrate` — la skill ajena
+#### Modo `transplant` — la skill ajena
 
 Ejemplos de prompts:
 
 ```text
 save-to-lore "destila la skill copywriting en el lore del área"
-save-to-lore "arbitra esta guía de estilo contra nuestro estándar"
+save-to-lore "trasplanta esta guía de estilo contra nuestro estándar"
 ```
 
 Una skill es criterio **ya destilado por otro, bajo otra finalidad**, y llega sin decir dónde deja de
@@ -277,6 +283,26 @@ Lore hará tres cosas que conviene esperar:
 > **Lo que la fuente pierde vale más que lo que la fuente aporta.** El resumen ya existe, y mejor
 > escrito, en la fuente. El desacuerdo no existe en ningún otro lado, y es lo único que restringirá
 > una decisión futura tuya.
+
+Tres casos que conviene conocer antes de correrlo:
+
+- **Un documento de gobierno es el más difícil, y el que más se saltea.** Cuando un segundo kit trae
+  una constitución o un estatuto que declara su propia autoridad, el reflejo es tratarlo como
+  configuración y adoptarlo. Es criterio escrito bajo la finalidad de otro, y una cláusula de
+  supremacía es exactamente de las que **pierden**: un kit instalado esta semana no puede gobernar
+  criterio que pagaste antes de que existiera. Esa derrota se **escribe**, no se omite — una omisión
+  deja un hueco que la próxima regeneración de plantilla vuelve a llenar.
+- **En calendario, empieza leyendo lo que ya perdió.** Una pasada recurrente sobre un campo que se
+  mueve más lento que su propia frecuencia se encuentra siempre el mismo material, así que lee
+  primero las derrotas ya escritas y no las vuelve a arbitrar. **«Esta vez no entró nada» es un
+  resultado válido** y se escribe así — una pasada recurrente que siempre encuentra algo dejó de
+  mirar y empezó a justificarse.
+- **Una skill ajena que *invocás* también trae criterio**, y lo aplica sin preguntar. Este modo es
+  para criterio que llega como documento; el caso difícil es el que llega como **herramienta que
+  corre** — un formateador, un linter, un revisor de estilo. Pasale tu Lore en la invocación, como
+  entrada: casi todas tienen una cláusula de calibración que hace que una muestra provista le gane a
+  sus valores por defecto, y las que no la tienen se tratan como capacidad y se mantienen lejos de lo
+  que tu Lore gobierna. **Una herramienta no es neutral por ser útil.**
 
 No hace falta pedirlo siempre de forma explícita: si acabas de resolver una fricción que cumple un
 **umbral de 4 condiciones** (restringe una decisión futura, es destilable a Contexto→Causa→Pista,
@@ -306,7 +332,7 @@ Usa este skill como herramienta principal para alimentar tu Lore con el tiempo.
 
 **Propósito:** operar un cuerpo de Lore existente: migrarlo, quitar duplicación, estandarizar su idioma, actualizar su estándar o exportar una copia segura de lectura.
 
-No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene cinco modos:
+No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene seis modos:
 
 - `add` – crea artefactos de Lore que aún no existen.
 - `clean` – elimina módulos redundantes que ya duplican los del Área (requiere que el proyecto
@@ -317,6 +343,11 @@ No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene ci
 - `upgrade` – **(v1.2.1)** pone al día un Lore sano escrito contra una versión anterior de estos
   skills. No está roto: está en el estándar y en uso, y le faltan las puertas que el kit aprendió
   después. Arbitra lo que ya existe contra la versión instalada.
+- `prune` – **(2.1.0)** quita **peso** a un Lore que se degradó acumulando cosas que por separado son
+  correctas. No es lo mismo que `clean`: `clean` quita *duplicados*, `prune` quita criterio que no
+  está duplicado, no está mal y no está superado, y cuyo único defecto es seguir ahí. Es el único
+  modo sustractivo, y **la unidad que cuenta es el entregable, no el Lore** — te va a preguntar qué
+  publica tu proyecto antes de leer un solo módulo.
 - `crystallize` – exporta el Lore vivo y enrutado como un solo Markdown seguro y trazable para un
   chat, proyecto de IA o notebook. La fotografía es derivada, puede quedar obsoleta y nunca reemplaza la fuente.
 
@@ -334,6 +365,26 @@ Lo ganado con experiencia le gana a cualquier mejora que el kit aprendió despu�
 hallazgos sin ningún `Earned` en un Lore con historia es señal de que el pase se está corriendo como
 formateador. Además: la confianza **nunca** sube por antigüedad —una conjetura que sobrevivió tres
 versiones sigue siendo conjetura— y una frontera ausente se **pregunta**, no se infiere.
+
+**`Stale` es el que ninguna lectura encuentra**, y por eso se detecta contra el repositorio —los
+commits recientes y los entregables reales que ese módulo gobierna— y nunca releyendo. Un artefacto
+consistente consigo mismo y falso hacia afuera sobrevive toda revisión: el texto viejo se lee
+perfectamente coherente, y eso es justamente lo que impide notarlo.
+
+**Sobre `prune`, el único modo sustractivo.** Clasifica cada hallazgo en cuatro tipos propios, y
+cuenta antes de leer — porque el defecto que existe para atacar es invisible leyendo los archivos de
+a uno, ya que cada ley por separado está bien:
+
+| Tipo | Qué significa |
+|---|---|
+| **Deadwood** | no restringe ninguna decisión futura: la decisión que alguna vez moldeó ya no existe, o se adoptó de otro lado y nunca mordió |
+| **Crowding** | correcto, ganado y no refutable, y aun así su *suma* con los demás satura el entregable. **No** sale: recibe una frontera de validez, un destino o un techo |
+| **Rooted** | estructural — hay una cicatriz real detrás y una decisión que todavía depende de él. Intacto, y no se vuelve a examinar en el próximo pase |
+| **Unhealed** | declarado aplicado y aplicado a medias: la corrección aterrizó en un lugar y no en sus hermanos. Se termina o se desmarca |
+
+Una lista de poda **sin ningún `Rooted`** es un pase corrido como motosierra — el espejo de `Earned`,
+y existe por la misma razón: un modo que solo quita siempre va a encontrar algo que quitar. Nada sale
+sin dejar su residuo escrito, y lo que encoge es el entregable, no necesariamente el corpus.
 
 Ejemplos de prompts:
 

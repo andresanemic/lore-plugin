@@ -38,7 +38,7 @@ Cuatro proyectos de un área real (*desarrollo web*) llevados al estándar con `
 
 <br>
 
-El caso que originó el modo `arbitrate`. Tres áreas destilaron Lore a partir de *skills* de terceros, y lo observado contradijo la intuición:
+El caso que originó el modo `arbitrate` —**renombrado `transplant` en la 2.1.0**, misma ley y mismas cuatro puertas—. Tres áreas destilaron Lore a partir de *skills* de terceros, y lo observado contradijo la intuición:
 
 - **Lo valioso no fue el resumen de la skill, fue el desacuerdo.** En dos áreas distintas, el bloque denso del módulo resultante era *«dónde la skill contradice nuestro estándar y pierde»*. Esa parte **no existía ni en la skill ni en el Lore previo**: nació de la colisión.
 - **La misma skill, arbitrada por dos finalidades opuestas, pierde en el mismo sitio por razones inversas.** Las skills de *copywriting* fueron derrotadas en un área de marketing (*«copy aburrido y funcional le gana siempre»*) y en una de periodismo (*«no vendemos, informamos»*). El resultado no depende de la fuente: depende de **tu** finalidad.

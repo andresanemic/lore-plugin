@@ -230,11 +230,15 @@ Use this whenever you start a new codebase inside a domain that already has an A
 
 ---
 
-### 5.5 `save-to-lore` – Capture Criteria After Solving a Problem, or Arbitrate External Criteria
+### 5.5 `save-to-lore` – Capture Criteria After Solving a Problem, or Transplant External Criteria
 
 **Purpose:** Distill reusable criteria. It has **two modes**, chosen by where that criteria comes
-from: **capture** (lived friction) and **arbitrate** (criteria imported from a third-party skill or
-guide).
+from: **capture** (lived friction) and **transplant** (criteria imported from a third-party skill,
+guide, or another kit's governing document).
+
+> *Renamed in 2.1.0: through 2.0.9 the second mode was called `arbitrate`. Same law, same four gates
+> — the new name says what the operation is. What grew well in another soil does not necessarily take
+> in this one, and a transplant nobody watches is a dead plant with good intentions.*
 
 #### `capture` mode (default) — the scar
 
@@ -246,13 +250,13 @@ save-to-lore "Decision: always prefer static rendering for marketing pages"
 save-to-lore "Standard: error messages must be human‑centered and actionable"
 ```
 
-#### `arbitrate` mode — the external skill
+#### `transplant` mode — the external skill
 
 Example prompts:
 
 ```text
 save-to-lore "distill the copywriting skill into the area's lore"
-save-to-lore "arbitrate this style guide against our standard"
+save-to-lore "transplant this style guide against our standard"
 ```
 
 A skill is criteria **already distilled by someone else, under someone else's purpose**, and it
@@ -269,6 +273,25 @@ Lore will do three things you should expect:
 - **It will require a defeats section.** The resulting module must record **where the source
   contradicts your standard and loses**. Without that section, nothing gets in — either it was a
   copy, or the source carried no criteria.
+
+Three cases worth knowing before you run it:
+
+- **A governing document is the hardest one, and the most often skipped.** When a second kit ships a
+  constitution or charter that declares its own authority, the reflex is to treat it as configuration
+  and adopt it. It is criteria written under someone else's purpose, and a supremacy clause is exactly
+  the kind that **loses** — a kit installed this week cannot govern criteria you paid for before it
+  existed. That defeat gets written down rather than quietly omitted, because an omission leaves a
+  hole the next template regeneration fills back in.
+- **On a schedule, it starts by reading what already lost.** A recurring pass over a field that moves
+  slower than its own schedule keeps meeting the same material, so it reads the existing defeats first
+  and does not re-arbitrate them. **"Nothing entered this time" is a valid result** and is written as
+  such — a recurring pass that always finds something stopped looking and started justifying itself.
+- **A third-party skill you *invoke* carries criteria too**, and applies it without asking. This mode
+  is for criteria arriving as a document to read; the harder case is a tool that runs — a formatter, a
+  linter, a style checker. Feed it your Lore in the invocation, as its input: most have a calibration
+  clause that makes a provided sample outrank their defaults, and the ones that do not should be
+  treated as capacity and kept away from what your Lore governs. **A tool is not neutral because it is
+  useful.**
 
 > **What the source loses is worth more than what the source offers.** The summary already exists,
 > better written, in the source. The disagreement exists nowhere else, and it is the only thing that
@@ -303,7 +326,7 @@ Use this as the main tool to feed your Lore over time.
 
 **Purpose:** operate an existing body of Lore: migrate it, remove duplication, standardize its language, upgrade its standard, or export a safe reading copy.
 
-It is not a CLI command: the mode is inferred from the phrase, not from a flag. It has five modes:
+It is not a CLI command: the mode is inferred from the phrase, not from a flag. It has six modes:
 
 - `add` – create missing Lore artifacts.
 - `clean` – remove modules that already duplicate the Area's (requires the project to have a
@@ -314,6 +337,11 @@ It is not a CLI command: the mode is inferred from the phrase, not from a flag. 
 - `upgrade` – **(v1.2.1)** bring a healthy Lore up to date when it was written against an older
   version of these skills. Nothing is broken: it is in the standard and in use, and it lacks the
   gates the kit learned afterwards. It arbitrates what already exists against the installed version.
+- `prune` – **(2.1.0)** remove **weight** from a Lore that decayed by accumulating things that are
+  each individually correct. Not the same as `clean`: `clean` removes *duplicates*, `prune` removes
+  criteria that is not duplicated, not wrong and not superseded, and whose only defect is still being
+  there. It is the only subtractive mode, and **the unit it counts is the deliverable, not the Lore**
+  — it will ask what your project actually ships before reading a single module.
 - `crystallize` – export the live, routed Lore as one safe and traceable Markdown for a chat, AI
   project or notebook. The snapshot is derived, may become stale and never replaces the source.
 
@@ -331,6 +359,27 @@ What was earned with experience outranks any improvement the kit learned later. 
 no `Earned` entries in a Lore with real history means the pass is being run as a formatter. Also:
 confidence **never** rises with age — a conjecture that survived three versions is still a conjecture
 — and a missing boundary is **asked for**, never inferred.
+
+**`Stale` is the one no reading finds**, which is why it is detected against the repository — the
+recent commits and the actual deliverables the module governs — and never by re-reading. An artifact
+consistent with itself and false about the outside survives every review: the stale text reads
+perfectly coherent on its own, and that is exactly what keeps anyone from noticing.
+
+**About `prune`, the only subtractive mode.** It sorts every finding into four kinds of its own, and
+it counts before it reads — because the defect it exists for is invisible when you read files one at
+a time, since every law is fine on its own:
+
+| Kind | What it means |
+|---|---|
+| **Deadwood** | it constrains no future decision — the decision it once shaped is gone, or it was adopted from elsewhere and never bit |
+| **Crowding** | correct, earned and not refutable, and yet its *sum* with the others saturates the deliverable. It does **not** come out: it gets a validity boundary, a destination, or a ceiling |
+| **Rooted** | load-bearing — a real scar behind it and a decision that still depends on it. Untouched, and not re-examined next pass |
+| **Unhealed** | declared applied and only partly applied: the correction landed in one place and not in its siblings. Finish it or unmark it |
+
+A prune list with **no `Rooted` entries** is a pass being run as a chainsaw — the mirror of `Earned`,
+and it exists for the same reason: a mode that only removes will always find something to remove.
+Nothing comes out without its residue written down, and what shrinks is the deliverable, not
+necessarily the corpus.
 
 Example prompts:
 

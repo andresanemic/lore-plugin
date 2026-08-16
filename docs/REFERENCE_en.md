@@ -33,8 +33,8 @@ The Lore plugin exposes eight main skills through compatible AI agents:
 | `brainstorming-lore` | Design Lore-specific changes without taking over general brainstorming | "brainstorm this Lore", or invoked by an artifact-owning Lore skill |
 | `create-area`    | Create a new Area with shared Lore          | "create a work area for Frontend", "I want to start working on X with Lore" |
 | `create-project` | Create a project inheriting an Area         | "create a project Marketing Site in area Frontend Development" |
-| `save-to-lore`   | Capture criteria after solving a problem (**capture**) or arbitrate criteria imported from a third-party skill/guide (**arbitrate**) | "save to lore", "distill this to the lore" (capture) / "distill skill X into the lore" (arbitrate) |
-| `transmute-lore` | Operate an existing Lore in five modes | add / clean / translate / upgrade / crystallize |
+| `save-to-lore`   | Capture criteria after solving a problem (**capture**) or arbitrate criteria imported from a third-party skill/guide (**transplant**) | "save to lore", "distill this to the lore" (capture) / "distill skill X into the lore" (transplant) |
+| `transmute-lore` | Operate an existing Lore in six modes | add / clean / translate / upgrade / prune / crystallize |
 | `create-bot`     | Build a bot: one place to open a session and work across several projects at once, with their criteria already loaded | "create a bot to work on X and Y" (nuevo) / "I want a bot that federates the lore already living in A and B" (federar) |
 | `obsidian-lore`  | Capture free notes in the same tree the Lore lives in, and **mine** that inbox for what deserves to become criteria | "review my Obsidian notes and see what belongs in my lore", "mine my inbox", "save this note to Obsidian" |
 
@@ -171,10 +171,18 @@ Use `create-project` whenever you start a new codebase inside an existing Area.
 
 | Mode | Source | Operation |
 |---|---|---|
-| **capture** (default) | lived friction (bug, collapse, client rejection) | Distills the scar into an Invariant Clue. Everything described below refers to this mode. |
-| **arbitrate** | imported criteria (a *skill*, a style guide, a third-party playbook) | **Judges** that criteria against the project's purpose. Only what survives gets in. |
+| **CAPTURE** (default) | lived friction (bug, collapse, client rejection) | Distills the scar into an Invariant Clue. Everything described below refers to this mode. |
+| **TRANSPLANT** | imported criteria (a *skill*, a style guide, a third-party playbook, **another kit's constitution or governing document**) | **Judges** that criteria against the project's purpose. Only what survives gets in. |
 
-**`arbitrate` mode — four gates:**
+> **Why "transplant".** What grew well in another soil does not necessarily take in this one, and a
+> transplant nobody watches is a dead plant with good intentions: you say what took and what did not.
+> It is the exact counterpart of `transmute-lore` PRUNE — pruning removes what the plant grew on its
+> own, transplanting judges what came from outside. A Lore with one and not the other either bloats
+> or ossifies.
+>
+> *Renamed in 2.1.0. Through 2.0.9 this mode was called `arbitrate`: same law, same four gates.*
+
+**`TRANSPLANT` mode — four gates:**
 
 1. **Capacity or criteria?** A source that **executes** (renders, crawls, compiles) is **not Lore**:
    record it as a dependency and stop there. Only a source that **judges** gets arbitrated.
@@ -187,7 +195,29 @@ Use `create-project` whenever you start a new codebase inside an existing Area.
    the standard and **loses**. **No defeats, no entry:** either nothing was arbitrated (it was a
    copy), or the source carried capacity, not criteria.
 
-**Confidence in `arbitrate`:** what is adopted *from* the source enters as `conjecture` (nobody has
+**A governing document is the hardest case, and the one most often skipped.** When a second kit ships
+a constitution or charter declaring its own authority, the reflex is to treat it as configuration and
+adopt it. It is criteria written under someone else's purpose, and a supremacy clause is precisely the
+kind that **loses** — a kit installed this week cannot govern criteria paid for with friction before
+it existed. That defeat is **written down**, not merely omitted: an omission leaves a hole the next
+template regeneration fills back in. What does not happen is deferring to it while deciding;
+arbitration is judgment, not negotiation.
+
+**On a schedule, `TRANSPLANT` starts by reading what already lost.** A recurring pass over a field
+that moves slower than its own schedule keeps meeting the same material. The defeats sections this
+mode already writes **are** that ledger: read them first, and never re-arbitrate or re-report what is
+already in them. **"Nothing entered this time" is a valid result and is written as such** — a
+recurring pass that always finds something stopped looking and started justifying itself.
+
+**A third-party skill you *invoke* carries criteria too, and applies it without asking.** `TRANSPLANT`
+is for criteria arriving as a **document** to be read; the harder case is criteria arriving as a
+**tool that runs** — a formatter, a linter, a style checker. Nobody arbitrates those because they look
+like capacity, and every opinionated tool ships a body of criteria. **Feed it your Lore in the
+invocation, as its input:** most such tools have a calibration clause that makes a provided sample
+outrank their defaults, and the ones that do not are treated as capacity and kept away from anything
+the Lore governs.
+
+**Confidence in `TRANSPLANT`:** what is adopted *from* the source enters as `conjecture` (nobody has
 paid for it with real friction yet); **the arbitration itself** — the defeats, derived from an
 already-validated identity — enters as `confirmed`. The module states its provenance: *"Distilled
 from `<source>`, arbitrated against `<identidad.md>`."*
@@ -247,7 +277,7 @@ Use `save-to-lore` as the main mechanism for feeding your Lore after important d
 
 ### 3.6 `transmute-lore`
 
-**Role:** Operate an existing body of Lore through five distinct modes.
+**Role:** Operate an existing body of Lore through six distinct modes.
 
 **Input:**
 
@@ -263,6 +293,8 @@ Use `save-to-lore` as the main mechanism for feeding your Lore after important d
   - `upgrade` – "improve the lore of Legacy Frontend with the new version", "bring this lore up to
     date with the plugin" — raise a healthy Lore written against an older version of these skills to
     the current standard.
+  - `prune` – "prune the lore of Legacy Frontend", "this lore got too heavy" — remove **weight** from
+    a Lore that decayed by accumulating things that are each individually correct.
   - `crystallize` – "crystallize this Lore", "export this Lore to one Markdown" — resolve the live
     routing into a safe, traceable reading copy for a chat, AI project or notebook.
 
@@ -320,6 +352,66 @@ deserves and leaves the binary where it was, extension intact. So `add` mode com
 against the existing corpus before extracting it — literal overlap in chunks costs seconds — and
 **records the correspondence binary → transcription** in the destination when it does transcribe one.
 Pending extraction items are written by **content, not by extension**.
+
+**Process — `upgrade` mode (conceptually):**
+
+1. **Establish both versions.** The installed one comes from the host's installation registry, never
+   from a `plugin.json` found by walking the working tree — the manifest is the *source's* version and
+   the registry is the version that will run. And the registry is not the last word either: a session
+   resolves its plugin version **when it opens**, so one opened before an install keeps running the
+   previous copy and the registry will not say so. The witness that survives is the path the skill
+   declares as it loads, contrasted against a word that exists in only one version. The Lore's own
+   version is usually not written down and is inferred from what its artifacts carry; say plainly when
+   that is a guess. If the installed copy is stale, **stop and say so**.
+2. **Arbitrate artifact by artifact**, sorting every finding into exactly four kinds:
+
+| Kind | What it means | What it produces |
+|---|---|---|
+| **Missing** | The kit now requires something this artifact never had (a validity boundary, a confidence marker, a defeats section, a provenance header). | Add it, **asking** for anything not derivable from the text. Never fabricate a boundary. |
+| **Superseded** | The kit now knows this practice is wrong. | Propose the correction, citing which rule supersedes it. |
+| **Earned** | It departs from the current standard **because this project paid for it**. | Leave it, and write why in `FASES.md` — one line per exemption, never inside the artifact it defends. |
+| **Stale** | It matches the kit and no longer matches **the project**: it describes a practice that changed and nobody amended the text. | Report it with the contradicting evidence and **ask**; the correction is the user's to state. |
+
+3. **`index.md` is checked against its own row format**, not only its links. The failure to look for is
+   a middle field that has quietly split in two — some rows saying *when to open this*, others
+   carrying a confidence marker. It hides well because **a malformed list looks exactly as well-formed
+   as a complete one**, and every row reads fine on its own.
+4. A finding list with **no `Earned` entries** in a Lore with real history means the pass is being run
+   as a formatter. **`Stale` is the one no reading finds:** it is detected against the repository —
+   recent commits and the actual deliverables the module governs — never by re-reading, because an
+   artifact consistent with itself and false about the outside survives every reading.
+5. Present the full threshold, write only after approval, and record the version upgraded to in
+   `FASES.md` — not in the Lore. **Does not commit.**
+
+**Process — `prune` mode (conceptually):**
+
+**The unit this mode counts is the deliverable, not the Lore.** A body of criteria is not too big in
+the abstract; it is too big *for the thing it has to produce*. Ask for the artifact the project
+actually ships — a post, a page, a component, a report — before reading a single module. Without it,
+`prune` has no denominator and turns into taste.
+
+1. **Measure before reading**, because the defect this mode exists for is invisible when reading files
+   one at a time: laws in `principios.md` (area + project), clues across thematic modules, **clues
+   with no validity boundary** (one with no boundary applies *always* — this is the multiplier),
+   guardrails from the active phase, and **scaffolding against content in the last three
+   deliverables**. That last count finds what reading cannot: it belongs to no single clue, which is
+   exactly why no per-artifact pass ever caught it. Also inventory whether each piece type the project
+   ships has a **declared length ceiling** — the piece with no ceiling is the one that will bloat, and
+   it is usually the *most* published one.
+2. **Classify, four kinds:**
+
+| Kind | What it means | What it produces |
+|---|---|---|
+| **Deadwood** | It constrains no future decision — the decision it once shaped no longer exists, or it was adopted from elsewhere and never bit. | **Comes out**, after its residue is written down. |
+| **Crowding** | Correct, earned and not refutable — and yet its *sum* with the others saturates the deliverable. | **Does not come out.** It receives a validity boundary, a destination for the artifact it demands, or a ceiling. |
+| **Rooted** | Load-bearing: a real scar behind it and a decision that still depends on it. | Untouched, and **not re-examined by the next pass**. |
+| **Unhealed** | Declared applied and only partly applied — the correction landed in one place and not in its siblings. | **Finish it or unmark it.** It may not stay declared-and-false. |
+
+3. **A prune list with no `Rooted` entries is a pass being run as a chainsaw.** This is the mirror of
+   `upgrade`'s `Earned` rule and exists for the same reason: a mode that only removes will always find
+   something to remove.
+4. Nothing comes out without its residue written down, and **what shrinks is the deliverable, not
+   necessarily the corpus**.
 
 **Process — `crystallize` mode (conceptually):** resolve the project, Area or bot's live routing;
 classify sources as included, private, uncertain or unrouted; show the full manifest, destination

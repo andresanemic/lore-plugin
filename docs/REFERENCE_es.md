@@ -33,8 +33,8 @@ El plugin Lore expone ocho skills principales a través de agentes de IA compati
 | `brainstorming-lore` | Diseñar cambios específicos de Lore sin apropiarse del brainstorming general | «haz brainstorming de este Lore», o la invoca una skill Lore dueña del artefacto |
 | `create-area`    | Crear una nueva Área con Lore compartido      | «crea un área de trabajo para Frontend», «quiero empezar a trabajar en X con Lore» |
 | `create-project` | Crear un proyecto que hereda de un Área       | «crea un proyecto de Sitio de marketing en el área Frontend» |
-| `save-to-lore`   | Capturar criterio tras resolver un problema (**capture**) o arbitrar criterio importado de una skill/guía ajena (**arbitrate**) | «guarda en lore», «destila esto en el lore» (capture) / «destila la skill X en el lore» (arbitrate) |
-| `transmute-lore` | Operar un Lore existente en cinco modos | add / clean / translate / upgrade / crystallize |
+| `save-to-lore`   | Capturar criterio tras resolver un problema (**capture**) o arbitrar criterio importado de una skill/guía ajena (**transplant**) | «guarda en lore», «destila esto en el lore» (capture) / «destila la skill X en el lore» (transplant) |
+| `transmute-lore` | Operar un Lore existente en seis modos | add / clean / translate / upgrade / prune / crystallize |
 | `create-bot`     | Construir un bot: un solo lugar donde abrir sesión y trabajar en varios proyectos a la vez, con su criterio ya cargado | «crea un bot para trabajar en X e Y» (nuevo) / «quiero un bot que federe el lore que ya existe en A y B» (federar) |
 | `obsidian-lore`  | Capturar notas libres en el mismo árbol donde vive el Lore, y **minar** esa bandeja buscando lo que merece volverse criterio | «revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore», «mina la bandeja», «guarda esta nota en Obsidian» |
 
@@ -170,10 +170,19 @@ Usa `create-project` siempre que arranques una nueva base de código dentro de u
 
 | Modo | Fuente | Operación |
 |---|---|---|
-| **capture** (por defecto) | fricción vivida (bug, colapso, rechazo del cliente) | Destila la cicatriz en una Pista Invariante. Todo lo descrito abajo se refiere a este modo. |
-| **arbitrate** | criterio importado (una *skill*, una guía de estilo, un manual ajeno) | **Juzga** ese criterio contra la finalidad del proyecto. Solo entra lo que sobrevive. |
+| **CAPTURE** (por defecto) | fricción vivida (bug, colapso, rechazo del cliente) | Destila la cicatriz en una Pista Invariante. Todo lo descrito abajo se refiere a este modo. |
+| **TRANSPLANT** | criterio importado (una *skill*, una guía de estilo, un manual ajeno, **la constitución o documento de gobierno de otro kit**) | **Juzga** ese criterio contra la finalidad del proyecto. Solo entra lo que sobrevive. |
 
-**Modo `arbitrate` — cuatro puertas:**
+> **Por qué «trasplante».** Lo que creció bien en otro suelo no necesariamente prende en este, y un
+> trasplante que nadie mira es una planta muerta con buenas intenciones: hay que decir qué prendió y
+> qué no. Es la contraparte exacta de `transmute-lore` PRUNE — la poda quita lo que la planta creció
+> sola, el trasplante juzga lo que vino de afuera. Un Lore con uno y sin el otro se hincha o se
+> osifica.
+>
+> *Renombrado en 2.1.0. Hasta la 2.0.9 este modo se llamaba `arbitrate`: misma ley, mismas cuatro
+> puertas.*
+
+**Modo `TRANSPLANT` — cuatro puertas:**
 
 1. **¿Capacidad o criterio?** Una fuente que **ejecuta** (renderiza, hace *crawl*, compila) **no es
    Lore**: se documenta como dependencia y se detiene ahí. Solo se arbitra la que **juzga**.
@@ -186,7 +195,29 @@ Usa `create-project` siempre que arranques una nueva base de código dentro de u
    contradice el estándar y **pierde**. **Sin derrotas, no entra:** o no hubo arbitraje (fue copia),
    o la fuente traía capacidad, no criterio.
 
-**Confianza en `arbitrate`:** lo adoptado *de* la fuente entra como `conjecture` (nadie lo ha pagado
+**Un documento de gobierno es el caso más difícil, y el que más se saltea.** Cuando un segundo kit
+trae una constitución o un estatuto que declara su propia autoridad, el reflejo es tratarlo como
+configuración y adoptarlo. Es criterio escrito bajo la finalidad de otro, y una cláusula de supremacía
+es precisamente de las que **pierden**: un kit instalado esta semana no puede gobernar criterio pagado
+con fricción antes de que existiera. Esa derrota se **escribe**, no se omite — una omisión deja un
+hueco que la próxima regeneración de plantilla vuelve a llenar. Lo que no ocurre es deferir a él
+mientras se decide: arbitrar es juzgar, no negociar.
+
+**En calendario, `TRANSPLANT` empieza leyendo lo que ya perdió.** Una pasada recurrente sobre un campo
+que se mueve más lento que su propia frecuencia se encuentra siempre el mismo material. Las secciones
+de derrotas que este modo ya escribe **son** ese registro: se leen primero, y no se vuelve a arbitrar
+ni a reportar lo que ya está en ellas. **«Esta vez no entró nada» es un resultado válido y se escribe
+así** — una pasada recurrente que siempre encuentra algo dejó de mirar y empezó a justificarse.
+
+**Una skill ajena que se *invoca* también trae criterio, y lo aplica sin preguntar.** `TRANSPLANT` es
+para criterio que llega como **documento** a leer; el caso difícil es el que llega como **herramienta
+que corre** — un formateador, un linter, un revisor de estilo. Nadie los arbitra porque parecen
+capacidad, y toda herramienta opinada trae un cuerpo de criterio. **Pasale tu Lore en la invocación,
+como su entrada:** casi todas tienen una cláusula de calibración que hace que una muestra provista le
+gane a sus valores por defecto, y las que no la tienen se tratan como capacidad y se mantienen lejos
+de lo que el Lore gobierna.
+
+**Confianza en `TRANSPLANT`:** lo adoptado *de* la fuente entra como `conjecture` (nadie lo ha pagado
 aún con fricción real); **el arbitraje mismo** —las derrotas, derivadas de una identidad ya
 validada— entra como `confirmed`. El módulo declara su procedencia: *"Destilado de `<fuente>`,
 arbitrado contra `<identidad.md>`."*
@@ -246,7 +277,7 @@ Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decision
 
 ### 3.6 `transmute-lore`
 
-**Rol:** Operar un cuerpo de Lore existente mediante cinco modos distintos.
+**Rol:** Operar un cuerpo de Lore existente mediante seis modos distintos.
 
 **Entrada:**
 
@@ -256,6 +287,8 @@ Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decision
   - `clean` – «limpia el lore de {proyecto}» — elimina módulos temáticos del proyecto que ya duplican los del Área.
   - `translate` – «estandariza el idioma del lore de {proyecto}», «traduce el lore de {proyecto} a {idioma}» — estandariza el idioma de todos los artefactos del Lore: contenido y nombres de archivo.
   - `upgrade` – «mejora el lore de {proyecto} con la versión nueva», «arbitra mi lore contra la versión nueva» — pone al día un Lore sano escrito contra una versión anterior de estos skills.
+  - `prune` – «poda el lore de {proyecto}», «este lore se puso muy pesado» — quita **peso** a un Lore
+    que se degradó acumulando cosas que por separado son correctas.
   - `crystallize` – «cristaliza este Lore», «exporta este Lore a un solo Markdown» — resuelve el
     enrutamiento vivo en una copia de lectura segura y trazable para un chat, proyecto de IA o notebook.
 
@@ -313,6 +346,69 @@ y deja el binario donde estaba, con su extensión intacta. Por eso el modo `add`
 binario contra el corpus existente antes de extraerlo —el solapamiento literal por tramos cuesta
 segundos— y **anota la correspondencia binario → transcripción** en el destino cuando sí transcribe
 uno. Los pendientes de extracción se redactan por **contenido, no por extensión**.
+
+**Proceso — modo `upgrade` (conceptual):**
+
+1. **Establecer las dos versiones.** La instalada se lee del **registro de instalación del host**,
+   nunca de un `plugin.json` encontrado recorriendo el árbol de trabajo — el manifiesto es la versión
+   de la *fuente* y el registro es la versión que va a correr. Y el registro tampoco es la última
+   palabra: una sesión resuelve su versión de plugin **al abrirse**, así que una abierta antes de
+   instalar sigue corriendo la copia anterior y el registro no lo va a decir. El testigo que sobrevive
+   es el path que la propia skill declara al cargarse, contrastado contra una palabra que solo exista
+   en una versión. La versión del Lore casi nunca está escrita y se infiere de lo que llevan sus
+   artefactos; hay que decir con claridad cuándo eso es una estimación. Si la copia instalada está
+   atrasada, **parar y avisar**.
+2. **Arbitrar artefacto por artefacto**, clasificando cada hallazgo en exactamente cuatro tipos:
+
+| Tipo | Qué significa | Qué produce |
+|---|---|---|
+| **Missing** | El kit ahora exige algo que ese artefacto nunca tuvo (una frontera de validez, un marcador de confianza, una sección de derrotas, un encabezado de procedencia). | Agregarlo, **preguntando** todo lo que no se derive del texto. Nunca fabricar una frontera. |
+| **Superseded** | El kit ahora sabe que esa práctica está mal. | Proponer la corrección, citando qué regla la reemplaza. |
+| **Earned** | Se aparta del estándar actual **porque este proyecto lo pagó**. | Dejarlo, y escribir por qué en `FASES.md` — una línea por excepción, nunca dentro del artefacto que defiende. |
+| **Stale** | Coincide con el kit y ya no coincide con **el proyecto**: describe una práctica que cambió y nadie enmendó el texto. | Reportarlo con la evidencia que lo contradice y **preguntar**; la corrección la enuncia el usuario. |
+
+3. **`index.md` se arbitra contra su propio formato de fila**, no solo contra sus enlaces. El fallo
+   que hay que buscar es un campo del medio que se partió en dos sin que nadie lo note — unas filas
+   diciendo *cuándo abrir esto* y otras cargando un marcador de confianza. Se esconde bien porque
+   **una lista malformada se ve exactamente igual de bien formada que una completa**, y cada fila
+   por separado se lee perfecta.
+4. Una lista de hallazgos **sin ningún `Earned`** en un Lore con historia significa que el pase se
+   está corriendo como formateador. **`Stale` es el que ninguna lectura encuentra:** se detecta contra
+   el repositorio —los commits recientes y los entregables reales que el módulo gobierna— y nunca
+   releyendo, porque un artefacto consistente consigo mismo y falso hacia afuera sobrevive toda
+   revisión.
+5. Presentar el umbral completo, escribir solo tras aprobación, y registrar la versión a la que se
+   actualizó en `FASES.md` — no en el Lore. **No commitea.**
+
+**Proceso — modo `prune` (conceptual):**
+
+**La unidad que este modo cuenta es el entregable, no el Lore.** Un cuerpo de criterio no es demasiado
+grande en abstracto; es demasiado grande *para la cosa que tiene que producir*. Hay que pedir el
+artefacto que el proyecto realmente publica —un post, una página, un componente, un informe— antes de
+leer un solo módulo. Sin eso, `prune` no tiene denominador y se convierte en gusto.
+
+1. **Medir antes de leer**, porque el defecto que este modo existe para atacar es invisible leyendo
+   los archivos de a uno: leyes en `principios.md` (área + proyecto), Pistas en los módulos temáticos,
+   **Pistas sin frontera de validez** (una sin frontera aplica *siempre* — ese es el multiplicador),
+   guardarraíles de la fase activa, y **aparato contra contenido en los últimos tres entregables**.
+   Ese último conteo encuentra lo que la lectura no puede: no pertenece a ninguna Pista en particular,
+   que es exactamente por qué ningún pase por artefacto lo detectó nunca. También hay que inventariar
+   si cada tipo de pieza que el proyecto publica tiene un **techo de extensión declarado** — la pieza
+   sin techo es la que se va a inflar, y suele ser la *más* publicada.
+2. **Clasificar, cuatro tipos:**
+
+| Tipo | Qué significa | Qué produce |
+|---|---|---|
+| **Deadwood** | No restringe ninguna decisión futura — la decisión que moldeó ya no existe, o se adoptó de otro lado y nunca mordió. | **Sale**, después de escribir su residuo. |
+| **Crowding** | Correcto, ganado y no refutable — y aun así su *suma* con los demás satura el entregable. | **No sale.** Recibe una frontera de validez, un destino para el artefacto que exige, o un techo. |
+| **Rooted** | Estructural: hay una cicatriz real detrás y una decisión que todavía depende de él. | Intacto, y **no se re-examina en el próximo pase**. |
+| **Unhealed** | Declarado aplicado y aplicado a medias — la corrección aterrizó en un lugar y no en sus hermanos. | **Se termina o se desmarca.** No puede quedar declarado-y-falso. |
+
+3. **Una lista de poda sin ningún `Rooted` es un pase corrido como motosierra.** Es el espejo de la
+   regla `Earned` de `upgrade` y existe por la misma razón: un modo que solo quita siempre va a
+   encontrar algo que quitar.
+4. Nada sale sin dejar su residuo escrito, y **lo que encoge es el entregable, no necesariamente el
+   corpus**.
 
 **Proceso — modo `crystallize` (conceptual):** resolver el enrutamiento vivo del proyecto, Área o
 bot; clasificar las fuentes como incluidas, privadas, inciertas o no enrutadas; mostrar el manifiesto
@@ -565,7 +661,7 @@ destilado:                      # vacío = sin minar
 |---|---|---|
 | Una fricción **resuelta** | experiencia | `save-to-lore` **capture** |
 | Una **tarea**, un pendiente o una fricción **abierta** — *«hay que añadir X»* | estado | `FASES.md` |
-| Criterio ajeno que **juzga** | criterio importado | `save-to-lore` **arbitrate** (sin derrotas no entra) |
+| Criterio ajeno que **juzga** | criterio importado | `save-to-lore` **transplant** (sin derrotas no entra) |
 | Un resumen, una cita, un enlace, un apunte | información | fuente de `create-area` / `create-project` / `transmute-lore`, o **ruido informado** |
 
 Existe un quinto destino, más raro: una nota que cambia **cómo se trabaja en conjunto** (qué se lee

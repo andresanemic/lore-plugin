@@ -38,7 +38,7 @@ Four projects of a real area (*web development*) migrated to the standard with `
 
 <br>
 
-The case that produced `arbitrate` mode. Three areas distilled Lore from third-party skills, and what we observed contradicted the intuition:
+The case that produced `arbitrate` mode — **renamed `transplant` in 2.1.0**, same law and same four gates. Three areas distilled Lore from third-party skills, and what we observed contradicted the intuition:
 
 - **The value was not the summary of the skill — it was the disagreement.** In two different areas, the dense block of the resulting module was *"where the skill contradicts our standard and loses"*. That part **existed neither in the skill nor in the previous Lore**: it was born from the collision.
 - **The same skill, arbitrated by two opposite purposes, loses in the same place for inverse reasons.** *Copywriting* skills were defeated in a marketing area (*"boring, functional copy always wins"*) and in a journalism area (*"we don't sell, we inform"*). The outcome does not depend on the source: it depends on **your** purpose.
