@@ -58,6 +58,16 @@ below exists for **you**, so you can pick; it is not a menu to hand over.
 > **What this move must never do is end in a recommendation.** The first use of the kit produces a
 > first artifact, or it produced nothing.
 
+**Declare the register here, in the same line, and do not spend a turn on it.** By now the person has
+written several answers, which is the evidence: technical vocabulary used comfortably and without
+explanation → `tecnico`; the work described in its own domain's words → `llano`; anything else →
+`equilibrado`. Say which one you picked and offer the correction in the same breath — *"I'll keep the
+technical vocabulary; tell me if you'd rather I explain as I go."* Then write it into `identidad.md`
+as `registro:` when the first artifact is created.
+
+**Never ask it as a question.** Tone is inferred and corrected in one sentence; a brainstorm turn
+spent on register buys nothing, and this move exists to produce an artifact.
+
 **Boundary:** this gate is for the **first** Lore on the machine. Once one area exists, entry is by
 the routing table below and this section is skipped.
 
@@ -121,17 +131,33 @@ re-stamped without touching anything else:
 
 ```markdown
 <!-- lore:always-on -->
-…what Lore governs here · where it lives · when to invoke instead of writing by hand…
+…what Lore governs here · where it lives · where the state lives · when to invoke instead of writing by hand…
 <!-- /lore:always-on -->
 ```
 
 Markers are **literal**: no spacing variants, no attributes, no version number. They are located by
 full-line match after trimming whitespace.
 
-**Contents — exactly three things, in this order.** What Lore governs here; where it lives (relative
-paths that resolve from the root); and the signal that writing criteria by hand feels like
-competence and is the moment to invoke the skill. Nothing else. Reproducing a clue, listing the
-eight skills or explaining what Lore is belongs elsewhere and already has an owner.
+**Contents — exactly four things, in this order.** What Lore governs here; where it lives (relative
+paths that resolve from the root); **where the state lives** (`FASES.md`, one line, path only); and
+the signal that writing criteria by hand feels like competence and is the moment to invoke the skill.
+Nothing else. Reproducing a clue, listing the eight skills or explaining what Lore is belongs
+elsewhere and already has an owner.
+
+> **Why state earns a line in a block that is otherwise about criteria.** Criteria and state are two
+> files with two rules, and that separation is not negotiable — `FASES.md` never lives inside `lore/`.
+> But separate **storage** was never an argument for separate **delivery**, and the session receiving
+> them cannot read twice. An agent that loads the criteria and not the phase knows how the work must
+> be done and not which work is next, so it proposes correctly and **out of order** — and nothing in
+> its output announces the gap.
+>
+> Today the phase reaches the session through the contract's hand-written prose, which is precisely
+> the half this skill documents as the one that goes stale: the skills re-stamp the block and never
+> touch the rest. So the durable half carries criteria forever and the rotting half carries state.
+>
+> **It is a pointer, not content.** The path is stable; only its target churns. Nothing about the
+> phase, the roadmap or the current task enters the block — one line saying where to look. That is
+> what keeps this from being the fusion the law forbids.
 
 **Ceiling: 25 lines, markers included.** Hard limit, not guidance. If a variant's content does not
 fit, the answer is never to raise the ceiling — it is to move content into `lore/`, where it lives.
@@ -140,7 +166,8 @@ The first exception to a ceiling is how the ceiling dies.
 **Three variants**, same ceiling: an **area** points at its own `lore/`; a **project** points at its
 own layer and its mother area's; a **bot** points at `canon/` and at its **routing table**, never at
 the federated Lores one by one — a bot that federates many sources fits precisely because it
-delegates to the table.
+delegates to the table. All three point at their own `FASES.md`, which is one line and does not
+scale with the number of sources.
 
 **Stamping is idempotent**, and it is done by the skills that already write the contract
 (`create-area`, `create-project`, `create-bot`), inside the threshold they already have —
@@ -327,6 +354,25 @@ with `transmute-lore` (TRANSLATE mode), which translates content and renames art
   > translate before they can judge, and a word standing between the user and the decision is a cost
   > the threshold pays. The kit already refuses to make people learn a CLI; making them learn its
   > internal vocabulary is the same mistake wearing prose.
+
+- **The register is calibrated by the person reading, in three positions.** `tecnico` — the scene
+  drops to a minimum, the specification stays. `equilibrado` *(default)* — half and half. `llano` —
+  the scene grows, and a technical term is explained the first time it appears.
+
+  > **What the calibrator never moves: the rules.** A threshold is still a threshold, a `MUST` is
+  > still a `MUST`, a validity boundary is never omitted. What changes is **how much ground** surrounds
+  > a rule, never whether the rule is there. A calibrator that could switch off a gate would be a way
+  > of skipping the kit by asking it nicely.
+  >
+  > **It is never asked as a question.** The kit's own law is that tone is inferred from how the person
+  > writes and corrected in one sentence, because spending a brainstorm turn on it buys nothing.
+  > So: **infer it, say it out loud in one line, and offer the correction in the same breath** —
+  > *"I'll speak to you in plain terms; say the word and I'll go technical."* The decision belongs to
+  > the reader and costs no question.
+  >
+  > **Where it lives:** one line in `identidad.md`, under a `registro:` key. It is a **declared
+  > preference, not criteria** — it constrains no decision about the work, so it is never promoted to
+  > the area and never carries a confidence marker. Absent the line, assume `equilibrado`.
 - **Criteria is never invented.** Every artifact is distilled from what already exists (docs, code,
   the user's words). An artifact with no real criteria stays minimal and says so.
 - **Discarded noise is reported**, never deleted silently — the filter is transparent.

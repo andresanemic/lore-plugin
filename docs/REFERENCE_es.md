@@ -706,6 +706,20 @@ Lore usa un conjunto fijo de artefactos Markdown para mantener el criterio estru
 - Nombre y descripción.
 - Intención central y audiencia.
 - Barrera mínima de calidad (por ejemplo, «Nunca introducir regresiones visibles para el usuario en producción»).
+- **`registro:`** — qué tan técnico querés que el kit te hable: `tecnico`, `equilibrado` (default) o
+  `llano`. Una línea. Ver abajo.
+
+**La clave `registro:` (2.1.0).** Fija cuánto suelo rodea a una regla cuando el kit se explica —
+`tecnico` conserva la especificación y baja la escena al mínimo, `llano` agranda la escena y explica
+un término técnico la primera vez que aparece, `equilibrado` es mitad y mitad. **Nunca mueve las
+reglas:** un umbral sigue siendo un umbral, un `MUST` sigue siendo un `MUST`, y una frontera de
+validez no se omite nunca. Un calibrador capaz de apagar una puerta sería una forma de saltarse el kit
+pidiéndoselo amablemente.
+
+Se **infiere, no se pregunta** —de cómo escribe la persona durante el brainstorm—, y después se
+declara en voz alta en una línea, ofreciendo la corrección en el mismo aliento. Es una **preferencia
+declarada, no criterio**: no restringe ninguna decisión sobre el trabajo, así que no lleva marcador de
+confianza y nunca se promueve al área. Si la línea no está, se asume `equilibrado`.
 
 **Guías:**
 
@@ -841,10 +855,15 @@ canal siempre-activo del kit — su sección de punteros, delimitada por un par 
   traducirlos rompe la idempotencia del estampado sin producir ningún error.
 - **Techo: 25 líneas, marcadores incluidos.** Es un límite duro. Si una variante no cabe, el
   contenido se mueve al `lore/`; el techo no se mueve.
-- **Exactamente tres cosas:** qué Lore gobierna acá, dónde vive, y la señal de invocar en vez de
-  escribir criterio a mano. Apunta al `lore/` y nunca reproduce una Pista.
+- **Exactamente cuatro cosas:** qué Lore gobierna acá, dónde vive, **dónde vive el estado**
+  (`FASES.md`, una línea, solo la ruta), y la señal de invocar en vez de escribir criterio a mano.
+  Apunta al `lore/` y nunca reproduce una Pista. El criterio y el estado siguen en archivos separados
+  —esa ley no se mueve—, pero la sesión que los recibe no puede leer dos veces, y un agente que tiene
+  el criterio y no la fase propone bien y **fuera de orden**. La entrada de estado es un **puntero, no
+  contenido**: la ruta es estable, lo que se agita es su destino.
 - **Tres variantes.** Área → su propio `lore/`. Proyecto → su capa más la del área madre. Bot →
-  `canon/` más la tabla de enrutamiento, nunca los Lore federados uno por uno.
+  `canon/` más la tabla de enrutamiento, nunca los Lore federados uno por uno. Las tres apuntan a su
+  propio `FASES.md`, que es una línea y no escala con la cantidad de fuentes.
 - **Quién estampa:** `create-area`, `create-project` y `create-bot`, dentro del umbral que ya
   tienen; `transmute-lore` UPGRADE para contratos anteriores al bloque.
 - **Idempotencia:** sin marcadores → insertar tras el primer H1. Un par bien formado con contenido

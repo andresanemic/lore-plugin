@@ -128,6 +128,18 @@ This is the part worth reading before you trust either capability.
   mode names are unchanged in the documentation, where a reader needs the exact token. The reason is
   the threshold: it only works if you can agree or refuse **with the content in view**, and an
   identifier you have to translate first is one more thing standing between you and that decision.
+- **And you calibrate how technical it gets.** A `registro:` line in `identidad.md` takes three
+  positions — `tecnico` keeps the specification and drops the scene, `llano` grows the scene and
+  explains a term the first time it appears, `equilibrado` (the default) is half and half. **It never
+  moves the rules:** a threshold is still a threshold and a `MUST` is still a `MUST`, because a
+  calibrator that could switch off a gate would be a way of skipping the kit by asking it nicely. And
+  it is **never asked as a question** — the kit infers it from how you write, says which one it picked
+  in one line, and offers the correction in the same breath. Spending a brainstorm turn on register
+  buys nothing.
+
+  Two external reviews of 2.0.9 independently called the documentation **"dense"**. This release
+  answers that without diluting a single gate: the prose carries the rule *and* the ground under it,
+  and you decide how much ground you want.
 - The README chain from a raw folder now shows the missing link: an existing folder is **adopted by
   registration, by path, without moving it** — `create-area` creates the area clean.
 
@@ -289,6 +301,18 @@ Esta es la parte que conviene leer antes de confiar en cualquiera de las dos cap
   el token exacto. La razón es el umbral: solo funciona si podés aceptar o rechazar **con el contenido
   a la vista**, y un identificador que hay que traducir primero es una cosa más entre vos y esa
   decisión.
+- **Y vos calibrás qué tan técnico se pone.** Una línea `registro:` en `identidad.md` toma tres
+  posiciones — `tecnico` conserva la especificación y baja la escena al mínimo, `llano` agranda la
+  escena y explica un término la primera vez que aparece, `equilibrado` (el default) es mitad y mitad.
+  **Nunca mueve las reglas:** un umbral sigue siendo un umbral y un `MUST` sigue siendo un `MUST`,
+  porque un calibrador capaz de apagar una puerta sería una forma de saltarse el kit pidiéndoselo
+  amablemente. Y **nunca se pregunta** — el kit lo infiere de cómo escribís, dice cuál eligió en una
+  línea, y ofrece la corrección en el mismo aliento. Gastar un turno de brainstorm en el registro no
+  compra nada.
+
+  Dos revisiones externas de la 2.0.9 calificaron la documentación de **«densa»**, por separado. Esta
+  versión responde a eso sin diluir una sola puerta: la prosa lleva la regla *y* el suelo que la
+  sostiene, y vos decidís cuánto suelo querés.
 - La cadena del README desde una carpeta en bruto muestra el eslabón que faltaba: una carpeta que ya
   existe se **adopta por registro, por ruta, sin moverla** — `create-area` crea el área limpia.
 

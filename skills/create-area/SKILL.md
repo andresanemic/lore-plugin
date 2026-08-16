@@ -54,6 +54,7 @@ Creates the **mother folder** of a domain (web, research, blog, video, apps…) 
 | `{{PURPOSE}}` | what does the area produce and for whom? → `identidad.md` |
 | `{{NORTH}}` | quality standard: what is every deliverable judged against? → `identidad.md` |
 | `{{ANTI_SCOPE}}` | what the area is NOT / what practice it rejects → `identidad.md` |
+| `{{REGISTRO}}` | how technical the kit speaks here: `tecnico` / `equilibrado` (default) / `llano` → `identidad.md`. **Inferred from how the user wrote during the brainstorm, never asked.** Declare which one you picked in one line and offer the correction in the same breath. It calibrates how much ground surrounds a rule and **never the rules themselves** — a threshold stays a threshold. It is a declared preference, not criteria: no confidence marker, never promoted |
 | `{{PRINCIPLES}}` | invariant laws of the method (may inherit from a prior corpus) → `principios.md` |
 | `{{MODULES}}` | initial thematic modules (may be 0; created when the first friction appears) |
 
@@ -157,6 +158,8 @@ critical paths, not a generic mold.
 ```markdown
 # Identidad — {{AREA_TITLE}} (work area)
 
+registro: {{REGISTRO}}
+
 ## What we are
 {{PURPOSE}}
 
@@ -166,6 +169,10 @@ critical paths, not a generic mold.
 ## What we are NOT
 {{ANTI_SCOPE}}
 ```
+
+> `registro:` sits above the sections because it is **not** one of them: it is a declared preference
+> about how the kit speaks here, not a claim about what this area is. It carries no confidence marker
+> and is never promoted.
 
 ### `lore/principios.md`
 

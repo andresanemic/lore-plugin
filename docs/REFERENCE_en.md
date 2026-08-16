@@ -707,6 +707,20 @@ Lore uses a fixed set of Markdown artifacts to keep criteria structured.
 - Name and description.
 - Core intent and audience.
 - Non‑negotiable quality bar (e.g. “No user‑visible regressions in production”).
+- **`registro:`** — how technical you want the kit to speak to you: `tecnico`, `equilibrado`
+  (default) or `llano`. One line. See below.
+
+**The `registro:` key (2.1.0).** It sets how much ground surrounds a rule when the kit explains
+itself — `tecnico` keeps the specification and drops the scene, `llano` grows the scene and explains
+a technical term the first time it appears, `equilibrado` is half and half. **It never moves the rules
+themselves:** a threshold is still a threshold, a `MUST` is still a `MUST`, and a validity boundary is
+never omitted. A calibrator that could switch off a gate would be a way of skipping the kit by asking
+it nicely.
+
+It is **inferred, never asked** — from how the person writes during the brainstorm — then declared out
+loud in one line with the correction offered in the same breath. It is a **declared preference, not
+criteria**: it constrains no decision about the work, so it carries no confidence marker and is never
+promoted to the area. Absent the line, assume `equilibrado`.
 
 **Guidelines:**
 
@@ -842,10 +856,15 @@ always-on channel — its pointer section, delimited by a marker pair:
   idempotent stamping with no error.
 - **Ceiling: 25 lines, markers included.** Hard limit. If a variant does not fit, content moves into
   `lore/`; the ceiling does not move.
-- **Exactly three things:** what Lore governs here, where it lives, and the signal to invoke instead
-  of writing criteria by hand. It points at `lore/` and never reproduces a clue.
+- **Exactly four things:** what Lore governs here, where it lives, **where the state lives**
+  (`FASES.md`, one line, path only), and the signal to invoke instead of writing criteria by hand. It
+  points at `lore/` and never reproduces a clue. Criteria and state stay in separate files — that law
+  does not move — but the session receiving them cannot read twice, and an agent holding the criteria
+  without the phase proposes correctly and **out of order**. The state entry is a **pointer, not
+  content**: the path is stable, only its target churns.
 - **Three variants.** Area → its own `lore/`. Project → its own layer plus the mother area's. Bot →
-  `canon/` plus the routing table, never the federated Lores one by one.
+  `canon/` plus the routing table, never the federated Lores one by one. All three point at their own
+  `FASES.md`, which is one line and does not scale with the number of sources.
 - **Who stamps:** `create-area`, `create-project` and `create-bot`, inside the threshold they already
   have; `transmute-lore` UPGRADE for contracts that predate the block.
 - **Idempotency:** no markers → insert after the first H1. One well-formed pair with identical

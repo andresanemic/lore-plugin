@@ -150,6 +150,11 @@ This project inherits the area's premium standard and quality floor.
 Source of truth for the shared standard: [`../../../lore/identidad.md`](../../../lore/identidad.md).
 ```
 
+**`registro:` is inherited, not re-decided.** A project takes the area's line and writes none of its
+own; only add `registro:` here when the user says this project should read differently from the rest
+of the area, and then it is inferred from how they said it — never asked. Everything about how the
+calibrator behaves is in `use-lore`.
+
 Write the project's `lore/principios.md`:
 
 ```markdown

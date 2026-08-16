@@ -282,6 +282,7 @@ Everything else is derived from those three, or read from disk. Do not interroga
 | `{{MODE}}` | `federar` if there are existing sources, `nuevo` if there are none |
 | `{{PURPOSE}}` | answer 2, verbatim |
 | `{{SOURCE_DOCS}}` / `{{ECOSYSTEM}}` | answer 3, after inspecting each path on disk |
+| `{{REGISTRO}}` | how technical the kit speaks here — `tecnico` / `equilibrado` (default) / `llano`. **Inferred from how the three answers were written, never asked**, which is the same law that already forbids asking for tone. Declare the pick in one line and offer the correction in the same breath. It calibrates how much ground surrounds a rule and **never the rules themselves** |
 
 Then **inspect the paths yourself** and report back what you found in one short table — how many
 files, which ones already have criteria written down, which ones are raw. That report is what turns

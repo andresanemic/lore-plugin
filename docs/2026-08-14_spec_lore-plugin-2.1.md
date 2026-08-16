@@ -158,8 +158,24 @@ verificar que el bloque sigue llegando por el contrato.
   resto del archivo queda intacto byte a byte.
 - **FR-003**: El bloque MUST NOT superar 25 líneas. Si el contenido no cabe, no era siempre-activo:
   era Lore, y el Lore ya tiene dónde vivir.
-- **FR-004**: El bloque MUST contener exactamente tres cosas: qué Lore gobierna aquí, dónde vive, y la
-  señal de invocar en vez de escribir a mano. Nada más.
+- **FR-004**: El bloque MUST contener exactamente **cuatro** cosas: qué Lore gobierna aquí, dónde vive,
+  **dónde vive el estado** (`FASES.md`, una línea, solo la ruta), y la señal de invocar en vez de
+  escribir a mano. Nada más.
+
+  > **Enmienda declarada — 2026-08-16.** Este requisito decía **tres** cosas y no incluía el estado.
+  > Se amplía a cuatro, y se declara acá en vez de reescribirse en silencio, por el mismo motivo por
+  > el que se declaró el orden de C, D y E: un spec que cambia sin dejar cicatriz deja de servir para
+  > saber qué era la versión.
+  >
+  > *Razón del cambio:* el criterio y el estado viven en archivos separados —esa ley no se toca—, pero
+  > el almacenamiento separado nunca fue un argumento para la **entrega** separada. Un agente que
+  > carga el criterio y no la fase sabe cómo hay que hacer el trabajo y no cuál toca, así que propone
+  > bien y **fuera de orden**, y nada en su salida avisa del hueco. Hoy la fase llega por la prosa
+  > escrita a mano del contrato, que es justo la mitad que el kit documenta como la que se queda
+  > vieja: las skills re-estampan el bloque y no tocan el resto.
+  >
+  > *Por qué no viola FR-005:* es un **puntero, no contenido**. La ruta es estable y solo su destino
+  > se agita. Nada de la fase, la hoja de ruta ni la tarea actual entra al bloque.
 - **FR-004b**: El bloque MUST tener **tres variantes**, una por forma, todas bajo el mismo techo de 25
   líneas:
   - **Área** — apunta a su propio `lore/`, que es el criterio que posee.
@@ -167,6 +183,9 @@ verificar que el bloque sigue llegando por el contrato.
   - **Bot** — apunta a `canon/` y a la **tabla de enrutamiento**, nunca a los Lore federados uno por
     uno. Un bot que federa muchas fuentes cabe porque delega en la tabla; eso es para lo que la tabla
     existe.
+
+  Las tres apuntan además a su propio `FASES.md`, que es una línea y no escala con la cantidad de
+  fuentes.
 - **FR-005**: El bloque MUST NOT duplicar criterio: apunta a `lore/`, nunca lo reproduce.
 - **FR-006**: El mecanismo MUST ser neutral al proveedor. El canal es el contrato, que Claude Code y
   Codex cargan por igual.

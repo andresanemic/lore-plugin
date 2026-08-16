@@ -296,7 +296,7 @@ The contract is the only artifact **both** hosts load without being asked, which
 <!-- /lore:always-on -->
 ```
 
-Three things and no more, under a hard ceiling of **25 lines**. It points at `lore/`; it never reproduces a clue. If a variant does not fit, the answer is to move content into `lore/`, not to raise the ceiling.
+Four things and no more, under a hard ceiling of **25 lines**. It points at `lore/`, and at `FASES.md` in one line — criteria and state are stored apart, but the session that receives them cannot read twice, and an agent that has the criteria and not the phase proposes correctly and out of order. It never reproduces a clue. If a variant does not fit, the answer is to move content into `lore/`, not to raise the ceiling.
 
 Three variants: an **area** points at its own `lore/`; a **project** at its own layer and its mother area's; a **bot** at `canon/` and its **routing table** — never at the federated Lores one by one, which is why a bot that reaches twenty bodies of criteria still fits.
 
@@ -1081,7 +1081,7 @@ El contrato es el único artefacto que **los dos** hosts cargan sin que nadie se
 <!-- /lore:always-on -->
 ```
 
-Tres cosas y ninguna más, con un techo duro de **25 líneas**. Apunta al `lore/`; nunca reproduce una Pista. Si una variante no cabe, la respuesta es mover contenido al `lore/`, no subir el techo.
+Cuatro cosas y ninguna más, con un techo duro de **25 líneas**. Apunta al `lore/`, y al `FASES.md` en una línea — el criterio y el estado se guardan aparte, pero la sesión que los recibe no puede leer dos veces, y un agente que tiene el criterio y no la fase propone bien y fuera de orden. Nunca reproduce una Pista. Si una variante no cabe, la respuesta es mover contenido al `lore/`, no subir el techo.
 
 Tres variantes: un **área** apunta a su propio `lore/`; un **proyecto** a su capa y a la del área madre; un **bot** a `canon/` y a su **tabla de enrutamiento** — nunca a los Lore federados uno por uno, que es por lo que un bot que alcanza veinte cuerpos de criterio sigue cabiendo.
 

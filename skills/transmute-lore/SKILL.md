@@ -372,7 +372,7 @@ own reasons is `Earned` — wrap it, do not normalize its wording; and a contrac
 present whose content differs from the canonical is a divergence, which is reported and waits, never
 silently overwritten.
 
-**And one case that is neither: the existing section carries more than the block's three things.**
+**And one case that is neither: the existing section carries more than the block's four things.**
 This is the common shape in a contract written by hand, where loading and routing were never
 separated — a numbered procedure that starts by naming the paths and then keeps going into what to do
 with them. Do **not** wrap that section: wrapping it drags a procedure inside a block whose contents
