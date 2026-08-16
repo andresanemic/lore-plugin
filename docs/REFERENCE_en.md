@@ -662,7 +662,7 @@ a **transformation** or only a **fact**.
 |---|---|---|
 | A friction **that was resolved** | experience | `save-to-lore` **capture** |
 | A **task**, a pending item or an **open** friction — *"we need to add X"* | state | `FASES.md` |
-| Someone else's criteria that **judges** | imported criteria | `save-to-lore` **arbitrate** (no defeats, no entry) |
+| Someone else's criteria that **judges** | imported criteria | `save-to-lore` **transplant** (no defeats, no entry) |
 | A summary, a quote, a link, a jotting | information | source for `create-area` / `create-project` / `transmute-lore`, or **reported noise** |
 
 A fifth destination exists and is rarer: a note that changes **how we work together** (what gets read

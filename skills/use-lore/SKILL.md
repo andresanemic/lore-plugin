@@ -213,6 +213,13 @@ never paid for will start receiving promotions that belong somewhere else.
 | Keep **Obsidian notes in the same folder tree** as the Lore, and **mine that inbox** for what deserves to become criteria ("revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore") | `obsidian-lore` |
 | Work in a repository that **also** has GitHub's spec-kit (`.specify/` is present) | Nothing new to invoke. Read [`docs/SPEC_KIT_en.md`](../../docs/SPEC_KIT_en.md) and copy `assets/constitucion-puntero.md` over the constitution `specify init` generated. **Lore never depends on spec-kit** — this row is recognition, not a dependency |
 | **Decide whether to add spec-kit** to a repository that has Lore | Answer by level before installing anything: an **area** does not take it — its unit of work is a clue, not a feature; a **project** takes the whole cycle; a **bot** takes `specify → plan → tasks` only, and `implement` runs in the destination repository its spec names. Table and the closing clause for the bot case: [`docs/SPEC_KIT_en.md`](../../docs/SPEC_KIT_en.md) |
+
+> **The mode names in the right-hand column select the operation. They are not how you announce it.**
+> This table is what you read immediately before proposing something out loud, which makes it the
+> place the machine's vocabulary leaks from. Say the **verb, in the user's language** — *"we could
+> prune this"*, *"that skill is worth transplanting"*, *"this one should be saved"* — and keep
+> `PRUNE`, `TRANSPLANT` and the rest for the documentation, where a reader needs the exact token. The
+> skill name itself is always said as it is: it is what gets invoked.
 | Understand the system / decide which skill applies | `use-lore` (this one) |
 
 **Order of a fresh setup:** `create-area` → `create-project` → (work, saving clues with `save-to-lore`)
@@ -304,6 +311,22 @@ with `transmute-lore` (TRANSLATE mode), which translates content and renames art
 - **Lore speaks the user's language.** Content and artifact filenames in the user's language; the
   fixed names (the selected contract name, `lore/`, `index.md`) and general technical English terms unchanged.
   Inside an existing corpus, its established names win.
+
+  > **And this covers what the kit says out loud, not only what it writes to disk.** A mode name is an
+  > internal identifier, not a word for a conversation. **Propose the operation in the user's language,
+  > as the verb it is** — *"now we can prune this"*, *"that guide is worth transplanting"*, *"this one
+  > should be captured"* — never *"let's run a PRUNE"*.
+  >
+  > **Skill names do not change**: `use-lore`, `save-to-lore`, `transmute-lore` and the rest are how a
+  > skill is invoked, and translating them in prose would make the kit unusable. Mode names do not
+  > change either — in the **documentation**, where they are specification and a reader needs the exact
+  > token. What changes is the register of a **suggestion**.
+  >
+  > *Why this is not cosmetic.* Every mode ends at a threshold, and a threshold only works if the human
+  > can agree or refuse **with the content in view**. Naming the machine's identifier asks them to
+  > translate before they can judge, and a word standing between the user and the decision is a cost
+  > the threshold pays. The kit already refuses to make people learn a CLI; making them learn its
+  > internal vocabulary is the same mistake wearing prose.
 - **Criteria is never invented.** Every artifact is distilled from what already exists (docs, code,
   the user's words). An artifact with no real criteria stays minimal and says so.
 - **Discarded noise is reported**, never deleted silently — the filter is transparent.

@@ -121,6 +121,13 @@ This is the part worth reading before you trust either capability.
   *denies* something is `confirmed` by a single counter-example, because one is all it takes to break
   a claim of «always»; the positive form of the same sentence needs accumulation. And `confirmed` no
   longer requires *"the running app"*, which does not exist in a corpus whose product is criteria.
+- **The kit stops speaking in mode names.** *"Lore speaks the user's language"* used to cover what
+  gets written to disk; it now covers what the kit says out loud. A suggestion names the **operation
+  as a verb in your language** — *"now we can prune this"*, *"that guide is worth transplanting"* —
+  instead of *"let's run a PRUNE"*. Skill names are unchanged, because they are what gets invoked, and
+  mode names are unchanged in the documentation, where a reader needs the exact token. The reason is
+  the threshold: it only works if you can agree or refuse **with the content in view**, and an
+  identifier you have to translate first is one more thing standing between you and that decision.
 - The README chain from a raw folder now shows the missing link: an existing folder is **adopted by
   registration, by path, without moving it** — `create-area` creates the area clean.
 
@@ -274,6 +281,14 @@ Esta es la parte que conviene leer antes de confiar en cualquiera de las dos cap
   algo queda `confirmed` con un solo contraejemplo, porque uno basta para romper un «siempre»; la
   forma positiva de esa misma frase necesita acumulación. Y `confirmed` deja de exigir *«the running
   app»*, que no existe en un corpus cuyo producto es criterio.
+- **El kit deja de hablar en nombres de modo.** *«El Lore habla el idioma del usuario»* cubría lo que
+  se escribe a disco; ahora cubre también lo que el kit dice en voz alta. Una sugerencia nombra la
+  **operación como verbo en tu idioma** —*«ahora podemos podar esto»*, *«esa guía conviene
+  trasplantarla»*— en vez de *«hagamos un PRUNE»*. Los nombres de las skills no cambian, porque son lo
+  que se invoca, y los nombres de modo tampoco cambian en la documentación, donde el lector necesita
+  el token exacto. La razón es el umbral: solo funciona si podés aceptar o rechazar **con el contenido
+  a la vista**, y un identificador que hay que traducir primero es una cosa más entre vos y esa
+  decisión.
 - La cadena del README desde una carpeta en bruto muestra el eslabón que faltaba: una carpeta que ya
   existe se **adopta por registro, por ruta, sin moverla** — `create-area` crea el área limpia.
 
