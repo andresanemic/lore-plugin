@@ -321,13 +321,14 @@ No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene ci
   chat, proyecto de IA o notebook. La fotografía es derivada, puede quedar obsoleta y nunca reemplaza la fuente.
 
 **Sobre `upgrade`, que es el modo que más fácil se malinterpreta.** No es un reescribir ni un pase
-de estilo. Clasifica cada hallazgo en tres tipos, y ese etiquetado es lo que impide que degenere:
+de estilo. Clasifica cada hallazgo en cuatro tipos, y ese etiquetado es lo que impide que degenere:
 
 | Tipo | Qué significa |
 |---|---|
 | **Missing** | el kit ahora exige algo que ese artefacto nunca tuvo (una frontera de validez, un marcador de confianza, la sección de derrotas de un módulo importado) |
 | **Superseded** | el kit ahora sabe que esa práctica está mal, y se cita qué regla la reemplaza |
 | **Earned** | se aparta del estándar actual **porque este proyecto lo pagó con fricción real**: se deja como está y se anota por qué, para que el próximo upgrade no lo vuelva a marcar |
+| **Stale** | coincide con el kit y ya no coincide con **el proyecto**: describe una práctica que cambió y nadie enmendó el texto. Se detecta contra el repositorio, nunca releyendo, y la corrección la enuncia el usuario |
 
 Lo ganado con experiencia le gana a cualquier mejora que el kit aprendió después. Una lista de
 hallazgos sin ningún `Earned` en un Lore con historia es señal de que el pase se está corriendo como

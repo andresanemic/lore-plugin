@@ -405,7 +405,7 @@ Operates existing Lore in six modes:
 | **add** | Rescues criteria already scattered around (a bloated `CLAUDE.md`, a kilometric README, code comments) and crystallizes it into the six-piece architecture. |
 | **clean** | Removes the project's redundant modules that the Area already owns. The criteria does not disappear: it changes owner. |
 | **translate** | Standardizes the language of an existing Lore, translating content and renaming artifacts, without altering structure or meaning. |
-| **upgrade** | Raises a healthy Lore written against an older version of these skills. Sorts every finding into Missing, Superseded or **Earned** — and what the project paid for with real friction is left alone. |
+| **upgrade** | Raises a healthy Lore written against an older version of these skills. Sorts every finding into Missing, Superseded, **Earned** or **Stale** — what the project paid for with real friction is left alone, and what no longer matches the project's own practice is reported against the repository. |
 | **prune** | Prunes a Lore that decayed by **accumulating correct things**. Sorts every finding into Deadwood, Crowding, Rooted or **Unhealed**, and counts apparatus against content. What shrinks is the deliverable, not necessarily the corpus. Nothing comes out without its residue written down. |
 | **crystallize** | Exports a safe, traceable single-Markdown snapshot for a chat or notebook without replacing the live Lore or exposing private material. |
 
@@ -1141,7 +1141,7 @@ Opera un Lore existente en seis modos:
 | **add** | Rescata el criterio ya disperso y lo cristaliza en la arquitectura de seis piezas. |
 | **clean** | Elimina los módulos del proyecto que el Área ya posee. El criterio cambia de dueño. |
 | **translate** | Estandariza el idioma de un Lore existente, sin alterar estructura ni significado. |
-| **upgrade** | Pone al día un Lore sano escrito contra una versión anterior de estos skills. Clasifica cada hallazgo en Missing, Superseded o **Earned**, y lo que el proyecto pagó con fricción real se deja intacto. |
+| **upgrade** | Pone al día un Lore sano escrito contra una versión anterior de estos skills. Clasifica cada hallazgo en Missing, Superseded, **Earned** o **Stale**: lo que el proyecto pagó con fricción real se deja intacto, y lo que ya no coincide con su práctica se detecta contra el repositorio y se reporta. |
 | **prune** | Poda un Lore que se degradó **acumulando cosas correctas**. Clasifica cada hallazgo en Deadwood, Crowding, Rooted o **Unhealed**, y cuenta aparato contra contenido. Lo que encoge es el entregable, no necesariamente el corpus. Nada sale sin dejar su residuo escrito. |
 | **crystallize** | Exporta una fotografía trazable en un solo Markdown para un chat o notebook, sin reemplazar el Lore vivo ni exponer material privado. |
 

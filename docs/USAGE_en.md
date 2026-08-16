@@ -318,13 +318,14 @@ It is not a CLI command: the mode is inferred from the phrase, not from a flag. 
   project or notebook. The snapshot is derived, may become stale and never replaces the source.
 
 **About `upgrade`, the mode easiest to misread.** It is not a rewrite and not a style pass. It sorts
-every finding into three kinds, and that labelling is what keeps it from degenerating:
+every finding into four kinds, and that labelling is what keeps it from degenerating:
 
 | Kind | What it means |
 |---|---|
 | **Missing** | the kit now requires something this artifact never had (a validity boundary, a confidence marker, the defeats section of an imported module) |
 | **Superseded** | the kit now knows this practice is wrong, and the rule that supersedes it is cited |
 | **Earned** | it departs from the current standard **because this project paid for it with real friction**: it is left alone and the reason written down, so the next upgrade does not flag it again |
+| **Stale** | it matches the kit and no longer matches **the project** — it describes a practice that changed and nobody amended the text. Found against the repository, never by re-reading, and the correction is the user's to state |
 
 What was earned with experience outranks any improvement the kit learned later. A finding list with
 no `Earned` entries in a Lore with real history means the pass is being run as a formatter. Also:

@@ -206,8 +206,16 @@ promotion to the area. Never write the area silently.
    - A law/standard → the project layer of `principios.md` / `identidad.md` (see routing table).
 3. Write the full entry in that file, and one line in the project's `lore/index.md` with the index
    format: `` `domain` · symptom · confidence · [file](file) ``.
-   - Confidence **`conjecture`** by default; **`confirmed`** only if validated in the running app.
+   - Confidence **`conjecture`** by default; **`confirmed`** only after real validation — the running
+     app where there is one, and otherwise the corpus behaving the way the clue predicted.
      **Honest confidence:** never inflate to `confirmed` just to force a promotion.
+   - **Falsification is not induction, and one case can settle it.** A clue that *denies* something —
+     this measure does not track quality, this check does not discriminate between versions — is
+     `confirmed` by a single counter-example, because one is all it takes to break a claim of
+     «always». The positive form of the same sentence needs accumulation and stays `conjecture` far
+     longer. Do not average the two: asking «how many cases?» without first asking **which shape the
+     claim has** leaves a settled finding sitting in `conjecture`, and lets one lucky run pass for
+     `confirmed`.
 
 #### Writing a law into a body that already has laws
 

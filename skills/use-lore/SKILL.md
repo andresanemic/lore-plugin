@@ -325,6 +325,15 @@ with `transmute-lore` (TRANSLATE mode), which translates content and renames art
   > boundaries, and produced one. The defect survived the best possible case, so it is a property of
   > the mechanism, not of anyone's discipline. Until a gate exists, **the check is a count**: clues
   > added against boundaries declared. It costs one `grep`.
+  >
+  > **And the count is a completeness check, never a quality one.** Measured head to head: two
+  > versions of this kit ran the same task on the same corpus, and the older one declared more
+  > validity boundaries (23 against 20) and far more confidence markers (+22 against +1) — then lost
+  > the deliverable 3 to 1 with the corpus owner judging blind, on reasons that named no capability of
+  > the kit. Counting the artifacts of criteria counts **acts of writing**, and those happen on the day
+  > of the run; what the artifacts are worth arrives months later, the first time someone reads the
+  > clue. A run that scores well has declared its boundaries. It has not shown they were worth
+  > declaring — and a kit that publishes a benchmark figure cannot let those two be the same number.
 - **No automatic commits.** The user reviews the diff and commits when they choose.
 - **State ≠ criteria.** `FASES.md` never lives inside `lore/`.
 - **A note is source, never criteria.** Free notes are never loaded as if they were Lore; they cross

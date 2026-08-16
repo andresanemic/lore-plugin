@@ -301,6 +301,15 @@ Phases 1–3. If the target is not a repository, warn that there will be no diff
   registry is the version that will run. They diverge routinely, and the case where they diverge most
   is the one where this matters most — working inside the kit's own repository, where the source is
   always ahead of what is installed.
+
+  **And the registry is still not the last word.** A session resolves its plugin version **when it
+  opens**: one opened before an install keeps running the previous copy, and the registry — correct on
+  disk, updated, agreeing with itself — will not mention it. The witness that survives is the path the
+  skill declares as it loads, contrasted against a word that exists in only one version (`TRANSPLANT`,
+  `PRUNE`). Measured on two consecutive days, and on the second the path alone was not enough: with a
+  **directory marketplace** it carries no version number at all, so the exclusive word did the work by
+  itself. **After installing, close the session and open another** — nothing in the output of the old
+  one announces which version answered.
 - If the installed copy is stale, **stop and say so**: upgrading a Lore against an outdated kit writes
   yesterday's standard into it and marks it as done. Update first, or run deliberately from source and
   **declare it in the gate** — a pass run from source proves nothing about the published kit.
@@ -317,7 +326,7 @@ Before the artifact pass, detect a local `notas/` or `notes/` inbox. If one exis
 inbox after mining**; they are source and provenance, never migration debris. UPGRADE must not move,
 delete or absorb them into `lore/`.
 
-Go artifact by artifact and produce a finding list. Each finding is one of exactly three kinds, and
+Go artifact by artifact and produce a finding list. Each finding is one of exactly four kinds, and
 naming the kind is what keeps this from becoming a rewrite:
 
 | Kind | What it means | What it produces |
@@ -325,9 +334,25 @@ naming the kind is what keeps this from becoming a rewrite:
 | **Missing** | The kit now requires something this artifact never had (a validity boundary, a confidence marker, a defeats section on an imported module, a provenance header). | Add it — **asking the user** for anything not derivable from the text. Never fabricate a boundary. |
 | **Superseded** | The kit now knows this practice is wrong (e.g. a fact duplicated across artifacts, a rule stated by category rather than by condition, a module copied from an area). | Propose the correction, citing which rule supersedes it. |
 | **Earned** | It departs from the current standard **because this project paid for it**. | **Leave it, and write down why** so the next upgrade does not flag it again — in `FASES.md`, see below. |
+| **Stale** | It matches the kit and no longer matches **the project**: it describes a practice that changed and nobody amended the text. | Report it with the evidence that contradicts it, and **ask**. The practice is the user's, not the kit's, so the correction is theirs to state. |
 
 The third row is the one that makes the mode safe. A finding list with no `Earned` entries in a Lore
 with real history is a sign the pass is being run as a formatter.
+
+**The fourth row is the one no reading finds.** This mode was written to arbitrate a Lore against a
+newer *kit*, and its own premise says *nothing about it looks wrong, which is exactly why nobody
+upgrades it*. That sentence is just as true one level over, against the *project*: a module went on
+describing a step its team had already stopped taking, six deliveries in a row, and nothing flagged it
+because the stale flow read perfectly coherent on its own.
+
+**Coherence is not a detector.** An artifact consistent with itself and false about the outside
+survives every reading — in this kit's own history it has been caught three times, and all three times
+by going to *do* something, never by reviewing. So the check cannot be another re-read. **It is the
+repository:** scan the recent commits and the actual deliverables the module governs, and ask of each
+procedure it prescribes whether anything still does it that way. Where the evidence contradicts the
+text, that is `Stale`. Where there is no recent evidence in either direction, **say so and do not
+guess** — a module governing work that stopped happening is a different finding, and it is the user's
+to name.
 
 **Where an `Earned` note is written: the Lore owner's `FASES.md`, not the artifact it defends.**
 Writing it inside the artifact is the obvious move and it is wrong in exactly the case that produces
