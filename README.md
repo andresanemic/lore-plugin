@@ -340,6 +340,10 @@ Areas and projects are places; **a bot is a lens you carry into them.** It is no
 
 ## The eight skills
 
+> **The skills are written in English; the Lore they produce is not** — that is written in your language, content and filenames included. The English in a `SKILL.md` is the portable substrate that lets the kit run on other hosts, not the language of the kit.
+>
+> So **do not open a `SKILL.md` to explain to someone what a mode does**: [`REFERENCE_es.md`](./docs/REFERENCE_es.md) documents every skill and mode in Spanish and [`USAGE_es.md`](./docs/USAGE_es.md) shows them in use. We learned this in Case 12, live and with an audience.
+
 | Skill | What for | When |
 |---|---|---|
 | [`use-lore`](#use-lore) | Entry point: explains the model and routes you to the right skill | first, always |
@@ -606,7 +610,7 @@ This README covers motivation and architecture. Everything else lives in its own
 | [`REFERENCE_en.md`](./docs/REFERENCE_en.md) | Technical reference: core concepts, the exact spec for each artifact and each skill. |
 | [`MIGRATION_en.md`](./docs/MIGRATION_en.md) | How to migrate an existing project into Lore using `transmute-lore`. |
 | [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | The optional, experimental encryption for a bot's criteria: what it protects and what it does not. |
-| [`CASES_en.md`](./docs/CASES_en.md) | The eleven case studies, each with its declared boundary. |
+| [`CASES_en.md`](./docs/CASES_en.md) | The twelve case studies, each with its declared boundary. |
 | [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md) | Using Lore alongside GitHub's spec-kit: **which levels should have it at all** — an area no, a project the whole cycle, a bot only up to `tasks` — who governs what, and the constitution that draws the border. Optional — Lore never depends on it. |
 | [`bench/`](./bench/) | The benchmark: Web, Editorial and UPGRADE harnesses; frozen tasks; method; declared limits; and raw results. |
 
@@ -645,11 +649,11 @@ lore-plugin/
 
 ## Case studies
 
-Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. Those applications are documented as **eleven case studies**, each with its own declared boundary. Seven are qualitative, Case 08 is the controlled benchmark summarized above, and Cases 09, 10 and 11 are the ones that turned the kit on itself — Case 10 by using it for a full day against a live Lore, and Case 11 by running two of its own versions head to head with the judging done blind.
+Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. Those applications are documented as **twelve case studies**, each with its own declared boundary. Case 08 is the controlled benchmark summarized above; Cases 09, 10 and 11 turned the kit on itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head with the judging done blind — and **Case 12 is the first install run by someone who is not the author**, which is where 2.2 came from.
 
-> **Status:** these are cases, not proofs. Small n, and all nine come from the same researcher. What they claim constrains how we use the kit; it does not pretend to be a law. The measured claim belongs to [Case 08 and its benchmark](#benchmark); the other seven are qualitative evidence.
+> **Status:** these are cases, not proofs. Small n, and **eleven of the twelve come from the same researcher** — Case 12 is the one that does not. What they claim constrains how we use the kit; it does not pretend to be a law. The measured claim belongs to [Case 08 and its benchmark](#benchmark); the rest are qualitative evidence.
 
-**[Read the eleven case studies →](./docs/CASES_en.md)**
+**[Read the twelve case studies →](./docs/CASES_en.md)**
 
 ---
 
@@ -1125,6 +1129,10 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 ## Las ocho skills
 
+> **Las skills están escritas en inglés y el Lore que producen, no** — ese se escribe en tu idioma, contenido y nombres de archivo incluidos. El inglés del `SKILL.md` es el sustrato portable con el que el kit funciona en otros hosts, no el idioma del kit.
+>
+> Así que **no abras el `SKILL.md` para explicarle a alguien qué hace un modo**: para eso está [`REFERENCE_es.md`](./docs/REFERENCE_es.md), que documenta cada skill y cada modo en español, y [`USAGE_es.md`](./docs/USAGE_es.md), que los muestra en uso. Lo aprendimos en el Caso 12, en vivo y con público.
+
 | Skill | Para qué | Cuándo |
 |---|---|---|
 | [`use-lore`](#use-lore) | Punto de entrada: explica el modelo y te manda a la skill correcta | primero, siempre |
@@ -1373,7 +1381,7 @@ El harness, las tareas congeladas, los graders, las salidas crudas y las fronter
 | [`REFERENCE_es.md`](./docs/REFERENCE_es.md) | Referencia técnica de cada artefacto y cada *skill*. |
 | [`MIGRATION_es.md`](./docs/MIGRATION_es.md) | Cómo migrar un proyecto existente con `transmute-lore`. |
 | [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | El cifrado opcional y experimental del criterio de un bot: qué protege y qué no. |
-| [`CASES_es.md`](./docs/CASES_es.md) | Los once casos de estudio, cada uno con su frontera declarada. |
+| [`CASES_es.md`](./docs/CASES_es.md) | Los doce casos de estudio, cada uno con su frontera declarada. |
 | [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md) | Usar Lore conviviendo con spec-kit de GitHub: **en qué niveles conviene tenerlo** — un área no, un proyecto el ciclo completo, un bot solo hasta `tasks` — quién gobierna qué, y la constitución que traza la frontera. Opcional — Lore no depende de él. |
 | [`bench/`](./bench/) | El benchmark: harnesses Web, Editorial y UPGRADE; tareas congeladas; método; fronteras declaradas; y resultados crudos. |
 
@@ -1412,11 +1420,11 @@ lore-plugin/
 
 ## Casos de estudio
 
-Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía. Esas aplicaciones están documentadas como **once casos de estudio**, cada uno con su frontera declarada. Siete son cualitativos, el Caso 08 es el benchmark controlado resumido arriba, y los Casos 09, 10 y 11 son los que volvieron el kit contra sí mismo — el 10 usándolo un día entero contra un Lore vivo, y el 11 corriendo dos de sus propias versiones cabeza a cabeza con el juicio a ciegas.
+Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía. Esas aplicaciones están documentadas como **doce casos de estudio**, cada uno con su frontera declarada. El Caso 08 es el benchmark controlado resumido arriba; los Casos 09, 10 y 11 volvieron el kit contra sí mismo —el 10 usándolo un día entero contra un Lore vivo, y el 11 corriendo dos de sus propias versiones cabeza a cabeza con el juicio a ciegas— y el **Caso 12 es la primera instalación hecha por alguien que no es el autor**, de donde salió la 2.2.
 
-> **Estatus:** son casos, no demostraciones. n pequeño, y las nueve evidencias vienen del mismo investigador. Restringen cómo usamos el kit; no pretenden ser una ley. La afirmación medida pertenece al [Caso 08 y su benchmark](#el-benchmark); los otros siete aportan evidencia cualitativa.
+> **Estatus:** son casos, no demostraciones. n pequeño, y **once de los doce vienen del mismo investigador** — el Caso 12 es el que no. Restringen cómo usamos el kit; no pretenden ser una ley. La afirmación medida pertenece al [Caso 08 y su benchmark](#el-benchmark); los demás aportan evidencia cualitativa.
 
-**[Leer los once casos de estudio →](./docs/CASES_es.md)**
+**[Leer los doce casos de estudio →](./docs/CASES_es.md)**
 
 ---
 

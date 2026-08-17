@@ -7,7 +7,9 @@
 
 Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía.
 
-> **Estatus:** son casos, no demostraciones. n pequeño, y las once evidencias vienen del mismo investigador. Restringen cómo usamos el kit; no pretenden ser una ley. El Caso 08 añade medición controlada sin eliminar esa frontera, y los Casos 09, 10 y 11 son los que miden este kit contra sí mismo — el 10 usándolo un día entero contra un Lore vivo, y el 11 corriendo dos de sus propias versiones cabeza a cabeza y juzgando la salida a ciegas.
+> **Estatus:** son casos, no demostraciones. n pequeño, y **once de las doce evidencias vienen del mismo investigador**. Restringen cómo usamos el kit; no pretenden ser una ley. El Caso 08 añade medición controlada sin eliminar esa frontera, y los Casos 09, 10 y 11 son los que miden este kit contra sí mismo — el 10 usándolo un día entero contra un Lore vivo, y el 11 corriendo dos de sus propias versiones cabeza a cabeza y juzgando la salida a ciegas.
+>
+> **El Caso 12 es el primero que no viene del investigador**, y por eso vale distinto: alguien de afuera instaló el kit y lo usó durante una hora. Rompe la frontera que los once anteriores compartían y abre una nueva, más chica y declarada dentro del caso.
 
 <details>
 <summary><b>Caso 01 — El Lore como forma operativa de un proyecto entero</b></summary>
@@ -199,6 +201,38 @@ Y la versión vieja había ganado **todas las medidas mecánicas**:
 **Qué cambió en el kit, que es para lo que el caso existe:** el invariante de `use-lore` recomendaba contar Pistas contra fronteras como el chequeo barato mientras no exista una puerta. Lo sigue recomendando. Ahora queda escrito como **chequeo de completitud, nunca de calidad** — porque este repositorio publica una cifra de banco, y la distinción no es académica.
 
 **Frontera declarada, y siete confundidores publicados junto al resultado.** `n=1`, un juez, una sesión, un corpus. Un corte de luz a mitad de corrida destruyó las decisiones de umbral del segundo brazo — la skill escribe el resultado, no las decisiones. Tres de los cuatro pares salieron con el brazo viejo en primera posición. Los pares los armó la misma persona que corrió el test. El pegado a mano corrompió tramos de los dos entregables, y un copy del lunes se perdió antes de entrar a ningún par. Los dos brazos corrieron contra árboles distintos en naturaleza: uno congelado en un tag, otro el repositorio vivo. Y el brazo viejo corrió primero, con el juez sin haber visto todavía ninguna salida.
+
+</details>
+---
+
+<details>
+<summary><b>Caso 12 — La primera instalación que no hizo el investigador</b></summary>
+
+<br>
+
+Alguien de afuera del proyecto —un químico, aquí «Nogal»— instaló el kit acompañado por videollamada. Una hora, transcrita completa, sobre material crudo sin ningún Lore previo, en Codex y no en Claude Code. Es el primer caso cuya evidencia no viene del autor.
+
+**El fallo principal: pidió bots y salieron áreas**, una por bot, sin invocar `create-bot` en ningún momento y sin federar nada.
+
+La regla *«un bot no es un área»* ya estaba escrita en **tres** artefactos: el README, `create-bot` y `use-lore`. Los tres se leen cuando alguien ya decidió consultar sobre bots. En el momento de la decisión, la skill que corría era `create-area` — la única que no lo decía, y que además cierra apuntando a `create-project`.
+
+> **Una ley escrita fuera del camino de ejecución no gobierna.** La guardia va en la skill que corre, no en la que documenta. Escribirla en un cuarto sitio habría sido el mismo error una vez más.
+
+**Los otros tres hallazgos, todos con la misma forma — el síntoma nombra algo distinto de la causa:**
+
+| Lo que se vio | Lo que era |
+|---|---|
+| El bot *«leía el Lore equivocado»* | El proyecto del host apuntaba a la carpeta que traía por defecto y no al árbol federado. El síntoma manda a depurar el criterio; el problema era el acceso. |
+| Apareció un *bot de arquitectura*, para agregar bots y reordenar carpetas | Es el área `bots` con forma de bot. Un bot no administra bots: ese trabajo es un `FASES.md` y un `lore/` de área. |
+| La deuda de notas marcaba una nota sin minar | La había escrito el propio bot cuatro minutos antes, al cerrar la tarea. Deuda es lo que escribió el humano y nadie destiló. |
+
+**Y el vocabulario se puso a prueba contra alguien calificado para juzgarlo.** El instalador validó *destilar*, *cristalizar* y *podar* contra su significado real en química, y **rechazó** *trasplantar* con argumento: mover una planta no la cambia, y este modo sí cambia lo que deja entrar. De ahí sale el renombre a `graft` de la 2.2. Ninguna revisión interna lo había detectado en dos versiones.
+
+**Lo que salió bien, que es la otra mitad del caso.** Con una instrucción corta, sin explicarle la institución y sin nombrarle el criterio, el bot enrutó solo, citó las fuentes que usó, cerró proponiendo una destilación, se negó a guardar conocimiento propio por ser federado y dejó escrito el prompt de la sesión siguiente. El norte de `create-bot` —*una instrucción corta basta*— se cumplió en manos de un tercero, que es la única prueba que ese norte admite.
+
+**Qué cambió en el kit:** la 2.2 entera. Las guardias de enrutamiento en `create-area`, `create-bot` y `use-lore`, el chequeo de acceso al estrenar un bot, la deuda de notas que distingue quién escribió qué, y el renombre del injerto. Tres pruebas nuevas fallan si alguna guardia desaparece.
+
+**Frontera declarada.** `n=1`, una sesión de una hora, **acompañada en vivo por el autor del kit** — así que el caso no dice nada sobre instalar el kit *sin ayuda*, que es justamente la pregunta que queda abierta. Un solo host, un solo modelo, un solo dominio. Y el seguimiento —si el uso mejora o empeora con las semanas— es otro caso, todavía sin escribir.
 
 </details>
 ---

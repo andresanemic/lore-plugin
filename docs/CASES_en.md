@@ -7,7 +7,9 @@
 
 Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. LUS documents those applications as **case studies**.
 
-> **Status:** these are cases, not proofs. Small n, and all eleven documented cases come from the same researcher. What they claim constrains how we use the kit; it does not pretend to be a law. Case 08 adds controlled measurement without removing that boundary, and Cases 09, 10 and 11 are the ones that measure this kit against itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head and judging the output blind.
+> **Status:** these are cases, not proofs. Small n, and **eleven of the twelve documented cases come from the same researcher**. What they claim constrains how we use the kit; it does not pretend to be a law. Case 08 adds controlled measurement without removing that boundary, and Cases 09, 10 and 11 are the ones that measure this kit against itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head and judging the output blind.
+>
+> **Case 12 is the first one that does not come from the researcher**, which is why it counts differently: someone outside the project installed the kit and used it for an hour. It breaks the boundary the other eleven shared, and opens a smaller one that is declared inside the case.
 
 <details>
 <summary><b>Case 01 — Lore as the operational form of an entire project</b></summary>
@@ -198,6 +200,38 @@ And the older version had won **every mechanical measure**:
 **What it changed in the kit, and this is why the case exists:** the invariant in `use-lore` used to recommend counting clues against boundaries as the cheap check while no gate exists. It still does. It is now written as a **completeness check, never a quality one** — because this repository publishes a benchmark figure, and the distinction is not academic.
 
 **Declared boundary, and seven confounders published with the result.** `n=1`, one judge, one session, one corpus. A power cut mid-run destroyed the second arm's threshold decisions — the skill writes the result, not the decisions. Three of four pairs happened to place the older arm first. The pairs were assembled by the same person who ran the test. Manual copy-paste corrupted stretches of both deliverables, and one Monday copy was lost before it could enter a pair. The two arms ran against trees that differed in nature: one frozen at a tag, one the live working repository. And the older arm ran first, with the judge having seen no output yet.
+
+</details>
+---
+
+<details>
+<summary><b>Case 12 — The first install the researcher did not run</b></summary>
+
+<br>
+
+Someone outside the project — a chemist, called "Nogal" here — installed the kit over a video call. One hour, transcribed in full, on raw material with no prior Lore, in Codex rather than Claude Code. It is the first case whose evidence does not come from the author.
+
+**The main failure: he asked for bots and got areas**, one per bot, without `create-bot` ever being invoked and without federating anything.
+
+The rule *«a bot is not an area»* was already written in **three** artifacts: the README, `create-bot` and `use-lore`. All three are read once someone has decided to consult about bots. At the moment of the decision, the skill actually running was `create-area` — the only one that did not say it, and the one that closes by pointing at `create-project`.
+
+> **A law written outside the path of execution does not govern.** The guard belongs in the skill that runs, not in the one that documents. Writing it in a fourth place would have been the same mistake once more.
+
+**The other three findings share one shape — the symptom names something other than the cause:**
+
+| What was seen | What it was |
+|---|---|
+| The bot was *«reading the wrong Lore»* | The host's project pointed at the folder it defaulted to, not at the federated tree. The symptom sends you to debug the criteria; the problem was the access. |
+| An *architecture bot* appeared, for adding bots and reorganizing folders | That is the `bots` area wearing a bot's shape. A bot administers no bots: that job is a `FASES.md` and an area `lore/`. |
+| The note debt flagged an unmined note | The bot had written it itself four minutes earlier, closing the task. Debt is what the human wrote and nobody distilled. |
+
+**And the vocabulary was tested against someone qualified to judge it.** The installer validated *distill*, *crystallize* and *prune* against their real meaning in chemistry, and **rejected** *transplant* with an argument: moving a plant does not change it, and this mode does change what it lets in. That is where 2.2's rename to `graft` comes from. No internal review had caught it in two versions.
+
+**What went right, which is the other half of the case.** With a short instruction, without the institution being explained and without the criteria being named, the bot routed on its own, cited the sources it used, closed by proposing a distillation, refused to store knowledge of its own because it federates, and left the next session's prompt written down. `create-bot`'s north — *a short instruction is enough* — held in a third party's hands, which is the only proof that north accepts.
+
+**What changed in the kit:** all of 2.2. The routing guards in `create-area`, `create-bot` and `use-lore`, the access check when a bot premieres, note debt that distinguishes who wrote what, and the graft rename. Three new tests fail if any guard is removed.
+
+**Declared boundary.** `n=1`, one session of one hour, **accompanied live by the kit's author** — so the case says nothing about installing the kit *unaided*, which is exactly the question left open. One host, one model, one domain. And the follow-up — whether the use improves or degrades over the weeks — is a different case, not yet written.
 
 </details>
 ---
