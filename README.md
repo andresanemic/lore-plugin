@@ -1180,7 +1180,7 @@ El flujo que usarás todos los días. Resuelves algo que costó y escribes «gua
 
 > **Por qué «injerto», y la metáfora es estructural.** Un injerto es tejido ajeno unido a un patrón que ya está vivo: prende o es rechazado, y lo que crece después pertenece al huésped. Un injerto que nadie mira es madera muerta atada a un árbol sano — hay que decir qué prendió y qué no. Es la contraparte exacta de `prune` — **la poda quita lo que la planta creció sola, el injerto juzga lo que vino de afuera.** Son los dos pases de un Lore mantenido, y tener uno sin el otro es por qué un cuerpo de criterio se hincha o se osifica.
 >
-> *Renombrado en 2.1.1: hasta la 2.0.9 este modo se llamaba `arbitrate` y en la 2.1 `transplant`. Misma ley, mismas cuatro puertas. Cambió el nombre porque un trasplante mueve una planta sin cambiarla, y este modo cambia lo que deja entrar — una distinción que hizo en voz alta un químico, la primera vez que alguien ajeno al proyecto leyó la documentación.*
+> *Renombrado en 2.1.1: hasta la 2.0.9 este modo se llamaba `arbitrate` y en la 2.1 `transplant`. Misma ley, mismas cuatro puertas. Cambió el nombre porque un trasplante mueve una planta sin cambiarla, y este modo cambia lo que deja entrar.*
 
 Dos avisos que te dará:
 
