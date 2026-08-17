@@ -81,6 +81,33 @@ test("brainstorming-lore no se activa para brainstorming genérico", () => {
   assert.match(text, /not changing Lore itself/);
 });
 
+test("create-area devuelve el control a la skill que la pidió", () => {
+  const text = skill("create-area");
+  assert.match(text, /If another skill sent you here, the next step is to go back to it/);
+  assert.match(text, /resume it in the same session/);
+  assert.match(text, /the area is `bots` and its domain is/);
+  assert.match(text, /There is \*\*one\*\* `bots` area/);
+});
+
+test("create-bot nombra el area anfitriona y declara que se reanuda", () => {
+  const text = skill("create-bot");
+  assert.match(text, /`bots` — one area, holding every bot as a project/);
+  assert.match(text, /\*\*This skill resumes when the area exists\*\*/);
+});
+
+test("create-bot rechaza el bot que administra bots y verifica el acceso en el estreno", () => {
+  const text = skill("create-bot");
+  assert.match(text, /\*\*A bot administers no bots\.\*\*/);
+  assert.match(text, /Open the bot the way its user will open it/);
+  assert.match(text, /Verify by \*\*opening it\*\*/);
+});
+
+test("use-lore no reencuadra una peticion de bot como areas", () => {
+  const text = skill("use-lore");
+  assert.match(text, /A request for a bot is routed through this gate, never answered by it/);
+  assert.match(text, /`create-bot`\s+runs \*\*last\*\*/);
+});
+
 test("CRYSTALLIZE produce una fotografía derivada sin reemplazar el Lore vivo", () => {
   const text = skill("transmute-lore");
   assert.match(text, /\*\*CRYSTALLIZE\*\*/);

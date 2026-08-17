@@ -54,10 +54,23 @@ runs first:**
   the difference between `create-area` and `transmute-lore`, and the user is the only one who knows.
 - Is there anything explicitly out of bounds?
 
+> **A request for a bot is routed through this gate, never answered by it.** Someone arriving with
+> *«I want to build my bots»* has already named the deliverable, and the questions above will then
+> read their answers as **kinds of work** — which is exactly how *«three bots»* becomes three areas,
+> each one looking like a correct artifact. What is actually true is narrower: the Lore a bot routes
+> to does not exist yet. So the areas are **steps**, the bot is the deliverable, and `create-bot` runs **last**.
+> Name the whole chain out loud with its honest cost — one `create-area` +
+> `transmute-lore` per source before the bot can route to anything — and never report an area as the
+> finished answer to a request for a bot.
+
 ### Move 3 — close by naming the route, and run it
 
 State which skill runs first and why, in one line, then run it. Do not list the other seven. The map
 below exists for **you**, so you can pick; it is not a menu to hand over.
+
+**When the first skill does not deliver what was asked for, name the last one in the same line.** The
+route is the answer, not its opening step — and the step that gets forgotten is always the one that
+was still pending when the first artifact came out looking finished.
 
 > **What this move must never do is end in a recommendation.** The first use of the kit produces a
 > first artifact, or it produced nothing.

@@ -63,6 +63,13 @@ creates the area.
 | `{{PRINCIPLES}}` | invariant laws of the method (may inherit from a prior corpus) → `principios.md` |
 | `{{MODULES}}` | initial thematic modules (may be 0; created when the first friction appears) |
 
+> **If `create-bot` sent you here, the area is `bots` and its domain is *the user's bots* — never the
+> domain of any one of them.** There is **one** `bots` area, and every bot is a project inside it. A
+> second area named after the bot being requested is the failure `create-bot` documents as *«why it
+> must not be an area»*, arriving through this skill instead of being caught by that one. Do not
+> brainstorm an identity out of the bot's purpose: that purpose belongs to the bot, and it gets
+> written when control returns.
+
 **If the user already has material about this domain — source documents, or a pile of free notes
 they have been writing (an Obsidian inbox, meeting minutes) — read it before proposing anything.**
 An area born from real material has a purpose and an anti-scope that can be argued; one born from a
@@ -135,6 +142,11 @@ critical paths, not a generic mold.
 - Verify every `index.md` link resolves to a present file.
 - Report the created structure and the **next step** (create a project with `create-project`, or
   adopt an existing one by registering it by hand in `FASES.md`).
+- **If another skill sent you here, the next step is to go back to it** — not `create-project`.
+  `create-bot` needs its host area before the bot can exist, and `create-project` needs the area it
+  was pointed at. Name the skill you are returning to and **resume it in the same session**. The user
+  asked for a bot or a project; an area reported as the finished deliverable answers a request nobody
+  made, and the request that is still open is the one they will not restate.
 
 ## Invariants
 
@@ -149,6 +161,10 @@ critical paths, not a generic mold.
   path-agnostic.
 - The area is NOT auto-committed. The user decides.
 - This skill creates the area clean; it does NOT move or adopt existing projects.
+- **A derived area returns to its caller.** This skill is a **step** inside `create-bot` and
+  `create-project` as often as it is a destination, and ending at its own report is how a request for
+  three bots becomes three areas: what names the deliverable is the caller's request, which is still
+  open. When called by `create-bot`, the area is `bots` — one of them, holding every bot as a project.
 
 ---
 

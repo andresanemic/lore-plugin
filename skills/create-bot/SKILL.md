@@ -47,6 +47,15 @@ bot is a lens you carry into them.
 > fast: when a criterion generalizes, it gets promoted to the bot instead of to the area that
 > earned it.
 
+> **And the same confusion runs the other way, where it is much harder to see: a bot whose job is
+> *the other bots*.** Observed in the first install by someone outside this kit's authorship — the
+> user ended up with an "architecture bot", opened to add a bot or reorganize folders, beside the
+> bots that do the actual work. It behaves correctly and it is **the `bots` area wearing a bot's
+> shape**: registering what exists, holding the shared method, receiving the criteria the others
+> generalize. That is a `FASES.md` and an area `lore/`, and none of it needs a canon or a routing
+> table. **A bot administers no bots.** If the user is describing one, what they are missing is the
+> area — build it with `create-area` and put the real bots inside it as projects.
+
 ## Two modes
 
 | Mode | When | What it produces |
@@ -169,6 +178,13 @@ it and "distill it all into the bot" is faster and produces an artifact that can
 The target area exists and its `lore/` has at least `identidad.md` + `principios.md`. If it does
 not, **stop** and propose `create-area` first — a bot inherits the area's method just like any
 project.
+
+> **Say what that area is when you hand over: `bots` — one area, holding every bot as a project.**
+> Not one area per bot, and never an area named after the bot being requested; its purpose belongs to
+> the bot and gets written in §3. **This skill resumes when the area exists**, in the same session.
+> Say that too, because `create-area` closes by pointing at `create-project` while the thing the user
+> asked for is the bot — and a handover with no return is how *«three bots»* comes back as three
+> areas, with every gate in this document intact and never reached.
 
 > **Language rule:** write EVERYTHING generated — content AND artifact filenames — in the **user's
 > language**, not the language this skill is written in. `identidad.md`, `principios.md`,
@@ -966,6 +982,17 @@ the gate proves is that the gate works.
 
 The bot's acceptance criterion is *a short instruction is enough*, so that is what has to be run:
 
+0. **Open the bot the way its user will open it, and confirm the session reaches the manifest's
+   paths.** This is not the same as the bot being correct on disk, and it is where the first
+   third-party install actually broke: the host was pointed at the folder it defaulted to instead of
+   the tree the bot federates, so the routing resolved to nothing and the failure surfaced as the bot
+   *«reading the wrong Lore»* — a symptom that names the criteria and never the access. Each host
+   grants that reach its own way (a Claude Code session opened in the bot plus
+   `.claude/settings.local.json`; a Codex project whose folder is the **mother** of the federated
+   tree, never the bot's own folder; `--add-dir` for the CLI). Verify by **opening it**, not by
+   reading the settings file. And write the answer into the bot's README or contract, because the
+   person who has to redo it after a reinstall is the one who was not there when it was solved.
+
 1. **The builder picks a test instruction** that **does not name the body of criteria, does not
    explain the institution and does not say where anything is** — one real task, of the kind the bot
    was built for.
@@ -1022,7 +1049,13 @@ say the configuration is superfluous: it says the configuration is not evidence 
   criteria is proposed to the Lore that paid for it, never stored in the bot.
 - **Configuring the first use is not the first use.** The gate is answered the same with an empty
   canon and broken paths, so it proves nothing about the north. The bot is reported as finished
-  after a **premiere**: an instruction that does not name the criteria, recorded **verbatim**.
+  after a **premiere**: an instruction that does not name the criteria, recorded **verbatim**. The
+  premiere opens with the **access check** — the bot opened the way its user opens it, reaching the
+  manifest's paths — because a host pointed at the wrong folder fails as *«it read the wrong Lore»*,
+  which sends whoever debugs it into the criteria instead of into the access.
+- **A bot administers no bots.** One that exists to add, register or reorganize the others is the
+  `bots` **area** in a bot's shape: that job is a `FASES.md` and an area `lore/`, and it needs no
+  canon and no routing table.
 - **A bot certifies the absence of the scars it carries, never good health.** A negative report
   carries its coverage in the same sentence — *«none of the laws I carry are broken»*, never *«it is
   fine»*. It points and does not own, so it cannot sign off on what no criteria of its own covers.
