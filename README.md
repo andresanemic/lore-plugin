@@ -387,21 +387,21 @@ It has **two modes**, chosen by where the criteria comes from:
 | Mode | Source | What it does |
 |---|---|---|
 | **capture** (default) | **lived friction**: a bug, a collapse, a client rejection | Distills the scar into an Invariant Clue. |
-| **transplant** | **imported criteria**: a skill, a style guide, a third-party playbook, another kit's governing document | Judges it against **your** project's purpose. Only what survives gets in. |
+| **graft** | **imported criteria**: a skill, a style guide, a third-party playbook, another kit's governing document | Judges it against **your** project's purpose. Only what survives gets in. |
 
-> **The law of `transplant` mode: external criteria is not distilled, it is arbitrated.**
+> **The law of `graft` mode: external criteria is not distilled, it is arbitrated.**
 >
 > A skill is criteria already distilled **by someone else, under someone else's purpose**, and it arrives without declaring where it stops being valid. Copying it into your Lore produces **redundant literature wearing the authority of an Invariant Clue**: criteria nobody paid for with real experience.
 >
-> That is why `transplant` has an exit threshold: the resulting module **must** record **where the source contradicts your standard and loses**. No defeats section, no entry — either nothing was arbitrated (it was a copy), or the source carried no criteria at all.
+> That is why `graft` has an exit threshold: the resulting module **must** record **where the source contradicts your standard and loses**. No defeats section, no entry — either nothing was arbitrated (it was a copy), or the source carried no criteria at all.
 >
 > **What the source loses is worth more than what it offers:** the summary already exists, better written, in the source. The disagreement exists nowhere else.
 
-> **Why "transplant", and the metaphor is load-bearing.** What grew well in another soil does not necessarily take in this one, and a transplant nobody watches is a dead plant with good intentions: you say what took and what did not. It is the exact counterpart of `prune` — **pruning removes what the plant grew on its own, transplanting judges what came from outside.** Those are the two passes of a maintained Lore, and having one without the other is why a body of criteria either bloats or ossifies.
+> **Why "graft", and the metaphor is load-bearing.** A graft is foreign tissue bound to a rootstock that is already alive: it takes or it is rejected, and what grows afterwards belongs to the host. A graft nobody checks is deadwood tied to a healthy tree — you say what took and what did not. It is the exact counterpart of `prune` — **pruning removes what the plant grew on its own, grafting judges what came from outside.** Those are the two passes of a maintained Lore, and having one without the other is why a body of criteria either bloats or ossifies.
 >
-> *Renamed in 2.1.0: through 2.0.9 this mode was called `arbitrate`. Same law, same four gates.*
+> *Renamed in 2.2: through 2.0.9 this mode was called `arbitrate`, and in 2.1 `transplant`. Same law, same four gates. The name changed because a transplant moves a plant without changing it, and this mode changes what it lets in — a distinction a chemist made out loud the first time somebody outside this project read the docs.*
 
-Two warnings `transplant` mode will give you:
+Two warnings `graft` mode will give you:
 
 - **Capacity ≠ criteria.** A skill that **executes** (renders video, crawls, compiles) is **used** as a dependency: it is not Lore. Only a skill that **judges** (what is good copy, good design, good SEO) gets arbitrated.
 - **No identity, no arbitration.** If your identity file is empty you have no yardstick, and facing an authoritative source all you can do is obey it. Identity first, source second.
@@ -1166,13 +1166,13 @@ El flujo que usarás todos los días. Resuelves algo que costó y escribes «gua
 | Modo | Fuente | Qué hace |
 |---|---|---|
 | **capture** (por defecto) | **fricción vivida**: un bug, un cliente que rechaza | Destila la cicatriz en una Pista Invariante. |
-| **transplant** | **criterio importado**: una skill, una guía ajena, el documento de gobierno de otro kit | Lo juzga contra la finalidad de **tu** proyecto. |
+| **graft** | **criterio importado**: una skill, una guía ajena, el documento de gobierno de otro kit | Lo juzga contra la finalidad de **tu** proyecto. |
 
-> **Un criterio ajeno no se destila, se arbitra.** Una skill es criterio destilado por otro, bajo otra finalidad, y llega sin declarar dónde deja de valer. Por eso `transplant` exige registrar **dónde la fuente contradice tu estándar y pierde**: sin esa sección no entra. Lo que la fuente pierde vale más que lo que aporta — el resumen ya existe, mejor escrito, en la fuente.
+> **Un criterio ajeno no se destila, se arbitra.** Una skill es criterio destilado por otro, bajo otra finalidad, y llega sin declarar dónde deja de valer. Por eso `graft` exige registrar **dónde la fuente contradice tu estándar y pierde**: sin esa sección no entra. Lo que la fuente pierde vale más que lo que aporta — el resumen ya existe, mejor escrito, en la fuente.
 
-> **Por qué «trasplante», y la metáfora es estructural.** Lo que creció bien en otro suelo no necesariamente prende en este, y un trasplante que nadie mira es una planta muerta con buenas intenciones: hay que decir qué prendió y qué no. Es la contraparte exacta de `prune` — **la poda quita lo que la planta creció sola, el trasplante juzga lo que vino de afuera.** Son los dos pases de un Lore mantenido, y tener uno sin el otro es por qué un cuerpo de criterio se hincha o se osifica.
+> **Por qué «injerto», y la metáfora es estructural.** Un injerto es tejido ajeno unido a un patrón que ya está vivo: prende o es rechazado, y lo que crece después pertenece al huésped. Un injerto que nadie mira es madera muerta atada a un árbol sano — hay que decir qué prendió y qué no. Es la contraparte exacta de `prune` — **la poda quita lo que la planta creció sola, el injerto juzga lo que vino de afuera.** Son los dos pases de un Lore mantenido, y tener uno sin el otro es por qué un cuerpo de criterio se hincha o se osifica.
 >
-> *Renombrado en 2.1.0: hasta la 2.0.9 este modo se llamaba `arbitrate`. Misma ley, mismas cuatro puertas.*
+> *Renombrado en 2.2: hasta la 2.0.9 este modo se llamaba `arbitrate` y en la 2.1 `transplant`. Misma ley, mismas cuatro puertas. Cambió el nombre porque un trasplante mueve una planta sin cambiarla, y este modo cambia lo que deja entrar — una distinción que hizo en voz alta un químico, la primera vez que alguien ajeno al proyecto leyó la documentación.*
 
 Dos avisos que te dará:
 

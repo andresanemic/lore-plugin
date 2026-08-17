@@ -309,7 +309,7 @@ Phases 1–3. If the target is not a repository, warn that there will be no diff
   **And the registry is still not the last word.** A session resolves its plugin version **when it
   opens**: one opened before an install keeps running the previous copy, and the registry — correct on
   disk, updated, agreeing with itself — will not mention it. The witness that survives is the path the
-  skill declares as it loads, contrasted against a word that exists in only one version (`TRANSPLANT`,
+  skill declares as it loads, contrasted against a word that exists in only one version (`GRAFT`,
   `PRUNE`). Measured on two consecutive days, and on the second the path alone was not enough: with a
   **directory marketplace** it carries no version number at all, so the exclusive word did the work by
   itself. **After installing, close the session and open another** — nothing in the output of the old
@@ -410,7 +410,7 @@ its authority over criteria does not revoke its authority over the repository.
 
 Two limits on this. The document is **not migrated into `lore/`** — it stays where it lives and keeps
 its owner; what UPGRADE proposes is an edit inside it. And if the user wants it arbitrated properly
-rather than patched, that is `save-to-lore` in TRANSPLANT mode, which is where imported criteria
+rather than patched, that is `save-to-lore` in GRAFT mode, which is where imported criteria
 belongs. When no second kit is present this check costs nothing and produces no finding.
 
 ### Phase 3 — Threshold

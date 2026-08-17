@@ -176,6 +176,14 @@ Sweep `<inbox>/**/*.md` — the inbox of the folder the session is open in — s
 non-empty `destilado`. Report the debt before classifying anything, and name any inbox that could not
 be read. If the user pointed at specific notes, mine those and still report the debt.
 
+> **A note the agent wrote itself does not count as the user's debt without saying so.** Observed on
+> a first install: the bot closed a task by leaving the next session's prompt in a note — correct
+> behaviour — and the very next sweep reported it back as an unmined note. The user read a number
+> they had not earned and asked what they had left pending; the answer was *nothing, that one is
+> yours from four minutes ago*. **Debt is what the human wrote and nobody distilled.** Split the
+> count when both exist: *«N unmined, of which M were written by me in this session»*, and never let
+> a note the agent produced be the whole reported figure.
+
 ### 2. Classify — four buckets
 
 The discriminator is **not the quality of the note**. It is whether the note records a
@@ -185,7 +193,7 @@ The discriminator is **not the quality of the note**. It is whether the note rec
 |---|---|---|
 | A friction **that was resolved** — it broke, it was reverted, the client rejected it, it turned out that… | **experience** | `save-to-lore` **CAPTURE** |
 | A **task**, a pending item, or a friction **still open** — *«we need to add X»*, *«nobody closed this yet»* | **state**, not criteria | `FASES.md` |
-| Someone else's criteria that **judges** — a style guide, a playbook, an article on what good X is | **imported criteria** | `save-to-lore` **TRANSPLANT** — no defeats section, no entry |
+| Someone else's criteria that **judges** — a style guide, a playbook, an article on what good X is | **imported criteria** | `save-to-lore` **GRAFT** — no defeats section, no entry |
 | A summary, a quote, a link, a meeting note with no decision in it | **information** | source for `create-area` / `create-project` / `transmute-lore` — or **noise, reported** |
 
 A fifth destination exists and is rarer: a note that changes **how we work together** rather than
@@ -227,7 +235,7 @@ only the first time; the noise filter applies here too.
 Present, per note, in one table: the bucket, the destination, and the proposed line. Then **wait**.
 Nothing is written before a human approves.
 
-On approval, **delegate the writing to `save-to-lore`** (CAPTURE by default, TRANSPLANT when the
+On approval, **delegate the writing to `save-to-lore`** (CAPTURE by default, GRAFT when the
 source is someone else's criteria). That skill owns the Clue format, the index line, the confidence
 marker and the project ↔ area promotion — this skill contributes the routing and the source, which
 is what `save-to-lore` does not know.

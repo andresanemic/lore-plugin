@@ -33,7 +33,7 @@ El plugin Lore expone ocho skills principales a través de agentes de IA compati
 | `brainstorming-lore` | Diseñar cambios específicos de Lore sin apropiarse del brainstorming general | «haz brainstorming de este Lore», o la invoca una skill Lore dueña del artefacto |
 | `create-area`    | Crear una nueva Área con Lore compartido      | «crea un área de trabajo para Frontend», «quiero empezar a trabajar en X con Lore» |
 | `create-project` | Crear un proyecto que hereda de un Área       | «crea un proyecto de Sitio de marketing en el área Frontend» |
-| `save-to-lore`   | Capturar criterio tras resolver un problema (**capture**) o arbitrar criterio importado de una skill/guía ajena (**transplant**) | «guarda en lore», «destila esto en el lore» (capture) / «destila la skill X en el lore» (transplant) |
+| `save-to-lore`   | Capturar criterio tras resolver un problema (**capture**) o arbitrar criterio importado de una skill/guía ajena (**graft**) | «guarda en lore», «destila esto en el lore» (capture) / «destila la skill X en el lore» (graft) |
 | `transmute-lore` | Operar un Lore existente en seis modos | add / clean / translate / upgrade / prune / crystallize |
 | `create-bot`     | Construir un bot: un solo lugar donde abrir sesión y trabajar en varios proyectos a la vez, con su criterio ya cargado | «crea un bot para trabajar en X e Y» (nuevo) / «quiero un bot que federe el lore que ya existe en A y B» (federar) |
 | `obsidian-lore`  | Capturar notas libres en el mismo árbol donde vive el Lore, y **minar** esa bandeja buscando lo que merece volverse criterio | «revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore», «mina la bandeja», «guarda esta nota en Obsidian» |
@@ -171,18 +171,19 @@ Usa `create-project` siempre que arranques una nueva base de código dentro de u
 | Modo | Fuente | Operación |
 |---|---|---|
 | **CAPTURE** (por defecto) | fricción vivida (bug, colapso, rechazo del cliente) | Destila la cicatriz en una Pista Invariante. Todo lo descrito abajo se refiere a este modo. |
-| **TRANSPLANT** | criterio importado (una *skill*, una guía de estilo, un manual ajeno, **la constitución o documento de gobierno de otro kit**) | **Juzga** ese criterio contra la finalidad del proyecto. Solo entra lo que sobrevive. |
+| **GRAFT** | criterio importado (una *skill*, una guía de estilo, un manual ajeno, **la constitución o documento de gobierno de otro kit**) | **Juzga** ese criterio contra la finalidad del proyecto. Solo entra lo que sobrevive. |
 
-> **Por qué «trasplante».** Lo que creció bien en otro suelo no necesariamente prende en este, y un
-> trasplante que nadie mira es una planta muerta con buenas intenciones: hay que decir qué prendió y
-> qué no. Es la contraparte exacta de `transmute-lore` PRUNE — la poda quita lo que la planta creció
-> sola, el trasplante juzga lo que vino de afuera. Un Lore con uno y sin el otro se hincha o se
-> osifica.
+> **Por qué «injerto».** Un injerto es tejido ajeno unido a un patrón que ya está vivo: **prende o es
+> rechazado**, y lo que crece después pertenece al huésped. Un injerto que nadie mira es madera muerta
+> atada a un árbol sano — hay que decir qué prendió y qué no. Es la contraparte exacta de
+> `transmute-lore` PRUNE: la poda quita lo que la planta creció sola, el injerto juzga lo que vino de
+> afuera. Un Lore con uno y sin el otro se hincha o se osifica.
 >
-> *Renombrado en 2.1.0. Hasta la 2.0.9 este modo se llamaba `arbitrate`: misma ley, mismas cuatro
-> puertas.*
+> *Renombrado en 2.2. Hasta la 2.0.9 este modo se llamaba `arbitrate` y en la 2.1 `transplant`: misma
+> ley, mismas cuatro puertas. Cambió el nombre porque un trasplante mueve una planta sin cambiarla, y
+> este modo cambia lo que deja entrar.*
 
-**Modo `TRANSPLANT` — cuatro puertas:**
+**Modo `GRAFT` — cuatro puertas:**
 
 1. **¿Capacidad o criterio?** Una fuente que **ejecuta** (renderiza, hace *crawl*, compila) **no es
    Lore**: se documenta como dependencia y se detiene ahí. Solo se arbitra la que **juzga**.
@@ -203,13 +204,13 @@ con fricción antes de que existiera. Esa derrota se **escribe**, no se omite �
 hueco que la próxima regeneración de plantilla vuelve a llenar. Lo que no ocurre es deferir a él
 mientras se decide: arbitrar es juzgar, no negociar.
 
-**En calendario, `TRANSPLANT` empieza leyendo lo que ya perdió.** Una pasada recurrente sobre un campo
+**En calendario, `GRAFT` empieza leyendo lo que ya perdió.** Una pasada recurrente sobre un campo
 que se mueve más lento que su propia frecuencia se encuentra siempre el mismo material. Las secciones
 de derrotas que este modo ya escribe **son** ese registro: se leen primero, y no se vuelve a arbitrar
 ni a reportar lo que ya está en ellas. **«Esta vez no entró nada» es un resultado válido y se escribe
 así** — una pasada recurrente que siempre encuentra algo dejó de mirar y empezó a justificarse.
 
-**Una skill ajena que se *invoca* también trae criterio, y lo aplica sin preguntar.** `TRANSPLANT` es
+**Una skill ajena que se *invoca* también trae criterio, y lo aplica sin preguntar.** `GRAFT` es
 para criterio que llega como **documento** a leer; el caso difícil es el que llega como **herramienta
 que corre** — un formateador, un linter, un revisor de estilo. Nadie los arbitra porque parecen
 capacidad, y toda herramienta opinada trae un cuerpo de criterio. **Pasale tu Lore en la invocación,
@@ -217,7 +218,7 @@ como su entrada:** casi todas tienen una cláusula de calibración que hace que 
 gane a sus valores por defecto, y las que no la tienen se tratan como capacidad y se mantienen lejos
 de lo que el Lore gobierna.
 
-**Confianza en `TRANSPLANT`:** lo adoptado *de* la fuente entra como `conjecture` (nadie lo ha pagado
+**Confianza en `GRAFT`:** lo adoptado *de* la fuente entra como `conjecture` (nadie lo ha pagado
 aún con fricción real); **el arbitraje mismo** —las derrotas, derivadas de una identidad ya
 validada— entra como `confirmed`. El módulo declara su procedencia: *"Destilado de `<fuente>`,
 arbitrado contra `<identidad.md>`."*
@@ -661,7 +662,7 @@ destilado:                      # vacío = sin minar
 |---|---|---|
 | Una fricción **resuelta** | experiencia | `save-to-lore` **capture** |
 | Una **tarea**, un pendiente o una fricción **abierta** — *«hay que añadir X»* | estado | `FASES.md` |
-| Criterio ajeno que **juzga** | criterio importado | `save-to-lore` **transplant** (sin derrotas no entra) |
+| Criterio ajeno que **juzga** | criterio importado | `save-to-lore` **graft** (sin derrotas no entra) |
 | Un resumen, una cita, un enlace, un apunte | información | fuente de `create-area` / `create-project` / `transmute-lore`, o **ruido informado** |
 
 Existe un quinto destino, más raro: una nota que cambia **cómo se trabaja en conjunto** (qué se lee
@@ -910,7 +911,7 @@ ahí no gobierna.
 **Su regla propia, que es la que más se saltea:** una cláusula del tipo *«este documento reemplaza
 cualquier otra práctica»* se **revoca por escrito, con su razón** — nunca se borra sin más. Una
 omisión deja un hueco que la próxima regeneración de plantilla vuelve a llenar. Arbitrar un documento
-de gobierno es `save-to-lore` **transplant**, y es el caso más difícil que ese modo tiene.
+de gobierno es `save-to-lore` **graft**, y es el caso más difícil que ese modo tiene.
 
 Ver [`SPEC_KIT_es.md`](./SPEC_KIT_es.md) para la instalación y los tres escenarios de entrada.
 

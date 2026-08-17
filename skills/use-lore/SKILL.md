@@ -249,7 +249,7 @@ never paid for will start receiving promotions that belong somewhere else.
 | Build a **bot** — a canon-driven work session that operates across real repositories, either from zero or by federating Lore already dissolved across several areas | `create-bot` |
 | Open Lore-governed bots/projects through a provider and model launcher | `create-bot`; use the separate `lore-in-the-shell` skill when installed, otherwise build its minimal fallback there |
 | **Save a lesson** ("save to lore") — capture a clue from **lived friction** in the project and promote generic, confirmed ones up to the area | `save-to-lore` (**CAPTURE**, default) |
-| **Distill from an external body of criteria** — a skill, a style guide, a third-party playbook ("destila esta skill") | `save-to-lore` (**TRANSPLANT**): imported criteria is judged against this Entre's purpose; only what survives enters, and the module must state **where the source loses** |
+| **Distill from an external body of criteria** — a skill, a style guide, a third-party playbook ("destila esta skill") | `save-to-lore` (**GRAFT**): imported criteria is judged against this Entre's purpose; only what survives enters, and the module must state **where the source loses** |
 | Bring an **old project with scattered criteria** up to the six-piece standard, **clean** a project's redundant modules back down to what the area already owns, or **standardize the language** of an existing Lore | `transmute-lore` |
 | **Raise a healthy Lore to a newer version of these skills** — it is in the standard and in use, but predates gates the kit learned later. Nothing looks broken, which is why nobody upgrades it | `transmute-lore` (**UPGRADE**): arbitrates the existing Lore against the current version, adds what is missing, and leaves untouched what the project **earned** with real friction |
 | **Prune a Lore that grew** — nothing in it is wrong, and the work coming out of it goes in circles, hedges, or arrives buried in apparatus. The loudest symptom is the owner writing the deliverable by hand instead ("poda en lore") | `transmute-lore` (**PRUNE**): counts apparatus against content, separates criteria that no longer constrains anything from criteria that is correct but **saturating in sum**, and treats a smaller corpus as the result. Nothing comes out without its residue written down |
@@ -261,8 +261,8 @@ never paid for will start receiving promotions that belong somewhere else.
 > **The mode names in the right-hand column select the operation. They are not how you announce it.**
 > This table is what you read immediately before proposing something out loud, which makes it the
 > place the machine's vocabulary leaks from. Say the **verb, in the user's language** — *"we could
-> prune this"*, *"that skill is worth transplanting"*, *"this one should be saved"* — and keep
-> `PRUNE`, `TRANSPLANT` and the rest for the documentation, where a reader needs the exact token. The
+> prune this"*, *"that skill is worth grafting"*, *"this one should be saved"* — and keep
+> `PRUNE`, `GRAFT` and the rest for the documentation, where a reader needs the exact token. The
 > skill name itself is always said as it is: it is what gets invoked.
 | Understand the system / decide which skill applies | `use-lore` (this one) |
 
@@ -293,7 +293,7 @@ enter, and the moment you decide not to enter has a specific shape — it feels 
 right file, and passes human review. What is missing does not look missing, because it never got
 written: the provenance header, the confidence markers, the defeats section — and, above all, the
 **mode**. An agent who assumes CAPTURE when the source was imported produces a module with no
-defeats, which is precisely what TRANSPLANT's exit gate rejects. Redacting well does not compensate
+defeats, which is precisely what GRAFT's exit gate rejects. Redacting well does not compensate
 for skipping the gate; the gate was never about prose.
 
 > **Writing into any `lore/`, `canon/` or `principios.md` without invoking the skill that governs it
@@ -358,7 +358,7 @@ with `transmute-lore` (TRANSLATE mode), which translates content and renames art
 
   > **And this covers what the kit says out loud, not only what it writes to disk.** A mode name is an
   > internal identifier, not a word for a conversation. **Propose the operation in the user's language,
-  > as the verb it is** — *"now we can prune this"*, *"that guide is worth transplanting"*, *"this one
+  > as the verb it is** — *"now we can prune this"*, *"that guide is worth grafting"*, *"this one
   > should be captured"* — never *"let's run a PRUNE"*.
   >
   > **Skill names do not change**: `use-lore`, `save-to-lore`, `transmute-lore` and the rest are how a

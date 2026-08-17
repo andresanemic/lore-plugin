@@ -230,15 +230,16 @@ Use this whenever you start a new codebase inside a domain that already has an A
 
 ---
 
-### 5.5 `save-to-lore` – Capture Criteria After Solving a Problem, or Transplant External Criteria
+### 5.5 `save-to-lore` – Capture Criteria After Solving a Problem, or Graft External Criteria
 
 **Purpose:** Distill reusable criteria. It has **two modes**, chosen by where that criteria comes
-from: **capture** (lived friction) and **transplant** (criteria imported from a third-party skill,
+from: **capture** (lived friction) and **graft** (criteria imported from a third-party skill,
 guide, or another kit's governing document).
 
-> *Renamed in 2.1.0: through 2.0.9 the second mode was called `arbitrate`. Same law, same four gates
-> — the new name says what the operation is. What grew well in another soil does not necessarily take
-> in this one, and a transplant nobody watches is a dead plant with good intentions.*
+> *Renamed in 2.2: through 2.0.9 the second mode was called `arbitrate`, and in 2.1 `transplant`.
+> Same law, same four gates — the new name says what the operation is. A graft is foreign tissue
+> bound to a living rootstock: it takes or it is rejected, and what grows afterwards belongs to the
+> host. A graft nobody checks is deadwood tied to a healthy tree.*
 
 #### `capture` mode (default) — the scar
 
@@ -250,13 +251,13 @@ save-to-lore "Decision: always prefer static rendering for marketing pages"
 save-to-lore "Standard: error messages must be human‑centered and actionable"
 ```
 
-#### `transplant` mode — the external skill
+#### `graft` mode — the external skill
 
 Example prompts:
 
 ```text
 save-to-lore "distill the copywriting skill into the area's lore"
-save-to-lore "transplant this style guide against our standard"
+save-to-lore "graft this style guide against our standard"
 ```
 
 A skill is criteria **already distilled by someone else, under someone else's purpose**, and it

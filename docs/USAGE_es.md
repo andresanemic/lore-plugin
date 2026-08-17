@@ -235,16 +235,16 @@ Usa este skill siempre que inicies una nueva base de código dentro de un domini
 
 ---
 
-### 5.5 `save-to-lore` – Capturar criterio tras resolver un problema, o trasplantar criterio ajeno
+### 5.5 `save-to-lore` – Capturar criterio tras resolver un problema, o injertar criterio ajeno
 
 **Propósito:** destilar criterio reutilizable. Tiene **dos modos**, según de dónde venga ese criterio:
-**capture** (fricción vivida) y **transplant** (criterio importado de una skill, una guía ajena o el
+**capture** (fricción vivida) y **graft** (criterio importado de una skill, una guía ajena o el
 documento de gobierno de otro kit).
 
-> *Renombrado en 2.1.0: hasta la 2.0.9 el segundo modo se llamaba `arbitrate`. Misma ley, mismas
-> cuatro puertas — el nombre nuevo dice qué es la operación. Lo que creció bien en otro suelo no
-> necesariamente prende en este, y un trasplante que nadie mira es una planta muerta con buenas
-> intenciones.*
+> *Renombrado en 2.2: hasta la 2.0.9 el segundo modo se llamaba `arbitrate` y en la 2.1
+> `transplant`. Misma ley, mismas cuatro puertas — el nombre nuevo dice qué es la operación. Un
+> injerto es tejido ajeno unido a un patrón vivo: prende o es rechazado, y lo que crece después es
+> del huésped. Un injerto que nadie mira es madera muerta atada a un árbol sano.*
 
 #### Modo `capture` (por defecto) — la cicatriz
 
@@ -256,13 +256,13 @@ save-to-lore "Decisión: siempre preferir renderizado estático en páginas de m
 save-to-lore "Estándar: los mensajes de error deben ser humanistas y accionables"
 ```
 
-#### Modo `transplant` — la skill ajena
+#### Modo `graft` — la skill ajena
 
 Ejemplos de prompts:
 
 ```text
 save-to-lore "destila la skill copywriting en el lore del área"
-save-to-lore "trasplanta esta guía de estilo contra nuestro estándar"
+save-to-lore "injerta esta guía de estilo contra nuestro estándar"
 ```
 
 Una skill es criterio **ya destilado por otro, bajo otra finalidad**, y llega sin decir dónde deja de

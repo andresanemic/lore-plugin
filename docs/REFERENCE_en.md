@@ -33,7 +33,7 @@ The Lore plugin exposes eight main skills through compatible AI agents:
 | `brainstorming-lore` | Design Lore-specific changes without taking over general brainstorming | "brainstorm this Lore", or invoked by an artifact-owning Lore skill |
 | `create-area`    | Create a new Area with shared Lore          | "create a work area for Frontend", "I want to start working on X with Lore" |
 | `create-project` | Create a project inheriting an Area         | "create a project Marketing Site in area Frontend Development" |
-| `save-to-lore`   | Capture criteria after solving a problem (**capture**) or arbitrate criteria imported from a third-party skill/guide (**transplant**) | "save to lore", "distill this to the lore" (capture) / "distill skill X into the lore" (transplant) |
+| `save-to-lore`   | Capture criteria after solving a problem (**capture**) or arbitrate criteria imported from a third-party skill/guide (**graft**) | "save to lore", "distill this to the lore" (capture) / "distill skill X into the lore" (graft) |
 | `transmute-lore` | Operate an existing Lore in six modes | add / clean / translate / upgrade / prune / crystallize |
 | `create-bot`     | Build a bot: one place to open a session and work across several projects at once, with their criteria already loaded | "create a bot to work on X and Y" (nuevo) / "I want a bot that federates the lore already living in A and B" (federar) |
 | `obsidian-lore`  | Capture free notes in the same tree the Lore lives in, and **mine** that inbox for what deserves to become criteria | "review my Obsidian notes and see what belongs in my lore", "mine my inbox", "save this note to Obsidian" |
@@ -172,17 +172,19 @@ Use `create-project` whenever you start a new codebase inside an existing Area.
 | Mode | Source | Operation |
 |---|---|---|
 | **CAPTURE** (default) | lived friction (bug, collapse, client rejection) | Distills the scar into an Invariant Clue. Everything described below refers to this mode. |
-| **TRANSPLANT** | imported criteria (a *skill*, a style guide, a third-party playbook, **another kit's constitution or governing document**) | **Judges** that criteria against the project's purpose. Only what survives gets in. |
+| **GRAFT** | imported criteria (a *skill*, a style guide, a third-party playbook, **another kit's constitution or governing document**) | **Judges** that criteria against the project's purpose. Only what survives gets in. |
 
-> **Why "transplant".** What grew well in another soil does not necessarily take in this one, and a
-> transplant nobody watches is a dead plant with good intentions: you say what took and what did not.
-> It is the exact counterpart of `transmute-lore` PRUNE — pruning removes what the plant grew on its
-> own, transplanting judges what came from outside. A Lore with one and not the other either bloats
-> or ossifies.
+> **Why "graft".** A graft is foreign tissue bound to a rootstock that is already alive: **it takes or
+> it is rejected**, and what grows afterwards belongs to the host. A graft nobody checks is deadwood
+> tied to a healthy tree — you say what took and what did not. It is the exact counterpart of
+> `transmute-lore` PRUNE: pruning removes what the plant grew on its own, grafting judges what came
+> from outside. A Lore with one and not the other either bloats or ossifies.
 >
-> *Renamed in 2.1.0. Through 2.0.9 this mode was called `arbitrate`: same law, same four gates.*
+> *Renamed in 2.2. Through 2.0.9 this mode was called `arbitrate`, and in 2.1 `transplant`: same law,
+> same four gates. The name changed because a transplant moves a plant without changing it, and this
+> mode changes what it lets in.*
 
-**`TRANSPLANT` mode — four gates:**
+**`GRAFT` mode — four gates:**
 
 1. **Capacity or criteria?** A source that **executes** (renders, crawls, compiles) is **not Lore**:
    record it as a dependency and stop there. Only a source that **judges** gets arbitrated.
@@ -203,13 +205,13 @@ it existed. That defeat is **written down**, not merely omitted: an omission lea
 template regeneration fills back in. What does not happen is deferring to it while deciding;
 arbitration is judgment, not negotiation.
 
-**On a schedule, `TRANSPLANT` starts by reading what already lost.** A recurring pass over a field
+**On a schedule, `GRAFT` starts by reading what already lost.** A recurring pass over a field
 that moves slower than its own schedule keeps meeting the same material. The defeats sections this
 mode already writes **are** that ledger: read them first, and never re-arbitrate or re-report what is
 already in them. **"Nothing entered this time" is a valid result and is written as such** — a
 recurring pass that always finds something stopped looking and started justifying itself.
 
-**A third-party skill you *invoke* carries criteria too, and applies it without asking.** `TRANSPLANT`
+**A third-party skill you *invoke* carries criteria too, and applies it without asking.** `GRAFT`
 is for criteria arriving as a **document** to be read; the harder case is criteria arriving as a
 **tool that runs** — a formatter, a linter, a style checker. Nobody arbitrates those because they look
 like capacity, and every opinionated tool ships a body of criteria. **Feed it your Lore in the
@@ -217,7 +219,7 @@ invocation, as its input:** most such tools have a calibration clause that makes
 outrank their defaults, and the ones that do not are treated as capacity and kept away from anything
 the Lore governs.
 
-**Confidence in `TRANSPLANT`:** what is adopted *from* the source enters as `conjecture` (nobody has
+**Confidence in `GRAFT`:** what is adopted *from* the source enters as `conjecture` (nobody has
 paid for it with real friction yet); **the arbitration itself** — the defeats, derived from an
 already-validated identity — enters as `confirmed`. The module states its provenance: *"Distilled
 from `<source>`, arbitrated against `<identidad.md>`."*
@@ -662,7 +664,7 @@ a **transformation** or only a **fact**.
 |---|---|---|
 | A friction **that was resolved** | experience | `save-to-lore` **capture** |
 | A **task**, a pending item or an **open** friction — *"we need to add X"* | state | `FASES.md` |
-| Someone else's criteria that **judges** | imported criteria | `save-to-lore` **transplant** (no defeats, no entry) |
+| Someone else's criteria that **judges** | imported criteria | `save-to-lore` **graft** (no defeats, no entry) |
 | A summary, a quote, a link, a jotting | information | source for `create-area` / `create-project` / `transmute-lore`, or **reported noise** |
 
 A fifth destination exists and is rarer: a note that changes **how we work together** (what gets read
@@ -910,7 +912,7 @@ not govern there.
 **Its own rule, and it is the one people skip:** a clause of the *"this document supersedes all other
 practices"* family is **revoked in writing, with its reason** — never merely deleted. An omission
 leaves a hole that the next template regeneration fills back in. Arbitrating a governing document is
-`save-to-lore` **transplant**, and it is the hardest case that mode has.
+`save-to-lore` **graft**, and it is the hardest case that mode has.
 
 See [`SPEC_KIT_en.md`](./SPEC_KIT_en.md) for installation and the three entry scenarios.
 

@@ -1,6 +1,6 @@
 ---
 name: save-to-lore
-description: Use when saving a lesson to the Lore or right after solving a problem worth keeping, AND when distilling Lore from an external body of criteria (a skill, a style guide, a third-party playbook). Two modes — CAPTURE (default — distill lived friction into an invariant clue) and TRANSPLANT (judge imported criteria against this Entre's purpose; only what survives enters). Captures in the CURRENT project's lore/ and — for confirmed, generic clues — proposes promoting up to the mother AREA lore (project ↔ area routing). Trigger on "save to lore", "distill this to the lore", "guarda en lore", "distill this skill", "destila esta skill", or proactively after resolving a friction that passes the Lore bar (constraint + signal + executability + genericity).
+description: Use when saving a lesson to the Lore or right after solving a problem worth keeping, AND when distilling Lore from an external body of criteria (a skill, a style guide, a third-party playbook). Two modes — CAPTURE (default — distill lived friction into an invariant clue) and GRAFT (judge imported criteria against this Entre's purpose; only what survives enters). Captures in the CURRENT project's lore/ and — for confirmed, generic clues — proposes promoting up to the mother AREA lore (project ↔ area routing). Trigger on "save to lore", "distill this to the lore", "guarda en lore", "distill this skill", "destila esta skill", or proactively after resolving a friction that passes the Lore bar (constraint + signal + executability + genericity).
 ---
 
 # save-to-lore — Incremental capture and promotion
@@ -36,30 +36,30 @@ its provenance header, its confidence split and its defeats section. And a modul
 does not enter at all.
 
 The tell that you skipped this step: the draft reads like a good summary of the source. That is the
-failure state of TRANSPLANT, not its output.
+failure state of GRAFT, not its output.
 
 ## Two modes — pick by the SOURCE of the criteria
 
 | Mode | Source | What it is |
 |---|---|---|
 | **CAPTURE** (default) | **lived friction** — a bug, a collapse, a client rejection | The scar. Everything below (threshold, routing, promotion) is written for this mode. |
-| **TRANSPLANT** | **imported criteria** — a skill, a style guide, a third-party playbook, **another kit's constitution or governing document** | Criteria already distilled **by someone else, under someone else's purpose**, arriving with no validity boundary declared. |
+| **GRAFT** | **imported criteria** — a skill, a style guide, a third-party playbook, **another kit's constitution or governing document** | Criteria already distilled **by someone else, under someone else's purpose**, arriving with no validity boundary declared. |
 
-> **Why it is called transplanting, and the metaphor is load-bearing.** What grew well in another
-> soil does not necessarily take in this one. A transplant nobody watches is a dead plant with good
+> **Why it is called grafting, and the metaphor is load-bearing.** What grew well in another
+> soil does not necessarily take in this one. A graft nobody watches is a dead plant with good
 > intentions: you say what took and what did not. This mode is the exact counterpart of
-> `transmute-lore` PRUNE — **pruning removes what the plant grew on its own; transplanting judges
+> `transmute-lore` PRUNE — **pruning removes what the plant grew on its own; grafting judges
 > what came from outside.** Those are the two passes of a maintained Lore, and having one without the
 > other is why a body of criteria either bloats or ossifies.
 
-> **The law of TRANSPLANT: an external body of criteria is not distilled — it is arbitrated.** Only
+> **The law of GRAFT: an external body of criteria is not distilled — it is arbitrated.** Only
 > what survives the collision with **this** Entre's purpose enters the Lore, and the record must
 > state **where the source loses**. A faithful summary of a skill is not Lore: it is redundant
 > literature wearing the authority of an Invariant Clue. What the source *loses* is worth more than
 > what the source *offers* — the summary already exists (better written) in the source; the
 > disagreement exists nowhere else.
 
-> **When TRANSPLANT runs on a schedule, it starts by reading what already lost.** A one-off import
+> **When GRAFT runs on a schedule, it starts by reading what already lost.** A one-off import
 > reads the source cold; a recurring pass over a field that moves slower than the schedule will keep
 > meeting the same material. The defeats sections this mode already writes **are** that ledger: read
 > them first, and do not re-arbitrate or re-report what is already in them. **"Nothing entered this
@@ -67,7 +67,7 @@ failure state of TRANSPLANT, not its output.
 > stopped looking and started justifying itself.
 
 > **A third-party skill you *invoke* carries criteria too, and it applies it without asking.**
-> TRANSPLANT is for criteria that arrives as a **document** to be read. The harder case is criteria
+> GRAFT is for criteria that arrives as a **document** to be read. The harder case is criteria
 > that arrives as a **tool that runs**: a formatter, a linter, a style checker, a writing reviewer.
 > Nobody arbitrates those, because they look like capacity. They are not: every opinionated tool
 > ships a body of criteria, and yours loses silently every time the tool runs.
@@ -79,7 +79,7 @@ failure state of TRANSPLANT, not its output.
 > exactly those two devices ran it cold and would have had its voice erased by a tool that was right
 > about everything except this corpus. **A tool is not neutral because it is useful.**
 
-### TRANSPLANT — the four gates
+### GRAFT — the four gates
 
 1. **Capacity or criteria?** A source that brings **capacity** (it *executes* something: renders,
    crawls, compiles) is **not Lore** — record it as a dependency (how and when to invoke it) and
@@ -97,7 +97,7 @@ failure state of TRANSPLANT, not its output.
    naming where the source contradicts our standard and loses. **No defeats = no entry:** either
    nothing was arbitrated (it was a copy), or the source carried capacity, not criteria.
 
-> **A governing document is the hardest case of TRANSPLANT, and the one most often skipped.** When a
+> **A governing document is the hardest case of GRAFT, and the one most often skipped.** When a
 > second kit ships a constitution, a charter or a set of rules that declares its own authority, the
 > reflex is to treat it as configuration and adopt it. It is not configuration: it is criteria
 > written under someone else's purpose, and a clause claiming supremacy is precisely the kind that
@@ -108,7 +108,7 @@ failure state of TRANSPLANT, not its output.
 > The one thing that does **not** happen is deferring to it while deciding. Arbitration is judgment,
 > not negotiation.
 
-**Confidence in TRANSPLANT:** what is adopted *from* the source enters as **`conjecture`** (nobody has
+**Confidence in GRAFT:** what is adopted *from* the source enters as **`conjecture`** (nobody has
 paid for it with real friction yet). The **arbitration itself** — the defeats, derived from an
 already-validated identity — enters as **`confirmed`**. Head the module with its provenance:
 *"Distilled from `<source>`, arbitrated against `<identidad.md>`."*
@@ -146,16 +146,21 @@ somewhere else.
 ## Two triggers
 
 1. **Explicit:** the user says "save to lore…", "distill this to the lore", "guarda en lore" — or
-   points at a source: "distill this skill", "destila esta skill" (→ TRANSPLANT).
+   points at a source: "distill this skill", "destila esta skill" (→ GRAFT).
 2. **Proactive:** you just solved a friction and propose saving it — **only** if it clears the
    **threshold** (below). Cosmetic changes (color, aesthetic reshuffle) do NOT count.
+
+> **The old name still works.** Somebody saying *«transplant this»*, *«trasplanta esta guía»* or
+> *«arbitra esto»* means `GRAFT`: run it, and mention the current name once, in passing. A rename is
+> the kit's problem and never the user's — a person who learned the word from a version that shipped
+> is owed the operation, not a correction.
 
 ### The input can be a note, not only a conversation
 
 One or several **free notes** — an Obsidian inbox, a folder of Markdown, meeting minutes — are a
 valid input to either mode. The note is **source, never criteria**: it does not skip the threshold,
 it does not enter verbatim, and it is never cited as a rule. Pick the mode by what the note records —
-a friction the user lived through → CAPTURE; someone else's criteria the user collected → TRANSPLANT.
+a friction the user lived through → CAPTURE; someone else's criteria the user collected → GRAFT.
 
 A note that records a friction **still open** is state, not criteria → `FASES.md`. A note that is a
 summary, a link or an agenda is **information**, and information is not distillable: report it as
@@ -322,7 +327,7 @@ does not happen. Two rules govern it:
 
 - **Capture first in the project; promotion to the area is always gated** — never written silently.
 - **Criteria is never invented**; only distilled from what happened.
-- **Imported criteria is arbitrated, never adopted** (TRANSPLANT): it was distilled under someone
+- **Imported criteria is arbitrated, never adopted** (GRAFT): it was distilled under someone
   else's purpose. No defeats section → no entry.
 - **Clues and new filenames follow the lore's established language** (or the user's, if none) —
   never English just because this skill is. Existing files are never renamed here.

@@ -103,7 +103,7 @@ border you would notice does not need to be written down.
 | You arrive with | What runs first | Why |
 |---|---|---|
 | Lore already in place, adding spec-kit | Copy this constitution **before** the first `/speckit-specify` | The default template declares itself supreme; running a cycle first means the cycle is governed by criteria nobody arbitrated |
-| spec-kit already in place, adding Lore | `transmute-lore` over the existing criteria, **then** this file | An existing constitution is imported criteria: it goes through TRANSPLANT, and what survives is recorded with where the source loses |
+| spec-kit already in place, adding Lore | `transmute-lore` over the existing criteria, **then** this file | An existing constitution is imported criteria: it goes through GRAFT, and what survives is recorded with where the source loses |
 | Both from zero | `create-area` / `create-project`, then `specify init`, then this file | The Lore is the yardstick the arbitration needs. Without it the only available move against an authoritative source is to obey it |
 
 ### Declared latency
