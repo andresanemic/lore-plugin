@@ -241,7 +241,7 @@ Usa este skill siempre que inicies una nueva base de código dentro de un domini
 **capture** (fricción vivida) y **graft** (criterio importado de una skill, una guía ajena o el
 documento de gobierno de otro kit).
 
-> *Renombrado en 2.2: hasta la 2.0.9 el segundo modo se llamaba `arbitrate` y en la 2.1
+> *Renombrado en 2.1.1: hasta la 2.0.9 el segundo modo se llamaba `arbitrate` y en la 2.1
 > `transplant`. Misma ley, mismas cuatro puertas — el nombre nuevo dice qué es la operación. Un
 > injerto es tejido ajeno unido a un patrón vivo: prende o es rechazado, y lo que crece después es
 > del huésped. Un injerto que nadie mira es madera muerta atada a un árbol sano.*
@@ -439,7 +439,7 @@ equipo.
 > **El test que decide si el bot está bien hecho:** *una instrucción corta basta.* Si tuviste que
 > explicarle el proyecto al bot para obtener el resultado, faltaba criterio cargado.
 
-> **El bot es el último paso, no el primero (2.2).** Si tus fuentes todavía no tienen Lore, la cadena
+> **El bot es el último paso, no el primero (2.1.1).** Si tus fuentes todavía no tienen Lore, la cadena
 > es `create-area` → `transmute-lore add` → `create-bot`, una vez por fuente, y no hay atajo: un bot
 > no destila hacia sí mismo. Y el Área que aloja bots es **una sola**, `bots`, con todos ellos dentro
 > como proyectos — no un Área por bot, y ningún bot dedicado a administrar a los otros.

@@ -40,7 +40,7 @@ Four projects of a real area (*web development*) migrated to the standard with `
 
 <br>
 
-The case that produced `arbitrate` mode — **renamed twice since: `transplant` in 2.1, `graft` in 2.2**, same law and same four gates. Three areas distilled Lore from third-party skills, and what we observed contradicted the intuition:
+The case that produced `arbitrate` mode — **renamed twice since: `transplant` in 2.1, `graft` in 2.1.1**, same law and same four gates. Three areas distilled Lore from third-party skills, and what we observed contradicted the intuition:
 
 - **The value was not the summary of the skill — it was the disagreement.** In two different areas, the dense block of the resulting module was *"where the skill contradicts our standard and loses"*. That part **existed neither in the skill nor in the previous Lore**: it was born from the collision.
 - **The same skill, arbitrated by two opposite purposes, loses in the same place for inverse reasons.** *Copywriting* skills were defeated in a marketing area (*"boring, functional copy always wins"*) and in a journalism area (*"we don't sell, we inform"*). The outcome does not depend on the source: it depends on **your** purpose.
@@ -225,11 +225,11 @@ The rule *«a bot is not an area»* was already written in **three** artifacts: 
 | An *architecture bot* appeared, for adding bots and reorganizing folders | That is the `bots` area wearing a bot's shape. A bot administers no bots: that job is a `FASES.md` and an area `lore/`. |
 | The note debt flagged an unmined note | The bot had written it itself four minutes earlier, closing the task. Debt is what the human wrote and nobody distilled. |
 
-**And the vocabulary was tested against someone qualified to judge it.** The installer validated *distill*, *crystallize* and *prune* against their real meaning in chemistry, and **rejected** *transplant* with an argument: moving a plant does not change it, and this mode does change what it lets in. That is where 2.2's rename to `graft` comes from. No internal review had caught it in two versions.
+**And the vocabulary was tested against someone qualified to judge it.** The installer validated *distill*, *crystallize* and *prune* against their real meaning in chemistry, and **rejected** *transplant* with an argument: moving a plant does not change it, and this mode does change what it lets in. That is where 2.1.1's rename to `graft` comes from. No internal review had caught it in two versions.
 
 **What went right, which is the other half of the case.** With a short instruction, without the institution being explained and without the criteria being named, the bot routed on its own, cited the sources it used, closed by proposing a distillation, refused to store knowledge of its own because it federates, and left the next session's prompt written down. `create-bot`'s north — *a short instruction is enough* — held in a third party's hands, which is the only proof that north accepts.
 
-**What changed in the kit:** all of 2.2. The routing guards in `create-area`, `create-bot` and `use-lore`, the access check when a bot premieres, note debt that distinguishes who wrote what, and the graft rename. Three new tests fail if any guard is removed.
+**What changed in the kit:** all of 2.1.1. The routing guards in `create-area`, `create-bot` and `use-lore`, the access check when a bot premieres, note debt that distinguishes who wrote what, and the graft rename. Three new tests fail if any guard is removed.
 
 **Declared boundary.** `n=1`, one session of one hour, **accompanied live by the kit's author** — so the case says nothing about installing the kit *unaided*, which is exactly the question left open. One host, one model, one domain. And the follow-up — whether the use improves or degrades over the weeks — is a different case, not yet written.
 

@@ -40,7 +40,7 @@ Cuatro proyectos de un área real (*desarrollo web*) llevados al estándar con `
 
 <br>
 
-El caso que originó el modo `arbitrate` —**renombrado dos veces desde entonces: `transplant` en la 2.1 y `graft` en la 2.2**, misma ley y mismas cuatro puertas—. Tres áreas destilaron Lore a partir de *skills* de terceros, y lo observado contradijo la intuición:
+El caso que originó el modo `arbitrate` —**renombrado dos veces desde entonces: `transplant` en la 2.1 y `graft` en la 2.1.1**, misma ley y mismas cuatro puertas—. Tres áreas destilaron Lore a partir de *skills* de terceros, y lo observado contradijo la intuición:
 
 - **Lo valioso no fue el resumen de la skill, fue el desacuerdo.** En dos áreas distintas, el bloque denso del módulo resultante era *«dónde la skill contradice nuestro estándar y pierde»*. Esa parte **no existía ni en la skill ni en el Lore previo**: nació de la colisión.
 - **La misma skill, arbitrada por dos finalidades opuestas, pierde en el mismo sitio por razones inversas.** Las skills de *copywriting* fueron derrotadas en un área de marketing (*«copy aburrido y funcional le gana siempre»*) y en una de periodismo (*«no vendemos, informamos»*). El resultado no depende de la fuente: depende de **tu** finalidad.
@@ -226,11 +226,11 @@ La regla *«un bot no es un área»* ya estaba escrita en **tres** artefactos: e
 | Apareció un *bot de arquitectura*, para agregar bots y reordenar carpetas | Es el área `bots` con forma de bot. Un bot no administra bots: ese trabajo es un `FASES.md` y un `lore/` de área. |
 | La deuda de notas marcaba una nota sin minar | La había escrito el propio bot cuatro minutos antes, al cerrar la tarea. Deuda es lo que escribió el humano y nadie destiló. |
 
-**Y el vocabulario se puso a prueba contra alguien calificado para juzgarlo.** El instalador validó *destilar*, *cristalizar* y *podar* contra su significado real en química, y **rechazó** *trasplantar* con argumento: mover una planta no la cambia, y este modo sí cambia lo que deja entrar. De ahí sale el renombre a `graft` de la 2.2. Ninguna revisión interna lo había detectado en dos versiones.
+**Y el vocabulario se puso a prueba contra alguien calificado para juzgarlo.** El instalador validó *destilar*, *cristalizar* y *podar* contra su significado real en química, y **rechazó** *trasplantar* con argumento: mover una planta no la cambia, y este modo sí cambia lo que deja entrar. De ahí sale el renombre a `graft` de la 2.1.1. Ninguna revisión interna lo había detectado en dos versiones.
 
 **Lo que salió bien, que es la otra mitad del caso.** Con una instrucción corta, sin explicarle la institución y sin nombrarle el criterio, el bot enrutó solo, citó las fuentes que usó, cerró proponiendo una destilación, se negó a guardar conocimiento propio por ser federado y dejó escrito el prompt de la sesión siguiente. El norte de `create-bot` —*una instrucción corta basta*— se cumplió en manos de un tercero, que es la única prueba que ese norte admite.
 
-**Qué cambió en el kit:** la 2.2 entera. Las guardias de enrutamiento en `create-area`, `create-bot` y `use-lore`, el chequeo de acceso al estrenar un bot, la deuda de notas que distingue quién escribió qué, y el renombre del injerto. Tres pruebas nuevas fallan si alguna guardia desaparece.
+**Qué cambió en el kit:** la 2.1.1 entera. Las guardias de enrutamiento en `create-area`, `create-bot` y `use-lore`, el chequeo de acceso al estrenar un bot, la deuda de notas que distingue quién escribió qué, y el renombre del injerto. Tres pruebas nuevas fallan si alguna guardia desaparece.
 
 **Frontera declarada.** `n=1`, una sesión de una hora, **acompañada en vivo por el autor del kit** — así que el caso no dice nada sobre instalar el kit *sin ayuda*, que es justamente la pregunta que queda abierta. Un solo host, un solo modelo, un solo dominio. Y el seguimiento —si el uso mejora o empeora con las semanas— es otro caso, todavía sin escribir.
 

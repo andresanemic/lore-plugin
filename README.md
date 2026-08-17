@@ -403,7 +403,7 @@ It has **two modes**, chosen by where the criteria comes from:
 
 > **Why "graft", and the metaphor is load-bearing.** A graft is foreign tissue bound to a rootstock that is already alive: it takes or it is rejected, and what grows afterwards belongs to the host. A graft nobody checks is deadwood tied to a healthy tree — you say what took and what did not. It is the exact counterpart of `prune` — **pruning removes what the plant grew on its own, grafting judges what came from outside.** Those are the two passes of a maintained Lore, and having one without the other is why a body of criteria either bloats or ossifies.
 >
-> *Renamed in 2.2: through 2.0.9 this mode was called `arbitrate`, and in 2.1 `transplant`. Same law, same four gates. The name changed because a transplant moves a plant without changing it, and this mode changes what it lets in — a distinction a chemist made out loud the first time somebody outside this project read the docs.*
+> *Renamed in 2.1.1: through 2.0.9 this mode was called `arbitrate`, and in 2.1 `transplant`. Same law, same four gates. The name changed because a transplant moves a plant without changing it, and this mode changes what it lets in — a distinction a chemist made out loud the first time somebody outside this project read the docs.*
 
 Two warnings `graft` mode will give you:
 
@@ -649,7 +649,7 @@ lore-plugin/
 
 ## Case studies
 
-Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. Those applications are documented as **twelve case studies**, each with its own declared boundary. Case 08 is the controlled benchmark summarized above; Cases 09, 10 and 11 turned the kit on itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head with the judging done blind — and **Case 12 is the first install run by someone who is not the author**, which is where 2.2 came from.
+Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. Those applications are documented as **twelve case studies**, each with its own declared boundary. Case 08 is the controlled benchmark summarized above; Cases 09, 10 and 11 turned the kit on itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head with the judging done blind — and **Case 12 is the first install run by someone who is not the author**, which is where 2.1.1 came from.
 
 > **Status:** these are cases, not proofs. Small n, and **eleven of the twelve come from the same researcher** — Case 12 is the one that does not. What they claim constrains how we use the kit; it does not pretend to be a law. The measured claim belongs to [Case 08 and its benchmark](#benchmark); the rest are qualitative evidence.
 
@@ -1180,7 +1180,7 @@ El flujo que usarás todos los días. Resuelves algo que costó y escribes «gua
 
 > **Por qué «injerto», y la metáfora es estructural.** Un injerto es tejido ajeno unido a un patrón que ya está vivo: prende o es rechazado, y lo que crece después pertenece al huésped. Un injerto que nadie mira es madera muerta atada a un árbol sano — hay que decir qué prendió y qué no. Es la contraparte exacta de `prune` — **la poda quita lo que la planta creció sola, el injerto juzga lo que vino de afuera.** Son los dos pases de un Lore mantenido, y tener uno sin el otro es por qué un cuerpo de criterio se hincha o se osifica.
 >
-> *Renombrado en 2.2: hasta la 2.0.9 este modo se llamaba `arbitrate` y en la 2.1 `transplant`. Misma ley, mismas cuatro puertas. Cambió el nombre porque un trasplante mueve una planta sin cambiarla, y este modo cambia lo que deja entrar — una distinción que hizo en voz alta un químico, la primera vez que alguien ajeno al proyecto leyó la documentación.*
+> *Renombrado en 2.1.1: hasta la 2.0.9 este modo se llamaba `arbitrate` y en la 2.1 `transplant`. Misma ley, mismas cuatro puertas. Cambió el nombre porque un trasplante mueve una planta sin cambiarla, y este modo cambia lo que deja entrar — una distinción que hizo en voz alta un químico, la primera vez que alguien ajeno al proyecto leyó la documentación.*
 
 Dos avisos que te dará:
 
@@ -1420,7 +1420,7 @@ lore-plugin/
 
 ## Casos de estudio
 
-Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía. Esas aplicaciones están documentadas como **doce casos de estudio**, cada uno con su frontera declarada. El Caso 08 es el benchmark controlado resumido arriba; los Casos 09, 10 y 11 volvieron el kit contra sí mismo —el 10 usándolo un día entero contra un Lore vivo, y el 11 corriendo dos de sus propias versiones cabeza a cabeza con el juicio a ciegas— y el **Caso 12 es la primera instalación hecha por alguien que no es el autor**, de donde salió la 2.2.
+Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía. Esas aplicaciones están documentadas como **doce casos de estudio**, cada uno con su frontera declarada. El Caso 08 es el benchmark controlado resumido arriba; los Casos 09, 10 y 11 volvieron el kit contra sí mismo —el 10 usándolo un día entero contra un Lore vivo, y el 11 corriendo dos de sus propias versiones cabeza a cabeza con el juicio a ciegas— y el **Caso 12 es la primera instalación hecha por alguien que no es el autor**, de donde salió la 2.1.1.
 
 > **Estatus:** son casos, no demostraciones. n pequeño, y **once de los doce vienen del mismo investigador** — el Caso 12 es el que no. Restringen cómo usamos el kit; no pretenden ser una ley. La afirmación medida pertenece al [Caso 08 y su benchmark](#el-benchmark); los demás aportan evidencia cualitativa.
 

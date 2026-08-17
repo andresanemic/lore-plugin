@@ -67,7 +67,7 @@ triggers documented in each skill's `SKILL.md`.
 - Explain Lore’s architecture for the current project or Area.
 - Show which artifacts exist and how they are structured.
 - Route you to the appropriate skill based on your intent.
-- **Route a request for a bot, never answer it with an Area** (2.2). On a machine with no Lore at
+- **Route a request for a bot, never answer it with an Area** (2.1.1). On a machine with no Lore at
   all, someone asking for bots has already named the deliverable: the Areas are **steps**,
   `create-bot` runs last, and the whole chain is stated with its cost — one `create-area` plus one
   `transmute-lore` per source before the bot can route to anything.
@@ -129,7 +129,7 @@ Use `use-lore` whenever you are unsure where to start.
 
 - Establish a place where shared criteria for a domain live.
 - Provide the skeleton (`_starter/`) that projects instantiate.
-- **Return control to the skill that called it** (2.2). An Area is a **step** as often as it is a
+- **Return control to the skill that called it** (2.1.1). An Area is a **step** as often as it is a
   destination: `create-bot` needs one before the bot can exist, and `create-project` needs the Area
   it was pointed at. When `create-bot` called, the Area is `bots` — **one** of them, holding every
   bot as a project — and its domain is the user's bots, never the domain of any one of them.
@@ -188,7 +188,7 @@ Use `create-project` whenever you start a new codebase inside an existing Area.
 > `transmute-lore` PRUNE: pruning removes what the plant grew on its own, grafting judges what came
 > from outside. A Lore with one and not the other either bloats or ossifies.
 >
-> *Renamed in 2.2. Through 2.0.9 this mode was called `arbitrate`, and in 2.1 `transplant`: same law,
+> *Renamed in 2.1.1. Through 2.0.9 this mode was called `arbitrate`, and in 2.1 `transplant`: same law,
 > same four gates. The name changed because a transplant moves a plant without changing it, and this
 > mode changes what it lets in.*
 
@@ -452,11 +452,11 @@ installable plugin is optional**, and serves one purpose: handing it to a team.
 > accumulates criteria it never paid for, and the consequence shows up fast — when a criterion
 > generalizes, it gets promoted to the bot instead of to the Area that earned it.
 
-> **And the inverse confusion (2.2): a bot administers no bots.** One that exists to add bots or
+> **And the inverse confusion (2.1.1): a bot administers no bots.** One that exists to add bots or
 > reorganize folders is the `bots` Area wearing a bot's shape — that job is a `FASES.md` and an Area
 > `lore/`, and it needs no canon and no routing table. If one shows up, what is missing is the Area.
 
-> **The premiere opens with the access check (2.2).** The bot is opened **the way its user will open
+> **The premiere opens with the access check (2.1.1).** The bot is opened **the way its user will open
 > it**, confirming the session reaches the manifest's paths. Each host grants that reach its own way:
 > a Claude Code session opened in the bot plus its `.claude/settings.local.json`; a Codex project
 > whose folder is the **mother** of the federated tree, never the bot's own folder; `--add-dir` for
@@ -674,7 +674,7 @@ destilado:                      # empty = unmined
 | Operation | What it does |
 |---|---|
 | **Capture** | Writes a `.md` into the inbox with that frontmatter. Never inside `lore/`, and never touches `identidad.md`, `principios.md`, a module, `FASES.md` or the instruction contract. |
-| **Mine** | Sweeps the inbox, reports the debt, classifies, routes, proposes and waits for approval. The writing is executed by `save-to-lore`. **Debt is what the human wrote and nobody distilled** (2.2): a note the agent itself wrote during the session is not counted as the user's without saying so. |
+| **Mine** | Sweeps the inbox, reports the debt, classifies, routes, proposes and waits for approval. The writing is executed by `save-to-lore`. **Debt is what the human wrote and nobody distilled** (2.1.1): a note the agent itself wrote during the session is not counted as the user's without saying so. |
 
 **The four buckets.** The discriminator is not the quality of the note: it is whether the note records
 a **transformation** or only a **fact**.

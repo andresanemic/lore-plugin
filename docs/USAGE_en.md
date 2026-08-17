@@ -236,7 +236,7 @@ Use this whenever you start a new codebase inside a domain that already has an A
 from: **capture** (lived friction) and **graft** (criteria imported from a third-party skill,
 guide, or another kit's governing document).
 
-> *Renamed in 2.2: through 2.0.9 the second mode was called `arbitrate`, and in 2.1 `transplant`.
+> *Renamed in 2.1.1: through 2.0.9 the second mode was called `arbitrate`, and in 2.1 `transplant`.
 > Same law, same four gates — the new name says what the operation is. A graft is foreign tissue
 > bound to a living rootstock: it takes or it is rejected, and what grows afterwards belongs to the
 > host. A graft nobody checks is deadwood tied to a healthy tree.*
@@ -435,7 +435,7 @@ hand it to a team.
 > **The test that says whether the bot is well built:** *a short instruction is enough.* If you had
 > to explain the project to the bot to get the result, criteria were missing from the load.
 
-> **The bot is the last step, not the first (2.2).** If your sources have no Lore yet, the chain is
+> **The bot is the last step, not the first (2.1.1).** If your sources have no Lore yet, the chain is
 > `create-area` → `transmute-lore add` → `create-bot`, once per source, and there is no shortcut: a
 > bot does not distill into itself. The Area that hosts bots is **one**, `bots`, with all of them
 > inside as projects — not one Area per bot, and no bot dedicated to administering the others.

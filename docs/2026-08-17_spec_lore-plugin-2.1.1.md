@@ -1,4 +1,4 @@
-# Feature Specification: Lore Plugin 2.2 — el injerto, y lo que enseñó la primera instalación ajena
+# Feature Specification: Lore Plugin 2.1.1 — el injerto, y lo que enseñó la primera instalación ajena
 
 **Feature Branch**: `main` (sin rama: no hay `before_specify` hook instalado)
 
@@ -28,7 +28,13 @@ español.
 ### Session 2026-08-17
 
 - Q: ¿Se renombra `TRANSPLANT`, y entra en esta versión? → A: Sí, a `GRAFT` / *injertar*, y entra
-  ahora. Eso convierte la versión en 2.2: renombrar un modo publicado es capacidad, no parche.
+  ahora.
+- Q: ¿Y qué número lleva, si el renombre de un modo publicado parece capacidad? → A: **2.1.1**.
+  Decidido por Andrés, y la razón estaba escrita: `FASES.md` tiene **2.2 comprometido para Graphify**,
+  con una condición encadenada —repetir el benchmark del Caso 08 antes de publicarla—. Tomar ese
+  número aquí le habría quitado el suyo a Graphify y le habría arrastrado a esta versión una
+  obligación de medición que no le corresponde. **Un número reservado por una decisión previa pesa
+  más que la clasificación semántica del cambio.**
 - Q: ¿El hallazgo de que las skills están en inglés entra? → A: Solo el puntero barato hacia
   `REFERENCE_es` / `USAGE_es`. No se traducen las skills.
 - Q: ¿El Caso 12 se escribe abierto o cerrado? → A: Cerrado. El caso **es la instalación**, que ya
@@ -63,7 +69,7 @@ cambia lo trasplantado, solo su lugar, y este modo hace lo contrario. También r
   que **prende o es rechazado**, y lo que crece después pertenece al huésped. Las cuatro puertas del
   modo no cambian, ni su exigencia de declarar **dónde pierde la fuente**.
 - **FR-A3** `REFERENCE_{es,en}` y `USAGE_{es,en}` llevan la línea de historia, con la misma forma que
-  ya se usó para `arbitrate`: *renombrado en 2.2; hasta la 2.1 se llamó `transplant`; misma ley,
+  ya se usó para `arbitrate`: *renombrado en 2.1.1; hasta la 2.1 se llamó `transplant`; misma ley,
   mismas cuatro puertas*.
 - **FR-A4** `save-to-lore` **reconoce el nombre viejo** cuando el usuario lo dice. Renombrar no puede
   romper a quien aprendió la palabra anterior.
@@ -126,10 +132,10 @@ cambia lo trasplantado, solo su lugar, y este modo hace lo contrario. También r
    fallo nuevo.
 2. No queda ninguna ocurrencia del nombre viejo fuera de los tres archivos exentos de FR-A5 y de las
    líneas de historia que FR-A3 exige.
-3. Los cuatro manifiestos declaran `2.2.0`: `package.json`, `.claude-plugin/plugin.json`,
+3. Los cuatro manifiestos declaran `2.1.1`: `package.json`, `.claude-plugin/plugin.json`,
    `.claude-plugin/marketplace.json`, `.codex-plugin/plugin.json`.
-4. `docs/RELEASE_2.2.0.md` existe, bilingüe, y describe las cuatro capacidades.
-5. Tag `v2.2.0`, push y release publicados — y la publicación **se cierra verificando el artefacto
+4. `docs/RELEASE_2.1.1.md` existe, bilingüe, y describe las cuatro capacidades.
+5. Tag `v2.1.1`, push y release publicados — y la publicación **se cierra verificando el artefacto
    instalado**, no el mensaje de éxito de ningún comando.
 6. La copia local se reinstala con `uninstall` + `install`, nunca con `update`, y la sesión se
    reinicia para que cargue.

@@ -1,4 +1,4 @@
-# Lore Plugin 2.2 — The graft, and the handover that came back
+# Lore Plugin 2.1.1 — The graft, and the handover that came back
 
 > [README](https://github.com/andresanemic/lore-plugin#readme) · [Español](#español)
 
@@ -6,7 +6,7 @@ Every line of this version came from **the first installation of the kit by some
 
 Nothing changes in how the kit is installed or used.
 
-## What 2.2 changes
+## What 2.1.1 changes
 
 ### The transplant is now a graft
 
@@ -51,7 +51,7 @@ With its declared boundary, which is narrow: `n=1`, one session of one hour, **a
 
 <a name="español"></a>
 
-# Lore Plugin 2.2 — El injerto, y la entrega que vuelve
+# Lore Plugin 2.1.1 — El injerto, y la entrega que vuelve
 
 > [README](https://github.com/andresanemic/lore-plugin/blob/main/README.md#español)
 
@@ -59,7 +59,7 @@ Todo lo de esta versión salió de **la primera instalación del kit hecha por a
 
 Nada cambia en cómo se instala ni cómo se usa el kit.
 
-## Qué cambia en la 2.2
+## Qué cambia en la 2.1.1
 
 ### El trasplante ahora es un injerto
 
