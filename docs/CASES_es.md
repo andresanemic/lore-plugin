@@ -230,7 +230,7 @@ La regla *«un bot no es un área»* ya estaba escrita en **tres** artefactos: e
 
 **Lo que salió bien, que es la otra mitad del caso.** Con una instrucción corta, sin explicarle la institución y sin nombrarle el criterio, el bot enrutó solo, citó las fuentes que usó, cerró proponiendo una destilación, se negó a guardar conocimiento propio por ser federado y dejó escrito el prompt de la sesión siguiente. El norte de `create-bot` —*una instrucción corta basta*— se cumplió en manos de un tercero, que es la única prueba que ese norte admite.
 
-**Qué cambió en el kit:** la 2.1.1 entera. Las guardias de enrutamiento en `create-area`, `create-bot` y `use-lore`, el chequeo de acceso al estrenar un bot, la deuda de notas que distingue quién escribió qué, y el renombre del injerto. Tres pruebas nuevas fallan si alguna guardia desaparece.
+**Qué cambió en el kit:** la 2.1.1 entera. Las guardias de enrutamiento en `create-area`, `create-bot` y `use-lore`, el chequeo de acceso al estrenar un bot, la deuda de notas que distingue quién escribió qué, y el renombre del injerto. Cuatro pruebas nuevas fallan si alguna guardia desaparece.
 
 **Frontera declarada.** `n=1`, una sesión de una hora, **acompañada en vivo por el autor del kit** — así que el caso no dice nada sobre instalar el kit *sin ayuda*, que es justamente la pregunta que queda abierta. Un solo host, un solo modelo, un solo dominio. Y el seguimiento —si el uso mejora o empeora con las semanas— es otro caso, todavía sin escribir.
 

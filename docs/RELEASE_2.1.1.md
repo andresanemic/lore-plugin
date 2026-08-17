@@ -37,7 +37,7 @@ The rule was already written in three places: the README, `create-bot` and `use-
 
 **The access check earns its own line**, because it failed disguised as something else: a host pointed at the folder it defaulted to, rather than the tree the bot federates, surfaces as the bot *«reading the wrong Lore»* — a symptom that sends whoever debugs it into the criteria and never into the access.
 
-Three tests in `bench/skills-routing.test.mjs` fail if any of these guards is removed.
+Four tests in `bench/skills-routing.test.mjs` fail if any of these guards is removed.
 
 ### The skills are in English on purpose, and now the docs say so
 
@@ -90,7 +90,7 @@ La regla ya estaba escrita en tres sitios: el README, `create-bot` y `use-lore`.
 
 **El chequeo de acceso se gana su propia línea**, porque falló disfrazado: un host apuntando a la carpeta que trae por defecto, en vez de al árbol que el bot federa, aparece como que el bot *«lee el Lore equivocado»* — un síntoma que manda a depurar el criterio y nunca el acceso.
 
-Tres pruebas en `bench/skills-routing.test.mjs` fallan si alguna de estas guardias desaparece.
+Cuatro pruebas en `bench/skills-routing.test.mjs` fallan si alguna de estas guardias desaparece.
 
 ### Las skills están en inglés a propósito, y ahora la documentación lo dice
 

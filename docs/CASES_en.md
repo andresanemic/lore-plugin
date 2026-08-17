@@ -229,7 +229,7 @@ The rule *«a bot is not an area»* was already written in **three** artifacts: 
 
 **What went right, which is the other half of the case.** With a short instruction, without the institution being explained and without the criteria being named, the bot routed on its own, cited the sources it used, closed by proposing a distillation, refused to store knowledge of its own because it federates, and left the next session's prompt written down. `create-bot`'s north — *a short instruction is enough* — held in a third party's hands, which is the only proof that north accepts.
 
-**What changed in the kit:** all of 2.1.1. The routing guards in `create-area`, `create-bot` and `use-lore`, the access check when a bot premieres, note debt that distinguishes who wrote what, and the graft rename. Three new tests fail if any guard is removed.
+**What changed in the kit:** all of 2.1.1. The routing guards in `create-area`, `create-bot` and `use-lore`, the access check when a bot premieres, note debt that distinguishes who wrote what, and the graft rename. Four new tests fail if any guard is removed.
 
 **Declared boundary.** `n=1`, one session of one hour, **accompanied live by the kit's author** — so the case says nothing about installing the kit *unaided*, which is exactly the question left open. One host, one model, one domain. And the follow-up — whether the use improves or degrades over the weeks — is a different case, not yet written.
 
