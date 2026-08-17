@@ -66,6 +66,10 @@ Estos skills **no son comandos de una CLI**: son *skills* del agente que se disp
 - Explicar la arquitectura de Lore para el proyecto o Área actual.
 - Mostrar qué artefactos existen y cómo están estructurados.
 - Dirigirte al skill adecuado según tu intención.
+- **Enrutar una petición de bot, nunca contestarla con un Área** (2.2). En una máquina sin nada de
+  Lore, quien pide bots ya nombró el entregable: las Áreas son **pasos**, `create-bot` corre al
+  final, y la cadena se dice completa con su costo — un `create-area` más un `transmute-lore` por
+  cada fuente antes de que el bot pueda enrutar a algo.
 
 **Interacciones típicas:**
 
@@ -124,6 +128,10 @@ Usa `use-lore` siempre que no tengas claro dónde empezar.
 
 - Establecer un lugar donde viva el criterio compartido de un dominio.
 - Proporcionar el esqueleto (`_starter/`) que los proyectos instancian.
+- **Devolver el control a la skill que la llamó** (2.2). Un Área es tantas veces un **paso** como un
+  destino: `create-bot` la necesita antes de que el bot exista, y `create-project` necesita el Área a
+  la que apunta. Cuando la llamó `create-bot`, el Área es `bots` —**una**, con todos los bots dentro
+  como proyectos— y su dominio son los bots del usuario, nunca el de ninguno de ellos.
 
 Usa `create-area` cuando quieras que varios proyectos compartan el mismo criterio fundamental.
 
@@ -441,6 +449,17 @@ una sola cosa: repartirlo a un equipo.
 > Área crea una madre que acumula criterio que no pagó, y la consecuencia aparece rápido — cuando un
 > criterio se generaliza, se promueve al bot en vez de al Área que se lo ganó.
 
+> **Y la confusión inversa (2.2): un bot no administra bots.** El que existe para agregar bots o
+> reordenar carpetas es el Área `bots` con forma de bot — ese trabajo es un `FASES.md` y un `lore/`
+> de Área, y no necesita canon ni tabla de enrutamiento. Si aparece uno así, lo que falta es el Área.
+
+> **El estreno abre con el chequeo de acceso (2.2).** El bot se abre **como lo abrirá su usuario** y
+> se comprueba que la sesión alcanza las rutas del manifiesto. Cada host lo concede a su manera —una
+> sesión de Claude Code abierta en el bot más su `.claude/settings.local.json`; un proyecto de Codex
+> cuya carpeta es la **madre** del árbol federado, nunca la carpeta del bot; `--add-dir` en la CLI—.
+> Un host apuntando a la carpeta equivocada falla como *«lee el Lore equivocado»*, síntoma que manda
+> a depurar el criterio y nunca el acceso.
+
 **Entrada:**
 
 - Ruta del Área destino, `slug` del bot (que es también el nombre de la skill) y su propósito.
@@ -653,7 +672,7 @@ destilado:                      # vacío = sin minar
 | Operación | Qué hace |
 |---|---|
 | **Capturar** | Escribe un `.md` en la bandeja con ese frontmatter. Nunca dentro de `lore/`, y nunca toca `identidad.md`, `principios.md`, un módulo, `FASES.md` ni el contrato. |
-| **Minar** | Barre la bandeja, reporta la deuda, clasifica, enruta, propone y espera aprobación. La escritura la ejecuta `save-to-lore`. |
+| **Minar** | Barre la bandeja, reporta la deuda, clasifica, enruta, propone y espera aprobación. La escritura la ejecuta `save-to-lore`. **La deuda es lo que escribió el humano y nadie destiló** (2.2): una nota que el propio agente escribió en la sesión no se le cuenta al usuario sin decirlo. |
 
 **Las cuatro cubetas.** El discriminador no es la calidad de la nota: es si registra una
 **transformación** o solo un **hecho**.

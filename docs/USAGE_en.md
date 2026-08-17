@@ -435,6 +435,15 @@ hand it to a team.
 > **The test that says whether the bot is well built:** *a short instruction is enough.* If you had
 > to explain the project to the bot to get the result, criteria were missing from the load.
 
+> **The bot is the last step, not the first (2.2).** If your sources have no Lore yet, the chain is
+> `create-area` → `transmute-lore add` → `create-bot`, once per source, and there is no shortcut: a
+> bot does not distill into itself. The Area that hosts bots is **one**, `bots`, with all of them
+> inside as projects — not one Area per bot, and no bot dedicated to administering the others.
+>
+> **Before calling it done, open it the way its user will** and confirm the session reaches the
+> manifest's paths. A host pointed at the wrong folder does not complain: it looks like the bot is
+> reading the wrong Lore.
+
 Example prompts:
 
 ```text

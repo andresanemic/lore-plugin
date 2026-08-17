@@ -439,6 +439,15 @@ equipo.
 > **El test que decide si el bot está bien hecho:** *una instrucción corta basta.* Si tuviste que
 > explicarle el proyecto al bot para obtener el resultado, faltaba criterio cargado.
 
+> **El bot es el último paso, no el primero (2.2).** Si tus fuentes todavía no tienen Lore, la cadena
+> es `create-area` → `transmute-lore add` → `create-bot`, una vez por fuente, y no hay atajo: un bot
+> no destila hacia sí mismo. Y el Área que aloja bots es **una sola**, `bots`, con todos ellos dentro
+> como proyectos — no un Área por bot, y ningún bot dedicado a administrar a los otros.
+>
+> **Antes de darlo por terminado, ábrelo como lo va a abrir su usuario** y comprueba que la sesión
+> alcanza las rutas del manifiesto. Un host apuntando a la carpeta equivocada no se queja: parece que
+> el bot lee el Lore equivocado.
+
 Ejemplos de prompts:
 
 ```text
