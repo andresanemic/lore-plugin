@@ -847,7 +847,7 @@ always-on channel — its pointer section, delimited by a marker pair:
 
 ```markdown
 <!-- lore:always-on -->
-…what Lore governs here · where it lives · when to invoke instead of writing by hand…
+…what Lore governs here · where it lives · where the state lives · when to invoke instead of writing by hand…
 <!-- /lore:always-on -->
 ```
 

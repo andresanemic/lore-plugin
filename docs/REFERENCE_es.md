@@ -706,7 +706,7 @@ Lore usa un conjunto fijo de artefactos Markdown para mantener el criterio estru
 - Nombre y descripción.
 - Intención central y audiencia.
 - Barrera mínima de calidad (por ejemplo, «Nunca introducir regresiones visibles para el usuario en producción»).
-- **`registro:`** — qué tan técnico querés que el kit te hable: `tecnico`, `equilibrado` (default) o
+- **`registro:`** — qué tan técnico quieres que el kit te hable: `tecnico`, `equilibrado` (default) o
   `llano`. Una línea. Ver abajo.
 
 **La clave `registro:` (2.1.0).** Fija cuánto suelo rodea a una regla cuando el kit se explica —
@@ -846,7 +846,7 @@ canal siempre-activo del kit — su sección de punteros, delimitada por un par 
 
 ```markdown
 <!-- lore:always-on -->
-…qué Lore gobierna acá · dónde vive · cuándo invocar en vez de escribir a mano…
+…qué Lore gobierna acá · dónde vive · dónde vive el estado · cuándo invocar en vez de escribir a mano…
 <!-- /lore:always-on -->
 ```
 

@@ -288,11 +288,11 @@ The names shown are the Spanish canonical forms; in your language they localize.
 
 The contract is the only artifact **both** hosts load without being asked, which makes it the kit's always-on channel. Its pointer section is delimited so it can be found and re-stamped without touching anything else:
 
-> **Why a delimited block and not just a paragraph.** There is a playlist that always opens with the same song — *Party Theme*, by Anemone — and after that one, ordered or shuffled, it makes no difference. That is the shape: one piece loads first, without exception, and only then can the rest be read in any order. It is not a hierarchy of importance. The anchor is what makes everything behind it legible.
+> **Why a delimited block and not just a paragraph.** One piece loads first, without exception, and only then can the rest be read in any order. It is not a hierarchy of importance: the anchor is what makes everything behind it legible.
 
 ```markdown
 <!-- lore:always-on -->
-…what Lore governs here · where it lives · when to invoke instead of writing by hand…
+…what Lore governs here · where it lives · where the state lives · when to invoke instead of writing by hand…
 <!-- /lore:always-on -->
 ```
 
@@ -543,6 +543,8 @@ Add a `notes/` folder inside whatever you are working on — a project, an Area 
 
 `obsidian-lore` sweeps that inbox, separates criteria from tasks and from noise, tells you which Lore each thing belongs to, and **waits for your approval** before writing anything. Every mined note gets a mark with date and destination, so the next sweep skips it and the pending debt stays visible. The skill never deletes a note.
 
+**And the inbox runs in both directions.** Sometimes the one writing into `notes/` is the kit: a long prompt, an idea worth executing, work a session ran out of room to do. It goes there instead of into the chat, because a prompt that only lives in a conversation is not delivered — the `git status` looks clean while the deliverable does not exist. The next session opens the note and runs it.
+
 > **Work your notes from a bot when you can.** A bot carries a routing table with the purpose of every Area and project it federates written down, so a note gets routed against that table instead of guessed. The root of the vault never gets an inbox: a note there has no owner and no table to route it against.
 
 **A note is source, never criteria.** It answers *"what happened"*; Lore answers *"what changed because of it"*. Nothing crosses without explicit distillation and a human approving the diff.
@@ -658,15 +660,15 @@ Lore was not designed on a whiteboard: every decision in this kit came from appl
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/1%2C127-clones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="1,127 clones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/35-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="35 days"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~27-a_day-F94F79?style=for-the-badge&labelColor=0B0B12" alt="27 a day"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/221-peak-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="221 peak"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/1%2C597-clones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="1,597 clones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/42-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="42 days"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~29-a_day-F94F79?style=for-the-badge&labelColor=0B0B12" alt="29 a day"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-peak-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 peak"></a>
 </p>
 
-For thirty-four days the number held at a steady twenty-odd clones a day, well past the launch spike. That steadiness was the interesting part: not a launch bump, just people still arriving. Then August 8th brought 221 clones in a single day — a second peak, larger than the launch itself. I left it in the data exactly as it arrived.
+For forty days the number held at a steady twenty-odd clones a day, well past the launch spike. That steadiness was the interesting part: not a launch bump, just people still arriving. Then August 8th brought 221 clones in a single day, and August 13th brought 225 — two more peaks, each larger than the launch itself. I left them in the data exactly as they arrived. Last capture: August 16th, covering through the 15th.
 
-The daily rate quoted above is the steady one, not the average with that day folded in. Data comes from GitHub's traffic API, stored in [`data/traffic/clones.json`](./data/traffic/clones.json) because the API only keeps 14 days.
+The daily rate quoted above is the steady one, not the average with those two days folded in. Data comes from GitHub's traffic API, stored in [`data/traffic/clones.json`](./data/traffic/clones.json) because the API only keeps 14 days.
 
 > **This is a reach signal, not a demonstration.** Nobody knows what anyone did with their copy: how many installed it, how many distilled anything, how many opened the folder once. It does not count as a case and it does not answer the question the [case studies](./docs/CASES_en.md) do. Note also that the "unique cloners" the API returns are unique **per day**, not people, so they cannot be summed into a headcount.
 
@@ -733,10 +735,10 @@ In video games, *lore* is what gives a universe coherence. Not the mechanics: th
 
 Lore applies that same idea to development. The original events stop mattering. The criteria remain.
 
-**And the debt to video games is not only in the name.** The art direction of this project — the
-palette, the graphic treatment, the sensibility of this page and of the master deck — comes from
-***Tales of Berseria*** (Bandai Namco, 2016) before it comes from any software design reference. It
-is declared here for the same reason every other provenance in this repository is declared: the
+**And the debt to video games is not only in the name.** ***Tales of Berseria*** (Bandai Namco,
+2016) is the author's favorite video game — a JRPG — and that is why Lore Plugin looks like anime:
+the palette, the graphic treatment, the sensibility of this page and of the master deck come from
+there before they come from any software design reference. It is declared here for the same reason every other provenance in this repository is declared: the
 aesthetics of a technical artifact are not neutral and do not appear from nowhere, and knowing where
 they came from is what lets you tell a design decision from an inherited taste. That distinction
 matters on the day somebody proposes changing it.
@@ -1073,11 +1075,11 @@ La imagen más clara de por qué son dos archivos y no uno es *50 First Dates*. 
 
 El contrato es el único artefacto que **los dos** hosts cargan sin que nadie se lo pida, y eso lo convierte en el canal siempre-activo del kit. Su sección de punteros va delimitada para poder encontrarla y re-estamparla sin tocar nada más:
 
-> **Por qué un bloque delimitado y no un párrafo cualquiera.** Hay una playlist que siempre empieza por la misma canción —*Party Theme*, de Anemone— y después de esa, en orden o en *shuffle*, da igual. Esa es la forma: una pieza se carga primero, sin excepción, y recién entonces el resto puede leerse en cualquier orden. No es una jerarquía de importancia. El ancla es lo que vuelve legible todo lo que viene detrás.
+> **Por qué un bloque delimitado y no un párrafo cualquiera.** Una pieza se carga primero, sin excepción, y solo entonces el resto puede leerse en cualquier orden. No es una jerarquía de importancia: el ancla es lo que vuelve legible todo lo que viene detrás.
 
 ```markdown
 <!-- lore:always-on -->
-…qué Lore gobierna acá · dónde vive · cuándo invocar en vez de escribir a mano…
+…qué Lore gobierna acá · dónde vive · dónde vive el estado · cuándo invocar en vez de escribir a mano…
 <!-- /lore:always-on -->
 ```
 
@@ -1312,6 +1314,8 @@ Agrega una carpeta `notas/` dentro de aquello en lo que estés trabajando —un 
 
 `obsidian-lore` barre esa bandeja, separa el criterio de las tareas y del ruido, te dice a qué Lore va cada cosa y **espera tu aprobación** antes de escribir nada. Cada nota minada recibe una marca con fecha y destino, así el siguiente barrido la saltea y la deuda pendiente queda a la vista. La skill nunca borra una nota.
 
+**Y la bandeja corre en las dos direcciones.** A veces el que escribe en `notas/` es el kit: un prompt largo, una idea que vale la pena ejecutar, trabajo para el que a una sesión se le acabó el espacio. Va ahí en vez de al chat, porque un prompt que solo vive en una conversación no está entregado — el `git status` se ve limpio mientras el entregable no existe. La sesión siguiente abre la nota y la ejecuta.
+
 > **Ten tus notas en un bot cuando puedas.** Un bot lleva una tabla con la finalidad de cada Área y proyecto que federa escrita ahí, así que una nota se enruta contra esa tabla en vez de adivinarse. La raíz de la vault nunca lleva bandeja: una nota ahí no tiene dueño ni tabla contra la cual enrutarse.
 
 **Una nota es fuente, nunca criterio.** Responde *«qué pasó»*; el Lore responde *«qué cambió por eso»*. Nada cruza sin destilación explícita y sin que un humano apruebe el diff.
@@ -1423,15 +1427,15 @@ Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyect
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/1%2C127-clonaciones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="1.127 clonaciones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/35-d%C3%ADas-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="35 días"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~27-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="27 al día"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/221-pico-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="221 pico"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/1%2C597-clonaciones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="1.597 clonaciones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/42-d%C3%ADas-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="42 días"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~29-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="29 al día"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-pico-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 pico"></a>
 </p>
 
-Durante treinta y cuatro días el número se mantuvo en unas veinte y pico de clonaciones diarias, mucho después del pico del lanzamiento. Esa constancia era lo interesante: no el rebote de un lanzamiento, sino gente que seguía llegando. Y entonces el 8 de agosto trajo 221 clonaciones en un solo día — un segundo pico, más alto que el del lanzamiento. Queda en los datos tal como llegó.
+Durante cuarenta días el número se mantuvo en unas veinte y pico de clonaciones diarias, mucho después del pico del lanzamiento. Esa constancia era lo interesante: no el rebote de un lanzamiento, sino gente que seguía llegando. Y entonces el 8 de agosto trajo 221 clonaciones en un solo día, y el 13 de agosto trajo 225 — dos picos más, cada uno más alto que el del lanzamiento. Quedan en los datos tal como llegaron. Última captura: 16 de agosto, con datos hasta el 15.
 
-El ritmo diario de arriba es el constante, no el promedio con ese día adentro. Los datos vienen de la API de tráfico de GitHub y se guardan en [`data/traffic/clones.json`](./data/traffic/clones.json), porque la API solo conserva 14 días.
+El ritmo diario de arriba es el constante, no el promedio con esos dos días adentro. Los datos vienen de la API de tráfico de GitHub y se guardan en [`data/traffic/clones.json`](./data/traffic/clones.json), porque la API solo conserva 14 días.
 
 > **Es una señal de alcance, no una demostración.** Nadie sabe qué hizo cada quien con su copia: cuántos la instalaron, cuántos destilaron algo, cuántos abrieron la carpeta una vez. No cuenta como caso y no responde la pregunta que sí responden los [casos de estudio](./docs/CASES_es.md). Y los «clonadores únicos» que devuelve la API son únicos **por día**, no personas: no se pueden sumar para contar cabezas.
 
@@ -1488,7 +1492,7 @@ diferencias y tensiones en sus afirmaciones sobre el Entre, el criterio acumulad
 > propio kit, otro que asciende a ley una imagen que el corpus declara divulgativa, y otro que cita
 > una cifra del banco que este README había reemplazado a propósito.
 >
-> Así que tomá **la analogía**, nunca la afirmación. Donde el notebook y este repositorio no coincidan
+> Así que toma **la analogía**, nunca la afirmación. Donde el notebook y este repositorio no coincidan
 > sobre qué hace el kit, la fuente es el repositorio; donde no coincidan en un número, manda el corte
 > vigente del banco.
 
@@ -1498,10 +1502,10 @@ En los videojuegos, el *lore* es aquello que da coherencia a un universo. No son
 
 Lore lleva esa misma idea al desarrollo. Los acontecimientos originales dejan de importar. El criterio permanece.
 
-**Y la deuda con los videojuegos no está solo en el nombre.** La dirección de arte de este proyecto
-—la paleta, el tratamiento gráfico, la sensibilidad de esta página y del deck maestro— viene de
-***Tales of Berseria*** (Bandai Namco, 2016) antes que de cualquier referencia de diseño de software.
-Queda declarado acá por la misma razón que toda otra procedencia en este repositorio: la estética de
+**Y la deuda con los videojuegos no está solo en el nombre.** ***Tales of Berseria*** (Bandai
+Namco, 2016) es el videojuego favorito del autor —un JRPG— y por eso Lore Plugin tiene una estética
+de anime: la paleta, el tratamiento gráfico, la sensibilidad de esta página y del deck maestro vienen
+de ahí antes que de cualquier referencia de diseño de software. Queda declarado acá por la misma razón que toda otra procedencia en este repositorio: la estética de
 un artefacto técnico no es neutral ni surge del vacío, y saber de dónde viene es lo que permite
 distinguir una decisión de criterio de un gusto heredado. Esa distinción importa el día que alguien
 proponga cambiarla.

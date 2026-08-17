@@ -298,21 +298,21 @@ Esta es la parte que conviene leer antes de confiar en cualquiera de las dos cap
   **operación como verbo en tu idioma** —*«ahora podemos podar esto»*, *«esa guía conviene
   trasplantarla»*— en vez de *«hagamos un PRUNE»*. Los nombres de las skills no cambian, porque son lo
   que se invoca, y los nombres de modo tampoco cambian en la documentación, donde el lector necesita
-  el token exacto. La razón es el umbral: solo funciona si podés aceptar o rechazar **con el contenido
-  a la vista**, y un identificador que hay que traducir primero es una cosa más entre vos y esa
+  el token exacto. La razón es el umbral: solo funciona si puedes aceptar o rechazar **con el contenido
+  a la vista**, y un identificador que hay que traducir primero es una cosa más entre tú y esa
   decisión.
-- **Y vos calibrás qué tan técnico se pone.** Una línea `registro:` en `identidad.md` toma tres
+- **Y tú calibras qué tan técnico se pone.** Una línea `registro:` en `identidad.md` toma tres
   posiciones — `tecnico` conserva la especificación y baja la escena al mínimo, `llano` agranda la
   escena y explica un término la primera vez que aparece, `equilibrado` (el default) es mitad y mitad.
   **Nunca mueve las reglas:** un umbral sigue siendo un umbral y un `MUST` sigue siendo un `MUST`,
   porque un calibrador capaz de apagar una puerta sería una forma de saltarse el kit pidiéndoselo
-  amablemente. Y **nunca se pregunta** — el kit lo infiere de cómo escribís, dice cuál eligió en una
+  amablemente. Y **nunca se pregunta** — el kit lo infiere de cómo escribes, dice cuál eligió en una
   línea, y ofrece la corrección en el mismo aliento. Gastar un turno de brainstorm en el registro no
   compra nada.
 
   Dos revisiones externas de la 2.0.9 calificaron la documentación de **«densa»**, por separado. Esta
   versión responde a eso sin diluir una sola puerta: la prosa lleva la regla *y* el suelo que la
-  sostiene, y vos decidís cuánto suelo querés.
+  sostiene, y tú decides cuánto suelo quieres.
 - La cadena del README desde una carpeta en bruto muestra el eslabón que faltaba: una carpeta que ya
   existe se **adopta por registro, por ruta, sin moverla** — `create-area` crea el área limpia.
 

@@ -238,10 +238,10 @@ Tras ejecutar `transmute-lore` y ajustar artefactos, verifica:
 
 - **`FASES.md` refleja la realidad:**
   - La fase actual es correcta.
-  - La hoja de ruta está alineada con cómo trabajáis de verdad.
+  - La hoja de ruta está alineada con cómo trabajas de verdad.
 
-- **El contrato de instrucciones coincide con vuestra colaboración:**
-  - Describe cómo usáis Claude en la práctica.
+- **El contrato de instrucciones coincide con tu colaboración:**
+  - Describe cómo usas Claude en la práctica.
   - Incluye restricciones innegociables sobre el comportamiento de la IA.
 
 ---
@@ -252,7 +252,7 @@ Para mantener la migración manejable:
 
 - **No** intentes preservar todos los detalles históricos.
 - Enfócate en lo que aún restringe decisiones hoy.
-- Trata Lore como documentación viva: debe reflejar cómo trabajáis ahora, no sólo cómo trabajabais.
+- Trata Lore como documentación viva: debe reflejar cómo trabajas ahora, no solo cómo trabajabas.
 - Deja que `transmute-lore` haga el trabajo pesado, pero revisa siempre sus propuestas como editor humano.
 
 Una vez que uno o dos proyectos piloto estén migrados, podrás reutilizar los mismos patrones para otros repositorios dentro del Área.
