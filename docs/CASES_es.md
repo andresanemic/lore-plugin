@@ -193,7 +193,6 @@ Y la versión vieja había ganado **todas las medidas mecánicas**:
 **Frontera declarada, y siete confundidores publicados junto al resultado.** Un solo caso (`n=1`), un juez, una sesión, un corpus. Un corte de luz a mitad de corrida destruyó las decisiones de umbral del segundo brazo — la skill escribe el resultado, no las decisiones. Tres de los cuatro pares salieron con el brazo viejo en primera posición. Los pares los armó la misma persona que corrió el test. El pegado a mano corrompió tramos de los dos entregables, y un copy del lunes se perdió antes de entrar a ningún par. Los dos brazos corrieron contra árboles distintos en naturaleza: uno congelado en un tag, otro el repositorio vivo. Y el brazo viejo corrió primero, con el juez sin haber visto todavía ninguna salida.
 
 </details>
----
 
 <details>
 <summary><b>Caso 12 — La primera instalación que no hizo el investigador</b></summary>
@@ -225,7 +224,6 @@ La regla *«un bot no es un área»* ya estaba escrita en **tres** artefactos: e
 **Frontera declarada.** Un solo caso (`n=1`), una sesión de una hora, **acompañada en vivo por el autor del kit** — así que el caso no dice nada sobre instalar el kit *sin ayuda*, que es justamente la pregunta que queda abierta. Un solo host, un solo modelo, un solo dominio. Y el seguimiento —si el uso mejora o empeora con las semanas— es otro caso, todavía sin escribir.
 
 </details>
----
 
 <details>
 <summary><b>Caso 13 — Una cristalización que solo apunta no es una cristalización</b></summary>
@@ -245,7 +243,6 @@ El dueño juzgó el par **en los mismos términos que el rechazo**: *esto es lo 
 **Frontera declarada.** El mismo investigador, el mismo juez que el Caso 11, dos bots, una máquina. El veredicto es que la fotografía y el desempaque llegan a la vara del dueño — no que un extraño ya abrió la carpeta en su IA favorita y trabajó como si fuera él. Ese es el uso que el modo ahora reclama, y todavía no es un caso.
 
 </details>
----
 
 <details>
 <summary><b>Caso 14 — Un upgrade que no reescribe lo ganado</b></summary>
@@ -265,6 +262,5 @@ Un ecosistema ya instalado —varias áreas, sus proyectos y al final los bots�
 **Frontera declarada.** Mismo investigador, misma máquina, un solo ecosistema. El caso muestra que el modo puede subir un árbol instalado sin dominar el diff con unwrap ni inventar criterio. No mide reaprendizaje. No es el caso científico de LUS —el programa que formula la teoría; este kit es la implementación técnica—. Los bots y el bot que escribió este caso se subieron después de absorber; no son la evidencia de que el procedimiento se aplicó a ciegas.
 
 </details>
----
 
 > Los casos que **refutan** algo son los que más sirven. La [discusión del repositorio](https://github.com/andresanemic/lore-plugin/discussions) es el lugar.

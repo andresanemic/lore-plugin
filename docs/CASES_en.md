@@ -193,7 +193,6 @@ And the older version had won **every mechanical measure**:
 **Declared boundary, and seven confounders published with the result.** A single case (`n=1`), one judge, one session, one corpus. A power cut mid-run destroyed the second arm's threshold decisions — the skill writes the result, not the decisions. Three of four pairs happened to place the older arm first. The pairs were assembled by the same person who ran the test. Manual copy-paste corrupted stretches of both deliverables, and one Monday copy was lost before it could enter a pair. The two arms ran against trees that differed in nature: one frozen at a tag, one the live working repository. And the older arm ran first, with the judge having seen no output yet.
 
 </details>
----
 
 <details>
 <summary><b>Case 12 — The first install the researcher did not run</b></summary>
@@ -225,7 +224,6 @@ The rule *«a bot is not an area»* was already written in **three** artifacts: 
 **Declared boundary.** A single case (`n=1`), one session of one hour, **accompanied live by the kit's author** — so the case says nothing about installing the kit *unaided*, which is exactly the question left open. One host, one model, one domain. And the follow-up — whether the use improves or degrades over the weeks — is a different case, not yet written.
 
 </details>
----
 
 <details>
 <summary><b>Case 13 — A crystallization that only points is not a crystallization</b></summary>
@@ -245,7 +243,6 @@ The owner judged the pair **in the same terms as the rejection**: *this is what 
 **Declared boundary.** Same researcher, same judge as Case 11, two bots, one machine. The verdict is that the snapshot and the unpack match the owner's bar — not that a stranger already opened the folder in their favorite AI and worked as if they were him. That is the use the mode now claims, and it is not yet a case.
 
 </details>
----
 
 <details>
 <summary><b>Case 14 — An upgrade that does not rewrite what was earned</b></summary>
@@ -265,6 +262,5 @@ An already-installed ecosystem — several areas, their projects, and the bots l
 **Declared boundary.** Same researcher, same machine, one ecosystem. The case shows the mode can raise an installed tree without letting unwrap dominate the diff or inventing criterion. It does not measure relearning. It is not the scientific case for LUS. The bots and the bot that wrote this case were raised after absorption; they are not evidence that the procedure was applied blind.
 
 </details>
----
 
 > Cases that **refute** something are the ones that help most. The [repository discussions](https://github.com/andresanemic/lore-plugin/discussions) are the place.
