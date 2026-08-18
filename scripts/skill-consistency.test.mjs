@@ -104,7 +104,37 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.1.4"]));
+  assert.deepEqual(new Set(versions), new Set(["2.1.5"]));
+});
+
+test("ninguna skill manda HARD: ni usa cristalizar como destilar", () => {
+  for (const name of skillNames) {
+    const text = readFileSync(join(skillsRoot, name, "SKILL.md"), "utf8");
+    assert.doesNotMatch(text, /\*\*HARD:/, `${name}: etiqueta HARD: en presente`);
+    assert.doesNotMatch(text, /crystallize as an invariant clue/i, `${name}: cristalizar ≠ destilar`);
+  }
+});
+
+test("el piso de _starter/ vive en las skills que lo escriben", () => {
+  const area = readFileSync(join(skillsRoot, "create-area", "SKILL.md"), "utf8");
+  const project = readFileSync(join(skillsRoot, "create-project", "SKILL.md"), "utf8");
+  const bot = readFileSync(join(skillsRoot, "create-bot", "SKILL.md"), "utf8");
+
+  assert.match(area, /Floor, not clone/);
+  assert.match(area, /structural floor/);
+  assert.match(area, /when this area is `bots` \(bot variant\)/);
+  assert.match(area, /`canon\/` \+ `lore\/enrutamiento\.md`/);
+  assert.match(area, /never `HARD-GATE`/);
+  assert.match(area, /Packaging is crystallization/);
+  assert.match(area, /A `bots` starter points at `canon\/`/);
+
+  assert.match(project, /starter \*\*floor\*\*/);
+  assert.match(project, /hand back to `create-bot`/);
+
+  assert.match(bot, /rewrite the starter to the bot variant/);
+  assert.match(bot, /Floor on the contract just written/);
+  assert.match(bot, /Putting `lore\/identidad\.md` in the block/);
+  assert.match(bot, /No `HARD-GATE` in\s+present tense/);
 });
 
 test("el cierre de create-bot no exige Lore previo", () => {

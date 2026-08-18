@@ -156,7 +156,7 @@ is mined all the same — treat a missing field as empty, and add the field when
 `origen` with the project or bot the session is running in, when there is one. That is the whole
 operation.
 
-> **HARD: never write a note inside `lore/`,** and never touch `identidad.md`, `principios.md`, a
+> **Never write a note inside `lore/`**, and never touch `identidad.md`, `principios.md`, a
 > thematic module, `FASES.md` or instruction contract from a capture. A capture writes one file, in the inbox.
 
 ## Mining — the sweep

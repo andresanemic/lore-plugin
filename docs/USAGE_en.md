@@ -202,6 +202,8 @@ Lore will:
   - thematic modules under `lore/`
 - Optionally explain what each artifact is for and how to extend it.
 
+The `_starter/` it writes carries the **structural floor** (2.1.5): a four-thing always-on block, `FASES` outside `lore/`, threshold in the present tense, inheritance by path. If the Area is `bots`, the variant is `canon/` plus the routing table, not `identidad` inside the block. That Area's craft is distilled in the brainstorm; it is not cloned from another.
+
 Use this when you want multiple projects to share a common set of criteria.
 
 ---

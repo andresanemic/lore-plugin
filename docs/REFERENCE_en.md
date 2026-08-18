@@ -125,6 +125,8 @@ Use `use-lore` whenever you are unsure where to start.
   (`CLAUDE.template.md` or `AGENTS.template.md`, `FASES.md`, and, if applicable,
   `golden-paths.template.md`, plus any base
   code scaffold). `create-project` instantiates these templates for each new project.
+  The floor is structural (2.1.5): always-on, `FASES` outside, threshold, inherit by path. If the
+  Area is `bots`, the variant is `canon/` plus routing.
 
 **Responsibilities:**
 

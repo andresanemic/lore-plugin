@@ -207,6 +207,8 @@ Lore:
   - módulos temáticos bajo `lore/`.
 - Opcionalmente explica para qué sirve cada artefacto y cómo extenderlo.
 
+El `_starter/` que escribe lleva el **piso estructural** (2.1.5): always-on de cuatro cosas, `FASES` fuera de `lore/`, umbral en presente, heredar por ruta. Si el Área es `bots`, la variante es `canon/` + tabla de enrutamiento, no `identidad` en el bloque. El oficio de esa Área se destila en el brainstorm; no se clona de otra.
+
 Usa este skill cuando quieres que varios proyectos compartan un conjunto común de criterios.
 
 ---

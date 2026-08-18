@@ -228,6 +228,10 @@ grep -rn '{{[A-Z_]\+}}' "$DEST" && echo "UNRESOLVED TOKENS" || echo "OK no token
 
 - Verify local `index.md` links resolve to present files, and the `../../../lore/<module>.md` links
   resolve to files in the area.
+- Verify the stamped contract meets the starter **floor**: one always-on block, four things, ≤ 25
+  lines; `FASES.md` outside `lore/`; modules inherited by relative path, not copied; no `HARD-GATE`
+  in present tense; no plugin wrap. If the area is `bots`, stop and hand back to `create-bot` —
+  that skill owns the bot variant.
 - Verify exactly one of `CLAUDE.md` or `AGENTS.md` exists. For cross-host use, offer Codex's
   `project_doc_fallback_filenames` setting or, only with explicit approval, a minimal adapter.
 - Register the project in the **area's** `FASES.md` (row with path + status + internal phase).

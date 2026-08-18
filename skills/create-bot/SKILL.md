@@ -187,9 +187,10 @@ project.
 > language**, not the language this skill is written in. `identidad.md`, `principios.md`,
 > `FASES.md`, `proyectos/`, `canon/`, `enrutamiento.md` are the Spanish canonical forms: localize
 > them. Fixed in every language: the Area's selected contract name (`CLAUDE.md` or `AGENTS.md`),
-> `lore/`, `index.md`, `skills/`,
-> `.claude-plugin/`, `.codex-plugin/`, the `<!-- lore:always-on -->` marker pair (literal, never localized — localizing it breaks idempotent stamping silently).
-> The area's established names win inside its tree; flag a clash, never resolve it silently.
+> `lore/`, `index.md`, `canon/`, the `<!-- lore:always-on -->` marker pair (literal, never localized — localizing it breaks idempotent stamping silently).
+> The area's established names win inside its tree; flag a clash, never resolve it silently. Do not
+> generate `.claude-plugin/`, `.codex-plugin/` or `skills/{{BOT_SLUG}}/` — those names are leftovers
+> of wrapping a bot as a plugin, which this skill does not do.
 
 ---
 
@@ -431,6 +432,15 @@ frontmatter to write — the file loads because the session opens in that folder
 whole reason a bot that reaches a dozen bodies of criteria still fits under the 25-line ceiling: the
 block delegates to the table, which is what the table is for. Listing the federated sources inside
 the block puts the routing table's job in two places, and the copy is the one that goes stale.
+Putting `lore/identidad.md` in the block *instead of* `canon/` is the same failure: the session
+loads how the bot is maintained and not what the bot is.
+
+If the host area already has a `_starter/`, read it. That starter is the **floor**, not the
+deliverable — this section still writes the full contract. The generated always-on must carry the
+same three pointers as the bot-variant starter (`canon/`, `enrutamiento.md`, `FASES.md`). If the
+starter is still the project variant (identidad / principios / index in the block, no `canon/`),
+**rewrite the starter to the bot variant** before writing this bot: a `bots` area that stamps
+projects as if they were ordinary area-projects is how the next bot is born below the floor.
 
 Rules, ceiling and the idempotency table are in `use-lore`. This is stamped inside the threshold
 this skill already has, never as a pass afterwards. Shape, in the user's language — the markers
@@ -775,6 +785,10 @@ Then check the two things a script cannot:
 - **Scope.** Every manifest entry appears in the institution's registry, and every borderline
   project the registry excludes is declared out of scope in the canon, with its reason.
 - Every `index.md` link resolves; area links resolve outside the project.
+- **Floor on the contract just written.** One always-on block, bot variant: `canon/`,
+  `lore/enrutamiento.md`, `FASES.md`. No federated Lore listed one by one. No `HARD-GATE` in
+  present tense. No `.claude-plugin/`, `.codex-plugin/` or `skills/{{BOT_SLUG}}/` wrap. Packaging
+  named in the contract is crystallization. Ceiling 25 lines, markers included.
 - **Report what was not verified.** If actual loading in Claude Code or Codex could not be tested,
   say so rather than implying it was checked.
 - Register the bot in the **area's** `FASES.md` (path + status + phase).

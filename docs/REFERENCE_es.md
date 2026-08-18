@@ -124,6 +124,8 @@ Usa `use-lore` siempre que no tengas claro dónde empezar.
   (`CLAUDE.template.md` o `AGENTS.template.md`, `FASES.md` y, si aplica,
   `golden-paths.template.md`, más cualquier
   scaffold de código base). `create-project` instancia estas plantillas al crear cada proyecto.
+  El piso es estructural (2.1.5): always-on, `FASES` fuera, umbral, heredar por ruta. Si el Área es
+  `bots`, la variante es `canon/` + enrutamiento.
 
 **Responsabilidades:**
 

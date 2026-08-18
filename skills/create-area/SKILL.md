@@ -119,11 +119,28 @@ Write the project templates **tuned to this area's domain** into `_starter/`. Th
 `create-project` stamps for every new project — so they must reflect this area's stack, phases and
 critical paths, not a generic mold.
 
+**Floor, not clone.** Tune the *content* (phases, stack, north) to this domain. Do **not** copy
+another person's Notion bases, house style or corpus into the kit. Every `_starter/` shares one
+**structural** floor — the same one a later user of this kit must receive:
+
+1. `{_starter/{{CONTRACT_FILE}}.template.md}` and `{_starter/FASES.md}` both exist.
+2. The contract carries `<!-- lore:always-on -->` with exactly four things, under 25 lines: what
+   Lore governs; where it lives (relative paths); where `FASES.md` lives; the signal to invoke the
+   skill. Rules and ceiling are in `use-lore`.
+3. A **project** starter inherits area modules by `../../../lore/<module>.md`, never by copy.
+4. A **bot** starter (this area is `bots`) is the bot variant: `canon/` + `lore/enrutamiento.md` +
+   `FASES.md`. It does not list federated Lores one by one, and it does not put `identidad.md` in
+   the block in place of `canon/`.
+5. Present tense says **threshold**, never `HARD-GATE`.
+6. Nothing teaches wrapping the artifact as a shareable plugin. Packaging is crystallization.
+
 - `_starter/{{CONTRACT_FILE}}.template.md` — the **project** contract template (slimmed to pointers), carrying
   the area's stack/conventions and `{{TOKENS}}` for the project's own name/description. Adapted from
-  the area's `identidad.md`/`principios.md`.
+  the area's `identidad.md`/`principios.md`. **If this area is `bots`** (or `create-bot` sent you
+  here), write the **bot variant** below, not the project one.
 - `_starter/FASES.md` — the **project** phases template: the typical phase map for a project in this
-  domain (a web project's Research→Design→Build differs from a research project's phases).
+  domain (a web project's Research→Design→Build differs from a research project's phases). For
+  `bots`, the map includes crystallize-if-it-must-travel, not a plugin-wrap phase.
 - `_starter/golden-paths.template.md` — only if the domain has critical paths worth verifying
   (e.g. web routes); omit for domains where it does not apply.
 - Any **base code scaffold** the domain needs (e.g. a `web/` Next.js app for a web area). Keep it
@@ -131,13 +148,19 @@ critical paths, not a generic mold.
   project is stamped.
 
 > If the area is derived from an existing starter (like a web area from a prior site starter), seed
-> `_starter/` from that starter's templates + app instead of writing them from scratch.
+> `_starter/` from that starter's templates + app instead of writing them from scratch — then still
+> pass the floor above. A seeded starter that lacks the always-on block or still says `HARD-GATE`
+> is not finished.
 
 ### 4. Verify and report
 
 - Verify the area and starter each contain exactly one contract file. Do not generate both names by
   default. If the user needs both hosts, offer Codex's `project_doc_fallback_filenames` setting or,
   only with explicit approval, a minimal pointer adapter.
+- Verify the **floor** on both contracts (area + `_starter/`): one `<!-- lore:always-on -->` block,
+  four things, ≤ 25 lines; `FASES.md` named outside `lore/`; no `HARD-GATE` in present tense; no
+  plugin wrap. A project starter points at `../../../lore/`. A `bots` starter points at `canon/`
+  and `lore/enrutamiento.md`.
 - Verify no unresolved `{{TOKEN}}` remains in any file.
 - Verify every `index.md` link resolves to a present file.
 - Report the created structure and the **next step** (create a project with `create-project`, or
@@ -158,7 +181,9 @@ critical paths, not a generic mold.
   English terms excluded). Never default to English/Spanish because the skill or the templates are.
 - The area carries a **domain-tuned `_starter/`** (project templates + optional code scaffold);
   `create-project` stamps from it, never from a global/hardcoded starter. This is what keeps the kit
-  path-agnostic.
+  path-agnostic. The starter always meets the **structural floor** in §3b — that is how a stranger
+  using this kit gets the same quality of `_starter/` as a mature area, without inheriting someone
+  else's domain. When the area is `bots`, the starter is the bot variant.
 - **A paragraph is a paragraph** (kit invariant in `use-lore`): generated `lore/`, contract and
   `FASES.md` are not hard-wrapped at column 80.
 - The area is NOT auto-committed. The user decides.
@@ -272,9 +297,9 @@ says which.
 4. Every deliverable is judged against the north in `identidad.md`.
 
 ## Distillation
-When resolving a friction or when told "save to lore", crystallize as an invariant clue
+When resolving a friction or when told "save to lore", distill as an invariant clue
 (Context → Root cause → Clue) in the matching thematic module + update `index.md`. Noise filter:
-if a fact does not constrain a future decision, it does not enter.
+if a fact does not constrain a future decision, it does not enter. Packaging a tree is crystallization, not this.
 ```
 
 ---
@@ -333,3 +358,60 @@ These are **project** templates the area stamps — they carry `{{PROJECT_TOKENS
 
 > A web area's `_starter/` also carries a `web/` app scaffold and a `golden-paths.template.md`.
 > Non-web areas may need neither — include only what the domain warrants.
+
+### `_starter/` when this area is `bots` (bot variant)
+
+`create-bot` writes the live contract from its own skill. This starter is the floor that skill
+must not fall below, and what `create-project` would stamp if invoked in this area. Same four
+things, same 25-line ceiling — `canon/` and the routing table, never the federated Lores.
+
+```markdown
+# {{CONTRACT_FILE}} — {{PROJECT_TITLE}}
+
+> Source of truth for AI agents in this bot. Read fully before any task.
+> **{{PROJECT_TITLE}}** — {{PROJECT_DESCRIPTION}}
+> State and plan live in **`FASES.md`**. Inherited standard: the `bots` area Lore.
+
+<!-- lore:always-on -->
+## The criteria this bot carries
+- `canon/` — what the bot **is**. Loaded before the first decision, always. Lives next to the contract.
+- `lore/enrutamiento.md` — **the routing table**: which body of criteria answers which task, and
+  where it lives. Consulted there, never from memory.
+- `FASES.md` — state, outside `lore/`. It advances; the criteria persists.
+
+> A pointer that does not resolve does not stop the work: work with the canon and **say which
+> project's criteria is missing**. A missing canon does stop it.
+
+> **Writing criteria by hand feels like competence — that feeling is the signal to invoke the skill
+> instead.** `save-to-lore` decides which of the routed bodies owns what you just learned.
+<!-- /lore:always-on -->
+
+## The two layers, which are not the same
+- `lore/` — how this bot is **maintained**.
+- `canon/` — what the bot **is**. Next to the contract, not inside a skill.
+
+## Base rules
+- A bot is a folder you open. Do not wrap it as a plugin. Packaging is crystallization: unpacking
+  rebuilds `lore-ecosistema/`.
+- The bot **proposes** criteria; it never writes them without approval.
+- `git push` only when the user asks.
+```
+
+```markdown
+# FASES.md — {{PROJECT_TITLE}}
+
+> Bot state and plan. NOT Lore. Rewritten as phases advance.
+
+## Current phase: {{INITIAL_PHASE}}
+
+## Phase map
+1. Criteria available — the project this bot will work on already has distilled Lore.
+2. Canon — what the bot always loads, with its boundary written. Lives in `canon/`, next to the contract.
+3. Routing — which Lore answers which kind of task.
+4. Contract — the bot's behaviour and first-use configuration.
+5. Crystallize if it must travel — do not wrap it as a plugin. Unpacking rebuilds `lore-ecosistema/`.
+6. Premiere — a short instruction produces a deliverable; recorded verbatim.
+
+## Log
+- {{DATE}} — bot scaffolded.
+```
