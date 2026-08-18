@@ -127,6 +127,7 @@ test("el piso de _starter/ vive en las skills que lo escriben", () => {
   assert.match(area, /never `HARD-GATE`/);
   assert.match(area, /Packaging is crystallization/);
   assert.match(area, /A `bots` starter points at `canon\/`/);
+  assert.match(area, /travesia\.html/);
 
   assert.match(project, /starter \*\*floor\*\*/);
   assert.match(project, /hand back to `create-bot`/);

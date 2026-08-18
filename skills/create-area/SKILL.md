@@ -138,6 +138,11 @@ another person's Notion bases, house style or corpus into the kit. Every `_start
   the area's stack/conventions and `{{TOKENS}}` for the project's own name/description. Adapted from
   the area's `identidad.md`/`principios.md`. **If this area is `bots`** (or `create-bot` sent you
   here), write the **bot variant** below, not the project one.
+- `_starter/travesia.html` — the **campaign map** for a large piece of work (many trees, many
+  thresholds). `FASES.md` is the state at each stop; this file is the voyage. Stamp it into the
+  area root and into every project. The same map is used from an area, a project **without a bot**,
+  or a bot. Art, if any, lives in `_starter/assets/` and is referenced by relative path — do not
+  invent a second copy of the pictures in each project.
 - `_starter/FASES.md` — the **project** phases template: the typical phase map for a project in this
   domain (a web project's Research→Design→Build differs from a research project's phases). For
   `bots`, the map includes crystallize-if-it-must-travel, not a plugin-wrap phase.

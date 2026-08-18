@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TravesÃ­a â€” plugins · lore-plugin</title>
+<style>
+  :root {
+    --bg: #0B0B12;
+    --surface: #14141F;
+    --surface-2: #1B1A28;
+    --text: #EDEBF2;
+    --muted: #8E89A0;
+    --faint: #625D74;
+    --border: #262336;
+    --accent: #FF557A;
+    --accent-soft: #2A1420;
+    --cyan: #22D9EE;
+    --done: #5FBF97;
+    --mono: ui-monospace, "Cascadia Code", "JetBrains Mono", "SF Mono", Consolas, monospace;
+    --sans: system-ui, "Segoe UI Variable Text", "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { background: var(--bg); }
+  body {
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0 0 4rem;
+    -webkit-font-smoothing: antialiased;
+  }
+  .hero {
+    position: relative;
+    min-height: 22rem;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+    background:
+      linear-gradient(90deg, var(--bg) 28%, rgba(11,11,18,.55) 52%, transparent 72%),
+      #0B0B12 url("../../_starter/assets/01-portada.png") right center / cover no-repeat;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 5rem;
+    background: linear-gradient(transparent, var(--bg));
+    pointer-events: none;
+  }
+  .wrap { max-width: 62rem; margin: 0 auto; padding: 0 1.25rem; }
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    padding: 3.2rem 0 2.4rem;
+    max-width: 36rem;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: .72rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin: 0 0 .85rem;
+  }
+  h1 {
+    font-family: var(--mono);
+    font-size: clamp(2.1rem, 6vw, 3.3rem);
+    font-weight: 700;
+    letter-spacing: -.03em;
+    margin: 0 0 .7rem;
+    text-wrap: balance;
+  }
+  .lede { color: var(--muted); max-width: 52ch; margin: 0 0 1.4rem; }
+  .meter { display: flex; flex-direction: column; gap: .55rem; max-width: 34rem; }
+  .meter-track {
+    height: 6px; border-radius: 99px; background: var(--surface-2);
+    overflow: hidden; border: 1px solid var(--border);
+  }
+  .meter-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--cyan), var(--accent));
+  }
+  .meter-labels {
+    display: flex; justify-content: space-between; gap: 1rem;
+    font-family: var(--mono); font-size: .74rem; color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .body { display: flex; flex-direction: column; gap: 2.6rem; padding-top: 2.4rem; }
+  .block { display: flex; flex-direction: column; gap: .85rem; }
+  .block.now-block {
+    padding: 1.1rem 1.1rem 1.2rem;
+    border: 1px solid #1a3a40;
+    border-radius: 12px;
+    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+  }
+  .block.now-block::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 0 38%;
+    background: url("../../_starter/assets/07-upgrade.png") right center / cover no-repeat;
+    opacity: .38;
+    pointer-events: none;
+  }
+  .block.now-block::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--surface) 36%, rgba(20,20,31,.72) 58%, rgba(20,20,31,.35) 100%);
+    pointer-events: none;
+  }
+  .block-head { display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap; }
+  .block-head h2 {
+    font-family: var(--mono); font-size: 1rem; font-weight: 700;
+    letter-spacing: .01em; margin: 0;
+  }
+  .tally {
+    font-family: var(--mono); font-size: .74rem; color: var(--faint);
+    font-variant-numeric: tabular-nums;
+  }
+  .block-head, ol.steps { position: relative; z-index: 1; }
+  ol.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+  li.step {
+    display: grid;
+    grid-template-columns: 2.2rem 1.4rem 1fr;
+    gap: .7rem;
+    align-items: start;
+    padding: .72rem .9rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+  }
+  li.step.now { border-color: var(--accent); background: var(--accent-soft); }
+  li.step.done { background: var(--surface); }
+  li.step.later { background: transparent; border-style: dashed; }
+  .num {
+    font-family: var(--mono); font-size: .8rem; color: var(--faint);
+    font-variant-numeric: tabular-nums; padding-top: .12rem;
+  }
+  .box { font-family: var(--mono); font-size: .95rem; line-height: 1.3; padding-top: .05rem; }
+  .done .box { color: var(--done); }
+  .now .box { color: var(--accent); }
+  .later .box { color: var(--faint); }
+  .what { display: flex; flex-direction: column; gap: .2rem; min-width: 0; }
+  .what > span:first-child { text-wrap: pretty; }
+  .done .what > span:first-child { text-decoration: line-through; text-decoration-thickness: 1px; color: var(--muted); }
+  .now .what > span:first-child { font-weight: 600; }
+  .meta { font-family: var(--mono); font-size: .74rem; color: var(--faint); }
+  .gate {
+    display: inline-block; font-family: var(--mono); font-size: .66rem;
+    letter-spacing: .08em; text-transform: uppercase;
+    padding: .08rem .4rem; border-radius: 4px; margin-left: .4rem;
+    border: 1px solid var(--accent); color: var(--accent); vertical-align: .08em;
+  }
+  a { color: var(--cyan); }
+  code {
+    font-family: var(--mono); font-size: .88em;
+    background: var(--surface-2); padding: .1em .35em; border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+  .meta code { background: none; border: none; padding: 0; }
+  @media (max-width: 40rem) {
+    .hero { min-height: 18rem; background-position: 72% center; }
+    .hero-inner { max-width: 100%; padding-top: 2.2rem; }
+    li.step { grid-template-columns: 1.8rem 1.2rem 1fr; gap: .5rem; }
+    .block.now-block::before { inset: 0; opacity: .22; }
+    .block.now-block::after { background: linear-gradient(180deg, rgba(20,20,31,.82), rgba(20,20,31,.55)); }
+  }
+</style>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="hero-inner">
+      <p class="eyebrow">plugins · lore-plugin</p>
+      <h1>TravesÃ­a</h1>
+      <p class="lede">
+        El mapa de un trabajo grande. <code>FASES.md</code> es el estado en cada parada; esto es el rumbo. Un pÃ¡rrafo es un pÃ¡rrafo. Se usa igual desde un Ã¡rea, un proyecto o un bot.
+      </p>
+      <div class="meter">
+        <div class="meter-track"><div class="meter-fill"></div></div>
+        <div class="meter-labels">
+          <span>0 de 0 Â· sin campaÃ±a abierta</span>
+          <span>reescribe los bloques cuando el trabajo sea grande</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+<div class="body">
+
+  <section class="block now-block">
+    <div class="block-head"><h2>CampaÃ±a actual</h2><span class="tally">0 / 1</span></div>
+    <ol class="steps">
+      <li class="step now"><span class="num">01</span><span class="box">â†’</span><span class="what"><span>Escribe el rumbo <span class="gate">ahora</span></span><span class="meta">una campaÃ±a grande: varios Ã¡rboles, varios umbrales, un solo mapa</span></span></li>
+    </ol>
+  </section>
+
+</div>
+</div>
+

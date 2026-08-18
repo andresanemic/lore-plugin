@@ -360,8 +360,12 @@ mkdir -p "$DEST/canon" "$DEST/lore"
   .claude/
     settings.local.json  → federar only; GENERATED; local, never committed
   lore-ecosistema/       → ONLY if the copy is on (§7); the synchronized copy
-  FASES.md · {{CONTRACT_FILE}} · .gitignore
+  FASES.md · travesia.html · {{CONTRACT_FILE}} · .gitignore
 ```
+
+If the area starter has `travesia.html`, **copy it** and resolve `{{TOKENS}}`. Point its art at
+`../../_starter/assets/`. `FASES.md` is state; `travesia.html` is the map of a large campaign.
+A project in an area without a bot uses the same file — this is not a bot extra.
 
 The bot's behaviour (§6) lives once in `{{CONTRACT_FILE}}`. The selected host loads it directly.
 Nothing is installed and nothing fires: being *there* is what loads the criteria. Do not create the
