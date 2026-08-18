@@ -57,7 +57,7 @@ tener el árbol de Git limpio antes de escribir, para que la migración aterrice
 > **Desde v1.2.1 hay un cuarto modo, `upgrade`.** No migra nada: pone al día un Lore que **ya está
 > en el estándar** pero se escribió contra una versión anterior de estos skills. Si tu proyecto ya
 > migró y solo quieres incorporar lo que el kit aprendió después, ese es el modo, y no `add`.
-> **Desde 2.1.4** ese modo sabe subir un árbol o un ecosistema sin releerlo entero: mapa de git primero, cabecera de índice en vez de reescribir filas, `HARD-GATE` de oficio dejado, umbral por clase en una campaña.
+> **Desde 2.1.4** ese modo sabe subir un árbol o un ecosistema sin releerlo entero: mapa de git primero, cabecera de índice en vez de reescribir filas, `HARD-GATE` vivo a umbral, umbral por clase en una campaña.
 
 > **El quinto modo es `crystallize`.** No es una migración: exporta una fotografía Markdown segura y
 > trazable para un destino que no puede navegar el árbol vivo. La fotografía se puede extraer de

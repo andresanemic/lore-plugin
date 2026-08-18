@@ -405,7 +405,7 @@ complete one**, and every row reads fine on its own.
 
 **On a long index, write the format in one line at the top and leave the old rows.** Rewriting every row is a format pass, not an upgrade: it dominates the diff and does not change a decision. Aligning a short index this pass is already touching is allowed. The next pass arbitrates against the written header, not a majority vote among the rows.
 
-**`HARD-GATE` is not always the kit's threshold.** Rename it to the current word only where it still commands the *kit's* gate. Where it names this project's own approval step, a historical record, or another skill's gate, that is `Earned` — leave it and write why in `FASES.md`. The same split applies to a superseded mode name (`TRANSPLANT` → `GRAFT` and the next one): rename where the text commands in the present; leave the dated record.
+**In a live `.md` that still commands, say threshold (`umbral`), not `HARD-GATE`.** Rename it in `lore/`, the contract and `FASES.md` wherever the sentence still governs a present decision — including this project's own approval step. Leave a dated record, a published version note, a bench fixture, and another skill's `DESIGN.md`. The cut is present vs dated (or vs another kit), not kit vs craft. The same split applies to a superseded mode name (`TRANSPLANT` → `GRAFT` and the next one).
 
 **A missing `identidad.md` or `principios.md` is ADD, not UPGRADE.** Report it. Do not invent the file to complete the six-piece standard.
 

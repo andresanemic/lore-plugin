@@ -342,7 +342,7 @@ No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene se
   afectados y sin tocar estructura, código ni significado.
 - `upgrade` – **(v1.2.1; campaña 2.1.4)** pone al día un Lore sano escrito contra una versión anterior de estos
   skills. No está roto: está en el estándar y en uso, y le faltan las puertas que el kit aprendió
-  después. Arbitra lo que ya existe contra la versión instalada. Sobre un árbol o un ecosistema: primero el mapa (gits, dónde vive `lore/`, qué contrato se carga), después el grep; no reescribe un índice largo ni convierte en umbral el `HARD-GATE` de un oficio.
+  después. Arbitra lo que ya existe contra la versión instalada. Sobre un árbol o un ecosistema: primero el mapa (gits, dónde vive `lore/`, qué contrato se carga), después el grep; no reescribe un índice largo; en un `.md` vivo que manda, `HARD-GATE` pasa a umbral.
 - `prune` – **(2.1.0)** quita **peso** a un Lore que se degradó acumulando cosas que por separado son
   correctas. No es lo mismo que `clean`: `clean` quita *duplicados*, `prune` quita criterio que no
   está duplicado, no está mal y no está superado, y cuyo único defecto es seguir ahí. Es el único
@@ -367,7 +367,7 @@ hallazgos sin ningún `Earned` en un Lore con historia es señal de que el pase 
 formateador. Además: la confianza **nunca** sube por antigüedad —una conjetura que sobrevivió tres
 versiones sigue siendo conjetura— y una frontera ausente se **pregunta**, no se infiere.
 
-**Desde 2.1.4, el upgrade de un árbol (o de varios) no se lee entero.** Se nombra primero dónde está cada git y cada `lore/`. Un `HARD-GATE` que nombra el paso de *ese* oficio se deja. Un índice largo recibe la cabecera del formato y no se reescribe fila por fila. Falta `identidad.md` es ADD, no este modo. En una campaña, el umbral es por clase: el primer árbol la muestra; los siguientes la aplican.
+**Desde 2.1.4, el upgrade de un árbol (o de varios) no se lee entero.** Se nombra primero dónde está cada git y cada `lore/`. En `lore/`, contrato y `FASES` que mandan hoy, `HARD-GATE` se dice umbral. El registro fechado se deja. Un índice largo recibe la cabecera del formato y no se reescribe fila por fila. Falta `identidad.md` es ADD, no este modo. En una campaña, el umbral es por clase: el primer árbol la muestra; los siguientes la aplican.
 
 **`Stale` es el que ninguna lectura encuentra**, y por eso se detecta contra el repositorio —los
 commits recientes y los entregables reales que ese módulo gobierna— y nunca releyendo. Un artefacto

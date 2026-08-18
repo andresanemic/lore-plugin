@@ -337,7 +337,7 @@ It is not a CLI command: the mode is inferred from the phrase, not from a flag. 
   affected links and without touching structure, code, or meaning.
 - `upgrade` – **(v1.2.1; campaign 2.1.4)** bring a healthy Lore up to date when it was written against an older
   version of these skills. Nothing is broken: it is in the standard and in use, and it lacks the
-  gates the kit learned afterwards. It arbitrates what already exists against the installed version. On a tree or an ecosystem: map first (git roots, where `lore/` lives, which contract is loaded), then grep; it does not rewrite a long index or turn another craft's `HARD-GATE` into the kit's threshold.
+  gates the kit learned afterwards. It arbitrates what already exists against the installed version. On a tree or an ecosystem: map first (git roots, where `lore/` lives, which contract is loaded), then grep; it does not rewrite a long index; in a live `.md` that still commands, `HARD-GATE` becomes threshold.
 - `prune` – **(2.1.0)** remove **weight** from a Lore that decayed by accumulating things that are
   each individually correct. Not the same as `clean`: `clean` removes *duplicates*, `prune` removes
   criteria that is not duplicated, not wrong and not superseded, and whose only defect is still being
@@ -362,7 +362,7 @@ no `Earned` entries in a Lore with real history means the pass is being run as a
 confidence **never** rises with age — a conjecture that survived three versions is still a conjecture
 — and a missing boundary is **asked for**, never inferred.
 
-**Since 2.1.4, upgrading a tree (or several) is not a full read.** Name every git root and every `lore/` first. A `HARD-GATE` that names *that* craft's approval step is left. A long index gets a format header; its rows are not rewritten. A missing `identidad.md` is ADD, not this mode. In a campaign the threshold is per class: the first tree shows it; later trees apply it.
+**Since 2.1.4, upgrading a tree (or several) is not a full read.** Name every git root and every `lore/` first. In live `lore/`, contract and `FASES` that still command, `HARD-GATE` is said as threshold. A dated record is left. A long index gets a format header; its rows are not rewritten. A missing `identidad.md` is ADD, not this mode. In a campaign the threshold is per class: the first tree shows it; later trees apply it.
 
 **`Stale` is the one no reading finds**, which is why it is detected against the repository — the
 recent commits and the actual deliverables the module governs — and never by re-reading. An artifact

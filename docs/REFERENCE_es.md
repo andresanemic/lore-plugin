@@ -391,7 +391,7 @@ uno. Los pendientes de extracción se redactan por **contenido, no por extensió
    revisión.
 5. Presentar el umbral completo, escribir solo tras aprobación, y registrar la versión a la que se
    actualizó en `FASES.md` — no en el Lore. **No commitea.**
-6. **Desde 2.1.4, un árbol se mapea antes de leerse** (gits, dónde vive `lore/`, qué contrato se carga). El índice largo se repara por cabecera, no por filas. `HARD-GATE` de un oficio es `Earned`. Falta `identidad.md`/`principios.md` es ADD. En una campaña el umbral es por clase, no por árbol. La bandeja se cuenta; no se mina salvo que restrinja esta pasada.
+6. **Desde 2.1.4, un árbol se mapea antes de leerse** (gits, dónde vive `lore/`, qué contrato se carga). El índice largo se repara por cabecera, no por filas. En un `.md` vivo que manda, `HARD-GATE` se dice umbral. Falta `identidad.md`/`principios.md` es ADD. En una campaña el umbral es por clase, no por árbol. La bandeja se cuenta; no se mina salvo que restrinja esta pasada.
 
 **Proceso — modo `prune` (conceptual):**
 

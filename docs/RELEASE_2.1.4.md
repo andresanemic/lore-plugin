@@ -9,7 +9,7 @@ This number is **2.1.4**, not 2.2. 2.2 stays free. There is no tag and no Releas
 ## What 2.1.4 changes
 
 - UPGRADE maps the tree before it reads a module. A work session with no `lore/` beside it is not «no Lore» if the body lives in the parent.
-- `HARD-GATE` becomes the kit's threshold only where it still commands the kit. A craft's own approval step is `Earned`.
+- In a live `.md` that still commands, `HARD-GATE` is said as threshold. Dated records and another skill's files stay.
 - A superseded mode name is renamed in the present tense; dated records stay.
 - A long index gets a format header. Its rows are not rewritten on that pass.
 - A missing `identidad.md` or `principios.md` is ADD, reported, not invented.
@@ -37,7 +37,7 @@ El número es **2.1.4**, no 2.2. El 2.2 sigue suelto. No hay tag ni Release hast
 ## Qué cambia en la 2.1.4
 
 - UPGRADE mapea el árbol antes de leer un módulo. Una sesión de trabajo sin `lore/` al lado no es «sin Lore» si el cuerpo vive en el padre.
-- `HARD-GATE` se vuelve umbral del kit solo donde todavía manda el kit. El paso de aprobación de un oficio es `Earned`.
+- En un `.md` vivo que manda, `HARD-GATE` se dice umbral. El registro fechado y los archivos de otra skill se dejan.
 - Un nombre de modo superado se renombra en presente; el registro fechado se deja.
 - Un índice largo recibe cabecera de formato. Sus filas no se reescriben en esa pasada.
 - Falta `identidad.md` o `principios.md` es ADD, se reporta, no se inventa.
