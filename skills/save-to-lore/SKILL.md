@@ -45,12 +45,13 @@ failure state of GRAFT, not its output.
 | **CAPTURE** (default) | **lived friction** — a bug, a collapse, a client rejection | The scar. Everything below (threshold, routing, promotion) is written for this mode. |
 | **GRAFT** | **imported criteria** — a skill, a style guide, a third-party playbook, **another kit's constitution or governing document** | Criteria already distilled **by someone else, under someone else's purpose**, arriving with no validity boundary declared. |
 
-> **Why it is called grafting, and the metaphor is load-bearing.** What grew well in another
-> soil does not necessarily take in this one. A graft nobody watches is a dead plant with good
-> intentions: you say what took and what did not. This mode is the exact counterpart of
-> `transmute-lore` PRUNE — **pruning removes what the plant grew on its own; grafting judges
-> what came from outside.** Those are the two passes of a maintained Lore, and having one without the
-> other is why a body of criteria either bloats or ossifies.
+> **Why it is called grafting, and the metaphor is load-bearing.** A graft is foreign tissue bound
+> to a rootstock that is already alive: it takes root or it is rejected, and what grows afterwards
+> belongs to the host. A graft nobody watches is deadwood tied to a healthy tree: you say what took
+> root and what did not. This mode is the exact counterpart of `transmute-lore` PRUNE — **pruning
+> removes what the plant grew on its own; grafting judges what came from outside.** Those are the
+> two passes of a maintained Lore, and having one without the other is why a body of criteria either
+> bloats or ossifies.
 
 > **The law of GRAFT: an external body of criteria is not distilled — it is arbitrated.** Only
 > what survives the collision with **this** Entre's purpose enters the Lore, and the record must

@@ -183,7 +183,7 @@ Use `create-project` whenever you start a new codebase inside an existing Area.
 | **CAPTURE** (default) | lived friction (bug, collapse, client rejection) | Distills the scar into an Invariant Clue. Everything described below refers to this mode. |
 | **GRAFT** | imported criteria (a *skill*, a style guide, a third-party playbook, **another kit's constitution or governing document**) | **Judges** that criteria against the project's purpose. Only what survives gets in. |
 
-> **Why "graft".** A graft is foreign tissue bound to a rootstock that is already alive: **it takes or
+> **Why "graft".** A graft is foreign tissue bound to a rootstock that is already alive: **it takes root or
 > it is rejected**, and what grows afterwards belongs to the host. A graft nobody checks is deadwood
 > tied to a healthy tree — you say what took and what did not. It is the exact counterpart of
 > `transmute-lore` PRUNE: pruning removes what the plant grew on its own, grafting judges what came

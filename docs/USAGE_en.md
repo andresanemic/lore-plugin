@@ -238,7 +238,7 @@ guide, or another kit's governing document).
 
 > *Renamed in 2.1.1: through 2.0.9 the second mode was called `arbitrate`, and in 2.1 `transplant`.
 > Same law, same four gates — the new name says what the operation is. A graft is foreign tissue
-> bound to a living rootstock: it takes or it is rejected, and what grows afterwards belongs to the
+> bound to a living rootstock: it takes root or it is rejected, and what grows afterwards belongs to the
 > host. A graft nobody checks is deadwood tied to a healthy tree.*
 
 #### `capture` mode (default) — the scar

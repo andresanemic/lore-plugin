@@ -401,7 +401,7 @@ It has **two modes**, chosen by where the criteria comes from:
 >
 > **What the source loses is worth more than what it offers:** the summary already exists, better written, in the source. The disagreement exists nowhere else.
 
-> **Why "graft", and the metaphor is load-bearing.** A graft is foreign tissue bound to a rootstock that is already alive: it takes or it is rejected, and what grows afterwards belongs to the host. A graft nobody checks is deadwood tied to a healthy tree — you say what took and what did not. It is the exact counterpart of `prune` — **pruning removes what the plant grew on its own, grafting judges what came from outside.** Those are the two passes of a maintained Lore, and having one without the other is why a body of criteria either bloats or ossifies.
+> **Why "graft", and the metaphor is load-bearing.** A graft is foreign tissue bound to a rootstock that is already alive: it takes root or it is rejected, and what grows afterwards belongs to the host. A graft nobody checks is deadwood tied to a healthy tree — you say what took root and what did not. It is the exact counterpart of `prune` — **pruning removes what the plant grew on its own, grafting judges what came from outside.** Those are the two passes of a maintained Lore, and having one without the other is why a body of criteria either bloats or ossifies.
 >
 > *Renamed in 2.1.1: through 2.0.9 this mode was called `arbitrate`, and in 2.1 `transplant`. Same law, same four gates. The name changed because a transplant moves a plant without changing it, and this mode changes what it lets in — a distinction a chemist made out loud the first time somebody outside this project read the docs.*
 
@@ -1179,7 +1179,7 @@ El flujo que usarás todos los días. Resuelves algo que costó y escribes «gua
 
 > **Un criterio ajeno no se destila, se arbitra.** Una skill es criterio destilado por otro, bajo otra finalidad, y llega sin declarar dónde deja de valer. Por eso `graft` exige registrar **dónde la fuente contradice tu estándar y pierde**: sin esa sección no entra. Lo que la fuente pierde vale más que lo que aporta — el resumen ya existe, mejor escrito, en la fuente.
 
-> **Por qué «injerto», y la metáfora es estructural.** Un injerto es tejido ajeno unido a un patrón que ya está vivo: prende o es rechazado, y lo que crece después pertenece al huésped. Un injerto que nadie mira es madera muerta atada a un árbol sano — hay que decir qué prendió y qué no. Es la contraparte exacta de `prune` — **la poda quita lo que la planta creció sola, el injerto juzga lo que vino de afuera.** Son los dos pases de un Lore mantenido, y tener uno sin el otro es por qué un cuerpo de criterio se hincha o se osifica.
+> **Por qué «injerto», y la metáfora es estructural.** Un injerto es tejido ajeno unido a un patrón que ya está vivo: echa raíces o es rechazado, y lo que crece después pertenece al huésped. Un injerto que nadie mira es madera muerta atada a un árbol sano — hay que decir qué logró crecer y qué no. Es la contraparte exacta de `prune` — **la poda quita lo que la planta creció sola, el injerto juzga lo que vino de afuera.** Son los dos pases de un Lore mantenido, y tener uno sin el otro es por qué un cuerpo de criterio se hincha o se osifica.
 >
 > *Renombrado en 2.1.1: hasta la 2.0.9 este modo se llamaba `arbitrate` y en la 2.1 `transplant`. Misma ley, mismas cuatro puertas. Cambió el nombre porque un trasplante mueve una planta sin cambiarla, y este modo cambia lo que deja entrar.*
 
