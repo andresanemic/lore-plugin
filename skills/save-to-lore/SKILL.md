@@ -215,6 +215,8 @@ promotion to the area. Never write the area silently.
    - A law/standard → the project layer of `principios.md` / `identidad.md` (see routing table).
 3. Write the full entry in that file, and one line in the project's `lore/index.md` with the index
    format: `` `domain` · symptom · confidence · [file](file) ``.
+   **A paragraph is a paragraph** (kit invariant in `use-lore`): the clue's prose runs to the
+   period, not to column 80. Do not hard-wrap mid-sentence.
    - Confidence **`conjecture`** by default; **`confirmed`** only after real validation — the running
      app where there is one, and otherwise the corpus behaving the way the clue predicted.
      **Honest confidence:** never inflate to `confirmed` just to force a promotion.
@@ -343,4 +345,6 @@ does not happen. Two rules govern it:
   corpus struck through and dated if it is not edited.
 - **Honest confidence:** `confirmed` only after real validation; never inflated to force promotion.
 - **Discarded noise is reported**, not silently dropped.
+- **A paragraph is a paragraph.** Continuous prose in the clue, the index line's surrounding file
+  and any law written here runs to the period, not to column 80. Full statement in `use-lore`.
 - **No auto-commit, no push.** The user reviews and decides.

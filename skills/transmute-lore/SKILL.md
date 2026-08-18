@@ -185,6 +185,8 @@ Wait for explicit approval before writing.
 Create the artifacts, slim the instruction contract to pointers, build/update `index.md`. **Do not overwrite old
 `lore/` without surfacing discrepancies**: if old content contradicts current code or the user's
 words, report it instead of proceeding blind.
+**A paragraph is a paragraph** (kit invariant in `use-lore`): continuous prose in `lore/`, the
+contract and `FASES.md` runs to the period, not to column 80. Do not hard-wrap mid-sentence.
 
 ### Phase 7 — Final report
 Summarize: what was transmuted (by artifact), what was discarded as noise (justified), and the diff
@@ -428,13 +430,15 @@ Re-check `git status` now. Require a clean tree before the first write so the up
 reviewable diff. If it is dirty, keep the approved findings intact, report the blocker and stop
 before modifying anything; do not force the user to repeat the diagnosis.
 
-Apply the accepted findings. Two limits that do not move:
+Apply the accepted findings. Three limits that do not move:
 
 - **Confidence is never raised.** A `conjecture` that survived three versions is still a conjecture:
   time is not validation. Only real friction promotes it.
 - **A missing boundary is asked, never inferred.** The boundary says where the clue stops being
   true, and that is knowledge from whoever lived it. If the user does not know it either, the clue
   is marked as boundary-less rather than given a plausible one.
+- **A paragraph is a paragraph** (kit invariant in `use-lore`). Prose written or rewritten in this
+  phase is not hard-wrapped at column 80. Do not unwrap a file this pass is not already touching.
 
 ### Phase 5 — Final report
 
@@ -772,6 +776,9 @@ The extract folder is a derived tree, not a second Lore. Do not write it back ov
 - **Free notes survive transmutation.** A `notas/` / `notes/` inbox is mined by `obsidian-lore`,
   receives traceable frontmatter, and remains in place. No transmute mode deletes it as cleanup.
 - **Do not overwrite old lore/docs without surfacing discrepancies** with code or the description.
+- **A paragraph is a paragraph.** Continuous prose in `lore/`, the contract and `FASES.md` runs to
+  the period, not to column 80. Full statement and boundary live in `use-lore`; this skill is the
+  one that writes, so the rule is here too.
 - **Threshold**: present the mapping with content in view and wait for approval before writing.
 - **Do not auto-commit the target project.** The user reviews the diff and decides.
 - **CLEAN never deletes `identidad.md` / `principios.md` / `index.md`** — only thematic modules, and

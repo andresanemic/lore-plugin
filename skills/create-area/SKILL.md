@@ -159,6 +159,8 @@ critical paths, not a generic mold.
 - The area carries a **domain-tuned `_starter/`** (project templates + optional code scaffold);
   `create-project` stamps from it, never from a global/hardcoded starter. This is what keeps the kit
   path-agnostic.
+- **A paragraph is a paragraph** (kit invariant in `use-lore`): generated `lore/`, contract and
+  `FASES.md` are not hard-wrapped at column 80.
 - The area is NOT auto-committed. The user decides.
 - This skill creates the area clean; it does NOT move or adopt existing projects.
 - **A derived area returns to its caller.** This skill is a **step** inside `create-bot` and

@@ -422,6 +422,13 @@ with `transmute-lore` (TRANSLATE mode), which translates content and renames art
   > of the run; what the artifacts are worth arrives months later, the first time someone reads the
   > clue. A run that scores well has declared its boundaries. It has not shown they were worth
   > declaring — and a kit that publishes a benchmark figure cannot let those two be the same number.
+- **A paragraph is a paragraph.** Continuous prose in `lore/`, the instruction contract and
+  `FASES.md` runs to the period, not to column 80. Lists, tables, headings and code blocks keep
+  their shape. Only rewrite a file the pass already has to touch — unwrapping a whole tree is a
+  format pass, not an upgrade. This does not govern published version notes, bench fixtures,
+  verbatim quotations, or the wrap inside these `SKILL.md` files (that last one is a version
+  decision). `create-bot` already required this of a packaged README; the same rule now covers
+  every artifact these skills write.
 - **No automatic commits.** The user reviews the diff and commits when they choose.
 - **State ≠ criteria.** `FASES.md` never lives inside `lore/`.
 - **A note is source, never criteria.** Free notes are never loaded as if they were Lore; they cross

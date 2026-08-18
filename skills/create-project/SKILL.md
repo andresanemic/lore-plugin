@@ -247,4 +247,6 @@ grep -rn '{{[A-Z_]\+}}' "$DEST" && echo "UNRESOLVED TOKENS" || echo "OK no token
   area's established names win inside its tree, and a language clash with the area is flagged —
   never resolved silently.
 - No data, figures or deliverables are invented: they are derived from the source.
+- **A paragraph is a paragraph** (kit invariant in `use-lore`): generated `lore/`, contract and
+  `FASES.md` are not hard-wrapped at column 80.
 - The project is NOT auto-committed. The user decides.

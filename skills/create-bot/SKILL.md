@@ -1090,4 +1090,7 @@ say the configuration is superfluous: it says the configuration is not evidence 
   selected contract is delivering it.
 - **The passphrase never enters the chat.** stdin only — never an argument, never pasted. What
   enters a model's context does not come back out.
+- **A paragraph is a paragraph** (kit invariant in `use-lore`). Canon, `lore/`, contract and
+  `FASES.md` are not hard-wrapped at column 80. The packaged README already had this floor; it now
+  covers every artifact this skill writes.
 - The bot **proposes** criteria; the human writes it. Nothing is auto-committed.
