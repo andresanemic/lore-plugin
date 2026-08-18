@@ -29,7 +29,7 @@ The Lore plugin exposes eight main skills through compatible AI agents:
 
 | Skill            | Purpose                                     | Typical trigger phrase                                |
 |------------------|---------------------------------------------|------------------------------------------------------|
-| `use-lore`       | Entry point, navigation, and help           | Read first; triggers when "lore" is mentioned or a new Area/project starts |
+| `use-lore`       | Entry point, navigation, and help           | Read first; triggers when "lore" is mentioned or a new Area, project or bot starts |
 | `brainstorming-lore` | Design Lore-specific changes without taking over general brainstorming | "brainstorm this Lore", or invoked by an artifact-owning Lore skill |
 | `create-area`    | Create a new Area with shared Lore          | "create a work area for Frontend", "I want to start working on X with Lore" |
 | `create-project` | Create a project inheriting an Area         | "create a project Marketing Site in area Frontend Development" |
@@ -77,6 +77,7 @@ triggers documented in each skill's `SKILL.md`.
 - “Explain the Lore structure for this repository.”
 - “What artifacts exist for this project?”
 - “Which skill should I use to capture a new invariant?”
+- “I want to create a bot for X and Y.”
 
 Use `use-lore` whenever you are unsure where to start.
 
@@ -609,8 +610,8 @@ canon and broken paths, so passing it proves nothing about whether the bot works
 
 A bot with none of the five is complete.
 
-Use `create-bot` once you have several projects with Lore worth carrying into a single work session.
-It does not substitute for building that Lore: it federates it.
+Use `create-bot` when you want one session that works across several projects — including from zero.
+If the sources have no Lore yet, the skill orchestrates the chain (`create-area` → `transmute-lore` add → `create-bot`); it does not require Lore to already exist. When the Lore is already there, it federates it. The bot never substitutes for building that Lore in the Area that owns it.
 
 ---
 

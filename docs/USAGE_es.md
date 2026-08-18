@@ -519,8 +519,10 @@ Cinco extras son opcionales y están apagados por defecto: **la copia del ecosis
 multiproveedor** y **empaquetarlo como plugin compartible**. Un bot sin ninguno de los cinco está
 completo.
 
-Usa este skill cuando ya tengas varios proyectos con Lore que valga la pena llevar a una sola sesión.
-No sustituye construir ese Lore: lo federa.
+Usa este skill cuando quieras una sola sesión que trabaje sobre varios proyectos — también desde
+cero. Si las fuentes aún no tienen Lore, el skill orquesta la cadena (`create-area` → `transmute-lore`
+add → `create-bot`); no exige que el Lore exista de antemano. Cuando ya está, lo federa. El bot nunca
+sustituye construir ese Lore en el Área que lo posee.
 
 ---
 

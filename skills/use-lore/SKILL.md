@@ -267,8 +267,10 @@ never paid for will start receiving promotions that belong somewhere else.
 | Understand the system / decide which skill applies | `use-lore` (this one) |
 
 **Order of a fresh setup:** `create-area` → `create-project` → (work, saving clues with `save-to-lore`)
-→ `transmute-lore` as needed. A **bot** comes later, once several projects have Lore worth carrying
-into one session — `create-bot` federates what exists; it does not substitute for building it.
+→ `transmute-lore` as needed. A **bot** is the last step when that is the deliverable, not a
+precondition: if the sources have no Lore yet, `create-area` and `transmute-lore` add run first and
+`create-bot` runs last. `create-bot` orchestrates that chain; it does not require Lore to already
+exist, and it never substitutes for building it in the Area that owns it.
 
 **Source-side precedence:** when a request points at `notas/` or `notes/` and asks to integrate,
 extract, distill or save its contents anywhere, invoke `obsidian-lore` first. Then invoke the skill

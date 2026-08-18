@@ -29,7 +29,7 @@ El plugin Lore expone ocho skills principales a través de agentes de IA compati
 
 | Skill            | Propósito                                     | Frase disparadora típica                                   |
 |------------------|-----------------------------------------------|------------------------------------------------------------|
-| `use-lore`       | Punto de entrada, navegación y ayuda          | Se lee primero; se dispara al mencionar “lore” o al empezar una Área/proyecto |
+| `use-lore`       | Punto de entrada, navegación y ayuda          | Se lee primero; se dispara al mencionar “lore” o al empezar una Área, un proyecto o un bot |
 | `brainstorming-lore` | Diseñar cambios específicos de Lore sin apropiarse del brainstorming general | «haz brainstorming de este Lore», o la invoca una skill Lore dueña del artefacto |
 | `create-area`    | Crear una nueva Área con Lore compartido      | «crea un área de trabajo para Frontend», «quiero empezar a trabajar en X con Lore» |
 | `create-project` | Crear un proyecto que hereda de un Área       | «crea un proyecto de Sitio de marketing en el área Frontend» |
@@ -76,6 +76,7 @@ Estos skills **no son comandos de una CLI**: son *skills* del agente que se disp
 - «Explícame la estructura de Lore de este repositorio.»
 - «¿Qué artefactos existen para este proyecto?»
 - «¿Qué skill debería usar para capturar una nueva pista invariante?»
+- «Quiero crear un bot para X e Y.»
 
 Usa `use-lore` siempre que no tengas claro dónde empezar.
 
@@ -605,8 +606,10 @@ rutas rotas, así que pasarla no prueba nada sobre si el bot funciona. El bot se
 
 Un bot sin ninguno de los cinco está completo.
 
-Usa `create-bot` cuando ya tengas varios proyectos con Lore que valga la pena llevar a una sola
-sesión de trabajo. No sustituye construir ese Lore: lo federa.
+Usa `create-bot` cuando quieras una sola sesión que trabaje sobre varios proyectos — también desde
+cero. Si las fuentes aún no tienen Lore, el skill orquesta la cadena (`create-area` → `transmute-lore`
+add → `create-bot`); no exige que el Lore exista de antemano. Cuando ya está, lo federa. El bot nunca
+sustituye construir ese Lore en el Área que lo posee.
 
 ---
 

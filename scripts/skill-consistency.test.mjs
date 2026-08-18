@@ -82,7 +82,28 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.1.0"]));
+  assert.deepEqual(new Set(versions), new Set(["2.1.2"]));
+});
+
+test("el cierre de create-bot no exige Lore previo", () => {
+  const live = [
+    "README.md",
+    "docs/USAGE_en.md",
+    "docs/USAGE_es.md",
+    "docs/REFERENCE_en.md",
+    "docs/REFERENCE_es.md",
+    "docs/MIGRATION_en.md",
+    "docs/MIGRATION_es.md",
+    join("skills", "use-lore", "SKILL.md"),
+  ];
+  for (const file of live) {
+    const text = readFileSync(join(root, file), "utf8");
+    assert.doesNotMatch(text, /once there is Lore worth gathering/, file);
+    assert.doesNotMatch(text, /cuando ya hay Lore que reunir/, file);
+    assert.doesNotMatch(text, /A \*\*bot\*\* comes later, once several projects have Lore worth carrying/, file);
+    assert.doesNotMatch(text, /Usa `create-bot` cuando ya tengas varios proyectos con Lore/, file);
+    assert.doesNotMatch(text, /Use `create-bot` once you have several projects with Lore worth carrying/, file);
+  }
 });
 
 test("el README identifica el modelo del benchmark en ambos idiomas", () => {

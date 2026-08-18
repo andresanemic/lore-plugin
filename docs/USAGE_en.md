@@ -515,8 +515,8 @@ Five extras are optional and off by default: **the ecosystem copy**, **encryptio
 see [`ENCRYPTION.md`](./ENCRYPTION.md)), **Telegram access**, **a local multi-provider launcher**, and
 **packaging as a shareable plugin**. A bot with none of the five is complete.
 
-Use this once you have several projects with Lore worth carrying into a single session. It does not
-substitute for building that Lore: it federates it.
+Use this when you want one session that works across several projects — including from zero.
+If the sources have no Lore yet, the skill orchestrates the chain (`create-area` → `transmute-lore` add → `create-bot`); it does not require Lore to already exist. When the Lore is already there, it federates it. The bot never substitutes for building that Lore in the Area that owns it.
 
 ---
 

@@ -32,6 +32,17 @@ Una estrategia pragmática de migración es:
    - eliminar duplicaciones;
    - clarificar Pistas Invariantes.
 5. **Extender el patrón** a otros proyectos cuando la estructura se sienta sólida.
+6. **Si el destino es un bot**, esta guía es la primera mitad de la cadena, no un producto aparte.
+   Migrar es cómo las fuentes que empezaron como carpetas en bruto se vuelven Lore que `create-bot`
+   puede federar:
+
+```text
+carpeta en bruto → create-area → transmute-lore (add) → create-bot (federar)
+```
+
+`transmute-lore` es el paso de en medio. No lo saltes para destilarlo todo dentro del bot: el bot
+nunca destila hacia sí mismo. Si el Lore ya existe, ve directo a `create-bot`. Si no, quédate aquí
+hasta que cada fuente tenga Área dueña y Lore rescatado, y entonces invoca `create-bot`.
 
 ---
 

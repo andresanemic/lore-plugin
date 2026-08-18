@@ -32,6 +32,17 @@ A pragmatic migration strategy is:
    - remove duplication;
    - clarify Invariant Clues.
 5. **Expand to other projects** once the pattern feels solid.
+6. **If the destination is a bot**, this guide is the first half of the chain, not a separate
+   product. Migration is how sources that started as raw folders become Lore that `create-bot` can
+   federate:
+
+```text
+raw folder → create-area → transmute-lore (add) → create-bot (federar)
+```
+
+`transmute-lore` is the middle step. Do not skip it to distill everything into the bot: the bot
+never distills into itself. If the Lore already exists, go straight to `create-bot`. If it does
+not, stay here until each source has an owning Area and a rescued Lore, then invoke `create-bot`.
 
 ---
 
