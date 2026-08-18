@@ -182,9 +182,9 @@ Usa `create-project` siempre que arranques una nueva base de código dentro de u
 | **CAPTURE** (por defecto) | fricción vivida (bug, colapso, rechazo del cliente) | Destila la cicatriz en una Pista Invariante. Todo lo descrito abajo se refiere a este modo. |
 | **GRAFT** | criterio importado (una *skill*, una guía de estilo, un manual ajeno, **la constitución o documento de gobierno de otro kit**) | **Juzga** ese criterio contra la finalidad del proyecto. Solo entra lo que sobrevive. |
 
-> **Por qué «injerto».** Un injerto es tejido ajeno unido a un patrón que ya está vivo: **prende o es
+> **Por qué «injerto».** Un injerto es tejido ajeno unido a un patrón que ya está vivo: **echa raíces o es
 > rechazado**, y lo que crece después pertenece al huésped. Un injerto que nadie mira es madera muerta
-> atada a un árbol sano — hay que decir qué prendió y qué no. Es la contraparte exacta de
+> atada a un árbol sano — hay que decir qué logró crecer y qué no. Es la contraparte exacta de
 > `transmute-lore` PRUNE: la poda quita lo que la planta creció sola, el injerto juzga lo que vino de
 > afuera. Un Lore con uno y sin el otro se hincha o se osifica.
 >

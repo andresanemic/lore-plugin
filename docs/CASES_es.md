@@ -7,9 +7,9 @@
 
 Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía.
 
-> **Estatus:** son casos, no demostraciones. n pequeño, y **doce de las trece evidencias vienen del mismo investigador**. Restringen cómo usamos el kit; no pretenden ser una ley. El Caso 08 añade medición controlada sin eliminar esa frontera, y los Casos 09, 10, 11 y 13 son los que miden este kit contra sí mismo — el 10 usándolo un día entero contra un Lore vivo, el 11 corriendo dos de sus propias versiones cabeza a cabeza y juzgando la salida a ciegas, el 13 cristalizando bots vivos y juzgando la fotografía por si un tercero podría trabajar desde ella.
+> **Estatus:** son casos, no demostraciones. n pequeño, y **trece de las catorce evidencias vienen del mismo investigador**. Restringen cómo usamos el kit; no pretenden ser una ley. El Caso 08 añade medición controlada sin eliminar esa frontera, y los Casos 09, 10, 11, 13 y 14 son los que miden este kit contra sí mismo — el 10 usándolo un día entero contra un Lore vivo, el 11 corriendo dos de sus propias versiones cabeza a cabeza y juzgando la salida a ciegas, el 13 cristalizando bots vivos y juzgando la fotografía por si un tercero podría trabajar desde ella, el 14 subiendo un ecosistema ya instalado sin reescribir lo ganado.
 >
-> **El Caso 12 es el primero que no viene del investigador**, y por eso vale distinto: alguien de afuera instaló el kit y lo usó durante una hora. Rompe la frontera de autoría que los otros doce comparten y abre una nueva, más chica y declarada dentro del caso.
+> **El Caso 12 es el primero que no viene del investigador**, y por eso vale distinto: alguien de afuera instaló el kit y lo usó durante una hora. Rompe la frontera de autoría que los otros trece comparten y abre una nueva, más chica y declarada dentro del caso.
 
 <details>
 <summary><b>Caso 01 — El Lore como forma operativa de un proyecto entero</b></summary>
@@ -253,6 +253,26 @@ El dueño juzgó el par **en los mismos términos que el rechazo**: *esto es lo 
 **Qué cambió en el kit:** la 2.1.3 entera. La vara de CRYSTALLIZE es que un tercero pueda trabajar desde el archivo solo. `lore-ecosistema/` viaja. «Sin el ecosistema» es falla del modo, no un alcance. Cada archivo lleva `<!-- lore:extract path="..." owner="..." -->`. Extraer reconstruye una mini-raíz que espeja `raiz`, reescribe `ecosistema.json` y falla si falta un puntero. El script es `skills/transmute-lore/scripts/crystallize.mjs`.
 
 **Frontera declarada.** El mismo investigador, el mismo juez que el Caso 11, dos bots, una máquina. El veredicto es que la fotografía y el desempaque llegan a la vara del dueño — no que un extraño ya abrió la carpeta en su IA favorita y trabajó como si fuera él. Ese es el uso que el modo ahora reclama, y todavía no es un caso.
+
+</details>
+---
+
+<details>
+<summary><b>Caso 14 — Un upgrade que no reescribe lo ganado</b></summary>
+
+<br>
+
+Un ecosistema ya instalado —varias áreas, sus proyectos y al final los bots— se subió a la 2.1.4 por árboles, no carpeta por carpeta. Nada se veía roto. Faltaban el bloque siempre-activo, el vocabulario *umbral* donde aún mandaba `HARD-GATE`, y las distinciones que el kit había aprendido después de escribir esos Lore.
+
+**Lo que el modo ya sabía no bastaba.** UPGRADE sabía nombrar falta, superado, ganado y estancado. No sabía mapear tres carpetas distintas (sesión, padre, cuerpo) antes de abrir un módulo. Un sitio vivo se trabaja en una carpeta que no trae `lore/` al lado; concluir «sin Lore» es el fallo. El mapa de git y de `lore/` pasó a ser la primera fase.
+
+**El umbral de una campaña es por clase, no por árbol.** El primer árbol pagó el umbral con el contenido a la vista. Los siguientes aplicaron las clases ya aceptadas. Un índice largo se reparó por la cabecera, no reescribiendo filas. Falta `identidad.md` o `principios.md` se reportó como ADD, no se inventó. Las notas se contaron; no se minaron.
+
+**Una pista del propio kit no echa raíces si el dueño la contradice.** El test había dejado escrito que un `HARD-GATE` de oficio se deja. Al subir el resto, Andrés mandó que los `.md` vivos dejen de hablar así. La pista vieja queda `refuted`. La que manda: en lore, contrato y FASES que mandan hoy, se dice umbral. El registro fechado y el archivo de otra skill se dejan.
+
+**Qué cambió en el kit:** la 2.1.4. El procedimiento de UPGRADE (mapa primero, campaña por clase, índice por cabecera, ADD cuando faltan las piezas, bandeja contada) y el corte presente/fecha para el vocabulario. Las skills de escritura ya llevaban «un párrafo es un párrafo»; esta versión lo documenta, no lo reintroduce.
+
+**Frontera declarada.** Mismo investigador, misma máquina, un solo ecosistema. El caso muestra que el modo puede subir un árbol instalado sin dominar el diff con unwrap ni inventar criterio. No mide reaprendizaje. No es el caso científico de LUS. Los bots y el bot que escribió este caso se subieron después de absorber; no son la evidencia de que el procedimiento se aplicó a ciegas.
 
 </details>
 ---

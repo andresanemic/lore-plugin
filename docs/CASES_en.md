@@ -7,9 +7,9 @@
 
 Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. LUS documents those applications as **case studies**.
 
-> **Status:** these are cases, not proofs. Small n, and **twelve of the thirteen documented cases come from the same researcher**. What they claim constrains how we use the kit; it does not pretend to be a law. Case 08 adds controlled measurement without removing that boundary, and Cases 09, 10, 11 and 13 are the ones that measure this kit against itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head and judging the output blind, Case 13 by crystallizing live bots and judging the snapshot by whether a third person could work from it.
+> **Status:** these are cases, not proofs. Small n, and **thirteen of the fourteen documented cases come from the same researcher**. What they claim constrains how we use the kit; it does not pretend to be a law. Case 08 adds controlled measurement without removing that boundary, and Cases 09, 10, 11, 13 and 14 are the ones that measure this kit against itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head and judging the output blind, Case 13 by crystallizing live bots and judging the snapshot by whether a third person could work from it, Case 14 by raising an already-installed ecosystem without rewriting what was earned.
 >
-> **Case 12 is the first one that does not come from the researcher**, which is why it counts differently: someone outside the project installed the kit and used it for an hour. It breaks the boundary the other twelve share on authorship, and opens a smaller one that is declared inside the case.
+> **Case 12 is the first one that does not come from the researcher**, which is why it counts differently: someone outside the project installed the kit and used it for an hour. It breaks the boundary the other thirteen share on authorship, and opens a smaller one that is declared inside the case.
 
 <details>
 <summary><b>Case 01 — Lore as the operational form of an entire project</b></summary>
@@ -252,6 +252,26 @@ The owner judged the pair **in the same terms as the rejection**: *this is what 
 **What it changed in the kit:** all of 2.1.3. The yardstick of CRYSTALLIZE is that a third person can work from the file alone. `lore-ecosistema/` travels. "Without the ecosystem" is a failure of the mode, not a scope. Each inlined file carries `<!-- lore:extract path="..." owner="..." -->`. Unpacking rebuilds a mini-root that mirrors `raiz`, rewrites `ecosistema.json`, and fails if any routing pointer is missing. The script is `skills/transmute-lore/scripts/crystallize.mjs`.
 
 **Declared boundary.** Same researcher, same judge as Case 11, two bots, one machine. The verdict is that the snapshot and the unpack match the owner's bar — not that a stranger already opened the folder in their favorite AI and worked as if they were him. That is the use the mode now claims, and it is not yet a case.
+
+</details>
+---
+
+<details>
+<summary><b>Case 14 — An upgrade that does not rewrite what was earned</b></summary>
+
+<br>
+
+An already-installed ecosystem — several areas, their projects, and the bots last — was raised to 2.1.4 by area tree, not folder by folder. Nothing looked broken. What it lacked was the always-on block, the word *threshold* where `HARD-GATE` still commanded, and the distinctions the kit had learned after those Lores were written.
+
+**What the mode already knew was not enough.** UPGRADE could name missing, superseded, earned and stale. It did not know to map three different folders (session, parent, body) before opening a module. A live site is worked in a folder that does not carry `lore/` beside it; concluding «no Lore» is the failure. Mapping git roots and `lore/` became the first phase.
+
+**A campaign's threshold is per class, not per tree.** The first tree paid the threshold with content in view. Later trees applied accepted classes. A long index was repaired by its header, not by rewriting rows. A missing `identidad.md` or `principios.md` was reported as ADD, not invented. Notes were counted; they were not mined.
+
+**A clue from the kit itself does not take root if the owner contradicts it.** The test had written that a craft's `HARD-GATE` is left alone. When the rest of the trees were raised, the owner said live `.md` files must stop speaking that way. The old clue stays `refuted`. The one that commands: in lore, contract and FASES that still govern today, say threshold. A dated record and another skill's file stay.
+
+**What it changed in the kit:** all of 2.1.4. The UPGRADE procedure (map first, campaign by class, index by header, ADD when the pieces are missing, inbox counted) and the present/dated cut for vocabulary. The writing skills already carried «a paragraph is a paragraph»; this version documents it, it does not reintroduce it.
+
+**Declared boundary.** Same researcher, same machine, one ecosystem. The case shows the mode can raise an installed tree without letting unwrap dominate the diff or inventing criterion. It does not measure relearning. It is not the scientific case for LUS. The bots and the bot that wrote this case were raised after absorption; they are not evidence that the procedure was applied blind.
 
 </details>
 ---

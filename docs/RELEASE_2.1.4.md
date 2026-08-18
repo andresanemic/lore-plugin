@@ -4,7 +4,7 @@
 
 2.1.4 teaches `transmute-lore` UPGRADE how to raise an already-installed ecosystem without rewriting what was earned. The four finding kinds were already enough. What was missing was the cheap order: map git roots and `lore/` first, grep before reading, rename only where the text still commands, repair a long index by its header, and reuse accepted finding classes across a campaign.
 
-This number is **2.1.4**, not 2.2. 2.2 stays free. There is no tag and no Release until the rest of the owner's trees have been raised with this copy and their clues absorbed. Reinstall from the working directory: uninstall, install, **new session**.
+This number is **2.1.4**, not 2.2. 2.2 stays free. The remaining trees were raised with this copy; their clues were absorbed; the mass-upgrade case is Case 14. Tag and Release follow that case. After installing: **new session**.
 
 ## What 2.1.4 changes
 
@@ -20,7 +20,7 @@ A paragraph is a paragraph (already in the writing skills). This release documen
 
 ## What this is not
 
-Not a new mode. Not the public case study of the mass upgrade (that is written after the remaining trees, before any tag). Not a scientific transfer.
+Not a new mode. The public case of the mass upgrade is Case 14, in `CASES_{en,es}.md`. Not a scientific transfer.
 
 ---
 
@@ -32,7 +32,7 @@ Not a new mode. Not the public case study of the mass upgrade (that is written a
 
 La 2.1.4 enseña a `transmute-lore` UPGRADE a subir un ecosistema ya instalado sin reescribir lo ganado. Las cuatro clases de hallazgo ya alcanzaban. Lo que faltaba era el orden barato: mapear gits y `lore/` primero, grepear antes de leer, renombrar solo donde el texto aún manda, reparar un índice largo por su cabecera, y reusar las clases aceptadas en una campaña.
 
-El número es **2.1.4**, no 2.2. El 2.2 sigue suelto. No hay tag ni Release hasta que el resto de los árboles del dueño se suban con esta copia y se absorban sus pistas. Reinstalar desde el directorio de trabajo: desinstalar, instalar, **sesión nueva**.
+El número es **2.1.4**, no 2.2. El 2.2 sigue suelto. El resto de los árboles se subió con esta copia; sus pistas se absorbieron; el caso del upgrade masivo es el Caso 14. El tag y el Release van detrás de ese caso. Tras instalar: **sesión nueva**.
 
 ## Qué cambia en la 2.1.4
 
@@ -48,4 +48,4 @@ Un párrafo es un párrafo (ya está en las skills de escritura). Esta versión 
 
 ## Qué no es
 
-No es un modo nuevo. No es el caso de estudio público del upgrade masivo (se escribe después del resto de árboles, antes de cualquier tag). No es un traspaso científico.
+No es un modo nuevo. El caso público del upgrade masivo es el Caso 14, en `CASES_{en,es}.md`. No es un traspaso científico.

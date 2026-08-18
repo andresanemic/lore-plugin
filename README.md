@@ -610,7 +610,7 @@ This README covers motivation and architecture. Everything else lives in its own
 | [`REFERENCE_en.md`](./docs/REFERENCE_en.md) | Technical reference: core concepts, the exact spec for each artifact and each skill. |
 | [`MIGRATION_en.md`](./docs/MIGRATION_en.md) | How to migrate an existing project into Lore using `transmute-lore`. |
 | [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | The optional, experimental encryption for a bot's criteria: what it protects and what it does not. |
-| [`CASES_en.md`](./docs/CASES_en.md) | The thirteen case studies, each with its declared boundary. |
+| [`CASES_en.md`](./docs/CASES_en.md) | The fourteen case studies, each with its declared boundary. |
 | [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md) | Using Lore alongside GitHub's spec-kit: **which levels should have it at all** — an area no, a project the whole cycle, a bot only up to `tasks` — who governs what, and the constitution that draws the border. Optional — Lore never depends on it. |
 | [`bench/`](./bench/) | The benchmark: Web, Editorial and UPGRADE harnesses; frozen tasks; method; declared limits; and raw results. |
 
@@ -650,11 +650,11 @@ lore-plugin/
 
 ## Case studies
 
-Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. Those applications are documented as **thirteen case studies**, each with its own declared boundary. Case 08 is the controlled benchmark summarized above; Cases 09, 10, 11 and 13 turned the kit on itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head with the judging done blind, Case 13 by crystallizing live bots and unpacking the snapshot — and **Case 12 is the first install run by someone who is not the author**, which is where 2.1.1 came from.
+Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. Those applications are documented as **fourteen case studies**, each with its own declared boundary. Case 08 is the controlled benchmark summarized above; Cases 09, 10, 11, 13 and 14 turned the kit on itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head with the judging done blind, Case 13 by crystallizing live bots and unpacking the snapshot, Case 14 by raising an already-installed ecosystem — and **Case 12 is the first install run by someone who is not the author**, which is where 2.1.1 came from.
 
-> **Status:** these are cases, not proofs. Small n, and **twelve of the thirteen come from the same researcher** — Case 12 is the one that does not. What they claim constrains how we use the kit; it does not pretend to be a law. The measured claim belongs to [Case 08 and its benchmark](#benchmark); the rest are qualitative evidence.
+> **Status:** these are cases, not proofs. Small n, and **thirteen of the fourteen come from the same researcher** — Case 12 is the one that does not. What they claim constrains how we use the kit; it does not pretend to be a law. The measured claim belongs to [Case 08 and its benchmark](#benchmark); the rest are qualitative evidence.
 
-**[Read the thirteen case studies →](./docs/CASES_en.md)**
+**[Read the fourteen case studies →](./docs/CASES_en.md)**
 
 ---
 
@@ -1382,7 +1382,7 @@ El harness, las tareas congeladas, los graders, las salidas crudas y las fronter
 | [`REFERENCE_es.md`](./docs/REFERENCE_es.md) | Referencia técnica de cada artefacto y cada *skill*. |
 | [`MIGRATION_es.md`](./docs/MIGRATION_es.md) | Cómo migrar un proyecto existente con `transmute-lore`. |
 | [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | El cifrado opcional y experimental del criterio de un bot: qué protege y qué no. |
-| [`CASES_es.md`](./docs/CASES_es.md) | Los trece casos de estudio, cada uno con su frontera declarada. |
+| [`CASES_es.md`](./docs/CASES_es.md) | Los catorce casos de estudio, cada uno con su frontera declarada. |
 | [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md) | Usar Lore conviviendo con spec-kit de GitHub: **en qué niveles conviene tenerlo** — un área no, un proyecto el ciclo completo, un bot solo hasta `tasks` — quién gobierna qué, y la constitución que traza la frontera. Opcional — Lore no depende de él. |
 | [`bench/`](./bench/) | El benchmark: harnesses Web, Editorial y UPGRADE; tareas congeladas; método; fronteras declaradas; y resultados crudos. |
 
@@ -1422,11 +1422,11 @@ lore-plugin/
 
 ## Casos de estudio
 
-Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía. Esas aplicaciones están documentadas como **trece casos de estudio**, cada uno con su frontera declarada. El Caso 08 es el benchmark controlado resumido arriba; los Casos 09, 10, 11 y 13 volvieron el kit contra sí mismo —el 10 usándolo un día entero contra un Lore vivo, el 11 corriendo dos de sus propias versiones cabeza a cabeza con el juicio a ciegas, el 13 cristalizando bots vivos y extrayendo la fotografía— y el **Caso 12 es la primera instalación hecha por alguien que no es el autor**, de donde salió la 2.1.1.
+Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía. Esas aplicaciones están documentadas como **catorce casos de estudio**, cada uno con su frontera declarada. El Caso 08 es el benchmark controlado resumido arriba; los Casos 09, 10, 11, 13 y 14 volvieron el kit contra sí mismo —el 10 usándolo un día entero contra un Lore vivo, el 11 corriendo dos de sus propias versiones cabeza a cabeza con el juicio a ciegas, el 13 cristalizando bots vivos y extrayendo la fotografía, el 14 subiendo un ecosistema ya instalado— y el **Caso 12 es la primera instalación hecha por alguien que no es el autor**, de donde salió la 2.1.1.
 
-> **Estatus:** son casos, no demostraciones. n pequeño, y **doce de los trece vienen del mismo investigador** — el Caso 12 es el que no. Restringen cómo usamos el kit; no pretenden ser una ley. La afirmación medida pertenece al [Caso 08 y su benchmark](#el-benchmark); los demás aportan evidencia cualitativa.
+> **Estatus:** son casos, no demostraciones. n pequeño, y **trece de los catorce vienen del mismo investigador** — el Caso 12 es el que no. Restringen cómo usamos el kit; no pretenden ser una ley. La afirmación medida pertenece al [Caso 08 y su benchmark](#el-benchmark); los demás aportan evidencia cualitativa.
 
-**[Leer los trece casos de estudio →](./docs/CASES_es.md)**
+**[Leer los catorce casos de estudio →](./docs/CASES_es.md)**
 
 ---
 

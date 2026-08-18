@@ -243,7 +243,7 @@ documento de gobierno de otro kit).
 
 > *Renombrado en 2.1.1: hasta la 2.0.9 el segundo modo se llamaba `arbitrate` y en la 2.1
 > `transplant`. Misma ley, mismas cuatro puertas — el nombre nuevo dice qué es la operación. Un
-> injerto es tejido ajeno unido a un patrón vivo: prende o es rechazado, y lo que crece después es
+> injerto es tejido ajeno unido a un patrón vivo: echa raíces o es rechazado, y lo que crece después es
 > del huésped. Un injerto que nadie mira es madera muerta atada a un árbol sano.*
 
 #### Modo `capture` (por defecto) — la cicatriz
