@@ -117,8 +117,7 @@ mkdir -p "$DEST/lore"
     [ -f "$DEST/$CONTRACT.template.md" ] && mv "$DEST/$CONTRACT.template.md" "$DEST/$CONTRACT.md"
   done
   [ -f "$DEST/golden-paths.template.md" ] && mv "$DEST/golden-paths.template.md" "$DEST/golden-paths.md"
-  # $DEST/FASES.md and travesia.html come from the starter; tokens are resolved in step 6.
-  # Keep asset urls pointing at the area's `_starter/assets/` (`../../_starter/assets/…`).
+  # $DEST/FASES.md comes from the starter as-is; tokens are resolved in step 6.
   ```
 - **Otherwise:** create the work folders derived from the source docs, each with a `.gitkeep`.
 
