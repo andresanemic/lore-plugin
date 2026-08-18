@@ -387,12 +387,13 @@ Pending extraction items are written by **content, not by extension**.
 3. **`index.md` is checked against its own row format**, not only its links. The failure to look for is
    a middle field that has quietly split in two — some rows saying *when to open this*, others
    carrying a confidence marker. It hides well because **a malformed list looks exactly as well-formed
-   as a complete one**, and every row reads fine on its own.
+   as a complete one**, and every row reads fine on its own. On a long index, write the format at the top and leave the old rows (2.1.4).
 4. A finding list with **no `Earned` entries** in a Lore with real history means the pass is being run
    as a formatter. **`Stale` is the one no reading finds:** it is detected against the repository —
    recent commits and the actual deliverables the module governs — never by re-reading, because an
    artifact consistent with itself and false about the outside survives every reading.
-5. Present the full threshold, write only after approval, and record the version upgraded to in
+5. **Since 2.1.4:** map the tree before reading it. A craft's own `HARD-GATE` is `Earned`. A missing identity file is ADD. In a campaign the threshold is per class. Count the notes inbox; mine only what constrains this pass.
+6. Present the full threshold, write only after approval, and record the version upgraded to in
    `FASES.md` — not in the Lore. **Does not commit.**
 
 **Process — `prune` mode (conceptually):**

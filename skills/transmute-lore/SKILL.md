@@ -329,12 +329,15 @@ Phases 1–3. If the target is not a repository, warn that there will be no diff
 
 Report both, and say plainly when the second is a guess.
 
+### Phase 1b — Map the tree before reading it (campaign and nested layouts)
+
+Before opening a thematic module, name: every git root in the tree; what the area `.gitignore` hides; where `lore/` actually lives; which contract the user loads. If the work session, the lore body and the git root are three different folders, **name all three**. A diagnosis that opened only the session folder cannot conclude «no Lore».
+
+This is cheap and mandatory on an area tree. A standalone project with one git root still costs one `git rev-parse` and one listing of `lore/`.
+
 ### Phase 2 — Arbitrate the existing Lore against the current kit
 
-Before the artifact pass, detect a local `notas/` or `notes/` inbox. If one exists, invoke
-`obsidian-lore` to report its debt and mine it through its own threshold. **The notes stay in their
-inbox after mining**; they are source and provenance, never migration debris. UPGRADE must not move,
-delete or absorb them into `lore/`.
+Before the artifact pass, detect a local `notas/` or `notes/` inbox. **Count it and declare the debt.** Mine a note only when it constrains a decision of *this* upgrade. The rest wait for `obsidian-lore` as its own job. **The notes stay in their inbox**; they are source and provenance, never migration debris. UPGRADE must not move, delete or absorb them into `lore/`.
 
 Go artifact by artifact and produce a finding list. Each finding is one of exactly four kinds, and
 naming the kind is what keeps this from becoming a rewrite:
@@ -398,9 +401,17 @@ rows saying *when to open this*, others carrying a confidence marker or a one-wo
 what the file is. That is a `Superseded` finding: confidence belongs inside the Pista, next to its
 validity boundary, because that is the only place the two mean anything together. The drift is worth
 a dedicated check because of how it hides — **a malformed list looks exactly as well-formed as a
-complete one**, and every row reads fine on its own. Repair the rows and put the format in one line
-at the top of the file, so the next pass arbitrates against a written contract instead of a majority
-vote among the rows.
+complete one**, and every row reads fine on its own.
+
+**On a long index, write the format in one line at the top and leave the old rows.** Rewriting every row is a format pass, not an upgrade: it dominates the diff and does not change a decision. Aligning a short index this pass is already touching is allowed. The next pass arbitrates against the written header, not a majority vote among the rows.
+
+**`HARD-GATE` is not always the kit's threshold.** Rename it to the current word only where it still commands the *kit's* gate. Where it names this project's own approval step, a historical record, or another skill's gate, that is `Earned` — leave it and write why in `FASES.md`. The same split applies to a superseded mode name (`TRANSPLANT` → `GRAFT` and the next one): rename where the text commands in the present; leave the dated record.
+
+**A missing `identidad.md` or `principios.md` is ADD, not UPGRADE.** Report it. Do not invent the file to complete the six-piece standard.
+
+**Contract paths are checked against the live `FASES.md` registry**, not against the contract's own prose. A pointer that still names the adoption path after the project was internalized is `Stale`.
+
+**In a campaign of several trees, the threshold is per finding class, not per tree.** The first tree presents classes with content in view. Later trees apply accepted classes and only show a class that is new. A boundary the user already refused to invent is not reopened.
 
 **A second kit sharing the repository is part of the diagnosis, not out of scope.** If a governing
 document from another kit is present — the clearest case being spec-kit's
@@ -421,8 +432,10 @@ belongs. When no second kit is present this check costs nothing and produces no 
 
 ### Phase 3 — Threshold
 
-Show the full finding list with content in view: file, kind, what changes, and what rule of the
+Show the finding list with content in view: file, kind, what changes, and what rule of the
 current version demands it. Nothing is written before approval. The user can accept per finding.
+
+On a **campaign** (several trees against the same kit), present new classes. Classes already accepted on an earlier tree of this campaign are applied, not re-litigated.
 
 ### Phase 4 — Upgrade (only after approval)
 

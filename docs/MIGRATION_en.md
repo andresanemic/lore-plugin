@@ -58,6 +58,7 @@ tree before writing, so the migration lands as a reviewable diff.
 > **already in the standard** up to date when it was written against an older version of these
 > skills. If your project already migrated and you only want what the kit learned afterwards, that
 > is the mode, not `add`.
+> **Since 2.1.4** that mode can raise a tree or an ecosystem without a full reread: git map first, index header instead of rewriting rows, a craft's `HARD-GATE` left alone, threshold per class in a campaign.
 
 > **The fifth mode is `crystallize`.** It is not a migration: it exports a safe, traceable Markdown
 > snapshot for a destination that cannot navigate the live tree. The snapshot can be extracted back

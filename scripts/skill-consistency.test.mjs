@@ -85,7 +85,7 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.1.3"]));
+  assert.deepEqual(new Set(versions), new Set(["2.1.4"]));
 });
 
 test("el cierre de create-bot no exige Lore previo", () => {
