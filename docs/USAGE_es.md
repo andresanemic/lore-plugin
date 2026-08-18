@@ -472,8 +472,8 @@ Tiene **dos modos de creación**, según de dónde salga el criterio:
   (`.claude/settings.local.json`), para poder **trabajar** en esos proyectos y no solo leerlos.
 
 Si el bot ya existe, la misma skill ejecuta una **auditoría** en vez de reconstruirlo. Contrasta el
-registro real de la institución, alcance, fuentes, enrutamiento, README y sellos opcionales; después
-retoma el flujo normal de sincronización, empaquetado y verificación.
+registro real de la institución, alcance, fuentes, enrutamiento y README; después
+retoma el flujo normal de sincronización y verificación.
 
 > **Federar es apuntar, no copiar.** Cada fila es una dirección al Lore donde vive, así que ese
 > criterio conserva un solo dueño y una sola versión — igual que un proyecto referencia los módulos
@@ -499,9 +499,8 @@ Qué esperar mientras corre:
   no los edites a mano. Las rutas se escriben **una vez**, ahí.
 - Al federar un Área se lleva `lore` **más** su contrato elegido y su `FASES.md`: el Lore trae las leyes,
   pero la secuencia de trabajo y el registro de qué existe viven en esos dos.
-- Te pregunta si empaquetarlo como *plugin*, y si dices que sí **no lo da por terminado** hasta que
-  `scripts/validar.js` pase: los errores de frontmatter que revisa no dan ningún mensaje de error —
-  la skill se instala, aparece en el listado y nunca se dispara.
+- No envuelve el bot como *plugin*. Empaquetar es cristalizar: extraer reconstruye
+  `lore-ecosistema/`.
 
 **La primera vez que abres el bot corre un brainstorming, no un formulario.** Arranca mostrando qué
 alcanza: cada cuerpo de criterio que federa, si ese puntero resuelve en tu máquina, y qué queda fuera
@@ -523,10 +522,10 @@ Tres cosas que vas a usar todos los días:
   cargo se viola»*, nunca *«está bien»* — solo puede responder por las cicatrices que alguien ya
   pagó, y lo que nadie cicatrizó no está escrito en ninguna parte.
 
-Cinco extras son opcionales y están apagados por defecto: **la copia del ecosistema**, el **cifrado**
-(*experimental*, ver [`ENCRYPTION.md`](./ENCRYPTION.md)), **acceso por Telegram**, **un launcher local
-multiproveedor** y **empaquetarlo como plugin compartible**. Un bot sin ninguno de los cinco está
-completo.
+Un extra es opcional y está apagado por defecto: el **cifrado** (*experimental*, ver
+[`ENCRYPTION.md`](./ENCRYPTION.md)). Un bot sin él está completo. **Empaquetar es cristalizar:**
+extraer la fotografía reconstruye la carpeta, incluido `lore-ecosistema/`. Así viaja el trabajo
+a quien no tiene tu árbol. No envuelvas el bot como plugin.
 
 Usa este skill cuando quieras una sola sesión que trabaje sobre varios proyectos — también desde
 cero. Si las fuentes aún no tienen Lore, el skill orquesta la cadena (`create-area` → `transmute-lore`

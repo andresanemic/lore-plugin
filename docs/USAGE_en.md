@@ -468,8 +468,8 @@ It has **two creation modes**, by where the criteria comes from:
   (`.claude/settings.local.json`), so you can **work** in those projects and not just read them.
 
 If the bot already exists, the same skill runs an **audit pass** instead of rebuilding it. It checks
-the institution's real registry, scope, sources, routing, README and optional seals, then rejoins the
-normal sync, packaging and verification flow.
+the institution's real registry, scope, sources, routing and README, then rejoins the
+normal sync and verification flow.
 
 > **Federating is pointing, not copying.** Each row is an address to the Lore where it lives, so that
 > criteria keeps one owner and one version — the same way a project references its Area's modules
@@ -496,9 +496,8 @@ What to expect while it runs:
   hand-edit them. The paths are written **once**, there.
 - Federating an Area carries `lore` **plus** its selected contract and its `FASES.md`: the Lore brings the
   laws, but the sequence of work and the registry of what exists live in those two.
-- It asks whether to package it as a plugin, and if you say yes it **does not call it finished**
-  until `scripts/validar.js` passes — the frontmatter defects it checks produce no error message at
-  all; the skill installs, gets listed, and never fires.
+- It does not wrap the bot as a plugin. Packaging is crystallization: unpacking rebuilds
+  `lore-ecosistema/`.
 
 **The first time you open the bot, it runs a brainstorm — not a form.** It starts by showing what it
 reaches: each body of criteria it federates, whether that pointer resolves on your machine, and what
@@ -520,9 +519,10 @@ Three things you will use every day:
   broken"*, never *"this is fine"* — it can only vouch for the scars somebody already paid for, and
   what nobody scarred is not written anywhere.
 
-Five extras are optional and off by default: **the ecosystem copy**, **encryption** (*experimental*,
-see [`ENCRYPTION.md`](./ENCRYPTION.md)), **Telegram access**, **a local multi-provider launcher**, and
-**packaging as a shareable plugin**. A bot with none of the five is complete.
+One extra is optional and off by default: **encryption** (*experimental*, see
+[`ENCRYPTION.md`](./ENCRYPTION.md)). A bot without it is complete. **Packaging is crystallization:**
+unpacking the snapshot rebuilds the folder, including `lore-ecosistema/`. That is how the work
+travels to someone who does not have your tree. Do not wrap the bot as a plugin.
 
 Use this when you want one session that works across several projects — including from zero.
 If the sources have no Lore yet, the skill orchestrates the chain (`create-area` → `transmute-lore` add → `create-bot`); it does not require Lore to already exist. When the Lore is already there, it federates it. The bot never substitutes for building that Lore in the Area that owns it.

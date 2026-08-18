@@ -140,13 +140,6 @@ It provides three things:
 
 Spec-driven is not a label here. The project has one host-selected contract—`CLAUDE.md` for Claude Code or `AGENTS.md` for Codex—`FASES.md` is the state, the roadmap and the task list, and `lore/` is the criteria that constrains how any of it gets built. If you use both hosts, Codex can fall back to `CLAUDE.md`; you still do not need two contracts.
 
-> **Which contract should you keep?** Use `CLAUDE.md` when Claude Code is your regular host and
-> `AGENTS.md` when Codex is. For a Claude-first project that occasionally opens in Codex, add
-> `project_doc_fallback_filenames = ["CLAUDE.md"]` to your Codex `config.toml`
-> ([official reference](https://developers.openai.com/codex/config-reference/)). Only create a
-> pointer adapter when the other host cannot be configured and you explicitly choose that tradeoff;
-> never keep two copies of the rules.
-
 Unlike documentation, Lore does not try to describe everything. It only preserves what changes future behavior.
 
 A README answers *"what is this?"*. Lore answers something else: **What did we learn that we should never have to learn again?**
@@ -521,17 +514,15 @@ This kit brainstorms to build every artifact it makes, so the artifact it produc
 </details>
 
 <details>
-<summary><b>Five optional extras, off by default</b></summary>
+<summary><b>One optional extra, off by default</b></summary>
 
 <br>
 
-All five are asked when the bot is configured for the first time. A bot with none of them is complete: they are seals, not parts.
+Asked when the bot is configured for the first time. A bot without it is complete: it is a seal, not a part.
 
-- **The ecosystem copy (`lore-ecosistema/`).** By default the bot **points** at each project's Lore where it lives, duplicating nothing. Turning it on only makes sense if whoever will use the bot does **not** have your folders: there the pointer resolves to nothing, and the copy is the only way that criteria exists on their machine.
-- **Packaging it as a shareable plugin.** **Not created by default.** A bot is a folder with its canon and one contract selected by its Area: you open the session there and the criteria is already loaded, with nothing to install. Wrapping it in a skill with its own repository serves **one purpose**, handing it to a team, and if you are working alone it is scaffolding you still have to maintain.
 - **Lore encryption** — *experimental*, see [`ENCRYPTION.md`](./docs/ENCRYPTION.md).
-- **Telegram access.** Adds a phone channel through a separate Telegram MCP, with an explicit access list. It needs a reachable machine and an open session; it is never implied by creating the bot.
-- **A local multi-provider launcher.** Uses [Lore in the Shell](https://github.com/andresanemic/lore-in-the-shell) when installed, or builds the smallest local launcher otherwise. It chooses the CLI and model; the criteria still lives in the bot.
+
+A bot is a folder with its canon and one contract selected by its Area: you open the session there and the criteria is already loaded. **Packaging is crystallization:** `transmute-lore` in CRYSTALLIZE mode writes one Markdown; unpacking that file rebuilds the folder, including `lore-ecosistema/`. That is how the work travels to someone who does not have your tree.
 
 </details>
 
@@ -634,7 +625,7 @@ lore-plugin/
     create-area/
     create-project/
     create-bot/
-      plantillas/        # validar.js · canon.js · sync.js · ecosistema.json
+      plantillas/        # canon.js · sync.js · ecosistema.json
     save-to-lore/
     transmute-lore/
       scripts/         # crystallize.mjs — pack / extract
@@ -748,13 +739,6 @@ aesthetics of a technical artifact are not neutral and do not appear from nowher
 they came from is what lets you tell a design decision from an inherited taste. That distinction
 matters on the day somebody proposes changing it.
 
-### Ecosystem
-
-- **[research-lus](https://github.com/andresanemic/research-lus)** opens a critical research session with LUS's public corpus, bibliography, cases, hypotheses and scientific-research Lore. Each researcher keeps their own private conversation with Logos. It works independently; add Lore Plugin when you also need to create, preserve or upgrade Lore in your own projects.
-- **[Lore in the Shell](https://github.com/andresanemic/lore-in-the-shell)** is the maintained launcher for opening a Lore-governed folder with the Claude Code or Codex CLI and model you choose. Lore Plugin's `create-bot` can build a minimal launcher without it; the standalone plugin adds the maintained provider/model workflow, optional theme and future updates.
-
----
-
 ## Author
 
 **Andrés Peña Mellado** — principal researcher of LUS.
@@ -768,11 +752,6 @@ its lecturer from 2023 to 2025. **Speaker at [KCD El Salvador
 2023](https://www.credly.com/badges/ad17002a-16be-474b-ada4-d7ba0df3a0fd)** — Kubernetes Community
 Days, the CNCF's community event program.
 
-*Why this is here and not on a personal page:* the criteria this kit distills came out of that
-work — the reason a `lore/` is a **decentralized** body of criteria, owned where it was paid for and
-never pooled into one authority, is that it was built by someone who works in systems designed that
-way. That is genealogy of the form, not an argument for it.
-
 <p>
   <a href="https://github.com/andresanemic"><img src="https://img.shields.io/badge/GitHub-andresanemic-0B1320?style=for-the-badge&logo=github&logoColor=F4F0E8&labelColor=0B0B12" alt="GitHub"></a>
   <a href="https://x.com/andresanemic"><img src="https://img.shields.io/badge/X-@andresanemic-FF557A?style=for-the-badge&logo=x&logoColor=0B0B12&labelColor=0B0B12" alt="X"></a>
@@ -781,10 +760,6 @@ way. That is genealogy of the form, not an argument for it.
   <img src="https://img.shields.io/badge/Discord-andresanemic-F94F79?style=for-the-badge&logo=discord&logoColor=0B0B12&labelColor=0B0B12" alt="Discord">
   <a href="mailto:andres@healthproof.cl"><img src="https://img.shields.io/badge/Email-andres@healthproof.cl-35E5F5?style=for-the-badge&logo=gmail&logoColor=0B0B12&labelColor=0B0B12" alt="Email"></a>
 </p>
-
-Questions, cases that contradict ours, a Lore that came out weird? The [repository discussions](https://github.com/andresanemic/lore-plugin/discussions) are the place. The cases that **refute** something are the ones that help most.
-
-> **If Lore saved you from explaining yourself again, a ⭐ on the repo helps other people find it.**
 
 ---
 
@@ -927,13 +902,6 @@ Aporta tres cosas:
 - y un ciclo continuo para destilar experiencia en criterio reutilizable.
 
 Lo de *spec-driven* no es una etiqueta. El proyecto tiene un solo contrato elegido según su host principal —`CLAUDE.md` para Claude Code o `AGENTS.md` para Codex—, `FASES.md` es el estado, la hoja de ruta y el listado de tareas, y `lore/` es el criterio que restringe cómo se construye todo lo anterior. Si usas ambos hosts, Codex puede tomar `CLAUDE.md` como fallback; sigues sin necesitar dos contratos.
-
-> **¿Qué contrato conservas?** Usa `CLAUDE.md` si tu host habitual es Claude Code y `AGENTS.md` si
-> es Codex. Si el proyecto usa principalmente Claude pero a veces se abre en Codex, añade
-> `project_doc_fallback_filenames = ["CLAUDE.md"]` al `config.toml` de Codex
-> ([referencia oficial](https://developers.openai.com/codex/config-reference/)). Crea un adaptador
-> de puntero solo cuando el otro host no se pueda configurar y apruebes ese costo de forma
-> explícita; nunca mantengas dos copias de las reglas.
 
 A diferencia de la documentación, Lore no intenta describirlo todo. Solo conserva aquello que modifica el comportamiento futuro.
 
@@ -1297,17 +1265,15 @@ Este kit hace un brainstorming para construir cada artefacto que produce, así q
 </details>
 
 <details>
-<summary><b>Cinco extras opcionales, apagados por defecto</b></summary>
+<summary><b>Un extra opcional, apagado por defecto</b></summary>
 
 <br>
 
-Los cinco se preguntan al configurar el bot la primera vez. Un bot sin ninguno está completo: son sellos, no piezas.
+Se pregunta al configurar el bot la primera vez. Un bot sin él está completo: es un sello, no una pieza.
 
-- **La copia del ecosistema (`lore-ecosistema/`).** Por defecto el bot **apunta** al Lore de cada proyecto donde vive, sin duplicar nada. Encenderla solo tiene sentido si quien va a usar el bot **no** tiene tus carpetas: ahí el puntero no apunta a nada y la copia es lo único que hace existir ese criterio en su máquina.
-- **Empaquetarlo como *plugin* compartible.** Por defecto **no se crea**. Un bot es una carpeta con su canon y un solo contrato elegido por su Área: abres la sesión ahí y el criterio ya está cargado, sin instalar nada. Envolverlo en una skill con su repositorio propio sirve para **una sola cosa**, repartirlo a un equipo, y si vas a trabajar tú solo es andamiaje que igual hay que mantener.
 - **Cifrado del Lore** — *experimental*, ver [`ENCRYPTION.md`](./docs/ENCRYPTION.md).
-- **Acceso por Telegram.** Añade un canal desde el teléfono mediante un MCP de Telegram separado, con una lista de acceso explícita. Necesita una máquina alcanzable y una sesión abierta; crear el bot no lo activa.
-- **Un launcher local multiproveedor.** Usa [Lore in the Shell](https://github.com/andresanemic/lore-in-the-shell) si está instalado o construye el launcher local mínimo si no. El launcher elige CLI y modelo; el criterio sigue viviendo en el bot.
+
+Un bot es una carpeta con su canon y un solo contrato elegido por su Área: abres la sesión ahí y el criterio ya está cargado. **Empaquetar es cristalizar:** `transmute-lore` en modo CRYSTALLIZE escribe un Markdown; extraer ese archivo reconstruye la carpeta, incluido `lore-ecosistema/`. Así viaja el trabajo a quien no tiene tu árbol.
 
 </details>
 
@@ -1406,7 +1372,7 @@ lore-plugin/
     create-area/
     create-project/
     create-bot/
-      plantillas/        # validar.js · canon.js · sync.js · ecosistema.json
+      plantillas/        # canon.js · sync.js · ecosistema.json
     save-to-lore/
     transmute-lore/
       scripts/         # crystallize.mjs — pack / extract
@@ -1520,13 +1486,6 @@ un artefacto técnico no es neutral ni surge del vacío, y saber de dónde viene
 distinguir una decisión de criterio de un gusto heredado. Esa distinción importa el día que alguien
 proponga cambiarla.
 
-### Ecosistema
-
-- **[research-lus](https://github.com/andresanemic/research-lus)** abre una sesión crítica con el corpus público, la bibliografía, los casos, las hipótesis y el Lore de investigación científica de LUS. Cada investigador conserva su propia conversación privada con Logos. Funciona por sí solo; añade Lore Plugin cuando también necesites crear, preservar o actualizar Lore en tus proyectos.
-- **[Lore in the Shell](https://github.com/andresanemic/lore-in-the-shell)** es el launcher mantenido para abrir una carpeta gobernada por Lore con la CLI y el modelo de Claude Code o Codex que elijas. `create-bot` puede construir un launcher mínimo sin esa skill; el plugin independiente añade el flujo mantenido de proveedor/modelo, el tema opcional y futuras actualizaciones.
-
----
-
 ## Autor
 
 **Andrés Peña Mellado** — investigador principal de LUS.
@@ -1540,11 +1499,6 @@ la dictó desde 2023 hasta 2025. **Speaker en [KCD El Salvador
 2023](https://www.credly.com/badges/ad17002a-16be-474b-ada4-d7ba0df3a0fd)** — Kubernetes Community
 Days, el programa de eventos comunitarios de la CNCF.
 
-*Por qué esto está acá y no en una página personal:* el criterio que este kit destila salió de ese
-trabajo — que un `lore/` sea un cuerpo de criterio **descentralizado**, poseído donde se pagó y nunca
-acumulado en una sola autoridad, viene de que lo construyó alguien que trabaja en sistemas diseñados
-así. Es genealogía de la forma, no un argumento a su favor.
-
 <p>
   <a href="https://github.com/andresanemic"><img src="https://img.shields.io/badge/GitHub-andresanemic-0B1320?style=for-the-badge&logo=github&logoColor=F4F0E8&labelColor=0B0B12" alt="GitHub"></a>
   <a href="https://x.com/andresanemic"><img src="https://img.shields.io/badge/X-@andresanemic-FF557A?style=for-the-badge&logo=x&logoColor=0B0B12&labelColor=0B0B12" alt="X"></a>
@@ -1553,7 +1507,3 @@ así. Es genealogía de la forma, no un argumento a su favor.
   <img src="https://img.shields.io/badge/Discord-andresanemic-F94F79?style=for-the-badge&logo=discord&logoColor=0B0B12&labelColor=0B0B12" alt="Discord">
   <a href="mailto:andres@healthproof.cl"><img src="https://img.shields.io/badge/Email-andres@healthproof.cl-35E5F5?style=for-the-badge&logo=gmail&logoColor=0B0B12&labelColor=0B0B12" alt="Email"></a>
 </p>
-
-¿Preguntas, casos que contradigan los nuestros, un Lore que quedó raro? La [discusión del repositorio](https://github.com/andresanemic/lore-plugin/discussions) es el lugar. Los casos que **refutan** algo son los que más sirven.
-
-> **Si Lore te ahorró volver a explicarte, una ⭐ en el repositorio ayuda a que otras personas lo encuentren.**

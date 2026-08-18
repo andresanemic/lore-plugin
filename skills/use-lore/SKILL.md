@@ -227,14 +227,14 @@ This keeps criteria DRY: fix a generic clue once in the area, every project sees
 ### The third shape: a bot
 
 A **bot** is a project (it lives at `{area}/proyectos/{slug}/`) with one extra property: it
-**routes outward** into Lore owned by other projects and areas. Packaging it as an installable
-plugin is optional.
+**routes outward** into Lore owned by other projects and areas. It is a folder you open, not a
+plugin you install. To hand it to someone who does not have your folders, crystallize it.
 
 | | Area | Project | Bot |
 |---|---|---|---|
 | Holds | projects | one piece of work | **a work session** |
 | Its Lore governs | the domain's method | that work | **how the agent behaves** |
-| Installable | no | no | **optional** |
+| Installable | no | no | no |
 
 Areas and projects are places; a bot is a lens you carry into them. A bot owns none of the criteria
 it routes to — which is exactly why it is **not** an area: an area that accumulates criteria it
@@ -247,7 +247,7 @@ never paid for will start receiving promotions that belong somewhere else.
 | Start a **new work area** (a mother folder for a family of projects) | `create-area` |
 | Start a **new project inside an existing area** | `create-project` |
 | Build a **bot** — a canon-driven work session that operates across real repositories, either from zero or by federating Lore already dissolved across several areas | `create-bot` |
-| Open Lore-governed bots/projects through a provider and model launcher | `create-bot`; use the separate `lore-in-the-shell` skill when installed, otherwise build its minimal fallback there |
+| Open Lore-governed bots/projects through a small local provider and model launcher | `create-bot` (optional extra: a minimum local registry and script) |
 | **Save a lesson** ("save to lore") — capture a clue from **lived friction** in the project and promote generic, confirmed ones up to the area | `save-to-lore` (**CAPTURE**, default) |
 | **Distill from an external body of criteria** — a skill, a style guide, a third-party playbook ("destila esta skill") | `save-to-lore` (**GRAFT**): imported criteria is judged against this Entre's purpose; only what survives enters, and the module must state **where the source loses** |
 | Bring an **old project with scattered criteria** up to the six-piece standard, **clean** a project's redundant modules back down to what the area already owns, or **standardize the language** of an existing Lore | `transmute-lore` |
@@ -274,7 +274,7 @@ exist, and it never substitutes for building it in the Area that owns it.
 
 **Source-side precedence:** when a request points at `notas/` or `notes/` and asks to integrate,
 extract, distill or save its contents anywhere, invoke `obsidian-lore` first. Then invoke the skill
-that owns the destination (`save-to-lore`, `research-lus`, or another domain workflow). A domain
+that owns the destination (`save-to-lore` or another domain workflow). A domain
 skill understanding the notes does not replace the mining pass or its frontmatter.
 
 ### The failure these skills cannot see: not being invoked at all
@@ -427,8 +427,7 @@ with `transmute-lore` (TRANSLATE mode), which translates content and renames art
   their shape. Only rewrite a file the pass already has to touch — unwrapping a whole tree is a
   format pass, not an upgrade. This does not govern published version notes, bench fixtures,
   verbatim quotations, or the wrap inside these `SKILL.md` files (that last one is a version
-  decision). `create-bot` already required this of a packaged README; the same rule now covers
-  every artifact these skills write.
+  decision). The same rule covers every artifact these skills write.
 - **No automatic commits.** The user reviews the diff and commits when they choose.
 - **State ≠ criteria.** `FASES.md` never lives inside `lore/`.
 - **A note is source, never criteria.** Free notes are never loaded as if they were Lore; they cross

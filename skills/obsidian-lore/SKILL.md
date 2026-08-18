@@ -6,7 +6,7 @@ description: >-
   `notas/` or `notes/` and asks to read, review, integrate, extract, distill, or save anything into
   Lore, FASES, CLAUDE, corpus, hypotheses, or case studies; also on «mina la bandeja», «guarda esta
   nota en Obsidian», or «mine my inbox». This routing takes precedence even when another domain
-  skill (for example research-lus) also applies. Work notes from a bot permanently: notes remain
+  skill also applies. Work notes from a bot permanently: notes remain
   SOURCE in their inbox after mining, with frontmatter tracing the approved destination; writing
   is delegated to the skill that owns that destination.
 ---
@@ -165,7 +165,7 @@ Triggered by *«revisa mis notas de Obsidian y checa si algo se puede guardar en
 bandeja»*, *«destila estas notas»*, or pointed at specific notes.
 
 **Cross-skill routing rule:** a request such as *«lee `LUS/notas` y guarda lo necesario en Lore y
-FASES»* invokes this skill first even though `research-lus`, `transmute-lore` or another skill may
+FASES»* invokes this skill first even though `transmute-lore` or another skill may
 also govern the destination. This skill owns the source-side sweep and frontmatter; the destination
 skill owns the scientific or Lore write. Reading the notes through the domain skill alone is a
 failure: the information was loaded, but the transformation stayed untracked.

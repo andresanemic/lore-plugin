@@ -7,8 +7,8 @@ const skill = (name) => readFileSync(new URL(`../skills/${name}/SKILL.md`, impor
 test("obsidian-lore enruta peticiones sobre notas antes que la skill de dominio", () => {
   const text = skill("obsidian-lore");
   assert.match(text, /Cross-skill routing rule/);
-  assert.match(text, /research-lus/);
   assert.match(text, /invokes this skill first/);
+  assert.doesNotMatch(text, /research-lus/);
 });
 
 test("las notas minadas permanecen en su inbox con trazabilidad", () => {
@@ -68,10 +68,11 @@ test("ninguna skill depende del brainstorming de Superpowers", () => {
   }
 });
 
-test("create-bot puede crear Lore in the Shell sin depender de la skill separada", () => {
+test("create-bot ofrece un launcher local minimo sin nombrar un plugin aparte", () => {
   const createBot = skill("create-bot");
-  assert.match(createBot, /must\s+remain available even when the separate `lore-in-the-shell` skill is not installed/i);
-  assert.match(createBot, /If it is absent, create the minimum launcher locally/i);
+  assert.match(createBot, /minimum launcher\s+locally/i);
+  assert.doesNotMatch(createBot, /lore-in-the-shell/);
+  assert.doesNotMatch(createBot, /Telegram/);
 });
 
 test("brainstorming-lore no se activa para brainstorming genérico", () => {

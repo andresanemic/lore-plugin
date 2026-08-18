@@ -481,8 +481,8 @@ una sola cosa: repartirlo a un equipo.
 | `federar` | El criterio ya existe, disuelto en varias Áreas. | `scripts/ecosistema.json`, `scripts/sync.js` y dos archivos **generados**: `lore/enrutamiento.md` (la tabla) y `.claude/settings.local.json` (el acceso a los árboles vivos). **No copia nada** salvo que se encienda la copia. |
 
 Si el bot ya existe, la skill ejecuta una **auditoría** en vez de cualquiera de los procedimientos de
-creación. Contrasta el registro real de la institución, alcance, fuentes, enrutamiento, README y
-sellos opcionales; después retoma sincronización, empaquetado y verificación.
+creación. Contrasta el registro real de la institución, alcance, fuentes, enrutamiento y README;
+después retoma sincronización y verificación.
 
 > **Federar es apuntar, no copiar.** Cada fila del manifiesto es una **dirección**: la tabla dice qué
 > Lore gobierna una tarea y el acceso generado deja que la sesión lo alcance **donde vive**. Ese
@@ -532,16 +532,15 @@ validez, Pista Invariante) es del documento de la skill, no de la conversación.
 - `lore/`, `FASES.md`, `.gitignore`.
 - Modo `federar`: `scripts/ecosistema.json`, `scripts/sync.js`, y los generados `lore/enrutamiento.md`
   y `.claude/settings.local.json` (local, nunca se versiona).
-- **Solo si se empaqueta (§ opcional):** `.claude-plugin/plugin.json` y `marketplace.json`, el
-  comportamiento se muda a `skills/{slug}/SKILL.md` con su `canon/` adentro, `scripts/validar.js`
-  (puerta de empaquetado), `README.md` y `LICENSE`. Un bot sin empaquetar solo recibe README si se pide.
+- Un README solo si el usuario lo pide. No envuelvas el bot como plugin. Empaquetar es
+  cristalizar: extraer reconstruye `lore-ecosistema/`.
 - Registra el bot en el `FASES.md` del Área.
 
 **Los tres cuerpos de criterio (invariante central):**
 
 | Cuerpo | Qué es | Regla |
 |---|---|---|
-| `canon/` | criterio que el bot **es**; se carga antes de cada decisión | destilado (viaja dentro de la skill si se empaqueta) |
+| `canon/` | criterio que el bot **es**; se carga antes de cada decisión | destilado; vive junto al contrato |
 | `lore/` | criterio para **mantener** el bot | propio del proyecto |
 | criterio **prestado** | el Lore de cada proyecto que el bot enruta | se alcanza **por puntero**, en su propia dirección; **nunca es autoritativo** |
 
@@ -596,21 +595,14 @@ rutas rotas, así que pasarla no prueba nada sobre si el bot funciona. El bot se
 
 **Opcionales, apagados por defecto:**
 
-- **La copia del ecosistema** (`lore-ecosistema/`): solo si quien va a usar el bot **no** tiene el
-  árbol de carpetas. Apagarla son **dos pasos** —`"copia": false` y borrar la carpeta—; hacer solo el
-  primero deja una foto congelada que el bot sigue leyendo, y `sync.js` avisa en vez de borrarla.
-- **Empaquetarlo como *plugin* compartible**: solo si **otras personas** van a instalarlo. Para una
-  sola persona, abrir la carpeta basta, y el empaquetado cobra mantención para siempre.
 - **Cifrado** (*experimental*, ver [`ENCRYPTION.md`](./ENCRYPTION.md)): se cifra en distribución,
   nunca en consulta. El `.gitignore` depende de la decisión — con cifrado se excluye el texto plano;
   sin cifrado el criterio **debe** commitearse, o el repositorio viaja sin criterio y el bot no le
   sirve al equipo. La passphrase se pide por *stdin* y **nunca entra al chat**.
-- **Acceso por Telegram:** añade un canal desde el teléfono mediante un MCP de Telegram separado y
-  una lista de acceso explícita. El uso remoto requiere una máquina alcanzable y una sesión abierta.
-- **Launcher local multiproveedor:** usa Lore in the Shell si está instalado; si no, construye el
-  registro y launcher local mínimos. Elige CLI y modelo, pero nunca transporta el criterio.
 
-Un bot sin ninguno de los cinco está completo.
+Un bot sin él está completo. **Empaquetar es cristalizar**, no envolver el bot como plugin.
+Extraer la fotografía reconstruye la carpeta, incluido `lore-ecosistema/`. Así viaja el trabajo
+a quien no tiene tu árbol. `create-bot` sigue federando por puntero; no inventa esa copia.
 
 Usa `create-bot` cuando quieras una sola sesión que trabaje sobre varios proyectos — también desde
 cero. Si las fuentes aún no tienen Lore, el skill orquesta la cadena (`create-area` → `transmute-lore`

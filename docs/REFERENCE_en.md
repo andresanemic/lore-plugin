@@ -485,8 +485,8 @@ installable plugin is optional**, and serves one purpose: handing it to a team.
 | `federar` | The criteria already exists, dissolved across several Areas. | `scripts/ecosistema.json`, `scripts/sync.js`, and two **generated** files: `lore/enrutamiento.md` (the table) and `.claude/settings.local.json` (access to the live trees). **It copies nothing** unless the copy is turned on. |
 
 For an existing bot, the skill runs an **audit pass** instead of either creation procedure. It checks
-the institution's actual registry, scope, sources, routing, README and optional seals, then rejoins
-the sync, packaging and verification flow.
+the institution's actual registry, scope, sources, routing and README, then rejoins
+the sync and verification flow.
 
 > **Federating is pointing, not copying.** Each row of the manifest is an **address**: the table says
 > which Lore governs a task, and the generated access lets the session reach it **where it lives**.
@@ -537,16 +537,15 @@ of validity, Invariant Clue) belongs to the skill document, not to the conversat
 - `lore/`, `FASES.md`, `.gitignore`.
 - `federar` mode: `scripts/ecosistema.json`, `scripts/sync.js`, and the generated
   `lore/enrutamiento.md` and `.claude/settings.local.json` (local, never committed).
-- **Only if packaged (optional):** `.claude-plugin/plugin.json` and `marketplace.json`, the behaviour
-  moves into `skills/{slug}/SKILL.md` with its `canon/` inside, `scripts/validar.js` (the packaging
-  gate), `README.md`, and `LICENSE`. An unpackaged bot gets a README only when explicitly requested.
+- A README only when the user asks for one. Do not wrap the bot as a plugin. Packaging is
+  crystallization: unpacking rebuilds `lore-ecosistema/`.
 - Registers the bot in the Area's `FASES.md`.
 
 **The three bodies of criteria (the central invariant):**
 
 | Body | What it is | Rule |
 |---|---|---|
-| `canon/` | criteria the bot **is**; loaded before every decision | distilled (travels inside the skill if packaged) |
+| `canon/` | criteria the bot **is**; loaded before every decision | distilled; lives next to the contract |
 | `lore/` | criteria for **maintaining** the bot | the project's own |
 | **borrowed** criteria | the Lore of every project the bot routes to | reached **by pointer**, at its own address; **never authoritative** |
 
@@ -600,22 +599,16 @@ canon and broken paths, so passing it proves nothing about whether the bot works
 
 **Optional, off by default:**
 
-- **The ecosystem copy** (`lore-ecosistema/`): only if whoever will use the bot does **not** have the
-  folder tree. Turning it off is **two steps** — `"copia": false` and deleting the folder; doing only
-  the first leaves a frozen photograph the bot keeps reading, and `sync.js` warns instead of deleting.
-- **Packaging it as a shareable plugin**: only if **other people** are going to install it. For one
-  person, opening the folder is enough, and packaging charges maintenance forever.
 - **Encryption** (*experimental*, see [`ENCRYPTION.md`](./ENCRYPTION.md)): encrypt in distribution,
   never at consultation. The `.gitignore` follows the choice — with encryption the plaintext is
   excluded; without it the criteria **must** be committed, or the repository travels with no criteria
   and the bot is useless to the team. The passphrase is read from *stdin* and **never enters the
   chat**.
-- **Telegram access:** adds a phone channel through a separate Telegram MCP and an explicit access
-  list. Remote use requires a reachable machine and an open session.
-- **Local multi-provider launcher:** use Lore in the Shell when installed; otherwise build the
-  minimum local registry and launcher. It selects the CLI and model but never carries the criteria.
 
-A bot with none of the five is complete.
+A bot without it is complete. **Packaging is crystallization**, not wrapping the bot as a plugin.
+Unpacking the snapshot rebuilds the folder, including `lore-ecosistema/`. That is how the work
+travels to someone who does not have your tree. `create-bot` still federates by pointing; it does
+not invent that copy.
 
 Use `create-bot` when you want one session that works across several projects — including from zero.
 If the sources have no Lore yet, the skill orchestrates the chain (`create-area` → `transmute-lore` add → `create-bot`); it does not require Lore to already exist. When the Lore is already there, it federates it. The bot never substitutes for building that Lore in the Area that owns it.

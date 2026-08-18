@@ -43,9 +43,10 @@ test("la documentación no conserva afirmaciones ya refutadas", () => {
   const text = docs.map((file) => readFileSync(join(root, file), "utf8")).join("\n");
   assert.doesNotMatch(text, /seven (?:documented )?case studies|all seven|siete casos de estudio|las siete evidencias/i);
   assert.doesNotMatch(text, /twelve case studies|doce casos de estudio|eleven of the twelve|once de los doce/i);
-  assert.match(text, /thirteen case studies/);
-  assert.match(text, /trece casos de estudio/);
+  assert.match(text, /fourteen case studies/);
+  assert.match(text, /catorce casos de estudio/);
   assert.doesNotMatch(text, /three optional extras|tres extras opcionales|a bot with none of the three|un bot sin ninguno de los tres/i);
+  assert.doesNotMatch(text, /Five optional extras|Cinco extras opcionales|A bot with none of the five|Un bot sin ninguno de los cinco/i);
   assert.doesNotMatch(text, /turn loose notes into criteria|convertir notas sueltas en criterio/i);
 });
 
@@ -114,8 +115,8 @@ test("el README identifica el modelo del benchmark en ambos idiomas", () => {
   assert.equal((text.match(/gpt-5\.6-sol/g) ?? []).length >= 2, true);
   assert.match(text, /medium reasoning effort/);
   assert.match(text, /esfuerzo de razonamiento medio/);
-  assert.equal((text.match(/<table width="100%">/g) ?? []).length, 4);
-  assert.equal((text.match(/<th width="56%">(?:Result|Resultado|Cost|Costo)/g) ?? []).length, 4);
+  assert.equal((text.match(/<table width="100%">/g) ?? []).length, 2);
+  assert.equal((text.match(/<th width="50%">(?:Multidomain result|Resultado multidominio)/g) ?? []).length, 2);
   assert.equal((text.match(/Gilbert Simondon/g) ?? []).length >= 2, true);
   assert.equal((text.match(/Francisco Varela/g) ?? []).length >= 2, true);
 });

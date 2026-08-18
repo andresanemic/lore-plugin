@@ -4,10 +4,20 @@
 
 ---
 
+Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. These pages tell those uses. They do not teach you how to install it. LUS, the scientific program this kit implements, records the applications as **case studies**.
 
-Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. LUS documents those applications as **case studies**.
+**Lore** is the criteria — the rules you already paid for with work — that an AI agent loads into the next session, so you do not have to explain the project again every morning. It lives in Markdown files, inside a `lore/` folder.
 
-> **Status:** these are cases, not proofs. Small n, and **thirteen of the fourteen documented cases come from the same researcher**. What they claim constrains how we use the kit; it does not pretend to be a law. Case 08 adds controlled measurement without removing that boundary, and Cases 09, 10, 11, 13 and 14 are the ones that measure this kit against itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head and judging the output blind, Case 13 by crystallizing live bots and judging the snapshot by whether a third person could work from it, Case 14 by raising an already-installed ecosystem without rewriting what was earned.
+To follow each case you need the same vocabulary the kit uses when it works:
+
+- **Distill** is the deliberate pass that turns a lived scar into a rule that constrains future decisions. Nothing gets in on its own.
+- A **threshold** is the gate on that pass: the machine proposes with the content in view, you approve, and only then is anything written.
+- An **area** is the mother folder of a craft: it owns the shared criteria; projects inherit from it instead of copying it.
+- A **bot** is a working folder that does not keep that criteria for itself. It **routes** each task to the body that owns it: it decides, by the kind of work, which Lore governs.
+- A **graft** judges criteria that arrive from outside against your project's purpose: it takes root or it is rejected, and what grows afterwards belongs to you.
+- **Crystallize** is taking a traceable snapshot in a single Markdown file, extractable back into a folder, without replacing the live Lore.
+
+> **Status:** these are cases, not proofs. There are few of them, and **thirteen of the fourteen documented cases come from the same researcher**. What they claim constrains how we use the kit; it does not pretend to be a law. Case 08 adds controlled measurement without removing that boundary, and Cases 09, 10, 11, 13 and 14 are the ones that measure this kit against itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head and judging the output blind, Case 13 by crystallizing live bots and judging the snapshot by whether a third person could work from it, Case 14 by raising an already-installed ecosystem without rewriting what was earned.
 >
 > **Case 12 is the first one that does not come from the researcher**, which is why it counts differently: someone outside the project installed the kit and used it for an hour. It breaks the boundary the other thirteen share on authorship, and opens a smaller one that is declared inside the case.
 
@@ -16,7 +26,7 @@ Lore was not designed on a whiteboard: every decision in this kit came from appl
 
 <br>
 
-A real project (*numerología*) built with Lore from start to finish, on top of a disciplined development practice. It showed that the six-piece architecture **holds up across a whole project**, not just scattered notes: criteria accumulate, get consulted, and keep making decisions months later.
+A real project (*numerología*) was built with Lore from the first day, not as notes added afterwards, on top of a development practice that was already disciplined. The six-piece architecture — identity, principles, thematic modules, index, project state, and the contract the agent reads when the session opens — **held up across a whole project**, not just scattered notes. Criteria accumulated, got consulted while the work was happening, and months later was still making decisions.
 
 </details>
 
@@ -25,7 +35,7 @@ A real project (*numerología*) built with Lore from start to finish, on top of 
 
 <br>
 
-Four projects of a real area (*web development*) migrated to the standard with `transmute-lore`. It left three things that are now law in this kit:
+Four projects of a real area (*web development*) were brought to the standard with `transmute-lore`, the skill — the written procedure the agent follows — that operates an existing Lore. It left three things that are now law in this kit:
 
 - **Criteria is recoverable** (`add` mode): a project born without Lore already had criteria scattered across comments, decisions, and scars. It is never invented: it is **rescued**.
 - **Criteria is deduplicable** (`clean` mode): generic modules live **once, in the Area**. In one project, `clean` deleted 7 redundant modules (−866 lines) losing nothing: the criteria did not disappear, it **changed owner**.
@@ -40,7 +50,7 @@ Four projects of a real area (*web development*) migrated to the standard with `
 
 <br>
 
-The case that produced `arbitrate` mode — **renamed twice since: `transplant` in 2.1, `graft` in 2.1.1**, same law and same four gates. Three areas distilled Lore from third-party skills, and what we observed contradicted the intuition:
+This case produced the mode now called graft. It was born as `arbitrate`, renamed `transplant` in 2.1 and `graft` in 2.1.1: same law and same four gates. Three areas distilled Lore from third-party skills — procedures written by someone else, under a different purpose — and what we observed contradicted the intuition:
 
 - **The value was not the summary of the skill — it was the disagreement.** In two different areas, the dense block of the resulting module was *"where the skill contradicts our standard and loses"*. That part **existed neither in the skill nor in the previous Lore**: it was born from the collision.
 - **The same skill, arbitrated by two opposite purposes, loses in the same place for inverse reasons.** *Copywriting* skills were defeated in a marketing area (*"boring, functional copy always wins"*) and in a journalism area (*"we don't sell, we inform"*). The outcome does not depend on the source: it depends on **your** purpose.
@@ -55,7 +65,7 @@ The case that produced `arbitrate` mode — **renamed twice since: `transplant` 
 
 <br>
 
-The first case that crosses from software into another discipline. Two areas outside development — journalism and content strategy — already had real distilled Lore, not scaffolding: thematic modules derived from real work, consulted by real projects.
+The first case that crosses from software into another discipline. Two areas outside development — journalism and content strategy — already had real distilled Lore from actual work, not empty scaffolding: thematic modules born of the craft, consulted by real projects.
 
 - **The architecture is not a software trait.** The same skeleton reproduced itself in trades with no compiler or test, just a disciplined practice with an explicit purpose.
 - **Existence is not measurement.** The case shows the method *produces* criteria in another domain; it does not yet measure that criteria *reduced re-learning*.
@@ -69,13 +79,13 @@ The first case that crosses from software into another discipline. Two areas out
 
 <br>
 
-The method came back, six weeks later, to the project where it had been invented in raw form. It found two preservation artifacts living side by side with opposite fates: a `lore/` of distilled Clues that kept working, and an incident log that **took part in no decision at all** — not even when the same technical territory that log documented broke again.
+The method came back, six weeks later, to the project where it had been invented in raw form. It found two preservation artifacts living side by side with opposite fates. On one side, a `lore/` of distilled **Clues** — small restrictions that keep working after the original context is gone — that still did their job. On the other, an incident log that **took part in no decision at all**, not even when the same technical territory that log documented broke again.
 
 - **Preserving is not distilling, and the resemblance is the problem.** A case log satisfies the urge to preserve **without producing criteria**. Once the "leave a record" principle is met, nobody distills. Mining the log before deleting it surfaced two Clues that had sat there undistilled for six weeks.
 - **"Indexed and mandatory" does not imply "consulted".** It was in the `CLAUDE.md` lookup table and it was law in `principios.md`, and still it never loaded. Accessibility is necessary and not sufficient.
 - **The admission filter does not measure a Clue's altitude.** A Clue entered one day and the next failed to prevent the second symptom of its own root cause: it had been written about the surface that was seen, not the cause.
 
-**This case is why `obsidian-lore` is a sweep and not a button.**
+**This case is why `obsidian-lore` is a sweep and not a button:** it walks the notes looking for criteria; it does not convert a single note on demand.
 
 **Declared boundary:** this is software, same researcher and same interlocutor, and there is no counterfactual. Testimonial evidence, not measurement.
 
@@ -86,7 +96,7 @@ The method came back, six weeks later, to the project where it had been invented
 
 <br>
 
-A project needed criteria from four Areas, only one of which was its mother. **Lore's inheritance model is vertical, and sibling Areas are nobody's mother.** Two independent solutions appeared: **freezing** — copying snapshots, when the folder has to travel on its own — and **routing** — deciding per task which body governs. The second is what `create-bot` packages.
+A project needed criteria from four Areas, only one of which was its mother. **Lore's inheritance model is vertical, and sibling Areas are nobody's mother.** Two independent solutions appeared: **freezing** — copying a snapshot of the criteria, when the folder has to travel on its own — and **routing** — deciding per task which body governs. The second is what `create-bot` writes into the bot.
 
 - **Consuming is not inheriting.** You inherit from the mother Area; criteria from a sibling Area is **consumed**. The distinction decides where a criterion promotes to once it generalizes: it rises to its own Area, never to the one that merely reads it.
 - **What is distillable about a set of criteria is the border, not the criteria.** Two sibling Areas each had their half of the line written down. Neither had the rule for deciding which one governs a concrete task, because each body is written from inside its own purpose and the dividing line is only visible from outside both.
@@ -100,9 +110,9 @@ A project needed criteria from four Areas, only one of which was its mother. **L
 
 <br>
 
-Four bots built with `create-bot`, same ecosystem, all four sources with tidy Lore of their own. The acceptance test was **written down before any of them was used** — *a short instruction is enough*, in its falsifiable form: *did the project have to be explained to the bot to get the result?* Three of the four were put to work, and none of the three needed it.
+Four bots were built with `create-bot`, in the same ecosystem, and all four sources already had tidy Lore of their own. The acceptance test was **written down before any of them was used** — *a short instruction is enough*, in its falsifiable form: *did the project have to be explained to the bot to get the result?* Three of the four were put to work, and none of the three needed it.
 
-- **The method does not produce a shape; it produces shapes fitted to the distance and structure of the ecosystem.** The canon **grows when the ecosystem gets farther away** and empties out when it is next door: one bot distills a sealed corpus no pointer can reach, another ended up with a single file, because summarizing what the routing already reaches would have left two distillations of the same original inside one bot. A fourth federates a whole Area instead of a set of projects, and that exception was written down as a boundary of validity before the bot existed.
+- **The method does not produce a shape; it produces shapes fitted to the distance and structure of the ecosystem.** The canon **grows when the ecosystem gets farther away** and empties out when it is next door: one bot distills a sealed corpus no pointer can reach; another ended up with a single file, because summarizing what the routing already reaches would have left two distillations of the same original inside one bot. A fourth **federates** a whole Area — it points at its Lore instead of copying it — instead of a set of projects, and that exception was written down as a boundary of validity before the bot existed.
 
 **Declared boundary:** one builder, one ecosystem, one machine, and every source already had Lore. Three of four were used, and the missing one is precisely the only bot meant for other people — so this case says nothing yet about what happens when the builder and the user are different people.
 
@@ -113,19 +123,11 @@ Four bots built with `create-bot`, same ecosystem, all four sources with tidy Lo
 
 <br>
 
-A controlled benchmark asked whether criteria earned in work with one model could change the future
-decisions of another. In the frozen 72-run web protocol, cold Codex respected **25/36 evaluated
-Clues (69.4%)** and Codex with Lore respected **33/36 (91.7%)**: +22.3 points, with no task made
-worse. Synthetic writing and UPGRADE extensions widened the protocol beyond one web fixture.
+A controlled benchmark asked whether criteria earned in work with one model could change the future decisions of another. In the frozen 72-run web protocol, Codex without Lore respected **25/36 evaluated Clues (69.4%)** and Codex with Lore respected **33/36 (91.7%)**: +22.3 points, with no task made worse. Synthetic writing and UPGRADE extensions — the mode that raises an already-installed Lore to the current standard — widened the protocol beyond one web fixture.
 
-Across all three protocols, Lore respected **48/52 Clues on the first attempt versus 29/52**. With
-one controlled repair allowed, it reached **52/52 goals versus 39/52**, using fewer observed attempts
-and less observed time. The benchmark publishes raw transcripts, deterministic graders, raw and
-audited cuts, regression tests, and the exact boundary of every claim in [`bench/`](../bench/).
+Across all three protocols, Lore respected **48/52 Clues on the first attempt versus 29/52**. With one controlled repair allowed, it reached **52/52 goals versus 39/52**, using fewer observed attempts and less observed time. The benchmark publishes raw transcripts, deterministic graders, raw and audited cuts, regression tests, and the exact boundary of every claim in [`bench/`](../bench/).
 
-**Declared boundary:** one model, one effort level, one machine, synthetic tasks, and the same
-researcher built the Lore, fixtures, and graders. It measures compliance with one Clue per task, not
-the integral correctness of the deliverable, universal savings, or a validated IME.
+**Declared boundary:** one model, one effort level, one machine, synthetic tasks, and the same researcher built the Lore, fixtures, and graders. It measures compliance with one Clue per task, not the integral correctness of the deliverable, universal savings, or a validated skill-measurement instrument (IME).
 
 </details>
 
@@ -134,24 +136,13 @@ the integral correctness of the deliverable, universal savings, or a validated I
 
 <br>
 
-Two capabilities of this release — the always-on block and the pointer constitution — were
-generalized from **a single case** and then declared finished without being applied back to it.
-Applying them back produced **five defects, none of them visible by reading the files**.
+Two capabilities of this release were generalized from **a single case** and then declared finished without being applied back to it. One is the **always-on block**: the marked stretch of the contract that the agent loads first, pointing at where the Lore lives. The other is the **pointer constitution**: the template that mediates between this kit and another, made of delegations rather than copies. Applying them back produced **five defects, none of them visible by reading the files**.
 
-The split is the finding, not the number: **two defects were found by the form in the case, and three
-by the case in the form** — including the most expensive one, a template that mediates between two
-kits and said nothing about who may write in the repository. Generalizing loses in both directions,
-and neither loss is visible from where you stand: reading the form alone you cannot see what it
-lacks, because it is complete with respect to itself.
+The split is the finding, not the number: **two defects were found by the form in the case, and three by the case in the form** — including the most expensive one, a template that mediates between two kits and said nothing about who may write in the repository. Generalizing loses in both directions, and neither loss is visible from where you stand: reading the form alone you cannot see what it lacks, because it is complete with respect to itself.
 
-The practice this leaves is cheap and mechanical: **before publishing a generalization, lay it back
-over the case it came from and write down the differences in both directions.** The ones running
-form → case are defects of the case; the ones running case → form are what you were about to ship.
+The practice this leaves is cheap and mechanical: **before publishing a generalization, lay it back over the case it came from and write down the differences in both directions.** The ones running form → case are defects of the case; the ones running case → form are what you were about to ship.
 
-**Declared boundary:** one builder, one machine, a repository with no code, zero completed cycles of
-the second kit, and the strongest self-sealing in the series — the author of the kit, of the case, and
-the operator are the same person. The yardstick was fixed late and covers only one of the three
-stages, which the case declares rather than hides.
+**Declared boundary:** one builder, one machine, a repository with no code, zero completed cycles of the second kit, and the strongest self-sealing in the series — the author of the kit, of the case, and the operator are the same person. The yardstick was fixed late and covers only one of the three stages, which the case declares rather than hides.
 
 </details>
 
@@ -162,13 +153,13 @@ stages, which the case declares rather than hides.
 
 It did not start from a hypothesis. It started from an angry note: *«I don't like the copy results at all… I end up writing the copy by hand myself.»* A community-management area with a complete Lore, distilled criteria and a written method, producing work its owner discarded. **The distiller bypassing his own system is the only measurement that mattered**, and it was red.
 
-`PRUNE`, `GRAFT` and the threshold came out of that day. But what the case contributes is not the capabilities: it is what became visible while using them.
+`PRUNE`, the graft and the threshold came out of that day. But what the case contributes is not the capabilities: it is what became visible while using them.
 
-- **The defect was not bad criteria: it was correct criteria, accumulated.** Writing a five-line post loaded ~797 lines of active criteria. Nothing was refuted, no single law was superfluous, and **each one read fine on its own**. You find it by counting apparatus against content — ~120 lines of scaffolding around 5 lines of copy — never by reading files. It is the class of finding `Missing`/`Superseded`/`Earned` had no slot for, which is why `PRUNE` brought `Crowding`.
+- **The defect was not bad criteria: it was correct criteria, accumulated.** Writing a five-line post loaded ~797 lines of active criteria. Nothing was refuted, no single law was superfluous, and **each one read fine on its own**. You find it by counting apparatus against content — ~120 lines of scaffolding around 5 lines of copy — never by reading files. It is the class of finding `Missing` / `Superseded` / `Earned` had no slot for, which is why `PRUNE` brought `Crowding`: correct criteria that, together, smother the task.
 - **Pruning such a Lore correctly leaves it BIGGER.** The corpus ended 35 lines larger and the apparatus inside the deliverable went from ~120 lines to none. Four of six findings were `Crowding`, and repairing `Crowding` means *adding* a boundary, a destination or a ceiling. **Measured by corpus size, the correct repair reports as a failure** — and the incentive becomes deleting earned criteria. The skill claimed the opposite that same morning, and its first run disproved it.
 - **The threshold guards the skills and nothing guards the text editor.** That day 241 lines of new criteria went into a Lore that had been diagnosed eight hours earlier for missing boundaries. They produced **one**. `save-to-lore` demands them if you invoke it; `UPGRADE` catches them months later; opening the file and typing has no gate at all, and that is the path most criteria takes. **The defect survived the best possible case** — the author of the rule, the same day, with the rule fresh — so it belongs to the mechanism, not to anyone's discipline.
 - **The omission between two kits runs both ways.** Case 09 showed the cycle can run without ever consulting the criteria. Here the inverse happened: the criteria ran without ever consulting the cycle, and the version gained three capabilities while its spec still described two. Nothing failed and nothing warned, **because a stale spec looks exactly like a current one**.
-- **A tool is not neutral because it is useful.** A third-party writing reviewer flags emoji and short-fragment bursts as machine tells. The brand whose distilled voice is built on exactly those two devices ran it cold: it would have erased that voice while being right about everything except this corpus. `GRAFT` covered criteria arriving as a document; criteria arriving as **a tool you invoke** was covered by nobody.
+- **A tool is not neutral because it is useful.** A third-party writing reviewer flags emoji and short-fragment bursts as machine tells. The brand whose distilled voice is built on exactly those two devices ran it cold: it would have erased that voice while being right about everything except this corpus. The graft covered criteria arriving as a document; criteria arriving as **a tool you invoke** was covered by nobody.
 
 **The finding none of the five bullets contains, and the most important one:** almost all of those defects were found by **the project's owner, not by the kit and not by the agent**. The reviewer that was not running, the line breaks the storage surface was destroying, the noise creeping back under every delivery, the stanza form of the posts that had actually performed. The kit has no mechanism that would have caught any of it, and calling that «human supervision» would be softening it: **the instrument spent the day being wrong and the human was the only detector.**
 
@@ -199,7 +190,7 @@ And the older version had won **every mechanical measure**:
 
 **What it changed in the kit, and this is why the case exists:** the invariant in `use-lore` used to recommend counting clues against boundaries as the cheap check while no gate exists. It still does. It is now written as a **completeness check, never a quality one** — because this repository publishes a benchmark figure, and the distinction is not academic.
 
-**Declared boundary, and seven confounders published with the result.** `n=1`, one judge, one session, one corpus. A power cut mid-run destroyed the second arm's threshold decisions — the skill writes the result, not the decisions. Three of four pairs happened to place the older arm first. The pairs were assembled by the same person who ran the test. Manual copy-paste corrupted stretches of both deliverables, and one Monday copy was lost before it could enter a pair. The two arms ran against trees that differed in nature: one frozen at a tag, one the live working repository. And the older arm ran first, with the judge having seen no output yet.
+**Declared boundary, and seven confounders published with the result.** A single case (`n=1`), one judge, one session, one corpus. A power cut mid-run destroyed the second arm's threshold decisions — the skill writes the result, not the decisions. Three of four pairs happened to place the older arm first. The pairs were assembled by the same person who ran the test. Manual copy-paste corrupted stretches of both deliverables, and one Monday copy was lost before it could enter a pair. The two arms ran against trees that differed in nature: one frozen at a tag, one the live working repository. And the older arm ran first, with the judge having seen no output yet.
 
 </details>
 ---
@@ -231,7 +222,7 @@ The rule *«a bot is not an area»* was already written in **three** artifacts: 
 
 **What changed in the kit:** all of 2.1.1. The routing guards in `create-area`, `create-bot` and `use-lore`, the access check when a bot premieres, note debt that distinguishes who wrote what, and the graft rename. Four new tests fail if any guard is removed.
 
-**Declared boundary.** `n=1`, one session of one hour, **accompanied live by the kit's author** — so the case says nothing about installing the kit *unaided*, which is exactly the question left open. One host, one model, one domain. And the follow-up — whether the use improves or degrades over the weeks — is a different case, not yet written.
+**Declared boundary.** A single case (`n=1`), one session of one hour, **accompanied live by the kit's author** — so the case says nothing about installing the kit *unaided*, which is exactly the question left open. One host, one model, one domain. And the follow-up — whether the use improves or degrades over the weeks — is a different case, not yet written.
 
 </details>
 ---
@@ -245,7 +236,7 @@ On 2026-08-17 the kit crystallized three live bots. The owner rejected all three
 
 The defect had no error signal. Each snapshot was well-formed, private material stayed out, and the routing table was correct. It was a **table of absences**. CRYSTALLIZE had looked at the origin tree and never at the destination: a third person's AI session, with no live root underneath.
 
-A day later the mode was run again, this time with the missing half: the snapshot **inlines every routed `lore/`**, and it is **extractable**. Two bots were packed and unpacked into a review folder — **Roble** again (116 files, 935 KB) and **Laurel**, a two-body venture bot (54 files, 370 KB). Every live path in the unpacked routing table resolved. The extractor ships with the skill; the owner did not write it.
+A day later the mode was run again, this time with the missing half: the snapshot **inlines every routed `lore/`**, and it is **extractable**. Two bots were crystallized and handed over as a review folder — **Roble** again (116 files, 935 KB) and **Laurel**, a two-body venture bot (54 files, 370 KB). Every live path in the unpacked routing table resolved. The extractor ships with the skill; the owner did not write it.
 
 The owner judged the pair **in the same terms as the rejection**: *this is what we were looking for with crystallize*.
 
@@ -261,7 +252,7 @@ The owner judged the pair **in the same terms as the rejection**: *this is what 
 
 <br>
 
-An already-installed ecosystem — several areas, their projects, and the bots last — was raised to 2.1.4 by area tree, not folder by folder. Nothing looked broken. What it lacked was the always-on block, the word *threshold* where `HARD-GATE` still commanded, and the distinctions the kit had learned after those Lores were written.
+An already-installed ecosystem — several areas, their projects, and the bots last — was raised to 2.1.4 by area tree, not folder by folder. Nothing looked broken. What it lacked was the always-on block, the word *threshold* where `HARD-GATE` still commanded — the previous name of the threshold, through 2.0.9 — and the distinctions the kit had learned after those Lores were written.
 
 **What the mode already knew was not enough.** UPGRADE could name missing, superseded, earned and stale. It did not know to map three different folders (session, parent, body) before opening a module. A live site is worked in a folder that does not carry `lore/` beside it; concluding «no Lore» is the failure. Mapping git roots and `lore/` became the first phase.
 
