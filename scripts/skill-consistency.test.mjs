@@ -50,6 +50,24 @@ test("la documentación no conserva afirmaciones ya refutadas", () => {
   assert.doesNotMatch(text, /turn loose notes into criteria|convertir notas sueltas en criterio/i);
 });
 
+test("los docs vivos y las skills no nombran research-lus ni Lore in the Shell", () => {
+  const live = [
+    "README.md",
+    "docs/USAGE_en.md",
+    "docs/USAGE_es.md",
+    "docs/REFERENCE_en.md",
+    "docs/REFERENCE_es.md",
+    "docs/MIGRATION_en.md",
+    "docs/MIGRATION_es.md",
+    ...skillNames.map((name) => join("skills", name, "SKILL.md")),
+  ];
+  for (const file of live) {
+    const text = readFileSync(join(root, file), "utf8");
+    assert.doesNotMatch(text, /research-lus/, file);
+    assert.doesNotMatch(text, /lore-in-the-shell|Lore in the Shell/i, file);
+  }
+});
+
 test("el estándar se nombra como seis piezas, no seis archivos literales", () => {
   const text = ["README.md", ...docs, ...skillNames.map((name) => join("skills", name, "SKILL.md"))]
     .map((file) => readFileSync(join(root, file), "utf8"))
