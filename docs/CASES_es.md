@@ -7,9 +7,9 @@
 
 Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía.
 
-> **Estatus:** son casos, no demostraciones. n pequeño, y **once de las doce evidencias vienen del mismo investigador**. Restringen cómo usamos el kit; no pretenden ser una ley. El Caso 08 añade medición controlada sin eliminar esa frontera, y los Casos 09, 10 y 11 son los que miden este kit contra sí mismo — el 10 usándolo un día entero contra un Lore vivo, y el 11 corriendo dos de sus propias versiones cabeza a cabeza y juzgando la salida a ciegas.
+> **Estatus:** son casos, no demostraciones. n pequeño, y **doce de las trece evidencias vienen del mismo investigador**. Restringen cómo usamos el kit; no pretenden ser una ley. El Caso 08 añade medición controlada sin eliminar esa frontera, y los Casos 09, 10, 11 y 13 son los que miden este kit contra sí mismo — el 10 usándolo un día entero contra un Lore vivo, el 11 corriendo dos de sus propias versiones cabeza a cabeza y juzgando la salida a ciegas, el 13 cristalizando bots vivos y juzgando la fotografía por si un tercero podría trabajar desde ella.
 >
-> **El Caso 12 es el primero que no viene del investigador**, y por eso vale distinto: alguien de afuera instaló el kit y lo usó durante una hora. Rompe la frontera que los once anteriores compartían y abre una nueva, más chica y declarada dentro del caso.
+> **El Caso 12 es el primero que no viene del investigador**, y por eso vale distinto: alguien de afuera instaló el kit y lo usó durante una hora. Rompe la frontera de autoría que los otros doce comparten y abre una nueva, más chica y declarada dentro del caso.
 
 <details>
 <summary><b>Caso 01 — El Lore como forma operativa de un proyecto entero</b></summary>
@@ -233,6 +233,26 @@ La regla *«un bot no es un área»* ya estaba escrita en **tres** artefactos: e
 **Qué cambió en el kit:** la 2.1.1 entera. Las guardias de enrutamiento en `create-area`, `create-bot` y `use-lore`, el chequeo de acceso al estrenar un bot, la deuda de notas que distingue quién escribió qué, y el renombre del injerto. Cuatro pruebas nuevas fallan si alguna guardia desaparece.
 
 **Frontera declarada.** `n=1`, una sesión de una hora, **acompañada en vivo por el autor del kit** — así que el caso no dice nada sobre instalar el kit *sin ayuda*, que es justamente la pregunta que queda abierta. Un solo host, un solo modelo, un solo dominio. Y el seguimiento —si el uso mejora o empeora con las semanas— es otro caso, todavía sin escribir.
+
+</details>
+---
+
+<details>
+<summary><b>Caso 13 — Una cristalización que solo apunta no es una cristalización</b></summary>
+
+<br>
+
+El 2026-08-17 el kit cristalizó tres bots vivos. El dueño rechazó las tres. Los archivos *enrutaban* a criterio que no contenían: **Roble**, un bot de laboratorio, en 57 KB, rotulado «sin el ecosistema»; **Sauce**, un bot de oficio de área, en 47 KB, «sin el oficio del área». Un tercero se acercó y tampoco alcanzó. La vara era una fusión manual que el dueño ya había hecho (~1,1 MB): un solo Markdown desde el que un tercero pudiera trabajar.
+
+El defecto no tenía señal de error. Cada fotografía estaba bien formada, el material privado quedó fuera y la tabla de enrutamiento era correcta. Era una **tabla de ausencias**. CRYSTALLIZE había mirado el árbol de origen y nunca el destino: la sesión de IA de un tercero, sin una raíz viva debajo.
+
+Al día siguiente el modo se corrió otra vez, ahora con la mitad que faltaba: la fotografía **inlinea cada `lore/` enrutado**, y es **extraíble**. Se empaquetaron y se extrajeron dos bots a una carpeta de revisión — **Roble** otra vez (116 archivos, 935 KB) y **Laurel**, un bot de venture con dos cuerpos (54 archivos, 370 KB). Cada ruta viva de la tabla de enrutamiento extraída resolvió. El extractor viaja con la skill; el dueño no lo escribió.
+
+El dueño juzgó el par **en los mismos términos que el rechazo**: *esto es lo que buscábamos con cristalizar*.
+
+**Qué cambió en el kit:** la 2.1.3 entera. La vara de CRYSTALLIZE es que un tercero pueda trabajar desde el archivo solo. `lore-ecosistema/` viaja. «Sin el ecosistema» es falla del modo, no un alcance. Cada archivo lleva `<!-- lore:extract path="..." owner="..." -->`. Extraer reconstruye una mini-raíz que espeja `raiz`, reescribe `ecosistema.json` y falla si falta un puntero. El script es `skills/transmute-lore/scripts/crystallize.mjs`.
+
+**Frontera declarada.** El mismo investigador, el mismo juez que el Caso 11, dos bots, una máquina. El veredicto es que la fotografía y el desempaque llegan a la vara del dueño — no que un extraño ya abrió la carpeta en su IA favorita y trabajó como si fuera él. Ese es el uso que el modo ahora reclama, y todavía no es un caso.
 
 </details>
 ---

@@ -60,7 +60,8 @@ tree before writing, so the migration lands as a reviewable diff.
 > is the mode, not `add`.
 
 > **The fifth mode is `crystallize`.** It is not a migration: it exports a safe, traceable Markdown
-> snapshot for a destination that cannot navigate the live tree. It never replaces or edits Lore.
+> snapshot for a destination that cannot navigate the live tree. The snapshot can be extracted back
+> into a folder whose routing table resolves. It never replaces or edits Lore.
 > See [`USAGE_en.md`](./USAGE_en.md) for daily use and [`REFERENCE_en.md`](./REFERENCE_en.md) for its
 > privacy, routing and threshold contract.
 

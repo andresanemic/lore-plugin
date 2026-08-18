@@ -349,7 +349,8 @@ No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene se
   modo sustractivo, y **la unidad que cuenta es el entregable, no el Lore** — te va a preguntar qué
   publica tu proyecto antes de leer un solo módulo.
 - `crystallize` – exporta el Lore vivo y enrutado como un solo Markdown seguro y trazable para un
-  chat, proyecto de IA o notebook. La fotografía es derivada, puede quedar obsoleta y nunca reemplaza la fuente.
+  chat, proyecto de IA o notebook. La fotografía es derivada, puede quedar obsoleta, nunca
+  reemplaza la fuente, y se puede **extraer** de vuelta a una carpeta cuyo enrutamiento resuelve.
 
 **Sobre `upgrade`, que es el modo que más fácil se malinterpreta.** No es un reescribir ni un pase
 de estilo. Clasifica cada hallazgo en cuatro tipos, y ese etiquetado es lo que impide que degenere:
@@ -417,8 +418,14 @@ Comportamiento esperado:
 
 Usa este skill cuando ya tienes proyectos en marcha y quieres incorporarlos a Lore sin reescribirlo todo a mano.
 
-En `crystallize`, regenera la fotografía desde el árbol vivo cuando quede obsoleta; nunca edites la
-exportación como si fuera Lore autoritativo.
+En `crystallize`, la fotografía tiene que servir **sola**: cada `lore/` enrutado (el del bot, el
+de las áreas, `lore-ecosistema/` cuando es lo que hay en la máquina) va **íntegro** adentro. Un
+archivo que enruta a cuerpos que no contiene no es una cristalización. Cada archivo lleva un
+marcador `<!-- lore:extract path="..." owner="..." -->`. Se extrae con el script que viaja con
+la skill (`skills/transmute-lore/scripts/crystallize.mjs` — `pack` / `extract`); no se le pide
+al usuario que escriba el extractor. El desempaque es una mini-raíz que espeja la `raiz` de
+origen, con `ecosistema.json` reescrito para que `enrutamiento.md` resuelva. Regenera desde el
+árbol vivo cuando quede obsoleta; nunca edites la exportación como si fuera Lore autoritativo.
 
 ---
 

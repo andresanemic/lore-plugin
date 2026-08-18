@@ -7,9 +7,9 @@
 
 Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. LUS documents those applications as **case studies**.
 
-> **Status:** these are cases, not proofs. Small n, and **eleven of the twelve documented cases come from the same researcher**. What they claim constrains how we use the kit; it does not pretend to be a law. Case 08 adds controlled measurement without removing that boundary, and Cases 09, 10 and 11 are the ones that measure this kit against itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head and judging the output blind.
+> **Status:** these are cases, not proofs. Small n, and **twelve of the thirteen documented cases come from the same researcher**. What they claim constrains how we use the kit; it does not pretend to be a law. Case 08 adds controlled measurement without removing that boundary, and Cases 09, 10, 11 and 13 are the ones that measure this kit against itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head and judging the output blind, Case 13 by crystallizing live bots and judging the snapshot by whether a third person could work from it.
 >
-> **Case 12 is the first one that does not come from the researcher**, which is why it counts differently: someone outside the project installed the kit and used it for an hour. It breaks the boundary the other eleven shared, and opens a smaller one that is declared inside the case.
+> **Case 12 is the first one that does not come from the researcher**, which is why it counts differently: someone outside the project installed the kit and used it for an hour. It breaks the boundary the other twelve share on authorship, and opens a smaller one that is declared inside the case.
 
 <details>
 <summary><b>Case 01 — Lore as the operational form of an entire project</b></summary>
@@ -232,6 +232,26 @@ The rule *«a bot is not an area»* was already written in **three** artifacts: 
 **What changed in the kit:** all of 2.1.1. The routing guards in `create-area`, `create-bot` and `use-lore`, the access check when a bot premieres, note debt that distinguishes who wrote what, and the graft rename. Four new tests fail if any guard is removed.
 
 **Declared boundary.** `n=1`, one session of one hour, **accompanied live by the kit's author** — so the case says nothing about installing the kit *unaided*, which is exactly the question left open. One host, one model, one domain. And the follow-up — whether the use improves or degrades over the weeks — is a different case, not yet written.
+
+</details>
+---
+
+<details>
+<summary><b>Case 13 — A crystallization that only points is not a crystallization</b></summary>
+
+<br>
+
+On 2026-08-17 the kit crystallized three live bots. The owner rejected all three. The files *routed* to criterion they did not contain: **Roble**, a laboratory bot, at 57 KB, labeled "without the ecosystem"; **Sauce**, a craft-area bot, at 47 KB, "without the area's craft". A third file was closer and still not enough. The yardstick was a manual merge the owner had already made (~1.1 MB): one Markdown a third person could work from.
+
+The defect had no error signal. Each snapshot was well-formed, private material stayed out, and the routing table was correct. It was a **table of absences**. CRYSTALLIZE had looked at the origin tree and never at the destination: a third person's AI session, with no live root underneath.
+
+A day later the mode was run again, this time with the missing half: the snapshot **inlines every routed `lore/`**, and it is **extractable**. Two bots were packed and unpacked into a review folder — **Roble** again (116 files, 935 KB) and **Laurel**, a two-body venture bot (54 files, 370 KB). Every live path in the unpacked routing table resolved. The extractor ships with the skill; the owner did not write it.
+
+The owner judged the pair **in the same terms as the rejection**: *this is what we were looking for with crystallize*.
+
+**What it changed in the kit:** all of 2.1.3. The yardstick of CRYSTALLIZE is that a third person can work from the file alone. `lore-ecosistema/` travels. "Without the ecosystem" is a failure of the mode, not a scope. Each inlined file carries `<!-- lore:extract path="..." owner="..." -->`. Unpacking rebuilds a mini-root that mirrors `raiz`, rewrites `ecosistema.json`, and fails if any routing pointer is missing. The script is `skills/transmute-lore/scripts/crystallize.mjs`.
+
+**Declared boundary.** Same researcher, same judge as Case 11, two bots, one machine. The verdict is that the snapshot and the unpack match the owner's bar — not that a stranger already opened the folder in their favorite AI and worked as if they were him. That is the use the mode now claims, and it is not yet a case.
 
 </details>
 ---

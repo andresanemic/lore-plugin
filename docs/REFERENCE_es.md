@@ -299,8 +299,10 @@ Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decision
   - `upgrade` – «mejora el lore de {proyecto} con la versión nueva», «arbitra mi lore contra la versión nueva» — pone al día un Lore sano escrito contra una versión anterior de estos skills.
   - `prune` – «poda el lore de {proyecto}», «este lore se puso muy pesado» — quita **peso** a un Lore
     que se degradó acumulando cosas que por separado son correctas.
-  - `crystallize` – «cristaliza este Lore», «exporta este Lore a un solo Markdown» — resuelve el
-    enrutamiento vivo en una copia de lectura segura y trazable para un chat, proyecto de IA o notebook.
+  - `crystallize` – «cristaliza este Lore», «exporta este Lore a un solo Markdown», «extrae esta
+    cristalización» — resuelve el enrutamiento vivo en una copia de lectura segura y trazable
+    para un chat, proyecto de IA o notebook, marcada para desempaquetarse en una carpeta cuyo
+    enrutamiento resuelve.
 
 **Precondición de seguridad:** los modos que modifican artefactos fuente exigen un árbol de Git
 limpio antes de escribir. `crystallize` no escribe artefactos fuente y puede diagnosticar un árbol
@@ -420,12 +422,15 @@ leer un solo módulo. Sin eso, `prune` no tiene denominador y se convierte en gu
 4. Nada sale sin dejar su residuo escrito, y **lo que encoge es el entregable, no necesariamente el
    corpus**.
 
-**Proceso — modo `crystallize` (conceptual):** resolver el enrutamiento vivo del proyecto, Área o
-bot; clasificar las fuentes como incluidas, privadas, inciertas o no enrutadas; mostrar el manifiesto
-completo, el destino y si se sobrescribirá algo; esperar aprobación; y escribir una fotografía fuera
-de `lore/`. El encabezado declara que puede quedar obsoleta y apunta al árbol vivo. El material
-privado se excluye por defecto, las fuentes inciertas requieren aprobación separada y el derivado
-nunca se vuelve autoridad.
+**Proceso — modo `crystallize` (conceptual):** resolver el **árbol enrutado entero** — contrato,
+canon, identidad, principios y cada `lore/` que nombren `enrutamiento.md` o
+`scripts/ecosistema.json`, incluido `lore-ecosistema/` cuando la fuente viva no está. Una
+fotografía que solo *apunta* a criterio que no trae ha fallado el modo. El resto se clasifica
+como privado, ruido (notas, scripts que no sean el manifiesto, lockfiles) o no enrutado; se
+muestra el manifiesto; se espera aprobación; se escribe un solo archivo fuera de `lore/`. Cada
+archivo va envuelto en `<!-- lore:extract path="..." owner="..." -->`; se extrae con
+`skills/transmute-lore/scripts/crystallize.mjs` a una mini-raíz que espeja `raiz`. «Sin el
+ecosistema» no es el default. El usuario no escribe el extractor.
 
 `transmute-lore` **no hace commit del proyecto destino**. Los modos que cambian fuentes dejan un
 *diff* revisable; `crystallize` verifica que los hashes o tamaños de las fuentes no cambiaron.

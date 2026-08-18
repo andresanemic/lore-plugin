@@ -11,8 +11,16 @@ const targetIndex = args.indexOf("--target");
 const target = targetIndex === -1 ? null : args[targetIndex + 1];
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
+if (command === "crystallize") {
+  const script = resolve(packageRoot, "skills/transmute-lore/scripts/crystallize.mjs");
+  const result = spawnSync(process.execPath, [script, ...args.slice(1)], { stdio: "inherit" });
+  process.exit(result.status ?? 1);
+}
+
 if (command !== "install" || !["codex", "claude", "all"].includes(target)) {
   console.log("Usage: lore-plugin install --target codex|claude|all");
+  console.log("       lore-plugin crystallize pack --bot <dir> --out <file.md>");
+  console.log("       lore-plugin crystallize extract --from <file.md> --out <dir>");
   process.exit(command ? 2 : 0);
 }
 

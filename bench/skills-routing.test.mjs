@@ -123,3 +123,24 @@ test("CRYSTALLIZE protege material privado y exige vista previa", () => {
   assert.match(text, /exact source manifest/);
   assert.match(text, /writes no source artifact/);
 });
+
+test("CRYSTALLIZE inlinea el ecosistema enrutado y no admite recorte por defecto", () => {
+  const text = skill("transmute-lore");
+  assert.match(text, /lore-ecosistema\/` travels/);
+  assert.match(text, /table of absences/);
+  assert.match(text, /"Without the ecosystem" is not a default/);
+  assert.match(text, /Fail the pass/);
+  assert.match(text, /scripts\/ecosistema\.json/);
+  assert.doesNotMatch(text, /Alcance elegido[\s\S]{0,80}Sin(?:el )?ecosistema/i);
+});
+
+test("CRYSTALLIZE empaqueta con marcadores extraíbles y reconstruye la mini-raíz", () => {
+  const text = skill("transmute-lore");
+  assert.match(text, /<!-- lore:extract path="/);
+  assert.match(text, /<!-- \/lore:extract -->/);
+  assert.match(text, /mini-root/);
+  assert.match(text, /crystallize\.mjs/);
+  assert.match(text, /Do not ask the user to write the extractor/);
+  assert.match(text, /Fail extract/);
+  assert.match(text, /CRYSTALLIZE is extractable/);
+});

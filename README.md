@@ -15,7 +15,7 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.1.2-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.1.3-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/AI_agents-provider--neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Provider-neutral AI agents"></a>
   <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
@@ -421,7 +421,7 @@ Operates existing Lore in six modes:
 | **translate** | Standardizes the language of an existing Lore, translating content and renaming artifacts, without altering structure or meaning. |
 | **upgrade** | Raises a healthy Lore written against an older version of these skills. Sorts every finding into Missing, Superseded, **Earned** or **Stale** — what the project paid for with real friction is left alone, and what no longer matches the project's own practice is reported against the repository. |
 | **prune** | Prunes a Lore that decayed by **accumulating correct things**. Sorts every finding into Deadwood, Crowding, Rooted or **Unhealed**, and counts apparatus against content. What shrinks is the deliverable, not necessarily the corpus. Nothing comes out without its residue written down. |
-| **crystallize** | Exports a safe, traceable single-Markdown snapshot for a chat or notebook without replacing the live Lore or exposing private material. |
+| **crystallize** | Exports a safe, traceable single-Markdown snapshot for a chat or notebook — every routed `lore/` inlined, extractable back into a folder whose routing table resolves — without replacing the live Lore or exposing private material. |
 
 > **Why pruning is its own mode and not part of `clean`.** `clean` removes *duplicates*. `prune`
 > removes *weight*: criteria that is not duplicated, not wrong and not superseded, and whose only
@@ -610,7 +610,7 @@ This README covers motivation and architecture. Everything else lives in its own
 | [`REFERENCE_en.md`](./docs/REFERENCE_en.md) | Technical reference: core concepts, the exact spec for each artifact and each skill. |
 | [`MIGRATION_en.md`](./docs/MIGRATION_en.md) | How to migrate an existing project into Lore using `transmute-lore`. |
 | [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | The optional, experimental encryption for a bot's criteria: what it protects and what it does not. |
-| [`CASES_en.md`](./docs/CASES_en.md) | The twelve case studies, each with its declared boundary. |
+| [`CASES_en.md`](./docs/CASES_en.md) | The thirteen case studies, each with its declared boundary. |
 | [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md) | Using Lore alongside GitHub's spec-kit: **which levels should have it at all** — an area no, a project the whole cycle, a bot only up to `tasks` — who governs what, and the constitution that draws the border. Optional — Lore never depends on it. |
 | [`bench/`](./bench/) | The benchmark: Web, Editorial and UPGRADE harnesses; frozen tasks; method; declared limits; and raw results. |
 
@@ -637,6 +637,7 @@ lore-plugin/
       plantillas/        # validar.js · canon.js · sync.js · ecosistema.json
     save-to-lore/
     transmute-lore/
+      scripts/         # crystallize.mjs — pack / extract
     obsidian-lore/
 
   README.md
@@ -649,11 +650,11 @@ lore-plugin/
 
 ## Case studies
 
-Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. Those applications are documented as **twelve case studies**, each with its own declared boundary. Case 08 is the controlled benchmark summarized above; Cases 09, 10 and 11 turned the kit on itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head with the judging done blind — and **Case 12 is the first install run by someone who is not the author**, which is where 2.1.1 came from.
+Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. Those applications are documented as **thirteen case studies**, each with its own declared boundary. Case 08 is the controlled benchmark summarized above; Cases 09, 10, 11 and 13 turned the kit on itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head with the judging done blind, Case 13 by crystallizing live bots and unpacking the snapshot — and **Case 12 is the first install run by someone who is not the author**, which is where 2.1.1 came from.
 
-> **Status:** these are cases, not proofs. Small n, and **eleven of the twelve come from the same researcher** — Case 12 is the one that does not. What they claim constrains how we use the kit; it does not pretend to be a law. The measured claim belongs to [Case 08 and its benchmark](#benchmark); the rest are qualitative evidence.
+> **Status:** these are cases, not proofs. Small n, and **twelve of the thirteen come from the same researcher** — Case 12 is the one that does not. What they claim constrains how we use the kit; it does not pretend to be a law. The measured claim belongs to [Case 08 and its benchmark](#benchmark); the rest are qualitative evidence.
 
-**[Read the twelve case studies →](./docs/CASES_en.md)**
+**[Read the thirteen case studies →](./docs/CASES_en.md)**
 
 ---
 
@@ -802,7 +803,7 @@ Questions, cases that contradict ours, a Lore that came out weird? The [reposito
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.1.2-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.1.3-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/agentes_de_IA-neutral_al_proveedor-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Agentes de IA neutrales al proveedor"></a>
   <a href="./docs/SPEC_KIT_es.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
@@ -1198,7 +1199,7 @@ Opera un Lore existente en seis modos:
 | **translate** | Estandariza el idioma de un Lore existente, sin alterar estructura ni significado. |
 | **upgrade** | Pone al día un Lore sano escrito contra una versión anterior de estos skills. Clasifica cada hallazgo en Missing, Superseded, **Earned** o **Stale**: lo que el proyecto pagó con fricción real se deja intacto, y lo que ya no coincide con su práctica se detecta contra el repositorio y se reporta. |
 | **prune** | Poda un Lore que se degradó **acumulando cosas correctas**. Clasifica cada hallazgo en Deadwood, Crowding, Rooted o **Unhealed**, y cuenta aparato contra contenido. Lo que encoge es el entregable, no necesariamente el corpus. Nada sale sin dejar su residuo escrito. |
-| **crystallize** | Exporta una fotografía trazable en un solo Markdown para un chat o notebook, sin reemplazar el Lore vivo ni exponer material privado. |
+| **crystallize** | Exporta una fotografía trazable en un solo Markdown para un chat o notebook — cada `lore/` enrutado va adentro, extraíble a una carpeta cuyo enrutamiento resuelve — sin reemplazar el Lore vivo ni exponer material privado. |
 
 > **Por qué la poda es un modo propio y no parte de `clean`.** `clean` quita *duplicados*. `prune`
 > quita *peso*: criterio que no está duplicado, no está mal y no está superado, y cuyo único defecto
@@ -1381,7 +1382,7 @@ El harness, las tareas congeladas, los graders, las salidas crudas y las fronter
 | [`REFERENCE_es.md`](./docs/REFERENCE_es.md) | Referencia técnica de cada artefacto y cada *skill*. |
 | [`MIGRATION_es.md`](./docs/MIGRATION_es.md) | Cómo migrar un proyecto existente con `transmute-lore`. |
 | [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | El cifrado opcional y experimental del criterio de un bot: qué protege y qué no. |
-| [`CASES_es.md`](./docs/CASES_es.md) | Los doce casos de estudio, cada uno con su frontera declarada. |
+| [`CASES_es.md`](./docs/CASES_es.md) | Los trece casos de estudio, cada uno con su frontera declarada. |
 | [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md) | Usar Lore conviviendo con spec-kit de GitHub: **en qué niveles conviene tenerlo** — un área no, un proyecto el ciclo completo, un bot solo hasta `tasks` — quién gobierna qué, y la constitución que traza la frontera. Opcional — Lore no depende de él. |
 | [`bench/`](./bench/) | El benchmark: harnesses Web, Editorial y UPGRADE; tareas congeladas; método; fronteras declaradas; y resultados crudos. |
 
@@ -1408,6 +1409,7 @@ lore-plugin/
       plantillas/        # validar.js · canon.js · sync.js · ecosistema.json
     save-to-lore/
     transmute-lore/
+      scripts/         # crystallize.mjs — pack / extract
     obsidian-lore/
 
   README.md
@@ -1420,11 +1422,11 @@ lore-plugin/
 
 ## Casos de estudio
 
-Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía. Esas aplicaciones están documentadas como **doce casos de estudio**, cada uno con su frontera declarada. El Caso 08 es el benchmark controlado resumido arriba; los Casos 09, 10 y 11 volvieron el kit contra sí mismo —el 10 usándolo un día entero contra un Lore vivo, y el 11 corriendo dos de sus propias versiones cabeza a cabeza con el juicio a ciegas— y el **Caso 12 es la primera instalación hecha por alguien que no es el autor**, de donde salió la 2.1.1.
+Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía. Esas aplicaciones están documentadas como **trece casos de estudio**, cada uno con su frontera declarada. El Caso 08 es el benchmark controlado resumido arriba; los Casos 09, 10, 11 y 13 volvieron el kit contra sí mismo —el 10 usándolo un día entero contra un Lore vivo, el 11 corriendo dos de sus propias versiones cabeza a cabeza con el juicio a ciegas, el 13 cristalizando bots vivos y extrayendo la fotografía— y el **Caso 12 es la primera instalación hecha por alguien que no es el autor**, de donde salió la 2.1.1.
 
-> **Estatus:** son casos, no demostraciones. n pequeño, y **once de los doce vienen del mismo investigador** — el Caso 12 es el que no. Restringen cómo usamos el kit; no pretenden ser una ley. La afirmación medida pertenece al [Caso 08 y su benchmark](#el-benchmark); los demás aportan evidencia cualitativa.
+> **Estatus:** son casos, no demostraciones. n pequeño, y **doce de los trece vienen del mismo investigador** — el Caso 12 es el que no. Restringen cómo usamos el kit; no pretenden ser una ley. La afirmación medida pertenece al [Caso 08 y su benchmark](#el-benchmark); los demás aportan evidencia cualitativa.
 
-**[Leer los doce casos de estudio →](./docs/CASES_es.md)**
+**[Leer los trece casos de estudio →](./docs/CASES_es.md)**
 
 ---
 

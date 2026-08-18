@@ -1,6 +1,6 @@
 ---
 name: transmute-lore
-description: Operate a project's body of criteria in six modes — migrate scattered criteria to the six-piece Lore standard (ADD); remove project copies of criteria already owned by its area (CLEAN); standardize language without changing meaning (TRANSLATE); arbitrate healthy Lore against a newer kit and raise it without rewriting earned criterion (UPGRADE); prune a Lore that decayed by accumulating correct things, until it fits the deliverable again (PRUNE); or generate a safe, traceable single-Markdown snapshot for chats, AI projects and notebooks without replacing the live artifacts (CRYSTALLIZE). Trigger on requests to transmute, migrate, clean, translate, upgrade, bring Lore up to date, prune the Lore, "prune-lore", "poda en lore", "poda el lore de {proyecto}", crystallize Lore, export Lore to one Markdown, or prepare Lore as a chat/notebook source.
+description: Operate a project's body of criteria in six modes — migrate scattered criteria to the six-piece Lore standard (ADD); remove project copies of criteria already owned by its area (CLEAN); standardize language without changing meaning (TRANSLATE); arbitrate healthy Lore against a newer kit and raise it without rewriting earned criterion (UPGRADE); prune a Lore that decayed by accumulating correct things, until it fits the deliverable again (PRUNE); or generate a safe, traceable single-Markdown snapshot for chats, AI projects and notebooks without replacing the live artifacts (CRYSTALLIZE), a snapshot that can be extracted back into a folder whose routing table resolves. Trigger on requests to transmute, migrate, clean, translate, upgrade, bring Lore up to date, prune the Lore, "prune-lore", "poda en lore", "poda el lore de {proyecto}", crystallize Lore, export Lore to one Markdown, prepare Lore as a chat/notebook source, extract a crystallization, or "extrae esta cristalización".
 ---
 
 # Transmute Lore
@@ -35,8 +35,10 @@ This skill operates a project's body of criteria. Six modes, one skill:
   It is not CLEAN: nothing here is a duplicate.
 - **CRYSTALLIZE** — the Lore is healthy and must travel as a **single Markdown derivative** into a
   chat, an AI project, or a notebook such as NotebookLM. It resolves the live routing into one
-  traceable snapshot while leaving every source untouched. It **does not replace the six live
-  artifacts** and is not the normal format for work inside an agent or IDE that can read the tree.
+  traceable snapshot while leaving every source untouched. The snapshot is **extractable**: unpacking
+  it rebuilds a mini-root whose routing table resolves, so a third person's AI session can work as
+  closely as possible to the crystallizer's. It **does not replace the six live artifacts** and is
+  not the normal format for work inside an agent or IDE that can read the live tree.
 
 ## When to use
 
@@ -60,8 +62,10 @@ This skill operates a project's body of criteria. Six modes, one skill:
   *"poda en lore"*, *"poda el lore de {proyecto}"*, *"this lore has too much in it"*. Also the
   scheduled pass of a pruning ritual, run **before** producing the week's work and never after.
 - **CRYSTALLIZE:** a project or bot whose routed criteria must be attached to a chat, AI project, or
-  notebook as one `.md`. Triggers: *"crystallize this Lore"*, *"export this Lore to one Markdown"*,
-  *"prepare this bot as a ChatGPT source"*, *"cristaliza el lore en un solo archivo"*.
+  notebook as one `.md`, or unpacked from that file into a folder. Triggers: *"crystallize this
+  Lore"*, *"export this Lore to one Markdown"*, *"prepare this bot as a ChatGPT source"*,
+  *"cristaliza el lore en un solo archivo"*, *"extract this crystallization"*,
+  *"extrae esta cristalización"*.
 
 Detect the area: a project living in `{area}/proyectos/{name}/` inherits from `{area}/lore/`.
 If the project is standalone (no parent area), CLEAN does not apply — say so.
@@ -569,6 +573,14 @@ commit.**
 > folder tree. CRYSTALLIZE resolves the project's routing into a portable reading copy. The source
 > remains authoritative; the derivative never becomes a second Lore to maintain.
 
+> **The yardstick, and it is not optional.** A third person must be able to **work from this file
+> alone**. A crystallization that *routes* to criterion it does not contain is not a crystallization:
+> it is a table of absences. **`lore-ecosistema/` travels.** So does every live `lore/`, `canon/`,
+> identity and principles the routing table or `scripts/ecosistema.json` names. "Canon only",
+> "without the ecosystem", "without the area's craft" are **failures of the mode**, not scopes.
+> A smaller export is allowed only when the user **names each routed body to drop**, and the
+> preview lists those holes as holes. Silence is the full tree.
+
 ### Phase 0 — Resolve target and destination
 
 Identify whether the target is a project, area, or bot and where the derivative will be used: a
@@ -579,31 +591,49 @@ inside `lore/`.
 CRYSTALLIZE **does not replace the six live artifacts**. It writes no source artifact and never
 changes the instruction contract, `FASES.md`, `lore/`, a bot's canon, or any federated source.
 
-### Phase 1 — Resolve the live routing
+### Phase 1 — Resolve the live routing (the default is the whole routed tree)
 
-Read in this order and record every resolved path:
+Read in this order and record every resolved path. **Do not stop at the bot's own folder.**
 
 1. the target contract (`CLAUDE.md`, `AGENTS.md`, or the bot's equivalent);
 2. `FASES.md` or the target's current state artifact;
-3. `lore/index.md`, identity, and principles;
-4. thematic modules routed by the index, including inherited area modules;
-5. for a federated bot, its routing table and the exact canon/Lore sources it points to.
+3. the target's `canon/` (a bot) and its `lore/` — identity, principles, index, thematic modules,
+   generated `enrutamiento.md`;
+4. **if `scripts/ecosistema.json` exists:** every `fuentes[]` row. For each row, take `incluir`
+   (or `lore` + the selected contract + `FASES.md` when `incluir` is absent). Resolve first at
+   the **live** `origen` under the manifest `raiz`; if that path does not exist on this machine,
+   resolve the same pieces under `lore-ecosistema/{destino}`. A copy that exists and a live tree
+   that exists must not both be inlined — live wins, one owner;
+5. **if `lore-ecosistema/` exists and a row has no live origin:** walk that copy the same way —
+   contract, `FASES.md`, `lore/`, `canon/`, `GOLDEN_PATHS.md`, `fuente/` that is already criterion;
+6. inherited area modules the project's `index.md` points to, when the target is a project.
 
-Follow links to their owners rather than copying adjacent files by directory. Deduplicate the same
-source reached through multiple routes and preserve ownership in the resulting headings.
+Follow owners, not adjacent directories. Deduplicate the same file reached twice. Preserve
+ownership in the headings.
 
-### Phase 2 — Apply the privacy boundary
+**The test that Phase 1 passed:** every `lore/` named by `enrutamiento.md` or by `ecosistema.json`
+has a corresponding set of files on the manifest. If a row is missing, Phase 1 is not done —
+do not invent a "canon-only" preview to paper over it.
 
-Exclude by default **conversations, secrets, ignored files, undistilled notes**, environment files,
-credentials, private histories, caches, and any corpus or directory not explicitly routed by the
-target's contract. An ignored file is excluded even when a routed directory contains it.
+### Phase 2 — Apply the privacy and noise boundary
 
-For research or personal bots, do not infer that a conversation is safe because it is Markdown.
-Public corpus and private continuity are different sources. If the user wants an excluded source
-included, name it separately in the preview and require explicit approval for that source.
+These stay **out** by default — they do not help a third person work from the file, or they
+are not criterion. The privacy set is still **conversations, secrets, ignored files, undistilled notes**,
+plus:
 
-If a source carries its own visibility or distribution rule, that rule outranks convenience. A
-source that cannot be redistributed is represented only by a notice that it was omitted.
+- `notas/`, `notes/` (source, not Lore);
+- `scripts/` **except** `scripts/ecosistema.json` (the routing source of truth);
+- `LICENSE`, lockfiles, `package.json` of tools, `node_modules/`;
+- a previous crystallization nested inside the new one;
+- environment files, credentials, private histories, caches;
+- binaries, unless the user names one and approves it.
+
+An ignored file is excluded even when a routed directory contains it. For research or personal
+bots, do not infer that a conversation is safe because it is Markdown. If the user wants an
+excluded source included, name it separately in the preview and require explicit approval.
+
+If a source cannot be redistributed, represent it only by a notice that it was omitted — and
+that notice **does not replace** inlining every *other* routed `lore/`.
 
 ### Phase 3 — Build the preview and threshold
 
@@ -611,14 +641,16 @@ Before writing, present:
 
 - destination path and intended platform;
 - the **exact source manifest**, in output order, with owner and resolved path;
-- every excluded category found and its count;
+- the count of routed `lore/` trees included vs named by the manifest — they must match;
+- every excluded category and its count;
 - any source whose visibility is uncertain;
-- the proposed title and section outline;
-- whether an existing derivative would be overwritten.
+- any routed body the user asked to drop, listed as a hole;
+- whether an existing derivative would be overwritten;
+- that every inlined file will carry an extract marker, and where the snapshot can be unpacked.
 
 Wait for explicit approval. Approval to crystallize the normal route does not approve an uncertain
-or private source. If the destination already exists, show that fact and obtain overwrite approval;
-otherwise choose a new filename.
+or private source, and **does not approve omitting `lore-ecosistema/`**. If the destination already
+exists, show that fact and obtain overwrite approval; otherwise choose a new filename.
 
 ### Phase 4 — Compose the derivative
 
@@ -627,17 +659,31 @@ Write one Markdown in this order:
 1. title and target identity;
 2. a warning that this is a generated reading copy;
 3. generation date, source root, intended destination, and exact source manifest;
-4. purpose and quality north;
-5. principles;
-6. routed thematic criterion, grouped by owner and original file;
-7. current state from `FASES.md`, clearly labeled as volatile state rather than Lore;
-8. bot routing/canon instructions when applicable;
-9. omissions and privacy boundary;
-10. regeneration notice.
+4. the bot or project's own contract, canon, identity and principles;
+5. **every routed body**, owner by owner, file by file — identity, principles, modules, state —
+   inlined in full, each file wrapped in an extract marker (below);
+6. omissions and privacy boundary;
+7. regeneration notice.
+
+**Every inlined file is extractable.** Wrap it exactly like this — path relative to the
+manifest `raiz`, never a machine-absolute path:
+
+```markdown
+<!-- lore:extract path="laboratorio/proyectos/roble/lore/identidad.md" owner="Roble" -->
+…file body, unchanged…
+<!-- /lore:extract -->
+```
+
+- `path` is `{origen}/{rel}` from `ecosistema.json`, or `bots/proyectos/{slug}/{rel}` for the
+  bot's own files (contract, canon, `lore/`, `scripts/ecosistema.json`).
+- `owner` is the row's `proyecto` (or the bot's name). Optional `destino="..."` records the
+  copy slot so unpack can rebuild `lore-ecosistema/` when `copia` is on.
+- Do not invent a second wrapping format. The bundled script parses this pair and nothing else.
 
 Preserve the source language and substantive content. Normalize heading levels only so the combined
 file remains navigable. Do not summarize away examples, confidence markers, defeats, validity
 boundaries, or provenance: those are what let criterion participate rather than merely be named.
+**Do not leave a routing table whose destinations are missing from this file.**
 
 The header must say plainly: **this snapshot may become stale**. It must direct the reader back to
 the live project tree for updates and warn agents not to write changes back into the derivative.
@@ -646,11 +692,51 @@ the live project tree for updates and warn agents not to write changes back into
 
 - Compare source hashes or byte counts before and after: CRYSTALLIZE **writes no source artifact**.
 - Confirm every manifest entry has one corresponding section or an explicit omission notice.
+- **Fail the pass** if `enrutamiento.md` or `ecosistema.json` names a `lore/` that has no inlined
+  files in the derivative, unless the user accepted that hole by name in Phase 3.
 - Scan the derivative for excluded filenames and known secret markers before reporting success.
 - Confirm links that only made sense inside the tree are either expanded with source context or
   labeled as non-portable; do not leave silent broken navigation.
+- Confirm every inlined file has one `<!-- lore:extract path="..." owner="..." -->` /
+  `<!-- /lore:extract -->` pair, and that no `path` is absolute or contains `..`.
 - Report output path, size, source count, excluded count, and the command/request needed to
-  regenerate it. **Do not commit.**
+  regenerate it or extract it. **Do not commit.**
+
+### Phase 6 — Extract (when asked, or as part of a review test)
+
+The snapshot is not only for reading. A third person must be able to unpack it into a folder
+whose routing table **resolves**, so their AI session behaves as closely as possible to the
+session that crystallized.
+
+**Do not ask the user to write the extractor.** Run the script that ships with this skill:
+
+```text
+node <plugin>/skills/transmute-lore/scripts/crystallize.mjs pack --bot <bot-dir> --out <snapshot.md>
+node <plugin>/skills/transmute-lore/scripts/crystallize.mjs extract --from <snapshot.md> --out <folder>
+```
+
+If the `lore-plugin` CLI is on the path, the same verbs work as `lore-plugin crystallize pack|extract`.
+An agent composing by hand still writes the markers in Phase 4; the script is the default for a
+bot-sized tree and the only supported unpacker.
+
+Unpack layout — a **mini-root** that mirrors the origin `raiz`:
+
+```text
+<out>/
+  bots/proyectos/{slug}/     ← the bot (contract, canon, lore/, ecosistema.json)
+  {origen}/...               ← every federated body at its live path
+  LEEME.md
+```
+
+Rewrite every unpacked `scripts/ecosistema.json` so `raiz` is `<out>`. If that manifest has
+`copia: true`, also rebuild `{bot}/lore-ecosistema/{destino}` from the same files so the
+fallback column of `enrutamiento.md` works.
+
+**Fail extract** if any live path named by the unpacked `enrutamiento.md` is missing under
+`<out>`. Same yardstick as Phase 5: a table of absences is not a crystallization.
+
+The extract folder is a derived tree, not a second Lore. Do not write it back over the live
+`raiz`. Do not commit it unless the user asks.
 
 ---
 
@@ -703,3 +789,9 @@ the live project tree for updates and warn agents not to write changes back into
 - **CRYSTALLIZE is a derivative, never authority.** It follows routed owners, excludes private and
   unrouted material by default, writes no source artifact, and declares that its snapshot may become
   stale. Regenerate it from the live tree instead of editing it as Lore.
+- **CRYSTALLIZE inlines every routed body.** A file that only *points* at `lore-ecosistema/` or at
+  an area's `lore/` has failed the mode. The yardstick is that a third person can work from the
+  snapshot alone. "Without the ecosystem" is not a default and not a convenience.
+- **CRYSTALLIZE is extractable.** Every inlined file carries a `<!-- lore:extract path="..." owner="..." -->`
+  marker. Unpacking rebuilds a mini-root where `enrutamiento.md` resolves. The extractor ships with
+  this skill (`scripts/crystallize.mjs`); the user does not write it.

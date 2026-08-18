@@ -306,8 +306,9 @@ Use `save-to-lore` as the main mechanism for feeding your Lore after important d
     the current standard.
   - `prune` – "prune the lore of Legacy Frontend", "this lore got too heavy" — remove **weight** from
     a Lore that decayed by accumulating things that are each individually correct.
-  - `crystallize` – "crystallize this Lore", "export this Lore to one Markdown" — resolve the live
-    routing into a safe, traceable reading copy for a chat, AI project or notebook.
+  - `crystallize` – "crystallize this Lore", "export this Lore to one Markdown", "extract this
+    crystallization" — resolve the live routing into a safe, traceable reading copy for a chat,
+    AI project or notebook, marked so it can be unpacked into a folder whose routing table resolves.
 
 **Safety precondition:** modes that modify source artifacts require a clean git tree before writing.
 `crystallize` writes no source artifact and may diagnose a dirty tree, but it still requires an
@@ -424,11 +425,16 @@ actually ships — a post, a page, a component, a report — before reading a si
 4. Nothing comes out without its residue written down, and **what shrinks is the deliverable, not
    necessarily the corpus**.
 
-**Process — `crystallize` mode (conceptually):** resolve the project, Area or bot's live routing;
-classify sources as included, private, uncertain or unrouted; show the full manifest, destination
-and overwrite status; wait for approval; then write one snapshot outside `lore/`. The header states
-that the copy may become stale and points back to the live tree. Private material is excluded by
-default, uncertain sources require separate approval, and the derivative is never an authority.
+**Process — `crystallize` mode (conceptually):** resolve the **whole routed tree** — the target's
+contract, canon, identity, principles, and every `lore/` named by `enrutamiento.md` or
+`scripts/ecosistema.json`, including `lore-ecosistema/` when the live origin is absent. A snapshot
+that only *points* at criterion it does not contain has failed the mode. Classify the rest as
+private, noise (notes, scripts other than the manifest, lockfiles) or unrouted; show the full
+manifest; wait for approval; write one snapshot outside `lore/`. Each inlined file is wrapped in
+`<!-- lore:extract path="..." owner="..." -->`; unpack with
+`skills/transmute-lore/scripts/crystallize.mjs` into a mini-root that mirrors `raiz`. The header
+states that the copy may become stale. Private material is excluded by default. "Without the
+ecosystem" is not a default. The user does not write the extractor.
 
 `transmute-lore` **does not commit the target project**. Source-changing modes leave a reviewable
 diff; `crystallize` verifies that source hashes or byte counts did not change.

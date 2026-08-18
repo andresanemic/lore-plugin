@@ -42,6 +42,9 @@ test("las guías bilingües documentan las ocho skills con una sección propia",
 test("la documentación no conserva afirmaciones ya refutadas", () => {
   const text = docs.map((file) => readFileSync(join(root, file), "utf8")).join("\n");
   assert.doesNotMatch(text, /seven (?:documented )?case studies|all seven|siete casos de estudio|las siete evidencias/i);
+  assert.doesNotMatch(text, /twelve case studies|doce casos de estudio|eleven of the twelve|once de los doce/i);
+  assert.match(text, /thirteen case studies/);
+  assert.match(text, /trece casos de estudio/);
   assert.doesNotMatch(text, /three optional extras|tres extras opcionales|a bot with none of the three|un bot sin ninguno de los tres/i);
   assert.doesNotMatch(text, /turn loose notes into criteria|convertir notas sueltas en criterio/i);
 });
@@ -82,7 +85,7 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.1.2"]));
+  assert.deepEqual(new Set(versions), new Set(["2.1.3"]));
 });
 
 test("el cierre de create-bot no exige Lore previo", () => {

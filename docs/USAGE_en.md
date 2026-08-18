@@ -344,7 +344,8 @@ It is not a CLI command: the mode is inferred from the phrase, not from a flag. 
   there. It is the only subtractive mode, and **the unit it counts is the deliverable, not the Lore**
   — it will ask what your project actually ships before reading a single module.
 - `crystallize` – export the live, routed Lore as one safe and traceable Markdown for a chat, AI
-  project or notebook. The snapshot is derived, may become stale and never replaces the source.
+  project or notebook. The snapshot is derived, may become stale, never replaces the source, and
+  can be **extracted** back into a folder whose routing table resolves.
 
 **About `upgrade`, the mode easiest to misread.** It is not a rewrite and not a style pass. It sorts
 every finding into four kinds, and that labelling is what keeps it from degenerating:
@@ -413,8 +414,14 @@ Expected behavior:
 
 Use this when you already have projects and want to bring them into Lore without rewriting everything manually.
 
-For `crystallize`, regenerate the snapshot from the live tree whenever it becomes stale; never edit
-the export as if it were authoritative Lore.
+For `crystallize`, the snapshot must be workable **alone**: every routed `lore/` (the bot's, the
+areas', `lore-ecosistema/` when that is what the machine has) is inlined in full. A file that
+routes to bodies it does not contain is not a crystallization. Each inlined file carries a
+`<!-- lore:extract path="..." owner="..." -->` marker. Unpack with the bundled script
+(`skills/transmute-lore/scripts/crystallize.mjs` — `pack` / `extract`); do not ask the user to
+write an extractor. The unpack is a mini-root that mirrors the origin `raiz`, with
+`ecosistema.json` rewritten so `enrutamiento.md` resolves. Regenerate from the live tree when
+it becomes stale; never edit the export as if it were authoritative Lore.
 
 ---
 

@@ -59,7 +59,8 @@ tener el árbol de Git limpio antes de escribir, para que la migración aterrice
 > migró y solo quieres incorporar lo que el kit aprendió después, ese es el modo, y no `add`.
 
 > **El quinto modo es `crystallize`.** No es una migración: exporta una fotografía Markdown segura y
-> trazable para un destino que no puede navegar el árbol vivo. Nunca reemplaza ni edita el Lore.
+> trazable para un destino que no puede navegar el árbol vivo. La fotografía se puede extraer de
+> vuelta a una carpeta cuyo enrutamiento resuelve. Nunca reemplaza ni edita el Lore.
 > Consulta [`USAGE_es.md`](./USAGE_es.md) para el uso cotidiano y [`REFERENCE_es.md`](./REFERENCE_es.md)
 > para su contrato de privacidad, enrutamiento y umbral.
 
