@@ -17,9 +17,9 @@ Para seguir cada caso hace falta el mismo vocabulario que el kit usa cuando trab
 - Un **injerto** juzga criterio que llega de afuera contra la finalidad de tu proyecto: echa raíces o se rechaza, y lo que crece después te pertenece.
 - **Cristalizar** es sacar una fotografía trazable en un solo Markdown, extraíble de vuelta a una carpeta, sin reemplazar el Lore vivo.
 
-> **Estatus:** son casos, no demostraciones. Son pocos, y **trece de las catorce evidencias vienen del mismo investigador**. Restringen cómo usamos el kit; no pretenden ser una ley. El Caso 08 añade medición controlada sin eliminar esa frontera, y los Casos 09, 10, 11, 13 y 14 son los que miden este kit contra sí mismo — el 10 usándolo un día entero contra un Lore vivo, el 11 corriendo dos de sus propias versiones cabeza a cabeza y juzgando la salida a ciegas, el 13 cristalizando bots vivos y juzgando la fotografía por si un tercero podría trabajar desde ella, el 14 subiendo un ecosistema ya instalado sin reescribir lo ganado.
+> **Estatus:** son casos, no demostraciones. Son pocos, y **catorce de las quince evidencias vienen del mismo investigador**. Restringen cómo usamos el kit; no pretenden ser una ley. El Caso 08 añade medición controlada sin eliminar esa frontera, y los Casos 09, 10, 11, 13 y 14 son los que miden este kit contra sí mismo — el 10 usándolo un día entero contra un Lore vivo, el 11 corriendo dos de sus propias versiones cabeza a cabeza y juzgando la salida a ciegas, el 13 cristalizando bots vivos y juzgando la fotografía por si un tercero podría trabajar desde ella, el 14 subiendo un ecosistema ya instalado sin reescribir lo ganado.
 >
-> **El Caso 12 es el primero que no viene del investigador**, y por eso vale distinto: alguien de afuera instaló el kit y lo usó durante una hora. Rompe la frontera de autoría que los otros trece comparten y abre una nueva, más chica y declarada dentro del caso.
+> **El Caso 12 es el primero que no viene del investigador**, y por eso vale distinto: alguien de afuera instaló el kit y lo usó durante una hora. Rompe la frontera de autoría que los otros catorce comparten y abre una nueva, más chica y declarada dentro del caso.
 
 <details>
 <summary><b>Caso 01 — El Lore como forma operativa de un proyecto entero</b></summary>
@@ -255,11 +255,30 @@ Un ecosistema ya instalado —varias áreas, sus proyectos y al final los bots�
 
 **El umbral de una campaña es por clase, no por árbol.** El primer árbol pagó el umbral con el contenido a la vista. Los siguientes aplicaron las clases ya aceptadas. Un índice largo se reparó por la cabecera, no reescribiendo filas. Falta `identidad.md` o `principios.md` se reportó como ADD, no se inventó. Las notas se contaron; no se minaron.
 
-**Una pista del propio kit no echa raíces si el dueño la contradice.** El test había dejado escrito que un `HARD-GATE` de oficio se deja. Al subir el resto, Andrés mandó que los `.md` vivos dejen de hablar así. La pista vieja queda `refuted`. La que manda: en lore, contrato y FASES que mandan hoy, se dice umbral. El registro fechado y el archivo de otra skill se dejan.
+**Una pista del propio kit no echa raíces si el dueño la contradice.** El test había dejado escrito que un `HARD-GATE` de oficio se deja. Al subir el resto, el dueño mandó que los `.md` vivos dejen de hablar así. La pista vieja queda `refuted`. La que manda: en lore, contrato y FASES que mandan hoy, se dice umbral. El registro fechado y el archivo de otra skill se dejan.
 
 **Qué cambió en el kit:** la 2.1.4. El procedimiento de UPGRADE (mapa primero, campaña por clase, índice por cabecera, ADD cuando faltan las piezas, bandeja contada) y el corte presente/fecha para el vocabulario. Las skills de escritura ya llevaban «un párrafo es un párrafo»; esta versión lo documenta, no lo reintroduce.
 
 **Frontera declarada.** Mismo investigador, misma máquina, un solo ecosistema. El caso muestra que el modo puede subir un árbol instalado sin dominar el diff con unwrap ni inventar criterio. No mide reaprendizaje. No es el caso científico de LUS —el programa que formula la teoría; este kit es la implementación técnica—. Los bots y el bot que escribió este caso se subieron después de absorber; no son la evidencia de que el procedimiento se aplicó a ciegas.
+
+</details>
+
+<details>
+<summary><b>Caso 15 — Una vara fijada después del primer fracaso</b></summary>
+
+<br>
+
+A un bot construido con `create-bot` se le pidió un manifiesto institucional —el whitepaper de un laboratorio universitario—. El pedido llegó con un feedback ya destilado: *el contenido está bien, pero se lee «hecho con IA»; le falta el toque humano; suma el trabajo que hemos venido haciendo, a modo de bitácora, con las reuniones.* El bot corrió su ciclo entero —spec, reescrituras, una pasada de humanizer, cristalización— y produjo un documento **internamente coherente, verificado contra sus propias fuentes y aun así rechazado por el dueño**. El rechazo fue por la voz, no por la estructura.
+
+El feedback nombraba dos lecturas posibles: *la estructura está mal* versus *falta lo humano*. El proceso llevó la primera al límite y produjo una forma institucional —coherente, y no lo que el equipo quería—. El detector que funcionó fue **externo**: el dueño leyendo. Nada dentro del borrador podía atraparlo, porque lo que al borrador le faltaba —la voz, la bitácora, las personas— no era un defecto suyo. Era una ausencia que el borrador no podía nombrar.
+
+Esta es la hipótesis **H11** del programa científico en su forma canónica: un artefacto internamente consistente, falso hacia afuera, que sobrevive toda relectura de sí mismo. LUS, el programa de investigación que este kit implementa, registra el mismo hecho como uno de sus casos —una aparición de H11; el contador no sube—. Acá entra solo la mitad operativa.
+
+**La solución fue una vara, y llegó tarde.** El documento definitivo, escrito a mano, pasó a ser el estándar mínimo para esa clase de entregable: una apertura que sitúa el trabajo desde la persona y el porqué, un origen y una historia reales, el estado declarado tal cual es. El canon del bot ahora guarda esa vara y la regla —*comparar contra ella, nunca auto-certificar contra el borrador*— que es lo que la 2.1.6 le enseña a `create-bot` a fijar **antes** del primer pedido.
+
+**Qué cambió en el kit:** la 2.1.6. El brainstorm de canon de `create-bot` pide, por clase de entregable, su vara; un tipo nuevo de módulo de canon la guarda; y la regla de ejecución completa la enseñanza «la coherencia no es un detector» que ya está en UPGRADE.
+
+**Frontera declarada.** Mismo investigador, misma máquina, mismo ecosistema y misma campaña que los Casos 09–14 —el auto-sellado más fuerte de la serie—. El caso es una aparición de una hipótesis ya abierta, no una réplica: no sube el contador. Trata de una sola clase de entregable —texto institucional con requisito de voz— y no dice nada de documentos sin ese requisito. La vara se fijó después del fracaso, como consecuencia, no como diseño previo.
 
 </details>
 

@@ -17,9 +17,9 @@ To follow each case you need the same vocabulary the kit uses when it works:
 - A **graft** judges criteria that arrive from outside against your project's purpose: it takes root or it is rejected, and what grows afterwards belongs to you.
 - **Crystallize** is taking a traceable snapshot in a single Markdown file, extractable back into a folder, without replacing the live Lore.
 
-> **Status:** these are cases, not proofs. There are few of them, and **thirteen of the fourteen documented cases come from the same researcher**. What they claim constrains how we use the kit; it does not pretend to be a law. Case 08 adds controlled measurement without removing that boundary, and Cases 09, 10, 11, 13 and 14 are the ones that measure this kit against itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head and judging the output blind, Case 13 by crystallizing live bots and judging the snapshot by whether a third person could work from it, Case 14 by raising an already-installed ecosystem without rewriting what was earned.
+> **Status:** these are cases, not proofs. There are few of them, and **fourteen of the fifteen documented cases come from the same researcher**. What they claim constrains how we use the kit; it does not pretend to be a law. Case 08 adds controlled measurement without removing that boundary, and Cases 09, 10, 11, 13 and 14 are the ones that measure this kit against itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head and judging the output blind, Case 13 by crystallizing live bots and judging the snapshot by whether a third person could work from it, Case 14 by raising an already-installed ecosystem without rewriting what was earned.
 >
-> **Case 12 is the first one that does not come from the researcher**, which is why it counts differently: someone outside the project installed the kit and used it for an hour. It breaks the boundary the other thirteen share on authorship, and opens a smaller one that is declared inside the case.
+> **Case 12 is the first one that does not come from the researcher**, which is why it counts differently: someone outside the project installed the kit and used it for an hour. It breaks the boundary the other fourteen share on authorship, and opens a smaller one that is declared inside the case.
 
 <details>
 <summary><b>Case 01 — Lore as the operational form of an entire project</b></summary>
@@ -260,6 +260,25 @@ An already-installed ecosystem — several areas, their projects, and the bots l
 **What it changed in the kit:** all of 2.1.4. The UPGRADE procedure (map first, campaign by class, index by header, ADD when the pieces are missing, inbox counted) and the present/dated cut for vocabulary. The writing skills already carried «a paragraph is a paragraph»; this version documents it, it does not reintroduce it.
 
 **Declared boundary.** Same researcher, same machine, one ecosystem. The case shows the mode can raise an installed tree without letting unwrap dominate the diff or inventing criterion. It does not measure relearning. It is not the scientific case for LUS. The bots and the bot that wrote this case were raised after absorption; they are not evidence that the procedure was applied blind.
+
+</details>
+
+<details>
+<summary><b>Case 15 — A yardstick fixed after the first failure</b></summary>
+
+<br>
+
+A bot built with `create-bot` was asked for an institutional manifesto — a university lab's whitepaper. The request arrived with feedback already distilled: *the content is fine, but it reads "made with AI"; it lacks the human touch; add the work we have been doing, like a logbook, with the meetings.* The bot ran its whole cycle — spec, rewrites, a humanizer pass, crystallization — and produced a document that was **internally coherent, verified against its own sources, and still rejected by the owner**. The rejection was by voice, not by structure.
+
+The feedback named two possible readings: *the structure is wrong* versus *the human part is missing*. The process took the first to its limit and produced an institutional form — coherent, and not what the team wanted. The detector that worked was **external**: the owner reading. Nothing inside the draft could have caught it, because what the draft lacked — the voice, the logbook, the people — was not a flaw in it. It was an absence the draft could not name.
+
+This is the scientific program's hypothesis **H11** in its canonical form: an internally consistent artifact, false toward the outside, that survives every re-reading of itself. LUS, the research program this kit implements, records the same event as one of its own cases — an appearance of H11; the count does not rise. Here only the operational half enters.
+
+**The fix was a yardstick, and it arrived late.** The definitive document, written by hand, became the minimum standard for that class of deliverable: an opening that situates the work from the person and the why, a real origin and history, the state declared as it is. The bot's canon now holds that yardstick and the rule — *compare against it, never self-certify against the draft* — which is what 2.1.6 teaches `create-bot` to fix **before** the first request.
+
+**What it changed in the kit:** 2.1.6. `create-bot`'s canon brainstorm asks, per class of deliverable, for its yardstick; a new canon-module kind holds it; and the execution rule completes the "coherence is not a detector" teaching already in UPGRADE.
+
+**Declared boundary.** Same researcher, same machine, same ecosystem and same campaign as Cases 09–14 — the strongest self-sealing in the series. The case is an appearance of an already-open hypothesis, not a replica: it does not raise the count. It is about one deliverable class — institutional text with a voice requirement — and says nothing about documents without one. The yardstick was fixed after the failure, as a consequence, not as prior design.
 
 </details>
 
