@@ -335,6 +335,13 @@ vocabulary. Agree on:
 - **The bot's identity** — its north (the "short instruction" test, made concrete for this bot) and
   its anti-scope.
 - **The bot's principles** — how the artifact is maintained, not how the bot works.
+- **For each class of deliverable the bot will produce, its yardstick.** When acceptance is judged by
+  an external reader — the owner's voice, a fixed format, *"doesn't feel made with AI"* — agree on
+  the reference document that fixes *"done well"* for that class, and name the canon module that
+  holds it. **Before the first request, not after the first failure.** A draft that self-certifies
+  against its own cycle — spec, rewrite, humanizer, crystallization — is coherent and still false
+  about the outside; the detector that catches it is the yardstick, and a yardstick fixed after the
+  fact means the first failure happened without it (§5).
 - **`federar`:** the routing map — task type → which Lore governs.
 - **Optional and OFF by default:** encryption (§8) and a minimal local launcher (§9). Ask both;
   assume neither. Do not offer packaging as a plugin. **Packaging is crystallization:** the
@@ -400,6 +407,7 @@ What earns a module:
 | The **map** of the sources | what each one is and where its work lives; no single Lore contains the set |
 | The **border** | what is *not* the bot's business, with the reason it gets confused |
 | The **arbitration** between two sibling bodies of one institution | neither writes it whole (see the law section above) |
+| A **yardstick** for a deliverable class the bot produces | the pointer reaches the reference document, not the rule that **it** is the standard to compare against — nor that the detector is that document, never the draft re-read against itself |
 
 An arbitration module runs the three-state test from the law section, and for every divergence it
 records whether it is still open **by omission or by decision, with its date**. Written without that,
@@ -586,6 +594,11 @@ When the request came from something the user **felt** and the loaded criteria h
 it, say so without being asked. That is the boundary-of-validity law applied to the case where the
 boundary is *what the bot cannot see*. It follows from the rule that the bot never invents criteria:
 for the same reason, it cannot certify what no criteria of its own covers.
+
+The constructive half of that same law: a deliverable whose acceptance is judged by an external
+reader is checked against its **yardstick** (§3, §5) — the reference document the canon names — never
+against its own draft. A draft that passes its own cycle and still fails the reader did not fail for
+lack of coherence; it failed for lack of a yardstick fixed before the request.
 
 *This governs **negative** reports.* A positive finding stands on its own — the clue behind it is
 written and can be cited. And it does not apply to a bot that **measures** instead of checking: a

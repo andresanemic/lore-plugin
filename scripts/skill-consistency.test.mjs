@@ -104,7 +104,7 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.1.5"]));
+  assert.deepEqual(new Set(versions), new Set(["2.1.6"]));
 });
 
 test("ninguna skill manda HARD: ni usa cristalizar como destilar", () => {
