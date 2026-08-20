@@ -8,6 +8,12 @@ keeping your Lore clean and useful.
 > It helps you preserve the **criteria** behind your decisions, so your AI never has to start from scratch.  
 > Closest analogy: local fine-tuning for your own tasks, and the one doing the training is you.
 
+Lore Plugin is the technical arm of LUS. Its wider hypothesis is that beginning a professional
+memory card early can help people become better professionals by carrying earned criteria across
+models and producing ambitious work with less repetition. Productivity is a possible effect, not
+the purpose. Following Morin, this is an ethical wager toward a better world, not a claim that we
+already possess “the best of all worlds”; the README gives the sources and evidence boundary.
+
 ---
 
 ## 1. Overview
@@ -28,6 +34,9 @@ The Lore plugin bundles a set of **skills** that implement this loop:
 - `transmute-lore` – add, clean, translate, upgrade or crystallize an existing body of Lore.
 - `create-bot` – one place to work across several Areas or projects with their criteria loaded.
 - `obsidian-lore` – capture free notes in the same tree and **mine** that inbox for criteria.
+
+When PRUNE receives a quantitative target, that number is an acceptance constraint: measure the
+baseline, expected remainder, and final result instead of treating the percentage as a suggestion.
 
 > **Lore speaks your language.** The skills are written in English, but everything they generate —
 > content **and artifact filenames** — is written in the language you work in. `identidad.md`,
@@ -53,6 +62,10 @@ For **Codex CLI**:
 codex plugin marketplace add andresanemic/lore-plugin
 codex plugin add lore@lore-plugin
 ```
+
+For **OpenCode**, copy the eight `skills/*` directories from a local clone into
+`~/.config/opencode/skills/`, then start a new session. OpenCode also accepts the same layout under
+`.opencode/skills/` for project-local installation.
 
 For a local clone, both CLIs, or another skills-compatible agent, use the
 [direct installation route in the README](../README.md#direct-install-from-the-repository).
@@ -341,6 +354,11 @@ Use this as the main tool to feed your Lore over time.
 ### 5.6 `transmute-lore` – Operate an Existing Body of Criteria
 
 **Purpose:** operate an existing body of Lore: migrate it, remove duplication, standardize its language, upgrade its standard, or export a safe reading copy.
+
+You may begin without Lore. **ADD** treats project folders, documents, exported chat summaries and
+loose notes as sources, then proposes the criteria and canon dispersed through them. **CRYSTALLIZE**
+turns the approved result into a traceable, extractable Markdown memory card that can travel across
+models or be shared on the owner's terms without replacing the live Lore.
 
 It is not a CLI command: the mode is inferred from the phrase, not from a flag. It has six modes:
 

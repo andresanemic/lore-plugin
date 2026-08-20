@@ -8,6 +8,12 @@ mantener tu Lore limpio y útil.
 > Te ayuda a preservar el **criterio** detrás de tus decisiones, para que tu IA nunca tenga que empezar desde cero.  
 > La analogía más cercana: fine-tuning local de tus tareas, y el que entrena eres tú.
 
+Lore Plugin es el brazo técnico de LUS. Su hipótesis amplia es que empezar pronto una memory card
+profesional puede ayudarnos a ser mejores profesionales: el criterio ganado viaja entre modelos y
+permite abordar trabajos ambiciosos con menos repetición. La productividad es un efecto posible, no
+el propósito. Siguiendo a Morin, es una apuesta ética por un mundo mejor, no la afirmación de que ya
+poseemos «el mejor de los mundos»; el README conserva las fuentes y la frontera de evidencia.
+
 ---
 
 ## 1. Visión general
@@ -28,6 +34,9 @@ El plugin Lore agrupa un conjunto de **skills** que implementan este ciclo:
 - `transmute-lore` – añade, limpia, traduce, actualiza o cristaliza un cuerpo de Lore existente.
 - `create-bot` – un lugar para trabajar en varias Áreas o proyectos con su criterio cargado.
 - `obsidian-lore` – captura notas libres en el mismo árbol y **mina** esa bandeja buscando criterio.
+
+Cuando PRUNE recibe un objetivo cuantitativo, ese número es una restricción de aceptación: mide la
+base, el remanente esperado y el resultado final en vez de tratar el porcentaje como sugerencia.
 
 > **El Lore habla tu idioma.** Aunque los skills están escritos en inglés, todo lo que generan —
 > contenido **y nombres de artefactos** — se escribe en el idioma en el que trabajas. `identidad.md`,
@@ -53,6 +62,10 @@ Para **Codex CLI**:
 codex plugin marketplace add andresanemic/lore-plugin
 codex plugin add lore@lore-plugin
 ```
+
+Para **OpenCode**, copia las ocho carpetas de `skills/*` desde un clon local a
+`~/.config/opencode/skills/` y abre una sesión nueva. OpenCode también acepta la misma estructura
+en `.opencode/skills/` para una instalación local al proyecto.
 
 Para un clon local, ambas CLI u otro agente compatible con skills, usa la
 [instalación directa del README](../README.md#instalación-directa-desde-el-repositorio).
@@ -346,6 +359,11 @@ Usa este skill como herramienta principal para alimentar tu Lore con el tiempo.
 ### 5.6 `transmute-lore` – Operar un cuerpo de criterio existente
 
 **Propósito:** operar un cuerpo de Lore existente: migrarlo, quitar duplicación, estandarizar su idioma, actualizar su estándar o exportar una copia segura de lectura.
+
+Puedes empezar sin Lore. **ADD** trata carpetas del proyecto, documentos, resúmenes exportados de
+chats y notas sueltas como fuentes, y propone el criterio y canon disperso en ellas.
+**CRYSTALLIZE** convierte el resultado aprobado en una memory card Markdown trazable y extraíble,
+portable entre modelos o compartible en los términos de su dueño, sin reemplazar el Lore vivo.
 
 No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene seis modos:
 

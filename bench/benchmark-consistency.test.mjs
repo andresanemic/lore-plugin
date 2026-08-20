@@ -27,11 +27,9 @@ test("the public benchmark matches the audited 72-run Codex CSV", () => {
   assert.doesNotMatch(readme, /37%|65%|118 s|85 s|4[,.]116|3[,.]119/);
 });
 
-test("Claude replication instructions preserve and verify the Codex baseline", () => {
+test("the public benchmark stays closed on the audited Codex baseline", () => {
   const method = readFileSync(new URL("./README.md", import.meta.url), "utf8");
 
-  assert.match(method, /verificar el baseline Codex/i);
   assert.match(method, /25\/36.*33\/36/s);
-  assert.match(method, /directorio específico del proveedor/i);
-  assert.match(method, /no reemplazan.*Codex/s);
+  assert.doesNotMatch(method, /réplica con Claude|replication with Claude/i);
 });

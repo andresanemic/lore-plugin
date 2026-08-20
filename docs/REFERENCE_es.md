@@ -21,6 +21,10 @@ Lore se construye sobre un conjunto pequeño de conceptos:
 La documentación tradicional almacena información.  
 Lore almacena criterio que restringe lo que debería ocurrir después.
 
+**Frontera de propósito:** Lore Plugin es el brazo técnico de LUS. El impacto de la memory card
+profesional y la apuesta de Morin por un mundo mejor son hipótesis declarada y norte ético, no
+resultados del benchmark. La productividad mide un efecto; no reemplaza el propósito.
+
 ---
 
 ## 2. Resumen de skills
@@ -39,6 +43,9 @@ El plugin Lore expone ocho skills principales a través de agentes de IA compati
 | `obsidian-lore`  | Capturar notas libres en el mismo árbol donde vive el Lore, y **minar** esa bandeja buscando lo que merece volverse criterio | «revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore», «mina la bandeja», «guarda esta nota en Obsidian» |
 
 Cada skill opera sobre, o crea, artefactos Markdown específicos dentro de tu repositorio.
+
+En PRUNE, un objetivo cuantitativo es una restricción de aceptación: fija la base y el remanente
+esperado, y luego mide el resultado antes de aceptar la edición.
 
 **Idioma:** los skills están escritos en inglés, pero el Lore que generan se escribe siempre en el
 **idioma del usuario** — tanto el contenido como los nombres de los artefactos. `identidad.md`,
@@ -303,6 +310,11 @@ Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decision
 ### 3.6 `transmute-lore`
 
 **Rol:** Operar un cuerpo de Lore existente mediante seis modos distintos.
+
+**Frontera de entrada y portabilidad:** ADD puede crear Lore donde no existe desde carpetas,
+documentos, resúmenes de chats y notas, pero esas entradas siguen siendo fuentes hasta la
+destilación aprobada. CRYSTALLIZE crea la memory card portable en un solo Markdown: derivada,
+trazable y extraíble, nunca autoridad que reemplaza al Lore vivo.
 
 **Entrada:**
 

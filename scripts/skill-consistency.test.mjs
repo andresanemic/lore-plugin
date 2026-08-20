@@ -128,6 +128,37 @@ test("la documentación no conserva afirmaciones ya refutadas", () => {
   assert.doesNotMatch(text, /turn loose notes into criteria|convertir notas sueltas en criterio/i);
 });
 
+test("el README funciona como portada y no duplica las guías", () => {
+  const readme = readFileSync(join(root, "README.md"), "utf8");
+  const words = readme.trim().split(/\s+/).length;
+  assert.ok(words >= 10850, `README podado en exceso: ${words} palabras`);
+  assert.ok(words <= 10993, `README demasiado largo: ${words} palabras`);
+  for (const required of [
+    "## Installation",
+    "## Architecture",
+    "## The eight skills",
+    "## Benchmark",
+    "## Documentation",
+    "## Instalación",
+    "## Arquitectura",
+    "## Las ocho skills",
+    "## El benchmark",
+    "## Documentación",
+  ]) assert.match(readme, new RegExp(required.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  assert.equal((readme.match(/^### OpenCode$/gm) ?? []).length, 2);
+  assert.equal((readme.match(/\.opencode\/skills\//g) ?? []).length >= 2, true);
+});
+
+test("PRUNE trata una magnitud pedida como restricción de aceptación", () => {
+  const transmute = readFileSync(join(skillsRoot, "transmute-lore", "SKILL.md"), "utf8");
+  assert.match(transmute, /quantitative target.*acceptance constraint/is);
+  assert.match(transmute, /baseline.*expected remainder.*measure again/is);
+  assert.match(transmute, /must not exceed.*requested cut/is);
+  for (const file of ["docs/USAGE_en.md", "docs/USAGE_es.md", "docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
+    assert.match(readFileSync(join(root, file), "utf8"), /quantitative target|objetivo cuantitativo/i, file);
+  }
+});
+
 test("los docs vivos y las skills no nombran research-lus ni Lore in the Shell", () => {
   const live = [
     "README.md",
@@ -243,8 +274,28 @@ test("el README identifica el modelo del benchmark en ambos idiomas", () => {
   assert.match(text, /esfuerzo de razonamiento medio/);
   assert.equal((text.match(/<table width="100%">/g) ?? []).length, 2);
   assert.equal((text.match(/<th width="50%">(?:Multidomain result|Resultado multidominio)/g) ?? []).length, 2);
-  assert.equal((text.match(/Gilbert Simondon/g) ?? []).length >= 2, true);
-  assert.equal((text.match(/Francisco Varela/g) ?? []).length >= 2, true);
+  assert.equal((text.match(/NotebookLM/g) ?? []).length >= 2, true);
+  assert.match(text, /what happens when a person and an AI work together/i);
+  assert.match(text, /qué ocurre cuando una persona y una IA trabajan juntas/i);
+});
+
+test("las superficies públicas de 2.1.7 conservan una definición precisa", () => {
+  const release = readFileSync(join(root, "docs", "RELEASE_2.1.7.md"), "utf8");
+  assert.ok(release.trim().split(/\s+/).length <= 450, "release 2.1.7 demasiado largo");
+  const surfaces = ["package.json", join(".claude-plugin", "plugin.json"), join(".claude-plugin", "marketplace.json"), join(".codex-plugin", "plugin.json")]
+    .map((file) => readFileSync(join(root, file), "utf8")).join("\n");
+  assert.match(surfaces, /provider-neutral project criterion/i);
+  assert.match(surfaces, /persists across (?:AI )?agents/i);
+});
+
+test("la documentación presenta ADD como entrada y CRYSTALLIZE como memory card portable", () => {
+  const files = ["README.md", "docs/USAGE_en.md", "docs/USAGE_es.md", "docs/REFERENCE_en.md", "docs/REFERENCE_es.md"];
+  for (const file of files) {
+    const text = readFileSync(join(root, file), "utf8");
+    assert.match(text, /ADD/);
+    assert.match(text, /CRYSTALLIZE/);
+    assert.match(text, /memory card/i);
+  }
 });
 
 test("los enlaces Markdown locales de la documentación resuelven", () => {

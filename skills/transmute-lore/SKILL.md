@@ -480,6 +480,12 @@ big in the abstract; it is too big *for the thing it has to produce*. Ask for th
 project actually ships — a post, a page, a component, a report — before reading a single module.
 Without it, PRUNE has no denominator and turns into taste.
 
+**A quantitative target is an acceptance constraint.** When the user names a percentage, word
+count, or size, record the baseline, calculate the expected remainder and declare a narrow
+acceptance band before editing; measure again before presenting. The result **must not exceed the
+requested cut** and call the excess an improvement. A draft outside the band is rejected, not
+rationalized.
+
 ### Phase 0 — Safety precondition
 
 Clean tree before writing. Diagnosis may run on a dirty tree; writing may not.
