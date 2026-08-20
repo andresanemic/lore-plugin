@@ -322,6 +322,8 @@ La sesión afinó además el ritmo de esa estabilidad: **deriva tolerada → ret
 
 **Qué cambió en el kit:** la 2.1.7 ahora trata la declaración humana como canon provisional, la configuración como primer artefacto complejo y una primera victoria revisada como evento de estabilización. `brainstorming-lore` pregunta solo lo que avanza esa victoria y mantiene un artefacto acumulado con continuidad reconocible; `create-area`, `create-project`, `create-bot` y `transmute-lore` heredan ese contrato en sus umbrales estructurales. `create-bot` exige además prototipo operacional honesto, decisiones antes que prompts y Travesía derivada del propósito; `save-to-lore` captura en hitos contextuales o por acumulación, con un único umbral visible por lote.
 
+El mismo caso reveló otra capa de la memory card: el contexto profesional se conoce trabajando, no se extrae en el onboarding. La primera configuración ofrece el módulo de forma neutral; cuando se activa, el área posee el perfil visible y proyectos y bots lo alcanzan por puntero sin copiar una biografía. Cuando se desactiva, no se crea nada. Solo entran pistas revisadas y con fuente.
+
 **Frontera declarada.** Un investigador, una sesión acompañada, un dominio de producto y un prototipo local. Es evidencia cualitativa situada, no una ley general de producto ni prueba de que la postulación gane, la carrera se sostenga o el sistema funcione para otras artistas. Queda abierta la pregunta de si la continuidad reconocible constituye un hallazgo científico sobre el Entre: debe ponerse a prueba desde LUS antes de abrir hipótesis, subir conteos o modificar el corpus científico.
 
 </details>

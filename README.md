@@ -388,7 +388,7 @@ The kit's own design conversation. It is deliberately narrow: it activates for L
 
 Structural work builds the artifact while deciding: one decision at a time, two or three real approaches when a trade-off exists, and contextual recaps of the accumulated result. The floor is **recognizable continuity**—the human can still see the original intention in what is growing and correct its direction without starting over. `create-area`, `create-project`, `create-bot` and structural `transmute-lore` modes inherit this contract; mechanical edits and one-off captures do not.
 
-The accumulated artifact is the shared return point. Work may advance independently and clues may accumulate; a contextual recap and approved distillation bring the relationship back into sync without demanding constant contact.
+The accumulated artifact is the return point. Work may advance independently; contextual recap and approved distillation resynchronize it. Portable professional criterion also refines naturally through real work.
 
 ### `create-area`
 
@@ -1105,7 +1105,7 @@ La conversación de diseño propia del kit. Es deliberadamente específica: se a
 
 El trabajo estructural construye el artefacto mientras decide: una decisión por vez, dos o tres enfoques reales cuando existe un trade-off y recapitulaciones contextuales del resultado acumulado. El piso es la **continuidad reconocible**: la persona sigue viendo su intención original en lo que crece y puede corregir el rumbo sin comenzar de nuevo. `create-area`, `create-project`, `create-bot` y los modos estructurales de `transmute-lore` heredan este contrato; las ediciones mecánicas y capturas puntuales no.
 
-El artefacto acumulado es el punto de retorno compartido. El trabajo puede avanzar por separado y las pistas pueden acumularse; una recapitulación contextual y la destilación aprobada vuelven a sincronizar la relación sin exigir contacto constante.
+El artefacto acumulado es el punto de retorno. El trabajo puede avanzar por separado; la recapitulación y la destilación aprobada lo resincronizan. El criterio profesional portable también se afina con el uso real.
 
 ### `create-area`
 

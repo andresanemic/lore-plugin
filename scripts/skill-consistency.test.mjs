@@ -76,6 +76,35 @@ test("el lote Permanent Artist deja obligaciones reutilizables y el caso 17", ()
   assert.match(docs.map((file) => readFileSync(join(root, file), "utf8")).join("\n"), /diecisiete casos de estudio/i);
 });
 
+test("el perfil profesional es opcional, progresivo y viaja como puntero", () => {
+  const brainstorm = readFileSync(join(skillsRoot, "brainstorming-lore", "SKILL.md"), "utf8");
+  const save = readFileSync(join(skillsRoot, "save-to-lore", "SKILL.md"), "utf8");
+  const transmute = readFileSync(join(skillsRoot, "transmute-lore", "SKILL.md"), "utf8");
+
+  assert.match(brainstorm, /professional profile.*emerges progressively/is);
+  assert.match(brainstorm, /never.*(?:CV|résumé).*first use/is);
+  assert.match(save, /perfil-profesional\.md/);
+  assert.match(save, /small.*approved clues/is);
+  assert.match(save, /sensitive attributes/i);
+  assert.match(brainstorm, /without recommending\s+either option/i);
+  assert.match(transmute, /ADD.*perfil-profesional\.md/is);
+  assert.match(transmute, /existing projects.*reviewed.*clues/is);
+  assert.match(transmute, /without\s+recommending either option/i);
+
+  for (const name of ["create-area", "create-project", "create-bot"]) {
+    const skill = readFileSync(join(skillsRoot, name, "SKILL.md"), "utf8");
+    assert.match(skill, /perfil-profesional\.md/, `${name}: falta el perfil portable`);
+    assert.match(skill, /pointer/i, `${name}: el perfil debe viajar como puntero`);
+    assert.match(skill, /if .*enabled|if it exists/is, `${name}: falta la frontera opcional`);
+  }
+
+  const readme = readFileSync(join(root, "README.md"), "utf8");
+  assert.match(readme, /professional criterion.*refines.*real work/is);
+  assert.match(readme, /criterio profesional.*afina.*uso real/is);
+  assert.doesNotMatch(readme, /upload your (?:CV|résumé)|sube tu (?:CV|currículum)/i);
+  assert.doesNotMatch(readme, /\.perfil-profesional\.md/);
+});
+
 test("las operaciones estructurales construyen el Entre por decisiones acumulativas", () => {
   const brainstorm = readFileSync(join(skillsRoot, "brainstorming-lore", "SKILL.md"), "utf8");
   assert.match(brainstorm, /recognizable continuity/i);

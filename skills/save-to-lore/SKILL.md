@@ -177,6 +177,20 @@ noise, or hand it to `create-area` / `create-project` / `transmute-lore` as sour
 `obsidian-lore` is what sweeps a `notes/` or `notas/` inbox and routes it here, so invoke it first
 whenever the source lives there. A standalone source note outside an inbox may be handled directly.
 
+### A professional profile is learned, not collected
+
+When the tree carries `lore/perfil-profesional.md`, treat it as the optional, portable profile behind
+the person's memory card. It grows through **small, approved clues** that surfaced while completing
+real work — role, verified experience, working purpose or an explicit professional goal — never
+through a first-use questionnaire. A CV, profile or credential is source only when the person chose
+to share it.
+
+At a contextual milestone, preview one compact addition with its source and destination. Do not
+infer sensitive attributes, personality, competence or private history from tone or behavior. Keep
+the master fact in the nearest owning area and let projects and bots carry a pointer plus their
+situated role; do not duplicate the biography. If the profile was disabled, do not create the file or
+make biographical capture proposals indirectly.
+
 ## The Lore bar (for the proactive trigger, all 4 must hold)
 
 1. **Constraint** — does it forbid a future error or demand a standard? If it constrains no future

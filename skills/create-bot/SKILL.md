@@ -330,7 +330,8 @@ answer 3 into the inventory of step 2. Never ask the user to classify their own 
 
 ### 2. Read context (MANDATORY before creating anything)
 
-1. The area Lore: `identidad.md` + `principios.md` (+ `index.md` and thematic modules).
+1. The area Lore: `identidad.md` + `principios.md` (+ `index.md`, its
+   `perfil-profesional.md` pointer if the profile is enabled, and thematic modules).
 2. The area `FASES.md`, and any sibling bot already registered there.
 3. **The source documents.** For a PDF, extract text (`pdftotext -layout`). The canon is distilled
    from these — never from the model's own knowledge of the topic.
@@ -395,6 +396,7 @@ mkdir -p "$DEST/canon" "$DEST/lore"
   canon/*.md             → criteria the bot always loads (§5)
   lore/
     identidad.md · principios.md · index.md
+    # if the area profile is enabled, index.md routes professional-context tasks to its pointer
     enrutamiento.md      → federar only; GENERATED, never hand-edited
   scripts/
     ecosistema.json      → federar only
@@ -938,6 +940,11 @@ say the configuration is superfluous: it says the configuration is not evidence 
   question at a time. **No closed options for a field that picks a branch:** ask by the condition,
   and an answer naming more than one body of criteria opens by all of them. What turns out to be
   criteria is proposed to the Lore that paid for it, never stored in the bot.
+- **The professional profile stays optional and progressive.** First configuration explains enabled
+  and disabled outcomes without recommending either; it never asks for a CV or life story. If the
+  area profile is enabled, the bot routes professional-context tasks through its
+  `perfil-profesional.md` pointer; situated facts become small `save-to-lore` proposals after real
+  work, not onboarding. If disabled, it creates no file or biographical proposals.
 - **A first victory stabilizes provisional canon.** The initial human declaration is primary source,
   configuration is the first complex artifact, and the bot earns stability by running its operational
   cycle to a reviewed result.

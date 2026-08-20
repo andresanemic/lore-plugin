@@ -145,6 +145,13 @@ smallest real outcome that proves the bot can help this person work. Ask the min
 that outcome possible. Preserve **uncertainty and correction** in the proposal instead of forcing a
 complete identity before use; every later question must unlock the victory or improve its quality.
 
+The person's **professional profile emerges progressively through use**, when enabled. First
+configuration may ask whether to use that module, explaining both outcomes without recommending
+either option. It never requests a CV, résumé, work history or life story during first use. Facts
+stated while doing real work may become small candidates for `save-to-lore` at a natural milestone;
+until the person reviews them, they are context rather than identity. If disabled, no profile file or
+biographical proposals are created and every other capability remains available.
+
 ## 4. Compare approaches
 
 For consequential choices, present **two or three approaches** with their real trade-offs. Lead with

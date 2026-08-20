@@ -134,6 +134,7 @@ Resulting structure (folder names come from step 2/3):
     index.md           → project Lore map: points to area modules (../../../lore/<module>.md)
     identidad.md       → project identity + pointer to area identidad
     principios.md      → project laws + pointer to area principios
+    (if the area profile is enabled, this index carries its pointer)
   {{thematic / per-deliverable folders, empty with .gitkeep}}
   fuente\              → original source document(s) + extracted text
 ```
@@ -185,6 +186,7 @@ Write `lore/index.md` pointing to the area modules:
 - Principios — this project's laws + inherited laws · [principios.md](principios.md)
 
 ## Módulos heredados del área (por ruta relativa)
+- Professional criterion · [../../../lore/perfil-profesional.md](../../../lore/perfil-profesional.md) _(only if it exists)_
 - animation · [../../../lore/animation.md](../../../lore/animation.md)
 - layout · [../../../lore/layout.md](../../../lore/layout.md)
 - (…the area modules this project relies on…)
@@ -244,7 +246,7 @@ grep -rn '{{[A-Z_]\+}}' "$DEST" && echo "UNRESOLVED TOKENS" || echo "OK no token
 
 - The project ALWAYS lives in `{area}/proyectos/{slug}/`. `lore/` at its root; `FASES.md`
   **outside** `lore/` (criteria persists, state advances).
-- **Thematic modules are referenced from the area, not duplicated** (DRY). Only `identidad.md`,
+- **Thematic modules and, if it exists, `perfil-profesional.md` are referenced from the area, not duplicated** (DRY). Only `identidad.md`,
   `principios.md` and `index.md` are project-local Lore files at creation.
 - **Read the source docs before** fixing folders and phases. Structure and phase map come from the
   source, not a mold.

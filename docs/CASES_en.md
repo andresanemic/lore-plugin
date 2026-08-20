@@ -321,6 +321,8 @@ The session also sharpened the rhythm of that stability: **drift → return → 
 
 **What it changed in the kit:** 2.1.7 now treats the human declaration as provisional canon, configuration as the first complex artifact, and a reviewed first victory as the stabilizing event. `brainstorming-lore` asks only what advances that victory and maintains an accumulated artifact with recognizable continuity; `create-area`, `create-project`, `create-bot` and `transmute-lore` inherit that contract at their structural thresholds. `create-bot` additionally requires an honest operational prototype, decisions before prompts and a Journey derived from purpose; `save-to-lore` captures at contextual milestones or accumulated clues with one visible batch threshold.
 
+The same case exposed another layer of the memory card: professional context should be learned through work, not extracted at onboarding. First configuration offers the module neutrally; when enabled, the area owns the visible profile while projects and bots route to it instead of copying a biography. When disabled, nothing is created. Only reviewed, sourced clues enter.
+
 **Declared boundary.** One researcher, one assisted session, one product domain and a local prototype. This is qualitative situated evidence, not a general product law and not proof that the application wins funding, sustains a career or works for other artists. Whether recognizable continuity constitutes a scientific finding about the Entre remains an open question: it must be tested through LUS before opening a hypothesis, raising a count or modifying the scientific corpus.
 
 </details>

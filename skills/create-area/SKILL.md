@@ -99,6 +99,7 @@ Resulting structure:
     index.md             → map of the area's modules
     identidad.md         → what the area is + its quality north + anti-scope
     principios.md        → invariant laws of the method
+    perfil-profesional.md → only if enabled; refined progressively through approved clues
     {{thematic modules, if any}}
   _starter\              → project scaffold that create-project stamps from
     {{CONTRACT_FILE}}.template.md → project contract template (domain-tuned pointers)
@@ -113,7 +114,7 @@ Resulting structure:
 Do not copy templates blind: write each file resolving the tokens with what was discussed in the
 brainstorm. Reference templates below (§Templates).
 
-Order: `lore/identidad.md` → `lore/principios.md` → `lore/index.md` → `FASES.md` → `{{CONTRACT_FILE}}`
+Order: `lore/identidad.md` → `lore/principios.md` → optional `lore/perfil-profesional.md` → `lore/index.md` → `FASES.md` → `{{CONTRACT_FILE}}`
 (+ any thematic module agreed in the brainstorm).
 
 ### 3b. Generate the area's project scaffold (`_starter/`)
@@ -235,6 +236,14 @@ registro: {{REGISTRO}}
 {{PRINCIPLES}}
 ```
 
+### Optional `lore/perfil-profesional.md`
+
+During first configuration, ask whether the person wants Lore to maintain a progressive professional
+profile. Explain both choices neutrally: enabled creates a portable Markdown module refined from
+reviewed clues during real work; disabled creates no file, makes no biographical proposals and
+changes no other capability. Do not recommend either option and do not ask for a CV or biography.
+If enabled, start with that boundary only; every later addition passes through `save-to-lore`.
+
 ### `lore/index.md`
 
 ```markdown
@@ -247,6 +256,7 @@ registro: {{REGISTRO}}
 |---|---|---|
 | What we are + quality north | before any scope decision | `identidad.md` |
 | Invariant laws of the method | before any method decision | `principios.md` |
+| Professional criterion (include only when enabled) | when the person's situated role affects an official artifact | `perfil-profesional.md` |
 ```
 
 ### `FASES.md` (area project registry)
@@ -283,6 +293,7 @@ The area's distilled memory lives in **`lore/`**. Before deciding anything about
 - `lore/index.md` — map: topic · when to consult · file
 - `lore/identidad.md` — what we are, our north, and what we are NOT
 - `lore/principios.md` — invariant laws of the method
+- if the profile is enabled, the index also routes to it when the task needs it
 
 **Where the state lives: `FASES.md`, at the root.** It does **NOT** live in `lore/` — Lore is criteria
 (persists), FASES is state (advances). Read it alongside the Lore: the criteria says how, the state
@@ -327,6 +338,7 @@ These are **project** templates the area stamps — they carry `{{PROJECT_TOKENS
   (`../../../lore/<module>.md`).
 - `lore/identidad.md` — this project's identity + pointer to the area standard.
 - `lore/principios.md` — this project's laws + pointer to the area laws.
+- if the area profile is enabled, its index carries the `perfil-profesional.md` pointer; do not copy it here.
 
 **Where the state lives: `FASES.md`, at the project root** — never inside `lore/`.
 

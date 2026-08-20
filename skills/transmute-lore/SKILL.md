@@ -148,6 +148,13 @@ catches faithful transcriptions; a deep rewrite of the same content can fall und
 Walk the sources separating **criteria** from **noise** with the heuristics below. Criteria is
 anything that **constrains a future decision**. Noise is descriptive and constrains nothing.
 
+ADD may also find explicit professional facts, roles, experience and goals across existing projects,
+documents and chat summaries. Treat them as sourced candidate clues, never as a profile inferred from
+personality or sensitive attributes. If `perfil-profesional.md` is not already enabled, explain the
+two outcomes and ask neutrally: enabling it creates a visible, portable profile from reviewed small
+clues; declining creates nothing and suppresses later biographical suggestions. Proceed without
+recommending either option and never require a CV, résumé or life story.
+
 ### Phase 3 — Classification by destination
 
 | Criteria type | Destination |
@@ -158,6 +165,7 @@ anything that **constrains a future decision**. Noise is descriptive and constra
 | State, current phase, work focus, active branch | `FASES.md` |
 | Critical paths / mandatory verification | `golden-paths.md` (if applicable) |
 | Stack, folder structure, navigation map | instruction contract (pointers/reference) |
+| Explicit professional facts, experience and goals, only if enabled | `perfil-profesional.md` in the owning area's `lore/`, or local `lore/` when standalone |
 | Descriptive with no constraint | **discard** (reported, see invariants) |
 
 **Area-aware routing:** if the project belongs to an area, a generic thematic clue that the **area
@@ -178,6 +186,8 @@ Do not write yet. Present **one** mapping document containing:
 2. What changes in the instruction contract (what moves to lore, what stays as a pointer).
 3. The **discarded-noise report**, justified piece by piece.
 4. Any **discrepancy** found between old lore/docs and the code or the user's description.
+5. If enabled, every proposed professional clue with its source; if declined, only note that the
+   optional module was not selected.
 
 Wait for explicit approval before writing.
 
@@ -185,7 +195,9 @@ For a multi-decision transmutation, apply `brainstorming-lore`'s **recognizable 
 the mapping is the accumulated artifact and each recap carries forward what the user already approved.
 
 ### Phase 6 — Writing (only after approval)
-Create the artifacts, slim the instruction contract to pointers, build/update `index.md`. **Do not overwrite old
+Create the approved artifacts, including `perfil-profesional.md` only when enabled; projects and bots
+point to the area's master instead of copying it. Slim the instruction contract to pointers and
+build/update `index.md`. **Do not overwrite old
 `lore/` without surfacing discrepancies**: if old content contradicts current code or the user's
 words, report it instead of proceeding blind.
 **A paragraph is a paragraph** (kit invariant in `use-lore`): continuous prose in `lore/`, the
