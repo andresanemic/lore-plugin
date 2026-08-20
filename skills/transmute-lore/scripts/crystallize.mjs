@@ -57,7 +57,7 @@ function skipRel(rel) {
   if (parts.some((p) => SKIP_DIR.has(p))) return true;
   if (/cristalizado/i.test(rel)) return true;
   if (/(^|\/)\.env(\.|$)/i.test(rel)) return true;
-  if (/(^|\/)package(-lock)?\.json$/.test(posix(rel))) return true;
+  if (/(^|\/)package-lock\.json$/.test(posix(rel))) return true;
   if (/(^|\/)pnpm-lock\.yaml$/.test(posix(rel))) return true;
   return false;
 }
@@ -221,7 +221,7 @@ export function collect(botDir) {
   return { eco, raiz, botName, botRel, files };
 }
 
-export function compose({ botName, botRel, raiz, files, generatedAt }) {
+export function compose({ botName, botRel, files, generatedAt }) {
   const lines = [];
   const w = (s = "") => lines.push(s);
   w(`# ${botName} — lore-cristalizado`);
@@ -232,30 +232,29 @@ export function compose({ botName, botRel, raiz, files, generatedAt }) {
   w("> a una mini-raíz cuyo `enrutamiento.md` resuelve. El extractor viaja con `transmute-lore`.");
   w("");
   w(`- Generado: ${generatedAt}`);
-  w(`- Raíz viva: \`${posix(raiz)}\``);
   w(`- Bot: \`${botRel}\``);
   w(`- Archivos: ${files.length}`);
   w(`- Bytes: ${files.reduce((n, f) => n + f.bytes, 0)}`);
   w("");
   w("## Manifiesto");
   w("");
-  w("| # | Dueño | Ruta | Bytes | SHA-256 |");
-  w("|---|---|---|---:|---|");
-  files.forEach((f, i) => {
-    w(`| ${i + 1} | ${f.owner} | \`${f.path}\` | ${f.bytes} | \`${f.sha.slice(0, 12)}\` |`);
-  });
+  for (const f of files) w(`- \`${f.path}\` · ${f.bytes} bytes · \`${f.sha.slice(0, 12)}\``);
   w("");
   w("## Cuerpos");
   w("");
-  for (const f of files) {
-    const destAttr = f.dest ? ` destino="${attrEscape(f.dest)}"` : "";
-    const body = f.body.endsWith("\n") ? f.body : `${f.body}\n`;
-    w(`### ${f.owner} — \`${f.path}\``);
+  for (const owner of new Set(files.map((f) => f.owner))) {
+    w(`## ${owner}`);
     w("");
-    w(`<!-- lore:extract path="${attrEscape(f.path)}" owner="${attrEscape(f.owner)}"${destAttr} -->`);
-    w(body.replace(/\n$/, ""));
-    w(EXTRACT_CLOSE);
-    w("");
+    for (const f of files.filter((item) => item.owner === owner)) {
+      const destAttr = f.dest ? ` destino="${attrEscape(f.dest)}"` : "";
+      const body = f.body.endsWith("\n") ? f.body : `${f.body}\n`;
+      w(`### \`${f.path}\``);
+      w("");
+      w(`<!-- lore:extract path="${attrEscape(f.path)}" owner="${attrEscape(f.owner)}"${destAttr} -->`);
+      w(body.replace(/\n$/, ""));
+      w(EXTRACT_CLOSE);
+      w("");
+    }
   }
   w("## Omisiones");
   w("");

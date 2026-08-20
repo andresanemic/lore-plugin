@@ -20,6 +20,7 @@ function fixture() {
   writeFileSync(join(area, "lore", "principios.md"), "# Principios del área\nNunca cruzar cuerpos.\n", "utf8");
   writeFileSync(join(project, "CLAUDE.md"), "# Demo producto\n", "utf8");
   writeFileSync(join(project, "FASES.md"), "# FASES demo\n", "utf8");
+  writeFileSync(join(project, "package.json"), '{"version":"2.2.0"}\n', "utf8");
   writeFileSync(join(project, "lore", "identidad.md"), "# Identidad demo\nSomos el producto.\n", "utf8");
   writeFileSync(join(bot, "CLAUDE.md"), "# Bot demo\nCargar canon y enrutar.\n", "utf8");
   writeFileSync(join(bot, "FASES.md"), "# FASES bot\n", "utf8");
@@ -40,7 +41,7 @@ function fixture() {
       {
         destino: "producto",
         origen: "founder/proyectos/Demo",
-        incluir: ["lore", "CLAUDE.md", "FASES.md"],
+        incluir: ["lore", "CLAUDE.md", "FASES.md", "package.json"],
         proyecto: "Demo",
         tipo: "producto",
         cuando: "producto",
@@ -74,9 +75,13 @@ test("pack + extract reconstruye el enrutamiento de un bot federado", () => {
   assert.ok(paths.includes("bots/proyectos/bot-demo/scripts/ecosistema.json"));
   assert.ok(paths.includes("founder/lore/principios.md"));
   assert.ok(paths.includes("founder/proyectos/Demo/lore/identidad.md"));
+  assert.ok(paths.includes("founder/proyectos/Demo/package.json"));
   assert.ok(!paths.some((p) => p.includes("notas")));
 
   const md = compose({ ...collected, generatedAt: "2026-08-18" });
+  assert.doesNotMatch(md, /\| # \| Dueño \| Ruta \|/);
+  assert.equal((md.match(/^## Demo$/gm) || []).length, 1);
+  assert.match(md, /- `founder\/proyectos\/Demo\/lore\/identidad\.md` · \d+ bytes · `[0-9A-F]{12}`/);
   assert.match(md, /<!-- lore:extract path="founder\/lore\/principios.md"/);
   assert.match(md, /<!-- \/lore:extract -->/);
   const blocks = parseExtractBlocks(md);

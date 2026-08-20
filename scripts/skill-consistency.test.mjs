@@ -242,7 +242,7 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.1.7"]));
+  assert.deepEqual(new Set(versions), new Set(["2.2.0"]));
 });
 
 test("ninguna skill manda HARD: ni usa cristalizar como destilar", () => {
@@ -308,9 +308,9 @@ test("el README identifica el modelo del benchmark en ambos idiomas", () => {
   assert.match(text, /qué ocurre cuando una persona y una IA trabajan juntas/i);
 });
 
-test("las superficies públicas de 2.1.7 conservan una definición precisa", () => {
-  const release = readFileSync(join(root, "docs", "RELEASE_2.1.7.md"), "utf8");
-  assert.ok(release.trim().split(/\s+/).length <= 450, "release 2.1.7 demasiado largo");
+test("las superficies públicas de 2.2.0 conservan una definición precisa", () => {
+  const release = readFileSync(join(root, "docs", "RELEASE_2.2.0.md"), "utf8");
+  assert.ok(release.trim().split(/\s+/).length <= 450, "release 2.2.0 demasiado largo");
   const surfaces = ["package.json", join(".claude-plugin", "plugin.json"), join(".claude-plugin", "marketplace.json"), join(".codex-plugin", "plugin.json")]
     .map((file) => readFileSync(join(root, file), "utf8")).join("\n");
   assert.match(surfaces, /provider-neutral project criterion/i);
