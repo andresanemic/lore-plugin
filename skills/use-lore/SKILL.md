@@ -124,6 +124,7 @@ Before producing:
 
 Invoke the domain skill that owns each medium or tool. This route coordinates criteria, precedent,
 work and review; it does not duplicate document, scraping, connector or publishing instructions.
+
 ## What Lore is (and is not)
 
 **Lore is criteria that persists** — the rules, the standard, the hard-won scars — kept separate
@@ -132,6 +133,11 @@ is the atom of Lore: `Context → Root cause → Clue → Confidence`. If a sent
 a future decision, it is **not** Lore; it is description, and it stays out.
 
 Lore is **not** a README, not a changelog, not a design doc. Those describe. Lore constrains.
+
+The relational shape is **autonomy with return**. Human and agent may advance independently; Lore
+does not demand constant contact or fuse them into one author. At a contextual milestone,
+**distillation resynchronizes** the shared criterion: each side can return to the same constraints
+and continue without pretending that no drift occurred.
 
 **Most of what happens does not survive, and that is the design.** A Lore is not an archive of the
 work; it is the narrow part of the work that still gets a say. Its worth is counted in future

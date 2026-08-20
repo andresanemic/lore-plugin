@@ -94,6 +94,8 @@ Use `use-lore` whenever you are unsure where to start.
 
 **Recognizable-continuity rule:** structural work maintains one accumulated artifact, advances one decision at a time and recaps at contextual milestones. The user must still recognize and be able to correct the original intention. `create-area`, `create-project`, `create-bot` and structural `transmute-lore` modes inherit the rule; mechanical work does not.
 
+**Autonomy-with-return rule:** the accumulated artifact is the shared return point. Independent work may accumulate; a contextual recap and approved distillation resynchronize it without requiring constant contact.
+
 **Role:** Design a new or materially changed Lore artifact before its owner skill writes it.
 
 **Trigger boundary:**

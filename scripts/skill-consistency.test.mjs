@@ -94,6 +94,20 @@ test("las operaciones estructurales construyen el Entre por decisiones acumulati
   assert.match(readFileSync(join(root, "README.md"), "utf8"), /continuidad reconocible/i);
 });
 
+test("la destilación devuelve trabajo autónomo al artefacto compartido", () => {
+  const brainstorm = readFileSync(join(skillsRoot, "brainstorming-lore", "SKILL.md"), "utf8");
+  const use = readFileSync(join(skillsRoot, "use-lore", "SKILL.md"), "utf8");
+  assert.match(brainstorm, /shared return point/i);
+  assert.match(brainstorm, /does not.{0,8}require\s+constant contact/i);
+  assert.match(use, /autonomy with return/i);
+  assert.match(use, /distillation resynchronizes/i);
+
+  const casesEn = readFileSync(join(root, "docs", "CASES_en.md"), "utf8");
+  const casesEs = readFileSync(join(root, "docs", "CASES_es.md"), "utf8");
+  assert.match(casesEn, /drift.*return.*distillation.*resynchronization/is);
+  assert.match(casesEs, /deriva.*retorno.*destilación.*resincronización/is);
+});
+
 test("las guías bilingües documentan las ocho skills con una sección propia", () => {
   for (const file of ["docs/USAGE_en.md", "docs/USAGE_es.md", "docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
     const text = readFileSync(join(root, file), "utf8");

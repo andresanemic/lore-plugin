@@ -175,6 +175,8 @@ With provisional canon, ask only what is needed for a first victory. Later quest
 
 For structural work, carry every approved answer into one accumulated artifact and recap it at contextual milestones. The floor is recognizable continuity: the human can still identify and correct their intention without restarting. This applies to creating or materially transforming bots, projects, Areas and crystallizations, not to mechanical edits or one capture.
 
+The accumulated artifact is also the shared return point: independent advances may accumulate without constant contact, and an approved distillation resynchronizes them with the common criterion.
+
 **Purpose:** explore a new or materially changed Lore artifact without taking ownership away from
 the skill that will write it.
 

@@ -93,6 +93,8 @@ Usa `use-lore` siempre que no tengas claro dónde empezar.
 
 **Regla de continuidad reconocible:** el trabajo estructural mantiene un solo artefacto acumulado, avanza una decisión por vez y recapitula en hitos contextuales. La persona debe seguir reconociendo y pudiendo corregir su intención original. `create-area`, `create-project`, `create-bot` y los modos estructurales de `transmute-lore` heredan la regla; el trabajo mecánico no.
 
+**Regla de autonomía con retorno:** el artefacto acumulado es el punto compartido de retorno. El trabajo autónomo puede acumularse; una recapitulación contextual y una destilación aprobada lo resincronizan sin exigir contacto constante.
+
 **Rol:** Diseñar un artefacto Lore nuevo o materialmente distinto antes de que la skill dueña lo escriba.
 
 **Límite de activación:**
