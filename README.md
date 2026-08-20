@@ -644,8 +644,8 @@ hypothesis — only partly tested by the benchmark — is that a richer, more st
 can help people become better professionals and realize better projects with less repetition, time
 and cost.
 
-Morin adds the ethical north that was missing here. In UNESCO's [*Seven Complex Lessons in Education
-for the Future*](https://unesdoc.unesco.org/ark:/48223/pf0000378091), he writes that “the notion of
+Morin gives this work its ethical north. In UNESCO's [*Seven Complex Lessons in Education for the
+Future*](https://unesdoc.unesco.org/ark:/48223/pf0000378091), he writes that “the notion of
 wager should be generalized to every faith” (our translation), including faith in fraternity,
 justice and a better world. He also warns that giving up the best of all worlds does not mean giving
 up a better world.
@@ -704,14 +704,22 @@ Naming that provenance separates a design decision from inherited taste.
 
 ## Author
 
-**Andrés Peña Mellado** — principal researcher of LUS, Web3 founder and former editor at
-**BeInCrypto** and **Polkadot Español**. He helped establish the bibliographic and methodological
-foundation of UTEM's Design Thinking course and taught it from 2023 to 2025; he also spoke at
-[KCD El Salvador 2023](https://www.credly.com/badges/ad17002a-16be-474b-ada4-d7ba0df3a0fd).
+**Andrés Peña Mellado** — principal researcher of LUS.
 
-[GitHub](https://github.com/andresanemic) · [LinkedIn](https://www.linkedin.com/in/andresanemic/) ·
-[X](https://x.com/andresanemic) · [Telegram](https://t.me/andresanemic) · Discord `andresanemic` ·
-[Email](mailto:andres@healthproof.cl)
+Web3 founder of two blockchain projects and community manager at ChatterPay; formerly on the
+editorial teams of **Polkadot Español** and **BeInCrypto**.
+
+He helped establish UTEM's **Design Thinking** course and taught it from 2023 to 2025. **Speaker at
+[KCD El Salvador 2023](https://www.credly.com/badges/ad17002a-16be-474b-ada4-d7ba0df3a0fd)**.
+
+<p>
+  <a href="https://github.com/andresanemic"><img src="https://img.shields.io/badge/GitHub-andresanemic-0B1320?style=for-the-badge&logo=github&logoColor=F4F0E8&labelColor=0B0B12" alt="GitHub"></a>
+  <a href="https://x.com/andresanemic"><img src="https://img.shields.io/badge/X-@andresanemic-FF557A?style=for-the-badge&logo=x&logoColor=0B0B12&labelColor=0B0B12" alt="X"></a>
+  <a href="https://www.linkedin.com/in/andresanemic/"><img src="https://img.shields.io/badge/LinkedIn-Andrés%20Peña%20Mellado-00DFF5?style=for-the-badge&logo=linkedin&logoColor=0B0B12&labelColor=0B0B12" alt="LinkedIn"></a>
+  <a href="https://t.me/andresanemic"><img src="https://img.shields.io/badge/Telegram-@andresanemic-22D9EE?style=for-the-badge&logo=telegram&logoColor=0B0B12&labelColor=0B0B12" alt="Telegram"></a>
+  <img src="https://img.shields.io/badge/Discord-andresanemic-F94F79?style=for-the-badge&logo=discord&logoColor=0B0B12&labelColor=0B0B12" alt="Discord">
+  <a href="mailto:andres@healthproof.cl"><img src="https://img.shields.io/badge/Email-andres@healthproof.cl-35E5F5?style=for-the-badge&logo=gmail&logoColor=0B0B12&labelColor=0B0B12" alt="Email"></a>
+</p>
 
 ---
 
@@ -1349,7 +1357,7 @@ modelos. La hipótesis de LUS —solo parcialmente puesta a prueba por el benchm
 humano–IA más rico y estable puede ayudarnos a ser mejores profesionales y realizar mejores proyectos
 con menos repetición, tiempo y costo.
 
-Morin aporta el norte ético que faltaba acá. En la edición de UNESCO de [*Los siete saberes
+Morin le da a este trabajo su norte ético. En la edición de UNESCO de [*Los siete saberes
 necesarios para la educación del futuro*](https://unesdoc.unesco.org/ark:/48223/pf0000378091)
 escribe: «La noción de apuesta se debe generalizar para cualquier fe», incluidas la fe en la
 fraternidad, la justicia y un mundo mejor. También advierte: «La renuncia al mejor de los mundos no
@@ -1418,8 +1426,7 @@ Antes, parte del equipo editorial de **Polkadot Español** y editor en **BeInCry
 Docencia e investigación: integró el equipo que estableció las bases bibliográficas y metodológicas
 de la asignatura **Design Thinking** de la Escuela de Ingeniería en Informática de la UTEM (2023), y
 la dictó desde 2023 hasta 2025. **Speaker en [KCD El Salvador
-2023](https://www.credly.com/badges/ad17002a-16be-474b-ada4-d7ba0df3a0fd)** — Kubernetes Community
-Days, el programa de eventos comunitarios de la CNCF.
+2023](https://www.credly.com/badges/ad17002a-16be-474b-ada4-d7ba0df3a0fd)**.
 
 <p>
   <a href="https://github.com/andresanemic"><img src="https://img.shields.io/badge/GitHub-andresanemic-0B1320?style=for-the-badge&logo=github&logoColor=F4F0E8&labelColor=0B0B12" alt="GitHub"></a>
