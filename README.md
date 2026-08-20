@@ -114,7 +114,7 @@ You open a session. You explain, again, what the project is for. Which approach 
 
 You explained all of it yesterday. You will explain it again tomorrow.
 
-Meanwhile you keep paying to learn: architectural decisions, production incidents, failed experiments, dozens of *"let's never do that again"* moments. That is what actually cost you, and **none of it survives the session**.
+Meanwhile, the things you actually paid to learn keep piling up: architecture decisions, production incidents, failed experiments, dozens of *"let's never do that again"* moments. That is the real cost — and **none of it survives the session**.
 
 It is a loop of re-explanations and mediocre solutions you had already rejected. Lore calls this **ephemeral experience**: the facts may survive, but the learning never became a reusable structure.
 
@@ -138,14 +138,11 @@ It provides three things:
 - eight skills that operate that convention;
 - and a continuous loop for distilling experience into reusable criteria.
 
-Spec-driven is not a label here. The project has one host-selected contract—`CLAUDE.md` for Claude Code or `AGENTS.md` for Codex—`FASES.md` is the state, the roadmap and the task list, and `lore/` is the criteria that constrains how any of it gets built. If you use both hosts, Codex can fall back to `CLAUDE.md`; you still do not need two contracts.
+Spec-driven is not a label here. Each project has a single contract chosen by its primary host — `CLAUDE.md` for Claude Code or `AGENTS.md` for Codex — `FASES.md` holds the current state, the roadmap and the task list, and `lore/` holds the criteria that constrains how all of it gets built. If you use both hosts, Codex can fall back to `CLAUDE.md`; you still do not need two contracts.
 
 Unlike documentation, Lore does not try to describe everything. It only preserves what changes future behavior.
 
-You do not need an existing Lore to begin. `transmute-lore` in **ADD** mode can read the material
-you already have — project folders, documents, exported chat summaries and loose notes — and
-propose the criteria, canon and routing hidden inside it. Sources remain sources: nothing becomes
-Lore until you approve the distillation.
+You do not need existing Lore to start. In **ADD** mode, `transmute-lore` can read what you already have — project folders, documents, exported chat summaries, loose notes — and propose the criteria, canon and routing hidden inside. Sources remain sources: nothing becomes Lore until you approve the distillation.
 
 When that criterion needs to travel, **CRYSTALLIZE** creates a traceable single-Markdown “memory
 card”: portable across models, usable wherever Markdown instructions are accepted, shareable on
@@ -178,7 +175,7 @@ The event is forgotten. The criteria keeps working.
   <img src="https://i.imgur.com/y3fsT7D.png" alt="Lore" width="100%">
 </p>
 
-Every step of the loop passes a **threshold**: it is proposed, you approve, only then it is written.
+Each step in the loop passes a **threshold**: it is proposed, you approve, and only then it is written.
 
 ---
 
@@ -263,7 +260,7 @@ Then start a new CLI session and type `use-lore`; the kit points you at the skil
 
 ## What it looks like in practice
 
-You just spent two hours chasing a bug: some dates showed up one day off, but only for some people. You found it. Instead of closing the tab:
+You just shipped a landing page and the feedback is: "I didn't know what to do next." The CTA was below the fold and the headline talked about the product, not the outcome. You fixed it. Instead of closing the tab:
 
 ```text
 › save to lore
@@ -272,24 +269,24 @@ You just spent two hours chasing a bug: some dates showed up one day off, but on
 ```text
   Distilled this:
 
-  [dates] Off-by-one day — dates stored with a local timezone
+  [cta] CTA not visible — headline without outcome
 
-  Context ······· the server runs in UTC, the users do not
-  Root cause ···· each date was saved with the timezone of whoever
-                  created it, so the same record read differently
-                  depending on who opened it
-  Clue ·········· always store dates in UTC. Convert only when
-                  displaying, never when saving
-  Confidence ···· confirmed — verified in production
+  Context ······· landing page had the CTA below the fold
+  Root cause ···· headline described the product, not the
+                  result for the reader
+  Clue ·········· place the main CTA above the fold and
+                  write the headline around the outcome,
+                  not the feature
+  Confidence ···· confirmed — fixed on live page
 
-  → projects/client-a/lore/dates.md
-  → this Clue is generic and confirmed: promote it to the Area,
+  → projects/client-a/lore/cta.md
+  → this clue is generic and confirmed: promote it to the Area
     so the other 3 projects see it?
 
   Write it?
 ```
 
-Three months later, in another project of the Area, someone adds a calendar. The criteria is already loaded and that bug never happens again.
+Three months later, another project in the same Area ships a landing page. The criteria is already loaded, so that mistake does not happen again.
 
 > None of it was written without a human saying yes. The same gate governs all eight skills.
 
@@ -299,9 +296,7 @@ Three months later, in another project of the Area, someone adds a calendar. The
 
 ### The six pieces
 
-Every project organizes its criteria and state through six structural pieces. They are not
-necessarily six files: thematic modules are one piece implemented by as many focused files as the
-work earns.
+Every project organizes its criteria and state into six structural pieces. They are not necessarily six files: thematic modules are one piece, implemented across as many focused files as the work requires.
 
 | Piece | What it holds | Where |
 |---|---|---|
@@ -319,7 +314,7 @@ Each has one responsibility. None duplicates another.
 Identity and state stay separate because they age at different speeds: one constrains the work; the
 other says where it currently stands.
 
-The names shown are the Spanish canonical forms; in your language they localize.
+The canonical names are Spanish; in your language they are localized.
 
 #### The always-on block
 
@@ -333,9 +328,9 @@ The contract is the only artifact **both** hosts load without being asked, which
 <!-- /lore:always-on -->
 ```
 
-Four things and no more, under a hard ceiling of **25 lines**. It points at `lore/`, and at `FASES.md` in one line — criteria and state are stored apart, but the session that receives them cannot read twice, and an agent that has the criteria and not the phase proposes correctly and out of order. It never reproduces a clue. If a variant does not fit, the answer is to move content into `lore/`, not to raise the ceiling.
+Four items and no more, under a hard ceiling of **25 lines**. It points to `lore/` and to `FASES.md` — criteria and state live apart, but the session that receives them can only read once. An agent that gets the criteria without the phase will propose the right thing at the wrong time. The block never reproduces a clue. If a variant does not fit, move content into `lore/`; do not raise the ceiling.
 
-Three variants: an **area** points at its own `lore/`; a **project** at its own layer and its mother area's; a **bot** at `canon/` and its **routing table** — never at the federated Lores one by one, which is why a bot that reaches twenty bodies of criteria still fits.
+Three variants: an **area** points to its own `lore/`; a **project** points to its own layer and to its mother area's; a **bot** points to `canon/` and to its **routing table** — never to the federated Lores one by one. That is why a bot that reaches twenty bodies of criteria still fits.
 
 The owning skills stamp it idempotently inside their existing threshold; UPGRADE adds it to older
 contracts. Hand-edited divergence is reported, never overwritten.
@@ -362,7 +357,7 @@ web-development/
         └── lore/
 ```
 
-Fix a generic Clue once, in the Area, and every project sees it. Each project keeps only what belongs to it: the system stays DRY without losing accumulated experience.
+Fix a generic clue once in the Area and every project sees it. Each project keeps only what is truly its own — the system stays DRY without losing accumulated experience.
 
 ### The third shape: a bot
 
@@ -490,21 +485,18 @@ In `nuevo`, the initial human declaration is provisional canon. The first comple
 
 <br>
 
-The usual starting point is not a tidy set of Lore bodies. It is raw material: folders of documents, a database, a Notion workspace, undistilled code. That cannot be federated yet, and the fix is a chain:
+The usual starting point is not a tidy set of Lore bodies. It is raw material: folders of documents, a database, a Notion workspace, undistilled code. That cannot be federated yet. The fix is a short chain:
 
 ```text
 raw folder (no Lore)
-   └─ create-area                → creates the Area that will OWN that criteria — clean
-        └─ adopt by registration   → the existing folder is listed in FASES.md, by path,
-        │                              and stays where it is. Nothing moves.
-        └─ transmute-lore (add)    → rescues the criteria already scattered inside it
-             └─ create-bot (federar) → the bot routes to that Lore
+ └─ create-area            → creates the Area that will OWN that criteria
+      └─ register path     → the existing folder is listed in FASES.md by path;
+                              it stays where it is, nothing moves
+           └─ transmute-lore (add) → rescues the criteria already scattered inside
+                └─ create-bot (federar) → the bot routes to that Lore
 ```
 
-`create-area` creates a clean owner and adopts the existing folder **by path, without moving it**.
-The bot never distills into itself: each source first earns Lore in its owning Area, then the bot
-points to it. `create-bot` reports which paths are ready, need ADD or first need text extraction;
-free-note inboxes are sources and are never federated.
+The new Area is a clean owner; the existing folder is adopted **by path, without moving it**. The bot never distills into itself: each source first earns Lore in its owning Area, then the bot points to it. `create-bot` reports which paths are ready, which need ADD, and which still need text extraction. Free-note inboxes remain sources and are never federated.
 
 </details>
 
@@ -524,16 +516,11 @@ as an extractable Markdown memory card.
 
 ## Obsidian — the way in
 
-Point Obsidian at the **mother folder of your Areas** and add `notes/` inside a project, Area or bot.
-The same tree becomes workspace and vault. Then ask:
+Point Obsidian at the **mother folder of your Areas** and add a `notes/` (or `notas/`) folder inside any project, Area or bot — the same tree is your workspace and your vault. When you want the AI to read what you left there, run:
 
 > "review my Obsidian notes and see what belongs in my lore"
 
-`obsidian-lore` separates criteria from tasks and noise, proposes the owning Lore and waits for
-approval. It marks mined notes with date and destination, never deletes them, and can also preserve
-prompts or unfinished work for the next session. A bot routes notes more reliably because it already
-knows each project's purpose. **A note is source, never criteria**; nothing crosses without explicit
-distillation and an approved diff.
+`obsidian-lore` scans the folder, separates criteria from tasks and noise, proposes the owning Lore and waits for your approval. It marks each mined note with date and destination and never deletes it. A bot routes notes more reliably because it already knows each project's purpose. **A note is source, never criteria** — nothing crosses without explicit distillation and an approved diff.
 
 ---
 
@@ -719,10 +706,7 @@ corpus.
 
 ### Why "Lore"?
 
-In video games, *lore* is the accumulated story and rules that keep a universe coherent. Here the
-events fade and the criteria remains. The visual debt is explicit too: the anime palette and graphic
-sensibility come from ***Tales of Berseria*** (Bandai Namco, 2016), the author's favorite game.
-Naming that provenance separates a design decision from inherited taste.
+In video games, *lore* is the accumulated story and rules that keep a universe coherent — tournament results, world rules, what can and cannot happen next. We borrow that image and shift the weight: here, specific events fade and **what remains is the criteria** that keeps the next work coherent. The visual debt is explicit too: the anime palette and graphic sensibility come from ***Tales of Berseria*** (Bandai Namco, 2016), the author's favorite game. Naming that provenance separates a design decision from inherited taste.
 
 ## Author
 
@@ -859,9 +843,9 @@ Abres una sesión. Explicas, otra vez, para qué es el proyecto. Qué camino ya 
 
 Todo eso lo explicaste ayer. Mañana lo vas a explicar de nuevo.
 
-Mientras tanto sigues pagando por aprender: decisiones de arquitectura, incidentes en producción, experimentos fallidos, decenas de momentos de *«nunca volvamos a hacer esto»*. Eso es lo que de verdad te costó, y **nada de eso sobrevive a la sesión**.
+Mientras tanto, lo que de verdad te costó aprender se sigue acumulando: decisiones de arquitectura, incidentes en producción, experimentos fallidos, decenas de momentos de *«nunca volvamos a hacer esto»*. Ese es el costo real — y **nada de eso sobrevive a la sesión**.
 
-Es un bucle de reexplicaciones y de soluciones mediocres que ya habías rechazado. Lore llama a esto **experiencia efímera**: los datos pueden sobrevivir, pero el aprendizaje nunca se convirtió en una estructura reutilizable.
+Es un bucle de reexplicaciones y soluciones mediocres que ya habías descartado. Lore llama a esto **experiencia efímera**: los datos pueden sobrevivir, pero el aprendizaje nunca se convirtió en una estructura reutilizable.
 
 > La imagen es *El día de la marmota*. El mundo se reinicia y **lo único que atraviesa el reinicio es lo que Phil aprendió**: los hechos se borran cada 2 de febrero, el criterio no. Cada sesión de un agente es un 2 de febrero.
 
@@ -883,14 +867,11 @@ Aporta tres cosas:
 - ocho *skills* que operan esa convención;
 - y un ciclo continuo para destilar experiencia en criterio reutilizable.
 
-Lo de *spec-driven* no es una etiqueta. El proyecto tiene un solo contrato elegido según su host principal —`CLAUDE.md` para Claude Code o `AGENTS.md` para Codex—, `FASES.md` es el estado, la hoja de ruta y el listado de tareas, y `lore/` es el criterio que restringe cómo se construye todo lo anterior. Si usas ambos hosts, Codex puede tomar `CLAUDE.md` como fallback; sigues sin necesitar dos contratos.
+Lo de *spec-driven* no es una etiqueta. Cada proyecto tiene un solo contrato, elegido por su host principal —`CLAUDE.md` para Claude Code o `AGENTS.md` para Codex—, `FASES.md` guarda el estado, la hoja de ruta y el listado de tareas, y `lore/` guarda el criterio que restringe cómo se construye todo lo anterior. Si usas ambos hosts, Codex puede usar `CLAUDE.md` como respaldo; sigues sin necesitar dos contratos.
 
 A diferencia de la documentación, Lore no intenta describirlo todo. Solo conserva aquello que modifica el comportamiento futuro.
 
-No necesitas un Lore previo para empezar. `transmute-lore` en modo **ADD** puede leer lo que ya
-tienes —carpetas del proyecto, documentos, resúmenes exportados de chats y notas sueltas— y
-proponer el criterio, canon y enrutamiento que vive disperso ahí. Las fuentes siguen siendo fuentes:
-nada se vuelve Lore hasta que apruebas la destilación.
+No necesitas tener Lore para empezar. En modo **ADD**, `transmute-lore` lee lo que ya tienes —carpetas del proyecto, documentos, resúmenes de chats exportados, notas sueltas— y propone el criterio, el canon y el enrutamiento que viven dispersos ahí. Las fuentes siguen siendo fuentes: nada se vuelve Lore hasta que apruebas la destilación.
 
 Cuando ese criterio necesita viajar, **CRYSTALLIZE** crea una «memory card» trazable en un solo
 Markdown: portable entre modelos, utilizable donde se acepten instrucciones Markdown, compartible
@@ -923,7 +904,7 @@ El acontecimiento se olvida. El criterio sigue trabajando.
   <img src="https://i.imgur.com/I7odxus.png" alt="Lore" width="100%">
 </p>
 
-Cada paso del ciclo pasa por un **umbral**: se propone, tú apruebas, recién entonces se escribe.
+Cada paso del ciclo pasa por un **umbral**: se propone, tú apruebas y recién entonces se escribe.
 
 > **Un umbral no se cruza en solitario.** La máquina propone con el contenido a la vista, el humano
 > aprueba, y recién entonces se escribe algo. No es un cuadro de confirmación y no se negocia: una
@@ -1016,7 +997,7 @@ Después abre una sesión nueva en la CLI y escribe `use-lore`; el kit te guía 
 
 ## Así se ve en la práctica
 
-Acabas de pasar dos horas persiguiendo un error: algunas fechas aparecían corridas un día, pero solo para algunas personas. Lo encontraste. En vez de cerrar la pestaña:
+Acabas de publicar una landing y el feedback es: "No sabía qué hacer después". El CTA quedaba abajo y el titular hablaba del producto, no del resultado. Lo corregiste. En vez de cerrar la pestaña:
 
 ```text
 › guarda en lore
@@ -1025,24 +1006,24 @@ Acabas de pasar dos horas persiguiendo un error: algunas fechas aparecían corri
 ```text
   Destilé esto:
 
-  [fechas] Corrimiento de un día — fechas guardadas con zona local
+  [cta] CTA poco visible — titular sin resultado
 
-  Contexto ······ el servidor corre en UTC, los usuarios no
-  Causa raíz ···· cada fecha se guardaba con la zona horaria de quien
-                  la creó, así que el mismo registro se leía distinto
-                  según quién lo abriera
-  Pista ········· guardar siempre las fechas en UTC. Convertir solo
-                  al mostrarlas, nunca al guardarlas
-  Confianza ····· confirmada — verificado en producción
+  Contexto ······ la landing tenía el CTA debajo del pliegue
+  Causa raíz ···· el titular describía el producto, no el
+                  resultado para quien lee
+  Pista ········· poner el CTA principal arriba del pliegue y
+                  escribir el titular alrededor del resultado,
+                  no de la funcionalidad
+  Confianza ····· confirmada — corregido en la página publicada
 
-  → proyectos/cliente-a/lore/fechas.md
-  → esta Pista es genérica y confirmada: ¿la promuevo al Área,
+  → proyectos/cliente-a/lore/cta.md
+  → esta pista es genérica y confirmada: ¿la promuevo al Área
     para que la vean los otros 3 proyectos?
 
   ¿Escribo?
 ```
 
-Tres meses después, en otro proyecto del Área, alguien agrega un calendario. El criterio ya está cargado y ese error no vuelve a ocurrir.
+Tres meses después, otro proyecto del Área publica una landing. El criterio ya está cargado y ese error no se repite.
 
 ---
 
@@ -1050,9 +1031,7 @@ Tres meses después, en otro proyecto del Área, alguien agrega un calendario. E
 
 ### Las seis piezas
 
-Cada proyecto organiza su criterio y su estado mediante seis piezas estructurales. No son
-necesariamente seis archivos: los módulos temáticos son una pieza implementada por tantos archivos
-enfocados como el trabajo haya ganado.
+Cada proyecto organiza su criterio y su estado en seis piezas estructurales. No son necesariamente seis archivos: los módulos temáticos son una sola pieza, repartida en tantos archivos enfocados como el trabajo requiera.
 
 | Pieza | Qué guarda | Dónde |
 |---|---|---|
@@ -1072,7 +1051,7 @@ trabajo; el otro dice en qué punto se encuentra.
 
 #### El bloque siempre-activo
 
-El contrato es el único artefacto que **los dos** hosts cargan sin que nadie se lo pida, y eso lo convierte en el canal siempre-activo del kit. Su sección de punteros va delimitada para poder encontrarla y re-estamparla sin tocar nada más:
+El contrato es el único artefacto que **los dos** hosts cargan sin que nadie se lo pida, y eso lo convierte en el canal siempre activo del kit. Su sección de punteros va delimitada para poder encontrarla y reestamparla sin tocar nada más:
 
 > **Por qué un bloque delimitado y no un párrafo cualquiera.** Una pieza se carga primero, sin excepción, y solo entonces el resto puede leerse en cualquier orden. No es una jerarquía de importancia: el ancla es lo que vuelve legible todo lo que viene detrás.
 
@@ -1082,9 +1061,9 @@ El contrato es el único artefacto que **los dos** hosts cargan sin que nadie se
 <!-- /lore:always-on -->
 ```
 
-Cuatro cosas y ninguna más, con un techo duro de **25 líneas**. Apunta al `lore/`, y al `FASES.md` en una línea — el criterio y el estado se guardan aparte, pero la sesión que los recibe no puede leer dos veces, y un agente que tiene el criterio y no la fase propone bien y fuera de orden. Nunca reproduce una Pista. Si una variante no cabe, la respuesta es mover contenido al `lore/`, no subir el techo.
+Cuatro elementos y no más, con un techo duro de **25 líneas**. Apunta a `lore/` y a `FASES.md`: el criterio y el estado viven separados, pero la sesión que los recibe solo puede leer una vez. Un agente que recibe el criterio sin la fase propone lo correcto en el momento equivocado. El bloque nunca reproduce una pista. Si una variante no entra, mueve contenido a `lore/`; no subas el techo.
 
-Tres variantes: un **área** apunta a su propio `lore/`; un **proyecto** a su capa y a la del área madre; un **bot** a `canon/` y a su **tabla de enrutamiento** — nunca a los Lore federados uno por uno, que es por lo que un bot que alcanza veinte cuerpos de criterio sigue cabiendo.
+Tres variantes: un **área** apunta a su propio `lore/`; un **proyecto** apunta al suyo y al del área madre; un **bot** apunta a `canon/` y a su **tabla de enrutamiento** — nunca a los Lore federados uno por uno. Por eso un bot que alcanza veinte cuerpos de criterio sigue entrando.
 
 Las skills dueñas lo estampan de forma idempotente dentro de su umbral; UPGRADE lo agrega a
 contratos antiguos. Una divergencia editada a mano se reporta y nunca se sobrescribe.
@@ -1229,21 +1208,18 @@ En `nuevo`, la declaración humana inicial es canon provisional. El primer artef
 
 <br>
 
-El punto de partida habitual no es un conjunto ordenado de Lore. Es material en bruto: carpetas de documentos, una base de datos, un espacio de Notion, código sin destilar. Eso no se puede federar todavía, y el arreglo es una cadena:
+El punto de partida habitual no es un conjunto ordenado de Lore. Es material en bruto: carpetas de documentos, una base de datos, un espacio de Notion, código sin destilar. Eso no se puede federar todavía. El arreglo es una cadena corta:
 
 ```text
 carpeta en bruto (sin Lore)
-   └─ create-area                → crea el Área que va a ser DUEÑA de ese criterio — limpia
-        └─ adopción por registro   → la carpeta que ya existe se registra en FASES.md,
-        │                              por ruta, y se queda donde está. No se mueve nada.
-        └─ transmute-lore (add)    → rescata el criterio que ya estaba disperso adentro
-             └─ create-bot (federar) → el bot enruta hacia ese Lore
+ └─ create-area            → crea el Área que va a ser DUEÑA de ese criterio
+      └─ adopción por ruta → la carpeta existente se registra en FASES.md por ruta;
+                              se queda donde está, no se mueve nada
+           └─ transmute-lore (add) → rescata el criterio que ya estaba disperso adentro
+                └─ create-bot (federar) → el bot enruta hacia ese Lore
 ```
 
-`create-area` crea un dueño limpio y adopta la carpeta existente **por ruta, sin moverla**. El bot
-nunca destila hacia sí mismo: cada fuente primero gana Lore en su Área y luego el bot la apunta.
-`create-bot` informa qué rutas están listas, cuáles necesitan ADD y cuáles requieren extracción a
-texto; las bandejas de notas son fuentes y nunca se federan.
+El Área nueva es un dueño limpio; lo existente se adopta **por ruta, sin moverlo**. El bot nunca destila hacia sí mismo: cada fuente primero gana Lore en su Área dueña y luego el bot la apunta. `create-bot` informa qué rutas están listas, cuáles necesitan ADD y cuáles aún requieren extracción a texto. Las bandejas de notas siguen siendo fuentes y nunca se federan.
 
 </details>
 
@@ -1263,16 +1239,11 @@ bot como una memory card Markdown extraíble.
 
 ## Obsidian — la puerta de entrada
 
-Apunta Obsidian a la **carpeta madre de tus Áreas** y agrega `notas/` dentro de un proyecto, Área o
-bot. El mismo árbol se vuelve espacio de trabajo y vault. Luego pide:
+Apunta Obsidian a la **carpeta madre de tus Áreas** y agrega una carpeta `notas/` (o `notes/`) dentro del proyecto, Área o bot donde estés trabajando — el mismo árbol es tu espacio de trabajo y tu vault. Cuando quieras que la IA lo lea, activa la skill:
 
 > «revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore»
 
-`obsidian-lore` separa criterio, tareas y ruido, propone el Lore dueño y espera aprobación. Marca cada
-nota minada con fecha y destino, nunca la borra y también puede preservar prompts o trabajo pendiente
-para la sesión siguiente. Un bot enruta mejor las notas porque ya conoce la finalidad de cada
-proyecto. **Una nota es fuente, nunca criterio**; nada cruza sin destilación explícita y un diff
-aprobado.
+`obsidian-lore` hace el barrido, separa criterio de tareas y ruido, propone el Lore dueño y espera tu aprobación. Marca cada nota minada con fecha y destino y nunca la borra. Un bot enruta mejor porque ya conoce la finalidad de cada proyecto. **Una nota es fuente, nunca criterio**: nada cruza sin destilación explícita y un diff aprobado.
 
 ---
 
@@ -1455,10 +1426,7 @@ en el corpus de LUS.
 
 ### ¿Por qué «Lore»?
 
-En los videojuegos, el *lore* es la historia y las reglas acumuladas que mantienen coherente un
-universo. Acá los hechos se desvanecen y el criterio permanece. La deuda visual también es explícita:
-la paleta anime y el tratamiento gráfico vienen de ***Tales of Berseria*** (Bandai Namco, 2016), el
-juego favorito del autor. Nombrar esa procedencia separa una decisión de diseño de un gusto heredado.
+En los videojuegos, el *lore* es la historia y las reglas acumuladas que mantienen coherente un universo —resultados de torneos pasados, reglas del mundo, qué puede y qué no puede pasar después. Tomamos esa imagen y cambiamos el peso: acá los hechos puntuales se desvanecen y **lo que permanece es el criterio** que mantiene coherente el próximo trabajo. La deuda visual también es explícita: la paleta anime y el tratamiento gráfico vienen de ***Tales of Berseria*** (Bandai Namco, 2016), el juego favorito del autor. Nombrar esa procedencia separa una decisión de diseño de un gusto heredado.
 
 ## Autor
 
