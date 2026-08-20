@@ -44,7 +44,7 @@ test("use-lore gobierna entregables complejos sin crear una novena skill", () =>
   }
 });
 
-test("el lote Permanent Artist deja obligaciones reutilizables y el caso 17", () => {
+test("el lote Jazmín deja obligaciones reutilizables y el caso 17", () => {
   const bot = readFileSync(join(skillsRoot, "create-bot", "SKILL.md"), "utf8");
   const brainstorm = readFileSync(join(skillsRoot, "brainstorming-lore", "SKILL.md"), "utf8");
   const save = readFileSync(join(skillsRoot, "save-to-lore", "SKILL.md"), "utf8");
@@ -70,8 +70,8 @@ test("el lote Permanent Artist deja obligaciones reutilizables y el caso 17", ()
 
   const casesEn = readFileSync(join(root, "docs", "CASES_en.md"), "utf8");
   const casesEs = readFileSync(join(root, "docs", "CASES_es.md"), "utf8");
-  assert.match(casesEn, /Case 17.*Permanent Artist/is);
-  assert.match(casesEs, /Caso 17.*Permanent Artist/is);
+assert.match(casesEn, /Case 17.*Jasmine/is);
+  assert.match(casesEs, /Caso 17.*Jazmín/is);
   assert.match(docs.map((file) => readFileSync(join(root, file), "utf8")).join("\n"), /seventeen case studies/i);
   assert.match(docs.map((file) => readFileSync(join(root, file), "utf8")).join("\n"), /diecisiete casos de estudio/i);
 });

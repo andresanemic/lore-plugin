@@ -634,7 +634,7 @@ lore-plugin/
 
 ## Case studies
 
-Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. Those applications are documented as **seventeen case studies**, each with its own declared boundary. Case 08 is the controlled benchmark summarized above; Cases 09, 10, 11, 13 and 14 turned the kit on itself; **Case 12 is the first install run by someone who is not the author**; Cases 15 and 16 fixed the external yardstick; and **Case 17 tests `create-bot` from a minimal idea through Permanent Artist, where provisional canon had to become a reviewed first victory**.
+Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. Those applications are documented as **seventeen case studies**, each with its own declared boundary. Case 08 is the controlled benchmark summarized above; Cases 09, 10, 11, 13 and 14 turned the kit on itself; **Case 12 is the first install run by someone who is not the author**; Cases 15 and 16 fixed the external yardstick; and **Case 17 tests `create-bot` from a minimal idea through Jasmine, where provisional canon had to become a reviewed first victory**.
 
 > **Status:** these are cases, not proofs. Small n, and **sixteen of the seventeen come from the same researcher** — Case 12 is the one that does not. What they claim constrains how we use the kit; it does not pretend to be a law. The measured claim belongs to [Case 08 and its benchmark](#benchmark); the rest are qualitative evidence.
 
@@ -1369,7 +1369,7 @@ lore-plugin/
 
 ## Casos de estudio
 
-Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía. Esas aplicaciones están documentadas como **diecisiete casos de estudio**, cada uno con su frontera declarada. El Caso 08 es el benchmark controlado; los Casos 09, 10, 11, 13 y 14 volvieron el kit contra sí mismo; el **Caso 12 es la primera instalación hecha por alguien que no es el autor**; los Casos 15 y 16 fijaron la vara externa; y el **Caso 17 prueba `create-bot` desde una idea mínima mediante Permanent Artist, donde el canon provisional tuvo que convertirse en una primera victoria revisada**.
+Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía. Esas aplicaciones están documentadas como **diecisiete casos de estudio**, cada uno con su frontera declarada. El Caso 08 es el benchmark controlado; los Casos 09, 10, 11, 13 y 14 volvieron el kit contra sí mismo; el **Caso 12 es la primera instalación hecha por alguien que no es el autor**; los Casos 15 y 16 fijaron la vara externa; y el **Caso 17 prueba `create-bot` desde una idea mínima mediante Jazmín, donde el canon provisional tuvo que convertirse en una primera victoria revisada**.
 
 > **Estatus:** son casos, no demostraciones. n pequeño, y **dieciséis de los diecisiete vienen del mismo investigador** — el Caso 12 es el que no. Restringen cómo usamos el kit; no pretenden ser una ley. La afirmación medida pertenece al [Caso 08 y su benchmark](#el-benchmark); los demás aportan evidencia cualitativa.
 
