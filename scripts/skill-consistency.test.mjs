@@ -76,6 +76,24 @@ test("el lote Permanent Artist deja obligaciones reutilizables y el caso 17", ()
   assert.match(docs.map((file) => readFileSync(join(root, file), "utf8")).join("\n"), /diecisiete casos de estudio/i);
 });
 
+test("las operaciones estructurales construyen el Entre por decisiones acumulativas", () => {
+  const brainstorm = readFileSync(join(skillsRoot, "brainstorming-lore", "SKILL.md"), "utf8");
+  assert.match(brainstorm, /recognizable continuity/i);
+  assert.match(brainstorm, /accumulated artifact/i);
+  assert.match(brainstorm, /one decision at a time/i);
+
+  for (const name of ["create-area", "create-project", "create-bot", "transmute-lore"]) {
+    const skill = readFileSync(join(skillsRoot, name, "SKILL.md"), "utf8");
+    assert.match(skill, /recognizable continuity/i, `${name}: falta la vara transversal del Entre`);
+  }
+
+  const casesEn = readFileSync(join(root, "docs", "CASES_en.md"), "utf8");
+  const casesEs = readFileSync(join(root, "docs", "CASES_es.md"), "utf8");
+  assert.match(casesEn, /healthy, fast and simple way of working/i);
+  assert.match(casesEs, /forma sana, rápida y simple de trabajar/i);
+  assert.match(readFileSync(join(root, "README.md"), "utf8"), /continuidad reconocible/i);
+});
+
 test("las guías bilingües documentan las ocho skills con una sección propia", () => {
   for (const file of ["docs/USAGE_en.md", "docs/USAGE_es.md", "docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
     const text = readFileSync(join(root, file), "utf8");

@@ -181,6 +181,9 @@ Do not write yet. Present **one** mapping document containing:
 
 Wait for explicit approval before writing.
 
+For a multi-decision transmutation, apply `brainstorming-lore`'s **recognizable continuity** contract:
+the mapping is the accumulated artifact and each recap carries forward what the user already approved.
+
 ### Phase 6 — Writing (only after approval)
 Create the artifacts, slim the instruction contract to pointers, build/update `index.md`. **Do not overwrite old
 `lore/` without surfacing discrepancies**: if old content contradicts current code or the user's
@@ -668,6 +671,9 @@ Before writing, present:
 Wait for explicit approval. Approval to crystallize the normal route does not approve an uncertain
 or private source, and **does not approve omitting `lore-ecosistema/`**. If the destination already
 exists, show that fact and obtain overwrite approval; otherwise choose a new filename.
+
+When the scope needs several human decisions, apply `brainstorming-lore`'s **recognizable continuity**
+contract: update the same accumulated manifest one decision at a time instead of restarting it.
 
 ### Phase 4 — Compose the derivative
 

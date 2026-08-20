@@ -91,6 +91,8 @@ Usa `use-lore` siempre que no tengas claro dónde empezar.
 
 **Regla de canon provisional:** las preguntas sirven a la primera victoria; después solo existen para desbloquear decisiones o mejorar el artefacto, y deben admitir incertidumbre y corrección.
 
+**Regla de continuidad reconocible:** el trabajo estructural mantiene un solo artefacto acumulado, avanza una decisión por vez y recapitula en hitos contextuales. La persona debe seguir reconociendo y pudiendo corregir su intención original. `create-area`, `create-project`, `create-bot` y los modos estructurales de `transmute-lore` heredan la regla; el trabajo mecánico no.
+
 **Rol:** Diseñar un artefacto Lore nuevo o materialmente distinto antes de que la skill dueña lo escriba.
 
 **Límite de activación:**

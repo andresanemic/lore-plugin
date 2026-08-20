@@ -361,6 +361,8 @@ For **complex deliverables**—a researched CRM, a multi-source document, a camp
 
 The kit's own design conversation. It is deliberately narrow: it activates for Lore, bots, Areas, projects and phases—not for general ideation—and hands the approved result to the skill that owns the artifact and its threshold. With provisional canon it asks only what earns a first victory; later questions must unlock a decision or improve the artifact, with uncertainty and correction kept visible.
 
+Structural work builds the artifact while deciding: one decision at a time, two or three real approaches when a trade-off exists, and contextual recaps of the accumulated result. The floor is **recognizable continuity**—the human can still see the original intention in what is growing and correct its direction without starting over. `create-area`, `create-project`, `create-bot` and structural `transmute-lore` modes inherit this contract; mechanical edits and one-off captures do not.
+
 ### `create-area`
 
 Creates a new Area with its own shared Lore: `identity` + `principles`, an `index.md`, one host-selected contract, a `PHASES.md` acting as project registry, and an empty `projects/` folder. It brainstorms the identity **before** touching disk.
@@ -1129,6 +1131,8 @@ Para **entregables complejos** —un CRM investigado, un documento de múltiples
 ### `brainstorming-lore`
 
 La conversación de diseño propia del kit. Es deliberadamente específica: se activa para Lore, bots, Áreas, proyectos y fases —no para ideación general— y entrega el resultado aprobado a la skill dueña del artefacto y de su umbral. Con canon provisional pregunta solo lo necesario para obtener una primera victoria; las preguntas siguientes deben desbloquear una decisión o mejorar el artefacto, admitiendo incertidumbre y corrección.
+
+El trabajo estructural construye el artefacto mientras decide: una decisión por vez, dos o tres enfoques reales cuando existe un trade-off y recapitulaciones contextuales del resultado acumulado. El piso es la **continuidad reconocible**: la persona sigue viendo su intención original en lo que crece y puede corregir el rumbo sin comenzar de nuevo. `create-area`, `create-project`, `create-bot` y los modos estructurales de `transmute-lore` heredan este contrato; las ediciones mecánicas y capturas puntuales no.
 
 ### `create-area`
 

@@ -178,6 +178,8 @@ y entrega comprobada; la skill de dominio sigue siendo dueña de cada medio y he
 
 Con canon provisional, pregunta solo lo necesario para una primera victoria. Las preguntas posteriores deben desbloquear una decisión o mejorar el artefacto, manteniendo explícitas la incertidumbre y la corrección.
 
+En trabajo estructural, cada respuesta aprobada entra en un solo artefacto acumulado y se recapitula en hitos contextuales. El piso es la continuidad reconocible: la persona puede identificar y corregir su intención sin recomenzar. Aplica al crear o transformar materialmente bots, proyectos, Áreas y cristalizaciones, no a ediciones mecánicas ni a una captura puntual.
+
 **Propósito:** explorar un artefacto Lore nuevo o materialmente distinto sin quitarle la propiedad a
 la skill que lo va a escribir.
 

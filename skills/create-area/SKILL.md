@@ -78,6 +78,9 @@ becomes criteria until it is distilled.
 
 Present the design and **wait for explicit approval** before step 2.
 
+During this structural brainstorm, apply `brainstorming-lore`'s **recognizable continuity** contract:
+carry each approved decision into the accumulated area design and recap it at contextual milestones.
+
 ### 2. Create the structure
 
 ```bash

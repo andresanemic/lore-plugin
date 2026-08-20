@@ -92,6 +92,8 @@ Use `use-lore` whenever you are unsure where to start.
 
 **Provisional-canon rule:** questions serve the first victory; later questions exist only to unlock decisions or improve the artifact, and must admit uncertainty and correction.
 
+**Recognizable-continuity rule:** structural work maintains one accumulated artifact, advances one decision at a time and recaps at contextual milestones. The user must still recognize and be able to correct the original intention. `create-area`, `create-project`, `create-bot` and structural `transmute-lore` modes inherit the rule; mechanical work does not.
+
 **Role:** Design a new or materially changed Lore artifact before its owner skill writes it.
 
 **Trigger boundary:**

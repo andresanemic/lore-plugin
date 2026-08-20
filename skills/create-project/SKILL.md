@@ -98,6 +98,9 @@ With what you read, propose and **get the user's approval** for:
   or the area starter's layout if `{area}/_starter/` exists.
 - The **phase map** derived from the source's timeline/deliverables, and the initial **active phase**.
 
+Apply `brainstorming-lore`'s **recognizable continuity** contract: carry each approved decision into
+the accumulated project design and recap it at contextual milestones.
+
 **Create no file before the design is approved.**
 
 ### 4. Create the structure

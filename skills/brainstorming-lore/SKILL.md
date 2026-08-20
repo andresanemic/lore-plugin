@@ -121,6 +121,18 @@ Only ask what changes the design:
 
 Stop asking when the remaining uncertainty can be stated as a trade-off in the proposal.
 
+### Build the artifact while deciding
+
+For a structural operation — creating a bot, project or area, or materially transmuting or
+crystallizing one — maintain an **accumulated artifact**, not a hidden interview transcript. After
+each answer, carry the decision into the working design. At contextual milestones, show the result
+so far in plain language: what it has become, what changed, and what remains unresolved.
+
+The quality signal is **recognizable continuity**: the user can still see their original intention
+inside the growing artifact and can correct its direction without rebuilding it. Work **one decision
+at a time**; the recap proves accumulation, it does not reopen approved choices. This contract does
+not apply to a mechanical edit, a read-only consultation, or one incremental Lore capture.
+
 ### The first victory in a new bot
 
 When `create-bot` arrives with only an idea, design backwards from the **first victory**: the
@@ -189,6 +201,7 @@ identity, it loses in five places:
 
 - Read contract, state and routed Lore before asking the user to reconstruct context.
 - One question at a time.
+- Structural work maintains an accumulated artifact and periodically proves recognizable continuity.
 - Compare two or three approaches when a consequential choice exists.
 - Design depth scales; explicit approval remains.
 - Owner skills keep ownership and their own threshold.

@@ -345,6 +345,8 @@ answer 3 into the inventory of step 2. Never ask the user to classify their own 
 ### 3. Canon brainstorm (threshold)
 
 Invoke Lore Plugin's own `brainstorming-lore` skill (`lore:brainstorming-lore` where skills are namespaced).
+Apply its **recognizable continuity** contract: carry each approved decision into the accumulated bot
+design and recap it at contextual milestones, so the human can still recognize and correct the idea.
 **Create no file before the design is approved.** Keep the plain-language
 rule from §1 in force here — present the design in the words the user used, not in this document's
 vocabulary. Agree on:
