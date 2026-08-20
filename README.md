@@ -15,7 +15,7 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.2.0-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.2.1-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/AI_agents-provider--neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Provider-neutral AI agents"></a>
   <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
@@ -410,6 +410,8 @@ Structural work builds the artifact while deciding: one decision at a time, two 
 
 The accumulated artifact is the return point. Work may advance independently; contextual recap and approved distillation resynchronize it. Portable professional criterion also refines naturally through real work.
 
+An enjoyable Entre is not permanent agreement. Its effort feels **fertile** because correction, disagreement and review leave recognizable progress in the artifact or criterion. Pleasantness alone is not the quality signal.
+
 ### `create-area`
 
 Creates a new Area with its own shared Lore: `identity` + `principles`, an `index.md`, one host-selected contract, a `PHASES.md` acting as project registry, and an empty `projects/` folder. It brainstorms the identity **before** touching disk.
@@ -758,7 +760,7 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.2.0-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.2.1-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/agentes_de_IA-neutral_al_proveedor-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Agentes de IA neutrales al proveedor"></a>
   <a href="./docs/SPEC_KIT_es.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
@@ -1154,6 +1156,8 @@ La conversación de diseño propia del kit. Es deliberadamente específica: se a
 El trabajo estructural construye el artefacto mientras decide: una decisión por vez, dos o tres enfoques reales cuando existe un trade-off y recapitulaciones contextuales del resultado acumulado. El piso es la **continuidad reconocible**: la persona sigue viendo su intención original en lo que crece y puede corregir el rumbo sin comenzar de nuevo. `create-area`, `create-project`, `create-bot` y los modos estructurales de `transmute-lore` heredan este contrato; las ediciones mecánicas y capturas puntuales no.
 
 El artefacto acumulado es el punto de retorno. El trabajo puede avanzar por separado; la recapitulación y la destilación aprobada lo resincronizan. El criterio profesional portable también se afina con el uso real.
+
+Un Entre disfrutable no es acuerdo permanente. Su esfuerzo se percibe como **fértil** porque la corrección, el desacuerdo y la revisión dejan progreso reconocible en el artefacto o el criterio. La agradabilidad por sí sola no es la señal de calidad.
 
 ### `create-area`
 

@@ -103,6 +103,8 @@ Use `use-lore` whenever you are unsure where to start.
 
 **Autonomy-with-return rule:** the accumulated artifact is the shared return point. Independent work may accumulate; a contextual recap and approved distillation resynchronize it without requiring constant contact.
 
+**Fertile-effort rule:** an enjoyable Entre is not measured by agreement or pleasing. Correction, disagreement and review must leave recognizable movement in the artifact or criterion; effort without that movement triggers repair.
+
 **Role:** Design a new or materially changed Lore artifact before its owner skill writes it.
 
 **Trigger boundary:**

@@ -102,6 +102,8 @@ Usa `use-lore` siempre que no tengas claro dónde empezar.
 
 **Regla de autonomía con retorno:** el artefacto acumulado es el punto compartido de retorno. El trabajo autónomo puede acumularse; una recapitulación contextual y una destilación aprobada lo resincronizan sin exigir contacto constante.
 
+**Regla del esfuerzo fértil:** un Entre disfrutable no se mide por acuerdo ni complacencia. La corrección, el desacuerdo y la revisión deben dejar movimiento reconocible en el artefacto o el criterio; el esfuerzo sin ese movimiento exige reparar el proceso.
+
 **Rol:** Diseñar un artefacto Lore nuevo o materialmente distinto antes de que la skill dueña lo escriba.
 
 **Límite de activación:**

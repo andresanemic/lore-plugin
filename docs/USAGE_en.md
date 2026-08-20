@@ -196,6 +196,8 @@ For structural work, carry every approved answer into one accumulated artifact a
 
 The accumulated artifact is also the shared return point: independent advances may accumulate without constant contact, and an approved distillation resynchronizes them with the common criterion.
 
+An enjoyable Entre is not one that always agrees or pleases. Shared effort is fertile when correction, disagreement and review produce recognizable movement in the artifact or criterion. If effort accumulates without that movement, stop and repair the process.
+
 **Purpose:** explore a new or materially changed Lore artifact without taking ownership away from
 the skill that will write it.
 

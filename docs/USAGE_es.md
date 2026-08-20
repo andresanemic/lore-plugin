@@ -201,6 +201,8 @@ En trabajo estructural, cada respuesta aprobada entra en un solo artefacto acumu
 
 El artefacto acumulado es también el punto compartido de retorno: los avances autónomos pueden acumularse sin contacto constante y una destilación aprobada los resincroniza con el criterio común.
 
+Un Entre disfrutable no es uno que siempre concuerda o complace. El esfuerzo compartido es fértil cuando la corrección, el desacuerdo y la revisión producen movimiento reconocible en el artefacto o el criterio. Si el esfuerzo se acumula sin ese movimiento, hay que detenerse y reparar el proceso.
+
 **Propósito:** explorar un artefacto Lore nuevo o materialmente distinto sin quitarle la propiedad a
 la skill que lo va a escribir.
 

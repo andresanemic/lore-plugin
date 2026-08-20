@@ -139,6 +139,11 @@ does not demand constant contact or fuse them into one author. At a contextual m
 **distillation resynchronizes** the shared criterion: each side can return to the same constraints
 and continue without pretending that no drift occurred.
 
+An **enjoyable Entre** is not one that always pleases. It is one where shared effort is perceived as
+fertile because disagreement, correction and review leave recognizable movement in the artifact or
+criterion. Ease, agreement and usage volume are not proxies for that fertility; when effort leaves
+no usable change, the process must be repaired rather than celebrated.
+
 **Most of what happens does not survive, and that is the design.** A Lore is not an archive of the
 work; it is the narrow part of the work that still gets a say. Its worth is counted in future
 decisions changed, never in experience held — and a body that grew by preserving fails without any

@@ -137,6 +137,19 @@ test("la destilación devuelve trabajo autónomo al artefacto compartido", () =>
   assert.match(casesEs, /deriva.*retorno.*destilación.*resincronización/is);
 });
 
+test("el Entre fértil no se confunde con complacencia", () => {
+  const brainstorm = readFileSync(join(skillsRoot, "brainstorming-lore", "SKILL.md"), "utf8");
+  const use = readFileSync(join(skillsRoot, "use-lore", "SKILL.md"), "utf8");
+  assert.match(brainstorm, /fertile effort/i);
+  assert.match(brainstorm, /do not equate.*(?:agreement|pleasing|compliance)/is);
+  assert.match(use, /enjoyable Entre/i);
+  assert.match(use, /fertile/i);
+
+  for (const file of ["README.md", "docs/USAGE_en.md", "docs/USAGE_es.md", "docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
+    assert.match(readFileSync(join(root, file), "utf8"), /fertile|fértil/i, `${file}: falta la frontera del Entre fértil`);
+  }
+});
+
 test("las guías bilingües documentan las ocho skills con una sección propia", () => {
   for (const file of ["docs/USAGE_en.md", "docs/USAGE_es.md", "docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
     const text = readFileSync(join(root, file), "utf8");
@@ -242,7 +255,7 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.2.0"]));
+  assert.deepEqual(new Set(versions), new Set(["2.2.1"]));
 });
 
 test("ninguna skill manda HARD: ni usa cristalizar como destilar", () => {

@@ -133,6 +133,11 @@ inside the growing artifact and can correct its direction without rebuilding it.
 at a time**; the recap proves accumulation, it does not reopen approved choices. This contract does
 not apply to a mechanical edit, a read-only consultation, or one incremental Lore capture.
 
+The second signal is **fertile effort**: the shared work produces recognizable movement in the
+artifact, even when it includes disagreement, correction or demanding review. Do not equate a
+healthy process with agreement, pleasing the user or frictionless compliance. Make the gain visible;
+if effort accumulates without changing the artifact or criterion, stop and repair the process.
+
 The accumulated artifact is the **shared return point**. Healthy structural work **does not require
 constant contact**: several clues or independent advances may accumulate between milestones. The
 recap calls them back into one visible design, and approved distillation returns what changed to the
@@ -214,6 +219,7 @@ identity, it loses in five places:
 - Read contract, state and routed Lore before asking the user to reconstruct context.
 - One question at a time.
 - Structural work maintains an accumulated artifact and periodically proves recognizable continuity.
+- Fertile effort changes the artifact or criterion; agreement and pleasing are not substitutes.
 - Independent advances return through recap and approved distillation; constant contact is not required.
 - Compare two or three approaches when a consequential choice exists.
 - Design depth scales; explicit approval remains.
