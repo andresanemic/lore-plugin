@@ -67,6 +67,10 @@ triggers documented in each skill's `SKILL.md`.
 - Explain Lore’s architecture for the current project or Area.
 - Show which artifacts exist and how they are structured.
 - Route you to the appropriate skill based on your intent.
+- For **complex deliverables**, fix the owner and routed Lore, an approved precedent or
+  human-approved specimen, verified tool/connector/MCP capabilities, reviewable batches, human
+  review, and checked delivery. Route each medium and tool to its owner skill rather than becoming
+  a ninth production skill.
 - **Route a request for a bot, never answer it with an Area** (2.1.1). On a machine with no Lore at
   all, someone asking for bots has already named the deliverable: the Areas are **steps**,
   `create-bot` runs last, and the whole chain is stated with its cost — one `create-area` plus one
@@ -78,6 +82,7 @@ triggers documented in each skill's `SKILL.md`.
 - “What artifacts exist for this project?”
 - “Which skill should I use to capture a new invariant?”
 - “I want to create a bot for X and Y.”
+- “Build this complex deliverable from several sources and deliver it to the target system.”
 
 Use `use-lore` whenever you are unsure where to start.
 

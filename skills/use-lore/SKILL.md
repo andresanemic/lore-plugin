@@ -104,6 +104,26 @@ first:
 An agent who writes criteria by hand, or who runs a version from three fixes ago, produces something
 that looks identical and silently lacks the gates. Nothing in the output announces it.
 
+## Complex deliverables — fix the yardstick before the batch
+
+When the requested result combines a structure with many pieces — a researched CRM, a document
+assembled from several sources, a campaign, or delivery into an external system — Lore still routes
+the criteria; it does not become a ninth production skill.
+
+Before producing:
+
+1. Name the owning project and load its routed Lore.
+2. Fix the quality yardstick from an **approved precedent** for that class of deliverable. If none
+   exists, the human must approve a representative piece or explicit criteria before the batch.
+3. Verify the **available tools, connectors or MCPs** against the real source and destination. Never
+   promise scraping, document generation or external delivery from a capability that was not tested.
+4. Make the structure and fixed facts visible, then produce in reviewable batches. A batch inherits
+   the same yardstick; it does not renegotiate quality piece by piece.
+5. Keep **human review** between each consequential batch and the word *definitive*. Delivery is
+   complete only when the target contains the reviewed result and that state was checked.
+
+Invoke the domain skill that owns each medium or tool. This route coordinates criteria, precedent,
+work and review; it does not duplicate document, scraping, connector or publishing instructions.
 ## What Lore is (and is not)
 
 **Lore is criteria that persists** — the rules, the standard, the hard-won scars — kept separate

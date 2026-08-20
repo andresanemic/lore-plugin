@@ -164,8 +164,13 @@ Puedes pedir cosas como:
 - «Explícame la arquitectura de Lore para este proyecto.»
 - «Muéstrame los artefactos que existen ahora.»
 - «Guíame al skill correcto para capturar una nueva pista invariante.»
+- «Construye este entregable complejo desde varias fuentes y entrégalo en el sistema destino.»
 
 `use-lore` es el lugar más seguro para empezar si no tienes claro qué skill usar a continuación.
+Para **entregables complejos**, primero fija el proyecto dueño, el Lore enrutado, un precedente
+aprobado o ejemplar aprobado por una persona y las capacidades realmente disponibles mediante
+herramientas, conectores o MCPs. El trabajo avanza después en lotes revisables, con revisión humana
+y entrega comprobada; la skill de dominio sigue siendo dueña de cada medio y herramienta.
 
 ---
 

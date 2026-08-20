@@ -30,6 +30,20 @@ test("use-lore enruta explícitamente UPGRADE y CRYSTALLIZE", () => {
   assert.match(text, /transmute-lore` \(\*\*CRYSTALLIZE\*\*\)/);
 });
 
+test("use-lore gobierna entregables complejos sin crear una novena skill", () => {
+  const text = readFileSync(join(skillsRoot, "use-lore", "SKILL.md"), "utf8");
+  assert.match(text, /Complex deliverables/);
+  assert.match(text, /approved precedent/);
+  assert.match(text, /available tools, connectors or MCPs/);
+  assert.match(text, /batch/i);
+  assert.match(text, /human review/);
+  assert.equal(skills.length, 8);
+  for (const file of ["README.md", "docs/USAGE_en.md", "docs/USAGE_es.md", "docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
+    const doc = readFileSync(join(root, file), "utf8");
+    assert.match(doc, /complex deliverables|entregables complejos/i, `${file}: falta la ruta compleja`);
+  }
+});
+
 test("las guías bilingües documentan las ocho skills con una sección propia", () => {
   for (const file of ["docs/USAGE_en.md", "docs/USAGE_es.md", "docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
     const text = readFileSync(join(root, file), "utf8");
@@ -43,8 +57,8 @@ test("la documentación no conserva afirmaciones ya refutadas", () => {
   const text = docs.map((file) => readFileSync(join(root, file), "utf8")).join("\n");
   assert.doesNotMatch(text, /seven (?:documented )?case studies|all seven|siete casos de estudio|las siete evidencias/i);
   assert.doesNotMatch(text, /twelve case studies|doce casos de estudio|eleven of the twelve|once de los doce/i);
-  assert.match(text, /fifteen case studies/);
-  assert.match(text, /quince casos de estudio/);
+  assert.match(text, /sixteen case studies/);
+  assert.match(text, /dieciséis casos de estudio/);
   assert.doesNotMatch(text, /three optional extras|tres extras opcionales|a bot with none of the three|un bot sin ninguno de los tres/i);
   assert.doesNotMatch(text, /Five optional extras|Cinco extras opcionales|A bot with none of the five|Un bot sin ninguno de los cinco/i);
   assert.doesNotMatch(text, /turn loose notes into criteria|convertir notas sueltas en criterio/i);
@@ -104,7 +118,7 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.1.6"]));
+  assert.deepEqual(new Set(versions), new Set(["2.1.7"]));
 });
 
 test("ninguna skill manda HARD: ni usa cristalizar como destilar", () => {

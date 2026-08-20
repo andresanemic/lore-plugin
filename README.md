@@ -15,7 +15,7 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.1.6-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.1.7-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/AI_agents-provider--neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Provider-neutral AI agents"></a>
   <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
@@ -355,6 +355,8 @@ Areas and projects are places; **a bot is a lens you carry into them.** It is no
 
 The entry point. Explains Lore's model, the six-piece standard, the Area↔Project model, and routes you to the right skill. Read it before invoking any other.
 
+For **complex deliverables**—a researched CRM, a multi-source document, a campaign, or delivery into an external system—it also fixes the owning project and routed Lore, an approved precedent or human-approved specimen, verified tool/connector/MCP capabilities, reviewable batches, human review, and checked delivery. It routes each medium and tool to its owner skill; it is not a ninth production skill.
+
 ### `brainstorming-lore`
 
 The kit's own design conversation. It is deliberately narrow: it activates for Lore, bots, Areas, projects and phases—not for general ideation—and hands the approved result to the skill that owns the artifact and its threshold.
@@ -601,7 +603,7 @@ This README covers motivation and architecture. Everything else lives in its own
 | [`REFERENCE_en.md`](./docs/REFERENCE_en.md) | Technical reference: core concepts, the exact spec for each artifact and each skill. |
 | [`MIGRATION_en.md`](./docs/MIGRATION_en.md) | How to migrate an existing project into Lore using `transmute-lore`. |
 | [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | The optional, experimental encryption for a bot's criteria: what it protects and what it does not. |
-| [`CASES_en.md`](./docs/CASES_en.md) | The fifteen case studies, each with its declared boundary. |
+| [`CASES_en.md`](./docs/CASES_en.md) | The sixteen case studies, each with its declared boundary. |
 | [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md) | Using Lore alongside GitHub's spec-kit: **which levels should have it at all** — an area no, a project the whole cycle, a bot only up to `tasks` — who governs what, and the constitution that draws the border. Optional — Lore never depends on it. |
 | [`bench/`](./bench/) | The benchmark: Web, Editorial and UPGRADE harnesses; frozen tasks; method; declared limits; and raw results. |
 
@@ -641,11 +643,11 @@ lore-plugin/
 
 ## Case studies
 
-Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. Those applications are documented as **fifteen case studies**, each with its own declared boundary. Case 08 is the controlled benchmark summarized above; Cases 09, 10, 11, 13 and 14 turned the kit on itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head with the judging done blind, Case 13 by crystallizing live bots and unpacking the snapshot, Case 14 by raising an already-installed ecosystem — **Case 12 is the first install run by someone who is not the author**, which is where 2.1.1 came from, and **Case 15 — a manifesto that passed its own cycle and failed its reader — is where 2.1.6's yardstick comes from**.
+Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. Those applications are documented as **sixteen case studies**, each with its own declared boundary. Case 08 is the controlled benchmark summarized above; Cases 09, 10, 11, 13 and 14 turned the kit on itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head with the judging done blind, Case 13 by crystallizing live bots and unpacking the snapshot, Case 14 by raising an already-installed ecosystem — **Case 12 is the first install run by someone who is not the author**, which is where 2.1.1 came from, and **Case 15 — a manifesto that passed its own cycle and failed its reader — is where 2.1.6's yardstick comes from; Case 16 fixes that yardstick on one reviewed specimen before a batch, which is where 2.1.7 comes from**.
 
-> **Status:** these are cases, not proofs. Small n, and **fourteen of the fifteen come from the same researcher** — Case 12 is the one that does not. What they claim constrains how we use the kit; it does not pretend to be a law. The measured claim belongs to [Case 08 and its benchmark](#benchmark); the rest are qualitative evidence.
+> **Status:** these are cases, not proofs. Small n, and **fifteen of the sixteen come from the same researcher** — Case 12 is the one that does not. What they claim constrains how we use the kit; it does not pretend to be a law. The measured claim belongs to [Case 08 and its benchmark](#benchmark); the rest are qualitative evidence.
 
-**[Read the fifteen case studies →](./docs/CASES_en.md)**
+**[Read the sixteen case studies →](./docs/CASES_en.md)**
 
 ---
 
@@ -778,7 +780,7 @@ Days, the CNCF's community event program.
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.1.6-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.1.7-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/agentes_de_IA-neutral_al_proveedor-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Agentes de IA neutrales al proveedor"></a>
   <a href="./docs/SPEC_KIT_es.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
@@ -1117,6 +1119,8 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 El punto de entrada. Explica el modelo de Lore, el estándar de seis piezas, el modelo Área↔Proyecto, y te guía hacia la skill adecuada. Léelo antes de invocar cualquier otro.
 
+Para **entregables complejos** —un CRM investigado, un documento de múltiples fuentes, una campaña o una entrega en un sistema externo— también fija el proyecto dueño y su Lore enrutado, un precedente aprobado o ejemplar aprobado por una persona, las capacidades verificadas de herramientas, conectores o MCPs, lotes revisables, revisión humana y la entrega comprobada. Enruta cada medio y herramienta a su skill dueña; no es una novena skill de producción.
+
 > **Cambio de nombre en 2.0:** `using-lore` ahora es `use-lore`. Al actualizar, elimina la skill
 > anterior; no conserves ambos nombres instalados porque duplican el trigger de entrada.
 
@@ -1348,7 +1352,7 @@ El harness, las tareas congeladas, los graders, las salidas crudas y las fronter
 | [`REFERENCE_es.md`](./docs/REFERENCE_es.md) | Referencia técnica de cada artefacto y cada *skill*. |
 | [`MIGRATION_es.md`](./docs/MIGRATION_es.md) | Cómo migrar un proyecto existente con `transmute-lore`. |
 | [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | El cifrado opcional y experimental del criterio de un bot: qué protege y qué no. |
-| [`CASES_es.md`](./docs/CASES_es.md) | Los quince casos de estudio, cada uno con su frontera declarada. |
+| [`CASES_es.md`](./docs/CASES_es.md) | Los dieciséis casos de estudio, cada uno con su frontera declarada. |
 | [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md) | Usar Lore conviviendo con spec-kit de GitHub: **en qué niveles conviene tenerlo** — un área no, un proyecto el ciclo completo, un bot solo hasta `tasks` — quién gobierna qué, y la constitución que traza la frontera. Opcional — Lore no depende de él. |
 | [`bench/`](./bench/) | El benchmark: harnesses Web, Editorial y UPGRADE; tareas congeladas; método; fronteras declaradas; y resultados crudos. |
 
@@ -1388,11 +1392,11 @@ lore-plugin/
 
 ## Casos de estudio
 
-Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía. Esas aplicaciones están documentadas como **quince casos de estudio**, cada uno con su frontera declarada. El Caso 08 es el benchmark controlado resumido arriba; los Casos 09, 10, 11, 13 y 14 volvieron el kit contra sí mismo —el 10 usándolo un día entero contra un Lore vivo, el 11 corriendo dos de sus propias versiones cabeza a cabeza con el juicio a ciegas, el 13 cristalizando bots vivos y extrayendo la fotografía, el 14 subiendo un ecosistema ya instalado— el **Caso 12 es la primera instalación hecha por alguien que no es el autor**, de donde salió la 2.1.1, y el **Caso 15 —un manifiesto que pasó su propio ciclo y le falló a su lector— es de donde sale la vara de la 2.1.6**.
+Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía. Esas aplicaciones están documentadas como **dieciséis casos de estudio**, cada uno con su frontera declarada. El Caso 08 es el benchmark controlado resumido arriba; los Casos 09, 10, 11, 13 y 14 volvieron el kit contra sí mismo —el 10 usándolo un día entero contra un Lore vivo, el 11 corriendo dos de sus propias versiones cabeza a cabeza con el juicio a ciegas, el 13 cristalizando bots vivos y extrayendo la fotografía, el 14 subiendo un ecosistema ya instalado— el **Caso 12 es la primera instalación hecha por alguien que no es el autor**, de donde salió la 2.1.1, y el **Caso 15 —un manifiesto que pasó su propio ciclo y le falló a su lector— es de donde sale la vara de la 2.1.6; el Caso 16 fija esa vara sobre un ejemplar revisado antes del lote, de donde sale la 2.1.7**.
 
-> **Estatus:** son casos, no demostraciones. n pequeño, y **catorce de los quince vienen del mismo investigador** — el Caso 12 es el que no. Restringen cómo usamos el kit; no pretenden ser una ley. La afirmación medida pertenece al [Caso 08 y su benchmark](#el-benchmark); los demás aportan evidencia cualitativa.
+> **Estatus:** son casos, no demostraciones. n pequeño, y **quince de los dieciséis vienen del mismo investigador** — el Caso 12 es el que no. Restringen cómo usamos el kit; no pretenden ser una ley. La afirmación medida pertenece al [Caso 08 y su benchmark](#el-benchmark); los demás aportan evidencia cualitativa.
 
-**[Leer los quince casos de estudio →](./docs/CASES_es.md)**
+**[Leer los dieciséis casos de estudio →](./docs/CASES_es.md)**
 
 ---
 

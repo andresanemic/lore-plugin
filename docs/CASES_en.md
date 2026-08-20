@@ -17,7 +17,7 @@ To follow each case you need the same vocabulary the kit uses when it works:
 - A **graft** judges criteria that arrive from outside against your project's purpose: it takes root or it is rejected, and what grows afterwards belongs to you.
 - **Crystallize** is taking a traceable snapshot in a single Markdown file, extractable back into a folder, without replacing the live Lore.
 
-> **Status:** these are cases, not proofs. There are few of them, and **fourteen of the fifteen documented cases come from the same researcher**. What they claim constrains how we use the kit; it does not pretend to be a law. Case 08 adds controlled measurement without removing that boundary, and Cases 09, 10, 11, 13 and 14 are the ones that measure this kit against itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head and judging the output blind, Case 13 by crystallizing live bots and judging the snapshot by whether a third person could work from it, Case 14 by raising an already-installed ecosystem without rewriting what was earned.
+> **Status:** these are cases, not proofs. There are few of them, and **fifteen of the sixteen documented cases come from the same researcher**. What they claim constrains how we use the kit; it does not pretend to be a law. Case 08 adds controlled measurement without removing that boundary, and Cases 09, 10, 11, 13 and 14 are the ones that measure this kit against itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head and judging the output blind, Case 13 by crystallizing live bots and judging the snapshot by whether a third person could work from it, Case 14 by raising an already-installed ecosystem without rewriting what was earned.
 >
 > **Case 12 is the first one that does not come from the researcher**, which is why it counts differently: someone outside the project installed the kit and used it for an hour. It breaks the boundary the other fourteen share on authorship, and opens a smaller one that is declared inside the case.
 
@@ -282,4 +282,18 @@ This is the scientific program's hypothesis **H11** in its canonical form: an in
 
 </details>
 
+<details>
+<summary><b>Case 16 — A yardstick fixed on one specimen before scaling to a batch</b></summary>
+
+<br>
+
+The product twin of Case 15, reversed and at scale: a cold-outreach campaign with written criteria already in place — format, subject, signature — went to an external reviewer **before** the batch was produced, not after the first failure. The module's prior criterion was internally coherent: it had survived its own cycle — spec, rewrites, humanizer — and every piece that followed it could be checked against it. The external reviewer (another model, not an internal reading) rewrote **one specimen** and returned it as the yardstick: a concrete subject naming the institution and topic, no links or material in the first touch, one problem in business language, and the offer before the CTA. With that reviewed specimen as reference, the full batch was rewritten and verified in the CRM table — the tables and emails live in Notion, which is the module's delivery form.
+
+This is the shape of Case 15 applied as **prior design**: the yardstick is fixed on a specimen judged by an external reader **before** scaling to a batch, not as the consequence of a failure. In Case 15 the detector was the owner reading; here it is the external reviewer reading the first specimen, outside the cycle that produced the draft. It is an appearance of the same **H11** hypothesis — internally consistent criterion that is false toward the outside — in preventive form: internal coherence does not detect external falsehood, so the yardstick is not validated by rereading the batch; it is fixed by external review of one specimen.
+
+**What it changed in the kit:** 2.1.7. `create-bot` §3 requires a deliverable class produced **in batches** to fix its yardstick on one specimen reviewed by an external reader before scaling; §6 extends the execution rule — every piece in the batch is compared against the reviewed specimen, never against itself.
+
+**Declared boundary.** Same researcher, same machine, same ecosystem and same campaign as Case 15 — the strongest self-sealing in the series. The case is an appearance of H11, not a replica: it does not raise the count. It concerns one deliverable class — cold email judged by an external reader — and says nothing about deliverables without an external reader or what happens when the reviewer also writes the criterion. The reviewer was another model, not the market: the yardstick remains `conjecture` until a sending cycle confirms it.
+
+</details>
 > Cases that **refute** something are the ones that help most. The [repository discussions](https://github.com/andresanemic/lore-plugin/discussions) are the place.
