@@ -171,6 +171,8 @@ skill still owns each medium and tool.
 
 ### 5.2 `brainstorming-lore` – Design Lore Changes Before Writing
 
+With provisional canon, ask only what is needed for a first victory. Later questions must unlock a decision or improve the artifact, while keeping uncertainty and correction explicit.
+
 **Purpose:** explore a new or materially changed Lore artifact without taking ownership away from
 the skill that will write it.
 
@@ -238,6 +240,8 @@ Use this whenever you start a new codebase inside a domain that already has an A
 ---
 
 ### 5.5 `save-to-lore` – Capture Criteria After Solving a Problem, or Graft External Criteria
+
+Keep candidates while the session continues. Suggest capture at a contextual milestone or when related clues accumulate; show destination, wording and why now, then let one approved preview cover the corresponding writes and commits.
 
 **Purpose:** Distill reusable criteria. It has **two modes**, chosen by where that criteria comes
 from: **capture** (lived friction) and **graft** (criteria imported from a third-party skill,
@@ -435,6 +439,8 @@ it becomes stale; never edit the export as if it were authoritative Lore.
 ---
 
 ### 5.7 `create-bot` – Work Across Several Areas or Projects
+
+In `nuevo`, the initial declaration is provisional canon. Configuration is the first complex artifact and closes only after a reviewed first victory. An interface must be an honest local laboratory that keeps canon, logic and presentation separate, puts decisions before prompts, and makes the Journey follow the purpose.
 
 **Purpose:** build a **bot**: one place to open a session and **work across several projects or Areas
 at once**, with their criteria already loaded, instead of answering questions about them.

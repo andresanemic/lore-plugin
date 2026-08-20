@@ -16,6 +16,15 @@ After installing: **new session**.
 - Explicit delegation to the skill that owns each medium or tool. Lore coordinates the criteria; it
   does not become a ninth production skill.
 - Bilingual README, Usage and Reference coverage, protected by the consistency test.
+- Birth from a minimal idea: provisional canon, individual configuration, a reviewed first victory,
+  an honest operational prototype, decisions before prompts and a Journey derived from purpose.
+- Contextual capture: candidates accumulate until a real milestone, then one visible batch preview
+  covers destination, wording, writes and commits. Push remains forbidden.
+- Case 17 documents Permanent Artist as situated qualitative evidence; its product details do not
+  become generic skill law, and LUS receives no corpus or hypothesis change before its threshold.
+- The case's first public proof is an honest bilingual landing plus navigable dashboard demos. Its
+  Artizen Artifact is the proposal's purchasable collectible identity — not equity or IP — with GIF
+  as a fitting form rather than a universal requirement.
 
 ## What 2.1.7 corrects
 
@@ -51,6 +60,15 @@ Tras instalar: **sesión nueva**.
 - Delegación explícita a la skill dueña de cada medio o herramienta. Lore coordina el criterio; no se
   convierte en una novena skill de producción.
 - Cobertura bilingüe en README, Usage y Reference, protegida por la prueba de consistencia.
+- Nacimiento desde una idea mínima: canon provisional, configuración individual, primera victoria
+  revisada, prototipo operacional honesto, decisiones antes que prompts y Travesía derivada del propósito.
+- Captura contextual: las candidatas se acumulan hasta un hito real y una sola vista por lote cubre
+  destino, redacción, escrituras y commits. El push sigue prohibido.
+- El Caso 17 documenta Permanent Artist como evidencia cualitativa situada; sus detalles de producto
+  no se vuelven ley genérica de las skills y LUS no cambia corpus ni hipótesis antes de su umbral.
+- La primera prueba pública del caso es una landing bilingüe honesta con demos navegables del
+  dashboard. Su Artifact de Artizen es la identidad coleccionable adquirible de la propuesta —no
+  participación ni propiedad intelectual—, con GIF como forma adecuada y no requisito universal.
 
 ## Qué corrige la 2.1.7
 

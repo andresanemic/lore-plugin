@@ -90,6 +90,8 @@ Use `use-lore` whenever you are unsure where to start.
 
 ### 3.2 `brainstorming-lore`
 
+**Provisional-canon rule:** questions serve the first victory; later questions exist only to unlock decisions or improve the artifact, and must admit uncertainty and correction.
+
 **Role:** Design a new or materially changed Lore artifact before its owner skill writes it.
 
 **Trigger boundary:**
@@ -180,6 +182,8 @@ Use `create-project` whenever you start a new codebase inside an existing Area.
 ---
 
 ### 3.5 `save-to-lore`
+
+**Contextual capture:** hold candidates until a real milestone or a cluster of related clues. The preview shows destination, wording and why now; approval covers the shown batch's writes and commits, never push.
 
 **Role:** Distill newly acquired experience into reusable criteria.
 
@@ -452,6 +456,8 @@ Use `transmute-lore` when you already have a project and want to bring it into L
 ---
 
 ### 3.7 `create-bot`
+
+**Birth from an idea:** the initial human declaration is primary source and provisional canon. The first complex artifact is an individual configuration that runs the operational cycle to a reviewed first victory. Any interface is an honest prototype and local laboratory: the transformed object, not chat, is the product; decisions precede prompts; Journey state derives from purpose.
 
 **Role:** Build a **bot** — one place to open a session and work across several projects or Areas at
 once, with their criteria already loaded, instead of answering questions about them.

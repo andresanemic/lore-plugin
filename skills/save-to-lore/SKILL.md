@@ -151,6 +151,13 @@ somewhere else.
 2. **Proactive:** you just solved a friction and propose saving it — **only** if it clears the
    **threshold** (below). Cosmetic changes (color, aesthetic reshuffle) do NOT count.
 
+The proactive trigger is contextual, not constant. Keep candidates during the session and suggest
+capture at a **contextual milestone**, or when several **related clues accumulate**. Before writing,
+show the **destination, wording, and why it is worth saving now** in plain language. When many
+candidates have accumulated, offer to **save them together**. The one human threshold is seeing how
+they will enter; after approval, write and make the corresponding commits without asking again for
+each clue or commit. Never push.
+
 > **The old name still works.** Somebody saying *«transplant this»*, *«trasplanta esta guía»* or
 > *«arbitra esto»* means `GRAFT`: run it, and mention the current name once, in passing. A rename is
 > the kit's problem and never the user's — a person who learned the word from a version that shipped
@@ -270,10 +277,9 @@ Lore that grows by accumulation. A flat list of independent rules has no inherit
    e. Add the line to `{area}/lore/index.md`, under the matching topic heading (create it if
       missing), linking to `<domain>.md`.
    f. In the project's `lore/index.md`, mark the line as promoted by appending ` · ↑`.
-4. **Do not commit yet.** Show the user a summary (what was captured, what would be promoted, what
-   was deduped, what is pending). Stage the area repo commit ready
-   (`git -C {area} add lore/` + a drafted message) and run it **only** when the user approves.
-   Never `git push`.
+4. Show the user a summary (what was captured, what would be promoted, what was deduped, what is
+   pending). If the preview threshold already approved the batch, write and make its corresponding
+   commits without a second authorization per clue or commit. Never `git push`.
 
 ### Step 3 — Inbox debt (one line, only if an inbox exists)
 
@@ -348,4 +354,5 @@ does not happen. Two rules govern it:
 - **Discarded noise is reported**, not silently dropped.
 - **A paragraph is a paragraph.** Continuous prose in the clue, the index line's surrounding file
   and any law written here runs to the period, not to column 80. Full statement in `use-lore`.
-- **No auto-commit, no push.** The user reviews and decides.
+- **No unseen commit, no push.** The user sees destination and wording before approval; that approval
+  covers the corresponding writes and commits in the shown batch.

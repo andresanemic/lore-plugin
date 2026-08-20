@@ -19,6 +19,28 @@ including `lore-ecosistema/`. That is how the work travels to someone who does n
 > **The north, and the only test that matters:** *a short instruction is enough.* If the project
 > had to be explained to the bot to get the result, criteria were missing from the load.
 
+### From an idea to a bot that can work
+
+In `nuevo` mode, the user's declaration is a primary source even when no prior Lore or source
+document exists. Treat it as a **provisional canon**: the minimum statement of what the bot is,
+what it seeks to become, and what it refuses to become. Do not inflate it with model knowledge.
+Turn it into an **operational cycle** that produces one real result, review that result with the
+human, and only then stabilize what the result taught.
+
+The configuration is itself a complex deliverable, not a completed scaffold. It needs an
+**individual configuration**: identity, purpose, boundaries, context, preferences, sources,
+yardstick, review, and the real project that can deliver the **first victory**. Ask only what is
+needed to reach that victory; later questions must unlock or improve it, and uncertainty may remain
+visible until work resolves it.
+
+An interface may be an **honest prototype** of that cycle. Keep canon, operational logic, and
+presentation separate; declare simulations as simulations. **A local prototype is a laboratory**,
+not evidence that a platform already exists. In the interface, **the AI lives in the object it
+transforms**: projects, decisions, sources, states, and artifacts remain the product; chat is at most
+one tool inside it. Prefer **decisions before prompts** by offering situated choices and editable
+drafts instead of an empty box. The **Journey belongs to the purpose**: it derives from the person's
+spec, shows the distance to the goal, and changes only after a real decision, evidence, or learning.
+
 ## What a bot is, and what it is not
 
 `create-bot` is a sibling of `create-project`, not of `create-area`. **The standard path is
@@ -59,7 +81,7 @@ bot is a lens you carry into them.
 
 | Mode | When | What it produces |
 |---|---|---|
-| **`nuevo`** | From zero. There is no prior Lore to gather. | Canon born from a brainstorm + source documents. |
+| **`nuevo`** | From zero. There is no prior Lore to gather. | Provisional canon born from the human's initial declaration, then contrasted through work and review. |
 | **`federar`** | The criteria already exists, dissolved across several areas. | Canon plus a routing table and live access to those Lore bodies; the synchronized copy is optional. |
 
 Both produce the same artifact. `federar` adds `scripts/ecosistema.json`, `scripts/sync.js`, and
@@ -327,6 +349,11 @@ Invoke Lore Plugin's own `brainstorming-lore` skill (`lore:brainstorming-lore` w
 rule from §1 in force here — present the design in the words the user used, not in this document's
 vocabulary. Agree on:
 
+When no prior Lore exists, the human's initial declaration is the **primary source and provisional
+canon**. Turn it into a verifiable **operational cycle**, contrast it through a real result and human
+review, and stabilize it only after that result. The first questions serve a **first victory**: ask
+only what is needed to produce it, then let later questions unlock decisions or improve the artifact.
+
 - **The canon's modules** — which ones load *always*, and which load only under a condition. Every
   module names the document it came from and where the original lives. Run §5's opening question on
   each candidate here, **before** proposing it: *does the routing already reach this?* And when the
@@ -533,6 +560,11 @@ What is configuration goes to `.{{BOT_SLUG}}.json`, verbatim and uninterpreted:
   "entrega": "…", "tono": "directo", "estreno": null }
 ```
 
+Creating the scaffold does not finish the bot. Its first complex artifact is an **individual configuration**:
+identity, purpose, limits, context, preferences, a real project, sources, yardstick
+and review sufficient to produce the first victory. Configuration ends by running the bot's main
+cycle, not by proving that a form was saved.
+
 What turned out to be **criteria** does not go in that file. A brainstorm about a project surfaces
 things that are true about the project rather than about the bot, and those belong to **the Lore of
 whoever paid for them with experience** — proposed there, with the usual gate, never written into
@@ -548,6 +580,19 @@ judged for whether it was short.
 
 Close by proposing the first real task, derived from what was just said. Not *«you are all set»* —
 the artifact finishes its configuration **working**.
+
+#### 6.0.1 The operational interface
+
+**The AI lives in the object it transforms; chat is not the product.** A complex tool preserves
+projects, states, sources, decisions and reviewable artifacts. Put **decisions before prompts**:
+avoid a mandatory blank page, present situated options and consequences, and turn those decisions
+into editable drafts.
+
+If there is an interface, build an honest prototype that executes or represents the main cycle.
+Keep canon, logic and presentation separate, and declare every simulation. **The local prototype is
+a laboratory**, not a finished platform. Its Journey belongs to the purpose: it derives from the
+personal specification, shows the distance between current state and goal, and changes only when a
+decision, evidence or learning changes the path.
 
 #### 6.1 Load the canon
 
@@ -891,6 +936,9 @@ say the configuration is superfluous: it says the configuration is not evidence 
   question at a time. **No closed options for a field that picks a branch:** ask by the condition,
   and an answer naming more than one body of criteria opens by all of them. What turns out to be
   criteria is proposed to the Lore that paid for it, never stored in the bot.
+- **A first victory stabilizes provisional canon.** The initial human declaration is primary source,
+  configuration is the first complex artifact, and the bot earns stability by running its operational
+  cycle to a reviewed result.
 - **Configuring the first use is not the first use.** The gate is answered the same with an empty
   canon and broken paths, so it proves nothing about the north. The bot is reported as finished
   after a **premiere**: an instruction that does not name the criteria, recorded **verbatim**. The

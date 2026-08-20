@@ -359,7 +359,7 @@ For **complex deliverables**—a researched CRM, a multi-source document, a camp
 
 ### `brainstorming-lore`
 
-The kit's own design conversation. It is deliberately narrow: it activates for Lore, bots, Areas, projects and phases—not for general ideation—and hands the approved result to the skill that owns the artifact and its threshold.
+The kit's own design conversation. It is deliberately narrow: it activates for Lore, bots, Areas, projects and phases—not for general ideation—and hands the approved result to the skill that owns the artifact and its threshold. With provisional canon it asks only what earns a first victory; later questions must unlock a decision or improve the artifact, with uncertainty and correction kept visible.
 
 ### `create-area`
 
@@ -375,7 +375,7 @@ The flow you will use every day. You solve something that cost you, and you type
 
 > "save to lore"
 
-The skill extracts the criteria behind the solution, writes it where it belongs, and **proposes** — never executes — promoting it to the Area if it serves every project.
+The skill keeps candidates while work continues and proposes capture at a contextual milestone or when related clues accumulate. Before writing, it shows destination, wording and why now; one approved preview covers the corresponding writes and commits, never a push.
 
 - Specific lessons stay inside the project.
 - Generic, confirmed ones are proposed for promotion to the Area.
@@ -447,6 +447,8 @@ It works the other way round too: if you have an Area with several projects — 
 |---|---|---|
 | **`nuevo`** | From zero. No prior Lore to gather. | Canon born from a brainstorm + source documents. |
 | **`federar`** | The criteria already exists, dissolved across several Areas. | Canon **plus** a routing table over those Lore bodies. |
+
+In `nuevo`, the initial human declaration is provisional canon. The first complex artifact is an individual configuration that must produce a reviewed first victory. If the bot has an interface, it is an honest local laboratory: the AI lives in the object being transformed, decisions precede prompts, and the Journey changes only when the path changes.
 
 <details>
 <summary><b>When the folders have no Lore yet</b></summary>
@@ -603,7 +605,7 @@ This README covers motivation and architecture. Everything else lives in its own
 | [`REFERENCE_en.md`](./docs/REFERENCE_en.md) | Technical reference: core concepts, the exact spec for each artifact and each skill. |
 | [`MIGRATION_en.md`](./docs/MIGRATION_en.md) | How to migrate an existing project into Lore using `transmute-lore`. |
 | [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | The optional, experimental encryption for a bot's criteria: what it protects and what it does not. |
-| [`CASES_en.md`](./docs/CASES_en.md) | The sixteen case studies, each with its declared boundary. |
+| [`CASES_en.md`](./docs/CASES_en.md) | The seventeen case studies, each with its declared boundary. |
 | [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md) | Using Lore alongside GitHub's spec-kit: **which levels should have it at all** — an area no, a project the whole cycle, a bot only up to `tasks` — who governs what, and the constitution that draws the border. Optional — Lore never depends on it. |
 | [`bench/`](./bench/) | The benchmark: Web, Editorial and UPGRADE harnesses; frozen tasks; method; declared limits; and raw results. |
 
@@ -643,11 +645,11 @@ lore-plugin/
 
 ## Case studies
 
-Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. Those applications are documented as **sixteen case studies**, each with its own declared boundary. Case 08 is the controlled benchmark summarized above; Cases 09, 10, 11, 13 and 14 turned the kit on itself — Case 10 by using it for a full day against a live Lore, Case 11 by running two of its own versions head to head with the judging done blind, Case 13 by crystallizing live bots and unpacking the snapshot, Case 14 by raising an already-installed ecosystem — **Case 12 is the first install run by someone who is not the author**, which is where 2.1.1 came from, and **Case 15 — a manifesto that passed its own cycle and failed its reader — is where 2.1.6's yardstick comes from; Case 16 fixes that yardstick on one reviewed specimen before a batch, which is where 2.1.7 comes from**.
+Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. Those applications are documented as **seventeen case studies**, each with its own declared boundary. Case 08 is the controlled benchmark summarized above; Cases 09, 10, 11, 13 and 14 turned the kit on itself; **Case 12 is the first install run by someone who is not the author**; Cases 15 and 16 fixed the external yardstick; and **Case 17 tests `create-bot` from a minimal idea through Permanent Artist, where provisional canon had to become a reviewed first victory**.
 
-> **Status:** these are cases, not proofs. Small n, and **fifteen of the sixteen come from the same researcher** — Case 12 is the one that does not. What they claim constrains how we use the kit; it does not pretend to be a law. The measured claim belongs to [Case 08 and its benchmark](#benchmark); the rest are qualitative evidence.
+> **Status:** these are cases, not proofs. Small n, and **sixteen of the seventeen come from the same researcher** — Case 12 is the one that does not. What they claim constrains how we use the kit; it does not pretend to be a law. The measured claim belongs to [Case 08 and its benchmark](#benchmark); the rest are qualitative evidence.
 
-**[Read the sixteen case studies →](./docs/CASES_en.md)**
+**[Read the seventeen case studies →](./docs/CASES_en.md)**
 
 ---
 
@@ -1126,7 +1128,7 @@ Para **entregables complejos** —un CRM investigado, un documento de múltiples
 
 ### `brainstorming-lore`
 
-La conversación de diseño propia del kit. Es deliberadamente específica: se activa para Lore, bots, Áreas, proyectos y fases —no para ideación general— y entrega el resultado aprobado a la skill dueña del artefacto y de su umbral.
+La conversación de diseño propia del kit. Es deliberadamente específica: se activa para Lore, bots, Áreas, proyectos y fases —no para ideación general— y entrega el resultado aprobado a la skill dueña del artefacto y de su umbral. Con canon provisional pregunta solo lo necesario para obtener una primera victoria; las preguntas siguientes deben desbloquear una decisión o mejorar el artefacto, admitiendo incertidumbre y corrección.
 
 ### `create-area`
 
@@ -1138,7 +1140,7 @@ Crea un proyecto dentro de un Área existente. El proyecto hereda el criterio de
 
 ### `save-to-lore`
 
-El flujo que usarás todos los días. Resuelves algo que costó y escribes «guarda en lore». La skill extrae el criterio detrás de la solución, lo escribe donde corresponde y **propone** —nunca ejecuta— subirlo al Área si sirve para todos los proyectos.
+El flujo que usarás todos los días. Mantiene candidatas mientras avanza el trabajo y propone guardarlas en un hito contextual o cuando se acumulan pistas relacionadas. Antes de escribir muestra destino, redacción y por qué ahora; una vista aprobada cubre las escrituras y commits correspondientes, nunca un push.
 
 - Las lecciones específicas se quedan en el proyecto.
 - Las genéricas y confirmadas se proponen para promoción al Área.
@@ -1200,6 +1202,8 @@ Piensa en un laboratorio de blockchain: tiene su sitio web, lleva sus redes soci
 |---|---|---|
 | **`nuevo`** | Desde 0. No hay Lore previo que reunir. | Canon nacido de un brainstorm + documentos fuente. |
 | **`federar`** | El criterio ya existe, disuelto en varias Áreas. | Canon **más** una tabla de enrutamiento sobre esos Lore. |
+
+En `nuevo`, la declaración humana inicial es canon provisional. El primer artefacto complejo es una configuración individual que debe producir una primera victoria revisada. Si hay interfaz, es un laboratorio local honesto: la IA vive en el objeto transformado, las decisiones van antes que los prompts y la Travesía cambia solo cuando cambia el camino.
 
 <details>
 <summary><b>Cuando las carpetas todavía no tienen Lore</b></summary>
@@ -1352,7 +1356,7 @@ El harness, las tareas congeladas, los graders, las salidas crudas y las fronter
 | [`REFERENCE_es.md`](./docs/REFERENCE_es.md) | Referencia técnica de cada artefacto y cada *skill*. |
 | [`MIGRATION_es.md`](./docs/MIGRATION_es.md) | Cómo migrar un proyecto existente con `transmute-lore`. |
 | [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | El cifrado opcional y experimental del criterio de un bot: qué protege y qué no. |
-| [`CASES_es.md`](./docs/CASES_es.md) | Los dieciséis casos de estudio, cada uno con su frontera declarada. |
+| [`CASES_es.md`](./docs/CASES_es.md) | Los diecisiete casos de estudio, cada uno con su frontera declarada. |
 | [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md) | Usar Lore conviviendo con spec-kit de GitHub: **en qué niveles conviene tenerlo** — un área no, un proyecto el ciclo completo, un bot solo hasta `tasks` — quién gobierna qué, y la constitución que traza la frontera. Opcional — Lore no depende de él. |
 | [`bench/`](./bench/) | El benchmark: harnesses Web, Editorial y UPGRADE; tareas congeladas; método; fronteras declaradas; y resultados crudos. |
 
@@ -1392,11 +1396,11 @@ lore-plugin/
 
 ## Casos de estudio
 
-Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía. Esas aplicaciones están documentadas como **dieciséis casos de estudio**, cada uno con su frontera declarada. El Caso 08 es el benchmark controlado resumido arriba; los Casos 09, 10, 11, 13 y 14 volvieron el kit contra sí mismo —el 10 usándolo un día entero contra un Lore vivo, el 11 corriendo dos de sus propias versiones cabeza a cabeza con el juicio a ciegas, el 13 cristalizando bots vivos y extrayendo la fotografía, el 14 subiendo un ecosistema ya instalado— el **Caso 12 es la primera instalación hecha por alguien que no es el autor**, de donde salió la 2.1.1, y el **Caso 15 —un manifiesto que pasó su propio ciclo y le falló a su lector— es de donde sale la vara de la 2.1.6; el Caso 16 fija esa vara sobre un ejemplar revisado antes del lote, de donde sale la 2.1.7**.
+Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía. Esas aplicaciones están documentadas como **diecisiete casos de estudio**, cada uno con su frontera declarada. El Caso 08 es el benchmark controlado; los Casos 09, 10, 11, 13 y 14 volvieron el kit contra sí mismo; el **Caso 12 es la primera instalación hecha por alguien que no es el autor**; los Casos 15 y 16 fijaron la vara externa; y el **Caso 17 prueba `create-bot` desde una idea mínima mediante Permanent Artist, donde el canon provisional tuvo que convertirse en una primera victoria revisada**.
 
-> **Estatus:** son casos, no demostraciones. n pequeño, y **quince de los dieciséis vienen del mismo investigador** — el Caso 12 es el que no. Restringen cómo usamos el kit; no pretenden ser una ley. La afirmación medida pertenece al [Caso 08 y su benchmark](#el-benchmark); los demás aportan evidencia cualitativa.
+> **Estatus:** son casos, no demostraciones. n pequeño, y **dieciséis de los diecisiete vienen del mismo investigador** — el Caso 12 es el que no. Restringen cómo usamos el kit; no pretenden ser una ley. La afirmación medida pertenece al [Caso 08 y su benchmark](#el-benchmark); los demás aportan evidencia cualitativa.
 
-**[Leer los dieciséis casos de estudio →](./docs/CASES_es.md)**
+**[Leer los diecisiete casos de estudio →](./docs/CASES_es.md)**
 
 ---
 

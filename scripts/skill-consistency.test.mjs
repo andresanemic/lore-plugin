@@ -44,6 +44,38 @@ test("use-lore gobierna entregables complejos sin crear una novena skill", () =>
   }
 });
 
+test("el lote Permanent Artist deja obligaciones reutilizables y el caso 17", () => {
+  const bot = readFileSync(join(skillsRoot, "create-bot", "SKILL.md"), "utf8");
+  const brainstorm = readFileSync(join(skillsRoot, "brainstorming-lore", "SKILL.md"), "utf8");
+  const save = readFileSync(join(skillsRoot, "save-to-lore", "SKILL.md"), "utf8");
+
+  for (const pattern of [
+    /provisional canon/i,
+    /operational cycle/i,
+    /first victory/i,
+    /individual configuration/i,
+    /honest prototype/i,
+    /local prototype is a laboratory/i,
+    /the AI lives in the object it transforms/i,
+    /decisions before prompts/i,
+    /journey belongs to the purpose/i,
+  ]) assert.match(bot, pattern);
+
+  assert.match(brainstorm, /first victory/i);
+  assert.match(brainstorm, /uncertainty and correction/i);
+  assert.match(save, /contextual milestone/i);
+  assert.match(save, /related clues accumulate/i);
+  assert.match(save, /destination, wording, and why.*now/is);
+  assert.match(save, /save them together/i);
+
+  const casesEn = readFileSync(join(root, "docs", "CASES_en.md"), "utf8");
+  const casesEs = readFileSync(join(root, "docs", "CASES_es.md"), "utf8");
+  assert.match(casesEn, /Case 17.*Permanent Artist/is);
+  assert.match(casesEs, /Caso 17.*Permanent Artist/is);
+  assert.match(docs.map((file) => readFileSync(join(root, file), "utf8")).join("\n"), /seventeen case studies/i);
+  assert.match(docs.map((file) => readFileSync(join(root, file), "utf8")).join("\n"), /diecisiete casos de estudio/i);
+});
+
 test("las guías bilingües documentan las ocho skills con una sección propia", () => {
   for (const file of ["docs/USAGE_en.md", "docs/USAGE_es.md", "docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
     const text = readFileSync(join(root, file), "utf8");
@@ -55,10 +87,10 @@ test("las guías bilingües documentan las ocho skills con una sección propia",
 
 test("la documentación no conserva afirmaciones ya refutadas", () => {
   const text = docs.map((file) => readFileSync(join(root, file), "utf8")).join("\n");
-  assert.doesNotMatch(text, /seven (?:documented )?case studies|all seven|siete casos de estudio|las siete evidencias/i);
+  assert.doesNotMatch(text, /\bseven (?:documented )?case studies|all seven|\bsiete casos de estudio|las siete evidencias/i);
   assert.doesNotMatch(text, /twelve case studies|doce casos de estudio|eleven of the twelve|once de los doce/i);
-  assert.match(text, /sixteen case studies/);
-  assert.match(text, /dieciséis casos de estudio/);
+  assert.match(text, /seventeen case studies/);
+  assert.match(text, /diecisiete casos de estudio/);
   assert.doesNotMatch(text, /three optional extras|tres extras opcionales|a bot with none of the three|un bot sin ninguno de los tres/i);
   assert.doesNotMatch(text, /Five optional extras|Cinco extras opcionales|A bot with none of the five|Un bot sin ninguno de los cinco/i);
   assert.doesNotMatch(text, /turn loose notes into criteria|convertir notas sueltas en criterio/i);

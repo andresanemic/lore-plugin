@@ -89,6 +89,8 @@ Usa `use-lore` siempre que no tengas claro dónde empezar.
 
 ### 3.2 `brainstorming-lore`
 
+**Regla de canon provisional:** las preguntas sirven a la primera victoria; después solo existen para desbloquear decisiones o mejorar el artefacto, y deben admitir incertidumbre y corrección.
+
 **Rol:** Diseñar un artefacto Lore nuevo o materialmente distinto antes de que la skill dueña lo escriba.
 
 **Límite de activación:**
@@ -179,6 +181,8 @@ Usa `create-project` siempre que arranques una nueva base de código dentro de u
 ---
 
 ### 3.5 `save-to-lore`
+
+**Captura contextual:** conserva candidatas hasta un hito real o una acumulación de pistas relacionadas. La vista muestra destino, redacción y por qué ahora; la aprobación cubre las escrituras y commits del lote mostrado, nunca el push.
 
 **Rol:** Destilar la experiencia recién adquirida en criterio reutilizable.
 
@@ -448,6 +452,8 @@ Usa `transmute-lore` cuando ya tienes proyectos en marcha y quieres incorporarlo
 ---
 
 ### 3.7 `create-bot`
+
+**Nacimiento desde una idea:** la declaración humana inicial es fuente primaria y canon provisional. El primer artefacto complejo es una configuración individual que ejecuta el ciclo operativo hasta una primera victoria revisada. Toda interfaz es prototipo honesto y laboratorio local: el producto es el objeto transformado, no el chat; las decisiones preceden a los prompts; el estado de Travesía deriva del propósito.
 
 **Rol:** Construir un **bot** — un lugar donde abrir una sesión y trabajar en varios proyectos o
 Áreas a la vez, con su criterio ya cargado, en vez de responder preguntas sobre ellos.

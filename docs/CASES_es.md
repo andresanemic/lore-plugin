@@ -17,9 +17,9 @@ Para seguir cada caso hace falta el mismo vocabulario que el kit usa cuando trab
 - Un **injerto** juzga criterio que llega de afuera contra la finalidad de tu proyecto: echa raíces o se rechaza, y lo que crece después te pertenece.
 - **Cristalizar** es sacar una fotografía trazable en un solo Markdown, extraíble de vuelta a una carpeta, sin reemplazar el Lore vivo.
 
-> **Estatus:** son casos, no demostraciones. Son pocos, y **quince de las dieciséis evidencias vienen del mismo investigador**. Restringen cómo usamos el kit; no pretenden ser una ley. El Caso 08 añade medición controlada sin eliminar esa frontera, y los Casos 09, 10, 11, 13 y 14 son los que miden este kit contra sí mismo — el 10 usándolo un día entero contra un Lore vivo, el 11 corriendo dos de sus propias versiones cabeza a cabeza y juzgando la salida a ciegas, el 13 cristalizando bots vivos y juzgando la fotografía por si un tercero podría trabajar desde ella, el 14 subiendo un ecosistema ya instalado sin reescribir lo ganado.
+> **Estatus:** son casos, no demostraciones. Son pocos, y **dieciséis de las diecisiete evidencias vienen del mismo investigador**. Restringen cómo usamos el kit; no pretenden ser una ley. El Caso 08 añade medición controlada sin eliminar esa frontera, y los Casos 09, 10, 11, 13 y 14 son los que miden este kit contra sí mismo — el 10 usándolo un día entero contra un Lore vivo, el 11 corriendo dos de sus propias versiones cabeza a cabeza y juzgando la salida a ciegas, el 13 cristalizando bots vivos y juzgando la fotografía por si un tercero podría trabajar desde ella, el 14 subiendo un ecosistema ya instalado sin reescribir lo ganado.
 >
-> **El Caso 12 es el primero que no viene del investigador**, y por eso vale distinto: alguien de afuera instaló el kit y lo usó durante una hora. Rompe la frontera de autoría que los otros quince comparten y abre una nueva, más chica y declarada dentro del caso.
+> **El Caso 12 es el primero que no viene del investigador**, y por eso vale distinto: alguien de afuera instaló el kit y lo usó durante una hora. Rompe la frontera de autoría que los otros dieciséis comparten y abre una nueva, más chica y declarada dentro del caso.
 
 <details>
 <summary><b>Caso 01 — El Lore como forma operativa de un proyecto entero</b></summary>
@@ -294,6 +294,27 @@ Esta es la forma del Caso 15 aplicada como **diseño previo**: la vara se fija s
 **Qué cambió en el kit:** la 2.1.7. `create-bot` §3 pide, para una clase de entregable que se produce **en lotes**, fijar la vara sobre un ejemplar revisado por un lector externo antes de escalar; y §6 extiende la regla de ejecución —cada pieza del lote se compara contra el ejemplar revisado, nunca contra sí misma—.
 
 **Frontera declarada.** Mismo investigador, misma máquina, mismo ecosistema y misma campaña que el Caso 15 —el auto-sellado más fuerte de la serie—. El caso es una aparición de H11, no una réplica: no sube el contador. Trata de una sola clase de entregable —correo en frío juzgado por un lector externo— y no dice nada de entregables sin lector externo ni de lo que pasa cuando el revisor también escribe el criterio. El revisor fue otro modelo, no el mercado: la vara quedó en `conjecture` hasta que un ciclo de envío la confirme.
+
+</details>
+
+<details>
+<summary><b>Caso 17 — Permanent Artist, primera prueba de `create-bot` desde una idea mínima</b></summary>
+
+<br>
+
+El punto de partida fue una sola declaración humana, no un Lore previo: construir **Permanent Artist**, un IDE artístico local-first para una artista digital independiente que también gestiona su carrera. El producto no sería un chatbot. Su superficie operacional fue «Hoy en tu carrera»; el onboarding comenzó por un proyecto real y una meta rectora por temporada; la spec personal sostuvo meta, vara, límites, temporada y hoja de ruta; y la Travesía mostró la distancia entre estado y meta.
+
+El primer artefacto complejo fue un proyecto demostrativo editable: una artista chilena preparando una exposición y colección digital, con hoja de ruta, prioridades, presupuesto, financiamiento y obra ancla. Su primera aplicación real fue la postulación de Permanent Artist a Artizen LATAM temporada 7. El bot debía extraer requisitos, evaluar encaje, mapear evidencias, redactar campos, presupuesto y anexos, sin inventar datos ni enviar sin aprobación. Las oportunidades se filtraron por territorio y disciplina; toda salida externa quedó explícita, mínima y auditable.
+
+La captura local de Artizen mostró ventas de artefactos a **USD 10** y muchas portadas GIF; la explicación de la propia plataforma define un Artifact como un coleccionable digital único ligado al proyecto que condensa su esencia —boceto, fotografía, animación en loop, fragmento de código u otra forma adecuada—. Se vende como edición abierta durante la temporada: las compras apoyan al creador y desbloquean match funding y premios; luego la edición cierra y su cantidad queda fija. No entrega participación en el proyecto ni propiedad sobre su IP. Para Permanent Artist, el primer Artifact será la identidad coleccionable de la propuesta —cercana a una foto de perfil del proyecto, pero capaz de portar su mundo y su promesa—, con GIF como formato adecuado y no como requisito universal. La primera demo pública será una sola landing bilingüe español/inglés con dashboard navegable y demos honestas, alojada en GitHub y conectada a Vercel; el servidor dedicado queda como etapa posterior de despliegue.
+
+El prototipo hizo visible la frontera de producto. Proyectos, estados, fuentes, decisiones y artefactos vivieron en el objeto transformado; el chat no se volvió interfaz. Las notas entraron mediante `obsidian-lore` como fuente, minería y aprobación antes del criterio. Arweave apareció solo en hitos contextuales con vista previa y confirmación de permanencia, privacidad y costo. El piso local-first fue software libre, sin cuenta, telemetría ni backend propio para contenido; la IA degradó entre conexión oficial cuando exista, API key propia, modelos locales o gratuitos verificados, créditos patrocinados y modo sin IA, sin confundir suscripción ChatGPT con acceso API.
+
+Las decisiones de producto conservaron su situación: la gamificación con propósito nunca puntuó el valor artístico; el desafío semanal fue opt-in, pseudónimo y liviano; la baraja original y libre usó una interacción comprometida y accesible con Fisher–Yates, inspirada —no copiada— en Astrala y con reduced motion. Brian Eno y Peter Schmidt quedaron como antecedente metodológico; no se incluyeron Estrategias Oblicuas ni se buscó licencia. Bauhaus fue una preferencia de skin futura, no identidad universal. El HTML interactivo fue laboratorio y demo, con `/certificados` de blockchain-lab-uai como precedente y no plantilla.
+
+**Qué cambió en el kit:** la 2.1.7 ahora trata la declaración humana como canon provisional, la configuración como primer artefacto complejo y una primera victoria revisada como evento de estabilización. `brainstorming-lore` pregunta solo lo que avanza esa victoria; `create-bot` exige prototipo operacional honesto, decisiones antes que prompts y Travesía derivada del propósito; `save-to-lore` captura en hitos contextuales o por acumulación, con un único umbral visible por lote.
+
+**Frontera declarada.** Un investigador, una sesión acompañada, un dominio de producto y un prototipo local. Es evidencia cualitativa situada, no una ley general de producto ni prueba de que la postulación gane, la carrera se sostenga o el sistema funcione para otras artistas. Para LUS es solo una aparición situada compatible con H11/H06; no abre hipótesis, no sube conteos ni modifica el corpus científico.
 
 </details>
 

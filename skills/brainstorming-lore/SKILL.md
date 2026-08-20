@@ -106,6 +106,10 @@ never use a label to reduce an owner skill's required gate.
 Ask **one question at a time**. Prefer a concrete recommendation with alternatives when the source
 material supports one; use an open question when it does not.
 
+When the work begins from provisional canon, ask only what is necessary for a **first victory**.
+Every later question must unlock a decision or improve the artifact, and the conversation must admit
+**uncertainty and correction** instead of turning the first answer into permanent doctrine.
+
 Only ask what changes the design:
 
 - who or what the result serves;
@@ -116,6 +120,13 @@ Only ask what changes the design:
 - irreversible or externally visible consequences.
 
 Stop asking when the remaining uncertainty can be stated as a trade-off in the proposal.
+
+### The first victory in a new bot
+
+When `create-bot` arrives with only an idea, design backwards from the **first victory**: the
+smallest real outcome that proves the bot can help this person work. Ask the minimum needed to make
+that outcome possible. Preserve **uncertainty and correction** in the proposal instead of forcing a
+complete identity before use; every later question must unlock the victory or improve its quality.
 
 ## 4. Compare approaches
 

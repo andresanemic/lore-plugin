@@ -176,6 +176,8 @@ y entrega comprobada; la skill de dominio sigue siendo dueña de cada medio y he
 
 ### 5.2 `brainstorming-lore` – Diseñar cambios de Lore antes de escribir
 
+Con canon provisional, pregunta solo lo necesario para una primera victoria. Las preguntas posteriores deben desbloquear una decisión o mejorar el artefacto, manteniendo explícitas la incertidumbre y la corrección.
+
 **Propósito:** explorar un artefacto Lore nuevo o materialmente distinto sin quitarle la propiedad a
 la skill que lo va a escribir.
 
@@ -243,6 +245,8 @@ Usa este skill siempre que inicies una nueva base de código dentro de un domini
 ---
 
 ### 5.5 `save-to-lore` – Capturar criterio tras resolver un problema, o injertar criterio ajeno
+
+Mantén candidatas mientras continúa la sesión. Sugiere captura en un hito contextual o cuando se acumulen pistas relacionadas; muestra destino, redacción y por qué ahora, y deja que una vista aprobada cubra las escrituras y commits correspondientes.
 
 **Propósito:** destilar criterio reutilizable. Tiene **dos modos**, según de dónde venga ese criterio:
 **capture** (fricción vivida) y **graft** (criterio importado de una skill, una guía ajena o el
@@ -439,6 +443,8 @@ origen, con `ecosistema.json` reescrito para que `enrutamiento.md` resuelva. Reg
 ---
 
 ### 5.7 `create-bot` – Trabajar en varias Áreas o proyectos
+
+En `nuevo`, la declaración inicial es canon provisional. La configuración es el primer artefacto complejo y cierra solo tras una primera victoria revisada. Una interfaz debe ser un laboratorio local honesto que separe canon, lógica y presentación, ponga decisiones antes que prompts y haga que la Travesía siga al propósito.
 
 **Propósito:** construir un **bot**: un solo lugar donde abrir una sesión y **trabajar en varios
 proyectos o Áreas a la vez**, con su criterio ya cargado, en vez de responder preguntas sobre ellos.
