@@ -67,6 +67,12 @@ For **OpenCode**, copy the eight `skills/*` directories from a local clone into
 `~/.config/opencode/skills/`, then start a new session. OpenCode also accepts the same layout under
 `.opencode/skills/` for project-local installation.
 
+For **Cursor**, an existing install under `~/.codex/skills/` or `~/.agents/skills/` is discovered
+automatically. Otherwise copy the eight directories into `~/.cursor/skills/`, then restart Cursor.
+
+For **Google Antigravity**, copy the eight directories into `~/.gemini/config/skills/` for every
+workspace, or `.agents/skills/` inside one workspace, then restart Antigravity.
+
 For a local clone, both CLIs, or another skills-compatible agent, use the
 [direct installation route in the README](../README.md#direct-install-from-the-repository).
 

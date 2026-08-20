@@ -213,16 +213,36 @@ codex plugin add lore@lore-plugin
 
 ### OpenCode
 
-OpenCode discovers directory-based skills globally. From a local clone, copy Lore's eight skill
-folders into its official skills directory:
+From a local clone, copy Lore's eight skill folders into OpenCode's global directory:
 
 ```bash
 mkdir -p ~/.config/opencode/skills
 cp -R skills/* ~/.config/opencode/skills/
 ```
 
-Start a new OpenCode session after copying them. Project-local installation uses the same layout
-under `.opencode/skills/`.
+Restart OpenCode. For one project, use `.opencode/skills/` instead.
+
+### Cursor
+
+Cursor already discovers skills installed under `~/.codex/skills/` or `~/.agents/skills/`. To keep
+a separate Cursor copy, use its global directory and restart Cursor:
+
+```bash
+mkdir -p ~/.cursor/skills
+cp -R skills/* ~/.cursor/skills/
+```
+
+### Google Antigravity
+
+Antigravity loads global skills from `~/.gemini/config/skills/` and workspace skills from
+`.agents/skills/`. From a local clone:
+
+```bash
+mkdir -p ~/.gemini/config/skills
+cp -R skills/* ~/.gemini/config/skills/
+```
+
+Restart Antigravity after copying them.
 
 ### Direct install from the repository
 
@@ -944,16 +964,36 @@ codex plugin add lore@lore-plugin
 
 ### OpenCode
 
-OpenCode descubre skills organizadas en carpetas de forma global. Desde un clon local, copia las
-ocho carpetas de Lore en su directorio oficial:
+Desde un clon local, copia las ocho carpetas de Lore en el directorio global de OpenCode:
 
 ```bash
 mkdir -p ~/.config/opencode/skills
 cp -R skills/* ~/.config/opencode/skills/
 ```
 
-Después abre una sesión nueva de OpenCode. Para una instalación local al proyecto usa la misma
-estructura dentro de `.opencode/skills/`.
+Reinicia OpenCode. Para un solo proyecto usa `.opencode/skills/`.
+
+### Cursor
+
+Cursor ya descubre las skills instaladas en `~/.codex/skills/` o `~/.agents/skills/`. Si prefieres
+una copia separada para Cursor, usa su directorio global y reinícialo:
+
+```bash
+mkdir -p ~/.cursor/skills
+cp -R skills/* ~/.cursor/skills/
+```
+
+### Google Antigravity
+
+Antigravity carga skills globales desde `~/.gemini/config/skills/` y skills del proyecto desde
+`.agents/skills/`. Desde un clon local:
+
+```bash
+mkdir -p ~/.gemini/config/skills
+cp -R skills/* ~/.gemini/config/skills/
+```
+
+Reinicia Antigravity después de copiarlas.
 
 ### Instalación directa desde el repositorio
 
