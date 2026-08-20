@@ -17,9 +17,9 @@ Para seguir cada caso hace falta el mismo vocabulario que el kit usa cuando trab
 - Un **injerto** juzga criterio que llega de afuera contra la finalidad de tu proyecto: echa raíces o se rechaza, y lo que crece después te pertenece.
 - **Cristalizar** es sacar una fotografía trazable en un solo Markdown, extraíble de vuelta a una carpeta, sin reemplazar el Lore vivo.
 
-> **Estatus:** son casos, no demostraciones. Son pocos, y **catorce de las quince evidencias vienen del mismo investigador**. Restringen cómo usamos el kit; no pretenden ser una ley. El Caso 08 añade medición controlada sin eliminar esa frontera, y los Casos 09, 10, 11, 13 y 14 son los que miden este kit contra sí mismo — el 10 usándolo un día entero contra un Lore vivo, el 11 corriendo dos de sus propias versiones cabeza a cabeza y juzgando la salida a ciegas, el 13 cristalizando bots vivos y juzgando la fotografía por si un tercero podría trabajar desde ella, el 14 subiendo un ecosistema ya instalado sin reescribir lo ganado.
+> **Estatus:** son casos, no demostraciones. Son pocos, y **quince de las dieciséis evidencias vienen del mismo investigador**. Restringen cómo usamos el kit; no pretenden ser una ley. El Caso 08 añade medición controlada sin eliminar esa frontera, y los Casos 09, 10, 11, 13 y 14 son los que miden este kit contra sí mismo — el 10 usándolo un día entero contra un Lore vivo, el 11 corriendo dos de sus propias versiones cabeza a cabeza y juzgando la salida a ciegas, el 13 cristalizando bots vivos y juzgando la fotografía por si un tercero podría trabajar desde ella, el 14 subiendo un ecosistema ya instalado sin reescribir lo ganado.
 >
-> **El Caso 12 es el primero que no viene del investigador**, y por eso vale distinto: alguien de afuera instaló el kit y lo usó durante una hora. Rompe la frontera de autoría que los otros catorce comparten y abre una nueva, más chica y declarada dentro del caso.
+> **El Caso 12 es el primero que no viene del investigador**, y por eso vale distinto: alguien de afuera instaló el kit y lo usó durante una hora. Rompe la frontera de autoría que los otros quince comparten y abre una nueva, más chica y declarada dentro del caso.
 
 <details>
 <summary><b>Caso 01 — El Lore como forma operativa de un proyecto entero</b></summary>
@@ -279,6 +279,21 @@ Esta es la hipótesis **H11** del programa científico en su forma canónica: un
 **Qué cambió en el kit:** la 2.1.6. El brainstorm de canon de `create-bot` pide, por clase de entregable, su vara; un tipo nuevo de módulo de canon la guarda; y la regla de ejecución completa la enseñanza «la coherencia no es un detector» que ya está en UPGRADE.
 
 **Frontera declarada.** Mismo investigador, misma máquina, mismo ecosistema y misma campaña que los Casos 09–14 —el auto-sellado más fuerte de la serie—. El caso es una aparición de una hipótesis ya abierta, no una réplica: no sube el contador. Trata de una sola clase de entregable —texto institucional con requisito de voz— y no dice nada de documentos sin ese requisito. La vara se fijó después del fracaso, como consecuencia, no como diseño previo.
+
+</details>
+
+<details>
+<summary><b>Caso 16 — Una vara fijada sobre un ejemplar antes de escalar a lote</b></summary>
+
+<br>
+
+El gemelo de producto del Caso 15, al revés y en escala: una campaña de outreach en frío con un criterio ya escrito —formato, asunto, firma— pasó a manos de un revisor externo **antes** de producir el lote, no después del primer fracaso. El criterio previo del módulo era internamente coherente: había sobrevivido a su propio ciclo —spec, reescrituras, humanizer— y cada pieza que lo seguía se verificaba contra él. El revisor externo (otro modelo, no una lectura interna) reescribió **un solo ejemplar** y lo devolvió como vara: asunto concreto que nombra la institución y el tópico, sin links ni material en el primer toque, un solo problema en lenguaje de negocio, la oferta antes del CTA. Con ese ejemplar revisado como referencia, el lote entero se reescribió y se verificó en la tabla del CRM — las tablas y los correos viven en Notion, que es la forma de entrega del módulo.
+
+Esta es la forma del Caso 15 aplicada como **diseño previo**: la vara se fija sobre un ejemplar juzgado por un lector externo **antes** de escalar a lote, no como consecuencia de un fracaso. El detector que funcionó en el Caso 15 era el dueño leyendo; acá el detector es el revisor externo sobre el primer ejemplar, y el revisor está fuera del ciclo que produjo el borrador. Es una aparición de la misma hipótesis **H11** —criterio internamente consistente y falso hacia afuera— en su forma preventiva: la coherencia interna no detecta la falsedad hacia afuera, y por eso la vara no se valida releyendo el lote, se fija por reseña externa de un ejemplar.
+
+**Qué cambió en el kit:** la 2.1.7. `create-bot` §3 pide, para una clase de entregable que se produce **en lotes**, fijar la vara sobre un ejemplar revisado por un lector externo antes de escalar; y §6 extiende la regla de ejecución —cada pieza del lote se compara contra el ejemplar revisado, nunca contra sí misma—.
+
+**Frontera declarada.** Mismo investigador, misma máquina, mismo ecosistema y misma campaña que el Caso 15 —el auto-sellado más fuerte de la serie—. El caso es una aparición de H11, no una réplica: no sube el contador. Trata de una sola clase de entregable —correo en frío juzgado por un lector externo— y no dice nada de entregables sin lector externo ni de lo que pasa cuando el revisor también escribe el criterio. El revisor fue otro modelo, no el mercado: la vara quedó en `conjecture` hasta que un ciclo de envío la confirme.
 
 </details>
 

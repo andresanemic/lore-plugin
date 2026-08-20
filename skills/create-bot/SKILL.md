@@ -342,6 +342,13 @@ vocabulary. Agree on:
   against its own cycle — spec, rewrite, humanizer, crystallization — is coherent and still false
   about the outside; the detector that catches it is the yardstick, and a yardstick fixed after the
   fact means the first failure happened without it (§5).
+- **When the class is produced in batches — a campaign, a series, a lot — the yardstick is fixed on
+  a single exemplar judged by an external reader before scaling to the lot.** Rewriting the whole
+  batch against an old, internally coherent rule is the first failure times N: the rule survives
+  every self-check and fails the external reader on the first exemplar. Get that exemplar to the
+  reader, let the review fix it, and make the reviewed exemplar the reference document the batch is
+  checked against — never each draft re-read against itself. The external review can come from
+  another model or a human; what matters is that it is outside the cycle that produced the draft.
 - **`federar`:** the routing map — task type → which Lore governs.
 - **Optional and OFF by default:** encryption (§8) and a minimal local launcher (§9). Ask both;
   assume neither. Do not offer packaging as a plugin. **Packaging is crystallization:** the
@@ -598,7 +605,10 @@ for the same reason, it cannot certify what no criteria of its own covers.
 The constructive half of that same law: a deliverable whose acceptance is judged by an external
 reader is checked against its **yardstick** (§3, §5) — the reference document the canon names — never
 against its own draft. A draft that passes its own cycle and still fails the reader did not fail for
-lack of coherence; it failed for lack of a yardstick fixed before the request.
+lack of coherence; it failed for lack of a yardstick fixed before the request. When the class runs
+in **batches**, the yardstick is the reviewed exemplar (§3): the first piece of the lot goes to the
+external reader before the rest is written, and every following piece is checked against the
+reviewed exemplar, not re-read against itself.
 
 *This governs **negative** reports.* A positive finding stands on its own — the clue behind it is
 written and can be cited. And it does not apply to a bot that **measures** instead of checking: a
