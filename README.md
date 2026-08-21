@@ -642,9 +642,7 @@ Lore was not designed on a whiteboard: every decision in this kit came from appl
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-peak-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 peak"></a>
 </p>
 
-The steady rate was twenty-odd clones a day; August 8 and 13 then brought 221 and 225. The daily
-badge excludes those peaks. GitHub's 14-day traffic windows are preserved in
-[`data/traffic/clones.json`](./data/traffic/clones.json); last capture: August 21.
+GitHub traffic windows preserved in [`data/traffic/clones.json`](./data/traffic/clones.json).
 
 Lore Plugin is the technical arm of LUS, not a productivity system with philosophy attached. Its
 hoped-for impact is to make shared, human-governed criteria operational. Starting a professional
@@ -1361,9 +1359,7 @@ Lore no se diseñó en una pizarra: cada decisión salió de aplicarlo a proyect
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-pico-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 pico"></a>
 </p>
 
-El ritmo estable fue de veinte y tantas clonaciones diarias; el 8 y el 13 de agosto llegaron 221 y
-225. La insignia diaria excluye esos picos. Las ventanas de 14 días de GitHub se conservan en
-[`data/traffic/clones.json`](./data/traffic/clones.json); última captura: 21 de agosto.
+Ventanas GitHub preservadas en [`data/traffic/clones.json`](./data/traffic/clones.json).
 
 Lore Plugin es el brazo técnico de LUS, no un sistema de productividad con filosofía agregada. Su
 impacto buscado es volver operativo el criterio compartido y gobernado por la persona. Empezar pronto
