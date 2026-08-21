@@ -1,6 +1,6 @@
 {
   "name": "@andresanemic/lore-plugin",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Provider-neutral project criterion that persists across AI agents and sessions.",
   "type": "module",
   "license": "MIT",
