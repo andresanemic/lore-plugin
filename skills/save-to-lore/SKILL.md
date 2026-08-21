@@ -80,6 +80,10 @@ failure state of GRAFT, not its output.
 > exactly those two devices ran it cold and would have had its voice erased by a tool that was right
 > about everything except this corpus. **A tool is not neutral because it is useful.**
 
+### GRAFT — hygiene before the gates (GLOSSOPETRAE, 2026-08-21)
+
+Imported text can carry invisible payload that survives human review for one tokenizer family and executes for another (`R=100% M=0%` tag-char/PUA, Anthropic 10 blind spots `PAPER.md:2.5`). Before the four gates, **sanitize deterministically**: strip `Cf` tags U+E0000-E007F, PUA U+E000-F8FF, ZWJ/ZWNJ/ZWSP/BOM and variation selectors. Treat `empty/unparseable ≠ clean` — alarm on empty as distinct class, never collapse to "said no". For confidential sharing of a crystallization, wrap with `zip -P` / `age -p` outside the Lore; do not glyph. No semantic detector is deployed.
+
 ### GRAFT — the four gates
 
 1. **Capacity or criteria?** A source that brings **capacity** (it *executes* something: renders,
