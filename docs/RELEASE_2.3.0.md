@@ -48,3 +48,13 @@ opuestos. El verde post-instalación es `0 de 0` y no prueba nada.
 ## Suite
 
 `85/85` — 70 previos + 4 de la auditoría + 11 de `MICELIO` y sus hallazgos sobre el propio kit.
+
+## `brainstorming-lore` — el segundo caso
+
+El gate preguntaba **quién es dueño** del artefacto, y eso tenía un punto ciego: un entregable que
+Lore no posee pero que un `lore/` enrutado **gobierna** —un lote de publicaciones, un informe—, donde
+todo el diseño es decidir cómo correr criterio ya escrito. Ese caso caía afuera, y afuera lo espera
+un brainstorming genérico que **termina obligando `writing-plans`**: la derrota #5 de la fuente,
+evitada adentro del kit y vuelta a comer por el flanco. Entra con **predicado observable** —¿hay un
+`lore/` enrutado que gobierne la producción de esto?— y con su lado negativo escrito. El handoff va a
+la fase que el Lore gobernante ya nombra, nunca a `writing-plans`.

@@ -696,3 +696,11 @@ To keep your Lore useful:
 - Always review the diff that Lore proposes before committing changes.
 
 If you want a conceptual overview of why Lore exists and how it differs from traditional documentation, see the main [`README.md`](../README.md).
+
+- **`brainstorming-lore` — second case (2.3.0).** Beyond the artifact Lore **owns**, it enters when a
+  routed `lore/` **governs how a deliverable is produced** — a batch of posts, a report — and the
+  design work is deciding how to run criteria already written. The predicate is answered **before**
+  invoking anything, and **if the Lore would only supply background colour, it does not enter**. It
+  exists because the excluded case lands in a generic brainstorming skill that **terminates by
+  requiring `writing-plans`**, inserting a third-party planner into a process whose next step the
+  governing Lore already specifies. Handoff goes to that phase, never to `writing-plans`.

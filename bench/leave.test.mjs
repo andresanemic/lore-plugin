@@ -119,6 +119,30 @@ test("MICELIO tiene sus dos disparadores declarados: post-instalación y pre-tar
   assert.match(txt, /before a complex|antes de una tarea/i, "falta el disparador pre-tarea");
 });
 
+// 2026-08-22, bot-cm: Andres pide brainstormear el lote de publicaciones de la semana y ejecutar
+// SIN writing-plans, todo inline. brainstorming-lore ya gano esa pelea (derrota #5 de la fuente),
+// pero su gate exige que el artefacto sea del sistema Lore — y un lote de posts no lo es. El caso
+// caia en superpowers:brainstorming, que termina en "Do NOT invoke any other skill. writing-plans
+// is the next step". La derrota #5 evitada adentro del kit y vuelta a comer por el flanco.
+
+test("brainstorming-lore cubre el entregable GOBERNADO por Lore, no solo el artefacto Lore", () => {
+  const t = skill("brainstorming-lore");
+  assert.match(t, /governed by|gobernado por|governs how this deliverable/i,
+    "el gate solo admite artefactos del sistema Lore: un entregable que se arbitra contra Lore enrutado no tiene ruta");
+  assert.match(t, /writing-plans/,
+    "no dice por que importa: el caso excluido cae en una skill que obliga writing-plans");
+});
+
+test("el segundo caso viene con predicado observable, no con una excepcion blanda", () => {
+  const t = skill("brainstorming-lore");
+  const i = t.search(/## Trigger boundary/);
+  const sec = t.slice(i, i + 4000);
+  assert.match(sec, /routed `?lore\/`?|lore\/ enrutado|routed Lore that governs/i,
+    "sin predicado observable la ampliacion se vuelve activacion universal — la derrota #1 de la fuente");
+  assert.match(sec, /does not enter|no entra|stays out/i,
+    "falta el lado negativo: un predicado que nunca excluye no es un predicado");
+});
+
 // 2026-08-22, community-manager: el ritual del viernes corrio MICELIO como paso 0 y despues
 // PRUNE + GRAFT. GRAFT escribe Pistas nuevas, y una Pista nueva NACE aislada — es el hallazgo del
 // propio modo: el aislamiento se produce al ritmo que se escribe criterio, no se acumula con la

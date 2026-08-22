@@ -701,3 +701,11 @@ Para que tu Lore se mantenga útil:
 - Revisa siempre el diff que Lore propone antes de confirmar cambios.
 
 Si quieres una visión más conceptual de por qué existe Lore y en qué se diferencia de la documentación tradicional, consulta el [`README.md`](../README.md).
+
+- **`brainstorming-lore` — segundo caso (2.3.0).** Además del artefacto **propiedad** de Lore, entra
+  cuando un `lore/` enrutado **gobierna cómo se produce** un entregable que Lore no posee —un lote de
+  publicaciones, un informe— y el diseño consiste en decidir cómo correr criterio ya escrito. El
+  predicado se contesta **antes** de invocar nada, y **si el Lore solo aportaría contexto de fondo,
+  no entra**. Existe porque el caso excluido cae en un brainstorming genérico que **termina
+  obligando `writing-plans`**, metiendo un planificador ajeno en medio de un proceso cuyo paso
+  siguiente el propio Lore ya define. El handoff va a esa fase, nunca a `writing-plans`.

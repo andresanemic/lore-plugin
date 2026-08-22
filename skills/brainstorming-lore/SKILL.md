@@ -6,9 +6,10 @@ description: >-
   transmutation, distillation flow, or Lore Plugin skill. Reads the contract, state, and applicable
   Lore before asking questions; explores alternatives one question at a time; presents a
   proportional design; preserves the threshold of the owner skill; then hands the approved result
-  to the current agent's native planning mechanism. Do not trigger for generic brainstorming,
-  ideation, writing, product design, software features, research questions, or any task unrelated
-  to operating Lore.
+  to the current agent's native planning mechanism. Also covers a deliverable Lore does not own but
+  a routed lore/ GOVERNS — a batch of posts, a report — where the design is deciding how to run
+  criteria already written. Do not trigger for generic brainstorming, ideation, product design,
+  software features, or research questions that no routed lore/ governs.
 ---
 
 # brainstorming-lore — Design changes to the Lore system
@@ -41,12 +42,45 @@ Typical triggers:
 - create or materially modify a Lore Plugin skill;
 - a Lore owner skill explicitly requires `brainstorming-lore` before its threshold.
 
+### Second case: a deliverable *governed by* Lore, not owned by it — 2.3.0
+
+The boundary above asks who **owns** the artifact, and that question has a blind spot. A batch of
+posts, a report, a lesson plan or a campaign is not a Lore-owned artifact — and yet the whole design
+may consist of deciding **how to run criteria that is already written**: which strategy, which
+format, which register, which visual family, what the area's process demands next.
+
+**The observable predicate, and it has to be answered before invoking anything:** *is there a routed
+`lore/` — of an area or a project — that **governs how this deliverable is produced**, such that the
+design work is deciding how to run it?* If yes, this skill enters. If the Lore would only supply
+background colour while the real decisions live elsewhere, **it does not enter** — that is ordinary
+ideation and belongs to the user's own method.
+
+Two examples, and the contrast is the whole point:
+
+| Request | Routed Lore that governs its production | Enters? |
+|---|---|---|
+| A week's batch of posts for a brand in a `community-manager` area, arbitrated against the live strategy, the area's writing/editing standard and the brand's visual families | Yes — the process modules *are* the design space | **Yes** |
+| «Let's brainstorm names for my new side project» | No — nothing routed governs it | **No** |
+
+**Why this case earns its own row instead of being left outside.** A deliverable that falls outside
+lands in a generic brainstorming skill, and the one most people have installed **terminates by
+requiring `writing-plans`** — *"Do NOT invoke any other skill. writing-plans is the next step."* That
+is defeat #5 of the source below, walking back in through the side door: a third-party planning
+mechanism inserted in the middle of a process whose next step **the area's own Lore already
+specifies**. The kit refused that terminal for its own artifacts and then handed it every deliverable
+those artifacts govern.
+
+**Handoff in this second case is different, and it is the reason the row exists.** Do not hand to
+generic Plan Mode and never to `writing-plans`: hand to **the phase the governing Lore already names
+as next** — for the example above, the area's creation phase and its existing threshold. The design
+approved here decides *what* the batch is; the routed Lore already says *how* it gets produced.
+
 ### Explicit non-triggers
 
 Do **not** invoke this skill when the user merely says «hagamos brainstorming» or asks for ideation
 about a product, article, campaign, software feature, research hypothesis, presentation, class, or
-any other task that is not changing Lore itself. Use the user's own brainstorming method or another
-installed skill for those requests.
+any other task that is not changing Lore itself **and that no routed `lore/` governs** (second case
+above). Use the user's own brainstorming method or another installed skill for those requests.
 
 Do not invoke it automatically for every act that could be called creative. A typo fix, a requested
 read-only inspection, an approved mechanical edit, or execution of an existing plan does not need a
