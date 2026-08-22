@@ -109,6 +109,36 @@ propio kit es una **media junta**: el destino estaba declarado y el término aus
 y vale registrarlo porque **una tabla de registros no es un registro**: declarar dónde tiene que
 aterrizar algo no lo aterriza, y eso es `H14` aplicado al propio release.
 
+## La junta se escribe de los dos lados — 2026-08-22
+
+**El caso que la produjo:** una Pista en el `lore/principios.md` de LUS y el paso que la corre en una
+skill que vive en **otro repositorio**. Con el puntero escrito solo del lado de la Pista, quien está
+parado en el paso ve un procedimiento **sin obligación visible detrás** — y un `PRUNE` ahí lo saca
+como sobrante, porque desde ese lado lo es. Al revés, un barrido corrido desde el árbol del paso no
+puede confirmar que la Pista exista sin abrir un repositorio del que nunca se enteró.
+
+Así que `save-to-lore` pide ahora **una línea en cada extremo**: la Pista lleva su `destino:`, y el
+paso lleva el nombre de la Pista. Entra también como invariante, que es la mitad que una pasada
+futura grepea.
+
+**Registros, decididos uno por uno (`principios.md` #15) — y con su aterrizaje verificado después:**
+
+| Registro | ¿Entra? | Por qué |
+|---|---|---|
+| `save-to-lore` — prosa e invariantes | **Sí** | es su regla |
+| `REFERENCE_en/es` | **Sí**, y arrastró un hueco anterior | al ir a escribirla apareció que **`destino:` y la verificación de aterrizaje no estaban documentados en ningún registro de usuario**: vivían solo dentro de la skill desde que se escribieron. Entraron los tres juntos, porque documentar la bidireccionalidad de un mecanismo que el registro no menciona es incoherente |
+| `bench/leave.test.mjs` | **Sí** | 96/96 |
+| `USAGE_en/es` | **No** | describe qué se escribe y qué vuelve. El `destino:` es una propiedad de la entrada que la skill redacta, no una acción del usuario. **Si alguna vez hay que escribirlo a mano, esta fila cambia** |
+| `README` | **No** | es portada y tiene techo de palabras medido. El mecanismo ya está en `REFERENCE`, que es donde el propio README manda para la especificación |
+
+**Y el hallazgo que la acompaña, escrito en `plugins/lore/principios.md` #15 como adenda:** este mismo
+release traía una tabla titulada *«Registros del kit — decisión explícita, uno por uno»* que decía
+**sí** para `REFERENCE`, y `REFERENCE` seguía diciendo **seis modos** donde había ocho, en los dos
+idiomas. La tabla estaba bien hecha y no estaba corrida. **Una tabla de registros no es un registro** —
+declarar dónde tiene que aterrizar algo no lo aterriza, y en el vocabulario del kit eso tiene nombre:
+`missed`. Es `H14` un nivel más arriba: el mecanismo que existe para que nada quede sin instalar se
+quedó él mismo sin correr, en la versión que lo escribió.
+
 ## Suite
 
 `85/85` — 70 previos + 4 de la auditoría + 11 de `MICELIO` y sus hallazgos sobre el propio kit.

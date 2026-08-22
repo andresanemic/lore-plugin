@@ -275,6 +275,26 @@ promotion to the area. Never write the area silently.
       `confirmed`.
     - **REQUIRED slots when the entry declares a destination:** `destino:` (module + step) and **landing verification** — `grep` the declared term in the declared file and report `arrived / written, never exercised (conjecture)`. **A landing condition is not an ascent condition:** a clause that depends on the criterion being applied is landing, not ascent.
 
+#### The junction is written on both sides — 2.3.0
+
+The clue declares `destino:`; **the step names the clue back.** One line at the destination — *«runs
+`<module>` → `<clue>`»* — is what makes the junction verifiable from **either** end.
+
+**Why one direction is not enough, and it is not symmetry for its own sake.** A clue and the step
+that runs it frequently live in **different trees**, and a session loads the always-on block of its
+own tree and nothing else. With the pointer written only on the clue's side, anyone standing at the
+step sees a procedure with no visible obligation behind it — and a later `PRUNE` there removes it as
+surplus, because from that side it *is* surplus. The reverse holds too: a scan run from the step's
+tree cannot confirm the clue exists without opening a repository it was never told about.
+
+**Observed case, 2026-08-22:** a clue in a research project's `lore/principios.md` and the step that
+runs it in a skill living in a different repository. Written on both sides in the same pass, a
+`MICELIO` from either tree can now classify it without opening the other one.
+
+*Boundary:* applies when the clue declares a destination at all. A clue governing continuously while
+writing — a register, a tone — has no step to name it back, and demanding one would invent a junction
+that does not exist.
+
 #### Landing check (when destino is declared) — 2.3.0
 
 If the entry declares a destination, run `grep -r "term" <file>` on the declared file **before closing the threshold**. If the term is absent, keep the clue as `conjecture` with note `escrito, nunca ejercido` and report it. Promotion of that clue is blocked until the destination is written. A check that is fulfilled by reading (`IF reading THEN considered done`) is not a point of application — it has no verificable artifact within the threshold.
@@ -393,6 +413,7 @@ does not happen. Two rules govern it:
   in every artifact that cited it and in the source that handed it out. The unit of work is the **set
   of appearances** — sweep the tree before writing, fix them all in one pass, and mark the source
   corpus struck through and dated if it is not edited.
+- **A declared junction is written on both sides.** The clue carries `destino:`; the step carries one line naming the clue. A pointer written in only one direction cannot be verified from the other tree, and the two often live in different repositories.
 - **Honest confidence:** `confirmed` only after real validation; never inflated to force promotion.
 - **Discarded noise is reported**, not silently dropped.
 - **A paragraph is a paragraph.** Continuous prose in the clue, the index line's surrounding file

@@ -277,6 +277,19 @@ estándar), **señal** (destilable a Contexto → Causa → Pista, sin logs crud
 (una directriz inequívoca) y **genericidad** (le serviría a otro proyecto del Área). Cambios
 cosméticos no cuentan.
 
+**`destino:` y verificación de aterrizaje — 2.3.0.** Una Pista que exige un artefacto o un paso
+verificable declara **dónde se corre**: módulo y paso. Antes de cerrar el umbral se **grepea el
+término declarado en el archivo declarado** y se reporta `aterrizó` o `escrito, nunca ejercido`; en
+el segundo caso la pista queda en `conjecture` y **su promoción está bloqueada** hasta que el destino
+exista. Un chequeo que se cumple leyendo no es punto de aplicación: no deja artefacto dentro del
+umbral.
+
+**Y la junta se escribe de los dos lados.** La Pista lleva su `destino:`; el paso lleva una línea que
+nombra la Pista. No es simetría decorativa: los dos lados **suelen vivir en árboles distintos**, y una
+sesión carga el bloque always-on del suyo y de ninguno más. Con el puntero en una sola dirección,
+quien está parado en el paso ve un procedimiento sin obligación visible detrás —y una poda ahí lo
+quita como sobrante, porque desde ese lado lo es—.
+
 **Sistema de confianza:** cada pista se guarda como `conjecture` (por defecto) o `confirmed` (solo
 si se validó realmente en la app en marcha). Nunca se infla a `confirmed` solo para forzar una
 promoción.

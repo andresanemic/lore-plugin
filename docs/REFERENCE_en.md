@@ -278,6 +278,19 @@ conditions must hold at once: **constraint** (forbids a future error or demands 
 directive), and **genericity** (would help another project in the Area). Cosmetic changes never
 count.
 
+**`destino:` and landing verification — 2.3.0.** A clue that demands a verifiable artifact or step
+declares **where it is run**: module and step. Before the threshold closes, the declared term is
+**grepped in the declared file** and reported as `arrived` or `written, never exercised`; in the
+second case the clue stays `conjecture` and **its promotion is blocked** until the destination
+exists. A check fulfilled by reading is not a point of application: it leaves no artifact inside the
+threshold.
+
+**And the junction is written on both sides.** The clue carries its `destino:`; the step carries one
+line naming the clue. This is not decorative symmetry: the two sides **often live in different
+trees**, and a session loads the always-on block of its own and no other. With the pointer written in
+one direction only, whoever stands at the step sees a procedure with no visible obligation behind it
+— and a prune there removes it as surplus, because from that side it is.
+
 **Confidence system:** each clue is stored as `conjecture` (default) or `confirmed` (only once
 actually validated in the running app). Confidence is never inflated to `confirmed` just to force
 a promotion.

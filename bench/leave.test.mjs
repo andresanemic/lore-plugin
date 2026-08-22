@@ -332,3 +332,22 @@ test("el tutorial se infiere y se ofrece; no es un menu ni reemplaza al primer a
   assert.match(b, /carries the inference rule and the\nexact wording; do not duplicate it here|do not duplicate it here/i,
     "sin esto la regla vive en dos archivos y gana la que este mas cerca del indice");
 });
+
+// 2026-08-22: una Pista en el lore/ de LUS y el paso que la corre en una skill de OTRO repositorio.
+// Con el puntero escrito solo del lado de la Pista, quien esta parado en el paso ve un procedimiento
+// sin obligacion visible detras -y un PRUNE ahi lo saca como sobrante, porque desde ese lado LO ES-.
+// La junta se escribe de los dos lados o no es verificable desde ninguno de los dos arboles.
+
+test("save-to-lore exige la junta escrita de los dos lados", () => {
+  const s = skill("save-to-lore");
+  assert.match(s, /The junction is written on both sides/i,
+    "sin esto el destino: solo apunta en una direccion y el paso no sabe que corre nada");
+  assert.match(s, /the step names the clue back/i,
+    "falta la mitad que hace verificable la junta desde el arbol del paso");
+  assert.match(s, /different trees|different repositor/i,
+    "sin el motivo -que los dos lados suelen vivir en arboles distintos- la regla se lee como simetria decorativa");
+  // Y como invariante, no solo como parrafo: es lo que una pasada futura grepea.
+  const inv = s.slice(s.indexOf("## Invariants"));
+  assert.match(inv, /written on both sides/i,
+    "la regla vive en la prosa y no en las invariantes: la mitad que se consulta no la tiene");
+});
