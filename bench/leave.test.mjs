@@ -5,6 +5,29 @@ import test from "node:test";
 const skill = (name) => readFileSync(new URL(`../skills/${name}/SKILL.md`, import.meta.url), "utf8");
 
 // Ponytail: one minimal check that fails if routing regresses — no fixtures.
+// Enrutar y enchufar son dos operaciones. El gate del kit cubre la primera; esta cubre la segunda.
+// Forma estructural, no prosa: writing-skills manda automatizar lo que un regex verifica.
+
+const SKILLS = ["use-lore", "brainstorming-lore", "create-area", "create-project",
+                "create-bot", "save-to-lore", "transmute-lore", "obsidian-lore"];
+
+export function orphanSections(read = skill) {
+  const orphans = [];
+  for (const name of SKILLS) {
+    const txt = read(name);
+    for (const m of txt.matchAll(/^#{2,3} +(.+)$/gm)) {
+      const title = m[1];
+      if (/^Phase/i.test(title)) continue;              // un paso no se llama a si mismo
+      if (!/check|mode|scan|gate/i.test(title)) continue;
+      const key = (title.match(/[A-Z]{4,}/) || [])[0];
+      if (!key) continue;
+      if (!new RegExp(key, "i").test(txt.slice(0, m.index))) orphans.push(`${name}: ## ${title.trim()}`);
+    }
+  }
+  return orphans;
+}
+
+
 
 test("LEAVE vive en transmute-lore, no en save-to-lore (H14 for skills)", () => {
   assert.match(skill("transmute-lore"), /## LEAVE mode/);
@@ -67,4 +90,11 @@ test("el predicado del gate no cuenta artefactos en NINGUNA skill — index.md l
     assert.doesNotMatch(skill(name), /touches ≥2 artifacts/,
       `${name}: el umbral por conteo se dispara con el módulo + index.md que todo CAPTURE escribe`);
   }
+});
+
+// Enrutar y enchufar son dos operaciones. El gate del kit cubre la primera; esta cubre la segunda.
+// Forma estructural, no prosa: writing-skills manda automatizar lo que un regex verifica.
+
+test("una capacidad nueva declara el paso que la corre — ninguna seccion queda huerfana", () => {
+  assert.deepEqual(orphanSections(), [], "capacidad que ningun paso anterior nombra");
 });
