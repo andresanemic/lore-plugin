@@ -38,6 +38,8 @@ does not enter at all.
 The tell that you skipped this step: the draft reads like a good summary of the source. That is the
 failure state of GRAFT, not its output.
 
+> **Routing gate — before you write:** If your task removes the `<!-- lore:always-on -->` block, converts `FASES.md`, or touches ≥2 artifacts at once (not one clue), **stop — this is `transmute-lore` (LEAVE/CLEAN/PRUNE class), not CAPTURE/GRAFT.** Check `use-lore` routing table first; if no row matches, run `brainstorming-lore` before choosing a skill. Batching 5 edits without that check is how `Exit` landed in the wrong file (`H14` for skills, `837eb73` fix).
+
 ## Two modes — pick by the SOURCE of the criteria
 
 | Mode | Source | What it is |
@@ -94,10 +96,7 @@ Imported text can carry invisible payload that survives human review for one tok
 2. **Does this Entre have a written purpose?** Arbitration needs a yardstick. If `identidad.md` (the
    standard) is empty or missing, the only available move against an authoritative source is to
    **obey it** — so **stop and say so**: write the identity first, import second.
-3. **Collide, don't copy.** Go through the source against the standard. Keep only what constrains a
-   future decision **here**. Where source and standard conflict, **the standard wins** and the
-   conflict is resolved into a new clue (that resolution is usually the most valuable line produced:
-   it exists in neither body).
+3. **Collide, don't copy — form and posture.** Go through the source against the standard on **two axes: form and posture**. Keep only what constrains a future decision **here**. Where source and standard conflict, **the standard wins** and the conflict is resolved into a new clue (that resolution is usually the most valuable line produced: it exists in neither body). Posture = stance the professional takes toward the reader (e.g. Pollo Pepe: defect of character, never of competence).
 4. **Exit threshold — the defeats section.** The resulting module MUST carry an explicit section
    naming where the source contradicts our standard and loses. **No defeats = no entry:** either
    nothing was arbitrated (it was a copy), or the source carried capacity, not criteria.
@@ -117,6 +116,10 @@ Imported text can carry invisible payload that survives human review for one tok
 paid for it with real friction yet). The **arbitration itself** — the defeats, derived from an
 already-validated identity — enters as **`confirmed`**. Head the module with its provenance:
 *"Distilled from `<source>`, arbitrated against `<identidad.md>`."*
+
+### GRAFT — reconstructed criterion (source is work, not document) — 2.3.0
+
+If the source is not a document with an author but **work that was never written** — the criterion of a professional reconstructed from observing their output — the reconstruction **can be a projection**. The entry MUST carry the **evidence that forces the reading** and the **size of the corpus looked at**. Reference case: `estandar-del-rubro.md:§3.3`, 12 publications of 739. If either slot is empty, the entry does not enter.
 
 ## Before either mode — is this a fact, or is it criteria?
 
@@ -243,16 +246,21 @@ promotion to the area. Never write the area silently.
    format: `` `domain` · symptom · confidence · [file](file) ``.
    **A paragraph is a paragraph** (kit invariant in `use-lore`): the clue's prose runs to the
    period, not to column 80. Do not hard-wrap mid-sentence.
-   - Confidence **`conjecture`** by default; **`confirmed`** only after real validation — the running
-     app where there is one, and otherwise the corpus behaving the way the clue predicted.
-     **Honest confidence:** never inflate to `confirmed` just to force a promotion.
-   - **Falsification is not induction, and one case can settle it.** A clue that *denies* something —
-     this measure does not track quality, this check does not discriminate between versions — is
-     `confirmed` by a single counter-example, because one is all it takes to break a claim of
-     «always». The positive form of the same sentence needs accumulation and stays `conjecture` far
-     longer. Do not average the two: asking «how many cases?» without first asking **which shape the
-     claim has** leaves a settled finding sitting in `conjecture`, and lets one lucky run pass for
-     `confirmed`.
+    - Confidence **`conjecture`** by default; **`confirmed`** only after real validation — the running
+      app where there is one, and otherwise the corpus behaving the way the clue predicted.
+      **Honest confidence:** never inflate to `confirmed` just to force a promotion.
+    - **Falsification is not induction, and one case can settle it.** A clue that *denies* something —
+      this measure does not track quality, this check does not discriminate between versions — is
+      `confirmed` by a single counter-example, because one is all it takes to break a claim of
+      «always». The positive form of the same sentence needs accumulation and stays `conjecture` far
+      longer. Do not average the two: asking «how many cases?» without first asking **which shape the
+      claim has** leaves a settled finding sitting in `conjecture`, and lets one lucky run pass for
+      `confirmed`.
+    - **REQUIRED slots when the entry declares a destination:** `destino:` (module + step) and **landing verification** — `grep` the declared term in the declared file and report `arrived / written, never exercised (conjecture)`. **A landing condition is not an ascent condition:** a clause that depends on the criterion being applied is landing, not ascent.
+
+#### Landing check (when destino is declared) — 2.3.0
+
+If the entry declares a destination, run `grep -r "term" <file>` on the declared file **before closing the threshold**. If the term is absent, keep the clue as `conjecture` with note `escrito, nunca ejercido` and report it. Promotion of that clue is blocked until the destination is written. A check that is fulfilled by reading (`IF reading THEN considered done`) is not a point of application — it has no verificable artifact within the threshold.
 
 #### Writing a law into a body that already has laws
 

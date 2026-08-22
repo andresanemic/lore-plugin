@@ -368,7 +368,7 @@ loose notes as sources, then proposes the criteria and canon dispersed through t
 turns the approved result into a traceable, extractable Markdown memory card that can travel across
 models or be shared on the owner's terms without replacing the live Lore.
 
-It is not a CLI command: the mode is inferred from the phrase, not from a flag. It has six modes:
+It is not a CLI command: the mode is inferred from the phrase, not from a flag. It has seven modes:
 
 - `add` – create missing Lore artifacts.
 - `clean` – remove modules that already duplicate the Area's (requires the project to have a
@@ -384,6 +384,7 @@ It is not a CLI command: the mode is inferred from the phrase, not from a flag. 
   criteria that is not duplicated, not wrong and not superseded, and whose only defect is still being
   there. It is the only subtractive mode, and **the unit it counts is the deliverable, not the Lore**
   — it will ask what your project actually ships before reading a single module.
+- `leave` – **(2.3.0)** leave Lore without losing the project — remove governance (`<!-- lore:always-on -->`) but keep `lore/` and routing as plain `enrutamiento.md`, leaving `FASES.md` with `leave:` marker so `UPGRADE` can return. Project stays buildable without the kit (H13).
 - `crystallize` – export the live, routed Lore as one safe and traceable Markdown for a chat, AI
   project or notebook. The snapshot is derived, may become stale, never replaces the source, and
   can be **extracted** back into a folder whose routing table resolves.

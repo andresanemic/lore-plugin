@@ -1,6 +1,6 @@
 ---
 name: transmute-lore
-description: Operate a project's body of criteria in six modes — migrate scattered criteria to the six-piece Lore standard (ADD); remove project copies of criteria already owned by its area (CLEAN); standardize language without changing meaning (TRANSLATE); arbitrate healthy Lore against a newer kit and raise it without rewriting earned criterion (UPGRADE); prune a Lore that decayed by accumulating correct things, until it fits the deliverable again (PRUNE); or generate a safe, traceable single-Markdown snapshot for chats, AI projects and notebooks without replacing the live artifacts (CRYSTALLIZE), a snapshot that can be extracted back into a folder whose routing table resolves. Trigger on requests to transmute, migrate, clean, translate, upgrade, bring Lore up to date, prune the Lore, "prune-lore", "poda en lore", "poda el lore de {proyecto}", crystallize Lore, export Lore to one Markdown, prepare Lore as a chat/notebook source, extract a crystallization, or "extrae esta cristalización".
+description: Operate a project's body of criteria in seven modes — migrate scattered criteria to the six-piece Lore standard (ADD); remove project copies of criteria already owned by its area (CLEAN); standardize language without changing meaning (TRANSLATE); arbitrate healthy Lore against a newer kit and raise it without rewriting earned criterion (UPGRADE); prune a Lore that decayed by accumulating correct things, until it fits the deliverable again (PRUNE); leave Lore without losing the project, keeping lore/ but removing governance (LEAVE); or generate a safe, traceable single-Markdown snapshot for chats, AI projects and notebooks without replacing the live artifacts (CRYSTALLIZE), a snapshot that can be extracted back into a folder whose routing table resolves. Trigger on requests to transmute, migrate, clean, translate, upgrade, bring Lore up to date, prune the Lore, "prune-lore", "poda en lore", "poda el lore de {proyecto}", leave Lore, "dejar el lore", crystallize Lore, export Lore to one Markdown, prepare Lore as a chat/notebook source, extract a crystallization, or "extrae esta cristalización".
 ---
 
 # Transmute Lore
@@ -9,7 +9,7 @@ The criteria is already there. It is in a README nobody finishes, in a `CLAUDE.m
 accretion, in a comment that says *don't touch this, it breaks hydration* — written by people who
 paid for it, sitting in shapes nothing can load. Nothing is missing. Nothing is reachable either.
 
-This skill operates a project's body of criteria. Six modes, one skill:
+This skill operates a project's body of criteria. Seven modes, one skill:
 
 - **ADD** — the project **never applied** the Lore method (or has a rough/incomplete `lore/`).
   Valuable criteria is *trapped* in non-distillable forms: long READMEs, an everything-mixed
@@ -33,6 +33,7 @@ This skill operates a project's body of criteria. Six modes, one skill:
   mode that asks *does any of this need to be here?* and counts apparatus against content. What it
   shrinks is **the deliverable's surface**, not necessarily the corpus — see the warning in Phase 4.
   It is not CLEAN: nothing here is a duplicate.
+- **LEAVE** — the project outgrows Lore or the person chooses to leave (H13). LEAVE removes governance (`<!-- lore:always-on -->`) but keeps `lore/` and routing as plain `enrutamiento.md`, leaving `FASES.md` with `leave:` marker so `UPGRADE` can return. Project stays buildable without the kit.
 - **CRYSTALLIZE** — the Lore is healthy and must travel as a **single Markdown derivative** into a
   chat, an AI project, or a notebook such as NotebookLM. It resolves the live routing into one
   traceable snapshot while leaving every source untouched. The snapshot is **extractable**: unpacking
@@ -61,6 +62,7 @@ This skill operates a project's body of criteria. Six modes, one skill:
   their own system is the measurement.** Triggers: *"prune the lore of {project}"*, *"prune-lore"*,
   *"poda en lore"*, *"poda el lore de {proyecto}"*, *"this lore has too much in it"*. Also the
   scheduled pass of a pruning ritual, run **before** producing the week's work and never after.
+- **LEAVE:** a project that outgrows Lore or a person who chooses to leave without losing the criterion (H13). Triggers: *"leave Lore"*, *"dejar el lore"*, *"quitar gobierno"*, *"salir del lore sin perder criterio"*, *"deja el lore pero conserva el criterio"*.
 - **CRYSTALLIZE:** a project or bot whose routed criteria must be attached to a chat, AI project, or
   notebook as one `.md`, or unpacked from that file into a folder. Triggers: *"crystallize this
   Lore"*, *"export this Lore to one Markdown"*, *"prepare this bot as a ChatGPT source"*,
@@ -604,6 +606,28 @@ its residue was written**. Record the pass and its date in `FASES.md`, not in th
 commit.**
 
 ---
+
+## ORPHAN check — 2.3.0 (criterio sin punto de aplicación)
+
+> **Premisa H14:** un criterio puede estar bien escrito, en el módulo correcto y con frontera declarada, y aun así no gobernar — ningún paso de ningún procedimiento obliga a correrlo. Su síntoma no es error sino inercia.
+
+Run as a **read-only scan before PRUNE**: for each `lore/` clue, `grep` the procedure that should run it (`CLAUDE.md`, `FASES.md`, checklists). Four cases — `Missing` (declared destino but term absent), `Orphan` (no step mentions it), `Landing` (reading satisfies it), `False` (check would pass but no artifact). **Do not prune an Orphan — propose its enchufe.** Reference: Meme 15→21 ago, 6 days without point.
+
+## LEAVE mode — leaving Lore without losing the project — 2.3.0
+
+> **Premise:** a kit you cannot leave makes voluntary return (`H13`) unmeasurable by construction. Leaving is not failure — it is a structural operation that preserves the criterion while removing the governance.
+
+**Trigger:** the person chooses to leave or the project outgrows Lore. **Do not invoke `save-to-lore` — this is transmutation, not capture.** A clue that *leaving should be possible* belongs in `principios.md`; the steps to leave belong here.
+
+**Procedure — one pass, no commit:**
+
+1. Verify `lore/` exists — criterion stays (it belongs to the project, not the kit).
+2. Remove the `<!-- lore:always-on -->` block from the host contract (`CLAUDE.md`/`AGENTS.md`). Leave no orphan markers — one well-formed pair or none (`use-lore:stamping`).
+3. Convert `FASES.md` to the host's typical form (`init`) — state remains, but no longer points at `lore/`.
+4. Keep the routing table as plain `enrutamiento.md` (no generated pointer).
+5. `git status` — project must remain buildable without the kit. Record the pass in `FASES.md`, not in Lore.
+
+**Why here and not in `save-to-lore`:** `save-to-lore` adds one clue at a time (`use-lore:282`); `transmute-lore` migrates/restructures a whole project (`use-lore:284`). LEAVE touches three artifacts at once — it is ADD/CLEAN/PRUNE class, not CAPTURE/GRAFT. Placing it in `save-to-lore` was the exact error `H14` describes: well written, right frontier, wrong module, never governed.
 
 ## CRYSTALLIZE mode — procedure
 
