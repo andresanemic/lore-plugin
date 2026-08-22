@@ -349,6 +349,12 @@ trazable y extraíble, nunca autoridad que reemplaza al Lore vivo.
     declinen, y **nunca se re-reportan los declinados**. Se reporta en lenguaje llano —*«nada la
     corre»*, *«apunta a un lugar donde no está»*— y el vocabulario técnico se infiere del uso, como
     el perfil profesional: nunca se exige para hacer una pregunta.
+
+  Cada caso tiene una **clave estable** que no se traduce y una frase llana que sí:
+  `connected` (hay un paso que la corre) · `alone` (nada la corre) · `missed` (nombra un lugar y no
+  está escrita ahí) · `no-exchange` (un paso solo dice «consultá») · `outside` (es criterio y no está
+  en `lore/`) · `other-tree` (el paso existe, en un archivo que esta sesión no carga). **Se reporta en
+  la frase; la clave es para tests, registros y código.**
   - `leave` – «dejar el lore», «salir del lore sin perder criterio» — quita el gobierno y conserva
     `lore/`. Deja la marca `leave:` en `FASES.md`, que es toda su reversibilidad: `UPGRADE` la lee
     para volver.

@@ -110,6 +110,13 @@ Lore will help you:
 
 ## 4. Getting Started: Your First Area and Project
 
+**If this is your first time, you do not need to know a single skill name.** Write something like
+*"I want to start using Lore Plugin, help me"*: that opens a **brainstorming, not a menu of
+commands**. It looks at your tree first and shows you what is there, then asks one question at a
+time following your answers, and **ends by creating your first artifact** — never with a list of
+eight skills and never with a recommendation. The kit brainstorms to build everything it makes; its
+own front door being a menu would be incoherent.
+
 Lore scales through **Areas**.  
 An Area is a parent folder that owns shared criteria; projects inherit from it instead of duplicating rules.
 

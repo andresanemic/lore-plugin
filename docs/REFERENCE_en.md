@@ -356,6 +356,12 @@ the authority that replaces the live Lore.
     is never re-reported**. It reports in plain language — *"nothing runs it"*, *"it names a place
     where it is not written"* — and the technical vocabulary is inferred from use, like the
     professional profile: never required in order to ask a question.
+
+  Each case carries a **stable key** that never translates and a plain sentence that always does:
+  `connected` (a step runs it) · `alone` (nothing runs it) · `missed` (it names a place and is not
+  written there) · `no-exchange` (a step only says "consult this") · `outside` (it is criteria and is
+  not in `lore/`) · `other-tree` (the step exists, in a file this session does not load). **Reports
+  use the sentence; the key is for tests, registers and code.**
   - `leave` – "leave Lore", "leave Lore without losing the criterion" — removes governance and keeps
     `lore/`. Writes the `leave:` marker in `FASES.md`, which is the whole of its reversibility:
     `UPGRADE` reads it to come back.

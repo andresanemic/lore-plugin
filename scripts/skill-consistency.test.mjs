@@ -178,7 +178,13 @@ test("el README funciona como portada y no duplica las guías", () => {
   // Se sube a 11250 despues de pagar 39 palabras de duplicacion real (las dos frases que repetian
   // las filas de la tabla que tenian encima). La guardia cuida que el README no se vuelva el manual;
   // una octava fila en una tabla que ya existe no es eso.
-  assert.ok(words <= 11250, `README demasiado largo: ${words} palabras`);
+  // 2026-08-22: se sube a 11360 por la PUERTA DE ENTRADA, en los dos idiomas. La linea anterior
+  // decia «abre una sesion y escribe use-lore; el kit te guia hacia la skill que necesitas», que es
+  // la forma de menu que use-lore §0 rechaza explicitamente: el kit brainstormea para construir todo
+  // lo que hace, y su propia puerta no puede ser una lista. Ahora dice que no hace falta saber
+  // ningun comando y que se escriba «quiero comenzar a usar Lore Plugin, ayudame». No es manual: es
+  // lo primero que lee quien acaba de instalar, y es portada por definicion.
+  assert.ok(words <= 11360, `README demasiado largo: ${words} palabras`);
   for (const required of [
     "## Installation",
     "## Architecture",

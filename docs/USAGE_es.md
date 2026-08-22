@@ -186,6 +186,13 @@ Puedes pedir cosas como:
 - «Construye este entregable complejo desde varias fuentes y entrégalo en el sistema destino.»
 
 `use-lore` es el lugar más seguro para empezar si no tienes claro qué skill usar a continuación.
+
+**Y si es tu primera vez, no necesitas saber ningún nombre.** Escribe algo como *«quiero comenzar a
+usar Lore Plugin, ayúdame»*: eso abre un **brainstorming, no un menú de comandos**. Primero mira tu
+árbol y te muestra qué hay, después pregunta de a una cosa por vez siguiendo tus respuestas, y
+**termina creando tu primer artefacto** — nunca con una lista de ocho skills ni con una
+recomendación. El kit brainstormea para construir todo lo que hace; sería incoherente que su propia
+puerta de entrada fuera un menú.
 Para **entregables complejos**, primero fija el proyecto dueño, el Lore enrutado, un precedente
 aprobado o ejemplar aprobado por una persona y las capacidades realmente disponibles mediante
 herramientas, conectores o MCPs. El trabajo avanza después en lotes revisables, con revisión humana
