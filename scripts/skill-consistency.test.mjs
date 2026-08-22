@@ -184,7 +184,13 @@ test("el README funciona como portada y no duplica las guías", () => {
   // lo que hace, y su propia puerta no puede ser una lista. Ahora dice que no hace falta saber
   // ningun comando y que se escriba «quiero comenzar a usar Lore Plugin, ayudame». No es manual: es
   // lo primero que lee quien acaba de instalar, y es portada por definicion.
-  assert.ok(words <= 11360, `README demasiado largo: ${words} palabras`);
+  // 2026-08-22, con permiso explicito de Andres: sube a 13400 por la GENEALOGIA. La caja
+  // comprimida se leia como un bloque unico y perdia lo que tenia antes de plegarse -autor, obra,
+  // ano y aporte, en lista-. Ahora la fundacional vuelve a ser visible con ese detalle, y la caja
+  // guarda la extendida mas los dos autores arbitrados en 2026 (Camus entra como criterio, Heidegger
+  // NO, con su obstaculo escrito). Entra ademas la genealogia afectiva, comprimida y marcada como
+  // registro y no regla. Es portada: de donde viene el criterio y de donde viene la forma.
+  assert.ok(words <= 13400, `README demasiado largo: ${words} palabras`);
   for (const required of [
     "## Installation",
     "## Architecture",

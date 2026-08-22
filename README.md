@@ -683,18 +683,57 @@ shared criteria**. Lore turns one part of that question into a practical kit. Th
 software remain separate: an observation from using Lore is not automatically a scientific result,
 and a research hypothesis does not become a skill rule without evidence and review.
 
+The program began with a **foundational bibliography** whose concepts map directly onto the practice:
+
+- **Martin Buber** · *Ich und Du* (1923) — the **Between**: knowledge emerges in the relation, not in the prompt or the model alone.
+- **Louis Althusser** · "Ideology and Ideological State Apparatuses" (1970) — **interpellation**: the AI does not merely answer; it calls the human into a position of judgment and responsibility.
+- **Gilbert Simondon** · *Individuation in Light of Notions of Form and Information* (1958) — **transduction**: friction crystallizes into a structure that changes the next interaction.
+- **Claude Shannon and Warren Weaver** · *The Mathematical Theory of Communication* (1949) — **signal, entropy and noise**: why raw logs are filtered into Context, Root cause and Invariant Clue.
+- **Gregory Bateson** · *Steps to an Ecology of Mind* (1972) — **"a difference that makes a difference"**: the test for whether an experience can constrain a future action.
+- **Norbert Wiener** · *Cybernetics* (1948) — **feedback**: the error from real work returns to stabilize the human–AI system.
+- **Edgar Morin** · *Introduction to Complex Thought* (1990) — **dialogic and organizational recursion**: parts and whole keep reshaping one another. His UNESCO lessons give this work its ethical north.
+- **Andy Clark and David Chalmers** · "The Extended Mind" (1998) — **coupled external memory**: Lore can participate in cognition instead of sitting beside it as passive documentation.
+- **Hubert Dreyfus** · *What Computers Still Can't Do* (1992) — **situated, tacit knowledge**: the human friction Lore translates into usable constraints for a general model.
+- **Francisco Varela, Evan Thompson and Eleanor Rosch** · *The Embodied Mind* (1991) — **enaction**: criteria is not stored, it is brought forth by acting.
+
+They are interlocutors, **not borrowed authority**: LUS uses them to expose convergences, differences and tensions in its claims about the Between, accumulated criterion and Lore.
+
 <details>
-<summary><b>The intellectual genealogy, in brief</b></summary>
+<summary><b>Extended bibliography, and what entered in 2026</b></summary>
 
 <br>
 
-LUS converses with Martin Buber on the Between; Louis Althusser on interpellation; Gilbert Simondon
-on transduction; Claude Shannon and Warren Weaver on signal and noise; Gregory Bateson on the
-difference that makes a difference; Norbert Wiener on feedback; Edgar Morin on complexity; Andy
-Clark and David Chalmers on extended mind; Hubert Dreyfus on situated knowledge; and Francisco
-Varela on enaction. Edwin Hutchins, Daniel Wegner, Karl Weick and Heinz von Foerster extend that
-dialogue. They are interlocutors, not borrowed authority; the full treatment lives in the LUS
-corpus.
+**The dialogue that widens it**
+
+- **Edwin Hutchins** · *Cognition in the Wild* (1995) — **distributed cognition**: the unit that thinks is the system, not the head inside it.
+- **Daniel Wegner** · transactive memory (1985) — **who remembers what**: a pair remembers more than its two members, and only while it knows who holds which part.
+- **Karl Weick** · *Sensemaking in Organizations* (1995) — **sensemaking**: meaning is made retrospectively, which is why a clue is written after the friction and not during it.
+- **Heinz von Foerster** · *Understanding Understanding* (2003) — **second-order cybernetics**: the observer is inside the system being described.
+
+**Arbitrated in 2026 — and the two results are not the same**
+
+- **Albert Camus** · *The Myth of Sisyphus* (1942) · *The Stranger* (1942) · *The Misunderstanding* (1944) · *The Rebel* (1951) · *Summer* (1954), for "Helen's Exile" and "The Almond Trees" — **entered as criterion, in one affirmation**: *a system of criteria does not reduce the absurd; it knows what to do when it appears.* The play carries it: a mother and sister kill the son who came home **because he would not say his name** — no malice, no faulty reasoning, only what was known failing to reach where it was decided. **Where Camus loses:** his *mesure* is an ethical-political limit on rebellion, not an epistemic rule of routing. It enters as a declared analogy and grounds no routing rule.
+- **Martin Heidegger** · *Being and Time* (1927) — **entered as bibliography, and NOT as criterion.** Finitude assumed is what makes an existence authentic, and the intuition it was brought in for is that **the Between is finite too**. But in *Being and Time* death is *je meines* — radically one's own, **not shareable** — and that incompartibility is the engine of the argument: death **individualizes**. The unit of LUS is the relation. Adopting it would mean contradicting Heidegger exactly where his thesis rests, and that work is not done. **What he leaves open is worth more than anything adoptable today:** how can a relation anticipate an ending that neither of its parts can anticipate on the other's behalf?
+
+</details>
+
+<details>
+<summary><b>Affective genealogy — the works that taught the sensibility</b></summary>
+
+<br>
+
+**Registry, not rule.** These works constrain no decision and govern nothing. They are recorded because the aesthetics and the intuitions of a technical artifact are never neutral, and knowing where they came from is what lets someone tell **inherited taste** from **argument** the day anybody proposes changing them. It belongs to LUS, not to the kit.
+
+- **[*Fire*](https://genius.com/Waxahatchee-fire-lyrics)** · Waxahatchee — maturity as moving forward **without a total vision**. Criteria does not remove uncertainty; it responsibly narrows what the Between managed to learn.
+- **[*Loving*](https://genius.com/Land-of-talk-loving-lyrics)** · Land of Talk — a fertile bond **does not fuse its parts** nor spare them friction. It makes possible what neither would have produced alone.
+- ***Tales of Berseria*** · Bandai Namco (2016) — **aesthetic, not conceptual**: the art direction of this kit comes from here before any software design reference. Genealogy of the *form*.
+- **[*Keep Running*](https://genius.com/Tei-shi-keep-running-lyrics)** · Tei Shi — keeping up with **who the other is now**. Criteria nobody revisits does not go neutral: it keeps operating, on someone who already changed.
+- **[*Stalker*](https://en.wikipedia.org/wiki/Stalker_(1979_film))** · Tarkovsky (1979) — the nut thrown ahead, and walking to where it landed. **Not going straight at the solution is how you reach it**: pure routing.
+- ***Groundhog Day*** · Ramis (1993) — the only thing that survives the reset is what Phil **learned**. **Every session of an agent is a February 2nd.**
+- ***50 First Dates*** · Segal (2004) — Lucy's video gives her **who she is and where things stand**, at once. That is `lore/` ↔ `FASES.md`: criteria persists, state advances.
+- **[*Running Back to You*](https://genius.com/The-juan-maclean-running-back-to-you-lyrics)** · The Juan MacLean — **autonomy with return** (`H13`). It does not demand constant contact; it demands a point where both catch up before drift makes the shared work unrecognizable.
+- **[*1998*](https://www.shazam.com/song/1023974557/1998-feat-banks)** · Chet Faker with BANKS — entered after a real failure: a README asked to shrink 40% came back near 80%. It names what breaks when **a human instruction stops being a reliable floor** and collaborating turns into supervising.
+- ***Aliso*** · Malena Zavala (2018) — *"admired, not reset"*. And on translation: the damage is not in one party, it is in **the language two of them broke**.
 
 </details>
 
@@ -1402,18 +1441,57 @@ en un kit práctico. La investigación y el software permanecen separados: una o
 Lore no se vuelve automáticamente un resultado científico, y una hipótesis no se vuelve regla de
 una skill sin evidencia y revisión.
 
+El programa comenzó con una **bibliografía fundacional** cuyos conceptos se traducen directamente en la práctica:
+
+- **Martin Buber** · *Yo y Tú* (1923) — el **Entre**: el conocimiento emerge en la relación, no en el prompt ni en el modelo.
+- **Louis Althusser** · «Ideología y aparatos ideológicos de Estado» (1970) — la **interpelación**: la IA no se limita a responder; llama al humano a ocupar una posición de criterio y responsabilidad.
+- **Gilbert Simondon** · *La individuación a la luz de las nociones de forma y de información* (1958) — la **transducción**: la fricción cristaliza en una estructura que modifica la siguiente interacción.
+- **Claude Shannon y Warren Weaver** · *The Mathematical Theory of Communication* (1949) — **señal, entropía y ruido**: por qué los registros crudos se filtran en Contexto, Causa y Pista Invariante.
+- **Gregory Bateson** · *Pasos hacia una ecología de la mente* (1972) — **«una diferencia que hace una diferencia»**: la prueba de que una experiencia puede restringir una acción futura.
+- **Norbert Wiener** · *Cibernética* (1948) — la **retroalimentación**: el error del trabajo real vuelve para estabilizar el sistema humano–IA.
+- **Edgar Morin** · *Introducción al pensamiento complejo* (1990) — **dialógica y recursividad organizacional**: las partes y el todo se transforman mutuamente. Sus saberes de la UNESCO le dan a este trabajo su norte ético.
+- **Andy Clark y David Chalmers** · «The Extended Mind» (1998) — **memoria externa acoplada**: el Lore puede participar en la cognición en vez de quedar al lado como documentación pasiva.
+- **Hubert Dreyfus** · *What Computers Still Can't Do* (1992) — **conocimiento situado y tácito**: la fricción humana que Lore traduce en restricciones útiles para un modelo generalista.
+- **Francisco Varela, Evan Thompson y Eleanor Rosch** · *De cuerpo presente* (1991) — la **enacción**: el criterio no se almacena, se hace emerger actuando.
+
+Son interlocutores, **no autoridad prestada**: LUS los usa para hacer visibles convergencias, diferencias y tensiones en sus afirmaciones sobre el Entre, el criterio acumulado y el Lore.
+
 <details>
-<summary><b>La genealogía intelectual, en breve</b></summary>
+<summary><b>Bibliografía extendida, y lo que entró en 2026</b></summary>
 
 <br>
 
-LUS conversa con Martin Buber sobre el Entre; Louis Althusser sobre interpelación; Gilbert Simondon
-sobre transducción; Claude Shannon y Warren Weaver sobre señal y ruido; Gregory Bateson sobre la
-diferencia que hace una diferencia; Norbert Wiener sobre retroalimentación; Edgar Morin sobre
-complejidad; Andy Clark y David Chalmers sobre mente extendida; Hubert Dreyfus sobre conocimiento
-situado; y Francisco Varela sobre enacción. Edwin Hutchins, Daniel Wegner, Karl Weick y Heinz von
-Foerster amplían ese diálogo. Son interlocutores, no autoridad prestada; el desarrollo completo vive
-en el corpus de LUS.
+**El diálogo que la amplía**
+
+- **Edwin Hutchins** · *Cognition in the Wild* (1995) — **cognición distribuida**: la unidad que piensa es el sistema, no la cabeza que está adentro.
+- **Daniel Wegner** · memoria transactiva (1985) — **quién recuerda qué**: una pareja recuerda más que sus dos miembros, y solo mientras sepa quién guarda cada parte.
+- **Karl Weick** · *Sensemaking in Organizations* (1995) — el **sentido se construye hacia atrás**, que es por qué una Pista se escribe después de la fricción y no durante.
+- **Heinz von Foerster** · *Understanding Understanding* (2003) — **cibernética de segundo orden**: el observador está adentro del sistema que describe.
+
+**Arbitrados en 2026 — y los dos resultados no son el mismo**
+
+- **Albert Camus** · *El mito de Sísifo* (1942) · *El extranjero* (1942) · *El malentendido* (1944) · *El hombre rebelde* (1951) · *El verano* (1954), por «El exilio de Helena» y «Los almendros» — **entró como criterio, en una sola afirmación**: *un sistema de criterio no reduce el absurdo; sabe qué hacer cuando aparece.* La obra de teatro lo lleva adentro: una madre y una hermana matan al hijo que volvió **porque él no dice su nombre** — sin malicia y sin error de razonamiento, solo lo que se sabía sin llegar a donde se decidía. **Dónde pierde Camus:** su *mesure* es un límite ético-político a la rebelión, no una regla epistémica de enrutamiento. Entra como analogía declarada y no funda ninguna regla de enrutamiento.
+- **Martin Heidegger** · *Ser y tiempo* (1927) — **entró como bibliografía, y NO como criterio.** La finitud asumida es lo que vuelve auténtica una existencia, y la intuición que lo trajo a esta mesa es que **el Entre también es finito**. Pero en *Ser y tiempo* la muerte es *je meines* —radicalmente propia, **no compartible**— y esa incompartibilidad es el motor del argumento: la muerte **individualiza**. La unidad de LUS es la relación. Adoptarlo exigiría contradecir a Heidegger justo donde su tesis se apoya, y ese trabajo no está hecho. **Lo que deja abierto vale más que cualquier cosa adoptable hoy:** ¿cómo puede una relación anticipar un final que ninguna de sus partes puede anticipar por la otra?
+
+</details>
+
+<details>
+<summary><b>Genealogía afectiva — las obras que formaron la sensibilidad</b></summary>
+
+<br>
+
+**Registro, no regla.** Estas obras no restringen ninguna decisión y no gobiernan nada. Se anotan porque la estética y las intuiciones de un artefacto técnico **nunca son neutrales**, y saber de dónde vienen es lo único que permite distinguir el **gusto heredado** del **argumento** el día que alguien proponga cambiarlas. Pertenece a LUS, no al kit.
+
+- **[*Fire*](https://genius.com/Waxahatchee-fire-lyrics)** · Waxahatchee — la madurez como avanzar **sin una visión total**. El criterio no elimina la incertidumbre: restringe con responsabilidad lo que el Entre alcanzó a aprender.
+- **[*Loving*](https://genius.com/Land-of-talk-loving-lyrics)** · Land of Talk — un vínculo fértil **no fusiona a sus partes** ni les evita la fricción. Hace posible lo que ninguna habría producido sola.
+- ***Tales of Berseria*** · Bandai Namco (2016) — aporte **estético y no conceptual**: la dirección de arte de este kit viene de acá antes que de cualquier referencia de diseño de software. Genealogía de **la forma**.
+- **[*Keep Running*](https://genius.com/Tei-shi-keep-running-lyrics)** · Tei Shi — mantenerse al día con **quién es el otro ahora**. Un criterio que no se revisa no queda neutral: sigue operando, sobre alguien que ya cambió.
+- **[*Stalker*](https://es.wikipedia.org/wiki/Stalker_(pel%C3%ADcula))** · Tarkovski (1979) — la tuerca lanzada delante, y caminar hacia donde cayó. **No ir directo a la solución es la forma de conseguirla**: enrutamiento puro.
+- ***El día de la marmota*** · Ramis (1993) — lo único que atraviesa el reinicio es lo que Phil **aprendió**. **Cada sesión de un agente es un 2 de febrero.**
+- ***50 First Dates*** · Segal (2004) — el video de Lucy le da **quién es y en qué punto está**, a la vez. Eso es `lore/` ↔ `FASES.md`: el criterio persiste, el estado avanza.
+- **[*Running Back to You*](https://genius.com/The-juan-maclean-running-back-to-you-lyrics)** · The Juan MacLean — **autonomía con retorno** (`H13`). No exige contacto constante; exige un punto donde las dos partes vuelvan a ponerse al día antes de que la deriva vuelva irreconocible el trabajo compartido.
+- **[*1998*](https://www.shazam.com/song/1023974557/1998-feat-banks)** · Chet Faker con BANKS — entró después de una falla concreta: se pidió reducir un README un 40% y volvió reducido cerca del 80%. Nombra qué se rompe cuando **la instrucción humana deja de ser una base confiable** y colaborar se vuelve vigilar.
+- ***Aliso*** · Malena Zavala (2018) — *«admired, not reset»*. Y sobre traducir: el daño no está en una parte, está en **el lenguaje que dos rompieron**.
 
 </details>
 
