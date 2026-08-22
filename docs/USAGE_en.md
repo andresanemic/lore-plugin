@@ -383,7 +383,9 @@ It is not a CLI command: the mode is inferred from the phrase, not from a flag. 
   each individually correct. Not the same as `clean`: `clean` removes *duplicates*, `prune` removes
   criteria that is not duplicated, not wrong and not superseded, and whose only defect is still being
   there. It is the only subtractive mode, and **the unit it counts is the deliverable, not the Lore**
-  — it will ask what your project actually ships before reading a single module.
+  — it will ask what your project actually ships before reading a single module. Since **2.3.0** it
+  runs an **ORPHAN scan** first, read-only: criteria that no step ever runs looks exactly like surplus,
+  and removing it is the one cut this mode cannot undo.
 - `leave` – **(2.3.0)** leave Lore without losing the project — remove governance (`<!-- lore:always-on -->`) but keep `lore/` and routing as plain `enrutamiento.md`, leaving `FASES.md` with `leave:` marker so `UPGRADE` can return. Project stays buildable without the kit (H13).
 - `crystallize` – export the live, routed Lore as one safe and traceable Markdown for a chat, AI
   project or notebook. The snapshot is derived, may become stale, never replaces the source, and

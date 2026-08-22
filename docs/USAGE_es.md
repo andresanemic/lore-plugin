@@ -388,7 +388,9 @@ No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene si
   correctas. No es lo mismo que `clean`: `clean` quita *duplicados*, `prune` quita criterio que no
   está duplicado, no está mal y no está superado, y cuyo único defecto es seguir ahí. Es el único
   modo sustractivo, y **la unidad que cuenta es el entregable, no el Lore** — te va a preguntar qué
-  publica tu proyecto antes de leer un solo módulo.
+  publica tu proyecto antes de leer un solo módulo. Desde **2.3.0** corre antes un **barrido ORPHAN**,
+  de solo lectura: el criterio que ningún paso corre se parece exactamente a lo que sobra, y quitarlo es
+  el único corte que este modo no puede deshacer.
 - `leave` – **(2.3.0)** deja el Lore sin perder el proyecto — quita el gobierno (`<!-- lore:always-on -->`) pero conserva `lore/` y el enrutamiento como `enrutamiento.md` plano, dejando `FASES.md` con marca `leave:` para que `UPGRADE` pueda volver. El proyecto sigue buildeable sin el kit (H13).
 - `crystallize` – exporta el Lore vivo y enrutado como un solo Markdown seguro y trazable para un
   chat, proyecto de IA o notebook. La fotografía es derivada, puede quedar obsoleta, nunca
