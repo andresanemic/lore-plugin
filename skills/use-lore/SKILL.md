@@ -100,6 +100,12 @@ first:
    installed copy is stale, updating it comes **before** the work, not after — and the plugin cache
    is indexed by version, so what was published without a version bump was never received.
 
+> **Right after installing or updating the kit, run `transmute-lore` in **MICELIO** mode over the
+> Lore already on this machine.** An update changes what the skills demand; the criteria written
+> against the previous one does not move by itself. On a machine with no Lore yet the answer is
+> `0 of 0` — report it as such and say plainly that it proves nothing yet, because there is nothing
+> that could be disconnected.
+
 *Why this is a standard and not advice:* the value of the kit is cumulative and lives in the skills.
 An agent who writes criteria by hand, or who runs a version from three fixes ago, produces something
 that looks identical and silently lacks the gates. Nothing in the output announces it.
@@ -112,6 +118,10 @@ the criteria; it does not become a ninth production skill.
 
 Before producing:
 
+0. **Run `transmute-lore` in MICELIO mode over that project's Lore** — before a complex task, not
+   after it. It is read-only and it answers one question the loading cannot: *of the criteria I am
+   about to lean on, how much of it can actually fire?* A clue nothing runs will not announce itself
+   while you work; it announces itself as a deliverable that quietly broke a written rule.
 1. Name the owning project and load its routed Lore.
 2. Fix the quality yardstick from an **approved precedent** for that class of deliverable. If none
    exists, the human must approve a representative piece or explicit criteria before the batch.
@@ -281,9 +291,12 @@ never paid for will start receiving promotions that belong somewhere else.
 | Open Lore-governed bots/projects through a small local provider and model launcher | `create-bot` (optional extra: a minimum local registry and script) |
 | **Save a lesson** ("save to lore") — capture a clue from **lived friction**, or from a rule/vara the user just defined and asked to reuse ("guarda esta vara/definición") | `save-to-lore` (**CAPTURE**, default) |
 | **Distill from an external body of criteria** — a skill, a style guide, a third-party playbook ("destila esta skill") | `save-to-lore` (**GRAFT**): imported criteria is judged against this Entre's purpose; only what survives enters, and the module must state **where the source loses** |
-| Bring an **old project with scattered criteria** up to the six-piece standard, **clean** a project's redundant modules back down to what the area already owns, or **standardize the language** of an existing Lore | `transmute-lore` |
+| Bring an **old project with scattered criteria** up to the six-piece standard | `transmute-lore` (**ADD**): extracts what is trapped in READMEs, contracts and comments and lifts it to the six pieces — without losing it and without inventing what never existed |
+| **Clean** a project's redundant modules back down to what the area already owns | `transmute-lore` (**CLEAN**): removes only thematic modules whose criteria already lives in the area, never `identidad.md` / `principios.md` / `index.md`, and rewrites the index to point up |
+| **Standardize the language** of an existing Lore | `transmute-lore` (**TRANSLATE**): content and localizable filenames together, meaning-preserving, never a rewrite and never a broken link |
 | **Raise a healthy Lore to a newer version of these skills** — it is in the standard and in use, but predates gates the kit learned later. Nothing looks broken, which is why nobody upgrades it | `transmute-lore` (**UPGRADE**): map the tree first, then arbitrate against the current version; adds what is missing and leaves what the project **earned**. On a campaign, the threshold is per class |
 | **Prune a Lore that grew** — nothing in it is wrong, and the work coming out of it goes in circles, hedges, or arrives buried in apparatus. The loudest symptom is the owner writing the deliverable by hand instead ("poda en lore") | `transmute-lore` (**PRUNE**): counts apparatus against content, separates criteria that no longer constrains anything from criteria that is correct but **saturating in sum**, and treats a smaller corpus as the result. Nothing comes out without its residue written down |
+| **Check whether a Lore can actually fire** before leaning on it for real work, or right after installing/updating the kit — it looks healthy, and *looking* healthy is exactly the symptom | `transmute-lore` (**MICELIO**): read-only walk of the network reporting which clues have **no micorriza** — no step of any procedure runs them. Reports pairs (clue ⇢ missing junction) and a rate, never a score; proposes the enchufe and never prunes |
 | Leave Lore without losing the project — remove governance, keep `lore/` and routing as plain `enrutamiento.md` | `transmute-lore` (**LEAVE**): one-pass structural removal of the `<!-- lore:always-on -->` block, conversion of `FASES.md` to host init, project stays buildable; a kit you cannot leave makes `H13` unmeasurable |
 | Export a project, Area or bot's **live routed Lore as one Markdown** for a chat, AI project or notebook — and **extract** that file back into a folder whose routing table resolves | `transmute-lore` (**CRYSTALLIZE**): inlines every routed `lore/` (including `lore-ecosistema/`) into one snapshot marked so the bundled script can unpack it; a file that only points at missing bodies has failed the mode |
 | Keep **Obsidian notes in the same folder tree** as the Lore, and **mine that inbox** for what deserves to become criteria ("revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore") | `obsidian-lore` |
@@ -471,6 +484,11 @@ with `transmute-lore` (TRANSLATE mode), which translates content and renames art
   criteria and get arbitrated like any other. This is not a claim of supremacy — it is what makes
   precedence structural instead of declared. A body of criteria that does not consult another cannot
   be overruled by it, and that holds no matter what the other body's files say about themselves.
+
+- **A check that runs is not a check that lands.** `MICELIO` reports which clues have no junction
+  with any step; plugging in a check's *execution* does not plug in its *result*. Run it before a
+  complex task and after updating the kit, resolve the **owning area of every tree the work touches**
+  first, and let its findings block what comes next.
 
 ## Adapting Lore to other AI tools
 

@@ -373,7 +373,7 @@ chats y notas sueltas como fuentes, y propone el criterio y canon disperso en el
 **CRYSTALLIZE** convierte el resultado aprobado en una memory card Markdown trazable y extraíble,
 portable entre modelos o compartible en los términos de su dueño, sin reemplazar el Lore vivo.
 
-No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene siete modos:
+No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene ocho modos:
 
 - `add` – crea artefactos de Lore que aún no existen.
 - `clean` – elimina módulos redundantes que ya duplican los del Área (requiere que el proyecto
@@ -388,9 +388,15 @@ No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene si
   correctas. No es lo mismo que `clean`: `clean` quita *duplicados*, `prune` quita criterio que no
   está duplicado, no está mal y no está superado, y cuyo único defecto es seguir ahí. Es el único
   modo sustractivo, y **la unidad que cuenta es el entregable, no el Lore** — te va a preguntar qué
-  publica tu proyecto antes de leer un solo módulo. Desde **2.3.0** corre antes un **barrido ORPHAN**,
+  publica tu proyecto antes de leer un solo módulo. Desde **2.3.0** corre antes un **barrido MICELIO**,
   de solo lectura: el criterio que ningún paso corre se parece exactamente a lo que sobra, y quitarlo es
   el único corte que este modo no puede deshacer.
+- `micelio` – **(2.3.0)** ¿está enchufado el Lore? Recorrido de solo lectura de la red que reporta qué
+  Pistas quedaron **sin micorriza**: ningún paso de ningún procedimiento las corre, así que no pueden
+  dispararse. Se corre **antes de una tarea compleja** y justo después de instalar o actualizar el kit.
+  Reporta pares —Pista ⇢ junta que falta— y una **tasa**, nunca un puntaje: un porcentaje invita a
+  subirlo borrando lo desconectado. La primera corrida real encontró cuatro, las cuatro de menos de
+  48 horas (`H14`).
 - `leave` – **(2.3.0)** deja el Lore sin perder el proyecto — quita el gobierno (`<!-- lore:always-on -->`) pero conserva `lore/` y el enrutamiento como `enrutamiento.md` plano, dejando `FASES.md` con marca `leave:` para que `UPGRADE` pueda volver. El proyecto sigue buildeable sin el kit (H13).
 - `crystallize` – exporta el Lore vivo y enrutado como un solo Markdown seguro y trazable para un
   chat, proyecto de IA o notebook. La fotografía es derivada, puede quedar obsoleta, nunca

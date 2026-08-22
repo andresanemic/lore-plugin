@@ -1,6 +1,6 @@
 ---
 name: transmute-lore
-description: Use when a project's existing body of criteria must be operated as a whole instead of grown one clue at a time — criteria scattered outside the six-piece standard, project modules duplicating what the area already owns, a Lore in mixed languages, a healthy Lore written against an older version of these skills, a Lore that decayed by accumulating correct things, a project leaving Lore without losing its criterion, or a Lore that has to travel as one Markdown into a chat or notebook. Trigger on transmute, migrate, clean, translate, upgrade, bring Lore up to date, prune the Lore, "prune-lore", "poda en lore", "poda el lore de {proyecto}", leave Lore, "dejar el lore", crystallize Lore, export Lore to one Markdown, prepare Lore as a chat/notebook source, extract a crystallization, or "extrae esta cristalización".
+description: Use when a project's existing body of criteria must be operated as a whole instead of grown one clue at a time — criteria scattered outside the six-piece standard, project modules duplicating what the area already owns, a Lore in mixed languages, a healthy Lore written against an older version of these skills, a Lore that decayed by accumulating correct things, a project leaving Lore without losing its criterion, or a Lore that has to travel as one Markdown into a chat or notebook. Trigger on transmute, migrate, clean, translate, upgrade, bring Lore up to date, prune the Lore, "prune-lore", "poda en lore", "poda el lore de {proyecto}", leave Lore, "dejar el lore", crystallize Lore, export Lore to one Markdown, prepare Lore as a chat/notebook source, extract a crystallization, "extrae esta cristalización", run MICELIO, "corré el micelio", or "¿está conectado el lore?".
 ---
 
 # Transmute Lore
@@ -9,7 +9,7 @@ The criteria is already there. It is in a README nobody finishes, in a `CLAUDE.m
 accretion, in a comment that says *don't touch this, it breaks hydration* — written by people who
 paid for it, sitting in shapes nothing can load. Nothing is missing. Nothing is reachable either.
 
-This skill operates a project's body of criteria. Seven modes, one skill:
+This skill operates a project's body of criteria. Eight modes, one skill:
 
 - **ADD** — the project **never applied** the Lore method (or has a rough/incomplete `lore/`).
   Valuable criteria is *trapped* in non-distillable forms: long READMEs, an everything-mixed
@@ -33,6 +33,10 @@ This skill operates a project's body of criteria. Seven modes, one skill:
   mode that asks *does any of this need to be here?* and counts apparatus against content. What it
   shrinks is **the deliverable's surface**, not necessarily the corpus — see the warning in Phase 4.
   It is not CLEAN: nothing here is a duplicate.
+- **MICELIO** — the Lore is in the standard and nothing in it is wrong, and you are about to lean on
+  it for real work. MICELIO walks the network and reports which clues are **aisladas**: no step of
+  any procedure runs them. It writes nothing. It is the only mode that asks *can this fire?*
+  instead of *is this correct?* — and the two are independent, which is why no reading finds it.
 - **LEAVE** — the project outgrows Lore or the person chooses to leave (H13). LEAVE removes governance (`<!-- lore:always-on -->`) but keeps `lore/` and routing as plain `enrutamiento.md`, leaving `FASES.md` with `leave:` marker so `UPGRADE` can return. Project stays buildable without the kit.
 - **CRYSTALLIZE** — the Lore is healthy and must travel as a **single Markdown derivative** into a
   chat, an AI project, or a notebook such as NotebookLM. It resolves the live routing into one
@@ -62,6 +66,10 @@ This skill operates a project's body of criteria. Seven modes, one skill:
   their own system is the measurement.** Triggers: *"prune the lore of {project}"*, *"prune-lore"*,
   *"poda en lore"*, *"poda el lore de {proyecto}"*, *"this lore has too much in it"*. Also the
   scheduled pass of a pruning ritual, run **before** producing the week's work and never after.
+- **MICELIO:** before a complex task, right after installing or updating the kit, or any time the
+  Lore *looks* healthy and you want to know whether it can actually fire. Triggers: *"corré el
+  micelio"*, *"¿está conectado el lore?"*, *"micelio de {proyecto}"*, *"check the Lore is plugged
+  in"*. Read-only; it never writes.
 - **LEAVE:** a project that outgrows Lore or a person who chooses to leave without losing the criterion (H13). Triggers: *"leave Lore"*, *"dejar el lore"*, *"quitar gobierno"*, *"salir del lore sin perder criterio"*, *"deja el lore pero conserva el criterio"*.
 - **CRYSTALLIZE:** a project or bot whose routed criteria must be attached to a chat, AI project, or
   notebook as one `.md`, or unpacked from that file into a folder. Triggers: *"crystallize this
@@ -526,10 +534,10 @@ with no ceiling is the piece that will bloat, and the trap is that it is usually
 one — a ceiling gets written for the rare formats and skipped for the daily one, because the daily
 one felt too obvious to bound.
 
-### Phase 1b — ORPHAN scan, read-only, before classifying anything
+### Phase 1b — MICELIO scan, read-only, before classifying anything
 
-Run the **ORPHAN check** (below, after Phase 6) over every clue in view. It is a precondition of
-Phase 2, not an appendix: an `Orphan` misfiled as `Deadwood` is the one removal this mode cannot
+Run **MICELIO** (below, after Phase 6) over every clue in view. It is a precondition of Phase 2, not
+an appendix: an `Aislada` clue misfiled as `Deadwood` is the one removal this mode cannot
 undo, because what looked like surplus was criteria nobody had connected yet.
 
 ### Phase 2 — Classify, four kinds
@@ -613,11 +621,102 @@ commit.**
 
 ---
 
-## ORPHAN check — 2.3.0 (criterio sin punto de aplicación)
+## MICELIO mode — is the Lore plugged in? — 2.3.0
 
-> **Premisa H14:** un criterio puede estar bien escrito, en el módulo correcto y con frontera declarada, y aun así no gobernar — ningún paso de ningún procedimiento obliga a correrlo. Su síntoma no es error sino inercia.
+> **The premise (H14).** A clue can be well written, in the right module, with its validity boundary
+> declared — and still not govern, because no step of any procedure obliges anyone to run it. Its
+> symptom is not error: it is **inertia**. The agent does everything it was asked and hands back an
+> artifact that violates a written rule, and nobody gets a warning.
 
-Run as a **read-only scan before PRUNE**: for each `lore/` clue, `grep` the procedure that should run it (`CLAUDE.md`, `FASES.md`, checklists). Four cases — `Missing` (declared destino but term absent), `Orphan` (no step mentions it), `Landing` (reading satisfies it), `False` (check would pass but no artifact). **Do not prune an Orphan — propose its enchufe.** Reference: Meme 15→21 ago, 6 days without point.
+**The metaphor is load-bearing, not decoration.** A plant can be healthy, correct and **disconnected**
+from the network under it. What carries nutrients between organisms is the mycelium; the junction
+where it meets a root is the **micorriza**. A clue with no micorriza is in the soil and joined to
+nothing — alive, right, and inert.
+
+So this mode does not ask whether criteria is *correct*. It asks whether it can **fire**. The two are
+independent, and that is why no amount of re-reading finds this: an artifact coherent with itself and
+inert toward the outside survives every review (`H11` — coherence is not a detector).
+
+**Two triggers, and they are not the same measurement:**
+
+1. **Before a complex task** — the one that matters. You are about to lean on the Lore for real work.
+   Run MICELIO first and you learn which rules cannot fire *before* the deliverable, not after.
+2. **Right after installing or updating the kit** — cheap, and it must report honestly. On a fresh
+   machine it finds `0 of 0`, and **that green proves nothing**: there is no criteria yet to be
+   disconnected. Say so in the same line, or the check manufactures confidence exactly during the
+   period when it cannot fail.
+
+**Procedure — one read-only pass, nothing is written:**
+
+0. **Resolve the owning area of every tree the work will touch — before reading a single clue.** A
+   session loads the always-on block of *its own* tree and nothing else. Editing a project that lives
+   in another area means that area's `lore/` and contract **never enter context**, and nothing warns:
+   the law is correct, well routed inside its area, and has no junction with a session opened
+   somewhere else. For each tree in play, name its area root, its `lore/` and its contract, and load
+   them. If the work touches three trees, name three.
+
+1. **Take the universe, and it is narrower than the Lore.** Only clues that mandate a **verifiable
+   artifact or step**. Criteria that governs continuously while writing — tone of voice, a dialect, a
+   register — is satisfied in the text itself and is not in scope. Say what you excluded and why.
+2. For each one, `grep` the procedures that could run it: the host contract, `FASES.md`, the process
+   modules, the checklists, the phases of any ritual.
+3. Classify each into one of four:
+
+| Case | What it means |
+|---|---|
+| **Micorrizada** | A step runs it and leaves an artifact. There is a junction and something passes through it. |
+| **Aislada** | **No step mentions it.** It is in the soil and nothing touches it — it cannot fire. |
+| **Media junta** | It declares a destination and the term is absent there: the hypha reaches and does not latch. |
+| **Junta seca** | A step names it, but the step is *"consult X"*: contact without exchange. It verifies reading, produces nothing, and cannot be told apart from the pass that skipped it. |
+
+> **The names are criteria, not decoration.** The earlier vocabulary called the second case `Orphan`,
+> and that word is **vertical** — it says someone above is missing. This defect is **lateral**: the
+> clue has an author, a module and a boundary, and what it lacks is a junction with anything beside
+> it. A name pointing at the wrong axis sends the repair to the wrong place.
+
+4. **Report pairs, never a list of clues.** The value is in the junction, so each row carries the
+   junction that is missing: `clue file:line ⇢ the step that should run it, and does not`. A row
+   without its proposed junction is half a finding.
+5. **Propose the enchufe. Never prune.** An `Aislada` clue looks exactly like surplus, and
+   deleting it is the one move that cannot be undone — what looked like excess was criteria nobody
+   had connected yet. MICELIO hands the list to the human; `PRUNE` and `save-to-lore` do the writing.
+
+6. **The findings block what comes next.** MICELIO runs *before* something — a complex task, an
+   install, a sync, a release. Its list is not a report filed away: **until every finding is written
+   or explicitly declined by the human, that next operation does not start.** Say so in the same
+   breath as the list: *"N findings; the sync waits."*
+
+> **This step exists because the mode failed it on its first run.** MICELIO reported findings on the
+> kit itself and the session moved on to a sync without writing them — a sync that would have
+> certified as coherent a tree with an unwritten finding in it. **Plugging in a check's *execution*
+> does not plug in its *result*.** Those are two different junctions, and a scan whose output nothing
+> consumes is the mode's own `Junta seca` case: a step that reads, produces nothing, and cannot be told
+> apart from the pass that never ran.
+
+**Report the rate, never a score.** A percentage invites the one cheap way to raise it: delete the
+disconnected clues (`H12` — counting artifacts does not measure value, and the kit's own benchmark
+lost 3–1 to a human judge while winning every mechanical count). What is safe to report is **how
+recent the disconnections are**, because that cannot be inflated by deleting: the first real run of
+this mode found four, and **all four were under 48 hours old**.
+
+That number is the finding of this mode, and it reframes the defect. Isolation does not accumulate
+with age — **it is produced at the same rate criteria is written**, including by an author who knows
+about H14 and is writing about it. In that first run, two of the four clues **named the mechanism in
+their own text** and were disconnected anyway. Plugging in is therefore not a virtue of a careful
+author. It is something only a scan catches.
+
+**Its premise is an open hypothesis, and the mode says so because the difference changes the
+repair.** `H14` stands at `n=1` and carries a **declared rival explanation**: `Crowding` — criteria
+that is correct, earned and irrefutable, whose *sum* saturates the deliverable. The two look
+identical from outside, and they pull in opposite directions: `Crowding` is repaired by pruning
+(`PRUNE`), and if the same finding is really isolation, pruning destroys the junction nobody had
+made yet. **When a finding could be either, say so and hand both readings to the human.** Do not
+resolve it inside the mode.
+
+**Boundary.** Read-only, and it proves one thing only: that a rule *can* fire. It does not say the
+rule is right, that it will be run well, or that the deliverable will be good. Reference: the `Meme`
+vara, written 15-ago and disconnected until 21-ago — six days in which every piece passed every filter
+that existed and the vara never ran.
 
 ## LEAVE mode — leaving Lore without losing the project — 2.3.0
 
@@ -846,6 +945,10 @@ The extract folder is a derived tree, not a second Lore. Do not write it back ov
 - **A paragraph is a paragraph.** Continuous prose in `lore/`, the contract and `FASES.md` runs to
   the period, not to column 80. Full statement and boundary live in `use-lore`; this skill is the
   one that writes, so the rule is here too.
+- **MICELIO writes nothing, and its findings block what comes next.** It reports pairs (clue ⇢ the
+  junction that is missing) and a rate, never a score; an `Aislada` clue is proposed for enchufe and
+  never pruned; and the next operation does not start until every finding is written or explicitly
+  declined. Its premise (`H14`) is an open hypothesis with `Crowding` as declared rival.
 - **Threshold**: present the mapping with content in view and wait for approval before writing.
 - **Do not auto-commit the target project.** The user reviews the diff and decides.
 - **CLEAN never deletes `identidad.md` / `principios.md` / `index.md`** — only thematic modules, and

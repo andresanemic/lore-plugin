@@ -38,7 +38,7 @@ El plugin Lore expone ocho skills principales a través de agentes de IA compati
 | `create-area`    | Crear una nueva Área con Lore compartido      | «crea un área de trabajo para Frontend», «quiero empezar a trabajar en X con Lore» |
 | `create-project` | Crear un proyecto que hereda de un Área       | «crea un proyecto de Sitio de marketing en el área Frontend» |
 | `save-to-lore`   | Capturar criterio tras resolver un problema (**capture**) o arbitrar criterio importado de una skill/guía ajena (**graft**) | «guarda en lore», «destila esto en el lore» (capture) / «destila la skill X en el lore» (graft) |
-| `transmute-lore` | Operar un Lore existente en siete modos | add / clean / translate / upgrade / prune / leave / crystallize |
+| `transmute-lore` | Operar un Lore existente en ocho modos | add / clean / translate / upgrade / prune / **micelio** / leave / crystallize |
 | `create-bot`     | Construir un bot: un solo lugar donde abrir sesión y trabajar en varios proyectos a la vez, con su criterio ya cargado | «crea un bot para trabajar en X e Y» (nuevo) / «quiero un bot que federe el lore que ya existe en A y B» (federar) |
 | `obsidian-lore`  | Capturar notas libres en el mismo árbol donde vive el Lore, y **minar** esa bandeja buscando lo que merece volverse criterio | «revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore», «mina la bandeja», «guarda esta nota en Obsidian» |
 

@@ -445,7 +445,7 @@ Two warnings `graft` mode will give you:
 
 ### `transmute-lore`
 
-Operates existing Lore in seven modes:
+Operates existing Lore in eight modes:
 
 | Mode | What it does |
 |---|---|
@@ -454,11 +454,11 @@ Operates existing Lore in seven modes:
 | **translate** | Standardizes the language of an existing Lore, translating content and renaming artifacts, without altering structure or meaning. |
 | **upgrade** | Raises a healthy Lore written against an older version of these skills. Sorts every finding into Missing, Superseded, **Earned** or **Stale** — what the project paid for with real friction is left alone, and what no longer matches the project's own practice is reported against the repository. |
 | **prune** | Prunes a Lore that decayed by **accumulating correct things**. Sorts every finding into Deadwood, Crowding, Rooted or **Unhealed**, and counts apparatus against content. What shrinks is the deliverable, not necessarily the corpus. Nothing comes out without its residue written down. |
+| **micelio** | **(2.3.0)** Read-only: which clues have **no micorriza** — no step runs them, so they cannot fire. Run it before a complex task. |
 | **leave** | Removes governance, keeps `lore/` — reversible via `UPGRADE` (H13). |
 | **crystallize** | Exports a safe, traceable single-Markdown snapshot for a chat or notebook — every routed `lore/` inlined, extractable back into a folder whose routing table resolves — without replacing the live Lore or exposing private material. |
 
-`clean` removes duplicate ownership; `prune` removes weight that is still correct but no longer
-earns its place in the deliverable. The Reference carries the full diagnostic categories and gates.
+The Reference carries the full diagnostic categories and gates.
 
 ### `create-bot`
 
@@ -1169,7 +1169,7 @@ Dos avisos que te dará:
 
 ### `transmute-lore`
 
-Opera un Lore existente en siete modos:
+Opera un Lore existente en ocho modos:
 
 | Modo | Qué hace |
 |---|---|
@@ -1178,11 +1178,11 @@ Opera un Lore existente en siete modos:
 | **translate** | Estandariza el idioma de un Lore existente, sin alterar estructura ni significado. |
 | **upgrade** | Pone al día un Lore sano escrito contra una versión anterior de estos skills. Clasifica cada hallazgo en Missing, Superseded, **Earned** o **Stale**: lo que el proyecto pagó con fricción real se deja intacto, y lo que ya no coincide con su práctica se detecta contra el repositorio y se reporta. |
 | **prune** | Poda un Lore que se degradó **acumulando cosas correctas**. Clasifica cada hallazgo en Deadwood, Crowding, Rooted o **Unhealed**, y cuenta aparato contra contenido. Lo que encoge es el entregable, no necesariamente el corpus. Nada sale sin dejar su residuo escrito. |
+| **micelio** | **(2.3.0)** Solo lectura: qué Pistas están **sin micorriza** — ningún paso las corre, así que no pueden dispararse. Antes de una tarea compleja. |
 | **leave** | Quita gobierno, conserva `lore/` — reversible vía `UPGRADE` (H13). |
 | **crystallize** | Exporta una fotografía trazable en un solo Markdown para un chat o notebook — cada `lore/` enrutado va adentro, extraíble a una carpeta cuyo enrutamiento resuelve — sin reemplazar el Lore vivo ni exponer material privado. |
 
-`clean` elimina propiedad duplicada; `prune` quita peso todavía correcto que ya no se gana su lugar
-en el entregable. La Referencia conserva las categorías de diagnóstico y las puertas completas.
+La Referencia conserva las categorías de diagnóstico y las puertas completas.
 
 ### `create-bot`
 

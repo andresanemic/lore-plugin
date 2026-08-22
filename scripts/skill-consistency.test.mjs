@@ -174,7 +174,11 @@ test("el README funciona como portada y no duplica las guías", () => {
   const readme = readFileSync(join(root, "README.md"), "utf8");
   const words = readme.trim().split(/\s+/).length;
   assert.ok(words >= 10850, `README podado en exceso: ${words} palabras`);
-  assert.ok(words <= 11200, `README demasiado largo: ${words} palabras`);
+  // 2.3.0: 11200 quedo fijado exactamente en el tamano de entonces, sin holgura para un modo nuevo.
+  // Se sube a 11250 despues de pagar 39 palabras de duplicacion real (las dos frases que repetian
+  // las filas de la tabla que tenian encima). La guardia cuida que el README no se vuelva el manual;
+  // una octava fila en una tabla que ya existe no es eso.
+  assert.ok(words <= 11250, `README demasiado largo: ${words} palabras`);
   for (const required of [
     "## Installation",
     "## Architecture",
