@@ -407,6 +407,13 @@ No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene oc
   no puede ni clasificarse**: el universo del paso 1 nunca lo contuvo. Ese es el quinto caso,
   `Fuera del sustrato`, y es el único cuyo reparo son **dos movimientos** — primero se mueve adentro
   de `lore/`, y recién ahí se le cuelga un paso.
+  **Y un sexto, del mismo día:** `Junta a otro árbol` — la junta existe, está bien declarada, y el
+  paso que nombra vive en **un artefacto operativo que la sesión no carga**. No falta nada y nada
+  está fuera de lugar: la Pista simplemente no puede disparar *acá*. Se confunde con `Media junta` y
+  se repara al revés — ahí el término falta en el destino, acá está y el destino no es el artefacto
+  en vigor—, así que el reparo no es escribirlo otra vez sino **nombrar el paso en el artefacto que
+  de verdad está corriendo**. Lo delata el paso 0: resuelto el árbol dueño de cada raíz, se pregunta
+  de cada junta si el artefacto que nombra es uno que esta sesión carga.
 - `leave` – **(2.3.0)** deja el Lore sin perder el proyecto — quita el gobierno (`<!-- lore:always-on -->`) pero conserva `lore/` y el enrutamiento como `enrutamiento.md` plano, dejando `FASES.md` con marca `leave:` para que `UPGRADE` pueda volver. El proyecto sigue buildeable sin el kit (H13).
 - `crystallize` – exporta el Lore vivo y enrutado como un solo Markdown seguro y trazable para un
   chat, proyecto de IA o notebook. La fotografía es derivada, puede quedar obsoleta, nunca

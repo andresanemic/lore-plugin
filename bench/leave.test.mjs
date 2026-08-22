@@ -255,3 +255,18 @@ test("MICELIO tiene un quinto caso para el criterio que nunca entro al sustrato"
   assert.ok(mic.includes("| **Fuera del sustrato**"),
     "el quinto caso no esta en la tabla de casos");
 });
+
+// 2026-08-22, segunda corrida del mismo dia: el staging del area vive en docs/ A PROPOSITO, con su
+// gate escrito y el paso que lo ejerce nombrado. Todo lo que el quinto caso diagnostica es falso
+// sobre el, y aun asi no dispara: el paso vive en una spec que el arbol desde el que se opera no
+// carga. No es Media junta — ahi el termino falta en el destino; aca esta, y el destino no es el
+// artefacto en vigor. Los dos reparos apuntan al reves.
+
+test("MICELIO distingue la junta que apunta a un artefacto que la sesion no carga", () => {
+  const t = skill("transmute-lore");
+  const mic = t.slice(t.indexOf("## MICELIO mode"), t.indexOf("## LEAVE mode"));
+  assert.ok(mic.includes("| **Junta a otro árbol**"),
+    "el sexto caso no esta en la tabla de casos");
+  assert.match(mic, /artifact the running tree does not load|artifact actually in force|artifact that is actually running/i,
+    "sin el sexto caso, una junta correcta que apunta a otro arbol se clasifica Media junta y se repara escribiendo el termino donde ya estaba");
+});

@@ -402,6 +402,14 @@ It is not a CLI command: the mode is inferred from the phrase, not from a flag. 
   there cannot even be classified**: step 1's universe never contained it. That is the fifth case,
   `Fuera del sustrato`, and it is the only one whose repair is **two moves** — first move it into
   `lore/`, and only then attach a step.
+  **And a sixth, from the same day:** `Junta a otro árbol` — the junction exists, is correctly
+  declared, and the step it names lives in **an operating artifact the session does not load**.
+  Nothing is missing and nothing is misplaced: the clue simply cannot fire *here*. It is easily
+  mistaken for `Media junta` and repaired backwards — there the term is absent at the destination,
+  here it is present and the destination is not the artifact in force — so the repair is not writing
+  it again but **naming the step in the artifact that is actually running**. Step 0 is what surfaces
+  it: once every tree's owning area is resolved, ask of each junction whether the artifact it names
+  is one this session loads.
 - `leave` – **(2.3.0)** leave Lore without losing the project — remove governance (`<!-- lore:always-on -->`) but keep `lore/` and routing as plain `enrutamiento.md`, leaving `FASES.md` with `leave:` marker so `UPGRADE` can return. Project stays buildable without the kit (H13).
 - `crystallize` – export the live, routed Lore as one safe and traceable Markdown for a chat, AI
   project or notebook. The snapshot is derived, may become stale, never replaces the source, and

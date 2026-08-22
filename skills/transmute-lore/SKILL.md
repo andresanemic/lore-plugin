@@ -710,6 +710,7 @@ inert toward the outside survives every review (`H11` — coherence is not a det
 | **Media junta** | It declares a destination and the term is absent there: the hypha reaches and does not latch. |
 | **Junta seca** | A step names it, but the step is *"consult X"*: contact without exchange. It verifies reading, produces nothing, and cannot be told apart from the pass that skipped it. |
 | **Fuera del sustrato** | It is criteria, and it is **not in `lore/`** — it landed in `docs/`, in a note, in a strategy document. Routing does not reach it, so no step can be attached to it until it is moved. The only case whose repair is two moves. |
+| **Junta a otro árbol** | The junction exists and is correctly declared — and the step it names lives in **an operating artifact the running tree does not load**. Nothing is missing and nothing is misplaced; the clue simply cannot fire *here*. Its repair is neither a move nor a step: it is **naming the step in the artifact actually in force**. |
 
 > **The fifth case was found by the mode failing to find it — 2026-08-22.** A rule about how an
 > externally-sourced figure may be published was written into a project's `docs/`. The sweep reported
@@ -718,6 +719,29 @@ inert toward the outside survives every review (`H11` — coherence is not a det
 > pass, a distilled document cited five screenshots that lived on somebody's desktop, outside the
 > repository — correct, cited, and unverifiable by anyone else. **Neither is `Aislada`: an `Aislada`
 > clue is in the soil and joined to nothing, and these were never in the soil.**
+
+> **The sixth case came from the fifth one being right for the wrong reason — 2026-08-22, same day,
+> second run.** The fifth case says criteria in `docs/` is there **by accident** and cannot be
+> classified because the universe never contained it. Then a sweep met a **staging file**: criteria
+> deliberately held outside `lore/`, with its gate written, its exercise field declared, and the step
+> that fills it named by name. Every part of the fifth case's diagnosis is false about it — it was
+> put there on purpose, it is perfectly classifiable, and its junction exists. **And it still could
+> not fire**, because the step it named lived in one operating artifact and the session was running
+> another. Seven of its eleven candidates were criteria not in `lore/`, two of them `confirmed`, and
+> a `grep` of the staging's own filename across the tree being operated returned nothing.
+>
+> **This is why it is its own case and not a variant of `Media junta`.** `Media junta` is a junction
+> that reaches and does not latch: the destination is declared and the term is absent **there**. Here
+> the term is present, in the artifact the junction names — the artifact is simply not the one in
+> force. The two look identical in a report and their repairs point in opposite directions: `Media
+> junta` is repaired by **writing the term at the destination**, and this one by **naming the step in
+> the artifact that is actually running**. Writing the term again at the original destination changes
+> nothing, because that destination was never the problem.
+>
+> **Its tell, and it is cheap:** the same criteria is reachable from one tree and invisible from
+> another, and which tree you are in is decided by where the session was opened. So step 0 — resolve
+> the owning area of every tree in play — is also what surfaces this case; run it and then ask, of
+> every junction, **whether the artifact it names is one this session loads.**
 
 > **The names are criteria, not decoration.** The earlier vocabulary called the second case `Orphan`,
 > and that word is **vertical** — it says someone above is missing. This defect is **lateral**: the

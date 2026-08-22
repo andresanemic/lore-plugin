@@ -20,8 +20,17 @@
 ## Vocabulario de `MICELIO`
 
 El **micelio** es la red que reparte; la **micorriza** es la junta entre una Pista y el paso que la
-corre. Los **cinco** casos: `Micorrizada` · `Aislada` · `Media junta` · `Junta seca` ·
-`Fuera del sustrato`.
+corre. Los **seis** casos: `Micorrizada` · `Aislada` · `Media junta` · `Junta seca` ·
+`Fuera del sustrato` · `Junta a otro árbol`.
+
+El sexto entró el **2026-08-22**, el mismo día y en la segunda corrida, y salió de que el quinto
+acertara por el motivo equivocado. El quinto dice que el criterio en `docs/` está ahí **por
+descuido** y no se puede ni clasificar. Después apareció un **staging**: criterio dejado fuera de
+`lore/` **a propósito**, con su gate escrito y el paso que lo ejerce nombrado — todo lo que el quinto
+diagnostica es falso sobre él— y aun así no disparaba, porque **el paso que nombra vive en un
+artefacto operativo que el árbol desde el que se opera no carga**. No es `Media junta`: ahí el
+término falta en el destino, y acá está — el destino simplemente no es el artefacto en vigor. Los dos
+reparos apuntan al revés, y por eso es un caso y no una variante.
 
 El quinto entró el 2026-08-22 y lo encontró el modo **fallando en encontrarlo**: una regla escrita en
 el `docs/` de un proyecto se reportó `Aislada` solo porque el autor recordaba haberla escrito una
