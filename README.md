@@ -699,7 +699,7 @@ The program began with a **foundational bibliography** whose concepts map direct
 They are interlocutors, **not borrowed authority**: LUS uses them to expose convergences, differences and tensions in its claims about the Between, accumulated criterion and Lore.
 
 <details>
-<summary><b>Extended bibliography, and what entered in 2026</b></summary>
+<summary><b>Extended bibliography</b></summary>
 
 <br>
 
@@ -1457,7 +1457,7 @@ El programa comenzó con una **bibliografía fundacional** cuyos conceptos se tr
 Son interlocutores, **no autoridad prestada**: LUS los usa para hacer visibles convergencias, diferencias y tensiones en sus afirmaciones sobre el Entre, el criterio acumulado y el Lore.
 
 <details>
-<summary><b>Bibliografía extendida, y lo que entró en 2026</b></summary>
+<summary><b>Bibliografía extendida</b></summary>
 
 <br>
 
