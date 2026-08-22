@@ -30,7 +30,34 @@ test("LEAVE deja criterio vivo y reversible (A+B) sin fantasma", () => {
   assert.match(t, /Remove the `<!-- lore:always-on -->` block/);
   assert.match(t, /Convert `FASES\.md` to the host/);
   assert.match(t, /enrutamiento\.md/);
-  assert.match(t, /plain/);
+  assert.match(t, /plain `enrutamiento\.md`/);
   assert.match(t, /project must remain buildable without the kit/);
   assert.match(t, /Why here and not in `save-to-lore`/);
+});
+
+// Auditoría 2.3.0 con Opus high (2026-08-22): tres defectos verificados sobre el borrador
+// escrito con opencode+muse-spark. Cada test falla contra dc83986 y pasa con la corrección.
+
+test("LEAVE escribe la marca `leave:` — sin ella UPGRADE no puede volver y H13 sigue sin instrumento", () => {
+  const t = skill("transmute-lore");
+  const leave = t.slice(t.indexOf("## LEAVE mode"), t.indexOf("## CRYSTALLIZE mode"));
+  assert.match(leave, /`leave:`/);
+});
+
+test("ORPHAN está enchufado en una fase de PRUNE, no solo escrito al lado (H14 sobre sí mismo)", () => {
+  const t = skill("transmute-lore");
+  const prune = t.slice(t.indexOf("## PRUNE mode"), t.indexOf("## ORPHAN check"));
+  assert.match(prune, /ORPHAN/);
+});
+
+test("el gate de enrutamiento no se dispara con el `index.md` que todo CAPTURE toca", () => {
+  assert.match(skill("save-to-lore"), /index\.md[^\n]*does not count|no cuenta|not the second artifact/);
+});
+
+test("ningún frontmatter supera los 1024 caracteres de la especificación", () => {
+  for (const name of ["use-lore", "brainstorming-lore", "create-area", "create-project",
+                      "create-bot", "save-to-lore", "transmute-lore", "obsidian-lore"]) {
+    const fm = skill(name).split("---")[1];
+    assert.ok(fm.length <= 1024, `${name}: frontmatter de ${fm.length} caracteres`);
+  }
 });

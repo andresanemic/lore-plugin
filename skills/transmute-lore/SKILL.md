@@ -1,6 +1,6 @@
 ---
 name: transmute-lore
-description: Operate a project's body of criteria in seven modes — migrate scattered criteria to the six-piece Lore standard (ADD); remove project copies of criteria already owned by its area (CLEAN); standardize language without changing meaning (TRANSLATE); arbitrate healthy Lore against a newer kit and raise it without rewriting earned criterion (UPGRADE); prune a Lore that decayed by accumulating correct things, until it fits the deliverable again (PRUNE); leave Lore without losing the project, keeping lore/ but removing governance (LEAVE); or generate a safe, traceable single-Markdown snapshot for chats, AI projects and notebooks without replacing the live artifacts (CRYSTALLIZE), a snapshot that can be extracted back into a folder whose routing table resolves. Trigger on requests to transmute, migrate, clean, translate, upgrade, bring Lore up to date, prune the Lore, "prune-lore", "poda en lore", "poda el lore de {proyecto}", leave Lore, "dejar el lore", crystallize Lore, export Lore to one Markdown, prepare Lore as a chat/notebook source, extract a crystallization, or "extrae esta cristalización".
+description: Use when a project's existing body of criteria must be operated as a whole instead of grown one clue at a time — criteria scattered outside the six-piece standard, project modules duplicating what the area already owns, a Lore in mixed languages, a healthy Lore written against an older version of these skills, a Lore that decayed by accumulating correct things, a project leaving Lore without losing its criterion, or a Lore that has to travel as one Markdown into a chat or notebook. Trigger on transmute, migrate, clean, translate, upgrade, bring Lore up to date, prune the Lore, "prune-lore", "poda en lore", "poda el lore de {proyecto}", leave Lore, "dejar el lore", crystallize Lore, export Lore to one Markdown, prepare Lore as a chat/notebook source, extract a crystallization, or "extrae esta cristalización".
 ---
 
 # Transmute Lore
@@ -526,6 +526,12 @@ with no ceiling is the piece that will bloat, and the trap is that it is usually
 one — a ceiling gets written for the rare formats and skipped for the daily one, because the daily
 one felt too obvious to bound.
 
+### Phase 1b — ORPHAN scan, read-only, before classifying anything
+
+Run the **ORPHAN check** (below, after Phase 6) over every clue in view. It is a precondition of
+Phase 2, not an appendix: an `Orphan` misfiled as `Deadwood` is the one removal this mode cannot
+undo, because what looked like surplus was criteria nobody had connected yet.
+
 ### Phase 2 — Classify, four kinds
 
 | Kind | What it means | What it produces |
@@ -623,9 +629,9 @@ Run as a **read-only scan before PRUNE**: for each `lore/` clue, `grep` the proc
 
 1. Verify `lore/` exists — criterion stays (it belongs to the project, not the kit).
 2. Remove the `<!-- lore:always-on -->` block from the host contract (`CLAUDE.md`/`AGENTS.md`). Leave no orphan markers — one well-formed pair or none (`use-lore:stamping`).
-3. Convert `FASES.md` to the host's typical form (`init`) — state remains, but no longer points at `lore/`.
+3. Convert `FASES.md` to the host's typical form (`init`) — state remains, but no longer points at `lore/`. **The conversion keeps exactly one kit line: `leave: <date> · <reason>`.** That marker is the whole reversibility — `UPGRADE` reads it to come back. Dropping it in the name of the host's typical form turns LEAVE into an exit with no way back, and makes `H13` unmeasurable by the same construction this mode exists to remove.
 4. Keep the routing table as plain `enrutamiento.md` (no generated pointer).
-5. `git status` — project must remain buildable without the kit. Record the pass in `FASES.md`, not in Lore.
+5. `git status` — project must remain buildable without the kit. Record the pass under the `leave:` marker in `FASES.md`, not in Lore.
 
 **Why here and not in `save-to-lore`:** `save-to-lore` adds one clue at a time (`use-lore:282`); `transmute-lore` migrates/restructures a whole project (`use-lore:284`). LEAVE touches three artifacts at once — it is ADD/CLEAN/PRUNE class, not CAPTURE/GRAFT. Placing it in `save-to-lore` was the exact error `H14` describes: well written, right frontier, wrong module, never governed.
 

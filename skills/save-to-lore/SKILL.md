@@ -38,7 +38,7 @@ does not enter at all.
 The tell that you skipped this step: the draft reads like a good summary of the source. That is the
 failure state of GRAFT, not its output.
 
-> **Routing gate — before you write:** If your task removes the `<!-- lore:always-on -->` block, converts `FASES.md`, or touches ≥2 artifacts at once (not one clue), **stop — this is `transmute-lore` (LEAVE/CLEAN/PRUNE class), not CAPTURE/GRAFT.** Check `use-lore` routing table first; if no row matches, run `brainstorming-lore` before choosing a skill. Batching 5 edits without that check is how `Exit` landed in the wrong file (`H14` for skills, `837eb73` fix).
+> **Routing gate — before you write:** If your task touches an artifact that is **not a clue** — the `<!-- lore:always-on -->` block, the host contract, `FASES.md`, `enrutamiento.md`, or the shape of the tree — **stop: this is `transmute-lore` (LEAVE/CLEAN/PRUNE class), not CAPTURE/GRAFT.** Writing the clue in its module **and** its line in `index.md` is one capture, not two artifacts; promotion to the area (`index.md` does not count as the second artifact) is still CAPTURE. Check `use-lore` routing table first; if no row matches, run `brainstorming-lore` before choosing a skill. Batching 5 edits without that check is how `Exit` landed in the wrong file (`H14` for skills, `837eb73` fix).
 
 ## Two modes — pick by the SOURCE of the criteria
 
