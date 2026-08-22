@@ -61,3 +61,10 @@ test("ningún frontmatter supera los 1024 caracteres de la especificación", () 
     assert.ok(fm.length <= 1024, `${name}: frontmatter de ${fm.length} caracteres`);
   }
 });
+
+test("el predicado del gate no cuenta artefactos en NINGUNA skill — index.md lo rompía en las dos", () => {
+  for (const name of ["save-to-lore", "use-lore"]) {
+    assert.doesNotMatch(skill(name), /touches ≥2 artifacts/,
+      `${name}: el umbral por conteo se dispara con el módulo + index.md que todo CAPTURE escribe`);
+  }
+});
