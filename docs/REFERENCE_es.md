@@ -311,7 +311,7 @@ Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decision
 
 ### 3.6 `transmute-lore`
 
-**Rol:** Operar un cuerpo de Lore existente mediante seis modos distintos.
+**Rol:** Operar un cuerpo de Lore existente mediante ocho modos distintos.
 
 **Frontera de entrada y portabilidad:** ADD puede crear Lore donde no existe desde carpetas,
 documentos, resúmenes de chats y notas, pero esas entradas siguen siendo fuentes hasta la
@@ -328,6 +328,17 @@ trazable y extraíble, nunca autoridad que reemplaza al Lore vivo.
   - `upgrade` – «mejora el lore de {proyecto} con la versión nueva», «arbitra mi lore contra la versión nueva» — pone al día un Lore sano escrito contra una versión anterior de estos skills.
   - `prune` – «poda el lore de {proyecto}», «este lore se puso muy pesado» — quita **peso** a un Lore
     que se degradó acumulando cosas que por separado son correctas.
+  - `micelio` – «corré el micelio», «¿está conectado el lore?» — recorrido de **solo lectura** que
+    reporta qué Pistas ningún paso corre. No escribe nada y nunca poda. Tres disparadores: antes de
+    una tarea compleja, tras instalar o actualizar el kit, y **al salir de cualquier pasada que
+    escribió Lore**; la de salida no es la de entrada repetida, porque una Pista nueva nace
+    desconectada. **Los hallazgos bloquean** lo que venía después hasta que se escriban o se
+    declinen, y **nunca se re-reportan los declinados**. Se reporta en lenguaje llano —*«nada la
+    corre»*, *«apunta a un lugar donde no está»*— y el vocabulario técnico se infiere del uso, como
+    el perfil profesional: nunca se exige para hacer una pregunta.
+  - `leave` – «dejar el lore», «salir del lore sin perder criterio» — quita el gobierno y conserva
+    `lore/`. Deja la marca `leave:` en `FASES.md`, que es toda su reversibilidad: `UPGRADE` la lee
+    para volver.
   - `crystallize` – «cristaliza este Lore», «exporta este Lore a un solo Markdown», «extrae esta
     cristalización» — resuelve el enrutamiento vivo en una copia de lectura segura y trazable
     para un chat, proyecto de IA o notebook, marcada para desempaquetarse en una carpeta cuyo

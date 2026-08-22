@@ -626,7 +626,7 @@ commit.**
 > only thing that separates *«the corpus weighs less»* from *«the corpus weighs less and still
 > fires»*, and only the second one is what PRUNE was for. See `MICELIO`, trigger 3.
 
-## MICELIO mode — is the Lore plugged in? — 2.3.0
+## MICELIO mode — can the Lore actually fire? — 2.3.0
 
 > **The premise (H14).** A clue can be well written, in the right module, with its validity boundary
 > declared — and still not govern, because no step of any procedure obliges anyone to run it. Its
@@ -664,10 +664,29 @@ inert toward the outside survives every review (`H11` — coherence is not a det
 > turning a `Micorrizada` into a `Media junta` with no error anywhere.
 >
 > **The asymmetry is the point, and collapsing the two breaks both.** One pass is not enough in
-> either direction: skip the entry pass and `PRUNE` deletes what was only waiting to be plugged in;
+> either direction: skip the entry pass and `PRUNE` deletes what was only waiting to form its micorriza;
 > skip the exit pass and the next deliverable runs against criteria that was written an hour ago and
 > is joined to nothing. Findings on the way in block the pass that writes. Findings on the way out
 > block **the work**, which is the operation the whole ritual existed to protect.
+
+**The condition that fires trigger 3 by itself, and it is narrow on purpose — 2.3.0.** A pass
+fires the exit scan automatically when it **wrote criteria and touched routing**: a new clue, a new
+module, a rewritten `index.md`, a step added to a procedure. **Both halves are required.** A typo fix
+touches routing and writes no criteria; a dated line in `FASES.md` writes state and touches no
+routing. Neither fires it.
+
+**And it never re-reports what the person already declined.** A declined finding is recorded as
+declined and does not come back on the next pass. Without that rule the mode turns into noise, and a
+check that is noise gets skipped — which costs more than the finding it was going to report. Keeping
+the Entre workable is not a nicety here: a scan nobody runs detects nothing.
+
+> **Why this stops at a condition instead of becoming «the kit's internal auditor».** The temptation
+> is real and it fails on this mode's own boundary: MICELIO proves that a rule *can* fire, and
+> nothing else. A name that promises auditing gets read as certifying that the criteria is *right*,
+> which is the claim this mode refuses in writing. Widening the name without widening the mechanism
+> is the defect that retired the mode’s earlier vertical name — the word points somewhere the repair cannot follow. And its
+> premise (`H14`) is at `n=1` with a declared rival, which is a thin foundation for a universal
+> auditor and a fine one for a narrow condition.
 
 **Procedure — one read-only pass, nothing is written:**
 
@@ -748,10 +767,41 @@ inert toward the outside survives every review (`H11` — coherence is not a det
 > clue has an author, a module and a boundary, and what it lacks is a junction with anything beside
 > it. A name pointing at the wrong axis sends the repair to the wrong place.
 
+### How the six cases are said out loud — the technical name is the second layer — 2.3.0
+
+**The case names are criteria and they do not change.** `Junta seca` and `Media junta` are repaired
+in opposite directions, and a simpler name that merged them would send the repair back to the wrong
+place — the exact failure that retired the earlier vertical name below. What changes is that **nobody has to learn them in
+order to use this mode.**
+
+Each case carries a **stable key**, which is what tests, registers and code refer to and which never
+translates, and a **plain sentence**, which is what a person reads and which always does.
+
+| Key | What the person is told | Spanish label |
+|---|---|---|
+| `connected` | there is a step that runs it | `Micorrizada` |
+| `alone` | nothing runs it | `Aislada` |
+| `missed` | it names a place, and it is not written there | `Media junta` |
+| `no-exchange` | a step only says «consult this», so nothing comes out of it | `Junta seca` |
+| `outside` | it is criteria, and it is not in `lore/` | `Fuera del sustrato` |
+| `other-tree` | the step exists, in a file this session does not load | `Junta a otro árbol` |
+
+**Report in the plain sentence by default, and let the vocabulary be inferred.** Use the technical
+name once the person has used it first or asked for it — the same way `perfil-profesional` grows from
+what somebody actually said instead of from a questionnaire. **Never require somebody to type
+`Fuera del sustrato` to ask a question**, and never teach the vocabulary as a precondition for the
+report. A person who learns the six names because they wanted to has adopted a tool; a person who had
+to learn them to be answered has paid a toll.
+
+*Boundary:* this governs how findings are **said**, not how they are classified. The six cases, their
+repairs and their asymmetries are unchanged — the plain sentence is a surface over them and never a
+replacement, and a report that loses the distinction between `missed` and `no-exchange` in the name
+of simplicity has broken the mode, not simplified it.
+
 4. **Report pairs, never a list of clues.** The value is in the junction, so each row carries the
    junction that is missing: `clue file:line ⇢ the step that should run it, and does not`. A row
    without its proposed junction is half a finding.
-5. **Propose the enchufe. Never prune.** An `Aislada` clue looks exactly like surplus, and
+5. **Propose the micorriza. Never prune.** An `Aislada` clue looks exactly like surplus, and
    deleting it is the one move that cannot be undone — what looked like excess was criteria nobody
    had connected yet. MICELIO hands the list to the human; `PRUNE` and `save-to-lore` do the writing.
 
@@ -763,7 +813,7 @@ inert toward the outside survives every review (`H11` — coherence is not a det
 > **This step exists because the mode failed it on its first run.** MICELIO reported findings on the
 > kit itself and the session moved on to a sync without writing them — a sync that would have
 > certified as coherent a tree with an unwritten finding in it. **Plugging in a check's *execution*
-> does not plug in its *result*.** Those are two different junctions, and a scan whose output nothing
+> does not connect its *result*.** Those are two different junctions, and a scan whose output nothing
 > consumes is the mode's own `Junta seca` case: a step that reads, produces nothing, and cannot be told
 > apart from the pass that never ran.
 
@@ -1020,7 +1070,7 @@ The extract folder is a derived tree, not a second Lore. Do not write it back ov
   the period, not to column 80. Full statement and boundary live in `use-lore`; this skill is the
   one that writes, so the rule is here too.
 - **MICELIO writes nothing, and its findings block what comes next.** It reports pairs (clue ⇢ the
-  junction that is missing) and a rate, never a score; an `Aislada` clue is proposed for enchufe and
+  junction that is missing) and a rate, never a score; an `alone` clue is proposed for a micorriza and
   never pruned; and the next operation does not start until every finding is written or explicitly
   declined. Its premise (`H14`) is an open hypothesis with `Crowding` as declared rival.
 - **Threshold**: present the mapping with content in view and wait for approval before writing.

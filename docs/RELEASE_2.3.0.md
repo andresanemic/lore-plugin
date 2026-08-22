@@ -12,8 +12,7 @@
   o actualizar el kit, y **al salir de cualquier pasada que escribió Lore** (`PRUNE`, `GRAFT`, una
   destilación). La pasada de salida no es la de entrada repetida — **una Pista nueva nace `Aislada`**,
   así que una pasada que escribe fabrica el defecto que el modo detecta. Recorrido de solo lectura que reporta qué
-  Pistas quedaron **aisladas**: ningún paso de ningún procedimiento las corre. Dos disparadores —
-  antes de una tarea compleja, y tras instalar o actualizar el kit.
+  Pistas quedaron **aisladas**: ningún paso de ningún procedimiento las corre.
 - Auditoría con `ponytail` + `writing-skills`: cuatro defectos de enchufe corregidos, más la guardia
   estructural que detecta una capacidad sin paso que la corra.
 
@@ -63,6 +62,52 @@ con nada al lado. Un nombre que apunta al eje equivocado manda la reparación al
 bien, ni que el entregable mejore. Su premisa (`H14`) es **hipótesis abierta en `n=1`**, con
 `Crowding` como explicación rival declarada: las dos se ven igual desde afuera y piden remedios
 opuestos. El verde post-instalación es `0 de 0` y no prueba nada.
+
+## La capa llana, el disparo automático y el tutorial — 2026-08-22
+
+Tres cosas que entraron el mismo día, y las tres salieron de la misma objeción de Andrés: **el kit no
+puede exigirle a nadie que aprenda su vocabulario para poder usarlo.**
+
+**1. Los seis casos de `MICELIO` se dicen en llano, y los nombres no se tocan.** El defecto era real y
+verificable —seis casos en español dentro de skills escritas en inglés—, pero **enunciar simple y
+renombrar son dos operaciones distintas**, y solo hacía falta la primera. `Junta seca` y `Media junta`
+se reparan al revés; un nombre simple que las fusionara devolvería el error que el nombre vertical
+retirado ya había causado. Así que cada caso tiene ahora una **clave estable** que no se traduce
+—`connected`, `alone`, `missed`, `no-exchange`, `outside`, `other-tree`— y una **frase llana** que sí.
+Se reporta en la frase; el vocabulario se **infiere del uso**, como el perfil profesional, y **nunca se
+exige para hacer una pregunta**. Quien aprende los seis nombres porque quiso, adoptó una herramienta;
+quien tuvo que aprenderlos para que le contestaran, pagó un peaje.
+
+**2. El tercer disparador de `MICELIO` es automático, y para en una condición estrecha a propósito.**
+Salta cuando una pasada **escribió criterio y tocó enrutamiento** —las dos mitades: un typo toca
+enrutamiento y no escribe criterio; una línea en `FASES.md` escribe estado y no toca enrutamiento— y
+**nunca vuelve a reportar un hallazgo declinado.**
+
+> **Por qué no se volvió «el auditor interno del kit», que era la propuesta.** Se cae por la frontera
+> del propio modo: `MICELIO` prueba que una regla **puede** disparar, y nada más. Un nombre que promete
+> auditoría se lee como certificado de que el criterio es **correcto**, que es justo lo que el modo se
+> niega a decir. Ensanchar el nombre sin ensanchar el mecanismo es el defecto que retiró el nombre
+> anterior. Y su premisa (`H14`) sigue en `n=1` con `Crowding` como rival declarada: base fina para un
+> auditor universal, suficiente para una condición estrecha.
+>
+> **Y la ecualización es una regla, no una intención.** *«Mantener el Entre disfrutable no se tranza»*
+> (Andrés, 2026-08-22). Un chequeo que se vuelve ruido se saltea, y un chequeo que nadie corre no
+> detecta nada — así que no re-reportar lo declinado no es cortesía: es lo que mantiene al modo vivo.
+
+**3. `use-lore` y `brainstorming-lore` ofrecen una orientación breve, inferida y en una línea.** Quien
+llega por primera vez no tiene una imagen de qué es esto, y una lista de ocho skills no es esa imagen.
+Se elige **una** forma —texto corto, mapa conceptual, ejemplo trabajado— a partir de cómo la persona
+viene escribiendo, y se ofrece en una línea corregible en una línea. **Nunca como menú:** *«¿mapa,
+texto, explicación fácil o test?»* es exactamente lo que el umbral 0 rechaza, con cara amable. Y
+**nunca en lugar del primer artefacto**: el movimiento 3 produce algo o no produjo nada.
+
+**Lo que este mismo día encontró en la documentación, y es del tipo que la 2.3 vino a atacar.** La
+tabla de registros de más arriba declara que `MICELIO` entra a `README` y a `REFERENCE`. En `README`
+había entrado; en `REFERENCE_es` y `REFERENCE_en` el §2 decía **ocho modos** y el §3.6 decía **seis** y
+listaba seis — faltaban `micelio` y `leave` en el detalle, en los dos idiomas. Con el vocabulario del
+propio kit es una **media junta**: el destino estaba declarado y el término ausente ahí. Se corrigió,
+y vale registrarlo porque **una tabla de registros no es un registro**: declarar dónde tiene que
+aterrizar algo no lo aterriza, y eso es `H14` aplicado al propio release.
 
 ## Suite
 

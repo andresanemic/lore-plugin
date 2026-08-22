@@ -85,6 +85,26 @@ as `registro:` when the first artifact is created.
 **Never ask it as a question.** Tone is inferred and corrected in one sentence; a brainstorm turn
 spent on register buys nothing, and this move exists to produce an artifact.
 
+**And offer a short orientation in the same breath, inferred like the register — one shape, never a
+menu — 2.3.0.** Somebody meeting this kit for the first time has no picture of what it is, and a list
+of eight skills is not that picture. Pick **one** shape from what the person already wrote: they
+asked what it does or how it works → a short text; they described their work as a structure or a set
+of relations → a concept map; they write in fragments and want to be shown rather than told → a
+worked example over the artifact they are about to get; they answered tersely and moved fast → skip
+it, and say once that it exists.
+
+**It costs one line and never a turn:** *«Want the two-minute picture of how this fits together? I'd
+draw it as a map.»* Yes → produce it **about their own tree**, never a generic diagram. No, or
+silence → continue, and do not offer it again.
+
+**Never expand it into a list of options.** *«Concept map, short text, plain explanation or a mini
+test?»* is exactly the menu this section refuses, wearing a friendlier face. One inferred shape,
+corrected in one sentence, for the same reason the register is.
+
+**And it never replaces the artifact.** Move 3 produces something or it produced nothing; a tutorial
+handed over *instead* of a first artifact is the kit explaining itself to somebody who still has
+nothing to show for the conversation. Offer it, then run the route.
+
 **Boundary:** this gate is for the **first** Lore on the machine. Once one area exists, entry is by
 the routing table below and this section is skipped.
 

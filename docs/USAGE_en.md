@@ -388,7 +388,7 @@ It is not a CLI command: the mode is inferred from the phrase, not from a flag. 
   and removing it is the one cut this mode cannot undo. **And it scans again on the way out**, because
   a removal changes junctions and not only volume: the step it took out may have been the one running
   a clue it left alive.
-- `micelio` – **(2.3.0)** is the Lore plugged in? A read-only walk of the network reporting which
+- `micelio` – **(2.3.0)** can the Lore actually fire? A read-only walk of the network reporting which
   clues have **no micorriza**: no step of any procedure runs them, so they cannot fire. Three
   triggers — before a complex task, right after installing or updating the kit, and **on the way out
   of any pass that wrote Lore** (`PRUNE`, `GRAFT`, a distillation), before the work leans on the
@@ -402,6 +402,16 @@ It is not a CLI command: the mode is inferred from the phrase, not from a flag. 
   there cannot even be classified**: step 1's universe never contained it. That is the fifth case,
   `Fuera del sustrato`, and it is the only one whose repair is **two moves** — first move it into
   `lore/`, and only then attach a step.
+  **And since 2026-08-22 you do not have to learn the six names to use it.** Each case carries a
+  **stable key** — `connected`, `alone`, `missed`, `no-exchange`, `outside`, `other-tree` — which
+  never translates, and a **plain sentence** which always does: *"nothing runs it"*, *"it names a
+  place where it is not written"*. The report comes out in the plain sentence; the technical
+  vocabulary is **inferred from use**, like the professional profile, and is **never required in
+  order to ask a question**. The names themselves do not change: `Junta seca` and `Media junta` are
+  repaired in opposite directions, and merging them would send the repair back to the wrong place.
+  **The third trigger is automatic and its condition is narrow:** it fires when a pass **wrote
+  criteria and touched routing** — both halves — and **never re-reports a finding you already
+  declined**, because a check that turns into noise stops being run, and then it detects nothing.
   **And a sixth, from the same day:** `Junta a otro árbol` — the junction exists, is correctly
   declared, and the step it names lives in **an operating artifact the session does not load**.
   Nothing is missing and nothing is misplaced: the clue simply cannot fire *here*. It is easily

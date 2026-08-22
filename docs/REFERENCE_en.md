@@ -312,7 +312,7 @@ Use `save-to-lore` as the main mechanism for feeding your Lore after important d
 
 ### 3.6 `transmute-lore`
 
-**Role:** Operate an existing body of Lore through six distinct modes.
+**Role:** Operate an existing body of Lore through eight distinct modes.
 
 **Entry and portability boundary:** ADD may build Lore where none exists from folders, documents,
 chat summaries and notes, but those inputs remain sources until approved distillation. CRYSTALLIZE
@@ -335,6 +335,17 @@ the authority that replaces the live Lore.
     the current standard.
   - `prune` – "prune the lore of Legacy Frontend", "this lore got too heavy" — remove **weight** from
     a Lore that decayed by accumulating things that are each individually correct.
+  - `micelio` – "run the micelio", "is the Lore plugged in?" — a **read-only** walk reporting which
+    clues no step runs. It writes nothing and never prunes. Three triggers: before a complex task,
+    after installing or updating the kit, and **on the way out of any pass that wrote Lore**; the
+    exit pass is not the entry pass repeated, because a new clue is born disconnected. **Its
+    findings block** whatever came next until they are written or declined, and **a declined finding
+    is never re-reported**. It reports in plain language — *"nothing runs it"*, *"it names a place
+    where it is not written"* — and the technical vocabulary is inferred from use, like the
+    professional profile: never required in order to ask a question.
+  - `leave` – "leave Lore", "leave Lore without losing the criterion" — removes governance and keeps
+    `lore/`. Writes the `leave:` marker in `FASES.md`, which is the whole of its reversibility:
+    `UPGRADE` reads it to come back.
   - `crystallize` – "crystallize this Lore", "export this Lore to one Markdown", "extract this
     crystallization" — resolve the live routing into a safe, traceable reading copy for a chat,
     AI project or notebook, marked so it can be unpacked into a folder whose routing table resolves.

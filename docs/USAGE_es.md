@@ -392,7 +392,7 @@ No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene oc
   de solo lectura: el criterio que ningún paso corre se parece exactamente a lo que sobra, y quitarlo es
   el único corte que este modo no puede deshacer. **Y vuelve a correr al cerrar**, porque una poda
   cambia juntas y no solo volumen: puede haberse llevado el paso que corría una Pista que dejó viva.
-- `micelio` – **(2.3.0)** ¿está enchufado el Lore? Recorrido de solo lectura de la red que reporta qué
+- `micelio` – **(2.3.0)** ¿puede el Lore disparar de verdad? Recorrido de solo lectura de la red que reporta qué
   Pistas quedaron **sin micorriza**: ningún paso de ningún procedimiento las corre, así que no pueden
   dispararse. Se corre en **tres momentos**: antes de una tarea compleja, justo después de instalar o actualizar el
   kit, y **al salir de cualquier pasada que escribió Lore** —`PRUNE`, `GRAFT`, una destilación—, antes
@@ -407,6 +407,15 @@ No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene oc
   no puede ni clasificarse**: el universo del paso 1 nunca lo contuvo. Ese es el quinto caso,
   `Fuera del sustrato`, y es el único cuyo reparo son **dos movimientos** — primero se mueve adentro
   de `lore/`, y recién ahí se le cuelga un paso.
+  **Y desde el 2026-08-22 no hace falta aprenderse los seis nombres para usarlo.** Cada caso tiene
+  una **clave estable** —`connected`, `alone`, `missed`, `no-exchange`, `outside`, `other-tree`— que
+  no se traduce, y una **frase llana** que sí: *«nada la corre»*, *«apunta a un lugar donde no
+  está»*. El reporte sale en la frase llana; el vocabulario técnico se **infiere del uso**, como el
+  perfil profesional, y **nunca se exige para hacer una pregunta**. Los nombres no cambian, porque
+  `Junta seca` y `Media junta` se reparan al revés y fusionarlas devolvería el error.
+  **El tercer disparador es automático y su condición es estrecha:** salta cuando una pasada
+  **escribió criterio y tocó enrutamiento**, las dos mitades, y **nunca vuelve a reportar lo que ya
+  declinaste** — un chequeo que se vuelve ruido no se corre, y entonces no detecta nada.
   **Y un sexto, del mismo día:** `Junta a otro árbol` — la junta existe, está bien declarada, y el
   paso que nombra vive en **un artefacto operativo que la sesión no carga**. No falta nada y nada
   está fuera de lugar: la Pista simplemente no puede disparar *acá*. Se confunde con `Media junta` y

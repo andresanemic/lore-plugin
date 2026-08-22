@@ -191,6 +191,24 @@ stated while doing real work may become small candidates for `save-to-lore` at a
 until the person reviews them, they are context rather than identity. If disabled, no profile file or
 biographical proposals are created and every other capability remains available.
 
+### Orientation for somebody new to the kit — suggested, never asked — 2.3.0
+
+When this skill is running the kit's **first use** (`use-lore` §0 hands the conversation here), the
+person may have no picture of what Lore is. Suggest **one** short orientation and infer its shape
+from how they have been writing — a concept map, a short text, a plain-language explanation, a worked
+example over the artifact they are about to receive. `use-lore` §0 carries the inference rule and the
+exact wording; do not duplicate it here.
+
+Two limits, and they come from this skill's own invariants rather than from politeness:
+
+- **It is an offer, not a question.** «One question at a time» is a budget, and a question that does
+  not change the design spends it for nothing. Which tutorial format somebody prefers changes no
+  artifact — so it is proposed in one line, corrected in one line, and never becomes a decision the
+  conversation waits on.
+- **It never runs instead of the design.** The threshold of this skill is an approved design, and an
+  orientation delivered in its place is a conversation that felt productive and moved nothing. If
+  only one of the two fits in the turn, it is the design.
+
 ## 4. Compare approaches
 
 For consequential choices, present **two or three approaches** with their real trade-offs. Lead with

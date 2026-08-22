@@ -270,3 +270,65 @@ test("MICELIO distingue la junta que apunta a un artefacto que la sesion no carg
   assert.match(mic, /artifact the running tree does not load|artifact actually in force|artifact that is actually running/i,
     "sin el sexto caso, una junta correcta que apunta a otro arbol se clasifica Media junta y se repara escribiendo el termino donde ya estaba");
 });
+
+// 2026-08-22, Andres: "los modos de micelio no me gustan... no le puedes ir exigiendo al usuario
+// que ejecute terminos tan complejos". El defecto es real y verificable: seis casos en espanol
+// dentro de skills escritas en ingles. Pero enunciar simple y renombrar los casos son dos
+// operaciones distintas, y solo la primera hace falta: Junta seca y Media junta se reparan al
+// reves, y un nombre que las fusione devuelve el error. Clave estable adentro, frase llana afuera.
+
+test("MICELIO tiene capa llana con clave neutra al idioma, sin perder los seis casos", () => {
+  const t = skill("transmute-lore");
+  const mic = t.slice(t.indexOf("## MICELIO mode"), t.indexOf("## LEAVE mode"));
+  for (const clave of ["`connected`", "`alone`", "`missed`", "`no-exchange`",
+                       "`outside`", "`other-tree`"])
+    assert.ok(mic.includes(clave), `falta la clave neutra ${clave}`);
+  // La capa es superficie, no reemplazo: los seis casos siguen existiendo con su nombre.
+  for (const caso of ["Micorrizada", "Aislada", "Media junta", "Junta seca",
+                      "Fuera del sustrato", "Junta a otro árbol"])
+    assert.ok(mic.includes(caso), `la capa llana se comio el caso ${caso}`);
+  assert.match(mic, /never require somebody to type|never teach the vocabulary/i,
+    "sin esto la capa llana es decorativa: el usuario sigue teniendo que aprender el vocabulario para preguntar");
+  assert.match(mic, /governs how findings are \*\*said\*\*, not how they are classified/i,
+    "falta la frontera: una capa que fusione missed con no-exchange rompe el modo en vez de simplificarlo");
+});
+
+// El disparador 3 pasa a ser automatico, y para en una condicion estrecha a proposito. MICELIO
+// prueba UNA cosa: que una regla PUEDE disparar. "Auditor interno del kit" le pide certificar que
+// el criterio es correcto, que es justo lo que el modo se niega a decir. Ademas H14 esta en n=1
+// con Crowding como rival declarada. Y su ecualizacion es una regla, no una intencion:
+// nunca re-reporta lo declinado, porque un chequeo que es ruido se saltea.
+
+test("el disparo automatico de MICELIO exige las dos mitades y no repite lo declinado", () => {
+  const t = skill("transmute-lore");
+  const mic = t.slice(t.indexOf("## MICELIO mode"), t.indexOf("## LEAVE mode"));
+  assert.match(mic, /wrote criteria and touched routing/i,
+    "sin las dos mitades el disparo salta con un typo o con una linea de FASES, y se vuelve tedioso");
+  assert.match(mic, /\*\*Both halves are required\.\*\*/,
+    "una sola mitad convierte la condicion en 'cada vez que se toca un archivo'");
+  assert.match(mic, /never re-reports what the person already declined/i,
+    "sin esta regla el modo es ruido, y un chequeo que es ruido no se corre");
+  assert.match(mic, /instead of becoming .the kit's internal auditor./i,
+    "falta la derrota escrita: ensanchar el nombre sin ensanchar el mecanismo es el defecto que retiro el nombre vertical");
+});
+
+// 2026-08-22, Andres: use-lore y brainstorming-lore deben sugerir un tutorial. El riesgo es que
+// "mapa conceptual / texto corto / test" sea exactamente el menu que el umbral 0 rechaza. Se
+// resuelve como el registro: se infiere UNA forma y se corrige en una linea.
+
+test("el tutorial se infiere y se ofrece; no es un menu ni reemplaza al primer artefacto", () => {
+  const u = skill("use-lore");
+  const gate = u.slice(u.indexOf("## 0. Very first use"), u.indexOf("## The standard:"));
+  assert.match(gate, /one shape, never a\nmenu|one shape, never a menu/i,
+    "sin esto el tutorial se vuelve la lista de opciones que este mismo umbral rechaza");
+  assert.match(gate, /Never expand it into a list of options/i,
+    "falta el anti-patron explicito: el menu vuelve con cara amable");
+  assert.match(gate, /never replaces the artifact/i,
+    "un tutorial entregado en lugar del primer artefacto es el kit explicandose a alguien que se queda sin nada");
+  // brainstorming-lore lo propone, pero no duplica la regla de inferencia: un solo dueno.
+  const b = skill("brainstorming-lore");
+  assert.match(b, /Orientation for somebody new to the kit/i,
+    "brainstorming-lore corre el primer uso y no sabe que puede ofrecerlo");
+  assert.match(b, /carries the inference rule and the\nexact wording; do not duplicate it here|do not duplicate it here/i,
+    "sin esto la regla vive en dos archivos y gana la que este mas cerca del indice");
+});
