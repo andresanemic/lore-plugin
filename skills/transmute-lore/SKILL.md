@@ -621,6 +621,11 @@ commit.**
 
 ---
 
+> **Closing a PRUNE pass: run `MICELIO` again over what it left.** A removal changes junctions, not
+> only volume — the step that ran a surviving clue may have been what came out. The exit pass is the
+> only thing that separates *«the corpus weighs less»* from *«the corpus weighs less and still
+> fires»*, and only the second one is what PRUNE was for. See `MICELIO`, trigger 3.
+
 ## MICELIO mode — is the Lore plugged in? — 2.3.0
 
 > **The premise (H14).** A clue can be well written, in the right module, with its validity boundary
@@ -637,7 +642,7 @@ So this mode does not ask whether criteria is *correct*. It asks whether it can 
 independent, and that is why no amount of re-reading finds this: an artifact coherent with itself and
 inert toward the outside survives every review (`H11` — coherence is not a detector).
 
-**Two triggers, and they are not the same measurement:**
+**Three triggers, and they are not the same measurement:**
 
 1. **Before a complex task** — the one that matters. You are about to lean on the Lore for real work.
    Run MICELIO first and you learn which rules cannot fire *before* the deliverable, not after.
@@ -645,6 +650,24 @@ inert toward the outside survives every review (`H11` — coherence is not a det
    machine it finds `0 of 0`, and **that green proves nothing**: there is no criteria yet to be
    disconnected. Say so in the same line, or the check manufactures confidence exactly during the
    period when it cannot fail.
+3. **On the way out of any pass that wrote Lore** — after `PRUNE`, after `GRAFT`, after a
+   distillation, and before the work that leans on the result. **This is not trigger 1 repeated, and
+   it does not measure the same thing:** the pass on the way in looks at the Lore that survived; the
+   pass on the way out looks at the Lore *the operation just wrote*.
+
+> **Why a second pass, when the first one came back green.** Because **a new clue is born
+> `Aislada`.** That is this mode's own finding, and it generalizes: isolation does not accumulate
+> with age — it is produced at the rate criteria is written, including by an author who knows about
+> `H14` and is writing about `H14`. So a pass that writes is a pass that manufactures the defect this
+> mode detects, and the scan that ran before it is structurally blind to its own output. `GRAFT`
+> lands clues nothing runs yet; `PRUNE` can remove the step that was running a clue it left alive,
+> turning a `Micorrizada` into a `Media junta` with no error anywhere.
+>
+> **The asymmetry is the point, and collapsing the two breaks both.** One pass is not enough in
+> either direction: skip the entry pass and `PRUNE` deletes what was only waiting to be plugged in;
+> skip the exit pass and the next deliverable runs against criteria that was written an hour ago and
+> is joined to nothing. Findings on the way in block the pass that writes. Findings on the way out
+> block **the work**, which is the operation the whole ritual existed to protect.
 
 **Procedure — one read-only pass, nothing is written:**
 

@@ -385,9 +385,15 @@ It is not a CLI command: the mode is inferred from the phrase, not from a flag. 
   there. It is the only subtractive mode, and **the unit it counts is the deliverable, not the Lore**
   — it will ask what your project actually ships before reading a single module. Since **2.3.0** it
   runs a **MICELIO scan** first, read-only: criteria that no step ever runs looks exactly like surplus,
-  and removing it is the one cut this mode cannot undo.
+  and removing it is the one cut this mode cannot undo. **And it scans again on the way out**, because
+  a removal changes junctions and not only volume: the step it took out may have been the one running
+  a clue it left alive.
 - `micelio` – **(2.3.0)** is the Lore plugged in? A read-only walk of the network reporting which
-  clues have **no micorriza**: no step of any procedure runs them, so they cannot fire. Run it
+  clues have **no micorriza**: no step of any procedure runs them, so they cannot fire. Three
+  triggers — before a complex task, right after installing or updating the kit, and **on the way out
+  of any pass that wrote Lore** (`PRUNE`, `GRAFT`, a distillation), before the work leans on the
+  result. **The exit pass is not the entry pass repeated:** a new clue is born `Aislada`, so a pass
+  that writes manufactures the very defect this mode detects. Run it
   **before a complex task** and right after installing or updating the kit. It reports pairs — clue
   ⇢ the junction that is missing — and a **rate**, never a score: a percentage invites raising it by
   deleting the disconnected clues. First real run found four, all under 48 hours old (`H14`).

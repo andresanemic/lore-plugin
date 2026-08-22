@@ -390,10 +390,15 @@ No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene oc
   modo sustractivo, y **la unidad que cuenta es el entregable, no el Lore** — te va a preguntar qué
   publica tu proyecto antes de leer un solo módulo. Desde **2.3.0** corre antes un **barrido MICELIO**,
   de solo lectura: el criterio que ningún paso corre se parece exactamente a lo que sobra, y quitarlo es
-  el único corte que este modo no puede deshacer.
+  el único corte que este modo no puede deshacer. **Y vuelve a correr al cerrar**, porque una poda
+  cambia juntas y no solo volumen: puede haberse llevado el paso que corría una Pista que dejó viva.
 - `micelio` – **(2.3.0)** ¿está enchufado el Lore? Recorrido de solo lectura de la red que reporta qué
   Pistas quedaron **sin micorriza**: ningún paso de ningún procedimiento las corre, así que no pueden
-  dispararse. Se corre **antes de una tarea compleja** y justo después de instalar o actualizar el kit.
+  dispararse. Se corre en **tres momentos**: antes de una tarea compleja, justo después de instalar o actualizar el
+  kit, y **al salir de cualquier pasada que escribió Lore** —`PRUNE`, `GRAFT`, una destilación—, antes
+  del trabajo que se va a apoyar en el resultado. **La pasada de salida no es la de entrada repetida:**
+  una Pista nueva **nace aislada**, así que una pasada que escribe fabrica el defecto que este modo
+  detecta, y el barrido anterior es ciego a lo que ella produjo.
   Reporta pares —Pista ⇢ junta que falta— y una **tasa**, nunca un puntaje: un porcentaje invita a
   subirlo borrando lo desconectado. La primera corrida real encontró cuatro, las cuatro de menos de
   48 horas (`H14`).

@@ -121,6 +121,23 @@ already-validated identity — enters as **`confirmed`**. Head the module with i
 
 If the source is not a document with an author but **work that was never written** — the criterion of a professional reconstructed from observing their output — the reconstruction **can be a projection**. The entry MUST carry the **evidence that forces the reading** and the **size of the corpus looked at**. Reference case: `estandar-del-rubro.md:§3.3`, 12 publications of 739. If either slot is empty, the entry does not enter.
 
+### Closing either mode: what you just wrote is not plugged in yet — 2.3.0
+
+**A new clue is born `Aislada`.** Writing it in the right module, with its boundary declared, does
+not connect it to anything: nothing yet obliges any step to run it, and that defect produces
+**inertia, not error** — the next deliverable comes back looking fine and violating it.
+
+So a pass that lands criteria closes by naming, for each entry, **the step that will run it and
+where that step leaves an artifact**. If you cannot name one, say so in the same breath as the entry
+— an unplugged clue is a real result, not a failed save, and hiding it is what makes it undetectable
+later.
+
+**And when the pass wrote more than one clue, or touched a procedure, run `transmute-lore` in
+`MICELIO` mode over what it left** (trigger 3, *on the way out*). This is not optional politeness:
+the scan that ran *before* the pass is structurally blind to what the pass produced, and `GRAFT` in
+particular imports criteria that arrives with no junction by construction. Its findings block the
+work that was going to lean on this Lore.
+
 ## Before either mode — is this a fact, or is it criteria?
 
 The routing below is built for **criteria**, which lives in exactly one place by design. A

@@ -119,6 +119,29 @@ test("MICELIO tiene sus dos disparadores declarados: post-instalación y pre-tar
   assert.match(txt, /before a complex|antes de una tarea/i, "falta el disparador pre-tarea");
 });
 
+// 2026-08-22, community-manager: el ritual del viernes corrio MICELIO como paso 0 y despues
+// PRUNE + GRAFT. GRAFT escribe Pistas nuevas, y una Pista nueva NACE aislada — es el hallazgo del
+// propio modo: el aislamiento se produce al ritmo que se escribe criterio, no se acumula con la
+// edad. Un barrido solo de entrada no puede ver nada de lo que la propia operacion acaba de crear.
+
+test("MICELIO declara su pasada de salida: una operacion que escribe Lore vuelve a barrer", () => {
+  const t = skill("transmute-lore");
+  const mic = t.slice(t.indexOf("## MICELIO mode"), t.indexOf("## LEAVE mode"));
+  assert.match(mic, /on the way out|de salida|exit pass/i,
+    "MICELIO solo se dispara al entrar: lo que PRUNE y GRAFT acaban de escribir no lo barre nadie");
+  assert.match(mic, /a new clue is born|nace aislada|born .*Aislada/i,
+    "no dice por que hace falta la segunda pasada: una Pista nueva nace sin junta");
+});
+
+test("PRUNE y GRAFT declaran que su salida vuelve a MICELIO", () => {
+  const t = skill("transmute-lore");
+  const prune = t.slice(t.indexOf("## PRUNE mode"), t.indexOf("## MICELIO mode"));
+  assert.match(prune, /MICELIO/,
+    "PRUNE no devuelve a MICELIO: puede haberse llevado el paso que corria una Pista viva");
+  assert.match(skill("save-to-lore"), /MICELIO/,
+    "save-to-lore no nombra MICELIO: GRAFT escribe criterio nuevo y nada verifica que enganche");
+});
+
 // Hallazgo de la primera corrida de MICELIO sobre el propio kit (2026-08-22):
 // 5 de 8 modos tenían gate nombrado en use-lore y 3 se enrutaban solo por descripción.
 // Media junta: el destino existe y el término está ausente ahí — el caso `Missing` del propio modo.

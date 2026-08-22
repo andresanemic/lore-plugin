@@ -8,7 +8,10 @@
 
 - **`LEAVE`** — dejar el Lore sin perder el proyecto. Escribe la marca `leave:` en `FASES.md`, que es
   toda su reversibilidad: sin ella `UPGRADE` no puede volver y `H13` sigue sin instrumento.
-- **`MICELIO`** — octavo modo. ¿Está enchufado el Lore? Recorrido de solo lectura que reporta qué
+- **`MICELIO`** — octavo modo, con **tres disparadores**: antes de una tarea compleja, tras instalar
+  o actualizar el kit, y **al salir de cualquier pasada que escribió Lore** (`PRUNE`, `GRAFT`, una
+  destilación). La pasada de salida no es la de entrada repetida — **una Pista nueva nace `Aislada`**,
+  así que una pasada que escribe fabrica el defecto que el modo detecta. Recorrido de solo lectura que reporta qué
   Pistas quedaron **aisladas**: ningún paso de ningún procedimiento las corre. Dos disparadores —
   antes de una tarea compleja, y tras instalar o actualizar el kit.
 - Auditoría con `ponytail` + `writing-skills`: cuatro defectos de enchufe corregidos, más la guardia
