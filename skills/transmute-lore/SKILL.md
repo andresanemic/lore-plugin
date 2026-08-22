@@ -681,6 +681,24 @@ inert toward the outside survives every review (`H11` — coherence is not a det
 1. **Take the universe, and it is narrower than the Lore.** Only clues that mandate a **verifiable
    artifact or step**. Criteria that governs continuously while writing — tone of voice, a dialect, a
    register — is satisfied in the text itself and is not in scope. Say what you excluded and why.
+
+1b. **Then widen it past `lore/`, because the worst case is not in there.** Sweep the tree's **source
+   folders** — `docs/`, `notas/`/`notes/`, `estrategia/`, anything the routing table does not own —
+   for imperative language: *never*, *always*, *se publica*, *no se escribe*, *antes de*, and their
+   equivalents in the corpus's language. **Criteria that landed in a source folder cannot be
+   classified at all**, because the universe of step 1 never contained it: it is not `Aislada`, it is
+   invisible. And it is not a rare accident — a source folder is where criteria goes when somebody is
+   writing *about* a thing rather than writing the rule, which is most of the time.
+
+   **Its repair is two moves, not one**, and that is why it gets its own case below: the criteria is
+   first moved into `lore/` where routing can reach it, and only then does it get a step. Proposing a
+   step for a clue that lives in `docs/` produces a junction pointing at a file nothing loads.
+
+   **Check the inputs too, not only the rules.** A distilled document that cites a source —
+   *«derivado de cinco capturas»*, *«transcrito del `.docx`»*— is only as auditable as that source is
+   reachable. If the source lives outside the repository, the document reads perfectly and cannot be
+   verified by anyone who was not there. Report it as the same case: what is missing is a junction to
+   the material, not to a step.
 2. For each one, `grep` the procedures that could run it: the host contract, `FASES.md`, the process
    modules, the checklists, the phases of any ritual.
 3. Classify each into one of four:
@@ -691,6 +709,15 @@ inert toward the outside survives every review (`H11` — coherence is not a det
 | **Aislada** | **No step mentions it.** It is in the soil and nothing touches it — it cannot fire. |
 | **Media junta** | It declares a destination and the term is absent there: the hypha reaches and does not latch. |
 | **Junta seca** | A step names it, but the step is *"consult X"*: contact without exchange. It verifies reading, produces nothing, and cannot be told apart from the pass that skipped it. |
+| **Fuera del sustrato** | It is criteria, and it is **not in `lore/`** — it landed in `docs/`, in a note, in a strategy document. Routing does not reach it, so no step can be attached to it until it is moved. The only case whose repair is two moves. |
+
+> **The fifth case was found by the mode failing to find it — 2026-08-22.** A rule about how an
+> externally-sourced figure may be published was written into a project's `docs/`. The sweep reported
+> it `Aislada` **only because the author happened to remember writing it an hour earlier**; nothing in
+> the procedure would have surfaced it, because step 1 draws the universe from `lore/`. On the same
+> pass, a distilled document cited five screenshots that lived on somebody's desktop, outside the
+> repository — correct, cited, and unverifiable by anyone else. **Neither is `Aislada`: an `Aislada`
+> clue is in the soil and joined to nothing, and these were never in the soil.**
 
 > **The names are criteria, not decoration.** The earlier vocabulary called the second case `Orphan`,
 > and that word is **vertical** — it says someone above is missing. This defect is **lateral**: the

@@ -20,7 +20,17 @@
 ## Vocabulario de `MICELIO`
 
 El **micelio** es la red que reparte; la **micorriza** es la junta entre una Pista y el paso que la
-corre. Los cuatro casos: `Micorrizada` · `Aislada` · `Media junta` · `Junta seca`.
+corre. Los **cinco** casos: `Micorrizada` · `Aislada` · `Media junta` · `Junta seca` ·
+`Fuera del sustrato`.
+
+El quinto entró el 2026-08-22 y lo encontró el modo **fallando en encontrarlo**: una regla escrita en
+el `docs/` de un proyecto se reportó `Aislada` solo porque el autor recordaba haberla escrito una
+hora antes. El paso 1 toma su universo del `lore/`, así que **criterio que aterrizó en una carpeta de
+fuente es invisible por construcción** — no está aislado, nunca estuvo en el sustrato. Su reparo son
+**dos movimientos**: primero se mueve adentro de `lore/`, donde el enrutamiento lo alcanza, y recién
+ahí se le cuelga un paso. Un paso colgado de un archivo que nada carga es una junta que apunta al
+vacío. El mismo barrido encontró la variante de entrada: un documento destilado que citaba cinco
+capturas que vivían fuera del repositorio — correcto, citado, y no verificable por nadie más.
 
 El término anterior era `Orphan` y se retiró: es **vertical** —dice que falta alguien arriba— y el
 defecto es **lateral**. Una Pista aislada tiene autor, módulo y frontera; lo que no tiene es junta

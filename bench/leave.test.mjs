@@ -233,3 +233,25 @@ test("los dos skills declaran MICELIO en sus invariantes (registro del principio
     assert.match(inv, /MICELIO/, `${n}: MICELIO no entro al registro de invariantes`);
   }
 });
+
+// 2026-08-22, community-manager: la regla de como se publica una cifra de fuente externa se
+// escribio en chatterpay/docs/. MICELIO la reporto Aislada solo porque el autor sabia que la
+// habia escrito una hora antes — el modo toma su universo del lore/, asi que criterio que
+// aterrizo en una carpeta de fuente no entra a la barrida y no puede ni siquiera clasificarse.
+// Segundo caso el mismo dia: las capturas que alimentaban un doc citado vivian fuera del repo.
+
+test("MICELIO barre criterio que aterrizo fuera de lore/, no solo lo que ya esta adentro", () => {
+  const t = skill("transmute-lore");
+  const mic = t.slice(t.indexOf("## MICELIO mode"), t.indexOf("## LEAVE mode"));
+  assert.match(mic, /docs\/|carpeta de fuente|source folder/i,
+    "MICELIO toma su universo del lore/: el criterio escrito en docs/ o notas/ es invisible por construccion");
+});
+
+test("MICELIO tiene un quinto caso para el criterio que nunca entro al sustrato", () => {
+  const t = skill("transmute-lore");
+  const mic = t.slice(t.indexOf("## MICELIO mode"), t.indexOf("## LEAVE mode"));
+  assert.match(mic, /Fuera del sustrato/,
+    "sin quinto caso, criterio fuera de lore/ se reporta como Aislada y su reparo es distinto: son dos movimientos, no uno");
+  assert.ok(mic.includes("| **Fuera del sustrato**"),
+    "el quinto caso no esta en la tabla de casos");
+});

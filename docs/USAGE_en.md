@@ -397,6 +397,11 @@ It is not a CLI command: the mode is inferred from the phrase, not from a flag. 
   **before a complex task** and right after installing or updating the kit. It reports pairs — clue
   ⇢ the junction that is missing — and a **rate**, never a score: a percentage invites raising it by
   deleting the disconnected clues. First real run found four, all under 48 hours old (`H14`).
+  **Since 2026-08-22 the sweep does not stop at `lore/`:** it also walks the source folders —
+  `docs/`, `notes/`, `estrategia/` — looking for imperative language, because **criteria that landed
+  there cannot even be classified**: step 1's universe never contained it. That is the fifth case,
+  `Fuera del sustrato`, and it is the only one whose repair is **two moves** — first move it into
+  `lore/`, and only then attach a step.
 - `leave` – **(2.3.0)** leave Lore without losing the project — remove governance (`<!-- lore:always-on -->`) but keep `lore/` and routing as plain `enrutamiento.md`, leaving `FASES.md` with `leave:` marker so `UPGRADE` can return. Project stays buildable without the kit (H13).
 - `crystallize` – export the live, routed Lore as one safe and traceable Markdown for a chat, AI
   project or notebook. The snapshot is derived, may become stale, never replaces the source, and
