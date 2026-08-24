@@ -37,6 +37,9 @@ This skill operates a project's body of criteria. Eight modes, one skill:
   it for real work. MYCELIUM walks the network and reports which clues **nothing runs**: no step of
   any procedure runs them. It writes nothing. It is the only mode that asks *can this fire?*
   instead of *is this correct?* — and the two are independent, which is why no reading finds it.
+  *Un Lore sin micelio es un herbario* — countable, not fireable. *Ese es el silencio dentro del
+  silencio*: a check can run and its result never be consumed — two separate joints — and it is
+  why MYCELIUM blocks the next operation until every finding is written or explicitly declined.
 - **LEAVE** — the project outgrows Lore or the person chooses to leave (H13). LEAVE removes governance (`<!-- lore:always-on -->`) but keeps `lore/` and routing as plain `enrutamiento.md`, leaving `FASES.md` with `leave:` marker so `UPGRADE` can return. Project stays buildable without the kit.
 - **CRYSTALLIZE** — the Lore is healthy and must travel as a **single Markdown derivative** into a
   chat, an AI project, or a notebook such as NotebookLM. It resolves the live routing into one
