@@ -110,7 +110,7 @@ the routing table below and this section is skipped.
 
 ## The standard: the skill runs, and it is the current one
 
-Two rules that hold for **every** new Lore configuration the user builds, forever, not only the
+Three rules that hold for **every** new Lore configuration the user builds, forever, not only the
 first:
 
 1. **The skill that governs an artifact is always invoked to write it.** Not consulted afterwards,
@@ -119,12 +119,25 @@ first:
    version behind is a version that does not carry the last defeat somebody already paid for. If the
    installed copy is stale, updating it comes **before** the work, not after — and the plugin cache
    is indexed by version, so what was published without a version bump was never received.
+3. **A project's own Lore is checked against the kit too, not only which skill runs.** Before
+   non-trivial work on a project that already has `lore/`, read its `FASES.md` for the most recent
+   `## UPGRADE a X.Y.Z` line and compare that version to the installed kit's. If the kit is ahead,
+   say so plainly and offer `transmute-lore` in **UPGRADE** mode, once, before the work starts — a
+   healthy Lore behind the kit looks correct in every reading, which is exactly why nobody notices
+   on their own. If the person defers, proceed; do not repeat the offer on every later message in
+   the same session.
 
 > **Right after installing or updating the kit, run `transmute-lore` in **MYCELIUM** mode over the
 > Lore already on this machine.** An update changes what the skills demand; the criteria written
 > against the previous one does not move by itself. On a machine with no Lore yet the answer is
 > `0 of 0` — report it as such and say plainly that it proves nothing yet, because there is nothing
 > that could be disconnected.
+
+> **Rule 3 is not MYCELIUM, and must not fold into it.** Rule 3 asks one cheap, deterministic
+> question — is the *kit* ahead of what this Lore was written against? MYCELIUM asks whether a
+> *specific clue*, already in the standard, can fire. A stale version and a disconnected clue can
+> both be true, or only one, and the repair for each is different — merging the two would put back,
+> inside a mode that just paid to remove exactly this, the layer `MYCELIUM` was pruned of.
 
 *Why this is a standard and not advice:* the value of the kit is cumulative and lives in the skills.
 An agent who writes criteria by hand, or who runs a version from three fixes ago, produces something

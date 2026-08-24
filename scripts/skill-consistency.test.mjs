@@ -31,6 +31,15 @@ test("use-lore enruta explícitamente UPGRADE y CRYSTALLIZE", () => {
   assert.match(text, /transmute-lore` \(\*\*CRYSTALLIZE\*\*\)/);
 });
 
+test("use-lore compara la version del proyecto contra el kit, y lo distingue de MYCELIUM", () => {
+  const text = skillText(join(skillsRoot, "use-lore"));
+  assert.match(text, /Three rules/);
+  assert.match(text, /## UPGRADE a X\.Y\.Z/);
+  assert.match(text, /offer .*transmute-lore.* in \*\*UPGRADE\*\* mode/is);
+  assert.match(text, /do not repeat the offer on every later message/i);
+  assert.match(text, /Rule 3 is not MYCELIUM, and must not fold into it/);
+});
+
 test("use-lore gobierna entregables complejos sin crear una novena skill", () => {
   const text = skillText(join(skillsRoot, "use-lore"));
   assert.match(text, /Complex deliverables/);
