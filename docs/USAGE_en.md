@@ -190,8 +190,10 @@ You can ask things like:
 `use-lore` is the safest place to start if you’re unsure which skill to use next.
 For **complex deliverables**, it first fixes the owning project, routed Lore, an approved precedent
 or human-approved specimen, and the capabilities actually available through tools, connectors or
-MCPs. Work then advances in reviewable batches with human review and checked delivery; the domain
-skill still owns each medium and tool.
+MCPs. When the batch splits into mechanical bulk and arbitration, it suggests `/model` for a
+cheaper tier on the bulk instead of a subagent — a subagent re-reads the whole Lore tree before it
+starts, which burns the tokens this move exists to save. Work then advances in reviewable batches
+with human review and checked delivery; the domain skill still owns each medium and tool.
 
 ---
 

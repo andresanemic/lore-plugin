@@ -195,8 +195,11 @@ recomendación. El kit brainstormea para construir todo lo que hace; sería inco
 puerta de entrada fuera un menú.
 Para **entregables complejos**, primero fija el proyecto dueño, el Lore enrutado, un precedente
 aprobado o ejemplar aprobado por una persona y las capacidades realmente disponibles mediante
-herramientas, conectores o MCPs. El trabajo avanza después en lotes revisables, con revisión humana
-y entrega comprobada; la skill de dominio sigue siendo dueña de cada medio y herramienta.
+herramientas, conectores o MCPs. Cuando el lote se divide entre tramo mecánico y arbitraje, sugiere
+`/model` para bajar de nivel en el tramo mecánico en vez de un subagente — un subagente relee todo
+el árbol de Lore antes de empezar, y eso quema justo los tokens que este movimiento existe para
+ahorrar. El trabajo avanza después en lotes revisables, con revisión humana y entrega comprobada;
+la skill de dominio sigue siendo dueña de cada medio y herramienta.
 
 ---
 

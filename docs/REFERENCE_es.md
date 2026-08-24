@@ -75,8 +75,10 @@ Estos skills **no son comandos de una CLI**: son *skills* del agente que se disp
 - Dirigirte al skill adecuado según tu intención.
 - Para **entregables complejos**, fijar el dueño y el Lore enrutado, un precedente aprobado o
   ejemplar aprobado por una persona, las capacidades verificadas de herramientas, conectores o
-  MCPs, lotes revisables, revisión humana y la entrega comprobada. Enrutar cada medio y herramienta
-  a su skill dueña en vez de convertirse en una novena skill de producción.
+  MCPs, lotes revisables, revisión humana y la entrega comprobada. Cuando el lote se divide entre
+  tramo mecánico y arbitraje, sugerir `/model` para bajar de nivel en vez de un subagente — un
+  subagente relee todo el árbol de Lore antes de empezar. Enrutar cada medio y herramienta a su
+  skill dueña en vez de convertirse en una novena skill de producción.
 - **Enrutar una petición de bot, nunca contestarla con un Área** (2.1.1). En una máquina sin nada de
   Lore, quien pide bots ya nombró el entregable: las Áreas son **pasos**, `create-bot` corre al
   final, y la cadena se dice completa con su costo — un `create-area` más un `transmute-lore` por

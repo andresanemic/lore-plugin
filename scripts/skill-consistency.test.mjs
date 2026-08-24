@@ -54,6 +54,14 @@ test("use-lore gobierna entregables complejos sin crear una novena skill", () =>
   }
 });
 
+test("use-lore sugiere /model para el tramo mecanico de un lote, nunca un subagente", () => {
+  const text = skillText(join(skillsRoot, "use-lore"));
+  assert.match(text, /suggest `\/model`/);
+  assert.match(text, /mechanical bulk and arbitration/);
+  assert.match(text, /Never spend a subagent on it/);
+  assert.match(text, /re-reads the project's whole Lore/);
+});
+
 test("el lote Jazmín deja obligaciones reutilizables y el caso 17", () => {
   const bot = skillText(join(skillsRoot, "create-bot"));
   const brainstorm = skillText(join(skillsRoot, "brainstorming-lore"));

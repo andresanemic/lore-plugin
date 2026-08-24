@@ -161,9 +161,14 @@ Before producing:
    exists, the human must approve a representative piece or explicit criteria before the batch.
 3. Verify the **available tools, connectors or MCPs** against the real source and destination. Never
    promise scraping, document generation or external delivery from a capability that was not tested.
-4. Make the structure and fixed facts visible, then produce in reviewable batches. A batch inherits
+4. **When the batch splits into mechanical bulk and arbitration**, and a lighter model plausibly
+   covers the bulk at the same quality, name that split and suggest `/model` to run it on a cheaper
+   tier for that part, then switch back for arbitration and review. Never spend a subagent on it —
+   a fresh subagent re-reads the project's whole Lore before it can start, which burns exactly the
+   tokens this move exists to save; `/model` keeps the same session and its already-loaded context.
+5. Make the structure and fixed facts visible, then produce in reviewable batches. A batch inherits
    the same yardstick; it does not renegotiate quality piece by piece.
-5. Keep **human review** between each consequential batch and the word *definitive*. Delivery is
+6. Keep **human review** between each consequential batch and the word *definitive*. Delivery is
    complete only when the target contains the reviewed result and that state was checked.
 
 Invoke the domain skill that owns each medium or tool. This route coordinates criteria, precedent,
