@@ -59,7 +59,7 @@ future decisions, never what it holds.
 
 ## Start
 
-Install the plugin and say **"lore"**. The kit brainstorms to build — it will not hand you a menu of
+Install the plugin and write **"I want to start using Lore Plugin, help me"**. The kit brainstorms to build — it will not hand you a menu of
 commands.
 
 Longer: [usage](./USAGE_en.md) · [reference](./REFERENCE_en.md) · [cases](./CASES_en.md)
