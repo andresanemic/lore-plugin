@@ -140,7 +140,7 @@ It provides three things:
 - eight skills that operate that convention;
 - and a continuous loop for distilling experience into reusable criteria.
 
-Spec-driven is not a label here. Each project has a single contract chosen by its primary host — `CLAUDE.md` for Claude Code or `AGENTS.md` for Codex — `FASES.md` holds the current state, the roadmap and the task list, and `lore/` holds the criteria that constrains how all of it gets built. If you use both hosts, Codex can fall back to `CLAUDE.md`; you still do not need two contracts.
+Spec-driven is not a label here: one contract per project (`CLAUDE.md` or `AGENTS.md`, whichever your host reads), `FASES.md` for where the work stands, `lore/` for what constrains how it gets built.
 
 Unlike documentation, Lore does not try to describe everything. It only preserves what changes future behavior.
 
@@ -904,7 +904,7 @@ Aporta tres cosas:
 - ocho *skills* que operan esa convención;
 - y un ciclo continuo para destilar experiencia en criterio reutilizable.
 
-Lo de *spec-driven* no es una etiqueta. Cada proyecto tiene un solo contrato, elegido por su host principal —`CLAUDE.md` para Claude Code o `AGENTS.md` para Codex—, `FASES.md` guarda el estado, la hoja de ruta y el listado de tareas, y `lore/` guarda el criterio que restringe cómo se construye todo lo anterior. Si usas ambos hosts, Codex puede usar `CLAUDE.md` como respaldo; sigues sin necesitar dos contratos.
+Lo de *spec-driven* no es una etiqueta: un contrato por proyecto (`CLAUDE.md` o `AGENTS.md`, el que lea tu host), `FASES.md` para dónde está el trabajo, `lore/` para lo que restringe cómo se construye.
 
 A diferencia de la documentación, Lore no intenta describirlo todo. Solo conserva aquello que modifica el comportamiento futuro.
 
