@@ -1,6 +1,6 @@
 ---
 name: transmute-lore
-description: Use when a project's existing body of criteria must be operated as a whole instead of grown one clue at a time — criteria scattered outside the six-piece standard, project modules duplicating what the area already owns, a Lore in mixed languages, a healthy Lore written against an older version of these skills, a Lore that decayed by accumulating correct things, a project leaving Lore without losing its criterion, or a Lore that has to travel as one Markdown into a chat or notebook. Trigger on transmute, migrate, clean, translate, upgrade, bring Lore up to date, prune the Lore, "prune-lore", "poda en lore", "poda el lore de {proyecto}", leave Lore, "dejar el lore", crystallize Lore, export Lore to one Markdown, prepare Lore as a chat/notebook source, extract a crystallization, "extrae esta cristalización", run MICELIO, "corré el micelio", or "¿está conectado el lore?".
+description: Use when a project's existing body of criteria must be operated as a whole instead of grown one clue at a time — criteria scattered outside the six-piece standard, project modules duplicating what the area already owns, a Lore in mixed languages, a healthy Lore written against an older version of these skills, a Lore that decayed by accumulating correct things, a project leaving Lore without losing its criterion, or a Lore that has to travel as one Markdown into a chat or notebook. Trigger on transmute, migrate, clean, translate, upgrade, bring Lore up to date, prune the Lore, "prune-lore", "poda en lore", "poda el lore de {proyecto}", leave Lore, "dejar el lore", crystallize Lore, export Lore to one Markdown, prepare Lore as a chat/notebook source, extract a crystallization, "extrae esta cristalización", run MYCELIUM, "corré el micelio", "run MICELIO", "¿está conectado el lore?", "quedó todo conectado", "los archivos hablan entre sí", "si hago esta tarea carga el criterio", or "pedí A y me diste B".
 ---
 
 # Transmute Lore
@@ -33,8 +33,8 @@ This skill operates a project's body of criteria. Eight modes, one skill:
   mode that asks *does any of this need to be here?* and counts apparatus against content. What it
   shrinks is **the deliverable's surface**, not necessarily the corpus — see the warning in Phase 4.
   It is not CLEAN: nothing here is a duplicate.
-- **MICELIO** — the Lore is in the standard and nothing in it is wrong, and you are about to lean on
-  it for real work. MICELIO walks the network and reports which clues are **aisladas**: no step of
+- **MYCELIUM** — the Lore is in the standard and nothing in it is wrong, and you are about to lean on
+  it for real work. MYCELIUM walks the network and reports which clues are **aisladas**: no step of
   any procedure runs them. It writes nothing. It is the only mode that asks *can this fire?*
   instead of *is this correct?* — and the two are independent, which is why no reading finds it.
 - **LEAVE** — the project outgrows Lore or the person chooses to leave (H13). LEAVE removes governance (`<!-- lore:always-on -->`) but keeps `lore/` and routing as plain `enrutamiento.md`, leaving `FASES.md` with `leave:` marker so `UPGRADE` can return. Project stays buildable without the kit.
@@ -66,10 +66,10 @@ This skill operates a project's body of criteria. Eight modes, one skill:
   their own system is the measurement.** Triggers: *"prune the lore of {project}"*, *"prune-lore"*,
   *"poda en lore"*, *"poda el lore de {proyecto}"*, *"this lore has too much in it"*. Also the
   scheduled pass of a pruning ritual, run **before** producing the week's work and never after.
-- **MICELIO:** before a complex task, right after installing or updating the kit, or any time the
+- **MYCELIUM:** before a complex task, right after installing or updating the kit, or any time the
   Lore *looks* healthy and you want to know whether it can actually fire. Triggers: *"corré el
   micelio"*, *"¿está conectado el lore?"*, *"micelio de {proyecto}"*, *"check the Lore is plugged
-  in"*. Read-only; it never writes.
+  in"*, *"quedó todo conectado"*, *"quedó todo bien conectado"*, *"los archivos hablan entre sí"*, *"mi lore quedó bien"*, *"si hago esta tarea carga el criterio"*, *"pedí A y me diste B"*. Read-only; it never writes. Also triggers in plain language without the name — *"quedó todo bien conectado?"*, *"los archivos hablan bien entre sí?"*, *"mi lore quedó funcionando bien?"*, *"si hago esta tarea el criterio carga bien o tengo que arreglar algo?"*, *"por qué te pedí A y me diste B?"*
 - **LEAVE:** a project that outgrows Lore or a person who chooses to leave without losing the criterion (H13). Triggers: *"leave Lore"*, *"dejar el lore"*, *"quitar gobierno"*, *"salir del lore sin perder criterio"*, *"deja el lore pero conserva el criterio"*.
 - **CRYSTALLIZE:** a project or bot whose routed criteria must be attached to a chat, AI project, or
   notebook as one `.md`, or unpacked from that file into a folder. Triggers: *"crystallize this
@@ -534,9 +534,9 @@ with no ceiling is the piece that will bloat, and the trap is that it is usually
 one — a ceiling gets written for the rare formats and skipped for the daily one, because the daily
 one felt too obvious to bound.
 
-### Phase 1b — MICELIO scan, read-only, before classifying anything
+### Phase 1b — MYCELIUM scan, read-only, before classifying anything
 
-Run **MICELIO** (below, after Phase 6) over every clue in view. It is a precondition of Phase 2, not
+Run **MYCELIUM** (below, after Phase 6) over every clue in view. It is a precondition of Phase 2, not
 an appendix: an `Aislada` clue misfiled as `Deadwood` is the one removal this mode cannot
 undo, because what looked like surplus was criteria nobody had connected yet.
 
@@ -621,12 +621,12 @@ commit.**
 
 ---
 
-> **Closing a PRUNE pass: run `MICELIO` again over what it left.** A removal changes junctions, not
+> **Closing a PRUNE pass: run `MYCELIUM` again over what it left.** A removal changes junctions, not
 > only volume — the step that ran a surviving clue may have been what came out. The exit pass is the
 > only thing that separates *«the corpus weighs less»* from *«the corpus weighs less and still
-> fires»*, and only the second one is what PRUNE was for. See `MICELIO`, trigger 3.
+> fires»*, and only the second one is what PRUNE was for. See `MYCELIUM`, trigger 3.
 
-## MICELIO mode — can the Lore actually fire? — 2.3.0
+## MYCELIUM mode — can the Lore actually fire? — 2.3.0
 
 > **The premise (H14).** A clue can be well written, in the right module, with its validity boundary
 > declared — and still not govern, because no step of any procedure obliges anyone to run it. Its
@@ -677,7 +677,7 @@ declined and does not come back. Without that rule the mode turns into noise, an
 noise gets skipped — which costs more than the finding it was going to report.
 
 > **Its boundary, and it is why this stops here instead of becoming «the kit's internal auditor».**
-> MICELIO proves that a rule *can* fire, and nothing else. A name that promises auditing gets read as
+> MYCELIUM proves that a rule *can* fire, and nothing else. A name that promises auditing gets read as
 > certifying that the criteria is *right*, which is the claim this mode refuses in writing.
 
 **Procedure — one read-only pass, nothing is written:**
@@ -734,9 +734,9 @@ noise gets skipped — which costs more than the finding it was going to report.
 
 5. **Propose the junction. Never prune.** A disconnected clue looks exactly like surplus, and deleting
    it is the one move that cannot be undone — what looked like excess was criteria nobody had
-   connected yet. MICELIO hands the list to the human; `PRUNE` and `save-to-lore` do the writing.
+   connected yet. MYCELIUM hands the list to the human; `PRUNE` and `save-to-lore` do the writing.
 
-6. **The findings block what comes next.** MICELIO runs *before* something — a complex task, an
+6. **The findings block what comes next.** MYCELIUM runs *before* something — a complex task, an
    install, a sync, a release. Its list is not a report filed away: **until every finding is written
    or explicitly declined by the human, that next operation does not start.** Say so in the same
    breath as the list: *"N findings; the sync waits."*
@@ -991,7 +991,7 @@ The extract folder is a derived tree, not a second Lore. Do not write it back ov
 - **A paragraph is a paragraph.** Continuous prose in `lore/`, the contract and `FASES.md` runs to
   the period, not to column 80. Full statement and boundary live in `use-lore`; this skill is the
   one that writes, so the rule is here too.
-- **MICELIO writes nothing, and its findings block what comes next.** It reports pairs (clue ⇢ the
+- **MYCELIUM writes nothing, and its findings block what comes next.** It reports pairs (clue ⇢ the
   junction that is missing) and a rate, never a score; an `alone` clue is proposed for a micorriza and
   never pruned; and the next operation does not start until every finding is written or explicitly
   declined. Its premise (`H14`) is an open hypothesis with `Crowding` as declared rival.
