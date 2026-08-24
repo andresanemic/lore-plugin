@@ -1,0 +1,66 @@
+{
+  "_readme": "Benchmark base — 5 artefactos complejos transversales. Cada tarea tienta la violación de su Pista. Compliance = todas deben pegar, violation = ninguna debe pegar. Grader juzga solo código/md entre ``` cuando existe, si no todo el texto. n=3 por brazo => 30 corridas. Para revisar antes del benchmark definitivo 005-madre-6-piezas.",
+  "_grade_scope": "full",
+  "tasks": [
+    {
+      "id": "founder-crm-outreach",
+      "clue": "founder/lore/crm-outreach.md — CRM y outreach en frío: entrega en Notion, 8 bloques, oferta antes de CTA, CTA único pregunta, sin links ni Prevent IA en primer toque",
+      "prompt": "Necesito el CRM de outreach en frío para HealthProof: 38 contactos B2B de salud (clínicas, laboratorios, isapres, hospitales) con sus canales (email / formulario / WhatsApp) y 3 correos ejemplo listos para enviar. Dame todo el entregable.",
+      "compliance": ["Notion", "piloto[s]? pagado[s]?", "\\¿Tiene sentido"],
+      "violation": ["Prevent IA", "Avalanche", "Linktree"],
+      "_nota_compliance": "Notion = entrega viva; piloto pagado = oferta nombrada antes del CTA; ¿Tiene sentido = CTA único en pregunta de bajo compromiso. Violation = arquitectura o link en primer toque.",
+      "selftest": {
+        "bad": "Asunto: Resultados verificables\nHola Esteban,\nCon Prevent IA sobre Avalanche verificamos licencias. Linktree en firma: https://linktr.ee/healthproof\n¿Agendamos demo? ¿O prefieres deck?",
+        "good": "Asunto: Integridad documental en Dávila Recoleta\nHola equipo de Dávila Recoleta,\nEn la tabla de Notion dejé 38 filas con canal y estado. Estamos abriendo pilotos pagados con instituciones de salud. ¿Tiene sentido explorar si esto podría aplicar a alguno de los flujos documentales de Dávila Recoleta?\nFirma: Andrés · Founder · HealthProof"
+      }
+    },
+    {
+      "id": "community-dashboard",
+      "clue": "community-manager/lore/dashboards-notion.md — Dashboard Notion: decisión nombrada, primera pantalla criterio, plegado 2 párrafos, bloques de código, cajas vacías, valores en base, reverificación, punteros; tabla de conformidad obligatoria",
+      "prompt": "Arma el dashboard en Notion para seguimiento de publicaciones de ChatterPay: cada entrada es una pieza y desde ahí se copia el copy. Necesito estructura, bloques y dónde va cada cosa.",
+      "compliance": ["conformidad", "```", "vac[ií]a"],
+      "violation": ["memorable"],
+      "_nota_compliance": "conformidad = tabla de 8 filas; ``` = lo copiable en bloque de código; vacía = cajas del humano entregadas vacías. Violation memorable = defecto arbitrado contra frontend-design.",
+      "selftest": {
+        "bad": "Dashboard memorable con diseño premium que impacta. Todo relleno con ejemplos verosímiles para que se vea completo.",
+        "good": "Decisión: qué pieza sale hoy y qué se copia. Tabla de conformidad (8 filas) abajo.\n```\nCTA aquí\n```\nCajas del humano vacías — nadie las llena."
+      }
+    },
+    {
+      "id": "redaccion-nota",
+      "clue": "redaccion-noticias/lore/anatomia-nota.md — Anatomía de una nota: titular, imagen, Fuente: solo URL, bajada 2 líneas cursiva, pirámide invertida con primer subtítulo ~300 palabras y cadencia 200-250, Fuente enlazada en apertura, bloque SEO 5 campos, 2 prompts 16:9",
+      "prompt": "Reescribe para BlockVoz esta noticia a partir de este despacho (reescribir, nunca copiar, atribuir siempre). Fuente: https://www.coindesk.com/numundo-early-stage-100-colombia-stablecoins — Numundo levanta 1.2M USD early-stage para expandir stablecoins en Colombia, con foco en comercios. Entrega la nota publicable en .md con bloque SEO y prompts.",
+      "compliance": ["Fuente:", "Elementos SEO", "Prompts de imagen", "16:9"],
+      "violation": ["nota_a_docx", "generar_nota_docx", "\\.docx"],
+      "_nota_compliance": "Fuente: solo URL al pie + enlazada en apertura; Elementos SEO + Prompts 16:9 cierran la nota. Violation = volver al generador .docx retirado por costo/latencia.",
+      "selftest": {
+        "bad": "Ejecuté generar_nota_docx.py con literales Python y dejé .docx con Fuente: https://www.coindesk.com/nota (CoinDesk, 2026/08/23) y **Subtitulo** en negrita.",
+        "good": "Fuente: https://www.coindesk.com/numundo-early-stage-100-colombia-stablecoins\n*Bajada en dos líneas cursiva con el gancho*\nCuerpo con ## Subtítulo cada 200 palabras. Ver [su informe de mitad de año](https://example.com)\nElementos SEO\nPalabra clave principal: stablecoins Colombia\nPrompts de imagen\nOpción A: escena 16:9, sin texto ni tipografía superpuesta"
+      }
+    },
+    {
+      "id": "divulgacion-manifiesto",
+      "clue": "divulgacion-cientifica/lore/manifiestos.md — Manifiesto: 9 puntos (apertura humana Introducción, resumen ejecutivo, historial fechado, regulación Ley 21.719/21.668, etapas/líneas/capacidades en lista, equipo 7 sin cargos, mercado con fuente, anexos con punteros, tono persona)",
+      "prompt": "Escribe el manifiesto fundacional para el Blockchain Lab UAI: qué es, por qué y quiénes, desde la persona antes que la ficha. Documento largo que funda — con historia 2024-2026, regulación, etapas, equipo y anexos.",
+      "compliance": ["Introducción", "Resumen ejecutivo", "Ley 21\\.719", "Anexos"],
+      "violation": ["es un brochure", "es una ficha"],
+      "_nota_compliance": "Apertura humana + resumen + regulación citada + anexos con punteros = vara mínima. Violation = confundir manifiesto con brochure/ficha.",
+      "selftest": {
+        "bad": "Este brochure presenta al Blockchain Lab UAI como una ficha de características y tabla de servicios. Es un brochure.",
+        "good": "Introducción\nDos años y medio de trabajo gradual...\nResumen ejecutivo\nLaboratorio para la confianza digital...\nLey 21.719 (vigencia 1 dic 2026)\nAnexos\nTIM https://..."
+      }
+    },
+    {
+      "id": "founder-propuesta",
+      "clue": "founder/lore/propuestas.md — Propuesta institucional workshop+hackatón: 8 puntos (trabajo previo con fecha, objetivo escalable, roles sin gris, matriz Silver/Gold/Platinum, formato con duración/cupo, presupuesto cerrado con techo y exclusiones, cronograma 5 semanas, entregables medibles)",
+      "prompt": "Escribe la propuesta Nodo Zero × INACAP para ejecutar workshop técnico + hackatón Web3 con INACAP y abrir calendario conjunto. Que el aliado pueda decir sí sin preguntar qué falta.",
+      "compliance": ["Silver.*Gold.*Platinum|Gold.*Silver", "5\\.000\\.000", "Cronograma|S1.*S2.*S3"],
+      "violation": ["a definir", "por definir"],
+      "_nota_compliance": "Matriz con tiers + presupuesto con techo $5M + cronograma S1-S5 = operable. Violation = dejar roles o presupuesto 'a definir'.",
+      "selftest": {
+        "bad": "Roles: ambos a definir. Presupuesto: a definir según sponsors. Cronograma por definir. Alianzas por definir.",
+        "good": "Matriz Silver $500.000 / Gold $1.000.000 / Platinum $2.000.000\nPresupuesto operativo $5.000.000 CLP (no incluye premios)\nCronograma S1 acuerdo → S2 programa → S3 preparación → S4 ejecución → S5 reporte\nEntregables: programa, ejecución, certificados, reporte"
+      }
+    }
+  ]
+}
