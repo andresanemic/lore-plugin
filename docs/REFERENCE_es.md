@@ -341,7 +341,7 @@ trazable y extraíble, nunca autoridad que reemplaza al Lore vivo.
   - `upgrade` – «mejora el lore de {proyecto} con la versión nueva», «arbitra mi lore contra la versión nueva» — pone al día un Lore sano escrito contra una versión anterior de estos skills.
   - `prune` – «poda el lore de {proyecto}», «este lore se puso muy pesado» — quita **peso** a un Lore
     que se degradó acumulando cosas que por separado son correctas.
-  - `micelio` – «corré el micelio», «¿está conectado el lore?» — recorrido de **solo lectura** que
+  - `micelio` – «corre el micelio», «¿está conectado el lore?» — recorrido de **solo lectura** que
     reporta qué Pistas ningún paso corre. No escribe nada y nunca poda. Tres disparadores: antes de
     una tarea compleja, tras instalar o actualizar el kit, y **al salir de cualquier pasada que
     escribió Lore**; la de salida no es la de entrada repetida, porque una Pista nueva nace

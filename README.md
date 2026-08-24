@@ -214,6 +214,11 @@ codex plugin marketplace add andresanemic/lore-plugin
 codex plugin add lore@lore-plugin
 ```
 
+<details>
+<summary><b>Other hosts — manual copy, unverified</b> (OpenCode, Cursor, Antigravity, direct install)</summary>
+
+<br>
+
 ### OpenCode
 
 From a local clone, copy Lore's eight skill folders into OpenCode's global directory:
@@ -259,6 +264,8 @@ codex plugin add lore@personal
 ```
 
 Replace `all` with `claude` or `codex` to target only one CLI. The installer configures Claude directly; for Codex it prepares the local `personal` marketplace and prints the final `codex plugin add` command.
+
+</details>
 
 Then open a new CLI session. **If this is your first time, you do not need to know a single command** — write *«I want to start using Lore Plugin, help me»* and the kit opens a **brainstorming, not a menu**: it looks at your tree first, asks one question at a time, and ends with your **first artifact created**, never with a recommendation. If you already know what you want, `use-lore` routes you.
 
@@ -394,6 +401,13 @@ Areas and projects are places; **a bot is a lens you carry into them.** It is no
 | [`create-bot`](#create-bot) | One place to open a session and work across several Areas at once | from zero, or once there is Lore to federate |
 | [`obsidian-lore`](#obsidian--the-way-in) | Mines loose notes and routes what survives | once the inbox gets heavy |
 
+**Day one needs two of these:** `use-lore` routes you to whatever comes next, and `save-to-lore` is
+the one you will actually type — *"save to lore"*, after solving something that cost you. The other
+six show up when the situation calls for them; `use-lore` routes you there when it does. **How to
+use each one**, with worked examples, lives in [`USAGE_es.md`](./docs/USAGE_es.md); **the full
+mechanism and diagnostic categories** for each mode live in [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
+What follows here is the short version of each.
+
 ### `use-lore`
 
 > **2.0 rename:** `using-lore` is now `use-lore`. Remove the old skill when updating; do not keep
@@ -433,38 +447,22 @@ The skill keeps candidates while work continues and proposes capture at a contex
 - Generic, confirmed ones are proposed for promotion to the Area.
 - Nothing is promoted automatically.
 
-It has **two modes**, chosen by where the criteria comes from:
-
-| Mode | Source | What it does |
-|---|---|---|
-| **capture** (default) | **lived friction**: a bug, a collapse, a client rejection | Distills the scar into an Invariant Clue. |
-| **graft** | **imported criteria**: a skill, a style guide, a third-party playbook, another kit's governing document | Judges it against **your** project's purpose. Only what survives gets in. |
-
-> **External criteria is not distilled; it is arbitrated.** `graft` records where the imported
-> source contradicts your standard and loses. Without that boundary it would only be a copy wearing
-> the authority of an Invariant Clue. The full four-gate procedure lives in the Reference.
-
-Two warnings `graft` mode will give you:
-
-- **Capacity ≠ criteria.** A skill that **executes** (renders video, crawls, compiles) is **used** as a dependency: it is not Lore. Only a skill that **judges** (what is good copy, good design, good SEO) gets arbitrated.
-- **No identity, no arbitration.** If your identity file is empty you have no yardstick, and facing an authoritative source all you can do is obey it. Identity first, source second.
+It has **two modes**: **capture** (default) distills a lived friction — a bug, a rejection — into
+an Invariant Clue; **graft** arbitrates imported criteria — a style guide, another kit's governing
+document — against your own project's purpose, and records where the source loses. External
+criteria is not distilled, it is judged; a skill that only *executes* (renders, crawls, compiles) is
+a dependency, not Lore. The Reference carries the full four-gate procedure.
 
 ### `transmute-lore`
 
-Operates existing Lore in eight modes:
-
-| Mode | What it does |
-|---|---|
-| **add** | Rescues criteria already scattered around (a bloated `CLAUDE.md`, a kilometric README, code comments) and crystallizes it into the six-piece architecture. |
-| **clean** | Removes the project's redundant modules that the Area already owns. The criteria does not disappear: it changes owner. |
-| **translate** | Standardizes the language of an existing Lore, translating content and renaming artifacts, without altering structure or meaning. |
-| **upgrade** | Raises a healthy Lore written against an older version of these skills. Sorts every finding into Missing, Superseded, **Earned** or **Stale** — what the project paid for with real friction is left alone, and what no longer matches the project's own practice is reported against the repository. |
-| **prune** | Prunes a Lore that decayed by **accumulating correct things**. Sorts every finding into Deadwood, Crowding, Rooted or **Unhealed**, and counts apparatus against content. What shrinks is the deliverable, not necessarily the corpus. Nothing comes out without its residue written down. |
-| **mycelium** | **(2.3.0)** Read-only: which clues have **no micorriza** — no step runs them, so they cannot fire. Three triggers, the third **on the way out of a pass that wrote Lore**: a new clue is born disconnected. Reports in plain language. *Un Lore sin micelio es un herbario* — countable, not fireable. *Ese es el silencio dentro del silencio*: a check can run and its result never be consumed. |
-| **leave** | Removes governance, keeps `lore/` — reversible via `UPGRADE` (H13). |
-| **crystallize** | Exports a safe, traceable single-Markdown snapshot for a chat or notebook — every routed `lore/` inlined, extractable back into a folder whose routing table resolves — without replacing the live Lore or exposing private material. |
-
-The Reference carries the full diagnostic categories and gates.
+Operates existing Lore in eight modes: **add** rescues criteria already scattered around (a bloated
+`CLAUDE.md`, code comments) into the six-piece architecture; **clean** removes what the Area already
+owns; **translate** standardizes language without changing meaning; **upgrade** sorts findings into
+Missing, Superseded, **Earned** or **Stale** against a newer kit version; **prune** does the same
+against a Lore that decayed by *accumulating correct things*; **mycelium** — *(2.3.0)* — is
+read-only and reports which clues **no step runs**, so they cannot fire; **leave** removes
+governance but keeps `lore/`, reversible; **crystallize** exports a safe single-Markdown snapshot
+for a chat or notebook. The Reference carries the full diagnostic categories and gates for each.
 
 ### `create-bot`
 
@@ -485,35 +483,16 @@ It works the other way round too: if you have an Area with several projects — 
 | **`nuevo`** | From zero. No prior Lore to gather. | Canon born from a brainstorm + source documents. |
 | **`federar`** | The criteria already exists, dissolved across several Areas. | Canon **plus** a routing table over those Lore bodies. |
 
-In `nuevo`, the initial human declaration is provisional canon. The first complex artifact is an individual configuration that must produce a reviewed first victory. If the bot has an interface, it is an honest local laboratory: the AI lives in the object being transformed, decisions precede prompts, and the Journey changes only when the path changes.
+In `nuevo`, the initial human declaration is provisional canon, refined through a reviewed first
+victory. In `federar`, raw folders — documents, a database, undistilled code — are not federated
+directly: each one first earns real Lore in its own Area (via `create-area` and `transmute-lore add`),
+adopted **by path, without moving it**, and only then does the bot point to it. The Reference walks
+this chain step by step.
 
-<details>
-<summary><b>When the folders have no Lore yet</b></summary>
-
-<br>
-
-The usual starting point is not a tidy set of Lore bodies. It is raw material: folders of documents, a database, a Notion workspace, undistilled code. That cannot be federated yet. The fix is a short chain:
-
-```text
-raw folder (no Lore)
- └─ create-area            → creates the Area that will OWN that criteria
-      └─ register path     → the existing folder is listed in FASES.md by path;
-                              it stays where it is, nothing moves
-           └─ transmute-lore (add) → rescues the criteria already scattered inside
-                └─ create-bot (federar) → the bot routes to that Lore
-```
-
-The new Area is a clean owner; the existing folder is adopted **by path, without moving it**. The bot never distills into itself: each source first earns Lore in its owning Area, then the bot points to it. `create-bot` reports which paths are ready, which need ADD, and which still need text extraction. Free-note inboxes remain sources and are never federated.
-
-</details>
-
-Three bodies never merge: `canon/` contains what the bot is; `lore/`, the criteria for maintaining
-it; and borrowed criteria stays in each project, reached by pointer. **Federating is pointing, not
-copying, and routing follows task type.**
-
-The first use is a brainstorm, not a form: it shows which paths resolve, asks only what changes
-behaviour and separates configuration from criteria. Launch happens when a short instruction that
-does not name the criteria produces a real deliverable.
+Three bodies never merge: `canon/` is what the bot is; `lore/` is the criteria for maintaining it;
+borrowed criteria stays in each project, reached by pointer. **Federating is pointing, not copying.**
+The first use is a brainstorm, not a form — launch happens when a short instruction that does not
+name the criteria produces a real deliverable.
 
 Optional Lore encryption remains experimental and off by default; see
 [`ENCRYPTION.md`](./docs/ENCRYPTION.md). Portability belongs to CRYSTALLIZE, which packages the bot
@@ -995,6 +974,11 @@ codex plugin marketplace add andresanemic/lore-plugin
 codex plugin add lore@lore-plugin
 ```
 
+<details>
+<summary><b>Otros hosts — copia manual, sin verificación</b> (OpenCode, Cursor, Antigravity, instalación directa)</summary>
+
+<br>
+
 ### OpenCode
 
 Desde un clon local, copia las ocho carpetas de Lore en el directorio global de OpenCode:
@@ -1040,6 +1024,8 @@ codex plugin add lore@personal
 ```
 
 Reemplaza `all` por `claude` o `codex` para preparar solo una CLI. El instalador configura Claude directamente; para Codex prepara el marketplace local `personal` e imprime el comando final `codex plugin add`.
+
+</details>
 
 Después abre una sesión nueva en la CLI. **Si es tu primera vez, no necesitas saber ningún comando** — escribe *«quiero comenzar a usar Lore Plugin, ayúdame»* y el kit abre un **brainstorming, no un menú**: primero mira tu árbol, después pregunta de a una cosa por vez, y termina con **tu primer artefacto creado**, nunca con una recomendación. Si ya sabes qué quieres, `use-lore` te enruta.
 
@@ -1169,6 +1155,13 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 | [`create-bot`](#create-bot) | Un lugar donde abrir sesión y trabajar sobre varias Áreas a la vez | desde cero, o cuando ya hay Lore que federar |
 | [`obsidian-lore`](#obsidian--la-puerta-de-entrada) | Mina tus notas sueltas y enruta lo que sobrevive | cuando la bandeja pesa |
 
+**El primer día necesitás dos de estas:** `use-lore` te enruta hacia lo que sigue, y `save-to-lore`
+es la que vas a escribir de verdad — *"guarda en lore"*, después de resolver algo que te costó. Las
+otras seis aparecen cuando la situación las pide; `use-lore` te lleva ahí cuando corresponde. **Cómo
+usar cada una**, con ejemplos trabajados, vive en [`USAGE_es.md`](./docs/USAGE_es.md); **el
+mecanismo completo y las categorías de diagnóstico** de cada modo viven en
+[`REFERENCE_es.md`](./docs/REFERENCE_es.md). Lo que sigue acá es la versión corta de cada una.
+
 ### `use-lore`
 
 El punto de entrada. Explica el modelo de Lore, el estándar de seis piezas, el modelo Área↔Proyecto, y te guía hacia la skill adecuada. Léelo antes de invocar cualquier otro.
@@ -1204,36 +1197,23 @@ El flujo que usarás todos los días. Mantiene candidatas mientras avanza el tra
 - Las genéricas y confirmadas se proponen para promoción al Área.
 - Nada se promueve automáticamente.
 
-| Modo | Fuente | Qué hace |
-|---|---|---|
-| **capture** (por defecto) | **fricción vivida**: un bug, un cliente que rechaza | Destila la cicatriz en una Pista Invariante. |
-| **graft** | **criterio importado**: una skill, una guía ajena, el documento de gobierno de otro kit | Lo juzga contra la finalidad de **tu** proyecto. |
-
-> **Un criterio ajeno no se destila; se arbitra.** `graft` registra dónde la fuente importada
-> contradice tu estándar y pierde. Sin esa frontera solo sería una copia con autoridad de Pista
-> Invariante. El procedimiento de cuatro puertas vive en la Referencia.
-
-Dos avisos que te dará:
-
-- **Capacidad ≠ criterio.** Una skill que **ejecuta** se **usa** como dependencia: no es Lore. Solo se arbitra la que **juzga**.
-- **Sin identidad no hay arbitraje.** Si tu `identidad.md` está vacío, frente a una fuente con autoridad lo único que puedes hacer es obedecerla.
+Tiene **dos modos**: **capture** (por defecto) destila una fricción vivida — un bug, un rechazo —
+en una Pista Invariante; **graft** arbitra criterio importado — una guía ajena, el documento de
+gobierno de otro kit — contra la finalidad de tu propio proyecto, y registra dónde la fuente pierde.
+Un criterio ajeno no se destila, se juzga; una skill que solo *ejecuta* (renderiza, rastrea, compila)
+es una dependencia, no Lore. El procedimiento completo de cuatro puertas vive en la Referencia.
 
 ### `transmute-lore`
 
-Opera un Lore existente en ocho modos:
-
-| Modo | Qué hace |
-|---|---|
-| **add** | Rescata el criterio ya disperso y lo cristaliza en la arquitectura de seis piezas. |
-| **clean** | Elimina los módulos del proyecto que el Área ya posee. El criterio cambia de dueño. |
-| **translate** | Estandariza el idioma de un Lore existente, sin alterar estructura ni significado. |
-| **upgrade** | Pone al día un Lore sano escrito contra una versión anterior de estos skills. Clasifica cada hallazgo en Missing, Superseded, **Earned** o **Stale**: lo que el proyecto pagó con fricción real se deja intacto, y lo que ya no coincide con su práctica se detecta contra el repositorio y se reporta. |
-| **prune** | Poda un Lore que se degradó **acumulando cosas correctas**. Clasifica cada hallazgo en Deadwood, Crowding, Rooted o **Unhealed**, y cuenta aparato contra contenido. Lo que encoge es el entregable, no necesariamente el corpus. Nada sale sin dejar su residuo escrito. |
-| **mycelium** | **(2.3.0)** Solo lectura: qué Pistas están **sin micorriza** — ningún paso las corre, así que no pueden dispararse. Tres disparadores, el tercero **al salir de una pasada que escribió Lore**: una Pista nueva nace desconectada. Reporta en lenguaje llano. *Un Lore sin micelio es un herbario* — se puede contar, no puede disparar. *Ese es el silencio dentro del silencio*: el chequeo puede correr y su resultado no ser consumido nunca. |
-| **leave** | Quita gobierno, conserva `lore/` — reversible vía `UPGRADE` (H13). |
-| **crystallize** | Exporta una fotografía trazable en un solo Markdown para un chat o notebook — cada `lore/` enrutado va adentro, extraíble a una carpeta cuyo enrutamiento resuelve — sin reemplazar el Lore vivo ni exponer material privado. |
-
-La Referencia conserva las categorías de diagnóstico y las puertas completas.
+Opera un Lore existente en ocho modos: **add** rescata el criterio ya disperso (un `CLAUDE.md`
+sobrecargado, comentarios de código) hacia la arquitectura de seis piezas; **clean** elimina lo que
+el Área ya posee; **translate** estandariza el idioma sin alterar el significado; **upgrade**
+clasifica hallazgos en Missing, Superseded, **Earned** o **Stale** contra una versión más nueva del
+kit; **prune** hace lo mismo contra un Lore que se degradó *acumulando cosas correctas*;
+**mycelium** — *(2.3.0)* — es de solo lectura y reporta qué pistas **ningún paso corre**, así que no
+pueden dispararse; **leave** quita gobierno pero conserva `lore/`, reversible; **crystallize**
+exporta una fotografía de un solo Markdown para un chat o notebook. La Referencia conserva las
+categorías de diagnóstico y las puertas completas de cada uno.
 
 ### `create-bot`
 
@@ -1252,35 +1232,16 @@ Piensa en un laboratorio de blockchain: tiene su sitio web, lleva sus redes soci
 | **`nuevo`** | Desde 0. No hay Lore previo que reunir. | Canon nacido de un brainstorm + documentos fuente. |
 | **`federar`** | El criterio ya existe, disuelto en varias Áreas. | Canon **más** una tabla de enrutamiento sobre esos Lore. |
 
-En `nuevo`, la declaración humana inicial es canon provisional. El primer artefacto complejo es una configuración individual que debe producir una primera victoria revisada. Si hay interfaz, es un laboratorio local honesto: la IA vive en el objeto transformado, las decisiones van antes que los prompts y la Travesía cambia solo cuando cambia el camino.
+En `nuevo`, la declaración humana inicial es canon provisional, refinado con una primera victoria
+revisada. En `federar`, las carpetas en bruto — documentos, una base de datos, código sin destilar —
+no se federan directo: cada una primero gana Lore real en su propia Área (vía `create-area` y
+`transmute-lore add`), adoptada **por ruta, sin moverla**, y recién ahí el bot la apunta. La
+Referencia recorre esa cadena paso a paso.
 
-<details>
-<summary><b>Cuando las carpetas todavía no tienen Lore</b></summary>
-
-<br>
-
-El punto de partida habitual no es un conjunto ordenado de Lore. Es material en bruto: carpetas de documentos, una base de datos, un espacio de Notion, código sin destilar. Eso no se puede federar todavía. El arreglo es una cadena corta:
-
-```text
-carpeta en bruto (sin Lore)
- └─ create-area            → crea el Área que va a ser DUEÑA de ese criterio
-      └─ adopción por ruta → la carpeta existente se registra en FASES.md por ruta;
-                              se queda donde está, no se mueve nada
-           └─ transmute-lore (add) → rescata el criterio que ya estaba disperso adentro
-                └─ create-bot (federar) → el bot enruta hacia ese Lore
-```
-
-El Área nueva es un dueño limpio; lo existente se adopta **por ruta, sin moverlo**. El bot nunca destila hacia sí mismo: cada fuente primero gana Lore en su Área dueña y luego el bot la apunta. `create-bot` informa qué rutas están listas, cuáles necesitan ADD y cuáles aún requieren extracción a texto. Las bandejas de notas siguen siendo fuentes y nunca se federan.
-
-</details>
-
-Tres cuerpos nunca se mezclan: `canon/` contiene lo que el bot es; `lore/`, el criterio para
-mantenerlo; y el criterio prestado sigue en cada proyecto, alcanzado por puntero. **Federar es
-apuntar, no copiar, y se enruta por tipo de tarea.**
-
-El primer uso es un brainstorming, no un formulario: muestra qué rutas resuelven, pregunta solo lo
-que cambia el comportamiento y separa configuración de criterio. El estreno ocurre cuando una
-instrucción corta que no nombra el criterio produce un entregable real.
+Tres cuerpos nunca se mezclan: `canon/` es lo que el bot es; `lore/` es el criterio para mantenerlo;
+el criterio prestado sigue en cada proyecto, alcanzado por puntero. **Federar es apuntar, no copiar.**
+El primer uso es un brainstorming, no un formulario — el estreno ocurre cuando una instrucción corta
+que no nombra el criterio produce un entregable real.
 
 El cifrado del Lore sigue experimental y apagado por defecto; consulta
 [`ENCRYPTION.md`](./docs/ENCRYPTION.md). La portabilidad pertenece a CRYSTALLIZE, que empaqueta el

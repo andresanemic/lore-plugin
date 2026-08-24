@@ -340,7 +340,7 @@ Tres casos que conviene conocer antes de correrlo:
   primero las derrotas ya escritas y no las vuelve a arbitrar. **«Esta vez no entró nada» es un
   resultado válido** y se escribe así — una pasada recurrente que siempre encuentra algo dejó de
   mirar y empezó a justificarse.
-- **Una skill ajena que *invocás* también trae criterio**, y lo aplica sin preguntar. Este modo es
+- **Una skill ajena que *invocas* también trae criterio**, y lo aplica sin preguntar. Este modo es
   para criterio que llega como documento; el caso difícil es el que llega como **herramienta que
   corre** — un formateador, un linter, un revisor de estilo. Pasale tu Lore en la invocación, como
   entrada: casi todas tienen una cláusula de calibración que hace que una muestra provista le gane a
