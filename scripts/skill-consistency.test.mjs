@@ -3,6 +3,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
+import { skillFiles, skillText } from "./skill-text.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const skillsRoot = join(root, "skills");
@@ -16,7 +17,7 @@ const docs = rootDocs.map((name) => name).concat(
 test("las ocho skills declaran un nombre único y neutral al proveedor", () => {
   assert.equal(skills.length, 8);
   const names = skills.map((entry) => {
-    const text = readFileSync(join(skillsRoot, entry.name, "SKILL.md"), "utf8");
+    const text = skillText(join(skillsRoot, entry.name));
     assert.doesNotMatch(text, /Source of truth for Claude Code/i);
     return text.match(/^name:\s*(.+)$/m)?.[1]?.trim();
   });
@@ -25,13 +26,13 @@ test("las ocho skills declaran un nombre único y neutral al proveedor", () => {
 });
 
 test("use-lore enruta explícitamente UPGRADE y CRYSTALLIZE", () => {
-  const text = readFileSync(join(skillsRoot, "use-lore", "SKILL.md"), "utf8");
+  const text = skillText(join(skillsRoot, "use-lore"));
   assert.match(text, /transmute-lore` \(\*\*UPGRADE\*\*\)/);
   assert.match(text, /transmute-lore` \(\*\*CRYSTALLIZE\*\*\)/);
 });
 
 test("use-lore gobierna entregables complejos sin crear una novena skill", () => {
-  const text = readFileSync(join(skillsRoot, "use-lore", "SKILL.md"), "utf8");
+  const text = skillText(join(skillsRoot, "use-lore"));
   assert.match(text, /Complex deliverables/);
   assert.match(text, /approved precedent/);
   assert.match(text, /available tools, connectors or MCPs/);
@@ -45,9 +46,9 @@ test("use-lore gobierna entregables complejos sin crear una novena skill", () =>
 });
 
 test("el lote Jazmín deja obligaciones reutilizables y el caso 17", () => {
-  const bot = readFileSync(join(skillsRoot, "create-bot", "SKILL.md"), "utf8");
-  const brainstorm = readFileSync(join(skillsRoot, "brainstorming-lore", "SKILL.md"), "utf8");
-  const save = readFileSync(join(skillsRoot, "save-to-lore", "SKILL.md"), "utf8");
+  const bot = skillText(join(skillsRoot, "create-bot"));
+  const brainstorm = skillText(join(skillsRoot, "brainstorming-lore"));
+  const save = skillText(join(skillsRoot, "save-to-lore"));
 
   for (const pattern of [
     /provisional canon/i,
@@ -77,9 +78,9 @@ assert.match(casesEn, /Case 17.*Jasmine/is);
 });
 
 test("el perfil profesional es opcional, progresivo y viaja como puntero", () => {
-  const brainstorm = readFileSync(join(skillsRoot, "brainstorming-lore", "SKILL.md"), "utf8");
-  const save = readFileSync(join(skillsRoot, "save-to-lore", "SKILL.md"), "utf8");
-  const transmute = readFileSync(join(skillsRoot, "transmute-lore", "SKILL.md"), "utf8");
+  const brainstorm = skillText(join(skillsRoot, "brainstorming-lore"));
+  const save = skillText(join(skillsRoot, "save-to-lore"));
+  const transmute = skillText(join(skillsRoot, "transmute-lore"));
 
   assert.match(brainstorm, /professional profile.*emerges progressively/is);
   assert.match(brainstorm, /never.*(?:CV|résumé).*first use/is);
@@ -92,7 +93,7 @@ test("el perfil profesional es opcional, progresivo y viaja como puntero", () =>
   assert.match(transmute, /without\s+recommending either option/i);
 
   for (const name of ["create-area", "create-project", "create-bot"]) {
-    const skill = readFileSync(join(skillsRoot, name, "SKILL.md"), "utf8");
+    const skill = skillText(join(skillsRoot, name));
     assert.match(skill, /perfil-profesional\.md/, `${name}: falta el perfil portable`);
     assert.match(skill, /pointer/i, `${name}: el perfil debe viajar como puntero`);
     assert.match(skill, /if .*enabled|if it exists/is, `${name}: falta la frontera opcional`);
@@ -106,13 +107,13 @@ test("el perfil profesional es opcional, progresivo y viaja como puntero", () =>
 });
 
 test("las operaciones estructurales construyen el Entre por decisiones acumulativas", () => {
-  const brainstorm = readFileSync(join(skillsRoot, "brainstorming-lore", "SKILL.md"), "utf8");
+  const brainstorm = skillText(join(skillsRoot, "brainstorming-lore"));
   assert.match(brainstorm, /recognizable continuity/i);
   assert.match(brainstorm, /accumulated artifact/i);
   assert.match(brainstorm, /one decision at a time/i);
 
   for (const name of ["create-area", "create-project", "create-bot", "transmute-lore"]) {
-    const skill = readFileSync(join(skillsRoot, name, "SKILL.md"), "utf8");
+    const skill = skillText(join(skillsRoot, name));
     assert.match(skill, /recognizable continuity/i, `${name}: falta la vara transversal del Entre`);
   }
 
@@ -124,8 +125,8 @@ test("las operaciones estructurales construyen el Entre por decisiones acumulati
 });
 
 test("la destilación devuelve trabajo autónomo al artefacto compartido", () => {
-  const brainstorm = readFileSync(join(skillsRoot, "brainstorming-lore", "SKILL.md"), "utf8");
-  const use = readFileSync(join(skillsRoot, "use-lore", "SKILL.md"), "utf8");
+  const brainstorm = skillText(join(skillsRoot, "brainstorming-lore"));
+  const use = skillText(join(skillsRoot, "use-lore"));
   assert.match(brainstorm, /shared return point/i);
   assert.match(brainstorm, /does not.{0,8}require\s+constant contact/i);
   assert.match(use, /autonomy with return/i);
@@ -138,8 +139,8 @@ test("la destilación devuelve trabajo autónomo al artefacto compartido", () =>
 });
 
 test("el Entre fértil no se confunde con complacencia", () => {
-  const brainstorm = readFileSync(join(skillsRoot, "brainstorming-lore", "SKILL.md"), "utf8");
-  const use = readFileSync(join(skillsRoot, "use-lore", "SKILL.md"), "utf8");
+  const brainstorm = skillText(join(skillsRoot, "brainstorming-lore"));
+  const use = skillText(join(skillsRoot, "use-lore"));
   assert.match(brainstorm, /fertile effort/i);
   assert.match(brainstorm, /do not equate.*(?:agreement|pleasing|compliance)/is);
   assert.match(use, /enjoyable Entre/i);
@@ -208,7 +209,7 @@ test("el README funciona como portada y no duplica las guías", () => {
 });
 
 test("PRUNE trata una magnitud pedida como restricción de aceptación", () => {
-  const transmute = readFileSync(join(skillsRoot, "transmute-lore", "SKILL.md"), "utf8");
+  const transmute = skillText(join(skillsRoot, "transmute-lore"));
   assert.match(transmute, /quantitative target.*acceptance constraint/is);
   assert.match(transmute, /baseline.*expected remainder.*measure again/is);
   assert.match(transmute, /must not exceed.*requested cut/is);
@@ -226,7 +227,7 @@ test("los docs vivos y las skills no nombran research-lus ni Lore in the Shell",
     "docs/REFERENCE_es.md",
     "docs/MIGRATION_en.md",
     "docs/MIGRATION_es.md",
-    ...skillNames.map((name) => join("skills", name, "SKILL.md")),
+    ...skillNames.flatMap((name) => skillFiles(root, name)),
   ];
   for (const file of live) {
     const text = readFileSync(join(root, file), "utf8");
@@ -236,7 +237,7 @@ test("los docs vivos y las skills no nombran research-lus ni Lore in the Shell",
 });
 
 test("el estándar se nombra como seis piezas, no seis archivos literales", () => {
-  const text = ["README.md", ...docs, ...skillNames.map((name) => join("skills", name, "SKILL.md"))]
+  const text = ["README.md", ...docs, ...skillNames.flatMap((name) => skillFiles(root, name))]
     .map((file) => readFileSync(join(root, file), "utf8"))
     .join("\n");
   assert.doesNotMatch(text, /six[- ]artifact|six (?:mandatory )?artifacts|seis artefactos/i);
@@ -246,15 +247,15 @@ test("el estándar se nombra como seis piezas, no seis archivos literales", () =
 
 test("los creadores generan un solo contrato según el host principal", () => {
   for (const name of ["create-area", "create-project", "create-bot"]) {
-    const text = readFileSync(join(skillsRoot, name, "SKILL.md"), "utf8");
+    const text = skillText(join(skillsRoot, name));
     assert.match(text, /AGENTS\.md/);
     assert.match(text, /CLAUDE\.md/);
     assert.match(text, /one (?:host-selected |instruction )?contract|exactly one/i);
     assert.doesNotMatch(text, /plus a minimal `AGENTS\.md` adapter|minimal Codex adapter used at the area root/i);
   }
-  const area = readFileSync(join(skillsRoot, "create-area", "SKILL.md"), "utf8");
-  const project = readFileSync(join(skillsRoot, "create-project", "SKILL.md"), "utf8");
-  const bot = readFileSync(join(skillsRoot, "create-bot", "SKILL.md"), "utf8");
+  const area = skillText(join(skillsRoot, "create-area"));
+  const project = skillText(join(skillsRoot, "create-project"));
+  const bot = skillText(join(skillsRoot, "create-bot"));
   assert.doesNotMatch(area, /- No Playwright/);
   assert.match(project, /never invent a web-only rule/);
   assert.match(bot, /\.codex-plugin\//);
@@ -276,16 +277,16 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
 
 test("ninguna skill manda HARD: ni usa cristalizar como destilar", () => {
   for (const name of skillNames) {
-    const text = readFileSync(join(skillsRoot, name, "SKILL.md"), "utf8");
+    const text = skillText(join(skillsRoot, name));
     assert.doesNotMatch(text, /\*\*HARD:/, `${name}: etiqueta HARD: en presente`);
     assert.doesNotMatch(text, /crystallize as an invariant clue/i, `${name}: cristalizar ≠ destilar`);
   }
 });
 
 test("el piso de _starter/ vive en las skills que lo escriben", () => {
-  const area = readFileSync(join(skillsRoot, "create-area", "SKILL.md"), "utf8");
-  const project = readFileSync(join(skillsRoot, "create-project", "SKILL.md"), "utf8");
-  const bot = readFileSync(join(skillsRoot, "create-bot", "SKILL.md"), "utf8");
+  const area = skillText(join(skillsRoot, "create-area"));
+  const project = skillText(join(skillsRoot, "create-project"));
+  const bot = skillText(join(skillsRoot, "create-bot"));
 
   assert.match(area, /Floor, not clone/);
   assert.match(area, /structural floor/);
@@ -366,4 +367,20 @@ test("los enlaces Markdown locales de la documentación resuelven", () => {
       assert.ok(existsSync(resolve(dirname(join(root, file)), path)), `${file}: enlace local inexistente ${href}`);
     }
   }
+});
+
+test("transmute-lore es un dispatcher liviano — los 8 modos viven en modes/, no en SKILL.md", () => {
+  const raw = readFileSync(join(skillsRoot, "transmute-lore", "SKILL.md"), "utf8");
+  const words = raw.trim().split(/\s+/).length;
+  assert.ok(words <= 3000, `SKILL.md volvio a cargar procedimiento completo: ${words} palabras`);
+  const modeSlugs = ["add", "clean", "translate", "upgrade", "prune", "mycelium", "leave", "crystallize"];
+  for (const slug of modeSlugs) {
+    assert.match(raw, new RegExp("modes/" + slug + "\\.md"), `SKILL.md no referencia modes/${slug}.md`);
+    const modeFile = readFileSync(join(skillsRoot, "transmute-lore", "modes", `${slug}.md`), "utf8");
+    assert.match(modeFile, /^## [A-Z]+ mode/, `modes/${slug}.md no arranca con su encabezado de modo`);
+  }
+  // El helper de test debe ver el cuerpo completo aunque el procedimiento viva afuera de SKILL.md.
+  const full = skillText(join(skillsRoot, "transmute-lore"));
+  assert.match(full, /## MYCELIUM mode/);
+  assert.match(full, /## PRUNE mode/);
 });

@@ -1,8 +1,12 @@
 import assert from "node:assert/strict";
-import { readdirSync, readFileSync } from "node:fs";
+import { readdirSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 import test from "node:test";
+import { skillText } from "../scripts/skill-text.mjs";
 
-const skill = (name) => readFileSync(new URL(`../skills/${name}/SKILL.md`, import.meta.url), "utf8");
+const skillsRoot = join(dirname(fileURLToPath(import.meta.url)), "..", "skills");
+const skill = (name) => skillText(join(skillsRoot, name));
 
 test("obsidian-lore enruta peticiones sobre notas antes que la skill de dominio", () => {
   const text = skill("obsidian-lore");
