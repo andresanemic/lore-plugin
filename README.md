@@ -150,6 +150,8 @@ card”: portable across models, usable wherever Markdown instructions are accep
 your terms and extractable back into a working folder. It is a snapshot, never a replacement for
 the live Lore.
 
+> **Fire — Waxahatchee.** Maturity as moving forward without a total vision. Lore does not remove uncertainty; it responsibly narrows what the Between managed to learn.
+
 A README answers *"what is this?"*. Lore answers something else: **What did we learn that we should never have to learn again?**
 
 > [!IMPORTANT]
@@ -177,6 +179,10 @@ The event is forgotten. The criteria keeps working.
 </p>
 
 Each step in the loop passes a **threshold**: it is proposed, you approve, and only then it is written.
+
+> **Stalker (1979).** The Stalker throws a nut ahead before every step and walks to where it lands — not going straight at the solution is how the Zone lets you reach it. Propose, then approve, then write: the loop does not go straight either.
+
+So that is the mechanism: not documentation, not a memory dump — a threshold between what happened and what gets to constrain tomorrow. What is still missing is the shape it lives in, and how you get it running.
 
 ---
 
@@ -268,6 +274,8 @@ Replace `all` with `claude` or `codex` to target only one CLI. The installer con
 
 Then open a new CLI session. **If this is your first time, you do not need to know a single command** — write *«I want to start using Lore Plugin, help me»* and the kit opens a **brainstorming, not a menu**: it looks at your tree first, asks one question at a time, and ends with your **first artifact created**, never with a recommendation. If you already know what you want, `use-lore` routes you.
 
+> **Loving — Land of Talk.** A fertile bond does not fuse its parts, nor does it spare them friction. It makes possible what neither side would have produced alone — which is the whole point of asking one question at a time instead of handing you a form.
+
 ## What it looks like in practice
 
 You just shipped a landing page and the feedback is: "I didn't know what to do on the page." The CTA was below the fold and the headline talked about the product, not the outcome. You fixed it. Instead of closing the tab:
@@ -323,6 +331,8 @@ Each has one responsibility. None duplicates another.
 
 Identity and state stay separate because they age at different speeds: one constrains the work; the
 other says where it currently stands.
+
+> **50 First Dates (2004).** Lucy's video gives her who she is and where things stand, both at once, every morning. That is `lore/` and `FASES.md` in one object: criteria persists, state advances.
 
 The canonical names are Spanish; in your language they are localized.
 
@@ -420,9 +430,11 @@ mechanism and diagnostic categories** for each mode live in [`REFERENCE_es.md`](
 > **2.0 rename:** `using-lore` is now `use-lore`. Remove the old skill when updating; do not keep
 > both names installed, because duplicate entry-point triggers make routing ambiguous.
 
-The entry point. Explains Lore's model, the six-piece standard, the Area↔Project model, and routes you to the right skill. Read it before invoking any other.
-
-For **complex deliverables**—a researched CRM, a multi-source document, a campaign, or delivery into an external system—it also fixes the owning project and routed Lore, an approved precedent or human-approved specimen, verified tool/connector/MCP capabilities, reviewable batches, human review, and checked delivery. It routes each medium and tool to its owner skill; it is not a ninth production skill.
+The entry point: explains Lore's model, the six-piece standard, the Area↔Project model, and routes
+you to the right skill — read it before invoking any other. For **complex deliverables** (a
+researched CRM, a multi-source document, delivery into an external system) it also fixes the owning
+project, an approved precedent, verified tool capabilities and checked delivery; it routes each
+medium to its owner skill and is not a ninth production skill.
 
 ### `brainstorming-lore`
 
@@ -536,6 +548,8 @@ skills from the patterns it finds. That is a real capability and it is the oppos
 the agent gets better. Here, **the person does.** Lore's criteria live in files you own, in your
 language, and nothing enters them without you approving it with the content in view. If you want a
 system that learns behind your back, this is not it, and it never will be.
+
+> **"1998" — Chet Faker with BANKS.** Entered the kit's own genealogy after a real failure: a README asked to shrink 40% came back near 80%. It names what breaks the moment a human instruction stops being a reliable floor and collaborating turns into supervising — which is exactly the failure these six rules exist to make structurally impossible.
 
 ---
 
@@ -911,6 +925,8 @@ Markdown: portable entre modelos, utilizable donde se acepten instrucciones Mark
 en tus términos y extraíble de vuelta a una carpeta de trabajo. Es una fotografía, nunca un
 reemplazo del Lore vivo.
 
+> **Fire — Waxahatchee.** La madurez como avanzar sin una visión total. Lore no elimina la incertidumbre; angosta con responsabilidad lo que el Entre logró aprender.
+
 Un README responde *«¿qué es esto?»*. Lore responde otra cosa: **¿Qué aprendimos que nunca deberíamos tener que volver a aprender?**
 
 > [!IMPORTANT]
@@ -946,6 +962,10 @@ Cada paso del ciclo pasa por un **umbral**: se propone, tú apruebas y recién e
 > *Hasta 2.0.9 esto se llamaba HARD-GATE. Misma regla y misma fuerza — no se ablandó ninguna
 > excepción. Cambió solo la palabra, que venía de un registro que este kit no habla en ningún otro
 > lado.*
+
+> **Stalker (1979).** El Stalker tira una tuerca adelante antes de cada paso y camina hasta donde cae — no ir directo a la solución es lo que permite atravesar la Zona. Proponer, después aprobar, después escribir: el ciclo tampoco va directo.
+
+Ese es el mecanismo: no documentación, no un volcado de memoria — un umbral entre lo que pasó y lo que llega a restringir el mañana. Lo que falta todavía es la forma en la que vive, y cómo lo dejas corriendo.
 
 ---
 
@@ -1037,6 +1057,8 @@ Reemplaza `all` por `claude` o `codex` para preparar solo una CLI. El instalador
 
 Después abre una sesión nueva en la CLI. **Si es tu primera vez, no necesitas saber ningún comando** — escribe *«quiero comenzar a usar Lore Plugin, ayúdame»* y el kit abre un **brainstorming, no un menú**: primero mira tu árbol, después pregunta de a una cosa por vez, y termina con **tu primer artefacto creado**, nunca con una recomendación. Si ya sabes qué quieres, `use-lore` te enruta.
 
+> **Loving — Land of Talk.** Un vínculo fértil no fusiona sus partes, ni las libra de la fricción. Hace posible lo que ninguno de los dos lados habría producido solo — que es exactamente el sentido de preguntar de a una cosa por vez en vez de entregarte un formulario.
+
 ## Así se ve en la práctica
 
 Acabas de publicar una landing y el feedback es: "No sabía qué hacer en la página". El CTA quedaba abajo y el titular hablaba del producto, no del resultado. Lo corregiste. En vez de cerrar la pestaña:
@@ -1090,6 +1112,8 @@ Cada uno tiene una responsabilidad. Ninguno duplica a otro.
 
 Identidad y estado permanecen separados porque envejecen a velocidades distintas: una restringe el
 trabajo; el otro dice en qué punto se encuentra.
+
+> **50 primeras citas (2004).** El video de Lucy le da quién es y en qué punto están las cosas, las dos a la vez, cada mañana. Eso es `lore/` y `FASES.md` en un solo objeto: el criterio persiste, el estado avanza.
 
 #### El bloque siempre-activo
 
@@ -1181,9 +1205,12 @@ mecanismo completo y las categorías de diagnóstico** de cada modo viven en
 
 ### `use-lore`
 
-El punto de entrada. Explica el modelo de Lore, el estándar de seis piezas, el modelo Área↔Proyecto, y te guía hacia la skill adecuada. Léelo antes de invocar cualquier otro.
-
-Para **entregables complejos** —un CRM investigado, un documento de múltiples fuentes, una campaña o una entrega en un sistema externo— también fija el proyecto dueño y su Lore enrutado, un precedente aprobado o ejemplar aprobado por una persona, las capacidades verificadas de herramientas, conectores o MCPs, lotes revisables, revisión humana y la entrega comprobada. Enruta cada medio y herramienta a su skill dueña; no es una novena skill de producción.
+El punto de entrada: explica el modelo de Lore, el estándar de seis piezas, el modelo Área↔Proyecto,
+y te guía hacia la skill adecuada — léelo antes de invocar cualquier otro. Para **entregables
+complejos** (un CRM investigado, un documento de múltiples fuentes, una entrega en un sistema
+externo) también fija el proyecto dueño, un precedente aprobado, las capacidades verificadas de
+herramientas y la entrega comprobada; enruta cada medio a su skill dueña y no es una novena skill de
+producción.
 
 > **Cambio de nombre en 2.0:** `using-lore` ahora es `use-lore`. Al actualizar, elimina la skill
 > anterior; no conserves ambos nombres instalados porque duplican el trigger de entrada.
@@ -1293,6 +1320,8 @@ propias skills** a partir de los patrones que encuentra. Es una capacidad real y
 contraria: ahí mejora el agente. Acá **mejoras tú.** El criterio de Lore vive en archivos que son
 tuyos, en tu idioma, y nada entra en ellos sin que lo apruebes con el contenido a la vista. Si
 quieres un sistema que aprenda a tus espaldas, este no es, y no va a serlo.
+
+> **«1998» — Chet Faker con BANKS.** Entró a la genealogía propia del kit después de un fracaso real: un README al que se le pidió encoger 40% volvió casi al 80%. Nombra lo que se rompe en el momento en que una instrucción humana deja de ser un piso confiable y colaborar se vuelve supervisar — exactamente el fracaso que estas seis reglas existen para volver estructuralmente imposible.
 
 ---
 
