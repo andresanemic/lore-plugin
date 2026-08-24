@@ -423,14 +423,14 @@ Areas and projects are places; **a bot is a lens you carry into them.** It is no
 
 | Skill | What for | When |
 |---|---|---|
-| [`use-lore`](#use-lore) | Entry point: explains the model and routes you to the right skill | first, always |
-| [`brainstorming-lore`](#brainstorming-lore) | Designs changes to Lore artifacts without colliding with general-purpose brainstorming skills | before creating or materially restructuring Lore |
-| [`create-area`](#create-area) | Creates an Area with its shared Lore | opening a new domain |
-| [`create-project`](#create-project) | Creates a project that inherits from the Area | starting a piece of work |
-| [`save-to-lore`](#save-to-lore) | Distills a lesson and decides whether it rises to the Area | every day |
-| [`transmute-lore`](#transmute-lore) | Migrates, cleans, translates, upgrades, prunes or exports a safe snapshot of Lore | inheriting, maintaining, updating or sharing Lore |
-| [`create-bot`](#create-bot) | One place to open a session and work across several Areas at once | from zero, or once there is Lore to federate |
-| [`obsidian-lore`](#obsidian-notes) | Mines loose notes and routes what survives | once the inbox gets heavy |
+| `use-lore` | Entry point: explains the model and routes you to the right skill | first, always |
+| `brainstorming-lore` | Designs changes to Lore artifacts without colliding with general-purpose brainstorming skills | before creating or materially restructuring Lore |
+| `create-area` | Creates an Area with its shared Lore | opening a new domain |
+| `create-project` | Creates a project that inherits from the Area | starting a piece of work |
+| `save-to-lore` | Distills a lesson and decides whether it rises to the Area | every day |
+| `transmute-lore` | Migrates, cleans, translates, upgrades, prunes or exports a safe snapshot of Lore | inheriting, maintaining, updating or sharing Lore |
+| `create-bot` | One place to open a session and work across several Areas at once | from zero, or once there is Lore to federate |
+| `obsidian-lore` | Mines loose notes and routes what survives | once the inbox gets heavy |
 
 **Day one needs two of these:** `use-lore` routes you to whatever comes next, and `save-to-lore` is
 the one you will actually type — *"save to lore"*, after solving something that cost you. The other
@@ -1133,14 +1133,14 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 | Skill | Para qué | Cuándo |
 |---|---|---|
-| [`use-lore`](#use-lore-1) | Punto de entrada: explica el modelo y te manda a la skill correcta | primero, siempre |
-| [`brainstorming-lore`](#brainstorming-lore-1) | Diseña cambios en los artefactos Lore sin chocar con skills generales de brainstorming | antes de crear o reestructurar Lore de forma material |
-| [`create-area`](#create-area-1) | Crea un Área con su Lore compartido | al abrir un dominio nuevo |
-| [`create-project`](#create-project-1) | Crea un proyecto que hereda del Área | al empezar un trabajo |
-| [`save-to-lore`](#save-to-lore-1) | Destila una lección y decide si sube al Área | todos los días |
-| [`transmute-lore`](#transmute-lore-1) | Migra, limpia, traduce, actualiza, poda o exporta una fotografía segura del Lore | al heredar, mantener, actualizar o compartir Lore |
-| [`create-bot`](#create-bot-1) | Un lugar donde abrir sesión y trabajar sobre varias Áreas a la vez | desde cero, o cuando ya hay Lore que federar |
-| [`obsidian-lore`](#notas-obsidian) | Mina tus notas sueltas y enruta lo que sobrevive | cuando la bandeja pesa |
+| `use-lore` | Punto de entrada: explica el modelo y te manda a la skill correcta | primero, siempre |
+| `brainstorming-lore` | Diseña cambios en los artefactos Lore sin chocar con skills generales de brainstorming | antes de crear o reestructurar Lore de forma material |
+| `create-area` | Crea un Área con su Lore compartido | al abrir un dominio nuevo |
+| `create-project` | Crea un proyecto que hereda del Área | al empezar un trabajo |
+| `save-to-lore` | Destila una lección y decide si sube al Área | todos los días |
+| `transmute-lore` | Migra, limpia, traduce, actualiza, poda o exporta una fotografía segura del Lore | al heredar, mantener, actualizar o compartir Lore |
+| `create-bot` | Un lugar donde abrir sesión y trabajar sobre varias Áreas a la vez | desde cero, o cuando ya hay Lore que federar |
+| `obsidian-lore` | Mina tus notas sueltas y enruta lo que sobrevive | cuando la bandeja pesa |
 
 **El primer día necesitas dos de estas:** `use-lore` te enruta hacia lo que sigue, y `save-to-lore`
 es la que vas a escribir de verdad — *"guarda en lore"*, después de resolver algo que te costó. Las
