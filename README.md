@@ -15,7 +15,7 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.2.2-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.3.0-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/AI_agents-provider--neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Provider-neutral AI agents"></a>
   <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
@@ -28,6 +28,24 @@
   <b>Stop explaining your project to the AI every morning.</b><br>
   Lore keeps the criteria behind your decisions and loads it into the next session.
 </p>
+
+---
+
+## The problem
+
+Every session starts blank. Everything you taught the agent yesterday — every correction, every
+back-and-forth — gets erased, unless it is written somewhere that gets read again. Your Lore is
+where that stays.
+
+You open a session. You explain, again, what the project is for. Which approach you already tried and why you dropped it.
+
+Meanwhile, the things you actually paid to learn keep piling up: architecture decisions, production incidents, failed experiments, dozens of *"let's never do that again"* moments. That is the real cost — and **none of it survives the session**.
+
+It is a loop of re-explanations and mediocre solutions you had already rejected. Lore calls this **ephemeral experience**: the facts may survive, but the learning never became a reusable structure.
+
+> The picture is *Groundhog Day*. The world resets and **the only thing that crosses the reset is what Phil learned** — the facts are wiped every February 2nd, the criteria are not. Every session of an agent is a February 2nd.
+
+---
 
 <h3 align="center"><strong>+44.5 points of cross-domain first-pass compliance</strong>.</h3>
 
@@ -105,22 +123,6 @@
 </td>
 </tr>
 </table>
-
----
-
-## The problem
-
-You open a session. You explain, again, what the project is for. Which approach you already tried and why you dropped it. Which shortcut cost you an afternoon last month, and which decision you are not reopening.
-
-You explained all of it yesterday. You will explain it again tomorrow.
-
-Meanwhile, the things you actually paid to learn keep piling up: architecture decisions, production incidents, failed experiments, dozens of *"let's never do that again"* moments. That is the real cost — and **none of it survives the session**.
-
-It is a loop of re-explanations and mediocre solutions you had already rejected. Lore calls this **ephemeral experience**: the facts may survive, but the learning never became a reusable structure.
-
-> The picture is *Groundhog Day*. The world resets and **the only thing that crosses the reset is what Phil learned** — the facts are wiped every February 2nd, the criteria are not. Every session of an agent is a February 2nd.
-
-> Traditional documentation solved part of the problem, but it only preserves **information**. Manuals describe procedures, READMEs explain installs, databases store facts. They rarely capture what actually changes a future decision.
 
 ---
 
@@ -786,7 +788,7 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.2.2-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.3.0-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/agentes_de_IA-neutral_al_proveedor-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Agentes de IA neutrales al proveedor"></a>
   <a href="./docs/SPEC_KIT_es.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
@@ -799,6 +801,24 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
   <b>Deja de explicarle tu proyecto a la IA todas las mañanas.</b><br>
   Lore guarda el criterio detrás de tus decisiones y lo carga en la siguiente sesión.
 </p>
+
+---
+
+## El problema
+
+Cada sesión arranca en blanco. Todo lo que le enseñaste al agente ayer —cada corrección, cada ida
+y vuelta— se borra, a menos que quede escrito en algo que vuelva a leer. Tu Lore es donde eso sí
+permanece.
+
+Abres una sesión. Explicas, otra vez, para qué es el proyecto. Qué camino ya probaste y por qué lo descartaste.
+
+Mientras tanto, lo que de verdad te costó aprender se sigue acumulando: decisiones de arquitectura, incidentes en producción, experimentos fallidos, decenas de momentos de *«nunca volvamos a hacer esto»*. Ese es el costo real — y **nada de eso sobrevive a la sesión**.
+
+Es un bucle de reexplicaciones y soluciones mediocres que ya habías descartado. Lore llama a esto **experiencia efímera**: los datos pueden sobrevivir, pero el aprendizaje nunca se convirtió en una estructura reutilizable.
+
+> La imagen es *El día de la marmota*. El mundo se reinicia y **lo único que atraviesa el reinicio es lo que Phil aprendió**: los hechos se borran cada 2 de febrero, el criterio no. Cada sesión de un agente es un 2 de febrero.
+
+---
 
 <h3 align="center"><strong>+44,5 puntos de cumplimiento multidominio al primer intento</strong>.</h3>
 
@@ -876,22 +896,6 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 </td>
 </tr>
 </table>
-
----
-
-## El problema
-
-Abres una sesión. Explicas, otra vez, para qué es el proyecto. Qué camino ya probaste y por qué lo descartaste. Qué atajo te costó una tarde el mes pasado, y qué decisión no vas a volver a abrir.
-
-Todo eso lo explicaste ayer. Mañana lo vas a explicar de nuevo.
-
-Mientras tanto, lo que de verdad te costó aprender se sigue acumulando: decisiones de arquitectura, incidentes en producción, experimentos fallidos, decenas de momentos de *«nunca volvamos a hacer esto»*. Ese es el costo real — y **nada de eso sobrevive a la sesión**.
-
-Es un bucle de reexplicaciones y soluciones mediocres que ya habías descartado. Lore llama a esto **experiencia efímera**: los datos pueden sobrevivir, pero el aprendizaje nunca se convirtió en una estructura reutilizable.
-
-> La imagen es *El día de la marmota*. El mundo se reinicia y **lo único que atraviesa el reinicio es lo que Phil aprendió**: los hechos se borran cada 2 de febrero, el criterio no. Cada sesión de un agente es un 2 de febrero.
-
-> La documentación tradicional resolvió parte del problema, pero solo preserva **información**. Los manuales describen procedimientos, los README explican instalaciones, las bases de datos guardan hechos. Casi nunca capturan lo que de verdad modifica una decisión futura.
 
 ---
 
