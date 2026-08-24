@@ -415,7 +415,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** It is no
 
 ## The eight skills
 
-**This kit moves with Superpowers' `writing-skills` discipline, not past it.** Every skill is checked against it before it ships, every time it changes — the badge above is not a one-time certificate, it is how this kit stays a kit worth trusting.
+**This kit moves with Superpowers' `writing-skills` discipline, not past it.** Every skill is checked against it before it ships, every time it changes.
 
 > **The skills are written in English; the Lore they produce is not** — content and filenames included, in your language. The English in a `SKILL.md` is the portable substrate that lets the kit run on other hosts, not the language of the kit. Do not open one to explain a mode to someone (we learned this in Case 12, live) — that is what the table and the two docs below are for.
 
@@ -1125,7 +1125,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 ## Las ocho skills
 
-**Este kit avanza junto a la disciplina `writing-skills` de Superpowers, no por delante de ella.** Cada skill se revisa contra esa disciplina antes de publicarse, cada vez que cambia — la insignia de arriba no es un certificado de una sola vez, es cómo este kit se mantiene siendo uno del que se puede confiar.
+**Este kit avanza junto a la disciplina `writing-skills` de Superpowers, no por delante de ella.** Cada skill se revisa contra esa disciplina antes de publicarse, cada vez que cambia.
 
 > **Las skills están escritas en inglés y el Lore que producen, no** — contenido y nombres de archivo incluidos, en tu idioma. El inglés del `SKILL.md` es el sustrato portable con el que el kit funciona en otros hosts, no el idioma del kit. No abras uno para explicarle a alguien qué hace un modo (lo aprendimos en el Caso 12, en vivo) — para eso está la tabla y los dos docs de abajo.
 
