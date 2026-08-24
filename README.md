@@ -43,7 +43,7 @@ where that stays.
 
 You open a session. You explain, again, what the project is for. Which approach you already tried and why you dropped it.
 
-Phil Connors wakes up to the same radio every February 2nd and nobody in Punxsutawney remembers a thing about yesterday — only he does. Your agent stands on the other side of that scene: it is the town, not Phil. Every session opens on the same morning, and the one who walks in carrying the memory is you, again, for free.
+In *Groundhog Day* (Harold Ramis, 1993), Phil Connors wakes up to the same radio every February 2nd and nobody in his town remembers a thing about yesterday — only he does. Your agent stands on the other side of that scene: it is the town, not Phil. Every session opens on the same morning, and the one who walks in carrying the memory is you, again, for free.
 
 Meanwhile, the things you actually paid to learn keep piling up: architecture decisions, production incidents, failed experiments, dozens of *"let's never do that again"* moments. That is the real cost — and **none of it survives the session**.
 
@@ -156,11 +156,13 @@ card”: portable across models, usable wherever Markdown instructions are accep
 your terms and extractable back into a working folder. It is a snapshot, never a replacement for
 the live Lore.
 
-What none of that promises is that the work will come out right. *Fire* is Waxahatchee singing about the kind of growing up that consists of moving without the whole picture, and that is the honest description of what accumulated criteria buys you: not the end of uncertainty, only a smaller space of ways to be wrong. Camus said the harder half — *a system of criteria does not reduce the absurd; it knows what to do when the absurd shows up.* Lore does not promise the deploy holds. It promises there is a next step for the morning it does not, and that you chose that step back when you still had time to think. (Where each of them stops being usable is arbitrated in the [genealogy](#origin).)
+What none of that promises is that the work will come out right. Accumulated criteria does not end uncertainty: it only shrinks the space of ways to be wrong. Albert Camus, in *The Myth of Sisyphus* (1942), argued that the absurd is not solved but inhabited, and the line this kit takes from him is its own: **a system of criteria does not reduce the absurd; it knows what to do when the absurd shows up.** Lore does not promise the deploy holds. It promises there is a next step for the morning it does not, and that you chose that step back when you still had time to think.
 
 A README answers *"what is this?"*. Lore answers something else: **What did we learn that we should never have to learn again?**
 
 > **If a sentence does not constrain a future decision, it is not Lore.** That rule is the whole filter, and it is what keeps the system from becoming another graveyard of documents.
+
+That filter is borrowed, and it is worth naming its owner. Gregory Bateson, in *Steps to an Ecology of Mind* (1972), defined information as **"a difference that makes a difference"**: a difference that changes nothing downstream is not information, it is noise. Lore applies that test to experience. What happened yesterday only becomes criteria if it would change what you do tomorrow — everything else is a log.
 
 ---
 
@@ -168,7 +170,7 @@ A README answers *"what is this?"*. Lore answers something else: **What did we l
 
 **The floor is everyone who works with AI.** Free software, and it stays that way — use it, read every line of it, fork it. A few groups get there first:
 
-**Professionals early in working with AI**, who want what they learn to compound instead of evaporating — a professional memory card that outlasts any one project or model. That is the LUS hypothesis this kit tests: a richer, more stable human–AI Between can mean fewer repeated mistakes and better work, at less cost.
+**Professionals early in working with AI**, who want what they learn to compound instead of evaporating — a professional memory card that outlasts any one project or model. That is the LUS hypothesis this kit tests: a richer, more stable human–AI **Between** can mean fewer repeated mistakes and better work, at less cost. The word is Martin Buber's, from *I and Thou* (1923): he argued that what matters does not live inside either party but in the relation between them, and that the relation changes depending on whether you treat the other as a thing to use or as someone to address. This kit takes the structure, not the theology — what accumulates here is neither yours nor the model's, it is the criteria the two of you built.
 
 **People who read the benchmark before anything else** and are willing to try something that is not mainstream yet if the numbers hold up.
 
@@ -197,9 +199,9 @@ The event is forgotten. The criteria keeps working.
   <img src="https://i.imgur.com/y3fsT7D.png" alt="Lore" width="100%">
 </p>
 
-In *Stalker*, the guide crosses the Zone by tossing a nut wrapped in gauze a few metres ahead and walking to wherever it lands. The straight line to the room is visible the entire film, and the straight line is the one that kills. Every step of this loop moves the same way: it is proposed, you approve, and only then is it written. **That gate is the threshold**, and it is the reason nothing reaches your Lore that you did not read first.
+In *Stalker* (Andrei Tarkovsky, 1979), a guide leads two men across a forbidden territory called the Zone by tossing a nut wrapped in gauze a few metres ahead and walking to wherever it lands. The straight line to the room they want is visible the entire film, and the straight line is the one that kills. Every step of this loop moves the same way: it is proposed, you approve, and only then is it written. **That gate is the threshold**, and it is the reason nothing reaches your Lore that you did not read first.
 
-So that is the mechanism: not documentation, not a memory dump — a threshold between what happened and what gets to constrain tomorrow. What is still missing is the shape it lives in, and how you get it running.
+So that is the mechanism: not documentation, not a memory dump — a threshold between what happened and what gets to constrain tomorrow. Andy Clark and David Chalmers called this shape the **extended mind** ("The Extended Mind", 1998): an external store stops being a filing cabinet and starts participating in the thinking when the system reaches for it by default and trusts what it finds. That is the difference this kit is built on. Documentation sits beside the work; Lore is loaded before the work starts. What is still missing is the shape it lives in, and how you get it running.
 
 ---
 
@@ -291,7 +293,7 @@ Replace `all` with `claude` or `codex` to target only one CLI. The installer con
 
 Then open a new CLI session. **If this is your first time, you do not need to know a single command** — write *«I want to start using Lore Plugin, help me»* and the kit opens a **brainstorming, not a menu**: it looks at your tree first, asks one question at a time, and ends with your **first artifact created**, never with a recommendation. If you already know what you want, `use-lore` routes you.
 
-One question at a time is not a courtesy, and a form would be faster. Land of Talk's *Loving* keeps circling a bond that holds two people without dissolving either of them — no fusion, and no sparing each other the friction — and that is the shape being copied here: the questions are what keep you and the model two things instead of one, long enough for an answer neither of you had alone.
+One question at a time is not a courtesy, and a form would be faster. The questions are what keep you and the model two things instead of one — no fusion, and no sparing each other the friction — long enough for an answer neither of you had alone.
 
 ## What it looks like in practice
 
@@ -346,11 +348,9 @@ Each has one responsibility. None duplicates another.
 
 > **Lore is criteria (it persists); `FASES.md` is state (it advances).** They never mix, and `FASES.md` never lives inside `lore/`.
 
-Lucy, in *50 First Dates*, wakes with no memory of the past year and watches a video before she does
-anything else. It works because it hands her both halves at once — who she is, and where things
-stand — and because it keeps them apart: one of the two will still be true next month and the other
-will not. Identity and state age at different speeds. Your Lore is that video; `FASES.md` is the
-part of it that has to be re-shot.
+Identity and state age at different speeds, and that is the whole reason they are kept apart. Who you
+are and how you work will still be true next month; which phase the project is in will not. Mixing
+them means re-reading a document where half the sentences expired and nothing says which half.
 
 The canonical names are Spanish; in your language they are localized.
 
@@ -549,7 +549,7 @@ the agent gets better. Here, **the person does.** Lore's criteria live in files 
 language, and nothing enters them without you approving it with the content in view. If you want a
 system that learns behind your back, this is not it, and it never will be.
 
-Those rules are not abstract, and one of them was bought. A README was asked to shrink by 40% and came back cut by nearly 80%. What broke that afternoon was not a number — it was that a human instruction had stopped being a floor anyone could stand on, and collaborating had quietly turned into supervising. Chet Faker and BANKS wrote *"1998"* about the version of that feeling between two people, and the kit keeps it in its own genealogy, because the six rules above exist to make that afternoon structurally impossible.
+Those rules are not abstract, and one of them was bought. A README was asked to shrink by 40% and came back cut by nearly 80%. What broke that afternoon was not a number — it was that a human instruction had stopped being a floor anyone could stand on, and collaborating had quietly turned into supervising. The six rules above exist to make that afternoon structurally impossible.
 
 ---
 
@@ -678,8 +678,12 @@ That is the argued genealogy. The felt one — what shaped taste rather than cla
 
 <br>
 
-**Registry, not rule.** These works constrain no decision and govern nothing. They are recorded because the aesthetics and the intuitions of a technical artifact are never neutral, and knowing where they came from is what lets someone tell **inherited taste** from **argument** the day anybody proposes changing them. It belongs to LUS, not to the kit. *Fire*, *Loving*, *Groundhog Day*, *50 First Dates*, *Stalker* and *"1998"* already appear above, next to what they illustrate — this list is the rest.
+**Registry, not rule.** These works constrain no decision and govern nothing. They are recorded because the aesthetics and the intuitions of a technical artifact are never neutral, and knowing where they came from is what lets someone tell **inherited taste** from **argument** the day anybody proposes changing them. It belongs to LUS, not to the kit. Only two of them still appear in the body of this README, next to what they illustrate: *Groundhog Day* and *Stalker*. The rest were pulled out of the argument and left here, because a work that has to be explained before it illustrates anything is charging the reader for the author's taste.
 
+- ***Fire*** · Waxahatchee (2020) — growing up as moving without the whole picture. What accumulated criteria actually buys: not the end of uncertainty, a smaller space of ways to be wrong.
+- ***Loving*** · Land of Talk (2017) — a bond that holds two people without dissolving either of them. The shape behind asking one question at a time.
+- ***50 First Dates*** · Peter Segal (2004) — the video Lucy watches every morning, which works because it hands her identity and state at once and still keeps them apart.
+- **[*"1998"*](https://genius.com/Chet-faker-and-banks-1998-lyrics)** · Chet Faker and BANKS (2015) — the afternoon collaborating turns into supervising, between two people.
 - ***Tales of Berseria*** · Bandai Namco (2016) — **aesthetic, not conceptual**: the art direction of this kit comes from here before any software design reference. Genealogy of the *form*.
 - **[*Keep Running*](https://genius.com/Tei-shi-keep-running-lyrics)** · Tei Shi — keeping up with **who the other is now**. Criteria nobody revisits does not go neutral: it keeps operating, on someone who already changed.
 - **[*Running Back to You*](https://genius.com/The-juan-maclean-running-back-to-you-lyrics)** · The Juan MacLean — **autonomy with return** (`H13`). It does not demand constant contact; it demands a point where both catch up before drift makes the shared work unrecognizable.
@@ -761,7 +765,7 @@ permanece.
 
 Abres una sesión. Explicas, otra vez, para qué es el proyecto. Qué camino ya probaste y por qué lo descartaste.
 
-Phil Connors despierta con la misma radio cada 2 de febrero y nadie en el pueblo recuerda nada de lo de ayer — solo él. Tu agente está del otro lado de esa escena: es el pueblo, no Phil. Cada sesión abre en la misma mañana, y el único que entra con memoria eres tú, de nuevo, gratis.
+En *El día de la marmota* (Harold Ramis, 1993), Phil Connors despierta con la misma radio cada 2 de febrero y nadie en el pueblo recuerda nada de lo de ayer — solo él. Tu agente está del otro lado de esa escena: es el pueblo, no Phil. Cada sesión abre en la misma mañana, y el único que entra con memoria eres tú, de nuevo, gratis.
 
 Mientras tanto, lo que de verdad te costó aprender se sigue acumulando: decisiones de arquitectura, incidentes en producción, experimentos fallidos, decenas de momentos de *«nunca volvamos a hacer esto»*. Ese es el costo real — y **nada de eso sobrevive a la sesión**.
 
@@ -874,11 +878,13 @@ Markdown: portable entre modelos, utilizable donde se acepten instrucciones Mark
 en tus términos y extraíble de vuelta a una carpeta de trabajo. Es una fotografía, nunca un
 reemplazo del Lore vivo.
 
-Nada de eso promete que el trabajo salga bien. *Fire* es Waxahatchee cantando esa forma de madurar que consiste en avanzar sin la visión completa, y esa es la descripción honesta de lo que compra el criterio acumulado: no el fin de la incertidumbre, apenas un espacio más chico de maneras de equivocarse. Camus dijo la mitad más dura — *un sistema de criterio no reduce el absurdo; sabe qué hacer cuando el absurdo aparece.* Lore no promete que el despliegue aguante. Promete que hay un paso siguiente para la mañana en que no aguante, y que ese paso lo elegiste cuando todavía tenías tiempo de pensarlo. (Dónde deja de servir cada uno se arbitra en la [genealogía](#origen).)
+Nada de eso promete que el trabajo salga bien. El criterio acumulado no termina con la incertidumbre: apenas achica el espacio de maneras de equivocarse. Albert Camus, en *El mito de Sísifo* (1942), sostuvo que el absurdo no se resuelve sino que se habita, y la línea que este kit toma de ahí es suya propia: **un sistema de criterio no reduce el absurdo; sabe qué hacer cuando el absurdo aparece.** Lore no promete que el despliegue aguante. Promete que hay un paso siguiente para la mañana en que no aguante, y que ese paso lo elegiste cuando todavía tenías tiempo de pensarlo.
 
 Un README responde *«¿qué es esto?»*. Lore responde otra cosa: **¿Qué aprendimos que nunca deberíamos tener que volver a aprender?**
 
 > **Si una frase no restringe una decisión futura, no es Lore.** Esa regla es todo el filtro, y es lo que impide que el sistema se convierta en otro cementerio de documentos.
+
+Ese filtro es prestado, y conviene decir de quién. Gregory Bateson, en *Pasos hacia una ecología de la mente* (1972), definió la información como **«una diferencia que hace una diferencia»**: una diferencia que no cambia nada más adelante no es información, es ruido. Lore le aplica esa prueba a la experiencia. Lo que pasó ayer se vuelve criterio solo si cambiaría lo que haces mañana — todo lo demás es un registro.
 
 ---
 
@@ -886,7 +892,7 @@ Un README responde *«¿qué es esto?»*. Lore responde otra cosa: **¿Qué apre
 
 **El piso es cualquiera que trabaje con IA.** Software libre, y se queda así — úsalo, léelo entero, forkealo. Algunos grupos llegan primero:
 
-**Profesionales que recién empiezan a trabajar con IA**, y quieren que lo que aprenden se acumule en vez de evaporarse — una memory card profesional que sobrevive a cualquier proyecto o modelo. Esa es la hipótesis de LUS que este kit pone a prueba: un Entre humano–IA más rico y estable puede significar menos errores repetidos y mejor trabajo, a menor costo.
+**Profesionales que recién empiezan a trabajar con IA**, y quieren que lo que aprenden se acumule en vez de evaporarse — una memory card profesional que sobrevive a cualquier proyecto o modelo. Esa es la hipótesis de LUS que este kit pone a prueba: un **Entre** humano–IA más rico y estable puede significar menos errores repetidos y mejor trabajo, a menor costo. La palabra es de Martin Buber, en *Yo y Tú* (1923): sostuvo que lo que importa no vive dentro de ninguna de las dos partes sino en la relación entre ellas, y que esa relación cambia según si tratas al otro como una cosa que se usa o como alguien a quien se le habla. Este kit toma la estructura, no la teología — lo que se acumula acá no es tuyo ni del modelo: es el criterio que construyeron los dos.
 
 **Quienes leen el benchmark antes que cualquier otra cosa** y están dispuestos a probar algo que todavía no es mainstream si los números se sostienen.
 
@@ -915,7 +921,9 @@ El acontecimiento se olvida. El criterio sigue trabajando.
   <img src="https://i.imgur.com/I7odxus.png" alt="Lore" width="100%">
 </p>
 
-En *Stalker*, el guía atraviesa la Zona lanzando unos metros por delante una tuerca envuelta en una venda y caminando hasta donde cayó. La línea recta hacia la habitación se ve durante toda la película, y la línea recta es la que mata. Cada paso de este ciclo avanza igual: la máquina propone con el contenido a la vista, tú apruebas y recién entonces se escribe. **Esa puerta es el umbral**, y es la razón de que nada llegue a tu Lore sin que lo hayas leído antes.
+En *Stalker* (Andréi Tarkovski, 1979), un guía lleva a dos hombres a través de un territorio prohibido llamado la Zona lanzando unos metros por delante una tuerca envuelta en una venda y caminando hasta donde cayó. La línea recta hacia la habitación que buscan se ve durante toda la película, y la línea recta es la que mata. Cada paso de este ciclo avanza igual: la máquina propone con el contenido a la vista, tú apruebas y recién entonces se escribe. **Esa puerta es el umbral**, y es la razón de que nada llegue a tu Lore sin que lo hayas leído antes.
+
+Ese es el mecanismo: no es documentación ni un volcado de memoria, es un umbral entre lo que pasó y lo que puede condicionar mañana. Andy Clark y David Chalmers llamaron a esta forma **mente extendida** («The Extended Mind», 1998): un almacén externo deja de ser un archivador y empieza a participar del pensamiento cuando el sistema lo consulta por defecto y confía en lo que encuentra. Esa es la diferencia sobre la que está construido este kit. La documentación queda al lado del trabajo; el Lore se carga antes de empezarlo.
 
 ---
 
@@ -1007,7 +1015,7 @@ Reemplaza `all` por `claude` o `codex` para preparar solo una CLI. El instalador
 
 Después abre una sesión nueva en la CLI. **Si es tu primera vez, no necesitas saber ningún comando** — escribe *«quiero comenzar a usar Lore Plugin, ayúdame»* y el kit abre un **brainstorming, no un menú**: primero mira tu árbol, después pregunta de a una cosa por vez, y termina con **tu primer artefacto creado**, nunca con una recomendación. Si ya sabes qué quieres, `use-lore` te enruta.
 
-Preguntar de a una cosa por vez no es cortesía, y un formulario sería más rápido. *Loving*, de Land of Talk, da vueltas alrededor de un vínculo que sostiene a dos sin disolver a ninguno —sin fusión y sin ahorrarse la fricción—, y esa es la forma que se copia acá: las preguntas son lo que te mantiene a ti y al modelo siendo dos cosas y no una, el rato suficiente para que aparezca una respuesta que ninguno tenía por separado.
+Preguntar de a una cosa por vez no es cortesía, y un formulario sería más rápido. Las preguntas son lo que te mantiene a ti y al modelo siendo dos cosas y no una —sin fusión y sin ahorrarse la fricción—, el rato suficiente para que aparezca una respuesta que ninguno tenía por separado.
 
 ## Así se ve en la práctica
 
@@ -1060,11 +1068,10 @@ Cada uno tiene una responsabilidad. Ninguno duplica a otro.
 
 > **El Lore es criterio (persiste); `FASES.md` es estado (avanza).** Nunca se mezclan, y `FASES.md` nunca vive dentro de `lore/`.
 
-Lucy, en *50 primeras citas*, despierta sin memoria del último año y ve un video antes de hacer
-cualquier otra cosa. Funciona porque le entrega las dos mitades juntas —quién es y en qué punto
-están las cosas— y porque las mantiene separadas: una de las dos seguirá siendo cierta el mes que
-viene y la otra no. Identidad y estado envejecen a velocidades distintas. Tu Lore es ese video;
-`FASES.md` es la parte que hay que volver a grabar.
+Identidad y estado envejecen a velocidades distintas, y esa es toda la razón por la que se mantienen
+separados. Quién eres y cómo trabajas va a seguir siendo cierto el mes que viene; en qué fase está el
+proyecto, no. Mezclarlos significa releer un documento donde la mitad de las frases venció y nada
+dice cuál mitad.
 
 #### El bloque siempre-activo
 
@@ -1255,7 +1262,7 @@ contraria: ahí mejora el agente. Acá **mejoras tú.** El criterio de Lore vive
 tuyos, en tu idioma, y nada entra en ellos sin que lo apruebes con el contenido a la vista. Si
 quieres un sistema que aprenda a tus espaldas, este no es, y no va a serlo.
 
-Esas reglas no son abstractas, y una de ellas se pagó. A un README se le pidió encoger un 40% y volvió recortado casi al 80%. Lo que se rompió esa tarde no fue una cifra — fue que una instrucción humana dejó de ser un piso donde pararse, y colaborar se había vuelto, sin que nadie lo anunciara, supervisar. Chet Faker y BANKS escribieron *«1998»* sobre la versión de esa sensación entre dos personas, y el kit la conserva en su propia genealogía, porque las seis reglas de arriba existen para volver esa tarde estructuralmente imposible.
+Esas reglas no son abstractas, y una de ellas se pagó. A un README se le pidió encoger un 40% y volvió recortado casi al 80%. Lo que se rompió esa tarde no fue una cifra — fue que una instrucción humana dejó de ser un piso donde pararse, y colaborar se había vuelto, sin que nadie lo anunciara, supervisar. Las seis reglas de arriba existen para volver esa tarde estructuralmente imposible.
 
 ---
 
@@ -1386,7 +1393,12 @@ Esa es la genealogía argumentada. La sentida —lo que formó el gusto y no una
 
 <br>
 
-**Registro, no regla.** Estas obras no restringen ninguna decisión y no gobiernan nada. Se anotan porque la estética y las intuiciones de un artefacto técnico **nunca son neutrales**, y saber de dónde vienen es lo único que permite distinguir el **gusto heredado** del **argumento** el día que alguien proponga cambiarlas. Pertenece a LUS, no al kit. *Fire*, *Loving*, *El día de la marmota*, *50 First Dates*, *Stalker* y *«1998»* ya aparecen arriba, junto a lo que ilustran — esta lista es el resto.
+**Registro, no regla.** Estas obras no restringen ninguna decisión y no gobiernan nada. Se anotan porque la estética y las intuiciones de un artefacto técnico **nunca son neutrales**, y saber de dónde vienen es lo único que permite distinguir el **gusto heredado** del **argumento** el día que alguien proponga cambiarlas. Pertenece a LUS, no al kit. De todas ellas, **solo dos siguen apareciendo en el cuerpo de este README**, al lado de lo que ilustran: *El día de la marmota* y *Stalker*. El resto se sacó del argumento y quedó acá, porque una obra que hay que explicar antes de que ilustre algo le está cobrando al lector el gusto del autor.
+
+- ***Fire*** · Waxahatchee (2020) — madurar como avanzar sin la visión completa. Lo que de verdad compra el criterio acumulado: no el fin de la incertidumbre, un espacio más chico de maneras de equivocarse.
+- ***Loving*** · Land of Talk (2017) — un vínculo que sostiene a dos sin disolver a ninguno. La forma detrás de preguntar de a una cosa por vez.
+- ***50 primeras citas*** · Peter Segal (2004) — el video que Lucy ve cada mañana, que funciona porque le entrega identidad y estado juntos y aun así los mantiene separados.
+- **[*«1998»*](https://genius.com/Chet-faker-and-banks-1998-lyrics)** · Chet Faker y BANKS (2015) — la tarde en que colaborar se vuelve supervisar, entre dos personas.
 
 - ***Tales of Berseria*** · Bandai Namco (2016) — aporte **estético y no conceptual**: la dirección de arte de este kit viene de acá antes que de cualquier referencia de diseño de software. Genealogía de **la forma**.
 - **[*Keep Running*](https://genius.com/Tei-shi-keep-running-lyrics)** · Tei Shi — mantenerse al día con **quién es el otro ahora**. Un criterio que no se revisa no queda neutral: sigue operando, sobre alguien que ya cambió.
