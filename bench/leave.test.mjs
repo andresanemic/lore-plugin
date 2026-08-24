@@ -252,8 +252,10 @@ test("MICELIO tiene un quinto caso para el criterio que nunca entro al sustrato"
   const mic = t.slice(t.indexOf("## MICELIO mode"), t.indexOf("## LEAVE mode"));
   assert.match(mic, /Fuera del sustrato/,
     "sin quinto caso, criterio fuera de lore/ se reporta como Aislada y su reparo es distinto: son dos movimientos, no uno");
-  assert.ok(mic.includes("| **Fuera del sustrato**"),
-    "el quinto caso no esta en la tabla de casos");
+  assert.ok(mic.includes("it is criteria, and it is not in `lore/`"),
+    "el quinto caso no esta en la tabla de resultados");
+  assert.match(mic, /\*\*two moves\*\*/,
+    "el quinto caso es el unico cuya reparacion son dos movimientos: mover y despues dar paso");
 });
 
 // 2026-08-22, segunda corrida del mismo dia: el staging del area vive en docs/ A PROPOSITO, con su
@@ -265,32 +267,44 @@ test("MICELIO tiene un quinto caso para el criterio que nunca entro al sustrato"
 test("MICELIO distingue la junta que apunta a un artefacto que la sesion no carga", () => {
   const t = skill("transmute-lore");
   const mic = t.slice(t.indexOf("## MICELIO mode"), t.indexOf("## LEAVE mode"));
-  assert.ok(mic.includes("| **Junta a otro árbol**"),
-    "el sexto caso no esta en la tabla de casos");
+  assert.ok(mic.includes("the step exists, in a file this session does not load"),
+    "el sexto caso no esta en la tabla de resultados");
   assert.match(mic, /artifact the running tree does not load|artifact actually in force|artifact that is actually running/i,
     "sin el sexto caso, una junta correcta que apunta a otro arbol se clasifica Media junta y se repara escribiendo el termino donde ya estaba");
 });
 
 // 2026-08-22, Andres: "los modos de micelio no me gustan... no le puedes ir exigiendo al usuario
-// que ejecute terminos tan complejos". El defecto es real y verificable: seis casos en espanol
-// dentro de skills escritas en ingles. Pero enunciar simple y renombrar los casos son dos
-// operaciones distintas, y solo la primera hace falta: Junta seca y Media junta se reparan al
-// reves, y un nombre que las fusione devuelve el error. Clave estable adentro, frase llana afuera.
+// que ejecute terminos tan complejos". La reparacion de ese dia -clave estable adentro, frase llana
+// afuera- dejo TRES nombres por resultado y el usuario volvio a quejarse el 23: "el vocabulario dual
+// me parece algo absurdo... el rol de micelio debe pasar desapercibido para el usuario". Una
+// reparacion que agrega una capa no resuelve el problema, lo duplica. 2.3.1 poda a una sola capa:
+// la frase llana. Lo que NO se toca es la distincion entre resultados que se reparan al reves.
 
-test("MICELIO tiene capa llana con clave neutra al idioma, sin perder los seis casos", () => {
+test("MICELIO reporta en una sola capa y corre en silencio", () => {
   const t = skill("transmute-lore");
   const mic = t.slice(t.indexOf("## MICELIO mode"), t.indexOf("## LEAVE mode"));
+  const tabla = mic.slice(mic.indexOf("| What the person is told"),
+                          mic.indexOf("**The six do not collapse"));
+
   for (const clave of ["`connected`", "`alone`", "`missed`", "`no-exchange`",
-                       "`outside`", "`other-tree`"])
-    assert.ok(mic.includes(clave), `falta la clave neutra ${clave}`);
-  // La capa es superficie, no reemplazo: los seis casos siguen existiendo con su nombre.
-  for (const caso of ["Micorrizada", "Aislada", "Media junta", "Junta seca",
-                      "Fuera del sustrato", "Junta a otro árbol"])
-    assert.ok(mic.includes(caso), `la capa llana se comio el caso ${caso}`);
-  assert.match(mic, /never require somebody to type|never teach the vocabulary/i,
-    "sin esto la capa llana es decorativa: el usuario sigue teniendo que aprender el vocabulario para preguntar");
-  assert.match(mic, /governs how findings are \*\*said\*\*, not how they are classified/i,
-    "falta la frontera: una capa que fusione missed con no-exchange rompe el modo en vez de simplificarlo");
+                       "`other-tree`"])
+    assert.ok(!mic.includes(clave), `la clave tecnica ${clave} sobrevivio a la poda`);
+
+  for (const viejo of ["Micorrizada", "Aislada", "Media junta", "Junta seca"])
+    assert.ok(!tabla.includes(viejo),
+      `el nombre metaforico ${viejo} sigue operando en la tabla de resultados`);
+
+  for (const frase of ["there is a step that runs it", "nothing runs it",
+                       "it names a place, and it is not written there",
+                       "a step only says", "it is criteria, and it is not in `lore/`",
+                       "the step exists, in a file this session does not load"])
+    assert.ok(tabla.includes(frase), `la poda se comio el resultado: ${frase}`);
+
+  assert.match(mic, /runs quiet/i, "falta la regla de silencio: el modo no se anuncia");
+  assert.match(mic, /never\s+announce it, never narrate that it ran/i,
+    "sin esto el modo vuelve a ser un evento que el usuario tiene que presenciar");
+  assert.match(mic, /repaired in \*\*opposite directions\*\*/,
+    "falta la frontera: una capa que fusione los resultados devuelve el reparo al lugar equivocado");
 });
 
 // El disparador 3 pasa a ser automatico, y para en una condicion estrecha a proposito. MICELIO

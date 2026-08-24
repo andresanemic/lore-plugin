@@ -633,69 +633,59 @@ commit.**
 > symptom is not error: it is **inertia**. The agent does everything it was asked and hands back an
 > artifact that violates a written rule, and nobody gets a warning.
 
-**The metaphor is load-bearing, not decoration.** A plant can be healthy, correct and **disconnected**
-from the network under it. What carries nutrients between organisms is the mycelium; the junction
-where it meets a root is the **micorriza**. A clue with no micorriza is in the soil and joined to
-nothing — alive, right, and inert.
-
-So this mode does not ask whether criteria is *correct*. It asks whether it can **fire**. The two are
+This mode does not ask whether criteria is *correct*. It asks whether it can **fire**. The two are
 independent, and that is why no amount of re-reading finds this: an artifact coherent with itself and
 inert toward the outside survives every review (`H11` — coherence is not a detector).
 
+**It runs quiet, and that is a rule.** The scan is infrastructure, not an event. Never
+announce it, never narrate that it ran, never ask anybody to learn a vocabulary in order to be
+answered. A clean pass says nothing at all. A pass with findings reports **the findings**, in plain
+language, and says what waits on them. The person should be able to use this mode for a year without
+knowing its name — and the six outcomes below are distinctions the *repair* needs, never terms the
+person has to type.
+
 **Three triggers, and they are not the same measurement:**
 
-1. **Before a complex task** — the one that matters. You are about to lean on the Lore for real work.
-   Run MICELIO first and you learn which rules cannot fire *before* the deliverable, not after.
+1. **Before a complex task** — the one that matters. You are about to lean on the Lore for real work,
+   and you learn which rules cannot fire *before* the deliverable, not after.
 2. **Right after installing or updating the kit** — cheap, and it must report honestly. On a fresh
    machine it finds `0 of 0`, and **that green proves nothing**: there is no criteria yet to be
    disconnected. Say so in the same line, or the check manufactures confidence exactly during the
    period when it cannot fail.
-3. **On the way out of any pass that wrote Lore** — after `PRUNE`, after `GRAFT`, after a
-   distillation, and before the work that leans on the result. **This is not trigger 1 repeated, and
-   it does not measure the same thing:** the pass on the way in looks at the Lore that survived; the
-   pass on the way out looks at the Lore *the operation just wrote*.
+3. **On the way out of any pass that wrote Lore.** Not trigger 1 repeated: the pass on the way in
+   looks at the Lore that survived; the pass on the way out looks at the Lore *the operation just
+   wrote*.
 
-> **Why a second pass, when the first one came back green.** Because **a new clue is born
-> `Aislada`.** That is this mode's own finding, and it generalizes: isolation does not accumulate
-> with age — it is produced at the rate criteria is written, including by an author who knows about
-> `H14` and is writing about `H14`. So a pass that writes is a pass that manufactures the defect this
-> mode detects, and the scan that ran before it is structurally blind to its own output. `GRAFT`
-> lands clues nothing runs yet; `PRUNE` can remove the step that was running a clue it left alive,
-> turning a `Micorrizada` into a `Media junta` with no error anywhere.
+> **Why a second pass, when the first came back green.** Because **a new clue is born disconnected.**
+> Isolation does not accumulate with age — it is produced at the rate criteria is written, including
+> by an author who knows about `H14` and is writing about `H14`. A pass that writes is a pass that
+> manufactures the defect this mode detects, and the scan that ran before it is structurally blind to
+> its own output.
 >
-> **The asymmetry is the point, and collapsing the two breaks both.** One pass is not enough in
-> either direction: skip the entry pass and `PRUNE` deletes what was only waiting to form its micorriza;
-> skip the exit pass and the next deliverable runs against criteria that was written an hour ago and
-> is joined to nothing. Findings on the way in block the pass that writes. Findings on the way out
-> block **the work**, which is the operation the whole ritual existed to protect.
+> **Collapsing the two breaks both.** Skip the entry pass and `PRUNE` deletes what was only waiting
+> to form its junction; skip the exit pass and the next deliverable runs against criteria written an
+> hour ago and joined to nothing. Findings on the way in block the pass that writes. Findings on the
+> way out block **the work**, which is the operation the whole ritual existed to protect.
 
-**The condition that fires trigger 3 by itself, and it is narrow on purpose — 2.3.0.** A pass
-fires the exit scan automatically when it **wrote criteria and touched routing**: a new clue, a new
-module, a rewritten `index.md`, a step added to a procedure. **Both halves are required.** A typo fix
-touches routing and writes no criteria; a dated line in `FASES.md` writes state and touches no
-routing. Neither fires it.
+**The condition that fires trigger 3 by itself is narrow on purpose.** A pass fires the exit scan
+when it **wrote criteria and touched routing**: a new clue, a new module, a rewritten `index.md`, a
+step added to a procedure. **Both halves are required.** A typo fix touches routing and writes no
+criteria; a dated line in `FASES.md` writes state and touches no routing. Neither fires it.
 
 **And it never re-reports what the person already declined.** A declined finding is recorded as
-declined and does not come back on the next pass. Without that rule the mode turns into noise, and a
-check that is noise gets skipped — which costs more than the finding it was going to report. Keeping
-the Entre workable is not a nicety here: a scan nobody runs detects nothing.
+declined and does not come back. Without that rule the mode turns into noise, and a check that is
+noise gets skipped — which costs more than the finding it was going to report.
 
-> **Why this stops at a condition instead of becoming «the kit's internal auditor».** The temptation
-> is real and it fails on this mode's own boundary: MICELIO proves that a rule *can* fire, and
-> nothing else. A name that promises auditing gets read as certifying that the criteria is *right*,
-> which is the claim this mode refuses in writing. Widening the name without widening the mechanism
-> is the defect that retired the mode’s earlier vertical name — the word points somewhere the repair cannot follow. And its
-> premise (`H14`) is at `n=1` with a declared rival, which is a thin foundation for a universal
-> auditor and a fine one for a narrow condition.
+> **Its boundary, and it is why this stops here instead of becoming «the kit's internal auditor».**
+> MICELIO proves that a rule *can* fire, and nothing else. A name that promises auditing gets read as
+> certifying that the criteria is *right*, which is the claim this mode refuses in writing.
 
 **Procedure — one read-only pass, nothing is written:**
 
 0. **Resolve the owning area of every tree the work will touch — before reading a single clue.** A
    session loads the always-on block of *its own* tree and nothing else. Editing a project that lives
-   in another area means that area's `lore/` and contract **never enter context**, and nothing warns:
-   the law is correct, well routed inside its area, and has no junction with a session opened
-   somewhere else. For each tree in play, name its area root, its `lore/` and its contract, and load
-   them. If the work touches three trees, name three.
+   in another area means that area's `lore/` and contract **never enter context**, and nothing warns.
+   For each tree in play, name its area root, its `lore/` and its contract, and load them.
 
 1. **Take the universe, and it is narrower than the Lore.** Only clues that mandate a **verifiable
    artifact or step**. Criteria that governs continuously while writing — tone of voice, a dialect, a
@@ -703,144 +693,76 @@ the Entre workable is not a nicety here: a scan nobody runs detects nothing.
 
 1b. **Then widen it past `lore/`, because the worst case is not in there.** Sweep the tree's **source
    folders** — `docs/`, `notas/`/`notes/`, `estrategia/`, anything the routing table does not own —
-   for imperative language: *never*, *always*, *se publica*, *no se escribe*, *antes de*, and their
-   equivalents in the corpus's language. **Criteria that landed in a source folder cannot be
-   classified at all**, because the universe of step 1 never contained it: it is not `Aislada`, it is
-   invisible. And it is not a rare accident — a source folder is where criteria goes when somebody is
-   writing *about* a thing rather than writing the rule, which is most of the time.
+   for imperative language: *never*, *always*, *se publica*, *no se escribe*, *antes de*. Criteria
+   that landed in a source folder **cannot be classified at all**, because the universe of step 1
+   never contained it. And it is not a rare accident: a source folder is where criteria goes when
+   somebody is writing *about* a thing rather than writing the rule, which is most of the time.
 
-   **Its repair is two moves, not one**, and that is why it gets its own case below: the criteria is
-   first moved into `lore/` where routing can reach it, and only then does it get a step. Proposing a
-   step for a clue that lives in `docs/` produces a junction pointing at a file nothing loads.
+   **Check the inputs too, not only the rules.** A distilled document that cites a source — *«derivado
+   de cinco capturas»*, *«transcrito del `.docx`»* — is only as auditable as that source is reachable.
+   A source outside the repository reads perfectly and cannot be verified by anyone who was not there.
 
-   **Check the inputs too, not only the rules.** A distilled document that cites a source —
-   *«derivado de cinco capturas»*, *«transcrito del `.docx`»*— is only as auditable as that source is
-   reachable. If the source lives outside the repository, the document reads perfectly and cannot be
-   verified by anyone who was not there. Report it as the same case: what is missing is a junction to
-   the material, not to a step.
 2. For each one, `grep` the procedures that could run it: the host contract, `FASES.md`, the process
    modules, the checklists, the phases of any ritual.
-3. Classify each into one of four:
 
-| Case | What it means |
+3. **Say what is true of each one, in the plain sentence.** Six outcomes, and the repair differs:
+
+| What the person is told | The repair |
 |---|---|
-| **Micorrizada** | A step runs it and leaves an artifact. There is a junction and something passes through it. |
-| **Aislada** | **No step mentions it.** It is in the soil and nothing touches it — it cannot fire. |
-| **Media junta** | It declares a destination and the term is absent there: the hypha reaches and does not latch. |
-| **Junta seca** | A step names it, but the step is *"consult X"*: contact without exchange. It verifies reading, produces nothing, and cannot be told apart from the pass that skipped it. |
-| **Fuera del sustrato** | It is criteria, and it is **not in `lore/`** — it landed in `docs/`, in a note, in a strategy document. Routing does not reach it, so no step can be attached to it until it is moved. The only case whose repair is two moves. |
-| **Junta a otro árbol** | The junction exists and is correctly declared — and the step it names lives in **an operating artifact the running tree does not load**. Nothing is missing and nothing is misplaced; the clue simply cannot fire *here*. Its repair is neither a move nor a step: it is **naming the step in the artifact actually in force**. |
+| there is a step that runs it | none — it fires |
+| **nothing runs it** | give it a step |
+| it names a place, and it is not written there | write the term at the destination it named |
+| a step only says «consult this», so nothing comes out of it | make the step produce an artifact |
+| it is criteria, and it is not in `lore/` | **two moves** — move it in, *then* give it a step |
+| the step exists, in a file this session does not load | name the step in the artifact actually in force |
 
-> **The fifth case was found by the mode failing to find it — 2026-08-22.** A rule about how an
-> externally-sourced figure may be published was written into a project's `docs/`. The sweep reported
-> it `Aislada` **only because the author happened to remember writing it an hour earlier**; nothing in
-> the procedure would have surfaced it, because step 1 draws the universe from `lore/`. On the same
-> pass, a distilled document cited five screenshots that lived on somebody's desktop, outside the
-> repository — correct, cited, and unverifiable by anyone else. **Neither is `Aislada`: an `Aislada`
-> clue is in the soil and joined to nothing, and these were never in the soil.**
-
-> **The sixth case came from the fifth one being right for the wrong reason — 2026-08-22, same day,
-> second run.** The fifth case says criteria in `docs/` is there **by accident** and cannot be
-> classified because the universe never contained it. Then a sweep met a **staging file**: criteria
-> deliberately held outside `lore/`, with its gate written, its exercise field declared, and the step
-> that fills it named by name. Every part of the fifth case's diagnosis is false about it — it was
-> put there on purpose, it is perfectly classifiable, and its junction exists. **And it still could
-> not fire**, because the step it named lived in one operating artifact and the session was running
-> another. Seven of its eleven candidates were criteria not in `lore/`, two of them `confirmed`, and
-> a `grep` of the staging's own filename across the tree being operated returned nothing.
+> **The six do not collapse, and the last three are why.** *«It names a place and it is not written
+> there»* and *«a step only says consult this»* are repaired in **opposite directions**, and a wording
+> that merged them would send the repair back to the wrong place. The same holds for the last two,
+> which look identical in a report: one is criteria sitting where routing cannot reach it, the other
+> is a junction that is correct and simply names a file this tree does not load — writing the term
+> again at the original destination changes nothing there, because that destination was never the
+> problem. Its tell is cheap: the same criteria is reachable from one tree and invisible from
+> another, and which tree you are in is decided by where the session was opened.
 >
-> **This is why it is its own case and not a variant of `Media junta`.** `Media junta` is a junction
-> that reaches and does not latch: the destination is declared and the term is absent **there**. Here
-> the term is present, in the artifact the junction names — the artifact is simply not the one in
-> force. The two look identical in a report and their repairs point in opposite directions: `Media
-> junta` is repaired by **writing the term at the destination**, and this one by **naming the step in
-> the artifact that is actually running**. Writing the term again at the original destination changes
-> nothing, because that destination was never the problem.
->
-> **Its tell, and it is cheap:** the same criteria is reachable from one tree and invisible from
-> another, and which tree you are in is decided by where the session was opened. So step 0 — resolve
-> the owning area of every tree in play — is also what surfaces this case; run it and then ask, of
-> every junction, **whether the artifact it names is one this session loads.**
+> **Two of these came from the mode failing to find them**, and both were criteria living outside
+> `lore/` — one by accident, one deliberately staged. That is why step 1b exists and is not optional.
 
-> **The names are criteria, not decoration.** The earlier vocabulary called the second case `Orphan`,
-> and that word is **vertical** — it says someone above is missing. This defect is **lateral**: the
-> clue has an author, a module and a boundary, and what it lacks is a junction with anything beside
-> it. A name pointing at the wrong axis sends the repair to the wrong place.
+4. **Report pairs, never a list of clues.** The value is in the junction, so each row carries the one
+   that is missing: `clue file:line ⇢ the step that should run it, and does not`. A row without its
+   proposed junction is half a finding.
 
-### How the six cases are said out loud — the technical name is the second layer — 2.3.0
-
-**The case names are criteria and they do not change.** `Junta seca` and `Media junta` are repaired
-in opposite directions, and a simpler name that merged them would send the repair back to the wrong
-place — the exact failure that retired the earlier vertical name below. What changes is that **nobody has to learn them in
-order to use this mode.**
-
-Each case carries a **stable key**, which is what tests, registers and code refer to and which never
-translates, and a **plain sentence**, which is what a person reads and which always does.
-
-| Key | What the person is told | Spanish label |
-|---|---|---|
-| `connected` | there is a step that runs it | `Micorrizada` |
-| `alone` | nothing runs it | `Aislada` |
-| `missed` | it names a place, and it is not written there | `Media junta` |
-| `no-exchange` | a step only says «consult this», so nothing comes out of it | `Junta seca` |
-| `outside` | it is criteria, and it is not in `lore/` | `Fuera del sustrato` |
-| `other-tree` | the step exists, in a file this session does not load | `Junta a otro árbol` |
-
-**Report in the plain sentence by default, and let the vocabulary be inferred.** Use the technical
-name once the person has used it first or asked for it — the same way `perfil-profesional` grows from
-what somebody actually said instead of from a questionnaire. **Never require somebody to type
-`Fuera del sustrato` to ask a question**, and never teach the vocabulary as a precondition for the
-report. A person who learns the six names because they wanted to has adopted a tool; a person who had
-to learn them to be answered has paid a toll.
-
-*Boundary:* this governs how findings are **said**, not how they are classified. The six cases, their
-repairs and their asymmetries are unchanged — the plain sentence is a surface over them and never a
-replacement, and a report that loses the distinction between `missed` and `no-exchange` in the name
-of simplicity has broken the mode, not simplified it.
-
-4. **Report pairs, never a list of clues.** The value is in the junction, so each row carries the
-   junction that is missing: `clue file:line ⇢ the step that should run it, and does not`. A row
-   without its proposed junction is half a finding.
-5. **Propose the micorriza. Never prune.** An `Aislada` clue looks exactly like surplus, and
-   deleting it is the one move that cannot be undone — what looked like excess was criteria nobody
-   had connected yet. MICELIO hands the list to the human; `PRUNE` and `save-to-lore` do the writing.
+5. **Propose the junction. Never prune.** A disconnected clue looks exactly like surplus, and deleting
+   it is the one move that cannot be undone — what looked like excess was criteria nobody had
+   connected yet. MICELIO hands the list to the human; `PRUNE` and `save-to-lore` do the writing.
 
 6. **The findings block what comes next.** MICELIO runs *before* something — a complex task, an
    install, a sync, a release. Its list is not a report filed away: **until every finding is written
    or explicitly declined by the human, that next operation does not start.** Say so in the same
    breath as the list: *"N findings; the sync waits."*
 
-> **This step exists because the mode failed it on its first run.** MICELIO reported findings on the
-> kit itself and the session moved on to a sync without writing them — a sync that would have
-> certified as coherent a tree with an unwritten finding in it. **Plugging in a check's *execution*
-> does not connect its *result*.** Those are two different junctions, and a scan whose output nothing
-> consumes is the mode's own `Junta seca` case: a step that reads, produces nothing, and cannot be told
-> apart from the pass that never ran.
+> **This step exists because the mode failed it on its first run** — findings were reported and the
+> session moved on to a sync that would have certified as coherent a tree with an unwritten finding
+> in it. **Plugging in a check's *execution* does not connect its *result*.** A scan whose output
+> nothing consumes is this mode's own «a step that only says consult this» case.
 
 **Report the rate, never a score.** A percentage invites the one cheap way to raise it: delete the
-disconnected clues (`H12` — counting artifacts does not measure value, and the kit's own benchmark
-lost 3–1 to a human judge while winning every mechanical count). What is safe to report is **how
-recent the disconnections are**, because that cannot be inflated by deleting: the first real run of
-this mode found four, and **all four were under 48 hours old**.
-
-That number is the finding of this mode, and it reframes the defect. Isolation does not accumulate
-with age — **it is produced at the same rate criteria is written**, including by an author who knows
-about H14 and is writing about it. In that first run, two of the four clues **named the mechanism in
-their own text** and were disconnected anyway. Plugging in is therefore not a virtue of a careful
-author. It is something only a scan catches.
+disconnected clues (`H12` — counting artifacts does not measure value). What is safe to report is
+**how recent the disconnections are**, because that cannot be inflated by deleting: the first real
+run found four, and **all four were under 48 hours old**. Two of them named the mechanism in their
+own text and were disconnected anyway — plugging in is not a virtue of a careful author, it is
+something only a scan catches.
 
 **Its premise is an open hypothesis, and the mode says so because the difference changes the
 repair.** `H14` stands at `n=1` and carries a **declared rival explanation**: `Crowding` — criteria
 that is correct, earned and irrefutable, whose *sum* saturates the deliverable. The two look
-identical from outside, and they pull in opposite directions: `Crowding` is repaired by pruning
-(`PRUNE`), and if the same finding is really isolation, pruning destroys the junction nobody had
-made yet. **When a finding could be either, say so and hand both readings to the human.** Do not
-resolve it inside the mode.
+identical from outside and pull in opposite directions: `Crowding` is repaired by pruning (`PRUNE`),
+and if the same finding is really isolation, pruning destroys the junction nobody had made yet.
+**When a finding could be either, say so and hand both readings to the human.**
 
-**Boundary.** Read-only, and it proves one thing only: that a rule *can* fire. It does not say the
-rule is right, that it will be run well, or that the deliverable will be good. Reference: the `Meme`
-vara, written 15-ago and disconnected until 21-ago — six days in which every piece passed every filter
-that existed and the vara never ran.
+> *Registers written before this version name these outcomes with the older vocabulary — `Micorrizada`,
+> `Aislada`, `Media junta`, `Junta seca`, `Fuera del sustrato`, `Junta a otro árbol`. They stay as
+> written: they name what happened, not what governs.*
 
 ## LEAVE mode — leaving Lore without losing the project — 2.3.0
 

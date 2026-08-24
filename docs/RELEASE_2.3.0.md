@@ -68,15 +68,15 @@ opuestos. El verde post-instalación es `0 de 0` y no prueba nada.
 Tres cosas que entraron el mismo día, y las tres salieron de la misma objeción de Andrés: **el kit no
 puede exigirle a nadie que aprenda su vocabulario para poder usarlo.**
 
-**1. Los seis casos de `MICELIO` se dicen en llano, y los nombres no se tocan.** El defecto era real y
-verificable —seis casos en español dentro de skills escritas en inglés—, pero **enunciar simple y
-renombrar son dos operaciones distintas**, y solo hacía falta la primera. `Junta seca` y `Media junta`
-se reparan al revés; un nombre simple que las fusionara devolvería el error que el nombre vertical
-retirado ya había causado. Así que cada caso tiene ahora una **clave estable** que no se traduce
-—`connected`, `alone`, `missed`, `no-exchange`, `outside`, `other-tree`— y una **frase llana** que sí.
-Se reporta en la frase; el vocabulario se **infiere del uso**, como el perfil profesional, y **nunca se
-exige para hacer una pregunta**. Quien aprende los seis nombres porque quiso, adoptó una herramienta;
-quien tuvo que aprenderlos para que le contestaran, pagó un peaje.
+**1. `MICELIO` reporta en una sola capa y corre en silencio.** La primera reparación de esta objeción
+—clave estable adentro, frase llana afuera— dejó **tres nombres por resultado**, y Andrés volvió a
+objetar al día siguiente: *«el vocabulario dual me parece algo absurdo… el rol de micelio debe pasar
+desapercibido para el usuario»*. **Una reparación que agrega una capa no resuelve el problema, lo
+duplica.** Queda una sola capa: la frase llana. El modo no se anuncia ni narra que corrió — una
+pasada limpia no dice nada, una con hallazgos reporta los hallazgos. Lo que **no** se toca es la
+distinción entre los seis resultados: dos se reparan en direcciones opuestas, y fusionarlos
+devolvería el error que el nombre vertical retirado ya había causado. Los registros escritos antes de
+esta poda conservan el vocabulario viejo: nombran lo que pasó, no lo que manda.
 
 **2. El tercer disparador de `MICELIO` es automático, y para en una condición estrecha a propósito.**
 Salta cuando una pasada **escribió criterio y tocó enrutamiento** —las dos mitades: un typo toca

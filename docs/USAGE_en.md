@@ -406,16 +406,15 @@ It is not a CLI command: the mode is inferred from the phrase, not from a flag. 
   deleting the disconnected clues. First real run found four, all under 48 hours old (`H14`).
   **Since 2026-08-22 the sweep does not stop at `lore/`:** it also walks the source folders —
   `docs/`, `notes/`, `estrategia/` — looking for imperative language, because **criteria that landed
-  there cannot even be classified**: step 1's universe never contained it. That is the fifth case,
-  `Fuera del sustrato`, and it is the only one whose repair is **two moves** — first move it into
-  `lore/`, and only then attach a step.
-  **And since 2026-08-22 you do not have to learn the six names to use it.** Each case carries a
-  **stable key** — `connected`, `alone`, `missed`, `no-exchange`, `outside`, `other-tree` — which
-  never translates, and a **plain sentence** which always does: *"nothing runs it"*, *"it names a
-  place where it is not written"*. The report comes out in the plain sentence; the technical
-  vocabulary is **inferred from use**, like the professional profile, and is **never required in
-  order to ask a question**. The names themselves do not change: `Junta seca` and `Media junta` are
-  repaired in opposite directions, and merging them would send the repair back to the wrong place.
+  there cannot even be classified**: step 1's universe never contained it. That is the fifth outcome, and
+  the only one whose repair is **two moves** — first move it into `lore/`, and only then attach a
+  step.
+  **You never have to learn a vocabulary to use it, and the mode runs quiet.** It does not announce
+  itself and does not narrate that it ran: a clean pass says nothing, and a pass with findings
+  reports the findings in plain language — *"nothing runs it"*, *"it names a place where it is not
+  written"*. What the six outcomes keep is their distinction, not their names: two of them are
+  repaired in opposite directions, and wording that merged them would send the repair back to the
+  wrong place.
   **The third trigger is automatic and its condition is narrow:** it fires when a pass **wrote
   criteria and touched routing** — both halves — and **never re-reports a finding you already
   declined**, because a check that turns into noise stops being run, and then it detects nothing.

@@ -411,15 +411,14 @@ No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene oc
   48 horas (`H14`).
   **Desde el 2026-08-22 el barrido no se detiene en `lore/`:** también recorre las carpetas de fuente
   —`docs/`, `notas/`, `estrategia/`— buscando lenguaje imperativo, porque **criterio que aterrizó ahí
-  no puede ni clasificarse**: el universo del paso 1 nunca lo contuvo. Ese es el quinto caso,
-  `Fuera del sustrato`, y es el único cuyo reparo son **dos movimientos** — primero se mueve adentro
-  de `lore/`, y recién ahí se le cuelga un paso.
-  **Y desde el 2026-08-22 no hace falta aprenderse los seis nombres para usarlo.** Cada caso tiene
-  una **clave estable** —`connected`, `alone`, `missed`, `no-exchange`, `outside`, `other-tree`— que
-  no se traduce, y una **frase llana** que sí: *«nada la corre»*, *«apunta a un lugar donde no
-  está»*. El reporte sale en la frase llana; el vocabulario técnico se **infiere del uso**, como el
-  perfil profesional, y **nunca se exige para hacer una pregunta**. Los nombres no cambian, porque
-  `Junta seca` y `Media junta` se reparan al revés y fusionarlas devolvería el error.
+  no puede ni clasificarse**: el universo del paso 1 nunca lo contuvo. Ese es el quinto resultado, y el
+  único cuyo reparo son **dos movimientos** — primero se mueve adentro de `lore/`, y recién ahí se le
+  cuelga un paso.
+  **Nunca hace falta aprender vocabulario para usarlo, y el modo corre en silencio.** No se anuncia
+  ni narra que corrió: una pasada limpia no dice nada, y una con hallazgos reporta **los hallazgos**
+  en frase llana — *«nada la corre»*, *«apunta a un lugar donde no está»*. Lo que los seis resultados
+  conservan es su distinción, no sus nombres: dos de ellos se reparan al revés, y una redacción que
+  los fusionara devolvería el reparo al lugar equivocado.
   **El tercer disparador es automático y su condición es estrecha:** salta cuando una pasada
   **escribió criterio y tocó enrutamiento**, las dos mitades, y **nunca vuelve a reportar lo que ya
   declinaste** — un chequeo que se vuelve ruido no se corre, y entonces no detecta nada.
