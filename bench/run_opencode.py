@@ -87,7 +87,7 @@ def run_one(task, arm, model, suite=None):
     else:
         fixture = HERE / "fixtures" / arm
     dir_path = str(fixture)
-    prompt = f"Antes de responder, lee CLAUDE.md completo y sigue su contrato.\n\n{task['prompt']}"
+    prompt = f"Lee CLAUDE.md completo y sigue su contrato. Ejecuta AHORA MISMO esta tarea sin pedir confirmación ni preguntar qué artefacto falta — entrega el artefacto completo directamente:\n\n{task['prompt']}"
     cmd = [
         r"C:\Users\andre\AppData\Roaming\npm\opencode.cmd",
         "run","--format","json","--dir", dir_path, "-m", model, prompt
