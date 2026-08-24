@@ -8,12 +8,13 @@
 La memoria destilada vive en **`lore/`**. Antes de decidir nada sobre método u oficio:
 
 - `lore/index.md` — mapa: tema · cuándo consultarlo · archivo
-- `lore/crm-outreach.md` — CRM y outreach en frío (Founder): entrega en Notion, formato 8 bloques, pistas de asunto/oferta/CTA
+- `lore/crm-outreach.md` — CRM y outreach en frío (Founder): entrega en Notion, 8 bloques, pistas de asunto/oferta/CTA
 - `lore/dashboards-notion.md` — Dashboards en Notion (Community Manager): 8 puntos, decisión, cajas plegadas, bloques de código, cajas vacías
 - `lore/anatomia-nota.md` — Anatomía de una nota (Redacción de Noticias): titular, fuente, bajada, pirámide, subtítulos, SEO, prompts
 - `lore/estilo-y-legibilidad.md` — Estilo y legibilidad de notas
 - `lore/manifiestos.md` — Manifiestos (Divulgación Científica): 9 puntos, apertura humana, resumen, origen, regulación, etapas, equipo
 - `lore/propuestas.md` — Propuestas institucionales (Founder): 8 puntos, trabajo previo, objetivo, roles, matriz, formato, presupuesto, cronograma
+- `lore/animation.md` + `lore/principios-web.md` + `lore/web-permanent-artist.md` — Web Permanent Artist: landing mínima local-first con GSAP (fromTo, svh, sin Inter)
 
 ## Cómo se trabaja acá
 

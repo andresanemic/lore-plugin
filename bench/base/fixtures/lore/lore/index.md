@@ -10,3 +10,6 @@
 | Estilo y legibilidad | Al redactar párrafos, frases, tics de IA | `estilo-y-legibilidad.md` |
 | Manifiestos | Antes de escribir un manifiesto / whitepaper fundacional | `manifiestos.md` |
 | Propuestas institucionales | Antes de escribir una propuesta workshop+hall/hackatón | `propuestas.md` |
+| Animación FOUC | Antes de animar con GSAP | `animation.md` |
+| Principios web | Antes de decidir stack/tiers/viewport | `principios-web.md` |
+| Permanent Artist landing | Antes de crear landing/web del alpha | `web-permanent-artist.md` |

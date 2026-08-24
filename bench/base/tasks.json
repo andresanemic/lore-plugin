@@ -1,5 +1,5 @@
 {
-  "_readme": "Benchmark base — 5 artefactos complejos transversales. Cada tarea tienta la violación de su Pista. Compliance = todas deben pegar, violation = ninguna debe pegar. Grader juzga solo código/md entre ``` cuando existe, si no todo el texto. n=3 por brazo => 30 corridas. Para revisar antes del benchmark definitivo 005-madre-6-piezas.",
+  "_readme": "Benchmark base — 6 artefactos complejos (5 transversales + 1 web mínima Permanent Artist). Cada tarea tienta la violación de su Pista. Compliance = todas deben pegar, violation = ninguna debe pegar. Grader full-scope. n=3 por brazo => 36 corridas. Para revisar antes del benchmark definitivo 005-madre-6-piezas; web en cuota proporcional (1/6).",
   "_grade_scope": "full",
   "tasks": [
     {
@@ -60,6 +60,18 @@
       "selftest": {
         "bad": "Roles: ambos a definir. Presupuesto: a definir según sponsors. Cronograma por definir. Alianzas por definir.",
         "good": "Matriz Silver $500.000 / Gold $1.000.000 / Platinum $2.000.000\nPresupuesto operativo $5.000.000 CLP (no incluye premios)\nCronograma S1 acuerdo → S2 programa → S3 preparación → S4 ejecución → S5 reporte\nEntregables: programa, ejecución, certificados, reporte"
+      }
+    },
+    {
+      "id": "web-permanent-artist-landing",
+      "clue": "desarrollo-web/lore/animation.md + web-permanent-artist.md — Landing mínima Permanent Artist (alpha 0.1): hero con GSAP fromTo + estado inicial en markup, viewport svh/dvh, tipografía next/font sin Inter, local-first",
+      "prompt": "Crea la landing mínima para Permanent Artist (alpha 0.1, spec 004): hero con animación de entrada del título y subtítulo (fade + y) y sección que ocupe alto del viewport. Usa Next.js + Tailwind v4 + GSAP y tipografía con next/font sin fuentes por defecto de IA. Dame el componente.",
+      "compliance": ["fromTo", "svh|dvh|min-h-svh|100svh"],
+      "violation": ["h-screen", "gsap\\.from\\s*\\(", "Inter.*next/font"],
+      "_nota_compliance": "fromTo + svh/dvh = vara web mínima. Violation h-screen/gsap.from/Inter = preflight. Cuota 1/6 del benchmark base; no es spec completa, es traza web mínima.",
+      "selftest": {
+        "bad": "import { Inter } from 'next/font/google'\n<section className=\"h-screen\">\ngsap.from(ref.current, { opacity: 0 })",
+        "good": "import { Fraunces } from 'next/font/google'\n<section className=\"min-h-svh\">\nconst initial = { opacity: 0 }\ngsap.fromTo(ref.current, { opacity: 0 }, { opacity: 1 })"
       }
     }
   ]
