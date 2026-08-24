@@ -4,6 +4,39 @@
 > en la instalación manual de esta máquina. El tag anotado se crea sobre el commit probado que se
 > publique, nunca antes (`plugins/lore/principios.md` #12).
 
+## Antes de la lista de cambios
+
+Esta misma genealogía guarda una cicatriz de la última vez que se le pidió al kit que se podara a sí
+mismo: un README al que se le pidió encoger 40% volvió cerca del 80% — más grande, no más chico. Es
+"1998" de Chet Faker con BANKS en la bibliografía afectiva, y la pista que dejó fue dura: un
+instrumento no obliga a usarse bien solo por existir.
+
+El README de esta versión pidió lo mismo — bajar hacia 10k palabras sin perder lo que importa — y
+esta vez el número bajó: de ~13,4k a ~11k, con contenido nuevo adentro (la sección "¿Para quién es
+esto?", cinco referencias culturales tejidas en el cuerpo en vez de escondidas en una bibliografía
+colapsada). La diferencia no fue el instrumento — el mismo criterio de siempre, cortar lo redundante
+y no lo que importa — fue correrlo con calma, con vara y verificando cada corte contra los tests
+antes de seguir. Queda escrito acá porque es exactamente el tipo de cosa que este kit existe para
+que no se vuelva a aprender desde cero.
+
+## Discusión: ¿el kit debería sugerir el upgrade?
+
+Hoy nada en Lore Plugin le avisa a un proyecto que su Lore quedó atrás de una versión nueva del kit —
+`use-lore` compara versión del proyecto contra el kit instalado (regla 3, 2.3.0), pero solo cuando
+alguien ya abrió la skill. Nadie empuja el aviso. `sync-personal` (fuera del kit, en las skills
+personales de esta máquina) ya aprendió a **sugerir** un sync a partir de señales del árbol —versión
+instalada distinta de `HEAD`, una skill tocada sin su documentación, una hipótesis sin changelog—; la
+pregunta abierta es si esa misma capacidad de sugerir, no de forzar, debería vivir dentro del kit
+para cualquiera que lo instale, no solo en las skills personales de un usuario.
+
+**Lo que hace que esta pregunta valga la pena ahora y no antes: `LEAVE` ya existe.** Antes de 2.3.0,
+sugerir un upgrade era sugerir una apuesta sin salida declarada — si algo se rompía, no había un
+camino de vuelta escrito. Con `LEAVE` + `UPGRADE` reversible (`leave:` en `FASES.md`), aceptar una
+sugerencia de upgrade deja de ser una puerta de un solo sentido: si el resultado no convence, el
+proyecto puede salir del kit sin perder lo que ya ganó, y volver a entrar después. Esto no decide la
+pregunta — sigue abierta, y no se resuelve en un borrador — pero es la pieza que faltaba para que
+sugerir el upgrade sea una propuesta razonable y no una apuesta a ciegas.
+
 ## Qué entra
 
 - **`LEAVE`** — dejar el Lore sin perder el proyecto. Escribe la marca `leave:` en `FASES.md`, que es

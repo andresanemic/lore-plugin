@@ -162,7 +162,7 @@ A README answers *"what is this?"*. Lore answers something else: **What did we l
 
 ## Who is this for?
 
-**Anyone who works with AI.** Lore is open source and always will be — free to use, free to inspect, free to fork. A few groups get the most out of it first:
+**The floor is everyone who works with AI.** Free software, and it stays that way — use it, read every line of it, fork it. A few groups get there first:
 
 **Professionals early in working with AI**, who want what they learn to compound instead of evaporating — a professional memory card that outlasts any one project or model. That is the LUS hypothesis this kit tests: a richer, more stable human–AI Between can mean fewer repeated mistakes and better work, at less cost.
 
@@ -416,9 +416,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** It is no
 
 Each skill is validated against Superpowers' `writing-skills` discipline before it ships — the quality bar for this kit, not a claim made once and forgotten.
 
-> **The skills are written in English; the Lore they produce is not** — that is written in your language, content and filenames included. The English in a `SKILL.md` is the portable substrate that lets the kit run on other hosts, not the language of the kit.
->
-> So **do not open a `SKILL.md` to explain to someone what a mode does**: [`REFERENCE_es.md`](./docs/REFERENCE_es.md) documents every skill and mode in Spanish and [`USAGE_es.md`](./docs/USAGE_es.md) shows them in use. We learned this in Case 12, live and with an audience.
+> **The skills are written in English; the Lore they produce is not** — content and filenames included, in your language. The English in a `SKILL.md` is the portable substrate that lets the kit run on other hosts, not the language of the kit. Do not open one to explain a mode to someone (we learned this in Case 12, live) — that is what the table and the two docs below are for.
 
 | Skill | What for | When |
 |---|---|---|
@@ -880,7 +878,7 @@ Un README responde *«¿qué es esto?»*. Lore responde otra cosa: **¿Qué apre
 
 ## ¿Para quién es esto?
 
-**Para cualquiera que trabaje con IA.** Lore es de código abierto y siempre lo será — libre de usar, libre de inspeccionar, libre de forkear. Algunos grupos le sacan el jugo primero:
+**El piso es cualquiera que trabaje con IA.** Software libre, y se queda así — úsalo, léelo entero, forkealo. Algunos grupos llegan primero:
 
 **Profesionales que recién empiezan a trabajar con IA**, y quieren que lo que aprenden se acumule en vez de evaporarse — una memory card profesional que sobrevive a cualquier proyecto o modelo. Esa es la hipótesis de LUS que este kit pone a prueba: un Entre humano–IA más rico y estable puede significar menos errores repetidos y mejor trabajo, a menor costo.
 
@@ -1127,9 +1125,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 Cada skill se valida contra la disciplina `writing-skills` de Superpowers antes de publicarse — esa es la vara de calidad de este kit, no una afirmación hecha una vez y olvidada.
 
-> **Las skills están escritas en inglés y el Lore que producen, no** — ese se escribe en tu idioma, contenido y nombres de archivo incluidos. El inglés del `SKILL.md` es el sustrato portable con el que el kit funciona en otros hosts, no el idioma del kit.
->
-> Así que **no abras el `SKILL.md` para explicarle a alguien qué hace un modo**: para eso está [`REFERENCE_es.md`](./docs/REFERENCE_es.md), que documenta cada skill y cada modo en español, y [`USAGE_es.md`](./docs/USAGE_es.md), que los muestra en uso. Lo aprendimos en el Caso 12, en vivo y con público.
+> **Las skills están escritas en inglés y el Lore que producen, no** — contenido y nombres de archivo incluidos, en tu idioma. El inglés del `SKILL.md` es el sustrato portable con el que el kit funciona en otros hosts, no el idioma del kit. No abras uno para explicarle a alguien qué hace un modo (lo aprendimos en el Caso 12, en vivo) — para eso está la tabla y los dos docs de abajo.
 
 | Skill | Para qué | Cuándo |
 |---|---|---|
