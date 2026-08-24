@@ -313,4 +313,19 @@ The session also sharpened the rhythm of that stability: **drift → return → 
 
 </details>
 
+<details>
+<summary><b>Case 18 — Two models, one threshold: raising 31 trees without losing the arbiter</b></summary>
+
+<br>
+
+Eight areas, 31 trees with a live Lore, all behind on the same `UPGRADE`. Reading each one by hand does not scale, so the work split by role instead of by area: Claude Code — Opus for design and arbitration — read every diagnosis, approved each tree before anything was written, and answered the questions only a human can answer; a cheap model, `muse-spark-1.2-contributor` run through `opencode`, executed the mechanical `diagnose` and `apply` on each tree with no room to invent new criteria.
+
+The first real defect was not in any Lore module — it was in the script orchestrating the sweep. Two bugs only showed up running against real trees: an argument-order bug that let a flag swallow the entire prompt, and a version-detection regex that picked the wrong heading in a narrated file. Neither was visible reading the script; both were fixed and verified before the sweep continued. The second finding was `MYCELIUM`'s third trigger, run after every write, surfacing real disconnected clues — criteria correctly written, correctly filed, and still inert because nothing invoked them — in trees with nothing in common: a research corpus, the meta-tool orchestrating the sweep on itself, an area with no version control at all. None were pruned without explicit approval. Inside the same pass, two `GRAFT` arbitrations returned "nothing entered": an external reading of the research program's maturity routed to private continuity instead of the public README, and a collaborator's personal writing style contributed nothing because the README already carried its device. Both are recorded as valid results, not skipped steps.
+
+**What it changed in the kit:** no skill's logic. What changed is the standing bar for this shape of work: an expensive model arbitrating every tree before it is written, a cheap model executing the mechanical part with no room to invent criteria, and every commit checked against the real diff rather than the report the cheap model wrote about its own work. `use-lore` now names this pattern directly — suggest `/model` for the mechanical part of a batch instead of a subagent, since a subagent re-reads the whole Lore tree before it can start.
+
+**Declared boundary.** One researcher, one orchestrating session, one arbiter with veto on every tree before it was written. It does not test what happens when the cheap executor writes without that arbiter present, and the 31 trees share one approval design — it is not 31 independent replications. LUS records the same event as Case 16, open evidence for its own hypotheses on disconnected criteria and mutual correction; the count there does not rise for the same reason it does not rise here — same researcher, same session.
+
+</details>
+
 > Cases that **refute** something are the ones that help most. The [repository discussions](https://github.com/andresanemic/lore-plugin/discussions) are the place.

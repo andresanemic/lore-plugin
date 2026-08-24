@@ -17,9 +17,9 @@ Para seguir cada caso hace falta el mismo vocabulario que el kit usa cuando trab
 - Un **injerto** juzga criterio que llega de afuera contra la finalidad de tu proyecto: echa raíces o se rechaza, y lo que crece después te pertenece.
 - **Cristalizar** es sacar una fotografía trazable en un solo Markdown, extraíble de vuelta a una carpeta, sin reemplazar el Lore vivo.
 
-> **Estatus:** son casos, no demostraciones. Son pocos, y **dieciséis de las diecisiete evidencias vienen del mismo investigador**. Restringen cómo usamos el kit; no pretenden ser una ley. El Caso 08 añade medición controlada sin eliminar esa frontera, y los Casos 09, 10, 11, 13 y 14 son los que miden este kit contra sí mismo — el 10 usándolo un día entero contra un Lore vivo, el 11 corriendo dos de sus propias versiones cabeza a cabeza y juzgando la salida a ciegas, el 13 cristalizando bots vivos y juzgando la fotografía por si un tercero podría trabajar desde ella, el 14 subiendo un ecosistema ya instalado sin reescribir lo ganado.
+> **Estatus:** son casos, no demostraciones. Son pocos, y **diecisiete de las dieciocho evidencias vienen del mismo investigador**. Restringen cómo usamos el kit; no pretenden ser una ley. El Caso 08 añade medición controlada sin eliminar esa frontera, y los Casos 09, 10, 11, 13, 14 y 18 son los que miden este kit contra sí mismo — el 10 usándolo un día entero contra un Lore vivo, el 11 corriendo dos de sus propias versiones cabeza a cabeza y juzgando la salida a ciegas, el 13 cristalizando bots vivos y juzgando la fotografía por si un tercero podría trabajar desde ella, el 14 subiendo un ecosistema ya instalado sin reescribir lo ganado, el 18 subiendo 31 árboles en ocho áreas sin relación entre sí con dos modelos repartidos por rol.
 >
-> **El Caso 12 es el primero que no viene del investigador**, y por eso vale distinto: alguien de afuera instaló el kit y lo usó durante una hora. Rompe la frontera de autoría que los otros dieciséis comparten y abre una nueva, más chica y declarada dentro del caso.
+> **El Caso 12 es el primero que no viene del investigador**, y por eso vale distinto: alguien de afuera instaló el kit y lo usó durante una hora. Rompe la frontera de autoría que los otros diecisiete comparten y abre una nueva, más chica y declarada dentro del caso.
 
 <details>
 <summary><b>Caso 01 — El Lore como forma operativa de un proyecto entero</b></summary>
@@ -311,6 +311,21 @@ La sesión afinó además el ritmo de esa estabilidad: **deriva tolerada → ret
 **Qué cambió en el kit:** la 2.2.0 trata la declaración humana como canon provisional, la configuración como primer artefacto complejo y una primera victoria revisada como evento de estabilización. La 2.2.1 añade el esfuerzo fértil sin confundirlo con acuerdo o agradabilidad. `brainstorming-lore` pregunta solo lo que avanza esa victoria y mantiene un artefacto acumulado con continuidad reconocible; `create-bot` exige además prototipo operacional honesto, decisiones antes que prompts y Travesía derivada del propósito; `save-to-lore` captura en hitos contextuales o por acumulación, con un único umbral visible por lote. Los detalles de producto del caso quedan fuera de las leyes genéricas de las skills.
 
 **Frontera declarada.** Un investigador, una sesión acompañada, un dominio de producto y un prototipo local. Es evidencia cualitativa situada, no una ley general de producto ni prueba de que la postulación gane, la carrera se sostenga o el sistema funcione para otras artistas. LUS v1.21 registra esfuerzo fértil y continuidad como H13, abierta con `n=1` situado; no existe todavía un segundo Entre, cambio del corpus ni efecto general demostrado.
+
+</details>
+
+<details>
+<summary><b>Caso 18 — Dos modelos, un mismo umbral: subir 31 árboles sin perder al árbitro</b></summary>
+
+<br>
+
+Ocho áreas, 31 árboles con Lore vivo, todos atrasados frente al mismo `UPGRADE`. Leer cada uno a mano no escala, así que el trabajo se dividió por rol y no por área: Claude Code — Opus para diseño y arbitraje — leyó cada diagnóstico, aprobó cada árbol antes de que se escribiera algo y respondió las preguntas que solo un humano puede responder; un modelo barato, `muse-spark-1.2-contributor` corrido vía `opencode`, ejecutó el `diagnose` y el `apply` mecánico sobre cada árbol sin margen para inventar criterio nuevo.
+
+El primer defecto real no estaba en ningún módulo de Lore — estaba en el script que orquestaba el barrido. Dos bugs solo aparecieron corriendo contra árboles reales: un error de orden de argumentos que dejaba que una bandera se comiera el prompt completo, y un regex de detección de versión que tomaba la cabecera equivocada en un archivo narrado. Ninguno se veía leyendo el script; los dos se corrigieron y verificaron antes de seguir el barrido. El segundo hallazgo fue el disparador 3 de `MYCELIUM`, corrido después de cada escritura, que sacó a la luz Pistas desconectadas reales — criterio bien escrito, bien archivado, y aun así inerte porque nada lo invocaba — en árboles sin nada en común entre sí: un corpus de investigación, la propia meta-herramienta que orquestaba el barrido, un área sin control de versiones. Ninguna se podó sin aprobación explícita. Dentro de la misma pasada, dos arbitrajes `GRAFT` devolvieron "nada entró": una lectura externa sobre la madurez del programa de investigación se enrutó a la continuidad privada y no al README público, y el estilo de escritura personal de un colaborador no aportó nada porque el README ya llevaba su dispositivo. Los dos quedan registrados como resultado válido, no como pasos saltados.
+
+**Qué cambió en el kit:** ninguna lógica de ninguna skill. Lo que cambió es la vara vigente para esta forma de trabajo: un modelo caro que arbitra cada árbol antes de que se escriba, uno barato que ejecuta el tramo mecánico sin margen para inventar criterio, y cada commit revisado contra el diff real y no contra el informe que el modelo barato escribió sobre su propio trabajo. `use-lore` ahora nombra este patrón directamente — sugiere `/model` para el tramo mecánico de un lote en vez de un subagente, porque un subagente relee todo el árbol de Lore antes de poder empezar.
+
+**Frontera declarada.** Un investigador, una sesión orquestadora, un árbitro con veto sobre cada árbol antes de que se escribiera. No prueba qué pasa si el ejecutor barato escribe sin ese árbitro presente, y los 31 árboles comparten un mismo diseño de aprobación — no son 31 réplicas independientes. LUS registra el mismo evento como Caso 16, evidencia abierta para sus propias hipótesis sobre criterio desconectado y corrección mutua; el contador ahí no sube por la misma razón que no sube acá — mismo investigador, misma sesión.
 
 </details>
 

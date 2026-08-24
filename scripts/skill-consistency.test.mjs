@@ -90,8 +90,10 @@ test("el lote Jazmín deja obligaciones reutilizables y el caso 17", () => {
   const casesEs = readFileSync(join(root, "docs", "CASES_es.md"), "utf8");
 assert.match(casesEn, /Case 17.*Jasmine/is);
   assert.match(casesEs, /Caso 17.*Jazmín/is);
-  assert.match(docs.map((file) => readFileSync(join(root, file), "utf8")).join("\n"), /seventeen case studies/i);
-  assert.match(docs.map((file) => readFileSync(join(root, file), "utf8")).join("\n"), /diecisiete casos de estudio/i);
+  assert.match(casesEn, /Case 18.*threshold/is);
+  assert.match(casesEs, /Caso 18.*umbral/is);
+  assert.match(docs.map((file) => readFileSync(join(root, file), "utf8")).join("\n"), /eighteen case studies/i);
+  assert.match(docs.map((file) => readFileSync(join(root, file), "utf8")).join("\n"), /dieciocho casos de estudio/i);
 });
 
 test("el perfil profesional es opcional, progresivo y viaja como puntero", () => {
@@ -181,8 +183,9 @@ test("la documentación no conserva afirmaciones ya refutadas", () => {
   const text = docs.map((file) => readFileSync(join(root, file), "utf8")).join("\n");
   assert.doesNotMatch(text, /\bseven (?:documented )?case studies|all seven|\bsiete casos de estudio|las siete evidencias/i);
   assert.doesNotMatch(text, /twelve case studies|doce casos de estudio|eleven of the twelve|once de los doce/i);
-  assert.match(text, /seventeen case studies/);
-  assert.match(text, /diecisiete casos de estudio/);
+  assert.doesNotMatch(text, /seventeen case studies|diecisiete casos de estudio|sixteen of the seventeen|dieciséis de los diecisiete/i);
+  assert.match(text, /eighteen case studies/);
+  assert.match(text, /dieciocho casos de estudio/);
   assert.doesNotMatch(text, /three optional extras|tres extras opcionales|a bot with none of the three|un bot sin ninguno de los tres/i);
   assert.doesNotMatch(text, /Five optional extras|Cinco extras opcionales|A bot with none of the five|Un bot sin ninguno de los cinco/i);
   assert.doesNotMatch(text, /turn loose notes into criteria|convertir notas sueltas en criterio/i);
