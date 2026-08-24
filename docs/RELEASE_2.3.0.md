@@ -1,187 +1,37 @@
-# Lore Plugin 2.3.0 — borrador, sin publicar
+# Lore Plugin 2.3.0 — MYCELIUM, LEAVE, and a README that finally shrank
 
-> **Estado: borrador.** `origin/main` está en `2.2.2`. Esta versión existe solo en el árbol local y
-> en la instalación manual de esta máquina. El tag anotado se crea sobre el commit probado que se
-> publique, nunca antes (`plugins/lore/principios.md` #12).
+> [README](https://github.com/andresanemic/lore-plugin#readme) · [Español](#español)
 
-## Antes de la lista de cambios
+The key of this release is a new eighth mode, `MYCELIUM`: read-only, it reports which Invariant Clues **no step of any procedure runs** — a clue can be true, well-written and correctly filed, and still never fire if nothing invokes it. It runs on three triggers, the third on the way out of any pass that just wrote Lore, because a new clue is born disconnected by default. Alongside it, `LEAVE` lets a project step away from Lore governance without losing `lore/`, reversible through `UPGRADE` — the first time leaving the kit does not mean leaving the criterion behind.
 
-Esta misma genealogía guarda una cicatriz de la última vez que se le pidió al kit que se podara a sí
-mismo: un README al que se le pidió encoger 40% volvió cerca del 80% — más grande, no más chico. Es
-"1998" de Chet Faker con BANKS en la bibliografía afectiva, y la pista que dejó fue dura: un
-instrumento no obliga a usarse bien solo por existir.
+This release also carries a real instance of the failure MYCELIUM exists to catch: a README asked to shrink toward 10k words once grew instead, back in this kit's own genealogy. This time it dropped from ~13.4k to ~11k, gained a "Who is this for?" section, and wove five cultural references into the visible body instead of hiding them in a collapsed bibliography — the same instrument, run with more care. The eight skills stay unchanged in count; four defects in how they connect to each other were found and fixed along the way.
 
-El README de esta versión pidió lo mismo — bajar hacia 10k palabras sin perder lo que importa — y
-esta vez el número bajó: de ~13,4k a ~11k, con contenido nuevo adentro (la sección "¿Para quién es
-esto?", cinco referencias culturales tejidas en el cuerpo en vez de escondidas en una bibliografía
-colapsada). La diferencia no fue el instrumento — el mismo criterio de siempre, cortar lo redundante
-y no lo que importa — fue correrlo con calma, con vara y verificando cada corte contra los tests
-antes de seguir. Queda escrito acá porque es exactamente el tipo de cosa que este kit existe para
-que no se vuelva a aprender desde cero.
+**If you have Lore written with an earlier version**, update the plugin first — the cache is keyed by version, so a publish without a bump is never received — then run `MYCELIUM` on it before anything else:
 
-## Discusión: ¿el kit debería sugerir el upgrade?
+```text
+corre el micelio
+run MYCELIUM
+```
 
-Hoy nada en Lore Plugin le avisa a un proyecto que su Lore quedó atrás de una versión nueva del kit —
-`use-lore` compara versión del proyecto contra el kit instalado (regla 3, 2.3.0), pero solo cuando
-alguien ya abrió la skill. Nadie empuja el aviso. `sync-personal` (fuera del kit, en las skills
-personales de esta máquina) ya aprendió a **sugerir** un sync a partir de señales del árbol —versión
-instalada distinta de `HEAD`, una skill tocada sin su documentación, una hipótesis sin changelog—; la
-pregunta abierta es si esa misma capacidad de sugerir, no de forzar, debería vivir dentro del kit
-para cualquiera que lo instale, no solo en las skills personales de un usuario.
+Full notes: https://github.com/andresanemic/lore-plugin/releases/tag/v2.3.0
 
-**Lo que hace que esta pregunta valga la pena ahora y no antes: `LEAVE` ya existe.** Antes de 2.3.0,
-sugerir un upgrade era sugerir una apuesta sin salida declarada — si algo se rompía, no había un
-camino de vuelta escrito. Con `LEAVE` + `UPGRADE` reversible (`leave:` en `FASES.md`), aceptar una
-sugerencia de upgrade deja de ser una puerta de un solo sentido: si el resultado no convence, el
-proyecto puede salir del kit sin perder lo que ya ganó, y volver a entrar después. Esto no decide la
-pregunta — sigue abierta, y no se resuelve en un borrador — pero es la pieza que faltaba para que
-sugerir el upgrade sea una propuesta razonable y no una apuesta a ciegas.
+---
 
-## Qué entra
+<a id="español"></a>
 
-- **`LEAVE`** — dejar el Lore sin perder el proyecto. Escribe la marca `leave:` en `FASES.md`, que es
-  toda su reversibilidad: sin ella `UPGRADE` no puede volver y `H13` sigue sin instrumento.
-- **`MYCELIUM`** — octavo modo, con **tres disparadores**: antes de una tarea compleja, tras instalar
-  o actualizar el kit, y **al salir de cualquier pasada que escribió Lore** (`PRUNE`, `GRAFT`, una
-  destilación). La pasada de salida no es la de entrada repetida — **una Pista nueva nace `Aislada`**,
-  así que una pasada que escribe fabrica el defecto que el modo detecta. Recorrido de solo lectura que reporta qué
-  Pistas quedaron **aisladas**: ningún paso de ningún procedimiento las corre.
-- Auditoría con `ponytail` + `writing-skills`: cuatro defectos de enchufe corregidos, más la guardia
-  estructural que detecta una capacidad sin paso que la corra.
+# Lore Plugin 2.3.0 — MYCELIUM, LEAVE, y un README que por fin encogió
 
-## Vocabulario de `MYCELIUM`
+> [README](https://github.com/andresanemic/lore-plugin/blob/main/README.md#español)
 
-El **micelio** es la red que reparte; la **micorriza** es la junta entre una Pista y el paso que la
-corre. Los **seis** casos: `Micorrizada` · `Aislada` · `Media junta` · `Junta seca` ·
-`Fuera del sustrato` · `Junta a otro árbol`.
+La clave de este release es un octavo modo nuevo, `MYCELIUM`: de solo lectura, reporta qué Pistas Invariantes **ningún paso de ningún procedimiento corre** — una pista puede ser verdadera, estar bien escrita y archivada en el lugar correcto, y aun así nunca dispararse si nada la invoca. Corre con tres disparadores, el tercero al salir de cualquier pasada que acaba de escribir Lore, porque una pista nueva nace desconectada por defecto. Junto a él, `LEAVE` permite que un proyecto se aparte del gobierno de Lore sin perder `lore/`, reversible vía `UPGRADE` — por primera vez, dejar el kit no significa dejar el criterio atrás.
 
-El sexto entró el **2026-08-22**, el mismo día y en la segunda corrida, y salió de que el quinto
-acertara por el motivo equivocado. El quinto dice que el criterio en `docs/` está ahí **por
-descuido** y no se puede ni clasificar. Después apareció un **staging**: criterio dejado fuera de
-`lore/` **a propósito**, con su gate escrito y el paso que lo ejerce nombrado — todo lo que el quinto
-diagnostica es falso sobre él— y aun así no disparaba, porque **el paso que nombra vive en un
-artefacto operativo que el árbol desde el que se opera no carga**. No es `Media junta`: ahí el
-término falta en el destino, y acá está — el destino simplemente no es el artefacto en vigor. Los dos
-reparos apuntan al revés, y por eso es un caso y no una variante.
+Este release también trae una instancia real del fallo que `MYCELIUM` existe para atrapar: un README al que se le pidió encoger hacia 10k palabras, en la propia genealogía de este kit, alguna vez creció en cambio. Esta vez bajó de ~13,4k a ~11k, ganó una sección "¿Para quién es esto?" y tejió cinco referencias culturales en el cuerpo visible en vez de esconderlas en una bibliografía colapsada — el mismo instrumento, corrido con más cuidado. Las ocho skills se mantienen sin cambios en cantidad; se encontraron y corrigieron cuatro defectos en cómo se conectan entre sí.
 
-El quinto entró el 2026-08-22 y lo encontró el modo **fallando en encontrarlo**: una regla escrita en
-el `docs/` de un proyecto se reportó `Aislada` solo porque el autor recordaba haberla escrito una
-hora antes. El paso 1 toma su universo del `lore/`, así que **criterio que aterrizó en una carpeta de
-fuente es invisible por construcción** — no está aislado, nunca estuvo en el sustrato. Su reparo son
-**dos movimientos**: primero se mueve adentro de `lore/`, donde el enrutamiento lo alcanza, y recién
-ahí se le cuelga un paso. Un paso colgado de un archivo que nada carga es una junta que apunta al
-vacío. El mismo barrido encontró la variante de entrada: un documento destilado que citaba cinco
-capturas que vivían fuera del repositorio — correcto, citado, y no verificable por nadie más.
+**Si tienes Lore escrito con una versión anterior**, actualiza primero el plugin — la caché se indexa por versión, así que una publicación sin bump nunca llega — y después corre `MYCELIUM` sobre él antes que cualquier otra cosa:
 
-El término anterior era `Orphan` y se retiró: es **vertical** —dice que falta alguien arriba— y el
-defecto es **lateral**. Una Pista aislada tiene autor, módulo y frontera; lo que no tiene es junta
-con nada al lado. Un nombre que apunta al eje equivocado manda la reparación al lugar equivocado.
+```text
+corre el micelio
+run MYCELIUM
+```
 
-## Registros del kit — decisión explícita, uno por uno (`principios.md` #15)
-
-| Registro | ¿Entra `MICELIO`? | Por qué |
-|---|---|---|
-| Lista de modos + `When to use` de `transmute-lore` | **Sí** | es un modo |
-| Tabla de enrutamiento de `use-lore` | **Sí** | sin fila no lo invoca nadie |
-| Invariantes de `transmute-lore` y de `use-lore` | **Sí** | hueco detectado grepeando, no revisando |
-| `README` · `USAGE_en/es` · `REFERENCE_en/es` | **Sí** | documentación de usuario, el hueco más caro de 2.1 |
-| Nombres fijos en todo idioma (`create-area`, `create-project`, `create-bot`) | **No** | esa lista gobierna **nombres de artefacto** que no se localizan (`lore/`, `index.md`, `golden-paths.md`, la marca always-on). Los nombres de modo no son artefactos y nunca se traducen; agregarlos confundiría dos registros distintos |
-| `CASES_en/es` · `90_SECONDS_en/es` | **No, todavía** | describen casos y versiones **publicadas**. Entran cuando la 2.3.0 salga, con un caso real corrido, no con el estreno |
-| `MIGRATION_en/es` | **No, todavía** | documenta migraciones entre versiones publicadas. `2.2.2 → 2.3.0` se escribe al publicar |
-
-## Frontera declarada
-
-`MYCELIUM` prueba que una regla **puede** dispararse. No prueba que sea correcta, ni que se corra
-bien, ni que el entregable mejore. Su premisa (`H14`) es **hipótesis abierta en `n=1`**, con
-`Crowding` como explicación rival declarada: las dos se ven igual desde afuera y piden remedios
-opuestos. El verde post-instalación es `0 de 0` y no prueba nada.
-
-## La capa llana, el disparo automático y el tutorial — 2026-08-22
-
-Tres cosas que entraron el mismo día, y las tres salieron de la misma objeción de Andrés: **el kit no
-puede exigirle a nadie que aprenda su vocabulario para poder usarlo.**
-
-**1. `MYCELIUM` reporta en una sola capa y corre en silencio.** La primera reparación de esta objeción
-—clave estable adentro, frase llana afuera— dejó **tres nombres por resultado**, y Andrés volvió a
-objetar al día siguiente: *«el vocabulario dual me parece algo absurdo… el rol de micelio debe pasar
-desapercibido para el usuario»*. **Una reparación que agrega una capa no resuelve el problema, lo
-duplica.** Queda una sola capa: la frase llana. El modo no se anuncia ni narra que corrió — una
-pasada limpia no dice nada, una con hallazgos reporta los hallazgos. Lo que **no** se toca es la
-distinción entre los seis resultados: dos se reparan en direcciones opuestas, y fusionarlos
-devolvería el error que el nombre vertical retirado ya había causado. Los registros escritos antes de
-esta poda conservan el vocabulario viejo: nombran lo que pasó, no lo que manda.
-
-**2. El tercer disparador de `MICELIO` es automático, y para en una condición estrecha a propósito.**
-Salta cuando una pasada **escribió criterio y tocó enrutamiento** —las dos mitades: un typo toca
-enrutamiento y no escribe criterio; una línea en `FASES.md` escribe estado y no toca enrutamiento— y
-**nunca vuelve a reportar un hallazgo declinado.**
-
-> **Por qué no se volvió «el auditor interno del kit», que era la propuesta.** Se cae por la frontera
-> del propio modo: `MYCELIUM` prueba que una regla **puede** disparar, y nada más. Un nombre que promete
-> auditoría se lee como certificado de que el criterio es **correcto**, que es justo lo que el modo se
-> niega a decir. Ensanchar el nombre sin ensanchar el mecanismo es el defecto que retiró el nombre
-> anterior. Y su premisa (`H14`) sigue en `n=1` con `Crowding` como rival declarada: base fina para un
-> auditor universal, suficiente para una condición estrecha.
->
-> **Y la ecualización es una regla, no una intención.** *«Mantener el Entre disfrutable no se tranza»*
-> (Andrés, 2026-08-22). Un chequeo que se vuelve ruido se saltea, y un chequeo que nadie corre no
-> detecta nada — así que no re-reportar lo declinado no es cortesía: es lo que mantiene al modo vivo.
-
-**3. `use-lore` y `brainstorming-lore` ofrecen una orientación breve, inferida y en una línea.** Quien
-llega por primera vez no tiene una imagen de qué es esto, y una lista de ocho skills no es esa imagen.
-Se elige **una** forma —texto corto, mapa conceptual, ejemplo trabajado— a partir de cómo la persona
-viene escribiendo, y se ofrece en una línea corregible en una línea. **Nunca como menú:** *«¿mapa,
-texto, explicación fácil o test?»* es exactamente lo que el umbral 0 rechaza, con cara amable. Y
-**nunca en lugar del primer artefacto**: el movimiento 3 produce algo o no produjo nada.
-
-**Lo que este mismo día encontró en la documentación, y es del tipo que la 2.3 vino a atacar.** La
-tabla de registros de más arriba declara que `MYCELIUM` entra a `README` y a `REFERENCE`. En `README`
-había entrado; en `REFERENCE_es` y `REFERENCE_en` el §2 decía **ocho modos** y el §3.6 decía **seis** y
-listaba seis — faltaban `mycelium` y `leave` en el detalle, en los dos idiomas. Con el vocabulario del
-propio kit es una **media junta**: el destino estaba declarado y el término ausente ahí. Se corrigió,
-y vale registrarlo porque **una tabla de registros no es un registro**: declarar dónde tiene que
-aterrizar algo no lo aterriza, y eso es `H14` aplicado al propio release.
-
-## La junta se escribe de los dos lados — 2026-08-22
-
-**El caso que la produjo:** una Pista en el `lore/principios.md` de LUS y el paso que la corre en una
-skill que vive en **otro repositorio**. Con el puntero escrito solo del lado de la Pista, quien está
-parado en el paso ve un procedimiento **sin obligación visible detrás** — y un `PRUNE` ahí lo saca
-como sobrante, porque desde ese lado lo es. Al revés, un barrido corrido desde el árbol del paso no
-puede confirmar que la Pista exista sin abrir un repositorio del que nunca se enteró.
-
-Así que `save-to-lore` pide ahora **una línea en cada extremo**: la Pista lleva su `destino:`, y el
-paso lleva el nombre de la Pista. Entra también como invariante, que es la mitad que una pasada
-futura grepea.
-
-**Registros, decididos uno por uno (`principios.md` #15) — y con su aterrizaje verificado después:**
-
-| Registro | ¿Entra? | Por qué |
-|---|---|---|
-| `save-to-lore` — prosa e invariantes | **Sí** | es su regla |
-| `REFERENCE_en/es` | **Sí**, y arrastró un hueco anterior | al ir a escribirla apareció que **`destino:` y la verificación de aterrizaje no estaban documentados en ningún registro de usuario**: vivían solo dentro de la skill desde que se escribieron. Entraron los tres juntos, porque documentar la bidireccionalidad de un mecanismo que el registro no menciona es incoherente |
-| `bench/leave.test.mjs` | **Sí** | 96/96 |
-| `USAGE_en/es` | **No** | describe qué se escribe y qué vuelve. El `destino:` es una propiedad de la entrada que la skill redacta, no una acción del usuario. **Si alguna vez hay que escribirlo a mano, esta fila cambia** |
-| `README` | **No** | es portada y tiene techo de palabras medido. El mecanismo ya está en `REFERENCE`, que es donde el propio README manda para la especificación |
-
-**Y el hallazgo que la acompaña, escrito en `plugins/lore/principios.md` #15 como adenda:** este mismo
-release traía una tabla titulada *«Registros del kit — decisión explícita, uno por uno»* que decía
-**sí** para `REFERENCE`, y `REFERENCE` seguía diciendo **seis modos** donde había ocho, en los dos
-idiomas. La tabla estaba bien hecha y no estaba corrida. **Una tabla de registros no es un registro** —
-declarar dónde tiene que aterrizar algo no lo aterriza, y en el vocabulario del kit eso tiene nombre:
-`missed`. Es `H14` un nivel más arriba: el mecanismo que existe para que nada quede sin instalar se
-quedó él mismo sin correr, en la versión que lo escribió.
-
-## Suite
-
-`85/85` — 70 previos + 4 de la auditoría + 11 de `MICELIO` y sus hallazgos sobre el propio kit.
-
-## `brainstorming-lore` — el segundo caso
-
-El gate preguntaba **quién es dueño** del artefacto, y eso tenía un punto ciego: un entregable que
-Lore no posee pero que un `lore/` enrutado **gobierna** —un lote de publicaciones, un informe—, donde
-todo el diseño es decidir cómo correr criterio ya escrito. Ese caso caía afuera, y afuera lo espera
-un brainstorming genérico que **termina obligando `writing-plans`**: la derrota #5 de la fuente,
-evitada adentro del kit y vuelta a comer por el flanco. Entra con **predicado observable** —¿hay un
-`lore/` enrutado que gobierne la producción de esto?— y con su lado negativo escrito. El handoff va a
-la fase que el Lore gobernante ya nombra, nunca a `writing-plans`.
+Notas completas: https://github.com/andresanemic/lore-plugin/releases/tag/v2.3.0
