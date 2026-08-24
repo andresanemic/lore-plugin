@@ -1,6 +1,6 @@
 ---
 name: save-to-lore
-description: Use when saving a lesson to the Lore or right after solving a problem worth keeping, AND when distilling Lore from an external body of criteria (a skill, a style guide, a third-party playbook). Two modes — CAPTURE (default — distill lived friction into an invariant clue) and GRAFT (judge imported criteria against this Entre's purpose; only what survives enters). Captures in the CURRENT project's lore/ and — for confirmed, generic clues — proposes promoting up to the mother AREA lore (project ↔ area routing). Trigger on "save to lore", "distill this to the lore", "guarda en lore", "distill this skill", "destila esta skill", "guárdalo como formato base", "esto es el estándar de ahora en más", or proactively after resolving a friction that passes the Lore bar (constraint + signal + executability + genericity).
+description: Use when saving a lesson to the Lore or right after solving a problem worth keeping, or when distilling Lore from an external body of criteria (a skill, a style guide, a third-party playbook). Trigger on "save to lore", "distill this to the lore", "guarda en lore", "distill this skill", "destila esta skill", "guárdalo como formato base", "esto es el estándar de ahora en más", or proactively after resolving a friction that passes the Lore bar (constraint + signal + executability + genericity).
 ---
 
 # save-to-lore — Incremental capture and promotion

@@ -1,6 +1,6 @@
 ---
 name: create-project
-description: Use when starting a brand-new PROJECT inside an existing WORK AREA (created with create-area). Scaffolds an area project inheriting the area's Lore — the project keeps its own identidad.md + principios.md (leading with project-specific content, pointing to the area for the shared standard) plus an index.md that references the area's thematic modules by relative path. Derives folder structure and phases FROM the project's source documents; if the area carries a starter scaffold, instantiates it. Brainstorms the project identity FIRST (threshold). Replaces the old web-only nuevo-sitio. Trigger on "create project X in area Y" or "start project X inside an area".
+description: Use when starting a brand-new PROJECT inside an existing WORK AREA (created with create-area) — before it has its own identidad.md, principios.md or index.md. Replaces the old web-only nuevo-sitio. Trigger on "create project X in area Y" or "start project X inside an area".
 ---
 
 # create-project — Start a new project inside an area

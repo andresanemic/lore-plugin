@@ -6,9 +6,7 @@ description: >-
   `notas/` or `notes/` and asks to read, review, integrate, extract, distill, or save anything into
   Lore, FASES, CLAUDE, corpus, hypotheses, or case studies; also on «mina la bandeja», «guarda esta
   nota en Obsidian», or «mine my inbox». This routing takes precedence even when another domain
-  skill also applies. Work notes from a bot permanently: notes remain
-  SOURCE in their inbox after mining, with frontmatter tracing the approved destination; writing
-  is delegated to the skill that owns that destination.
+  skill also applies.
 ---
 
 # obsidian-lore — The bridge between where experience piles up and where criteria is distilled

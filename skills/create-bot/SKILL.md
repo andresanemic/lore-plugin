@@ -1,6 +1,6 @@
 ---
 name: create-bot
-description: Use when building a BOT — one place to open a session and work across several Areas or projects at once, with their criteria already loaded, instead of answering questions about them. Scaffolds a bot project with an always-loaded canon/, its project Lore, and (in `federar` mode) a routing table into Lore scattered across other Areas. Two modes — `nuevo` (canon from a brainstorm plus source docs) and `federar` (canon plus federated routing) — plus an audit pass for a bot that already exists, to fix its scope, README or sources. Scope comes from the registry of the institution the bot serves, never from the builder's folder tree. Sources with NO Lore go through create-area and transmute-lore first, never absorbed into the bot. Encryption and a minimal local launcher are optional and off by default. Trigger on "create a bot for X", "a bot that works on several projects", "federate these areas", "audit my bot", or "fix my bot's scope".
+description: Use when building a BOT — one place to open a session and work across several Areas or projects at once, with their criteria already loaded, instead of answering questions about them — including federating existing Areas under one bot, or auditing a bot that already exists (its scope, README or sources). Trigger on "create a bot for X", "a bot that works on several projects", "federate these areas", "audit my bot", or "fix my bot's scope".
 ---
 
 # create-bot — Build a bot: one place to work

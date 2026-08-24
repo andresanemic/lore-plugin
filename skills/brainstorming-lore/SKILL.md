@@ -3,11 +3,8 @@ name: brainstorming-lore
 description: >-
   Use only when designing or materially changing an artifact owned by the Lore system: a Lore body
   or module, work area, Lore-governed project scaffold, bot, FASES structure, routing contract,
-  transmutation, distillation flow, or Lore Plugin skill. Reads the contract, state, and applicable
-  Lore before asking questions; explores alternatives one question at a time; presents a
-  proportional design; preserves the threshold of the owner skill; then hands the approved result
-  to the current agent's native planning mechanism. Also covers a deliverable Lore does not own but
-  a routed lore/ GOVERNS — a batch of posts, a report — where the design is deciding how to run
+  transmutation, distillation flow, or Lore Plugin skill — also for a deliverable Lore does not own
+  but a routed lore/ GOVERNS, a batch of posts, a report, where the design is deciding how to run
   criteria already written. Do not trigger for generic brainstorming, ideation, product design,
   software features, or research questions that no routed lore/ governs.
 ---
