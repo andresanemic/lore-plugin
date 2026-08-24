@@ -183,6 +183,10 @@ Each step in the loop passes a **threshold**: it is proposed, you approve, and o
 
 Choose **one** of the following routes. Claude Code and Codex use different commands; do not mix them.
 
+Claude Code and Codex install through each host's plugin manager, which verifies the package.
+OpenCode, Cursor and Antigravity below are manual copies — no host-side verification yet; the
+install is only as good as the copy, confirmed by hand.
+
 ### Claude Code
 
 Run these commands inside Claude Code:
@@ -957,6 +961,10 @@ Cada paso del ciclo pasa por un **umbral**: se propone, tú apruebas y recién e
 ## Instalación
 
 Elige **una** de las siguientes rutas. Claude Code y Codex usan comandos distintos; no los mezcles.
+
+Claude Code y Codex instalan a través del gestor de plugins de cada host, que verifica el paquete.
+OpenCode, Cursor y Antigravity, más abajo, son copias manuales — sin verificación del lado del host
+todavía; la instalación vale lo que valga la copia, confirmada a mano.
 
 ### Claude Code
 
