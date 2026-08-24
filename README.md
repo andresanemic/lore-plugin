@@ -331,9 +331,13 @@ The canonical names are Spanish; in your language they are localized.
 
 #### The always-on block
 
-The contract is the only artifact **both** hosts load without being asked, which makes it the kit's always-on channel. Its pointer section is delimited so it can be found and re-stamped without touching anything else:
+The contract is the only artifact **both** hosts load without being asked, which is why Lore stamps
+a delimited pointer section into it — the kit's always-on channel to the session.
 
-> **Why a delimited block and not just a paragraph.** One piece loads first, without exception, and only then can the rest be read in any order. It is not a hierarchy of importance: the anchor is what makes everything behind it legible.
+<details>
+<summary><b>The exact mechanics</b> (ceiling, variants, how it gets stamped)</summary>
+
+<br>
 
 ```markdown
 <!-- lore:always-on -->
@@ -347,6 +351,8 @@ Three variants: an **area** points to its own `lore/`; a **project** points to i
 
 The owning skills stamp it idempotently inside their existing threshold; UPGRADE adds it to older
 contracts. Hand-edited divergence is reported, never overwritten.
+
+</details>
 
 ### Area → Project inheritance
 
@@ -406,7 +412,11 @@ the one you will actually type — *"save to lore"*, after solving something tha
 six show up when the situation calls for them; `use-lore` routes you there when it does. **How to
 use each one**, with worked examples, lives in [`USAGE_es.md`](./docs/USAGE_es.md); **the full
 mechanism and diagnostic categories** for each mode live in [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
-What follows here is the short version of each.
+
+<details>
+<summary><b>What each skill does, one at a time</b> (for the mechanism — most people don't need this on day one)</summary>
+
+<br>
 
 ### `use-lore`
 
@@ -497,6 +507,8 @@ name the criteria produces a real deliverable.
 Optional Lore encryption remains experimental and off by default; see
 [`ENCRYPTION.md`](./docs/ENCRYPTION.md). Portability belongs to CRYSTALLIZE, which packages the bot
 as an extractable Markdown memory card.
+
+</details>
 
 ---
 
@@ -1087,9 +1099,13 @@ trabajo; el otro dice en qué punto se encuentra.
 
 #### El bloque siempre-activo
 
-El contrato es el único artefacto que **los dos** hosts cargan sin que nadie se lo pida, y eso lo convierte en el canal siempre activo del kit. Su sección de punteros va delimitada para poder encontrarla y reestamparla sin tocar nada más:
+El contrato es el único artefacto que **los dos** hosts cargan sin que nadie se lo pida, y por eso
+Lore le estampa una sección de punteros delimitada — el canal siempre activo del kit hacia la sesión.
 
-> **Por qué un bloque delimitado y no un párrafo cualquiera.** Una pieza se carga primero, sin excepción, y solo entonces el resto puede leerse en cualquier orden. No es una jerarquía de importancia: el ancla es lo que vuelve legible todo lo que viene detrás.
+<details>
+<summary><b>La mecánica exacta</b> (techo, variantes, cómo se estampa)</summary>
+
+<br>
 
 ```markdown
 <!-- lore:always-on -->
@@ -1103,6 +1119,8 @@ Tres variantes: un **área** apunta a su propio `lore/`; un **proyecto** apunta 
 
 Las skills dueñas lo estampan de forma idempotente dentro de su umbral; UPGRADE lo agrega a
 contratos antiguos. Una divergencia editada a mano se reporta y nunca se sobrescribe.
+
+</details>
 
 ### Herencia Área → Proyecto
 
@@ -1155,12 +1173,17 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 | [`create-bot`](#create-bot) | Un lugar donde abrir sesión y trabajar sobre varias Áreas a la vez | desde cero, o cuando ya hay Lore que federar |
 | [`obsidian-lore`](#obsidian--la-puerta-de-entrada) | Mina tus notas sueltas y enruta lo que sobrevive | cuando la bandeja pesa |
 
-**El primer día necesitás dos de estas:** `use-lore` te enruta hacia lo que sigue, y `save-to-lore`
+**El primer día necesitas dos de estas:** `use-lore` te enruta hacia lo que sigue, y `save-to-lore`
 es la que vas a escribir de verdad — *"guarda en lore"*, después de resolver algo que te costó. Las
 otras seis aparecen cuando la situación las pide; `use-lore` te lleva ahí cuando corresponde. **Cómo
 usar cada una**, con ejemplos trabajados, vive en [`USAGE_es.md`](./docs/USAGE_es.md); **el
 mecanismo completo y las categorías de diagnóstico** de cada modo viven en
-[`REFERENCE_es.md`](./docs/REFERENCE_es.md). Lo que sigue acá es la versión corta de cada una.
+[`REFERENCE_es.md`](./docs/REFERENCE_es.md).
+
+<details>
+<summary><b>Qué hace cada skill, una por una</b> (el mecanismo — casi nadie lo necesita el primer día)</summary>
+
+<br>
 
 ### `use-lore`
 
@@ -1246,6 +1269,8 @@ que no nombra el criterio produce un entregable real.
 El cifrado del Lore sigue experimental y apagado por defecto; consulta
 [`ENCRYPTION.md`](./docs/ENCRYPTION.md). La portabilidad pertenece a CRYSTALLIZE, que empaqueta el
 bot como una memory card Markdown extraíble.
+
+</details>
 
 ---
 
