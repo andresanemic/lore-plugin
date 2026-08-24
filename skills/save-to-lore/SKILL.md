@@ -1,6 +1,6 @@
 ---
 name: save-to-lore
-description: Use when saving a lesson to the Lore or right after solving a problem worth keeping, AND when distilling Lore from an external body of criteria (a skill, a style guide, a third-party playbook). Two modes — CAPTURE (default — distill lived friction into an invariant clue) and GRAFT (judge imported criteria against this Entre's purpose; only what survives enters). Captures in the CURRENT project's lore/ and — for confirmed, generic clues — proposes promoting up to the mother AREA lore (project ↔ area routing). Trigger on "save to lore", "distill this to the lore", "guarda en lore", "distill this skill", "destila esta skill", or proactively after resolving a friction that passes the Lore bar (constraint + signal + executability + genericity).
+description: Use when saving a lesson to the Lore or right after solving a problem worth keeping, AND when distilling Lore from an external body of criteria (a skill, a style guide, a third-party playbook). Two modes — CAPTURE (default — distill lived friction into an invariant clue) and GRAFT (judge imported criteria against this Entre's purpose; only what survives enters). Captures in the CURRENT project's lore/ and — for confirmed, generic clues — proposes promoting up to the mother AREA lore (project ↔ area routing). Trigger on "save to lore", "distill this to the lore", "guarda en lore", "distill this skill", "destila esta skill", "guárdalo como formato base", "esto es el estándar de ahora en más", or proactively after resolving a friction that passes the Lore bar (constraint + signal + executability + genericity).
 ---
 
 # save-to-lore — Incremental capture and promotion
@@ -80,7 +80,13 @@ failure state of GRAFT, not its output.
 > capacity and kept away from anything the Lore governs. Observed case: a writing-cleanup skill
 > flags emoji and short-fragment bursts as machine tells. A brand whose distilled voice is built on
 > exactly those two devices ran it cold and would have had its voice erased by a tool that was right
-> about everything except this corpus. **A tool is not neutral because it is useful.**
+> about everything except this corpus. **A tool is not neutral because it is useful.** Second observed
+> case (2026-08-24): a general design skill invoked to shape a UI decision optimized on its own axis —
+> container complexity matching content effort — against a standard whose actual north was
+> memorability and a strong point of view; the two disagreed and the design skill's axis lost. The
+> difference from the first case: this one was arbitrated **before** the artifact shipped, because a
+> person asked for it explicitly, not because any step required it — the junction this pattern still
+> needs (`H14`, on the kit itself) stays open.
 
 ### GRAFT — hygiene before the gates (GLOSSOPETRAE, 2026-08-21)
 
@@ -168,12 +174,34 @@ it says that if it is corrected, the correction is **visible**. Marking the sour
 a validated pattern: in another project the source may need to stay untouched with the note kept
 somewhere else.
 
-## Two triggers
+## Three triggers
 
 1. **Explicit:** the user says "save to lore…", "distill this to the lore", "guarda en lore" — or
    points at a source: "distill this skill", "destila esta skill" (→ GRAFT).
 2. **Proactive:** you just solved a friction and propose saving it — **only** if it clears the
    **threshold** (below). Cosmetic changes (color, aesthetic reshuffle) do NOT count.
+3. **Approved artifact, not a friction** — the user says "guárdalo como formato base", "esto es el
+   estándar de ahora en más", or names an artifact as the new floor. Source is **agreement, not
+   failure**: the artifact just cleared a bar the person holds, and that bar is criteria with the
+   same legitimacy as a scar — it is lost the moment nobody rewrites it as a clue by hand.
+
+> **Trigger 3 stays explicit on purpose, and does not widen into trigger 2's territory.** An
+> approval signal ("me encanta", "queda perfecto") is **not**, by itself, trigger 3 — it is evidence
+> a proposal is due, exactly like a friction is for trigger 2, and it is offered the same way:
+> shown, never auto-written. Turning approval itself into an automatic capture would remove the one
+> thing the Lore bar exists to do — **lose** candidates on purpose — precisely where losing is
+> hardest, because nobody discards what they just approved. Observed case (2026-08-24): the signal
+> fired exactly as predicted and nobody built to catch it — the human remembered on their own. That
+> is trigger 3 working as **evidence a proposal was due**, not proof it should have fired itself.
+>
+> **What to capture is the artifact plus the trace, never the artifact alone.** An approved artifact
+> by itself already lost the reasons it took the shape it did — which alternative it beat, and why.
+> A pass that absorbs only the final artifact reproduces the same gap that produced it late: the next
+> artifact in the same family hits the same missing distinction, because the "me encanta" never
+> carried the *why*. So the entry carries three parts, not one: the artifact **named as reference**
+> (linked, not re-described — re-describing it is the CAPTURE failure mode again, one layer up),
+> **what it is not** (the near-miss it beat, in one line each), and the confidence, capped at
+> `conjecture` until a second approved artifact in the same family confirms the same shape.
 
 The proactive trigger is contextual, not constant. Keep candidates during the session and suggest
 capture at a **contextual milestone**, or when several **related clues accumulate**. Before writing,
