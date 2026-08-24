@@ -391,7 +391,7 @@ It is not a CLI command: the mode is inferred from the phrase, not from a flag. 
   criteria that is not duplicated, not wrong and not superseded, and whose only defect is still being
   there. It is the only subtractive mode, and **the unit it counts is the deliverable, not the Lore**
   — it will ask what your project actually ships before reading a single module. Since **2.3.0** it
-  runs a **MICELIO scan** first, read-only: criteria that no step ever runs looks exactly like surplus,
+  runs a **MYCELIUM scan** first, read-only: criteria that no step ever runs looks exactly like surplus,
   and removing it is the one cut this mode cannot undo. **And it scans again on the way out**, because
   a removal changes junctions and not only volume: the step it took out may have been the one running
   a clue it left alive.

@@ -8,7 +8,7 @@
 
 - **`LEAVE`** — dejar el Lore sin perder el proyecto. Escribe la marca `leave:` en `FASES.md`, que es
   toda su reversibilidad: sin ella `UPGRADE` no puede volver y `H13` sigue sin instrumento.
-- **`MICELIO`** — octavo modo, con **tres disparadores**: antes de una tarea compleja, tras instalar
+- **`MYCELIUM`** — octavo modo, con **tres disparadores**: antes de una tarea compleja, tras instalar
   o actualizar el kit, y **al salir de cualquier pasada que escribió Lore** (`PRUNE`, `GRAFT`, una
   destilación). La pasada de salida no es la de entrada repetida — **una Pista nueva nace `Aislada`**,
   así que una pasada que escribe fabrica el defecto que el modo detecta. Recorrido de solo lectura que reporta qué
@@ -16,7 +16,7 @@
 - Auditoría con `ponytail` + `writing-skills`: cuatro defectos de enchufe corregidos, más la guardia
   estructural que detecta una capacidad sin paso que la corra.
 
-## Vocabulario de `MICELIO`
+## Vocabulario de `MYCELIUM`
 
 El **micelio** es la red que reparte; la **micorriza** es la junta entre una Pista y el paso que la
 corre. Los **seis** casos: `Micorrizada` · `Aislada` · `Media junta` · `Junta seca` ·
@@ -58,7 +58,7 @@ con nada al lado. Un nombre que apunta al eje equivocado manda la reparación al
 
 ## Frontera declarada
 
-`MICELIO` prueba que una regla **puede** dispararse. No prueba que sea correcta, ni que se corra
+`MYCELIUM` prueba que una regla **puede** dispararse. No prueba que sea correcta, ni que se corra
 bien, ni que el entregable mejore. Su premisa (`H14`) es **hipótesis abierta en `n=1`**, con
 `Crowding` como explicación rival declarada: las dos se ven igual desde afuera y piden remedios
 opuestos. El verde post-instalación es `0 de 0` y no prueba nada.
@@ -68,7 +68,7 @@ opuestos. El verde post-instalación es `0 de 0` y no prueba nada.
 Tres cosas que entraron el mismo día, y las tres salieron de la misma objeción de Andrés: **el kit no
 puede exigirle a nadie que aprenda su vocabulario para poder usarlo.**
 
-**1. `MICELIO` reporta en una sola capa y corre en silencio.** La primera reparación de esta objeción
+**1. `MYCELIUM` reporta en una sola capa y corre en silencio.** La primera reparación de esta objeción
 —clave estable adentro, frase llana afuera— dejó **tres nombres por resultado**, y Andrés volvió a
 objetar al día siguiente: *«el vocabulario dual me parece algo absurdo… el rol de micelio debe pasar
 desapercibido para el usuario»*. **Una reparación que agrega una capa no resuelve el problema, lo
@@ -84,7 +84,7 @@ enrutamiento y no escribe criterio; una línea en `FASES.md` escribe estado y no
 **nunca vuelve a reportar un hallazgo declinado.**
 
 > **Por qué no se volvió «el auditor interno del kit», que era la propuesta.** Se cae por la frontera
-> del propio modo: `MICELIO` prueba que una regla **puede** disparar, y nada más. Un nombre que promete
+> del propio modo: `MYCELIUM` prueba que una regla **puede** disparar, y nada más. Un nombre que promete
 > auditoría se lee como certificado de que el criterio es **correcto**, que es justo lo que el modo se
 > niega a decir. Ensanchar el nombre sin ensanchar el mecanismo es el defecto que retiró el nombre
 > anterior. Y su premisa (`H14`) sigue en `n=1` con `Crowding` como rival declarada: base fina para un
@@ -102,9 +102,9 @@ texto, explicación fácil o test?»* es exactamente lo que el umbral 0 rechaza,
 **nunca en lugar del primer artefacto**: el movimiento 3 produce algo o no produjo nada.
 
 **Lo que este mismo día encontró en la documentación, y es del tipo que la 2.3 vino a atacar.** La
-tabla de registros de más arriba declara que `MICELIO` entra a `README` y a `REFERENCE`. En `README`
+tabla de registros de más arriba declara que `MYCELIUM` entra a `README` y a `REFERENCE`. En `README`
 había entrado; en `REFERENCE_es` y `REFERENCE_en` el §2 decía **ocho modos** y el §3.6 decía **seis** y
-listaba seis — faltaban `micelio` y `leave` en el detalle, en los dos idiomas. Con el vocabulario del
+listaba seis — faltaban `mycelium` y `leave` en el detalle, en los dos idiomas. Con el vocabulario del
 propio kit es una **media junta**: el destino estaba declarado y el término ausente ahí. Se corrigió,
 y vale registrarlo porque **una tabla de registros no es un registro**: declarar dónde tiene que
 aterrizar algo no lo aterriza, y eso es `H14` aplicado al propio release.

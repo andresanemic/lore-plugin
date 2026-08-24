@@ -395,7 +395,7 @@ No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene oc
   correctas. No es lo mismo que `clean`: `clean` quita *duplicados*, `prune` quita criterio que no
   está duplicado, no está mal y no está superado, y cuyo único defecto es seguir ahí. Es el único
   modo sustractivo, y **la unidad que cuenta es el entregable, no el Lore** — te va a preguntar qué
-  publica tu proyecto antes de leer un solo módulo. Desde **2.3.0** corre antes un **barrido MICELIO**,
+  publica tu proyecto antes de leer un solo módulo. Desde **2.3.0** corre antes un **barrido MYCELIUM**,
   de solo lectura: el criterio que ningún paso corre se parece exactamente a lo que sobra, y quitarlo es
   el único corte que este modo no puede deshacer. **Y vuelve a correr al cerrar**, porque una poda
   cambia juntas y no solo volumen: puede haberse llevado el paso que corría una Pista que dejó viva.

@@ -67,10 +67,10 @@ test("LEAVE escribe la marca `leave:` — sin ella UPGRADE no puede volver y H13
   assert.match(leave, /`leave:`/);
 });
 
-test("MICELIO está enchufado en una fase de PRUNE, no solo escrito al lado (H14 sobre sí mismo)", () => {
+test("MYCELIUM está enchufado en una fase de PRUNE, no solo escrito al lado (H14 sobre sí mismo)", () => {
   const t = skill("transmute-lore");
-  const prune = t.slice(t.indexOf("## PRUNE mode"), t.indexOf("## MICELIO mode"));
-  assert.match(prune, /MICELIO/);
+  const prune = t.slice(t.indexOf("## PRUNE mode"), t.indexOf("## MYCELIUM mode"));
+  assert.match(prune, /MYCELIUM/);
 });
 
 test("el gate de enrutamiento no se dispara con el `index.md` que todo CAPTURE toca", () => {
@@ -99,21 +99,21 @@ test("una capacidad nueva declara el paso que la corre — ninguna seccion queda
   assert.deepEqual(orphanSections(), [], "capacidad que ningun paso anterior nombra");
 });
 
-// MICELIO — el barrido de enchufe deja de ser apéndice de PRUNE y gana sus dos disparadores.
+// MYCELIUM — el barrido de enchufe deja de ser apéndice de PRUNE y gana sus dos disparadores.
 // RED medido en community-manager el 2026-08-22: 4 Pistas sin micorriza, las 4 de menos de 48h.
 // El defecto no decae con el tiempo: nace con la Pista, así que un barrido de viernes llega tarde.
 
-test("MICELIO es un modo de transmute-lore, no un apéndice", () => {
-  assert.match(skill("transmute-lore"), /## MICELIO mode/,
+test("MYCELIUM es un modo de transmute-lore, no un apéndice", () => {
+  assert.match(skill("transmute-lore"), /## MYCELIUM mode/,
     "el barrido no tiene sección de modo propia");
 });
 
-test("MICELIO se enruta desde use-lore — una capacidad sin fila no la invoca nadie", () => {
-  assert.match(skill("use-lore"), /MICELIO/,
-    "use-lore no nombra MICELIO: el modo existe y ningún camino llega");
+test("MYCELIUM se enruta desde use-lore — una capacidad sin fila no la invoca nadie", () => {
+  assert.match(skill("use-lore"), /MYCELIUM/,
+    "use-lore no nombra MYCELIUM: el modo existe y ningún camino llega");
 });
 
-test("MICELIO tiene sus dos disparadores declarados: post-instalación y pre-tarea", () => {
+test("MYCELIUM tiene sus dos disparadores declarados: post-instalación y pre-tarea", () => {
   const txt = skill("use-lore");
   assert.match(txt, /install/i, "falta el disparador post-instalación");
   assert.match(txt, /before a complex|antes de una tarea/i, "falta el disparador pre-tarea");
@@ -143,58 +143,58 @@ test("el segundo caso viene con predicado observable, no con una excepcion bland
     "falta el lado negativo: un predicado que nunca excluye no es un predicado");
 });
 
-// 2026-08-22, community-manager: el ritual del viernes corrio MICELIO como paso 0 y despues
+// 2026-08-22, community-manager: el ritual del viernes corrio MYCELIUM como paso 0 y despues
 // PRUNE + GRAFT. GRAFT escribe Pistas nuevas, y una Pista nueva NACE aislada — es el hallazgo del
 // propio modo: el aislamiento se produce al ritmo que se escribe criterio, no se acumula con la
 // edad. Un barrido solo de entrada no puede ver nada de lo que la propia operacion acaba de crear.
 
-test("MICELIO declara su pasada de salida: una operacion que escribe Lore vuelve a barrer", () => {
+test("MYCELIUM declara su pasada de salida: una operacion que escribe Lore vuelve a barrer", () => {
   const t = skill("transmute-lore");
-  const mic = t.slice(t.indexOf("## MICELIO mode"), t.indexOf("## LEAVE mode"));
+  const mic = t.slice(t.indexOf("## MYCELIUM mode"), t.indexOf("## LEAVE mode"));
   assert.match(mic, /on the way out|de salida|exit pass/i,
-    "MICELIO solo se dispara al entrar: lo que PRUNE y GRAFT acaban de escribir no lo barre nadie");
+    "MYCELIUM solo se dispara al entrar: lo que PRUNE y GRAFT acaban de escribir no lo barre nadie");
   assert.match(mic, /a new clue is born|nace aislada|born .*Aislada/i,
     "no dice por que hace falta la segunda pasada: una Pista nueva nace sin junta");
 });
 
-test("PRUNE y GRAFT declaran que su salida vuelve a MICELIO", () => {
+test("PRUNE y GRAFT declaran que su salida vuelve a MYCELIUM", () => {
   const t = skill("transmute-lore");
-  const prune = t.slice(t.indexOf("## PRUNE mode"), t.indexOf("## MICELIO mode"));
-  assert.match(prune, /MICELIO/,
-    "PRUNE no devuelve a MICELIO: puede haberse llevado el paso que corria una Pista viva");
-  assert.match(skill("save-to-lore"), /MICELIO/,
-    "save-to-lore no nombra MICELIO: GRAFT escribe criterio nuevo y nada verifica que enganche");
+  const prune = t.slice(t.indexOf("## PRUNE mode"), t.indexOf("## MYCELIUM mode"));
+  assert.match(prune, /MYCELIUM/,
+    "PRUNE no devuelve a MYCELIUM: puede haberse llevado el paso que corria una Pista viva");
+  assert.match(skill("save-to-lore"), /MYCELIUM/,
+    "save-to-lore no nombra MYCELIUM: GRAFT escribe criterio nuevo y nada verifica que enganche");
 });
 
-// Hallazgo de la primera corrida de MICELIO sobre el propio kit (2026-08-22):
+// Hallazgo de la primera corrida de MYCELIUM sobre el propio kit (2026-08-22):
 // 5 de 8 modos tenían gate nombrado en use-lore y 3 se enrutaban solo por descripción.
 // Media junta: el destino existe y el término está ausente ahí — el caso `Missing` del propio modo.
 
 test("los ocho modos tienen junta nombrada en use-lore, no solo descripción", () => {
   const t = skill("use-lore");
-  const sin = ["ADD","CLEAN","TRANSLATE","UPGRADE","PRUNE","MICELIO","LEAVE","CRYSTALLIZE"]
+  const sin = ["ADD","CLEAN","TRANSLATE","UPGRADE","PRUNE","MYCELIUM","LEAVE","CRYSTALLIZE"]
     .filter(m => !t.includes(`**${m}**`));
   assert.deepEqual(sin, [], "modo sin gate nombrado en la tabla de enrutamiento");
 });
 
-// 2026-08-22, en la primera corrida del propio modo: MICELIO reporto hallazgos sobre el kit
+// 2026-08-22, en la primera corrida del propio modo: MYCELIUM reporto hallazgos sobre el kit
 // y la sesion siguio al sync sin escribirlos. Enchufar la EJECUCION de un chequeo no enchufa
 // su RESULTADO — son dos juntas, y la guardia de a1eb550 solo cubre la primera.
 
-test("MICELIO detiene lo que viene despues — un hallazgo sin escribir bloquea la operacion", () => {
+test("MYCELIUM detiene lo que viene despues — un hallazgo sin escribir bloquea la operacion", () => {
   const t = skill("transmute-lore");
-  const mic = t.slice(t.indexOf("## MICELIO mode"), t.indexOf("## LEAVE mode"));
+  const mic = t.slice(t.indexOf("## MYCELIUM mode"), t.indexOf("## LEAVE mode"));
   assert.match(mic, /block|detiene|bloquea/i,
-    "MICELIO termina en 'propone' y nada consume su salida");
+    "MYCELIUM termina en 'propone' y nada consume su salida");
 });
 
 // El vocabulario del modo es criterio: `Orphan` es vertical (falta alguien arriba) y el defecto
 // es lateral (no hay junta con nadie al lado). Los cuatro casos hablan micelio o el registro
 // se pelea consigo mismo.
 
-test("los cuatro casos de MICELIO estan en registro micelio, sin restos de ORPHAN", () => {
+test("los cuatro casos de MYCELIUM estan en registro micelio, sin restos de ORPHAN", () => {
   const t = skill("transmute-lore");
-  const mic = t.slice(t.indexOf("## MICELIO mode"), t.indexOf("## LEAVE mode"));
+  const mic = t.slice(t.indexOf("## MYCELIUM mode"), t.indexOf("## LEAVE mode"));
   for (const caso of ["Micorrizada", "Aislada", "Media junta", "Junta seca"])
     assert.ok(mic.includes(caso), `falta el caso ${caso}`);
   // El termino retirado sobrevive en UN solo lugar legitimo: la nota que lo retira.
@@ -205,51 +205,51 @@ test("los cuatro casos de MICELIO estan en registro micelio, sin restos de ORPHA
 
 // 2026-08-22: se edito lore-plugin desde una sesion abierta en otra area. El always-on solo
 // dispara para el arbol de la sesion, asi que plugins/lore/ nunca entro al contexto y su ley
-// de versionado se violo sin aviso. MICELIO acotaba su universo al Lore escaneado; la junta
+// de versionado se violo sin aviso. MYCELIUM acotaba su universo al Lore escaneado; la junta
 // que faltaba era entre el arbol que se toca y el area que lo gobierna.
 
-test("MICELIO resuelve el area dueña de cada arbol que se toca, no solo el de la sesion", () => {
+test("MYCELIUM resuelve el area dueña de cada arbol que se toca, no solo el de la sesion", () => {
   const t = skill("transmute-lore");
-  const mic = t.slice(t.indexOf("## MICELIO mode"), t.indexOf("## LEAVE mode"));
+  const mic = t.slice(t.indexOf("## MYCELIUM mode"), t.indexOf("## LEAVE mode"));
   assert.match(mic, /owning area|area dueña|área dueña/i,
-    "MICELIO no obliga a resolver el area dueña del arbol editado");
+    "MYCELIUM no obliga a resolver el area dueña del arbol editado");
 });
 
 // canon/frontera.md de bot-lus-lore: una hipotesis de LUS no se vuelve ley de una skill sin
 // arbitraje, umbral y prueba. H14 sigue abierta en n=1 y con explicacion rival (Crowding).
 // Distinguirlas cambia el remedio: si es Crowding se poda, si es H14 podar destruye la junta.
 
-test("MICELIO declara que su premisa es hipotesis abierta con explicacion rival", () => {
+test("MYCELIUM declara que su premisa es hipotesis abierta con explicacion rival", () => {
   const t = skill("transmute-lore");
-  const mic = t.slice(t.indexOf("## MICELIO mode"), t.indexOf("## LEAVE mode"));
+  const mic = t.slice(t.indexOf("## MYCELIUM mode"), t.indexOf("## LEAVE mode"));
   assert.match(mic, /Crowding/, "no nombra la explicacion rival de H14");
   assert.match(mic, /n=1|open hypothesis|hipotesis abierta/i, "presenta H14 como hecho asentado");
 });
 
-test("los dos skills declaran MICELIO en sus invariantes (registro del principio 15)", () => {
+test("los dos skills declaran MYCELIUM en sus invariantes (registro del principio 15)", () => {
   for (const n of ["transmute-lore", "use-lore"]) {
     const t = skill(n);
     const inv = t.slice(t.lastIndexOf("## Invariants"));
-    assert.match(inv, /MICELIO/, `${n}: MICELIO no entro al registro de invariantes`);
+    assert.match(inv, /MYCELIUM/, `${n}: MYCELIUM no entro al registro de invariantes`);
   }
 });
 
 // 2026-08-22, community-manager: la regla de como se publica una cifra de fuente externa se
-// escribio en chatterpay/docs/. MICELIO la reporto Aislada solo porque el autor sabia que la
+// escribio en chatterpay/docs/. MYCELIUM la reporto Aislada solo porque el autor sabia que la
 // habia escrito una hora antes — el modo toma su universo del lore/, asi que criterio que
 // aterrizo en una carpeta de fuente no entra a la barrida y no puede ni siquiera clasificarse.
 // Segundo caso el mismo dia: las capturas que alimentaban un doc citado vivian fuera del repo.
 
-test("MICELIO barre criterio que aterrizo fuera de lore/, no solo lo que ya esta adentro", () => {
+test("MYCELIUM barre criterio que aterrizo fuera de lore/, no solo lo que ya esta adentro", () => {
   const t = skill("transmute-lore");
-  const mic = t.slice(t.indexOf("## MICELIO mode"), t.indexOf("## LEAVE mode"));
+  const mic = t.slice(t.indexOf("## MYCELIUM mode"), t.indexOf("## LEAVE mode"));
   assert.match(mic, /docs\/|carpeta de fuente|source folder/i,
-    "MICELIO toma su universo del lore/: el criterio escrito en docs/ o notas/ es invisible por construccion");
+    "MYCELIUM toma su universo del lore/: el criterio escrito en docs/ o notas/ es invisible por construccion");
 });
 
-test("MICELIO tiene un quinto caso para el criterio que nunca entro al sustrato", () => {
+test("MYCELIUM tiene un quinto caso para el criterio que nunca entro al sustrato", () => {
   const t = skill("transmute-lore");
-  const mic = t.slice(t.indexOf("## MICELIO mode"), t.indexOf("## LEAVE mode"));
+  const mic = t.slice(t.indexOf("## MYCELIUM mode"), t.indexOf("## LEAVE mode"));
   assert.match(mic, /Fuera del sustrato/,
     "sin quinto caso, criterio fuera de lore/ se reporta como Aislada y su reparo es distinto: son dos movimientos, no uno");
   assert.ok(mic.includes("it is criteria, and it is not in `lore/`"),
@@ -264,9 +264,9 @@ test("MICELIO tiene un quinto caso para el criterio que nunca entro al sustrato"
 // carga. No es Media junta — ahi el termino falta en el destino; aca esta, y el destino no es el
 // artefacto en vigor. Los dos reparos apuntan al reves.
 
-test("MICELIO distingue la junta que apunta a un artefacto que la sesion no carga", () => {
+test("MYCELIUM distingue la junta que apunta a un artefacto que la sesion no carga", () => {
   const t = skill("transmute-lore");
-  const mic = t.slice(t.indexOf("## MICELIO mode"), t.indexOf("## LEAVE mode"));
+  const mic = t.slice(t.indexOf("## MYCELIUM mode"), t.indexOf("## LEAVE mode"));
   assert.ok(mic.includes("the step exists, in a file this session does not load"),
     "el sexto caso no esta en la tabla de resultados");
   assert.match(mic, /artifact the running tree does not load|artifact actually in force|artifact that is actually running/i,
@@ -280,9 +280,9 @@ test("MICELIO distingue la junta que apunta a un artefacto que la sesion no carg
 // reparacion que agrega una capa no resuelve el problema, lo duplica. 2.3.1 poda a una sola capa:
 // la frase llana. Lo que NO se toca es la distincion entre resultados que se reparan al reves.
 
-test("MICELIO reporta en una sola capa y corre en silencio", () => {
+test("MYCELIUM reporta en una sola capa y corre en silencio", () => {
   const t = skill("transmute-lore");
-  const mic = t.slice(t.indexOf("## MICELIO mode"), t.indexOf("## LEAVE mode"));
+  const mic = t.slice(t.indexOf("## MYCELIUM mode"), t.indexOf("## LEAVE mode"));
   const tabla = mic.slice(mic.indexOf("| What the person is told"),
                           mic.indexOf("**The six do not collapse"));
 
@@ -307,15 +307,15 @@ test("MICELIO reporta en una sola capa y corre en silencio", () => {
     "falta la frontera: una capa que fusione los resultados devuelve el reparo al lugar equivocado");
 });
 
-// El disparador 3 pasa a ser automatico, y para en una condicion estrecha a proposito. MICELIO
+// El disparador 3 pasa a ser automatico, y para en una condicion estrecha a proposito. MYCELIUM
 // prueba UNA cosa: que una regla PUEDE disparar. "Auditor interno del kit" le pide certificar que
 // el criterio es correcto, que es justo lo que el modo se niega a decir. Ademas H14 esta en n=1
 // con Crowding como rival declarada. Y su ecualizacion es una regla, no una intencion:
 // nunca re-reporta lo declinado, porque un chequeo que es ruido se saltea.
 
-test("el disparo automatico de MICELIO exige las dos mitades y no repite lo declinado", () => {
+test("el disparo automatico de MYCELIUM exige las dos mitades y no repite lo declinado", () => {
   const t = skill("transmute-lore");
-  const mic = t.slice(t.indexOf("## MICELIO mode"), t.indexOf("## LEAVE mode"));
+  const mic = t.slice(t.indexOf("## MYCELIUM mode"), t.indexOf("## LEAVE mode"));
   assert.match(mic, /wrote criteria and touched routing/i,
     "sin las dos mitades el disparo salta con un typo o con una linea de FASES, y se vuelve tedioso");
   assert.match(mic, /\*\*Both halves are required\.\*\*/,

@@ -133,7 +133,7 @@ where that step leaves an artifact**. If you cannot name one, say so in the same
 later.
 
 **And when the pass wrote more than one clue, or touched a procedure, run `transmute-lore` in
-`MICELIO` mode over what it left** (trigger 3, *on the way out*). This is not optional politeness:
+`MYCELIUM` mode over what it left** (trigger 3, *on the way out*). This is not optional politeness:
 the scan that ran *before* the pass is structurally blind to what the pass produced, and `GRAFT` in
 particular imports criteria that arrives with no junction by construction. Its findings block the
 work that was going to lean on this Lore.
@@ -289,7 +289,7 @@ tree cannot confirm the clue exists without opening a repository it was never to
 
 **Observed case, 2026-08-22:** a clue in a research project's `lore/principios.md` and the step that
 runs it in a skill living in a different repository. Written on both sides in the same pass, a
-`MICELIO` from either tree can now classify it without opening the other one.
+`MYCELIUM` from either tree can now classify it without opening the other one.
 
 *Boundary:* applies when the clue declares a destination at all. A clue governing continuously while
 writing — a register, a tone — has no step to name it back, and demanding one would invent a junction

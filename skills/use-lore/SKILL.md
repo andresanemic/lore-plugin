@@ -120,7 +120,7 @@ first:
    installed copy is stale, updating it comes **before** the work, not after — and the plugin cache
    is indexed by version, so what was published without a version bump was never received.
 
-> **Right after installing or updating the kit, run `transmute-lore` in **MICELIO** mode over the
+> **Right after installing or updating the kit, run `transmute-lore` in **MYCELIUM** mode over the
 > Lore already on this machine.** An update changes what the skills demand; the criteria written
 > against the previous one does not move by itself. On a machine with no Lore yet the answer is
 > `0 of 0` — report it as such and say plainly that it proves nothing yet, because there is nothing
@@ -138,7 +138,7 @@ the criteria; it does not become a ninth production skill.
 
 Before producing:
 
-0. **Run `transmute-lore` in MICELIO mode over that project's Lore** — before a complex task, not
+0. **Run `transmute-lore` in MYCELIUM mode over that project's Lore** — before a complex task, not
    after it. **And again after anything that wrote Lore**, before the work leans on the result: a
    clue that was just written is joined to nothing yet. It is read-only and it answers one question the loading cannot: *of the criteria I am
    about to lean on, how much of it can actually fire?* A clue nothing runs will not announce itself
@@ -317,7 +317,7 @@ never paid for will start receiving promotions that belong somewhere else.
 | **Standardize the language** of an existing Lore | `transmute-lore` (**TRANSLATE**): content and localizable filenames together, meaning-preserving, never a rewrite and never a broken link |
 | **Raise a healthy Lore to a newer version of these skills** — it is in the standard and in use, but predates gates the kit learned later. Nothing looks broken, which is why nobody upgrades it | `transmute-lore` (**UPGRADE**): map the tree first, then arbitrate against the current version; adds what is missing and leaves what the project **earned**. On a campaign, the threshold is per class |
 | **Prune a Lore that grew** — nothing in it is wrong, and the work coming out of it goes in circles, hedges, or arrives buried in apparatus. The loudest symptom is the owner writing the deliverable by hand instead ("poda en lore") | `transmute-lore` (**PRUNE**): counts apparatus against content, separates criteria that no longer constrains anything from criteria that is correct but **saturating in sum**, and treats a smaller corpus as the result. Nothing comes out without its residue written down |
-| **Check whether a Lore can actually fire** before leaning on it for real work, right after installing/updating the kit, **and again on the way out of any pass that wrote Lore** (`PRUNE`, `GRAFT`, a distillation) — it looks healthy, and *looking* healthy is exactly the symptom | `transmute-lore` (**MICELIO**): read-only walk of the network reporting which clues have **no micorriza** — no step of any procedure runs them. Reports pairs (clue ⇢ missing junction) and a rate, never a score; proposes the enchufe and never prunes. **Three triggers, and the exit pass is not the entry pass repeated:** a new clue is born `Aislada`, so a pass that writes manufactures the very defect this mode detects, and the scan that ran before it cannot see its own output |
+| **Check whether a Lore can actually fire** before leaning on it for real work, right after installing/updating the kit, **and again on the way out of any pass that wrote Lore** (`PRUNE`, `GRAFT`, a distillation) — it looks healthy, and *looking* healthy is exactly the symptom | `transmute-lore` (**MYCELIUM**): read-only walk of the network reporting which clues have **no micorriza** — no step of any procedure runs them. Reports pairs (clue ⇢ missing junction) and a rate, never a score; proposes the enchufe and never prunes. **Three triggers, and the exit pass is not the entry pass repeated:** a new clue is born `Aislada`, so a pass that writes manufactures the very defect this mode detects, and the scan that ran before it cannot see its own output |
 | Leave Lore without losing the project — remove governance, keep `lore/` and routing as plain `enrutamiento.md` | `transmute-lore` (**LEAVE**): one-pass structural removal of the `<!-- lore:always-on -->` block, conversion of `FASES.md` to host init, project stays buildable; a kit you cannot leave makes `H13` unmeasurable |
 | Export a project, Area or bot's **live routed Lore as one Markdown** for a chat, AI project or notebook — and **extract** that file back into a folder whose routing table resolves | `transmute-lore` (**CRYSTALLIZE**): inlines every routed `lore/` (including `lore-ecosistema/`) into one snapshot marked so the bundled script can unpack it; a file that only points at missing bodies has failed the mode |
 | Keep **Obsidian notes in the same folder tree** as the Lore, and **mine that inbox** for what deserves to become criteria ("revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore") | `obsidian-lore` |
@@ -506,7 +506,7 @@ with `transmute-lore` (TRANSLATE mode), which translates content and renames art
   precedence structural instead of declared. A body of criteria that does not consult another cannot
   be overruled by it, and that holds no matter what the other body's files say about themselves.
 
-- **A check that runs is not a check that lands.** `MICELIO` reports which clues have no junction
+- **A check that runs is not a check that lands.** `MYCELIUM` reports which clues have no junction
   with any step; plugging in a check's *execution* does not plug in its *result*. Run it before a
   complex task and after updating the kit, resolve the **owning area of every tree the work touches**
   first, and let its findings block what comes next.
