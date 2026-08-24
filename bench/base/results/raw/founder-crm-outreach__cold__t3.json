@@ -1,0 +1,26 @@
+{
+  "task": "founder-crm-outreach",
+  "arm": "cold",
+  "trial": 3,
+  "model": "opencode/muse-spark-1.2-contributor-free",
+  "reasoning_effort": "medium",
+  "verdict": "fail",
+  "compliance": [],
+  "violation": [],
+  "text": "Ejecutando la tarea en frío sin Lore — leyendo el contrato base.\nLeído `bench/base/fixtures/cold/CLAUDE.md` completo — contrato aplicado.\n\n**Estado: base cold — sin Lore.**\n\n- Fuente de verdad: `bench/base/fixtures/cold/CLAUDE.md` (14 líneas).\n- No se consultó ningún otro Lore (`../../andamiaje/lore-plugin/...` omitido por contrato cold).\n- Criterio aplicado: general del modelo.\n- Directorio: `bench/base/fixtures/cold/` — contiene únicamente `CLAUDE.md` y `package.json` (`bench-base-cold`, private).\n\n**Tarea recibida:** la instrucción ordena \"entrega el artefacto completo directamente\" pero no nombra ningún artefacto, formato ni especificación en el prompt.\n\nNo hay entregable nombrado que producir. En modo cold no se infiere ni se destila criterio adicional.\n\nEntregable de cumplimiento de contrato cold: lectura verificada y espera de especificación de artefacto. Indica nombre/formato del artefacto y se produce sin consultar otro Lore y sin `git push`.\n",
+  "error": false,
+  "stderr": "",
+  "read_lore": false,
+  "tool_calls": 3,
+  "cost_usd": null,
+  "input_tokens": 177,
+  "output_tokens": 229,
+  "cache_read": 62833,
+  "duration_ms": 40429,
+  "num_turns": 4,
+  "tools": [
+    "read {\"filePath\": \"C:\\\\Claude\\\\plugins\\\\proyectos\\\\lore-plugin\\\\bench\\\\base\\\\fixtures\\\\cold\\\\CLAUDE.md\"}",
+    "read {\"filePath\": \"C:\\\\Claude\\\\plugins\\\\proyectos\\\\lore-plugin\\\\bench\\\\base\\\\fixtures\\\\cold\"}",
+    "read {\"filePath\": \"C:\\\\Claude\\\\plugins\\\\proyectos\\\\lore-plugin\\\\bench\\\\base\\\\fixtures\\\\cold\\\\package.json\"}"
+  ]
+}

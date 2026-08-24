@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+/* ── Tokens de marca — se completan al cerrar Fase 2 (ver material-marca/). ──
+   En Tailwind v4 los tokens viven aquí en @theme {}, NO en tailwind.config.ts.
+   Cada token genera utilidades (ej. --color-acento → bg-acento, text-acento). */
+@theme {
+  --color-base: #ffffff;        /* TODO Fase 2: color base/fondo */
+  --color-tinta: #171717;       /* TODO Fase 2: color de texto */
+  --color-acento: #171717;      /* TODO Fase 2: acento principal */
+  --color-marca: #171717;       /* TODO Fase 2: color de marca/logo */
+
+  --font-titulo: var(--ff-titulo, ui-sans-serif, system-ui, sans-serif);   /* next/font inyecta --ff-titulo en layout.tsx (Fase 2.2) */
+  --font-cuerpo: var(--ff-cuerpo, ui-sans-serif, system-ui, sans-serif);
+}
+
+/* lore/layout.md — bloquear deriva lateral en móvil (html Y body). */
+html,
+body {
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--color-base);
+  color: var(--color-tinta);
+  font-family: var(--font-cuerpo), system-ui, sans-serif;
+}

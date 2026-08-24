@@ -1,0 +1,18 @@
+# .htaccess — solo aplica en Apache (cPanel/Namecheap), NO en Vercel.
+# El export estático de Next genera carpeta/index.html (trailingSlash) → Apache
+# lo sirve nativo (DirectoryIndex). Página 404 → 404.html.
+
+ErrorDocument 404 /404.html
+
+# ── Headers de seguridad seguros (no rompen el export estático) ──────────────
+# NO añadir CSP ni Trusted Types: rompen los scripts/estilos inline de Next.
+<IfModule mod_headers.c>
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Cross-Origin-Opener-Policy "same-origin"
+
+  # Link headers de descubrimiento (sitemap + feed). Requiere mod_headers.
+  Header add Link "<https://{{DOMINIO}}/sitemap.xml>; rel=\"sitemap\""
+  Header add Link "<https://{{DOMINIO}}/feed.xml>; rel=\"alternate\"; type=\"application/rss+xml\""
+</IfModule>

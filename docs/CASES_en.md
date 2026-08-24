@@ -4,7 +4,7 @@
 
 ---
 
-Lore was not designed on a whiteboard: every decision in this kit came from applying it to real projects and watching what broke. These pages tell those uses. They do not teach you how to install it.
+Lore was not designed ahead of time: every decision in this kit came from applying it to real projects and watching what broke. These pages tell those uses. They do not teach you how to install it.
 
 **Lore** is the criteria — the rules you already paid for with work — that an AI agent loads into the next session, so you do not have to explain the project again every morning. It lives in Markdown files, inside a `lore/` folder.
 

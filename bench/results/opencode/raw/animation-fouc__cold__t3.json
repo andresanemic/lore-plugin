@@ -1,0 +1,25 @@
+{
+  "task": "animation-fouc",
+  "arm": "cold",
+  "trial": 3,
+  "model": "opencode/muse-spark-1.2-contributor-free",
+  "reasoning_effort": "medium",
+  "verdict": "fail",
+  "compliance": [],
+  "violation": [],
+  "text": "Leyendo tu CLAUDE.md para alinearme con el contrato del área.\nLeído completo. Siguiendo contrato:\n\n**Área: Desarrollo Web** — estándar premium.\n\n**Stack:** Next.js (App Router) + TypeScript · Tailwind v4 (`@theme`, sin config) · GSAP (últimas versiones, sin pins) · SSR + API Routes en Vercel. SaaS: Supabase + Stripe.\n\n**Reglas base:**\n- Sin Playwright — validación manual por vos.\n- `git push` solo con tu autorización.\n- Sin env hardcodeado (error descriptivo si falta). Chequeos de acceso server-side, RLS activo, webhook Stripe verifica firma.\n\nListo para operar bajo este criterio.",
+  "error": false,
+  "stderr": "",
+  "read_lore": false,
+  "tool_calls": 2,
+  "cost_usd": null,
+  "input_tokens": 944,
+  "output_tokens": 146,
+  "cache_read": 63473,
+  "duration_ms": 17508,
+  "num_turns": 3,
+  "tools": [
+    "read {\"filePath\": \"C:\\\\Claude\\\\plugins\\\\proyectos\\\\lore-plugin\\\\bench\\\\fixtures\\\\cold\\\\CLAUDE.md\"}",
+    "read {\"filePath\": \"C:\\\\Claude\\\\plugins\\\\proyectos\\\\lore-plugin\\\\CLAUDE.md\"}"
+  ]
+}

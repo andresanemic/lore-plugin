@@ -4,7 +4,7 @@
 
 ---
 
-Lore no se diseñó en una pizarra: cada decisión de este kit salió de aplicarlo a proyectos reales y mirar qué se rompía. Estas páginas cuentan esos usos. No enseñan a instalarlo.
+Lore no se diseñó de antemano: cada decisión de este kit salió de aplicarlo a proyectos reales y mirar qué se rompía. Estas páginas cuentan esos usos. No enseñan a instalarlo.
 
 **Lore** es el criterio —las reglas que ya pagaste con trabajo— que un agente de IA carga en la sesión siguiente, para no volver a explicar el proyecto cada mañana. Vive en archivos Markdown, dentro de una carpeta `lore/`.
 

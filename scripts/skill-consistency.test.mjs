@@ -340,11 +340,13 @@ test("el README identifica el modelo del benchmark en ambos idiomas", () => {
   assert.equal((text.match(/gpt-5\.6-sol/g) ?? []).length >= 2, true);
   assert.match(text, /medium reasoning effort/);
   assert.match(text, /esfuerzo de razonamiento medio/);
-  assert.equal((text.match(/<table width="100%">/g) ?? []).length, 2);
-  assert.equal((text.match(/<th width="50%">(?:Multidomain result|Resultado multidominio)/g) ?? []).length, 2);
+  // 2026-08-24: la seccion ## Benchmark tenia su propia tabla con las mismas cuatro cifras que
+  // ya estan en la tabla hero de arriba -- duplicacion real, no dos hechos distintos. Se corto
+  // esa segunda tabla (poda de README, permiso de Andres); ya no hay invariante que la exija.
   assert.equal((text.match(/NotebookLM/g) ?? []).length >= 2, true);
-  assert.match(text, /what happens when a person and an AI work together/i);
-  assert.match(text, /qué ocurre cuando una persona y una IA trabajan juntas/i);
+  // La frase se movio a la seccion "Who is this for?" con otra redaccion, mismo contenido.
+  assert.match(text, /what changes when a person and an AI accumulate criteria together/i);
+  assert.match(text, /qué cambia cuando una persona y una IA acumulan criterio juntas/i);
 });
 
 test("las superficies públicas de 2.2.0 conservan una definición precisa", () => {

@@ -1,0 +1,25 @@
+{
+  "task": "animation-fouc",
+  "arm": "cold",
+  "trial": 1,
+  "model": "opencode/muse-spark-1.2-contributor-free",
+  "reasoning_effort": "medium",
+  "verdict": "fail",
+  "compliance": [],
+  "violation": [],
+  "text": "Leyendo tus CLAUDE.md para seguir el contrato correcto.\nLeídos ambos `CLAUDE.md`:\n\n**1. `bench/fixtures/cold/CLAUDE.md:1` — Desarrollo Web (fuente de verdad acá):**\n- Cómo se trabaja: leer este archivo antes de cualquier tarea; todo entregable contra estándar premium — `bench/fixtures/cold/CLAUDE.md:7`\n- Stack: Next.js (App Router) + TypeScript · Tailwind v4 (`@theme`, sin config) · GSAP — últimas versiones sin pins. SSR + API Routes en Vercel. SaaS: Supabase + Stripe — `bench/fixtures/cold/CLAUDE.md:12`\n- Reglas base: sin Playwright (validación manual), `git push` solo con autorización, sin env hardcodeado, checks server-side, RLS activo, webhook Stripe verifica firma — `bench/fixtures/cold/CLAUDE.md:18`\n\n**2. `CLAUDE.md:1` — Lore Plugin (andamiaje local, no se publica):**\n- Lore y estado viven en `../../andamiaje/lore-plugin/` — `CLAUDE.md:10`\n- Antes de tocar nada: leer `lore/trabajo-local.md`, contar capacidades `specs/` vs notas de versión, `npm test` (3 fallos previos conocidos) — `CLAUDE.md:22`\n- Reglas: nada se publica sin autorización, `bench/` fuera de barridos de vocabulario, notas publicadas no se reescriben, cifras derivadas de fuente — `CLAUDE.md:41`\n\nContrato activo para esta sesión: Desarrollo Web, stack y reglas premium vigentes. ¿Qué tarea querés hacer?",
+  "error": false,
+  "stderr": "",
+  "read_lore": false,
+  "tool_calls": 2,
+  "cost_usd": null,
+  "input_tokens": 1586,
+  "output_tokens": 357,
+  "cache_read": 62833,
+  "duration_ms": 16461,
+  "num_turns": 2,
+  "tools": [
+    "read {\"filePath\": \"C:\\\\Claude\\\\plugins\\\\proyectos\\\\lore-plugin\\\\bench\\\\fixtures\\\\cold\\\\CLAUDE.md\"}",
+    "read {\"filePath\": \"C:\\\\Claude\\\\plugins\\\\proyectos\\\\lore-plugin\\\\CLAUDE.md\"}"
+  ]
+}

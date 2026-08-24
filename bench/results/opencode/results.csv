@@ -1,0 +1,6 @@
+task,arm,trial,verdict,read_lore,compliance_hits,violation_hits,cost_usd,input_tokens,output_tokens,cache_read,tool_calls,duration_ms,num_turns
+animation-fouc,cold,1,fail,False,0,0,,1586,357,62833,2,16461,2
+animation-fouc,lore,1,fail,True,0,0,,12901,446,63025,3,20352,2
+animation-fouc,cold,2,fail,False,0,0,,952,329,63793,2,20407,3
+animation-fouc,cold,3,fail,False,0,0,,944,146,63473,2,17508,3
+animation-fouc,lore,2,fail,True,0,0,,11692,280,63921,3,31060,3

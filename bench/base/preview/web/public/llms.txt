@@ -1,0 +1,19 @@
+# {{NOMBRE_SITIO}}
+
+> {{DESCRIPCION}}
+
+Guía para motores de IA (GEO/AEO). Sitio de {{CLIENTE}} en https://{{DOMINIO}}.
+
+## Páginas
+<!-- TODO Fase 3: listar rutas reales con una línea cada una, p. ej.:
+- [Inicio](https://{{DOMINIO}}/): resumen del sitio.
+- [Nosotros](https://{{DOMINIO}}/nosotros/): quiénes somos.
+- [Proyectos](https://{{DOMINIO}}/proyectos/): casos.
+- [Blog](https://{{DOMINIO}}/blog/): artículos.
+-->
+
+## Contenido completo
+<!-- TODO Fase 3: si se genera, referenciar /llms-full.txt (artículos y proyectos a texto completo). -->
+
+## Contacto
+<!-- TODO Fase 2: canal de contacto real. -->

@@ -1,0 +1,26 @@
+{
+  "task": "animation-fouc",
+  "arm": "lore",
+  "trial": 1,
+  "model": "opencode/muse-spark-1.2-contributor-free",
+  "reasoning_effort": "medium",
+  "verdict": "fail",
+  "compliance": [],
+  "violation": [],
+  "text": "Leyendo CLAUDE.md y el contrato del área antes de responder.\nLeído completo. Siguiendo contrato:\n\n**Área:** Desarrollo Web — `bench/fixtures/lore/CLAUDE.md:4-5` — estándar premium.\n\n**Lore — dónde vive el criterio** `lore/` `bench/fixtures/lore/CLAUDE.md:7-17`:\n- `lore/index.md` — mapa\n- `lore/identidad.md` — estándar premium + variante SaaS\n- `lore/principios.md` — leyes invariantes + variante SaaS (acceso/Supabase/Stripe)\n- `lore/tiers.md` — eje Landing/Sitio/SaaS\n- Módulos: `animation.md`, `composicion.md`, `layout.md`, `routing.md`, `scroll.md`, `responsive.md`, `copy.md`, `testing.md`, `supabase.md`, `stripe.md`\n\n**Cómo se trabaja** `bench/fixtures/lore/CLAUDE.md:19-22`: leer antes de cualquier tarea; todo entregable se juzga contra estándar premium.\n\n**Stack** `bench/fixtures/lore/CLAUDE.md:24-28`: Next.js App Router + TypeScript · Tailwind v4 (`@theme`, sin config) · GSAP últimas versiones · SSR + API Routes en Vercel · SaaS: Supabase + Stripe.\n\n**Reglas base** `bench/fixtures/lore/CLAUDE.md:30-35`:\n- Sin Playwright — validación manual\n- `git push` solo con autorización\n- Sin env hardcodeado (error descriptivo si falta) · checks de acceso server-side · RLS siempre activo · webhook Stripe verifica firma\n\nTambién leído `C:\\Claude\\plugins\\proyectos\\lore-plugin\\CLAUDE.md` (andamiaje local, no publicable): lore/estado viven fuera del repo, `save-to-lore` decide destino, `bench/` fuera de barridos `C:\\Claude\\plugins\\proyectos\\lore-plugin\\CLAUDE.md:46`.\n\nListo para tarea bajo este contrato. ¿Qué entregable ejecutamos?",
+  "error": false,
+  "stderr": "",
+  "read_lore": true,
+  "tool_calls": 3,
+  "cost_usd": null,
+  "input_tokens": 12901,
+  "output_tokens": 446,
+  "cache_read": 63025,
+  "duration_ms": 20352,
+  "num_turns": 2,
+  "tools": [
+    "read {\"filePath\": \"C:\\\\Claude\\\\plugins\\\\proyectos\\\\lore-plugin\\\\bench\\\\fixtures\\\\lore\\\\CLAUDE.md\"}",
+    "read {\"filePath\": \"C:\\\\Claude\\\\plugins\\\\proyectos\\\\lore-plugin\\\\CLAUDE.md\"}",
+    "read {\"filePath\": \"C:\\\\Claude\\\\plugins\\\\proyectos\\\\lore-plugin\\\\bench\\\\fixtures\\\\lore\\\\lore\\\\index.md\"}"
+  ]
+}

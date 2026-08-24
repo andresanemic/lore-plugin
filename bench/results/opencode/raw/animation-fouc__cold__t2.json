@@ -1,0 +1,25 @@
+{
+  "task": "animation-fouc",
+  "arm": "cold",
+  "trial": 2,
+  "model": "opencode/muse-spark-1.2-contributor-free",
+  "reasoning_effort": "medium",
+  "verdict": "fail",
+  "compliance": [],
+  "violation": [],
+  "text": "Leyendo tu CLAUDE.md completo para seguir su contrato.\nLeídos ambos `CLAUDE.md`:\n\n**Fixture `bench/fixtures/cold` — Desarrollo Web (fuente de verdad acá):**\n- Cómo se trabaja: leer este archivo antes de cualquier tarea; todo entregable contra estándar premium del área.\n- Stack: Next.js (App Router) + TypeScript, Tailwind v4 (`@theme`, sin config), GSAP — últimas versiones sin pins. SSR + API Routes en Vercel. SaaS: Supabase (auth/Postgres/storage) + Stripe (suscripciones/webhooks/portal).\n- Reglas: sin Playwright (validación manual por usuario), `git push` solo con autorización, sin env hardcodeado (error descriptivo si falta), chequeos de acceso server-side, RLS siempre activo, webhook Stripe verifica firma.\n\n**Repo raíz `lore-plugin` — andamiaje local (no se publica):**\n- Criterio vive fuera del repo (`../../andamiaje/lore-plugin/...`), `save-to-lore` decide destino.\n- Antes de tocar código: `lore/trabajo-local.md`, contar capacidades `specs/` vs notas de versión, `npm test` (3 fallos previos conocidos en `FASES.md`).\n- Reglas: nada se publica por iniciativa propia, `bench/` fuera de barridos de vocabulario, notas publicadas no se reescriben, cifras derivadas de fuente.\n\nContrato activo para esta sesión: el de `Desarrollo Web`. Listo para trabajar bajo esas reglas — decime la tarea.",
+  "error": false,
+  "stderr": "",
+  "read_lore": false,
+  "tool_calls": 2,
+  "cost_usd": null,
+  "input_tokens": 952,
+  "output_tokens": 329,
+  "cache_read": 63793,
+  "duration_ms": 20407,
+  "num_turns": 3,
+  "tools": [
+    "read {\"filePath\": \"C:\\\\Claude\\\\plugins\\\\proyectos\\\\lore-plugin\\\\bench\\\\fixtures\\\\cold\\\\CLAUDE.md\"}",
+    "read {\"filePath\": \"C:\\\\Claude\\\\plugins\\\\proyectos\\\\lore-plugin\\\\CLAUDE.md\"}"
+  ]
+}

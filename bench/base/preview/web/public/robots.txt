@@ -1,0 +1,24 @@
+# robots.txt — estático (la API de robots de Next no emite directivas custom).
+# TODO: confirmar dominio al desplegar.
+
+User-agent: *
+Allow: /
+
+# Bots de IA — permitir explícitamente (GEO/AEO).
+User-agent: GPTBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+
+# Señal de uso de contenido (preferencias para IA).
+Content-Signal: search=yes, ai-train=no
+
+Sitemap: https://{{DOMINIO}}/sitemap.xml

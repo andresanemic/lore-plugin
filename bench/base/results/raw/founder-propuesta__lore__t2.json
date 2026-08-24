@@ -1,0 +1,22 @@
+{
+  "task": "founder-propuesta",
+  "arm": "lore",
+  "trial": 2,
+  "model": "opencode/muse-spark-1.2-contributor-free",
+  "reasoning_effort": "medium",
+  "verdict": "n/a",
+  "compliance": [],
+  "violation": [],
+  "text": "",
+  "error": true,
+  "stderr": "",
+  "read_lore": false,
+  "tool_calls": 0,
+  "cost_usd": null,
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "cache_read": 0,
+  "duration_ms": 80965,
+  "num_turns": 0,
+  "tools": []
+}
