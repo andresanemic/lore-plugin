@@ -1,4 +1,3 @@
-<a id="english"></a>
 
 <p align="center">
   <img src="https://i.imgur.com/DWYL7vz.png" alt="Lore" width="100%">
@@ -30,6 +29,11 @@
 </p>
 
 ---
+
+<details>
+<summary><b>Read in English</b></summary>
+
+<a id="english"></a>
 
 ## The problem
 
@@ -597,9 +601,9 @@ Lore was not designed ahead of time: every decision in this kit came from applyi
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/1%2C804-clones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="1,804 clones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/47-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="47 days"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~30-a_day-F94F79?style=for-the-badge&labelColor=0B0B12" alt="30 a day"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/1%2C916-clones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="1,916 clones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/50-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="50 days"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~38-a_day-F94F79?style=for-the-badge&labelColor=0B0B12" alt="38 a day"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-peak-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 peak"></a>
 </p>
 
@@ -715,7 +719,12 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
   <a href="mailto:andres@healthproof.cl"><img src="https://img.shields.io/badge/Email-andres@healthproof.cl-35E5F5?style=for-the-badge&logo=gmail&logoColor=0B0B12&labelColor=0B0B12" alt="Email"></a>
 </p>
 
+</details>
+
 ---
+
+<details>
+<summary><b>Leer en español</b></summary>
 
 <a id="español"></a>
 
@@ -1305,9 +1314,9 @@ Lore no se diseñó de antemano: cada decisión salió de aplicarlo a proyectos 
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/1%2C804-clonaciones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="1.804 clonaciones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/47-d%C3%ADas-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="47 días"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~30-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="30 al día"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/1%2C916-clonaciones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="1.916 clonaciones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/50-d%C3%ADas-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="50 días"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~38-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="38 al día"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-pico-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 pico"></a>
 </p>
 
@@ -1424,3 +1433,5 @@ la dictó desde 2023 hasta 2025. **Speaker en [KCD El Salvador
   <img src="https://img.shields.io/badge/Discord-andresanemic-F94F79?style=for-the-badge&logo=discord&logoColor=0B0B12&labelColor=0B0B12" alt="Discord">
   <a href="mailto:andres@healthproof.cl"><img src="https://img.shields.io/badge/Email-andres@healthproof.cl-35E5F5?style=for-the-badge&logo=gmail&logoColor=0B0B12&labelColor=0B0B12" alt="Email"></a>
 </p>
+
+</details>
