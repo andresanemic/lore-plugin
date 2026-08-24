@@ -1,6 +1,6 @@
 ---
 name: use-lore
-description: Read this first to understand the Lore system — what Lore is, the six-piece standard, the area↔project model, and which of the Lore skills (brainstorming-lore, create-area, create-project, create-bot, save-to-lore, transmute-lore, obsidian-lore) to invoke when. Carries the kit's threshold for its very first use on a machine with no Lore yet (a brainstorm, never a menu of commands) and the standard that governs every later one — the skill that owns an artifact is always invoked to write it, and the version that runs is the installed, up-to-date one. Use when the user mentions "lore", asks how this kit works, installs or updates the plugin, starts a new work area, project or bot, wants to migrate an old project to the Lore standard, or keeps Obsidian notes in the same folder tree.
+description: Use when the user mentions "lore", asks how this kit or its skills work, installs or updates the plugin, is unsure which Lore skill to invoke, starts a new work area, project or bot, wants to migrate an old project to the Lore standard, or keeps Obsidian notes in the same folder tree as their Lore.
 ---
 
 # Using Lore

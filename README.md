@@ -17,6 +17,7 @@
 <p align="center">
   <a href="#installation"><img src="https://img.shields.io/badge/version-2.3.0-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/AI_provider-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="AI provider: neutral"></a>
+  <a href="#the-eight-skills"><img src="https://img.shields.io/badge/writing--skills-validated-63C49B?style=for-the-badge&labelColor=0B0B12" alt="Validated against writing-skills"></a>
   <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
   <a href="#obsidian-notes"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Obsidian compatible"></a>
@@ -414,7 +415,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** It is no
 
 ## The eight skills
 
-Each skill is validated against Superpowers' `writing-skills` discipline before it ships — the quality bar for this kit, not a claim made once and forgotten.
+**This kit moves with Superpowers' `writing-skills` discipline, not past it.** Every skill is checked against it before it ships, every time it changes — the badge above is not a one-time certificate, it is how this kit stays a kit worth trusting.
 
 > **The skills are written in English; the Lore they produce is not** — content and filenames included, in your language. The English in a `SKILL.md` is the portable substrate that lets the kit run on other hosts, not the language of the kit. Do not open one to explain a mode to someone (we learned this in Case 12, live) — that is what the table and the two docs below are for.
 
@@ -733,6 +734,7 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 <p align="center">
   <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.3.0-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/proveedor_IA-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Proveedor IA: neutral"></a>
+  <a href="#las-ocho-skills"><img src="https://img.shields.io/badge/writing--skills-validado-63C49B?style=for-the-badge&labelColor=0B0B12" alt="Validado contra writing-skills"></a>
   <a href="./docs/SPEC_KIT_es.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
   <a href="#notas-obsidian"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Compatible con Obsidian"></a>
@@ -1123,7 +1125,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 ## Las ocho skills
 
-Cada skill se valida contra la disciplina `writing-skills` de Superpowers antes de publicarse — esa es la vara de calidad de este kit, no una afirmación hecha una vez y olvidada.
+**Este kit avanza junto a la disciplina `writing-skills` de Superpowers, no por delante de ella.** Cada skill se revisa contra esa disciplina antes de publicarse, cada vez que cambia — la insignia de arriba no es un certificado de una sola vez, es cómo este kit se mantiene siendo uno del que se puede confiar.
 
 > **Las skills están escritas en inglés y el Lore que producen, no** — contenido y nombres de archivo incluidos, en tu idioma. El inglés del `SKILL.md` es el sustrato portable con el que el kit funciona en otros hosts, no el idioma del kit. No abras uno para explicarle a alguien qué hace un modo (lo aprendimos en el Caso 12, en vivo) — para eso está la tabla y los dos docs de abajo.
 
