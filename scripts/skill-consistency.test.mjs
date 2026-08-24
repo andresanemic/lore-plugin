@@ -391,6 +391,97 @@ test("los enlaces Markdown locales de la documentación resuelven", () => {
   }
 });
 
+// El test de arriba salta los enlaces que empiezan con `#` y trunca el ancla de los demas.
+// Ese hueco dejo seis anclas rotas en la tabla espanola del README con las 99 pruebas en verde:
+// apuntaban al encabezado ingles homonimo, porque GitHub numera el duplicado (`#use-lore-1`).
+function githubAnchors(text) {
+  const anchors = new Set();
+  const seen = new Map();
+  for (const line of text.split(/\r?\n/)) {
+    const heading = line.match(/^(#{1,6})\s+(.*)$/);
+    if (heading) {
+      const base = heading[2]
+        .replace(/<[^>]+>/g, "")
+        .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+        .replace(/[`*_~]/g, "")
+        .trim()
+        .toLowerCase()
+        .replace(/[^\p{L}\p{N}\s-]/gu, "")
+        .replace(/\s/g, "-");
+      const n = seen.get(base) ?? 0;
+      seen.set(base, n + 1);
+      anchors.add(n === 0 ? base : `${base}-${n}`);
+    }
+    for (const tag of line.matchAll(/<a\s+(?:name|id)=["']([^"']+)["']/g)) anchors.add(tag[1].toLowerCase());
+  }
+  return anchors;
+}
+
+test("las anclas internas de la documentación apuntan a un encabezado que existe", () => {
+  const anchorsByFile = new Map();
+  const anchorsOf = (file) => {
+    if (!anchorsByFile.has(file)) anchorsByFile.set(file, githubAnchors(readFileSync(file, "utf8")));
+    return anchorsByFile.get(file);
+  };
+  for (const file of docs) {
+    const absolute = join(root, file);
+    const text = readFileSync(absolute, "utf8");
+    for (const match of text.matchAll(/!?\[[^\]]*\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g)) {
+      const href = match[1];
+      if (/^(?:https?:|mailto:)/.test(href)) continue;
+      const hash = href.indexOf("#");
+      if (hash === -1) continue;
+      const anchor = decodeURIComponent(href.slice(hash + 1)).toLowerCase();
+      if (!anchor) continue;
+      const target = hash === 0 ? absolute : resolve(dirname(absolute), decodeURI(href.slice(0, hash)));
+      if (!existsSync(target)) continue; // ya lo cubre el test de enlaces locales
+      assert.ok(anchorsOf(target).has(anchor), `${file}: ancla inexistente ${href}`);
+    }
+  }
+});
+
+// Verificar que el ancla EXISTE no basta, y este es el caso que lo probo: `#use-lore` existe
+// —es el encabezado ingles— asi que la tabla espanola apuntaba a el y saltaba al otro idioma.
+// Un ancla duplicada entre los dos bloques solo se distingue por el lado del que cae.
+test("el README bilingüe no enlaza de un idioma al ancla del otro", () => {
+  const text = readFileSync(join(root, "README.md"), "utf8");
+  const lines = text.split(/\r?\n/);
+  const spanishStart = lines.findIndex((line) => /<a id="español">/.test(line));
+  assert.ok(spanishStart > 0, "no se encontró el marcador que abre el bloque español");
+
+  const anchorLine = new Map();
+  const seen = new Map();
+  lines.forEach((line, index) => {
+    const heading = line.match(/^(#{1,6})\s+(.*)$/);
+    if (!heading) return;
+    const base = heading[2]
+      .replace(/<[^>]+>/g, "")
+      .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+      .replace(/[`*_~]/g, "")
+      .trim()
+      .toLowerCase()
+      .replace(/[^\p{L}\p{N}\s-]/gu, "")
+      .replace(/\s/g, "-");
+    const n = seen.get(base) ?? 0;
+    seen.set(base, n + 1);
+    anchorLine.set(n === 0 ? base : `${base}-${n}`, index);
+  });
+
+  const side = (index) => (index < spanishStart ? "inglés" : "español");
+  lines.forEach((line, index) => {
+    for (const match of line.matchAll(/\]\((#[^)\s]+)\)/g)) {
+      const anchor = decodeURIComponent(match[1].slice(1)).toLowerCase();
+      const target = anchorLine.get(anchor);
+      if (target === undefined) return; // ausencia: la cubre el test de anclas internas
+      assert.equal(
+        side(target),
+        side(index),
+        `README.md:${index + 1}: enlace ${match[1]} salta al bloque ${side(target)} desde el ${side(index)}`,
+      );
+    }
+  });
+});
+
 test("transmute-lore es un dispatcher liviano — los 8 modos viven en modes/, no en SKILL.md", () => {
   const raw = readFileSync(join(skillsRoot, "transmute-lore", "SKILL.md"), "utf8");
   const words = raw.trim().split(/\s+/).length;

@@ -43,11 +43,11 @@ where that stays.
 
 You open a session. You explain, again, what the project is for. Which approach you already tried and why you dropped it.
 
+Phil Connors wakes up to the same radio every February 2nd and nobody in Punxsutawney remembers a thing about yesterday — only he does. Your agent stands on the other side of that scene: it is the town, not Phil. Every session opens on the same morning, and the one who walks in carrying the memory is you, again, for free.
+
 Meanwhile, the things you actually paid to learn keep piling up: architecture decisions, production incidents, failed experiments, dozens of *"let's never do that again"* moments. That is the real cost — and **none of it survives the session**.
 
 It is a loop of re-explanations and mediocre solutions you had already rejected. Lore calls this **ephemeral experience**: the facts may survive, but the learning never became a reusable structure.
-
-> **Groundhog Day (1993).** The world resets and **the only thing that crosses the reset is what Phil learned** — the facts are wiped every February 2nd, the criteria are not. For an agent without Lore, every session is a February 2nd.
 
 ---
 
@@ -156,11 +156,10 @@ card”: portable across models, usable wherever Markdown instructions are accep
 your terms and extractable back into a working folder. It is a snapshot, never a replacement for
 the live Lore.
 
-> **Camus** put it harder than Waxahatchee's *Fire* does: *a system of criteria does not reduce the absurd — it knows what to do when the absurd shows up.* Lore does not promise the report will not fail. It promises there is a next step for when it does. (Where each one's limit sits is arbitrated in the [genealogy](#origin).)
+What none of that promises is that the work will come out right. *Fire* is Waxahatchee singing about the kind of growing up that consists of moving without the whole picture, and that is the honest description of what accumulated criteria buys you: not the end of uncertainty, only a smaller space of ways to be wrong. Camus said the harder half — *a system of criteria does not reduce the absurd; it knows what to do when the absurd shows up.* Lore does not promise the deploy holds. It promises there is a next step for the morning it does not, and that you chose that step back when you still had time to think. (Where each of them stops being usable is arbitrated in the [genealogy](#origin).)
 
 A README answers *"what is this?"*. Lore answers something else: **What did we learn that we should never have to learn again?**
 
-> [!IMPORTANT]
 > **If a sentence does not constrain a future decision, it is not Lore.** That rule is the whole filter, and it is what keeps the system from becoming another graveyard of documents.
 
 ---
@@ -198,9 +197,7 @@ The event is forgotten. The criteria keeps working.
   <img src="https://i.imgur.com/y3fsT7D.png" alt="Lore" width="100%">
 </p>
 
-Each step in the loop passes a **threshold**: it is proposed, you approve, and only then it is written.
-
-> **Stalker (1979).** The Stalker throws a nut ahead before every step and walks to where it lands — not going straight at the solution is how the Zone lets you reach it. Propose, then approve, then write: the loop does not go straight either.
+In *Stalker*, the guide crosses the Zone by tossing a nut wrapped in gauze a few metres ahead and walking to wherever it lands. The straight line to the room is visible the entire film, and the straight line is the one that kills. Every step of this loop moves the same way: it is proposed, you approve, and only then is it written. **That gate is the threshold**, and it is the reason nothing reaches your Lore that you did not read first.
 
 So that is the mechanism: not documentation, not a memory dump — a threshold between what happened and what gets to constrain tomorrow. What is still missing is the shape it lives in, and how you get it running.
 
@@ -294,7 +291,7 @@ Replace `all` with `claude` or `codex` to target only one CLI. The installer con
 
 Then open a new CLI session. **If this is your first time, you do not need to know a single command** — write *«I want to start using Lore Plugin, help me»* and the kit opens a **brainstorming, not a menu**: it looks at your tree first, asks one question at a time, and ends with your **first artifact created**, never with a recommendation. If you already know what you want, `use-lore` routes you.
 
-> **Loving — Land of Talk.** A fertile bond does not fuse its parts, nor does it spare them friction. It makes possible what neither side would have produced alone — which is the whole point of asking one question at a time instead of handing you a form.
+One question at a time is not a courtesy, and a form would be faster. Land of Talk's *Loving* keeps circling a bond that holds two people without dissolving either of them — no fusion, and no sparing each other the friction — and that is the shape being copied here: the questions are what keep you and the model two things instead of one, long enough for an answer neither of you had alone.
 
 ## What it looks like in practice
 
@@ -349,10 +346,11 @@ Each has one responsibility. None duplicates another.
 
 > **Lore is criteria (it persists); `FASES.md` is state (it advances).** They never mix, and `FASES.md` never lives inside `lore/`.
 
-Identity and state stay separate because they age at different speeds: one constrains the work; the
-other says where it currently stands.
-
-> **50 First Dates (2004).** Every morning, Lucy watches a video that tells her who she is and where things stand before she does anything else. Your Lore is that video: the part of you that has to survive the reset, watched first, every time.
+Lucy, in *50 First Dates*, wakes with no memory of the past year and watches a video before she does
+anything else. It works because it hands her both halves at once — who she is, and where things
+stand — and because it keeps them apart: one of the two will still be true next month and the other
+will not. Identity and state age at different speeds. Your Lore is that video; `FASES.md` is the
+part of it that has to be re-shot.
 
 The canonical names are Spanish; in your language they are localized.
 
@@ -551,7 +549,7 @@ the agent gets better. Here, **the person does.** Lore's criteria live in files 
 language, and nothing enters them without you approving it with the content in view. If you want a
 system that learns behind your back, this is not it, and it never will be.
 
-> **"1998" — Chet Faker with BANKS.** Entered the kit's own genealogy after a real failure: a README asked to shrink 40% came back near 80%. It names what breaks the moment a human instruction stops being a reliable floor and collaborating turns into supervising — which is exactly the failure these six rules exist to make structurally impossible.
+Those rules are not abstract, and one of them was bought. A README was asked to shrink by 40% and came back cut by nearly 80%. What broke that afternoon was not a number — it was that a human instruction had stopped being a floor anyone could stand on, and collaborating had quietly turned into supervising. Chet Faker and BANKS wrote *"1998"* about the version of that feeling between two people, and the kit keeps it in its own genealogy, because the six rules above exist to make that afternoon structurally impossible.
 
 ---
 
@@ -661,15 +659,13 @@ They are interlocutors, **not borrowed authority**: LUS uses them to expose conv
 
 <br>
 
-**The dialogue that widens it**
+Four interlocutors who widen the frame, and two more that were read straight against LUS — those
+two carry, inside the entry, where the source loses.
 
 - **Edwin Hutchins** · *Cognition in the Wild* (1995) — **distributed cognition**: the unit that thinks is the system, not the head inside it.
 - **Daniel Wegner** · transactive memory (1985) — **who remembers what**: a pair remembers more than its two members, and only while it knows who holds which part.
 - **Karl Weick** · *Sensemaking in Organizations* (1995) — **sensemaking**: meaning is made retrospectively, which is why a clue is written after the friction and not during it.
 - **Heinz von Foerster** · *Understanding Understanding* (2003) — **second-order cybernetics**: the observer is inside the system being described.
-
-**Arbitrated in 2026 — and the two results are not the same**
-
 - **Albert Camus** · *The Myth of Sisyphus* (1942) · *The Stranger* (1942) · *The Misunderstanding* (1944) · *The Rebel* (1951) · *Summer* (1954), for "Helen's Exile" and "The Almond Trees" — **entered as criterion, in one affirmation**: *a system of criteria does not reduce the absurd; it knows what to do when it appears.* The play carries it: a mother and sister kill the son who came home **because he would not say his name** — no malice, no faulty reasoning, only what was known failing to reach where it was decided. **Where Camus loses:** his *mesure* is an ethical-political limit on rebellion, not an epistemic rule of routing. It enters as a declared analogy and grounds no routing rule.
 - **Martin Heidegger** · *Being and Time* (1927) — **entered as bibliography, and NOT as criterion.** Finitude assumed is what makes an existence authentic, and the intuition it was brought in for is that **the Between is finite too**. But in *Being and Time* death is *je meines* — radically one's own, **not shareable** — and that incompartibility is the engine of the argument: death **individualizes**. The unit of LUS is the relation. Adopting it would mean contradicting Heidegger exactly where his thesis rests, and that work is not done. **What he leaves open is worth more than anything adoptable today:** how can a relation anticipate an ending that neither of its parts can anticipate on the other's behalf?
 
@@ -765,11 +761,11 @@ permanece.
 
 Abres una sesión. Explicas, otra vez, para qué es el proyecto. Qué camino ya probaste y por qué lo descartaste.
 
+Phil Connors despierta con la misma radio cada 2 de febrero y nadie en el pueblo recuerda nada de lo de ayer — solo él. Tu agente está del otro lado de esa escena: es el pueblo, no Phil. Cada sesión abre en la misma mañana, y el único que entra con memoria eres tú, de nuevo, gratis.
+
 Mientras tanto, lo que de verdad te costó aprender se sigue acumulando: decisiones de arquitectura, incidentes en producción, experimentos fallidos, decenas de momentos de *«nunca volvamos a hacer esto»*. Ese es el costo real — y **nada de eso sobrevive a la sesión**.
 
 Es un bucle de reexplicaciones y soluciones mediocres que ya habías descartado. Lore llama a esto **experiencia efímera**: los datos pueden sobrevivir, pero el aprendizaje nunca se convirtió en una estructura reutilizable.
-
-> **El día de la marmota (1993)**. El mundo se reinicia y **lo único que atraviesa el reinicio es lo que Phil aprendió**: los hechos se borran cada 2 de febrero, el criterio no. Para un agente sin Lore, cada sesión es un 2 de febrero.
 
 ---
 
@@ -878,11 +874,10 @@ Markdown: portable entre modelos, utilizable donde se acepten instrucciones Mark
 en tus términos y extraíble de vuelta a una carpeta de trabajo. Es una fotografía, nunca un
 reemplazo del Lore vivo.
 
-> **Camus** lo dijo más duro que *Fire* de Waxahatchee: *un sistema de criterio no reduce el absurdo — sabe qué hacer cuando el absurdo aparece.* Lore no promete que el informe no va a fallar. Promete que hay un paso siguiente para cuando falle. (Dónde queda el límite de cada uno se arbitra en la [genealogía](#origen).)
+Nada de eso promete que el trabajo salga bien. *Fire* es Waxahatchee cantando esa forma de madurar que consiste en avanzar sin la visión completa, y esa es la descripción honesta de lo que compra el criterio acumulado: no el fin de la incertidumbre, apenas un espacio más chico de maneras de equivocarse. Camus dijo la mitad más dura — *un sistema de criterio no reduce el absurdo; sabe qué hacer cuando el absurdo aparece.* Lore no promete que el despliegue aguante. Promete que hay un paso siguiente para la mañana en que no aguante, y que ese paso lo elegiste cuando todavía tenías tiempo de pensarlo. (Dónde deja de servir cada uno se arbitra en la [genealogía](#origen).)
 
 Un README responde *«¿qué es esto?»*. Lore responde otra cosa: **¿Qué aprendimos que nunca deberíamos tener que volver a aprender?**
 
-> [!IMPORTANT]
 > **Si una frase no restringe una decisión futura, no es Lore.** Esa regla es todo el filtro, y es lo que impide que el sistema se convierta en otro cementerio de documentos.
 
 ---
@@ -920,10 +915,7 @@ El acontecimiento se olvida. El criterio sigue trabajando.
   <img src="https://i.imgur.com/I7odxus.png" alt="Lore" width="100%">
 </p>
 
-Cada paso del ciclo pasa por un **umbral**: se propone, tú apruebas y recién entonces se escribe. Un umbral no se cruza en solitario. La máquina propone con el contenido a la vista, el humano
-aprueba, y recién entonces se escribe algo. 
-
-> **Stalker (1979).** El Stalker tira una tuerca adelante antes de cada paso y camina hasta donde cae — no ir directo a la solución es lo que permite atravesar la Zona. Proponer, después aprobar, después escribir: el ciclo tampoco va directo.
+En *Stalker*, el guía atraviesa la Zona lanzando unos metros por delante una tuerca envuelta en una venda y caminando hasta donde cayó. La línea recta hacia la habitación se ve durante toda la película, y la línea recta es la que mata. Cada paso de este ciclo avanza igual: la máquina propone con el contenido a la vista, tú apruebas y recién entonces se escribe. **Esa puerta es el umbral**, y es la razón de que nada llegue a tu Lore sin que lo hayas leído antes.
 
 ---
 
@@ -1015,7 +1007,7 @@ Reemplaza `all` por `claude` o `codex` para preparar solo una CLI. El instalador
 
 Después abre una sesión nueva en la CLI. **Si es tu primera vez, no necesitas saber ningún comando** — escribe *«quiero comenzar a usar Lore Plugin, ayúdame»* y el kit abre un **brainstorming, no un menú**: primero mira tu árbol, después pregunta de a una cosa por vez, y termina con **tu primer artefacto creado**, nunca con una recomendación. Si ya sabes qué quieres, `use-lore` te enruta.
 
-> **Loving — Land of Talk.** Un vínculo fértil no fusiona sus partes, ni las libra de la fricción. Hace posible lo que ninguno de los dos lados habría producido solo — que es exactamente el sentido de preguntar de a una cosa por vez en vez de entregarte un formulario.
+Preguntar de a una cosa por vez no es cortesía, y un formulario sería más rápido. *Loving*, de Land of Talk, da vueltas alrededor de un vínculo que sostiene a dos sin disolver a ninguno —sin fusión y sin ahorrarse la fricción—, y esa es la forma que se copia acá: las preguntas son lo que te mantiene a ti y al modelo siendo dos cosas y no una, el rato suficiente para que aparezca una respuesta que ninguno tenía por separado.
 
 ## Así se ve en la práctica
 
@@ -1068,10 +1060,11 @@ Cada uno tiene una responsabilidad. Ninguno duplica a otro.
 
 > **El Lore es criterio (persiste); `FASES.md` es estado (avanza).** Nunca se mezclan, y `FASES.md` nunca vive dentro de `lore/`.
 
-Identidad y estado permanecen separados porque envejecen a velocidades distintas: una restringe el
-trabajo; el otro dice en qué punto se encuentra.
-
-> **50 primeras citas (2004).** Cada mañana, Lucy ve un video que le dice quién es y en qué punto están las cosas antes de hacer cualquier otra cosa. Tu Lore es ese video: la parte de ti que tiene que sobrevivir al reinicio, la que se mira primero, cada vez.
+Lucy, en *50 primeras citas*, despierta sin memoria del último año y ve un video antes de hacer
+cualquier otra cosa. Funciona porque le entrega las dos mitades juntas —quién es y en qué punto
+están las cosas— y porque las mantiene separadas: una de las dos seguirá siendo cierta el mes que
+viene y la otra no. Identidad y estado envejecen a velocidades distintas. Tu Lore es ese video;
+`FASES.md` es la parte que hay que volver a grabar.
 
 #### El bloque siempre-activo
 
@@ -1140,13 +1133,13 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 | Skill | Para qué | Cuándo |
 |---|---|---|
-| [`use-lore`](#use-lore) | Punto de entrada: explica el modelo y te manda a la skill correcta | primero, siempre |
+| [`use-lore`](#use-lore-1) | Punto de entrada: explica el modelo y te manda a la skill correcta | primero, siempre |
 | [`brainstorming-lore`](#brainstorming-lore-1) | Diseña cambios en los artefactos Lore sin chocar con skills generales de brainstorming | antes de crear o reestructurar Lore de forma material |
-| [`create-area`](#create-area) | Crea un Área con su Lore compartido | al abrir un dominio nuevo |
-| [`create-project`](#create-project) | Crea un proyecto que hereda del Área | al empezar un trabajo |
-| [`save-to-lore`](#save-to-lore) | Destila una lección y decide si sube al Área | todos los días |
-| [`transmute-lore`](#transmute-lore) | Migra, limpia, traduce, actualiza, poda o exporta una fotografía segura del Lore | al heredar, mantener, actualizar o compartir Lore |
-| [`create-bot`](#create-bot) | Un lugar donde abrir sesión y trabajar sobre varias Áreas a la vez | desde cero, o cuando ya hay Lore que federar |
+| [`create-area`](#create-area-1) | Crea un Área con su Lore compartido | al abrir un dominio nuevo |
+| [`create-project`](#create-project-1) | Crea un proyecto que hereda del Área | al empezar un trabajo |
+| [`save-to-lore`](#save-to-lore-1) | Destila una lección y decide si sube al Área | todos los días |
+| [`transmute-lore`](#transmute-lore-1) | Migra, limpia, traduce, actualiza, poda o exporta una fotografía segura del Lore | al heredar, mantener, actualizar o compartir Lore |
+| [`create-bot`](#create-bot-1) | Un lugar donde abrir sesión y trabajar sobre varias Áreas a la vez | desde cero, o cuando ya hay Lore que federar |
 | [`obsidian-lore`](#notas-obsidian) | Mina tus notas sueltas y enruta lo que sobrevive | cuando la bandeja pesa |
 
 **El primer día necesitas dos de estas:** `use-lore` te enruta hacia lo que sigue, y `save-to-lore`
@@ -1262,7 +1255,7 @@ contraria: ahí mejora el agente. Acá **mejoras tú.** El criterio de Lore vive
 tuyos, en tu idioma, y nada entra en ellos sin que lo apruebes con el contenido a la vista. Si
 quieres un sistema que aprenda a tus espaldas, este no es, y no va a serlo.
 
-> **«1998» — Chet Faker con BANKS.** Entró a la genealogía propia del kit después de un fracaso real: un README al que se le pidió encoger 40% volvió casi al 80%. Nombra lo que se rompe en el momento en que una instrucción humana deja de ser un piso confiable y colaborar se vuelve supervisar — exactamente el fracaso que estas seis reglas existen para volver estructuralmente imposible.
+Esas reglas no son abstractas, y una de ellas se pagó. A un README se le pidió encoger un 40% y volvió recortado casi al 80%. Lo que se rompió esa tarde no fue una cifra — fue que una instrucción humana dejó de ser un piso donde pararse, y colaborar se había vuelto, sin que nadie lo anunciara, supervisar. Chet Faker y BANKS escribieron *«1998»* sobre la versión de esa sensación entre dos personas, y el kit la conserva en su propia genealogía, porque las seis reglas de arriba existen para volver esa tarde estructuralmente imposible.
 
 ---
 
@@ -1374,15 +1367,13 @@ Son interlocutores, **no autoridad prestada**: LUS los usa para hacer visibles c
 
 <br>
 
-**El diálogo que la amplía**
+Cuatro interlocutores que amplían el marco, y dos más que se leyeron de frente contra LUS — esos
+dos llevan escrito, dentro de la entrada, dónde pierde la fuente.
 
 - **Edwin Hutchins** · *Cognition in the Wild* (1995) — **cognición distribuida**: la unidad que piensa es el sistema, no la cabeza que está adentro.
 - **Daniel Wegner** · memoria transactiva (1985) — **quién recuerda qué**: una pareja recuerda más que sus dos miembros, y solo mientras sepa quién guarda cada parte.
 - **Karl Weick** · *Sensemaking in Organizations* (1995) — el **sentido se construye hacia atrás**, que es por qué una Pista se escribe después de la fricción y no durante.
 - **Heinz von Foerster** · *Understanding Understanding* (2003) — **cibernética de segundo orden**: el observador está adentro del sistema que describe.
-
-**Arbitrados en 2026 — y los dos resultados no son el mismo**
-
 - **Albert Camus** · *El mito de Sísifo* (1942) · *El extranjero* (1942) · *El malentendido* (1944) · *El hombre rebelde* (1951) · *El verano* (1954), por «El exilio de Helena» y «Los almendros» — **entró como criterio, en una sola afirmación**: *un sistema de criterio no reduce el absurdo; sabe qué hacer cuando aparece.* La obra de teatro lo lleva adentro: una madre y una hermana matan al hijo que volvió **porque él no dice su nombre** — sin malicia y sin error de razonamiento, solo lo que se sabía sin llegar a donde se decidía. **Dónde pierde Camus:** su *mesure* es un límite ético-político a la rebelión, no una regla epistémica de enrutamiento. Entra como analogía declarada y no funda ninguna regla de enrutamiento.
 - **Martin Heidegger** · *Ser y tiempo* (1927) — **entró como bibliografía, y NO como criterio.** La finitud asumida es lo que vuelve auténtica una existencia, y la intuición que lo trajo a esta mesa es que **el Entre también es finito**. Pero en *Ser y tiempo* la muerte es *je meines* —radicalmente propia, **no compartible**— y esa incompartibilidad es el motor del argumento: la muerte **individualiza**. La unidad de LUS es la relación. Adoptarlo exigiría contradecir a Heidegger justo donde su tesis se apoya, y ese trabajo no está hecho. **Lo que deja abierto vale más que cualquier cosa adoptable hoy:** ¿cómo puede una relación anticipar un final que ninguna de sus partes puede anticipar por la otra?
 

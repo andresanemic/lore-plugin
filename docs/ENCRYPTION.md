@@ -22,8 +22,7 @@ what is expensive stops being consulted.
 
 ## What it does not protect
 
-> [!CAUTION]
-> It has **not been audited**, has no key rotation and no revocation. It protects the repository and
+> **It has not been audited**, has no key rotation and no revocation. It protects the repository and
 > the transport, **not** against someone holding the passphrase, and it does not cover what an AI
 > tool does with the text once loaded into its context.
 
@@ -57,7 +56,6 @@ donde el agente consulta no prohíbe leer, **encarece** leer, y lo caro deja de 
 
 ## Qué no protege
 
-> [!CAUTION]
 > **No ha sido auditado**, no tiene rotación de claves ni revocación. Protege el repositorio y el
 > tránsito, **no** contra quien tiene la passphrase, y no cubre lo que una herramienta de IA hace con
 > el texto una vez cargado en su contexto.
