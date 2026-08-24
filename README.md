@@ -16,12 +16,11 @@
 
 <p align="center">
   <a href="#installation"><img src="https://img.shields.io/badge/version-2.3.0-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
-  <a href="#installation"><img src="https://img.shields.io/badge/AI_agents-provider--neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Provider-neutral AI agents"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/AI_provider-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="AI provider: neutral"></a>
   <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
-  <a href="#obsidian--the-way-in"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Obsidian compatible"></a>
+  <a href="#obsidian-notes"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Obsidian compatible"></a>
   <a href="#origin"><img src="https://img.shields.io/badge/research-active-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Status"></a>
-  <a href="#shared-invariants"><img src="https://img.shields.io/badge/local_only-no_network-FF6685?style=for-the-badge&labelColor=0B0B12" alt="Local only, no network"></a>
 </p>
 
 <p align="center">
@@ -43,7 +42,7 @@ Meanwhile, the things you actually paid to learn keep piling up: architecture de
 
 It is a loop of re-explanations and mediocre solutions you had already rejected. Lore calls this **ephemeral experience**: the facts may survive, but the learning never became a reusable structure.
 
-> The picture is *Groundhog Day*. The world resets and **the only thing that crosses the reset is what Phil learned** — the facts are wiped every February 2nd, the criteria are not. Every session of an agent is a February 2nd.
+> **Groundhog Day (1993).** The world resets and **the only thing that crosses the reset is what Phil learned** — the facts are wiped every February 2nd, the criteria are not. For an agent without Lore, every session is a February 2nd.
 
 ---
 
@@ -108,7 +107,7 @@ It is a loop of re-explanations and mediocre solutions you had already rejected.
 
 [Architecture](#architecture) ·
 [The eight skills](#the-eight-skills) ·
-[Obsidian](#obsidian--the-way-in) ·
+[Obsidian](#obsidian-notes) ·
 [Documentation](#documentation)
 
 </td>
@@ -269,11 +268,9 @@ Replace `all` with `claude` or `codex` to target only one CLI. The installer con
 
 Then open a new CLI session. **If this is your first time, you do not need to know a single command** — write *«I want to start using Lore Plugin, help me»* and the kit opens a **brainstorming, not a menu**: it looks at your tree first, asks one question at a time, and ends with your **first artifact created**, never with a recommendation. If you already know what you want, `use-lore` routes you.
 
-> **Using another AI tool?** Each skill is a Markdown file with a YAML header. Copy the skill folder into that tool's supported skills directory, or use its body as agent instructions. The six-piece architecture and the Area↔Project model are provider-neutral conventions, not code.
-
 ## What it looks like in practice
 
-You just shipped a landing page and the feedback is: "I didn't know what to do next." The CTA was below the fold and the headline talked about the product, not the outcome. You fixed it. Instead of closing the tab:
+You just shipped a landing page and the feedback is: "I didn't know what to do on the page." The CTA was below the fold and the headline talked about the product, not the outcome. You fixed it. Instead of closing the tab:
 
 ```text
 › save to lore
@@ -405,7 +402,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** It is no
 | [`save-to-lore`](#save-to-lore) | Distills a lesson and decides whether it rises to the Area | every day |
 | [`transmute-lore`](#transmute-lore) | Migrates, cleans, translates, upgrades, prunes or exports a safe snapshot of Lore | inheriting, maintaining, updating or sharing Lore |
 | [`create-bot`](#create-bot) | One place to open a session and work across several Areas at once | from zero, or once there is Lore to federate |
-| [`obsidian-lore`](#obsidian--the-way-in) | Mines loose notes and routes what survives | once the inbox gets heavy |
+| [`obsidian-lore`](#obsidian-notes) | Mines loose notes and routes what survives | once the inbox gets heavy |
 
 **Day one needs two of these:** `use-lore` routes you to whatever comes next, and `save-to-lore` is
 the one you will actually type — *"save to lore"*, after solving something that cost you. The other
@@ -414,7 +411,7 @@ use each one**, with worked examples, lives in [`USAGE_es.md`](./docs/USAGE_es.m
 mechanism and diagnostic categories** for each mode live in [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
 
 <details>
-<summary><b>What each skill does, one at a time</b> (for the mechanism — most people don't need this on day one)</summary>
+<summary><b>What each skill does</b></summary>
 
 <br>
 
@@ -512,7 +509,7 @@ as an extractable Markdown memory card.
 
 ---
 
-## Obsidian — the way in
+## Obsidian notes
 
 Point Obsidian at the **mother folder of your Areas** and add a `notes/` (or `notas/`) folder inside any project, Area or bot — the same tree is your workspace and your vault. When you want the AI to read what you left there, run:
 
@@ -780,12 +777,11 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 
 <p align="center">
   <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.3.0-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
-  <a href="#instalación"><img src="https://img.shields.io/badge/agentes_de_IA-neutral_al_proveedor-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Agentes de IA neutrales al proveedor"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/proveedor_IA-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Proveedor IA: neutral"></a>
   <a href="./docs/SPEC_KIT_es.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
-  <a href="#obsidian--la-puerta-de-entrada"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Compatible con Obsidian"></a>
+  <a href="#notas-obsidian"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Compatible con Obsidian"></a>
   <a href="#origen"><img src="https://img.shields.io/badge/investigaci%C3%B3n-activa-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Estado"></a>
-  <a href="#invariantes-compartidas"><img src="https://img.shields.io/badge/todo_local-cero_red-FF6685?style=for-the-badge&labelColor=0B0B12" alt="Todo local, cero red"></a>
 </p>
 
 <p align="center">
@@ -807,7 +803,7 @@ Mientras tanto, lo que de verdad te costó aprender se sigue acumulando: decisio
 
 Es un bucle de reexplicaciones y soluciones mediocres que ya habías descartado. Lore llama a esto **experiencia efímera**: los datos pueden sobrevivir, pero el aprendizaje nunca se convirtió en una estructura reutilizable.
 
-> La imagen es *El día de la marmota*. El mundo se reinicia y **lo único que atraviesa el reinicio es lo que Phil aprendió**: los hechos se borran cada 2 de febrero, el criterio no. Cada sesión de un agente es un 2 de febrero.
+> **El día de la marmota (1993)**. El mundo se reinicia y **lo único que atraviesa el reinicio es lo que Phil aprendió**: los hechos se borran cada 2 de febrero, el criterio no. Para un agente sin Lore, cada sesión es un 2 de febrero.
 
 ---
 
@@ -872,7 +868,7 @@ Es un bucle de reexplicaciones y soluciones mediocres que ya habías descartado.
 
 [Arquitectura](#arquitectura) ·
 [Las ocho skills](#las-ocho-skills) ·
-[Obsidian](#obsidian--la-puerta-de-entrada) ·
+[Obsidian](#notas-obsidian) ·
 [Documentación](#documentación)
 
 </td>
@@ -1041,11 +1037,9 @@ Reemplaza `all` por `claude` o `codex` para preparar solo una CLI. El instalador
 
 Después abre una sesión nueva en la CLI. **Si es tu primera vez, no necesitas saber ningún comando** — escribe *«quiero comenzar a usar Lore Plugin, ayúdame»* y el kit abre un **brainstorming, no un menú**: primero mira tu árbol, después pregunta de a una cosa por vez, y termina con **tu primer artefacto creado**, nunca con una recomendación. Si ya sabes qué quieres, `use-lore` te enruta.
 
-> **¿Usas otra herramienta de IA?** Cada skill es un archivo Markdown con encabezado YAML. Copia la carpeta de la skill en el directorio compatible de esa herramienta, o usa su contenido como instrucciones del agente. La arquitectura de seis piezas y el modelo Área↔Proyecto son convenciones neutrales al proveedor, no código.
-
 ## Así se ve en la práctica
 
-Acabas de publicar una landing y el feedback es: "No sabía qué hacer después". El CTA quedaba abajo y el titular hablaba del producto, no del resultado. Lo corregiste. En vez de cerrar la pestaña:
+Acabas de publicar una landing y el feedback es: "No sabía qué hacer en la página". El CTA quedaba abajo y el titular hablaba del producto, no del resultado. Lo corregiste. En vez de cerrar la pestaña:
 
 ```text
 › guarda en lore
@@ -1171,7 +1165,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 | [`save-to-lore`](#save-to-lore) | Destila una lección y decide si sube al Área | todos los días |
 | [`transmute-lore`](#transmute-lore) | Migra, limpia, traduce, actualiza, poda o exporta una fotografía segura del Lore | al heredar, mantener, actualizar o compartir Lore |
 | [`create-bot`](#create-bot) | Un lugar donde abrir sesión y trabajar sobre varias Áreas a la vez | desde cero, o cuando ya hay Lore que federar |
-| [`obsidian-lore`](#obsidian--la-puerta-de-entrada) | Mina tus notas sueltas y enruta lo que sobrevive | cuando la bandeja pesa |
+| [`obsidian-lore`](#notas-obsidian) | Mina tus notas sueltas y enruta lo que sobrevive | cuando la bandeja pesa |
 
 **El primer día necesitas dos de estas:** `use-lore` te enruta hacia lo que sigue, y `save-to-lore`
 es la que vas a escribir de verdad — *"guarda en lore"*, después de resolver algo que te costó. Las
@@ -1181,7 +1175,7 @@ mecanismo completo y las categorías de diagnóstico** de cada modo viven en
 [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
 
 <details>
-<summary><b>Qué hace cada skill, una por una</b> (el mecanismo — casi nadie lo necesita el primer día)</summary>
+<summary><b>Qué hace cada skill</b></summary>
 
 <br>
 
@@ -1274,7 +1268,7 @@ bot como una memory card Markdown extraíble.
 
 ---
 
-## Obsidian — la puerta de entrada
+## Notas Obsidian
 
 Apunta Obsidian a la **carpeta madre de tus Áreas** y agrega una carpeta `notas/` (o `notes/`) dentro del proyecto, Área o bot donde estés trabajando — el mismo árbol es tu espacio de trabajo y tu vault. Cuando quieras que la IA lo lea, activa la skill:
 
