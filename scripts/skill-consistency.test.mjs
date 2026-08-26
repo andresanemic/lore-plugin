@@ -420,7 +420,7 @@ test("el README bilingüe no enlaza de un idioma al ancla del otro", () => {
     const heading = line.match(/^(#{1,6})\s+(.*)$/);
     if (!heading) return;
     const base = heading[2]
-      .replace(/<[^>]+>/g, "")
+      .replace(/[<>]/g, "")
       .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
       .replace(/[`*_~]/g, "")
       .trim()
