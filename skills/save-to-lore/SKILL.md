@@ -153,6 +153,12 @@ it where the error was noticed does not fix it.
 
 > **The unit of work for a fact is the set of its appearances, never the file where it was noticed.**
 
+> **Before distilling a fact from what is at hand, ask whether an authoritative source exists — if it
+> does, take the fact from there.** Sampling outputs (published pieces, rendered images) while the
+> source exists produces a corpus that is internally consistent and externally wrong, and a provenance
+> note on the sampled values *raises* confidence in the bad datum. The question costs one message; the
+> wrong fact costs one correction per appearance, forever.
+
 A correction is made where the error turns up, and that place feels like *the* place. But the fact
 did not come in from there — it came **down** from a source corpus that distributed it to every Lore
 that cited it. Correcting downward from one leaf leaves the root intact and every other leaf with it,

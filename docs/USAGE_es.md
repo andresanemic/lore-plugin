@@ -256,7 +256,7 @@ Usa este skill siempre que inicies una nueva base de código dentro de un domini
 
 ### 5.5 `save-to-lore` – Capturar criterio tras resolver un problema, o injertar criterio ajeno
 
-Mantén candidatas mientras continúa la sesión. Sugiere captura en un hito contextual o cuando se acumulen pistas relacionadas; muestra destino, redacción y por qué ahora, y deja que una vista aprobada cubra las escrituras y commits correspondientes.
+Mantén candidatas mientras continúa la sesión. Sugiere captura en un hito, cuando se acumulen pistas relacionadas o justo tras aprobarse un artefacto; muestra destino, redacción y por qué ahora; una vista aprobada cubre las escrituras y commits.
 
 **Propósito:** destilar criterio reutilizable. Tiene **dos modos**, según de dónde venga ese criterio:
 **capture** (fricción vivida) y **graft** (criterio importado de una skill, una guía ajena o el

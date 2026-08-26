@@ -242,7 +242,7 @@ estándar), **señal** (destilable a Contexto → Causa → Pista, sin logs crud
 (una directriz inequívoca) y **genericidad** (le serviría a otro proyecto del Área). Cambios
 cosméticos no cuentan.
 
-**`destino:` y verificación de aterrizaje — 2.3.0.** Una Pista que exige un artefacto o un paso verificable declara **dónde se corre**: módulo y paso. Antes de cerrar el umbral se **grepea el término declarado en el archivo declarado** y se reporta `aterrizó` o `escrito, nunca ejercido`; en el segundo caso la pista queda en `conjecture` y **su promoción está bloqueada** hasta que el destino exista.
+**`destino:` y verificación de aterrizaje — 2.3.0.** Una Pista que exige un artefacto o un paso verificable declara **dónde se corre**: módulo y paso. Antes de cerrar el umbral se **grepea el término declarado en el archivo declarado** y se reporta `aterrizó` o `escrito, nunca ejercido`; en el segundo caso queda en `conjecture` con **promoción bloqueada** hasta que el destino exista.
 
 **La junta se escribe de los dos lados:** la Pista lleva su `destino:`; el paso lleva una línea que nombra la Pista. Los dos lados suelen vivir en árboles distintos, y una sesión carga solo su propio bloque always-on — con el puntero en una sola dirección, quien está parado en el paso ve un procedimiento sin obligación visible detrás, y una poda ahí lo quita como sobrante. Desde ese lado, lo es.
 

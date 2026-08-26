@@ -54,6 +54,12 @@ test("use-lore gobierna entregables complejos sin crear una novena skill", () =>
   }
 });
 
+test("save-to-lore pregunta por fuente autoritativa antes de destilar un hecho", () => {
+  const save = skillText(join(skillsRoot, "save-to-lore"));
+  assert.match(save, /authoritative source/i);
+  assert.match(save, /provenance/i);
+});
+
 test("use-lore sugiere /model para el tramo mecanico de un lote, nunca un subagente", () => {
   const text = skillText(join(skillsRoot, "use-lore"));
   assert.match(text, /suggest `\/model`/);
@@ -292,7 +298,7 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.3.0"]));
+  assert.deepEqual(new Set(versions), new Set(["2.3.1"]));
 });
 
 test("ninguna skill manda HARD: ni usa cristalizar como destilar", () => {

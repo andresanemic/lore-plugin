@@ -246,7 +246,7 @@ conditions must hold at once: **constraint** (forbids a future error or demands 
 directive), and **genericity** (would help another project in the Area). Cosmetic changes never
 count.
 
-**`destino:` and landing verification — 2.3.0.** A clue demanding a verifiable artifact or step declares **where it is run**: module and step. Before the threshold closes, the declared term is **grepped in the declared file** and reported as `arrived` or `written, never exercised`; in the second case the clue stays `conjecture` and **its promotion is blocked** until the destination exists.
+**`destino:` and landing verification — 2.3.0.** A clue demanding a verifiable artifact or step declares **where it is run**: module and step. Before the threshold closes, the declared term is **grepped in the declared file** and reported as `arrived` or `written, never exercised`; in the second case it stays `conjecture` with **promotion blocked** until the destination exists.
 
 **The junction is written on both sides:** the clue carries its `destino:`; the step carries one line naming the clue. The two sides often live in different trees, and a session loads only its own always-on block — a pointer written in one direction leaves whoever stands at the step looking at a procedure with no visible obligation behind it, which a prune there removes as surplus. From that side, it is.
 

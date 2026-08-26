@@ -14,7 +14,7 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.3.0-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.3.1-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/AI_provider-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="AI provider: neutral"></a>
   <a href="#the-eight-skills"><img src="https://img.shields.io/badge/writing--skills-validated-63C49B?style=for-the-badge&labelColor=0B0B12" alt="Validated against writing-skills"></a>
   <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
@@ -415,7 +415,7 @@ The kit's own design conversation for Lore artifacts — narrow on purpose, one 
 
 ### `save-to-lore`
 
-The daily flow: solve something that cost you, type *"save to lore"* — candidates stay parked until a milestone, where destination, wording and why-now are shown before anything is written. Specific lessons stay in the project; generic confirmed ones are proposed for the Area; nothing promotes automatically. Two modes: **capture** distills lived friction into an Invariant Clue; **graft** arbitrates imported criteria against your project's purpose and records where the source loses. A skill that only *executes* is a dependency, not Lore.
+The daily flow: solve something that cost you, type *"save to lore"* — candidates stay parked until a milestone, where destination, wording and why-now are shown before anything is written. Specific lessons stay in the project; generic confirmed ones are proposed for the Area; nothing promotes automatically. Two modes: **capture** distills lived friction into an Invariant Clue — or captures an approved artifact along with the trace of what was discarded; **graft** arbitrates imported criteria against your project's purpose and records where the source loses. A skill that only *executes* is a dependency, not Lore.
 
 ### `transmute-lore`
 
@@ -1035,7 +1035,7 @@ La conversación de diseño propia del kit para artefactos Lore — específica 
 
 ### `save-to-lore`
 
-El flujo diario: resolvés algo que te costó, escribís *"guarda en lore"* — las candidatas quedan estacionadas hasta un hito, donde se muestran destino, redacción y por qué ahora antes de escribir nada. Lo específico se queda en el proyecto; lo genérico y confirmado se propone para el Área; nada se promueve automáticamente. Dos modos: **capture** destila una fricción vivida en una Pista Invariante; **graft** arbitra criterio importado contra la finalidad de tu proyecto y registra dónde la fuente pierde. Una skill que solo *ejecuta* es una dependencia, no Lore.
+El flujo diario: resolvés algo que te costó, escribís *"guarda en lore"* — las candidatas quedan estacionadas hasta un hito, donde se muestran destino, redacción y por qué ahora antes de escribir nada. Lo específico se queda en el proyecto; lo genérico y confirmado se propone para el Área; nada se promueve automáticamente. Dos modos: **capture** destila una fricción vivida en una Pista — o captura un artefacto aprobado junto con la traza de lo descartado; **graft** arbitra criterio importado contra la finalidad de tu proyecto y registra dónde la fuente pierde. Una skill que solo *ejecuta* es una dependencia, no Lore.
 
 ### `transmute-lore`
 

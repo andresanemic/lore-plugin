@@ -250,7 +250,9 @@ Use this whenever you start a new codebase inside a domain that already has an A
 
 ### 5.5 `save-to-lore` – Capture Criteria After Solving a Problem, or Graft External Criteria
 
-Keep candidates while the session continues. Suggest capture at a contextual milestone or when related clues accumulate; show destination, wording and why now, then let one approved preview cover the corresponding writes and commits.
+Keep candidates while the session continues. Suggest capture at a milestone, when related clues
+accumulate, or right after an approved artifact; show destination, wording and why now; one approved
+preview covers the writes and commits.
 
 **Purpose:** Distill reusable criteria. It has **two modes**, chosen by where that criteria comes
 from: **capture** (lived friction) and **graft** (criteria imported from a third-party skill,
