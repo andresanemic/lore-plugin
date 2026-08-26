@@ -20,7 +20,8 @@ escribir sin salvedades, el diseño está mal — hoy se puede escribir sin salv
 - **Runtime:** opencode. **Modelo:** `0x Alpha Free Unlimited Max` tal como lo invoca el operador —
   el identificador exacto y su configuración se registran en cada salida cruda; nunca se infieren.
 - **Testigo de versión cargada:** el path que la skill declara al invocarse + capacidad que solo
-  existe en 2.3.x (`MYCELIUM`) + conteo de skills = 8 + `git rev-parse HEAD` del repositorio. Anotados
+  existe en 2.3.1 (la línea *authoritative source* de `save-to-lore` — `MYCELIUM` y el conteo de 8
+  skills discriminan 2.2 de 2.3, no 2.3.0 de 2.3.1) + `git rev-parse HEAD` del repositorio. Anotados
   por corrida. El número de versión solo, no testifica.
 - **Sesión fresca por corrida** — una sesión resuelve su versión al abrirse. Prohibido reusar sesión
   entre corridas o entre brazos.
