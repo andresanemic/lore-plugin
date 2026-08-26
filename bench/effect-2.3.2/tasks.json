@@ -1,0 +1,77 @@
+{
+  "_readme": "Preregistered paired benchmark of Lore Plugin 2.3.2 plus routed project Lore versus a cold arm without plugin exposure or equivalent criterion.",
+  "_grade_scope": "full",
+  "execution": {
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "medium",
+    "trials": 2,
+    "waves": 2,
+    "plugin_version": "2.3.2"
+  },
+  "tasks": [
+    {
+      "id": "web-landing",
+      "fixture": "web",
+      "max_words": 1000,
+      "prompt": "Avanza la landing alpha 0.1 de un proyecto para artistas independientes. No la construyas. Lee ../dossier.md y deja en un único Markdown una dirección suficientemente resuelta para que otra sesión pueda implementarla sin reabrir las decisiones principales. Devuelve solo el artefacto, con un máximo de 1.000 palabras.",
+      "criteria": [
+        { "id": "WEB-01", "kind": "semantic", "description": "Define una proposición y un hero específicos para el proyecto." },
+        { "id": "WEB-02", "kind": "semantic", "description": "Ordena secciones con función y contenido, no solo títulos." },
+        { "id": "WEB-03", "kind": "semantic", "description": "Separa con claridad demo operativa de promesa futura." },
+        { "id": "WEB-04", "kind": "semantic", "description": "Convierte la dirección visual en decisiones implementables." },
+        { "id": "WEB-05", "kind": "semantic", "description": "Usa movimiento con propósito y contempla reducción de movimiento." },
+        { "id": "WEB-06", "kind": "semantic", "description": "Hace visible la promesa local-first y privacidad sin inventar garantías." },
+        { "id": "WEB-07", "kind": "semantic", "description": "Deja un siguiente paso realizable por otra sesión." },
+        { "id": "WEB-08", "kind": "mixed", "description": "Incluye criterios de aceptación verificables y no escribe código." }
+      ]
+    },
+    {
+      "id": "news-draft",
+      "fixture": "news",
+      "max_words": 750,
+      "prompt": "Redacta para un medio cripto latinoamericano una nota breve a partir de ../dossier.md. Deja un borrador editorial completo en un único Markdown, listo para pasar a la etapa de conversión. No investigues fuera del paquete ni fabriques información faltante. Devuelve solo el artefacto, con un máximo de 750 palabras.",
+      "criteria": [
+        { "id": "NEWS-01", "kind": "semantic", "description": "Reescribe: no copia bloques de las fuentes ni imita un comunicado." },
+        { "id": "NEWS-02", "kind": "semantic", "description": "Mantiene tono neutral y elimina afirmaciones promocionales no demostradas." },
+        { "id": "NEWS-03", "kind": "semantic", "description": "Atribuye cada capa a la fuente que realmente la sostiene." },
+        { "id": "NEWS-04", "kind": "mixed", "description": "Conserva la cifra exacta y contextualiza la versión redondeada sin mezclarlas." },
+        { "id": "NEWS-05", "kind": "semantic", "description": "Explicita el desacuerdo relevante entre fuentes sin inventar una resolución." },
+        { "id": "NEWS-06", "kind": "semantic", "description": "Aterriza el hecho para audiencia latinoamericana sin fabricar impacto local." },
+        { "id": "NEWS-07", "kind": "mixed", "description": "Entrega anatomía completa de nota y bloque Elementos SEO." },
+        { "id": "NEWS-08", "kind": "mixed", "description": "No inventa, no incluye prompts de portada y evita los tics de IA definidos en el fixture." }
+      ]
+    },
+    {
+      "id": "community-b2b",
+      "fixture": "community",
+      "max_words": 650,
+      "prompt": "Prepara para revisión una publicación B2B en inglés para una wallet conversacional, usando únicamente ../dossier.md. Entrega en un solo Markdown tres alternativas de copy, dos CTA para el primer comentario y una dirección visual. No publiques, no escribas en Notion y no generes imágenes. Devuelve solo el artefacto, con un máximo de 650 palabras.",
+      "criteria": [
+        { "id": "CM-01", "kind": "mixed", "description": "Entrega exactamente 3 copies, 2 CTA y 1 dirección visual, todos en inglés." },
+        { "id": "CM-02", "kind": "semantic", "description": "Enmarca B2B: el producto o resultado del partner es protagonista." },
+        { "id": "CM-03", "kind": "semantic", "description": "Traduce API, redes y capacidades técnicas a una consecuencia concreta." },
+        { "id": "CM-04", "kind": "mixed", "description": "Usa cifras públicas con precisión y no infla alcance ni adopción." },
+        { "id": "CM-05", "kind": "mixed", "description": "No filtra acuerdos, nombres, proyecciones ni roadmap privados." },
+        { "id": "CM-06", "kind": "semantic", "description": "Mantiene voz humana, sobria y específica; sin hype, FOMO ni promesas financieras." },
+        { "id": "CM-07", "kind": "semantic", "description": "Cada copy sostiene una sola idea y los CTA son breves y respondibles." },
+        { "id": "CM-08", "kind": "semantic", "description": "La dirección visual acompaña el mensaje y no pide generar la imagen." }
+      ]
+    },
+    {
+      "id": "founder-crm",
+      "fixture": "founder",
+      "max_words": 1000,
+      "prompt": "Convierte ../dossier.md en un CRM de prospección accionable para una healthtech B2B. Entrega un único Markdown con priorización, estado, evidencia disponible, canal, siguiente acción y justificación para los ocho leads. Redacta además el primer contacto para los dos leads prioritarios. No investigues fuera del paquete, no escribas en Notion y no envíes mensajes. Devuelve solo el artefacto, con un máximo de 1.000 palabras.",
+      "criteria": [
+        { "id": "FOUNDER-01", "kind": "mixed", "description": "Incluye los 8 leads con campos completos y estado explícito." },
+        { "id": "FOUNDER-02", "kind": "semantic", "description": "Prioriza por ajuste, evidencia y siguiente paso; no por prestigio." },
+        { "id": "FOUNDER-03", "kind": "semantic", "description": "Separa hecho confirmado, inferencia y dato faltante." },
+        { "id": "FOUNDER-04", "kind": "mixed", "description": "Asigna canal y formato coherentes para cada lead." },
+        { "id": "FOUNDER-05", "kind": "semantic", "description": "Propone una siguiente acción concreta y proporcional a la evidencia." },
+        { "id": "FOUNDER-06", "kind": "semantic", "description": "Los dos primeros contactos se personalizan por contexto verificable." },
+        { "id": "FOUNDER-07", "kind": "semantic", "description": "Cada contacto contiene un problema, oferta explícita y un CTA de bajo compromiso." },
+        { "id": "FOUNDER-08", "kind": "mixed", "description": "No inventa hechos ni capacidades y declara el estado real cuando la oferta lo exige." }
+      ]
+    }
+  ]
+}

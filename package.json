@@ -25,7 +25,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "node --test bench/*.test.mjs bench/upgrade/*.test.mjs scripts/*.test.mjs"
+    "test": "node --test bench/*.test.mjs bench/upgrade/*.test.mjs bench/effect-2.3.2/*.test.mjs scripts/*.test.mjs"
   },
   "keywords": ["lore", "ai", "skills", "codex", "claude-code", "context-engineering"]
 }
