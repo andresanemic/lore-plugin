@@ -50,7 +50,7 @@ Cuatro proyectos de un área real (*desarrollo web*) pasaron al estándar con `t
 
 <br>
 
-Este caso originó el injerto: nació `arbitrate`, pasó a `transplant` en la 2.1 y a `graft` en la 2.1.1, misma ley y cuatro puertas. Tres áreas destilaron Lore desde skills de terceros —escritas por otra persona, bajo otra finalidad— y lo observado contradijo la intuición:
+Este caso originó el injerto: nació `arbitrate`, pasó a `transplant` en la 2.1 y a `graft` en la 2.1.1: misma ley y mismas cuatro puertas. Tres áreas destilaron Lore desde skills de terceros —escritas por otra persona, bajo otra finalidad— y lo observado contradijo la intuición:
 
 - **Lo valioso no fue el resumen sino el desacuerdo.** En dos áreas, el bloque denso del módulo era *«dónde la skill contradice nuestro estándar y pierde»* — **no existía ni en la skill ni en el Lore previo**: nació de la colisión.
 - **La misma skill, arbitrada por finalidades opuestas, pierde en el mismo sitio por razones inversas.** *Copywriting* fue derrotada en marketing (*«copy aburrido y funcional le gana siempre»*) y en periodismo (*«no vendemos, informamos»*). No depende de la fuente: depende de **tu** finalidad.
