@@ -81,7 +81,7 @@ El primer caso fuera del software: periodismo y estrategia de contenido ya tení
 
 El método volvió, seis semanas después, al proyecto donde había nacido en bruto. Encontró dos artefactos de preservación con suertes opuestas: un `lore/` de **Pistas** —restricciones chicas que siguen sirviendo cuando el contexto ya no está— que trabajaba, y un registro de incidentes que **no participó de una sola decisión**, ni siquiera cuando se rompió de nuevo el territorio que documentaba.
 
-- **Preservar no es destilar, y el parecido es el problema.** Un registro satisface el impulso de preservar **sin producir criterio**: cumplido «dejar registro», nadie destila. Minándolo antes de borrarlo aparecieron dos Pistas con seis semanas ahí sin destilarse.
+- **Preservar no es destilar, y el parecido es el problema.** Un registro satisface el impulso de preservar **sin producir criterio**. Cumplido el principio de «dejar registro», nadie destila. Minándolo antes de borrarlo aparecieron dos Pistas con seis semanas ahí sin destilarse.
 - **«Indexado y obligatorio» no implica «consultado»**: estaba en la tabla del `CLAUDE.md` y era ley en `principios.md`, y aun así no se cargó. Accesible es necesario y no suficiente.
 - **El filtro de admisión no mide la altitud.** Una Pista entró un día y al siguiente no impidió el segundo síntoma de su causa: escrita sobre la superficie vista, no sobre la causa.
 
