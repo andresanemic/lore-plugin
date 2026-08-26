@@ -615,10 +615,14 @@ and **waits for your approval** before writing anything.
 
 On close, every mined note gets its `destilado:` mark with date and destination — **including the
 ones that produced nothing**. That mark makes the sweep idempotent and makes the debt visible: how
-many notes have gone how long unmined. `save-to-lore` reports it too when it finishes.
+many notes have gone how long unmined. `save-to-lore` reports it too when it finishes. Closed notes
+then move to `<inbox>/archivadas/`, so the live inbox keeps only what is still pending — a notebook
+that is still receiving entries stays put, and an inbox that already archives under another
+subfolder keeps its name. Moving is not deleting, and the mark travels with the file.
 
 **Two things it does not do:** it never deletes notes (mine before deleting, and deleting is your
-call) and it does not manage the vault — `Read` and `Grep` already read it.
+call) and it does not manage the vault beyond that one archive move — `Read` and `Grep` already read
+it.
 
 > **A note is source, never criteria.** It answers *"what happened"*; Lore answers *"what changed
 > because of it"*. Nothing crosses without explicit distillation.

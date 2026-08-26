@@ -610,7 +610,7 @@ A fifth destination exists and is rarer: a note that changes **how we work toget
 
 **Routing**, stopping at the first that resolves: the note's `origen` → the bot's `lore/enrutamiento.md` → the project or area the session runs in → **ambiguous, ask**. The first time an ambiguity resolves, the **border** may be worth a Clue; the noise filter applies there too.
 
-**Idempotency and lifecycle:** on close, every mined note gets its `destilado:` with date and destination — including the ones that produced nothing. A non-empty `destilado` is skipped on later sweeps. **The skill never deletes a note:** mine before deleting; deleting is the human's call.
+**Idempotency and lifecycle:** on close, every mined note gets its `destilado:` with date and destination — including the ones that produced nothing. A non-empty `destilado` is skipped on later sweeps. Closed notes then move to `<inbox>/archivadas/` (an inbox that already uses another subfolder for this keeps its name); a living notebook with an empty `destilado:` stays put. The mark travels with the file, so idempotency holds and the debt count does not change. **The skill never deletes a note:** moving is not deleting; mine before deleting, and deleting is the human's call.
 
 **Why a sweep and not an available command.** A note satisfies the urge to preserve while the criterion stays inert inside it — separating notes from Lore did not prevent that; the record stayed inert for six weeks. What prevents it is the sweep and its visible debt, which `save-to-lore` also reports on close.
 

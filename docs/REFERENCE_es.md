@@ -586,7 +586,7 @@ Existe un quinto destino, más raro: una nota que cambia **cómo se trabaja en c
 
 **Enrutamiento**, deteniéndose en el primero que resuelva: el `origen` de la nota → el `lore/enrutamiento.md` del bot → el proyecto o Área donde corre la sesión → **ambiguo, se pregunta**. La primera vez que se resuelve una ambigüedad, la **frontera** puede valer como Pista; el filtro de ruido también aplica ahí.
 
-**Idempotencia y ciclo de vida:** al cerrar, cada nota minada recibe su `destilado:` con fecha y destino — incluidas las que no produjeron nada. Una nota con `destilado` no vacío se salta en los barridos siguientes. **La skill nunca borra una nota:** se mina antes de borrar; borrar lo decide el humano.
+**Idempotencia y ciclo de vida:** al cerrar, cada nota minada recibe su `destilado:` con fecha y destino — incluidas las que no produjeron nada. Una nota con `destilado` no vacío se salta en los barridos siguientes. Las notas cerradas se mueven luego a `<bandeja>/archivadas/` (una bandeja que ya usa otra subcarpeta para esto conserva su nombre); un cuaderno vivo con `destilado:` vacío se queda donde está. La marca viaja con el archivo, así que la idempotencia se mantiene y el conteo de deuda no cambia. **La skill nunca borra una nota:** mover no es borrar; se mina antes de borrar, y borrar lo decide el humano.
 
 **Por qué un barrido y no un comando disponible.** Una nota satisface las ganas de preservar con el criterio inerte adentro — separar las notas del Lore no lo evitó: el registro siguió inerte seis semanas. Lo que lo evita es el barrido y su deuda visible, que `save-to-lore` también reporta al cerrar.
 

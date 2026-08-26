@@ -21,7 +21,7 @@ governs that overlap. It does two things and refuses a third.
 
 | It does | It refuses |
 |---|---|
-| Capture a free note in the inbox, **outside any `lore/`** | Manage notes. `Read`, `Grep` and `Glob` already read the vault |
+| Capture a free note in the inbox, **outside any `lore/`** | Manage notes — the one move this skill makes is archiving closed notes at the end of a sweep |
 | **Mine** the inbox — turn what deserves it into criteria, through `save-to-lore` | Turn Obsidian into a container of Lore |
 
 > **The law: a note is source, the Lore is criteria.** A note answers *«what happened»*. Lore answers
@@ -230,8 +230,10 @@ only the first time; the noise filter applies here too.
 
 ### 4. Propose, then write (threshold)
 
-Present, per note, in one table: the bucket, the destination, and the proposed line. Then **wait**.
-Nothing is written before a human approves.
+Present, per note, in one table: the bucket, the destination, the proposed line, and whether the
+note moves to the archive at close. For every note headed there, search outside the inbox for
+references to its filename and flag each hit in the same table — so one note can be vetoed without
+stalling the rest. Then **wait**. Nothing is written before a human approves.
 
 On approval, **delegate the writing to `save-to-lore`** (CAPTURE by default, GRAFT when the
 source is someone else's criteria). That skill owns the Clue format, the index line, the confidence
@@ -244,9 +246,16 @@ Write `destilado:` in every note that was mined, including the ones that produce
 what entered, where, what was discarded as noise and **why**, and the remaining debt.
 
 If a pre-existing note has no frontmatter, add all three fields (`fecha`, optional `origen`, and
-`destilado`) after approval while preserving its body byte-for-byte below the header. **Never move
-or delete the note after mining.** A processed inbox is not an empty inbox; it is a traceable source
-archive whose non-empty `destilado` fields make future sweeps idempotent.
+`destilado`) after approval while preserving its body byte-for-byte below the header.
+
+**Archive what you close.** Every approved note whose file-level `destilado:` is now non-empty moves
+to `<inbox>/archivadas/` — `git mv` inside a repository so history survives, a plain move elsewhere.
+The discriminator is the file-level field, never marks inside the body: a living notebook with some
+mined entries but an empty `destilado:` stays where it is. An inbox that already keeps processed
+notes under another subfolder keeps that name — inside an existing tree, established names win.
+Archived notes keep being skipped by later sweeps because their `destilado:` travels with the file:
+idempotency holds and the debt count does not change. **The skill still never deletes a note** —
+moving is not deleting, and the archive stays inside the inbox.
 
 ## Invariants
 
@@ -259,8 +268,13 @@ archive whose non-empty `destilado` fields make future sweeps idempotent.
 - **`nada` is a legitimate result** and is written down. Discarded noise is reported, never dropped in
   silence.
 - **This skill never deletes a note.** Mine before deleting, and deleting is the human's call.
-- **Mining leaves notes in `notas/` / `notes/`.** Frontmatter records where the transformation
-  landed; neither this skill nor `transmute-lore` treats processed notes as cleanup candidates.
+  Moving a closed note to the archive is not deleting: the file survives, and so does its history
+  when the inbox lives in a repository.
+- **Mining archives what it closes.** A note whose file-level `destilado:` came out of the pass
+  non-empty moves to `<inbox>/archivadas/` — or to the subfolder that tree already uses for this.
+  Living notebooks stay put; archived notes keep being skipped because `destilado:` travels with the
+  file, so neither idempotency nor the debt count changes. Neither this skill nor `transmute-lore`
+  treats processed notes as cleanup candidates beyond this one governed move.
 - **Ambiguous routing is asked, not guessed.**
 - **A bot is the recommended home for an inbox, permanently.** It is the only place where routing is
   read from a written table instead of guessed. Recommend it on first run and whenever a sweep

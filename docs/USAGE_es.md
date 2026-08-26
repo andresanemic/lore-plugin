@@ -618,10 +618,13 @@ enruta y **espera tu aprobación** antes de escribir nada.
 
 Al cerrar, cada nota minada recibe su marca `destilado:` con fecha y destino — **incluidas las que
 no produjeron nada**. Esa marca hace el barrido idempotente y hace visible la deuda: cuántas notas
-llevan cuánto tiempo sin minar. `save-to-lore` la reporta también al terminar.
+llevan cuánto tiempo sin minar. `save-to-lore` la reporta también al terminar. Las notas cerradas se
+mueven luego a `<bandeja>/archivadas/`, así que la bandeja viva conserva solo lo pendiente — un
+cuaderno que sigue recibiendo entradas se queda donde está, y una bandeja que ya archiva bajo otra
+subcarpeta conserva su nombre. Mover no es borrar, y la marca viaja con el archivo.
 
 **Dos cosas que no hace:** no borra notas (se mina antes de borrar, y borrar lo decides tú) y no
-gestiona la vault — `Read` y `Grep` ya la leen.
+gestiona la vault más allá de esa única mudanza al archivar — `Read` y `Grep` ya la leen.
 
 > **Una nota es fuente, nunca criterio.** Responde *«qué pasó»*; el Lore responde *«qué cambió por
 > eso»*. Nada cruza sin destilación explícita.

@@ -15,10 +15,13 @@ test("obsidian-lore enruta peticiones sobre notas antes que la skill de dominio"
   assert.doesNotMatch(text, /research-lus/);
 });
 
-test("las notas minadas permanecen en su inbox con trazabilidad", () => {
+test("las notas minadas se archivan al cerrar, con trazabilidad y sin borrar", () => {
   const text = skill("obsidian-lore");
-  assert.match(text, /Never move\s+or delete the note after mining/);
-  assert.match(text, /processed inbox is not an empty inbox/);
+  assert.match(text, /Archive what you close/);
+  assert.match(text, /archivadas/);
+  assert.match(text, /never deletes a note/);
+  assert.match(text, /travels with the file/);
+  assert.doesNotMatch(text, /Never move\s+or delete the note after mining/);
 });
 
 test("UPGRADE diagnostica antes de exigir un arbol limpio para escribir", () => {
