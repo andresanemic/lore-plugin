@@ -88,9 +88,10 @@ trabajo es una **feature** y su paso terminal escribe código; va donde una feat
 | **Proyecto** | una feature | **sí** | El ciclo completo, `specify → implement`. Es el único nivel donde `implement` tiene dónde aterrizar |
 | **Bot** | una instrucción corta | **sí, la mitad pensante** | `specify → plan → tasks`. **`implement` corre en el repositorio de destino**, que el spec nombra |
 
-La fila del bot parece compromiso y no lo es: un bot custodia criterio federado de varias áreas y
-opera en repositorios que no tienen nada de él. PLACEHOLDER-NOT-MATCHING Lo que un
-bot no puede es terminar: nada que compilar, así que `implement` cruza.
+La fila del bot parece un compromiso y no lo es: un bot custodia criterio federado de varias áreas y
+opera en repositorios que no tienen nada de él. La spec pertenece donde ese criterio ya está
+cargado: dice qué es trabajo bueno acá, y ese es todo el contenido del bot. Lo que un bot no puede
+es terminar: no tiene nada que compilar, así que `implement` cruza.
 
 **El costo tiene su cláusula.** Los artefactos del ciclo quedan en un repo y el código en
 otro, y el Principio III dice que `specs/` no se conserva. La jugada de cierre es explícita y del

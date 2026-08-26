@@ -140,7 +140,7 @@ The filter is borrowed, and it is worth naming its owner. Gregory Bateson, in *S
 - **Researchers curious about LUS itself** — less the kit than the question behind it: what changes when a person and an AI accumulate criteria together over time. Lore is where that question gets answered one decision at a time.
 - **Teams already running spec-kit, SDD pipelines or another automation framework.** Those manage *process* — constitution, plan, tasks, quality gates — and none asks whether the knowledge behind those gates is still alive. That gap is what `MYCELIUM` and `PRUNE` close, and Lore runs alongside spec-kit rather than replacing it (see [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md)).
 
-The LUS hypothesis this kit tests: a richer, more stable human–AI **Between** can mean fewer repeated mistakes and better work, at less cost.
+Lore Plugin operationalizes a narrow part of the questions LUS studies. Its benchmark tests product behavior under a frozen protocol; it does not test the richness or stability of a human–AI **Between**. [Read the current research boundary →](./docs/LUS_en.md)
 
 > The word is Martin Buber's, from *I and Thou* (1923): what matters does not live inside either party but in the relation between them. This kit takes the structure, not the theology — what accumulates here is neither yours nor the model's: it is the criteria the two of you built.
 
@@ -488,6 +488,12 @@ This README covers motivation and architecture. Everything else lives in its own
 | [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | The optional, experimental encryption for a bot's criteria: what it protects and what it does not. |
 | [`CASES_en.md`](./docs/CASES_en.md) | The eighteen case studies, each with its declared boundary. |
 | [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md) | Lore alongside GitHub's spec-kit: who governs what. Optional — Lore never depends on it. |
+| [`LUS_en.md`](./docs/LUS_en.md) | The research program behind Lore, its current hypotheses and evidence boundaries. |
+| [`GENEALOGY_en.md`](./docs/GENEALOGY_en.md) | Affective genealogy: cultural provenance kept separate from theory and product rules. |
+| [`BIBLIOGRAPHY_en.md`](./docs/BIBLIOGRAPHY_en.md) | Conceptual sources, including where each analogy stops. |
+| [`CONTRIBUTING_en.md`](./docs/CONTRIBUTING_en.md) | How to contribute product changes, cases, refutations and research questions. |
+| [`CODE_OF_CONDUCT.md`](./docs/CODE_OF_CONDUCT.md) | Participation standards and reporting route. |
+| [`LICENSE`](./LICENSE) | MIT license. |
 | [`bench/`](./bench/) | The benchmark: Web, Editorial and UPGRADE harnesses; frozen tasks; method; declared limits; and raw results. |
 
 ---
@@ -517,8 +523,7 @@ Lore was not designed ahead of time: every decision came from applying it to rea
 
 GitHub traffic windows preserved in [`data/traffic/clones.json`](./data/traffic/clones.json).
 
-Lore Plugin is the technical arm of LUS, not a productivity system with philosophy attached — the
-LUS hypothesis, only partly tested by the benchmark, is [above](#who-can-use-lore-plugin).
+Lore Plugin is the technical arm of LUS, not a productivity system with philosophy attached. The benchmark tests a narrow product claim; it does not validate LUS as a whole. [The research boundary is explicit here.](./docs/LUS_en.md)
 
 Morin gives this work its ethical north: in UNESCO's [*Seven Complex Lessons in Education for the Future*](https://unesdoc.unesco.org/ark:/48223/pf0000378091) he writes that “the notion of wager should be generalized to every faith” (our translation) — giving up the best of all worlds is not giving up a better world. Lore makes that wager actionable through projects and bots; evidence stays bounded to what was measured.
 
@@ -529,76 +534,13 @@ Morin gives this work its ethical north: in UNESCO's [*Seven Complex Lessons in 
 
 ## Origin
 
-Lore was born as a distillation of **LUS (Lore User System)**, a research program that studies how a human and an AI accumulate shared criteria over a long-term collaboration.
-
-LUS studies the relationship; Lore is its operational implementation. One idea sums up its core principle:
+Lore was born from **LUS (Lore User System)**, a research program about relations that accumulate criteria capable of participating in later decisions. Lore is one operational architecture produced by that work, not a demonstration of the program. One idea links them:
 
 > **Experience only creates value when it can participate in a future decision.**
 
-That makes us **gardeners of the Between**: the shared space where a human and an AI change what
-the other can do next. We do not preserve every experience. We cultivate the ones that deserve to
-orient another decision, prune what no longer constrains anything, and keep the trace of what was
-discarded. Lore is not the garden; it is the practice that keeps this shared ground alive.
+That makes us **gardeners of the Between**: we preserve the experiences that deserve to orient another decision and prune those that no longer constrain anything. Research and software remain separate: a product observation is not automatically a scientific result, and a hypothesis does not become a skill rule without evidence and review.
 
-The research and the software remain separate: an observation from using Lore is not automatically
-a scientific result, and a research hypothesis does not become a skill rule without evidence and
-review.
-
-The program began with a **foundational bibliography** whose concepts map directly onto the practice:
-
-- **Martin Buber** · *Ich und Du* (1923) — the **Between**: knowledge emerges in the relation, not in the prompt or the model alone.
-- **Louis Althusser** · "Ideology and Ideological State Apparatuses" (1970) — **interpellation**: the AI does not merely answer; it calls the human into a position of judgment and responsibility.
-- **Gilbert Simondon** · *Individuation in Light of Notions of Form and Information* (1958) — **transduction**: friction crystallizes into a structure that changes the next interaction.
-- **Claude Shannon and Warren Weaver** · *The Mathematical Theory of Communication* (1949) — **signal, entropy and noise**: why raw logs are filtered into Context, Root cause and Invariant Clue.
-- **Gregory Bateson** · *Steps to an Ecology of Mind* (1972) — **"a difference that makes a difference"**: the test for whether an experience can constrain a future action.
-- **Norbert Wiener** · *Cybernetics* (1948) — **feedback**: the error from real work returns to stabilize the human–AI system.
-- **Edgar Morin** · *Introduction to Complex Thought* (1990) — **dialogic and organizational recursion**: parts and whole keep reshaping one another. His UNESCO lessons give this work its ethical north.
-- **Andy Clark and David Chalmers** · "The Extended Mind" (1998) — **coupled external memory**: Lore can participate in cognition instead of sitting beside it as passive documentation.
-- **Hubert Dreyfus** · *What Computers Still Can't Do* (1992) — **situated, tacit knowledge**: the human friction Lore translates into usable constraints for a general model.
-- **Francisco Varela, Evan Thompson and Eleanor Rosch** · *The Embodied Mind* (1991) — **enaction**: criteria is not stored, it is brought forth by acting.
-
-They are interlocutors, **not borrowed authority**: LUS uses them to expose convergences, differences and tensions in its claims about the Between, accumulated criterion and Lore.
-
-<details>
-<summary><b>Extended bibliography</b></summary>
-
-<br>
-
-Four interlocutors who widen the frame, and two more that were read straight against LUS — those
-two carry, inside the entry, where the source loses.
-
-- **Edwin Hutchins** · *Cognition in the Wild* (1995) — **distributed cognition**: the unit that thinks is the system, not the head inside it.
-- **Daniel Wegner** · transactive memory (1985) — **who remembers what**: a pair remembers more than its two members, and only while it knows who holds which part.
-- **Karl Weick** · *Sensemaking in Organizations* (1995) — **sensemaking**: meaning is made retrospectively, which is why a clue is written after the friction and not during it.
-- **Heinz von Foerster** · *Understanding Understanding* (2003) — **second-order cybernetics**: the observer is inside the system being described.
-- **Albert Camus** · *The Myth of Sisyphus* (1942) · *The Stranger* (1942) · *The Misunderstanding* (1944) · *The Rebel* (1951) · *Summer* (1954), for "Helen's Exile" and "The Almond Trees" — **entered as criterion, in one affirmation**: *a system of criteria does not reduce the absurd; it knows what to do when it appears.* The play carries it: a mother and sister kill the son who came home **because he would not say his name** — no malice, no faulty reasoning, only what was known failing to reach where it was decided. **Where Camus loses:** his *mesure* is an ethical-political limit on rebellion, not an epistemic rule of routing; he enters as a declared analogy and grounds none.
-- **Martin Heidegger** · *Being and Time* (1927) — **entered as bibliography, and NOT as criterion.** Finitude assumed is what makes an existence authentic, and the intuition it was brought in for is that **the Between is finite too**. But in *Being and Time* death is *je meines* — radically one's own, **not shareable** — and that incompartibility is the engine of the argument: death **individualizes**. The unit of LUS is the relation. Adopting it would mean contradicting Heidegger exactly where his thesis rests, and that work is not done. **What he leaves open is worth more than anything adoptable today:** how can a relation anticipate an ending that neither of its parts can anticipate on the other's behalf?
-
-</details>
-
-That is the argued genealogy. The felt one — what shaped taste rather than claims — is separate on purpose:
-
-<details>
-<summary><b>Affective genealogy — the works that taught the sensibility</b></summary>
-
-<br>
-
-**Registry, not rule.** These works constrain no decision and govern nothing. They are recorded because the aesthetics and the intuitions of a technical artifact are never neutral, and knowing where they came from is what lets someone tell **inherited taste** from **argument** the day anybody proposes changing them. It belongs to LUS, not to the kit. Only one still appears in the body of this README, next to what it illustrates: *Groundhog Day*. The rest were pulled out of the argument and left here, because a work that has to be explained before it illustrates anything is charging the reader for the author's taste.
-
-- ***Fire*** · Waxahatchee (2020) — growing up as moving without the whole picture. What accumulated criteria actually buys: not the end of uncertainty, a smaller space of ways to be wrong.
-- ***Loving*** · Land of Talk (2017) — a bond that holds two people without dissolving either of them. The shape behind asking one question at a time.
-- ***50 First Dates*** · Peter Segal (2004) — the video Lucy watches every morning, which works because it hands her identity and state at once and still keeps them apart.
-- **[*"1998"*](https://genius.com/Chet-faker-and-banks-1998-lyrics)** · Chet Faker and BANKS (2015) — the afternoon collaborating turns into supervising, between two people.
-- ***Tales of Berseria*** · Bandai Namco (2016) — **aesthetic, not conceptual**: the art direction of this kit comes from here before any software design reference. Genealogy of the *form*.
-- **[*Keep Running*](https://genius.com/Tei-shi-keep-running-lyrics)** · Tei Shi — keeping up with **who the other is now**. Criteria nobody revisits does not go neutral: it keeps operating, on someone who already changed.
-- **[*Running Back to You*](https://genius.com/The-juan-maclean-running-back-to-you-lyrics)** · The Juan MacLean — **autonomy with return** (`H13`). It does not demand constant contact; it demands a point where both catch up before drift makes the shared work unrecognizable.
-- ***Aliso*** · Malena Zavala (2018) — *"admired, not reset"*. And on translation: the damage is not in one party, it is in **the language two of them broke**.
-
-</details>
-
-[Explore the research in the LUS NotebookLM](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b79450)
-
-> **How to read it:** NotebookLM is the accessible introduction, not the source of record — for what the kit does, this repository wins; for a number, the current benchmark cut.
+Read the full [LUS research overview](./docs/LUS_en.md), its [conceptual bibliography](./docs/BIBLIOGRAPHY_en.md), and the separate [affective genealogy](./docs/GENEALOGY_en.md). The public [LUS NotebookLM](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b79450) is an accessible introduction, not the source of record.
 
 ### Why "Lore"?
 
@@ -766,7 +708,7 @@ El filtro es prestado, y conviene decir de quién. Gregory Bateson, en *Pasos ha
 - **Investigadores curiosos por LUS en sí** — menos por el kit que por la pregunta detrás: qué cambia cuando una persona y una IA acumulan criterio juntas a lo largo del tiempo. Lore es donde esa pregunta se responde una decisión a la vez.
 - **Equipos que ya corren spec-kit, pipelines SDD u otro framework de automatización.** Esos gestionan *proceso* — constitución, plan, tareas, puertas de calidad — y ninguno pregunta si el conocimiento detrás de esas puertas sigue vivo. Ese hueco es el que cierran `MYCELIUM` y `PRUNE`, y Lore corre junto a spec-kit en vez de reemplazarlo (ver [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md)).
 
-La hipótesis de LUS que este kit pone a prueba: un **Entre** humano–IA más rico y estable puede significar menos errores repetidos y mejor trabajo, a menor costo.
+Lore Plugin vuelve operable una parte acotada de las preguntas que estudia LUS. Su benchmark prueba comportamiento de producto bajo un protocolo congelado; no prueba la riqueza ni la estabilidad de un **Entre** humano–IA. [Lee la frontera vigente de la investigación →](./docs/LUS_es.md)
 
 > La palabra es de Martin Buber, en *Yo y Tú* (1923): lo que importa no vive dentro de ninguna de las dos partes sino en la relación entre ellas. Este kit toma la estructura, no la teología — lo que se acumula acá no es tuyo ni del modelo: es el criterio que construyeron los dos.
 
@@ -1104,6 +1046,12 @@ El harness, las tareas congeladas, los graders, las salidas crudas y las fronter
 | [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | El cifrado opcional y experimental del criterio de un bot: qué protege y qué no. |
 | [`CASES_es.md`](./docs/CASES_es.md) | Los dieciocho casos de estudio, cada uno con su frontera declarada. |
 | [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md) | Lore junto a spec-kit de GitHub: quién gobierna qué. Opcional — Lore no depende de él. |
+| [`LUS_es.md`](./docs/LUS_es.md) | El programa de investigación detrás de Lore, sus hipótesis vigentes y fronteras de evidencia. |
+| [`GENEALOGY_es.md`](./docs/GENEALOGY_es.md) | Genealogía afectiva: procedencia cultural separada de la teoría y las reglas de producto. |
+| [`BIBLIOGRAPHY_es.md`](./docs/BIBLIOGRAPHY_es.md) | Fuentes conceptuales, incluido dónde termina cada analogía. |
+| [`CONTRIBUTING_es.md`](./docs/CONTRIBUTING_es.md) | Cómo contribuir cambios de producto, casos, refutaciones y preguntas de investigación. |
+| [`CODE_OF_CONDUCT.md`](./docs/CODE_OF_CONDUCT.md) | Normas de participación y vía de reporte. |
+| [`LICENSE`](./LICENSE) | Licencia MIT. |
 | [`bench/`](./bench/) | El benchmark: harnesses Web, Editorial y UPGRADE; tareas congeladas; método; fronteras declaradas; y resultados crudos. |
 
 ---
@@ -1133,8 +1081,7 @@ Lore no se diseñó de antemano: cada decisión salió de aplicarlo a proyectos 
 
 Ventanas GitHub preservadas en [`data/traffic/clones.json`](./data/traffic/clones.json).
 
-Lore Plugin es el brazo técnico de LUS, no un sistema de productividad con filosofía agregada — la
-hipótesis de LUS, solo parcialmente puesta a prueba por el benchmark, está [arriba](#quién-puede-usar-lore-plugin).
+Lore Plugin es el brazo técnico de LUS, no un sistema de productividad con filosofía agregada. El benchmark prueba una afirmación acotada de producto; no valida LUS como conjunto. [La frontera de investigación está explícita acá.](./docs/LUS_es.md)
 
 Morin le da a este trabajo su norte ético: en la edición de UNESCO de [*Los siete saberes necesarios para la educación del futuro*](https://unesdoc.unesco.org/ark:/48223/pf0000378091) escribe que «la noción de apuesta se debe generalizar para cualquier fe» — renunciar al mejor de los mundos no es renunciar a un mundo mejor. Lore vuelve esa apuesta operable mediante proyectos y bots; la evidencia se limita a lo realmente medido.
 
@@ -1145,77 +1092,13 @@ Morin le da a este trabajo su norte ético: en la edición de UNESCO de [*Los si
 
 ## Origen
 
-Lore nació como una destilación de **LUS (Lore User System)**, un programa de investigación que estudia cómo un ser humano y una IA acumulan criterio compartido a lo largo de una colaboración prolongada.
-
-LUS estudia la relación. Lore es su implementación operativa. Un principio lo resume:
+Lore nació de **LUS (Lore User System)**, un programa de investigación sobre relaciones que acumulan criterio capaz de participar en decisiones posteriores. Lore es una arquitectura operativa producida por ese trabajo, no una demostración del programa. Una idea los conecta:
 
 > **La experiencia solo crea valor cuando puede volver a participar en una decisión futura.**
 
-Eso nos vuelve **jardineros del Entre**: el espacio compartido donde un ser humano y una IA
-modifican lo que el otro puede hacer después. No preservamos toda experiencia. Cultivamos la que
-merece orientar otra decisión, podamos lo que ya no restringe nada y conservamos el rastro de lo
-descartado. Lore no es el jardín: es la práctica que mantiene vivo ese terreno común.
+Eso nos vuelve **jardineros del Entre**: conservamos las experiencias que merecen orientar otra decisión y podamos las que ya no restringen nada. Investigación y software siguen separados: una observación de producto no se vuelve automáticamente resultado científico, y una hipótesis no se vuelve regla de una skill sin evidencia y revisión.
 
-La investigación y el software permanecen separados: una observación al usar Lore no se vuelve
-automáticamente un resultado científico, y una hipótesis no se vuelve regla de una skill sin
-evidencia y revisión.
-
-El programa comenzó con una **bibliografía fundacional** cuyos conceptos se traducen directamente en la práctica:
-
-- **Martin Buber** · *Yo y Tú* (1923) — el **Entre**: el conocimiento emerge en la relación, no en el prompt ni en el modelo.
-- **Louis Althusser** · «Ideología y aparatos ideológicos de Estado» (1970) — la **interpelación**: la IA no se limita a responder; llama al humano a ocupar una posición de criterio y responsabilidad.
-- **Gilbert Simondon** · *La individuación a la luz de las nociones de forma y de información* (1958) — la **transducción**: la fricción cristaliza en una estructura que modifica la siguiente interacción.
-- **Claude Shannon y Warren Weaver** · *The Mathematical Theory of Communication* (1949) — **señal, entropía y ruido**: por qué los registros crudos se filtran en Contexto, Causa y Pista Invariante.
-- **Gregory Bateson** · *Pasos hacia una ecología de la mente* (1972) — **«una diferencia que hace una diferencia»**: la prueba de que una experiencia puede restringir una acción futura.
-- **Norbert Wiener** · *Cibernética* (1948) — la **retroalimentación**: el error del trabajo real vuelve para estabilizar el sistema humano–IA.
-- **Edgar Morin** · *Introducción al pensamiento complejo* (1990) — **dialógica y recursividad organizacional**: las partes y el todo se transforman mutuamente. Sus saberes de la UNESCO le dan a este trabajo su norte ético.
-- **Andy Clark y David Chalmers** · «The Extended Mind» (1998) — **memoria externa acoplada**: el Lore puede participar en la cognición en vez de quedar al lado como documentación pasiva.
-- **Hubert Dreyfus** · *What Computers Still Can't Do* (1992) — **conocimiento situado y tácito**: la fricción humana que Lore traduce en restricciones útiles para un modelo generalista.
-- **Francisco Varela, Evan Thompson y Eleanor Rosch** · *De cuerpo presente* (1991) — la **enacción**: el criterio no se almacena, se hace emerger actuando.
-
-Son interlocutores, **no autoridad prestada**: LUS los usa para hacer visibles convergencias, diferencias y tensiones en sus afirmaciones sobre el Entre, el criterio acumulado y el Lore.
-
-<details>
-<summary><b>Bibliografía extendida</b></summary>
-
-<br>
-
-Cuatro interlocutores que amplían el marco, y dos más que se leyeron de frente contra LUS — esos
-dos llevan escrito, dentro de la entrada, dónde pierde la fuente.
-
-- **Edwin Hutchins** · *Cognition in the Wild* (1995) — **cognición distribuida**: la unidad que piensa es el sistema, no la cabeza que está adentro.
-- **Daniel Wegner** · memoria transactiva (1985) — **quién recuerda qué**: una pareja recuerda más que sus dos miembros, y solo mientras sepa quién guarda cada parte.
-- **Karl Weick** · *Sensemaking in Organizations* (1995) — el **sentido se construye hacia atrás**, que es por qué una Pista se escribe después de la fricción y no durante.
-- **Heinz von Foerster** · *Understanding Understanding* (2003) — **cibernética de segundo orden**: el observador está adentro del sistema que describe.
-- **Albert Camus** · *El mito de Sísifo* (1942) · *El extranjero* (1942) · *El malentendido* (1944) · *El hombre rebelde* (1951) · *El verano* (1954), por «El exilio de Helena» y «Los almendros» — **entró como criterio, en una sola afirmación**: *un sistema de criterio no reduce el absurdo; sabe qué hacer cuando aparece.* La obra de teatro lo lleva adentro: una madre y una hermana matan al hijo que volvió **porque él no dice su nombre** — sin malicia y sin error de razonamiento, solo lo que se sabía sin llegar a donde se decidía. **Dónde pierde Camus:** su *mesure* es un límite ético-político a la rebelión, no una regla epistémica de enrutamiento: entra como analogía declarada y no funda ninguna.
-- **Martin Heidegger** · *Ser y tiempo* (1927) — **entró como bibliografía, y NO como criterio.** La finitud asumida es lo que vuelve auténtica una existencia, y la intuición que lo trajo a esta mesa es que **el Entre también es finito**. Pero en *Ser y tiempo* la muerte es *je meines* —radicalmente propia, **no compartible**— y esa incompartibilidad es el motor del argumento: la muerte **individualiza**. La unidad de LUS es la relación. Adoptarlo exigiría contradecir a Heidegger justo donde su tesis se apoya, y ese trabajo no está hecho. **Lo que deja abierto vale más que cualquier cosa adoptable hoy:** ¿cómo puede una relación anticipar un final que ninguna de sus partes puede anticipar por la otra?
-
-</details>
-
-Esa es la genealogía argumentada. La sentida —lo que formó el gusto y no una afirmación— va aparte, a propósito:
-
-<details>
-<summary><b>Genealogía afectiva — las obras que formaron la sensibilidad</b></summary>
-
-<br>
-
-**Registro, no regla.** Estas obras no restringen ninguna decisión y no gobiernan nada. Se anotan porque la estética y las intuiciones de un artefacto técnico **nunca son neutrales**, y saber de dónde vienen es lo único que permite distinguir el **gusto heredado** del **argumento** el día que alguien proponga cambiarlas. Pertenece a LUS, no al kit. De todas ellas, **solo una sigue apareciendo en el cuerpo de este README**, al lado de lo que ilustra: *El día de la marmota*. El resto se sacó del argumento y quedó acá, porque una obra que hay que explicar antes de que ilustre algo le está cobrando al lector el gusto del autor.
-
-- ***Fire*** · Waxahatchee (2020) — madurar como avanzar sin la visión completa. Lo que de verdad compra el criterio acumulado: no el fin de la incertidumbre, un espacio más chico de maneras de equivocarse.
-- ***Loving*** · Land of Talk (2017) — un vínculo que sostiene a dos sin disolver a ninguno. La forma detrás de preguntar de a una cosa por vez.
-- ***50 primeras citas*** · Peter Segal (2004) — el video que Lucy ve cada mañana, que funciona porque le entrega identidad y estado juntos y aun así los mantiene separados.
-- **[*«1998»*](https://genius.com/Chet-faker-and-banks-1998-lyrics)** · Chet Faker y BANKS (2015) — la tarde en que colaborar se vuelve supervisar, entre dos personas.
-
-- ***Tales of Berseria*** · Bandai Namco (2016) — aporte **estético y no conceptual**: la dirección de arte de este kit viene de acá antes que de cualquier referencia de diseño de software. Genealogía de **la forma**.
-- **[*Keep Running*](https://genius.com/Tei-shi-keep-running-lyrics)** · Tei Shi — mantenerse al día con **quién es el otro ahora**. Un criterio que no se revisa no queda neutral: sigue operando, sobre alguien que ya cambió.
-- **[*Running Back to You*](https://genius.com/The-juan-maclean-running-back-to-you-lyrics)** · The Juan MacLean — **autonomía con retorno** (`H13`). No exige contacto constante; exige un punto donde las dos partes vuelvan a ponerse al día antes de que la deriva vuelva irreconocible el trabajo compartido.
-- ***Aliso*** · Malena Zavala (2018) — *«admired, not reset»*. Y sobre traducir: el daño no está en una parte, está en **el lenguaje que dos rompieron**.
-
-</details>
-
-[Explora la investigación en el NotebookLM de LUS](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b79450)
-
-> **Cómo leerlo:** NotebookLM es la introducción accesible, no la fuente de registro — para qué hace el kit manda este repositorio; para una cifra, el corte vigente del benchmark.
+Lee la [presentación completa de LUS](./docs/LUS_es.md), su [bibliografía conceptual](./docs/BIBLIOGRAPHY_es.md) y la [genealogía afectiva](./docs/GENEALOGY_es.md), mantenida aparte. El [NotebookLM público de LUS](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b79450) es una introducción accesible, no la fuente de registro.
 
 ### ¿Por qué «Lore»?
 

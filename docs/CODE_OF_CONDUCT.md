@@ -36,3 +36,6 @@ conflict of interest must step aside.
 Questions about this code can be raised in the
 [repository discussions](https://github.com/andresanemic/lore-plugin/discussions) or sent privately
 to the address above.
+
+For contribution routes and evidence boundaries, see [Contributing](./CONTRIBUTING_en.md) or
+[Contribuir](./CONTRIBUTING_es.md).
