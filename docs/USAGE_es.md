@@ -8,11 +8,7 @@ mantener tu Lore limpio y útil.
 > Te ayuda a preservar el **criterio** detrás de tus decisiones, para que tu IA nunca tenga que empezar desde cero.  
 > La analogía más cercana: fine-tuning local de tus tareas, y el que entrena eres tú.
 
-Lore Plugin es el brazo técnico de LUS. Su hipótesis amplia es que empezar pronto una memory card
-profesional puede ayudarnos a ser mejores profesionales: el criterio ganado viaja entre modelos y
-permite abordar trabajos ambiciosos con menos repetición. La productividad es un efecto posible, no
-el propósito. Siguiendo a Morin, es una apuesta ética por un mundo mejor, no la afirmación de que ya
-poseemos «el mejor de los mundos»; el README conserva las fuentes y la frontera de evidencia.
+Lore Plugin es el brazo técnico de LUS: empezar pronto una memory card profesional hace que el criterio ganado viaje entre modelos contigo. La productividad puede seguir; no es el propósito. El README conserva las fuentes y la frontera de evidencia.
 
 ---
 
@@ -34,9 +30,6 @@ El plugin Lore agrupa un conjunto de **skills** que implementan este ciclo:
 - `transmute-lore` – añade, limpia, traduce, actualiza o cristaliza un cuerpo de Lore existente.
 - `create-bot` – un lugar para trabajar en varias Áreas o proyectos con su criterio cargado.
 - `obsidian-lore` – captura notas libres en el mismo árbol y **mina** esa bandeja buscando criterio.
-
-Cuando PRUNE recibe un objetivo cuantitativo, ese número es una restricción de aceptación: mide la
-base, el remanente esperado y el resultado final en vez de tratar el porcentaje como sugerencia.
 
 > **El Lore habla tu idioma.** Aunque los skills están escritos en inglés, todo lo que generan —
 > contenido **y nombres de artefactos** — se escribe en el idioma en el que trabajas. `identidad.md`,
@@ -193,39 +186,21 @@ usar Lore Plugin, ayúdame»*: eso abre un **brainstorming, no un menú de coman
 **termina creando tu primer artefacto** — nunca con una lista de ocho skills ni con una
 recomendación. El kit brainstormea para construir todo lo que hace; sería incoherente que su propia
 puerta de entrada fuera un menú.
-Para **entregables complejos**, primero fija el proyecto dueño, el Lore enrutado, un precedente
-aprobado o ejemplar aprobado por una persona y las capacidades realmente disponibles mediante
-herramientas, conectores o MCPs. Cuando el lote se divide entre tramo mecánico y arbitraje, sugiere
-`/model` para bajar de nivel en el tramo mecánico en vez de un subagente — un subagente relee todo
-el árbol de Lore antes de empezar, y eso quema justo los tokens que este movimiento existe para
-ahorrar. El trabajo avanza después en lotes revisables, con revisión humana y entrega comprobada;
-la skill de dominio sigue siendo dueña de cada medio y herramienta.
+Para **entregables complejos** fija el proyecto dueño, el Lore enrutado, un precedente aprobado y las capacidades que tus herramientas realmente tienen, y avanza después en lotes revisables con revisión humana y entrega comprobada — sugiriendo `/model` en un nivel más barato para el tramo mecánico, porque un subagente relee todo el árbol de Lore y quema justo los tokens que este movimiento ahorra. La skill de dominio sigue siendo dueña de cada medio y herramienta.
 
 ---
 
 ### 5.2 `brainstorming-lore` – Diseñar cambios de Lore antes de escribir
 
-Con canon provisional, pregunta solo lo necesario para una primera victoria. Las preguntas posteriores deben desbloquear una decisión o mejorar el artefacto, manteniendo explícitas la incertidumbre y la corrección.
-
-En trabajo estructural, cada respuesta aprobada entra en un solo artefacto acumulado y se recapitula en hitos contextuales. El piso es la continuidad reconocible: la persona puede identificar y corregir su intención sin recomenzar. Aplica al crear o transformar materialmente bots, proyectos, Áreas y cristalizaciones, no a ediciones mecánicas ni a una captura puntual.
-
-El artefacto acumulado es también el punto compartido de retorno: los avances autónomos pueden acumularse sin contacto constante y una destilación aprobada los resincroniza con el criterio común.
-
-Un Entre disfrutable no es uno que siempre concuerda o complace. El esfuerzo compartido es fértil cuando la corrección, el desacuerdo y la revisión producen movimiento reconocible en el artefacto o el criterio. Si el esfuerzo se acumula sin ese movimiento, hay que detenerse y reparar el proceso.
-
-**Propósito:** explorar un artefacto Lore nuevo o materialmente distinto sin quitarle la propiedad a
-la skill que lo va a escribir.
-
-Normalmente la invocan `create-area`, `create-project` o `create-bot` antes de su umbral. También
-puedes invocarla directamente:
+**Propósito:** explorar un artefacto Lore nuevo o materialmente distinto sin quitarle la propiedad a la skill que lo va a escribir. Normalmente la invocan `create-area`, `create-project` o `create-bot` antes de su umbral; también puedes invocarla directamente:
 
 ```text
 haz brainstorming de este Lore antes de reestructurarlo
 ```
 
-Primero lee el criterio vigente, pregunta de a una decisión que cambie el diseño, compara solo los
-caminos que importan y entrega el diseño aprobado a la skill dueña. Una auditoría de solo lectura,
-una edición mecánica pequeña o un plan ya aprobado no la necesitan.
+Primero lee el criterio vigente, pregunta de a una decisión que cambie el diseño, compara solo los caminos que importan y entrega el diseño a la skill dueña. Con canon provisional pregunta solo lo que necesita una primera victoria. Cada respuesta aprobada entra en un artefacto acumulado que recapitula en hitos — el piso es la **continuidad reconocible**: seguís viendo tu intención y podés corregir el rumbo sin recomenzar. Los avances autónomos se resincronizan con destilación aprobada; el esfuerzo es fértil mientras la corrección deja movimiento reconocible; si deja de dejarlo, frená y repará el proceso. Una auditoría de solo lectura, una edición mecánica pequeña o un plan ya aprobado no la necesitan.
+
+**Segundo caso (2.3.0):** además de los artefactos que Lore posee, entra cuando un `lore/` enrutado **gobierna cómo se produce un entregable** — un lote de posts, un informe — y el diseño consiste en decidir cómo correr criterio ya escrito. El predicado se responde antes de invocar nada; si el Lore solo aportaría color de fondo, no entra, y el traspaso va a la fase que gobierna, nunca a un planificador tercero.
 
 ---
 
@@ -287,10 +262,7 @@ Mantén candidatas mientras continúa la sesión. Sugiere captura en un hito con
 **capture** (fricción vivida) y **graft** (criterio importado de una skill, una guía ajena o el
 documento de gobierno de otro kit).
 
-> *Renombrado en 2.1.1: hasta la 2.0.9 el segundo modo se llamaba `arbitrate` y en la 2.1
-> `transplant`. Misma ley, mismas cuatro puertas — el nombre nuevo dice qué es la operación. Un
-> injerto es tejido ajeno unido a un patrón vivo: echa raíces o es rechazado, y lo que crece después es
-> del huésped. Un injerto que nadie mira es madera muerta atada a un árbol sano.*
+> *Renombrado en 2.1.1 (`arbitrate`, luego `transplant`). Misma ley, mismas cuatro puertas: un injerto es tejido ajeno unido a un patrón vivo — echa raíces o es rechazado, y lo que crece después es del huésped.*
 
 #### Modo `capture` (por defecto) — la cicatriz
 
@@ -332,23 +304,9 @@ Lore hará tres cosas que conviene esperar:
 
 Tres casos que conviene conocer antes de correrlo:
 
-- **Un documento de gobierno es el más difícil, y el que más se saltea.** Cuando un segundo kit trae
-  una constitución o un estatuto que declara su propia autoridad, el reflejo es tratarlo como
-  configuración y adoptarlo. Es criterio escrito bajo la finalidad de otro, y una cláusula de
-  supremacía es exactamente de las que **pierden**: un kit instalado esta semana no puede gobernar
-  criterio que pagaste antes de que existiera. Esa derrota se **escribe**, no se omite — una omisión
-  deja un hueco que la próxima regeneración de plantilla vuelve a llenar.
-- **En calendario, empieza leyendo lo que ya perdió.** Una pasada recurrente sobre un campo que se
-  mueve más lento que su propia frecuencia se encuentra siempre el mismo material, así que lee
-  primero las derrotas ya escritas y no las vuelve a arbitrar. **«Esta vez no entró nada» es un
-  resultado válido** y se escribe así — una pasada recurrente que siempre encuentra algo dejó de
-  mirar y empezó a justificarse.
-- **Una skill ajena que *invocas* también trae criterio**, y lo aplica sin preguntar. Este modo es
-  para criterio que llega como documento; el caso difícil es el que llega como **herramienta que
-  corre** — un formateador, un linter, un revisor de estilo. Pasale tu Lore en la invocación, como
-  entrada: casi todas tienen una cláusula de calibración que hace que una muestra provista le gane a
-  sus valores por defecto, y las que no la tienen se tratan como capacidad y se mantienen lejos de lo
-  que tu Lore gobierna. **Una herramienta no es neutral por ser útil.**
+- **Un documento de gobierno es el caso más difícil.** La constitución de otro kit es criterio escrito bajo su finalidad, y su cláusula de supremacía es exactamente de las que **pierden**: un kit instalado esta semana no puede gobernar criterio que pagaste antes de que existiera. Esa derrota se **escribe**, no se omite — una omisión deja un hueco que la próxima regeneración de plantilla vuelve a llenar.
+- **En calendario, empieza leyendo lo que ya perdió** y no lo vuelve a arbitrar. **«Esta vez no entró nada» es un resultado válido** y se escribe así — una pasada recurrente que siempre encuentra algo dejó de mirar y empezó a justificarse.
+- **Una herramienta que *invocas* también trae criterio.** Pasale tu Lore en la invocación: casi todas aceptan que una muestra provista les gane a sus valores por defecto, y las que no la tienen son capacidad — se mantienen lejos de lo que tu Lore gobierna. **Una herramienta no es neutral por ser útil.**
 
 No hace falta pedirlo siempre de forma explícita: si acabas de resolver una fricción que cumple un
 **umbral de 4 condiciones** (restringe una decisión futura, es destilable a Contexto→Causa→Pista,
@@ -402,36 +360,19 @@ No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene oc
   de solo lectura: el criterio que ningún paso corre se parece exactamente a lo que sobra, y quitarlo es
   el único corte que este modo no puede deshacer. **Y vuelve a correr al cerrar**, porque una poda
   cambia juntas y no solo volumen: puede haberse llevado el paso que corría una Pista que dejó viva.
-- `micelio` – **(2.3.0)** ¿puede el Lore disparar de verdad? Recorrido de solo lectura de la red que reporta qué
+- `micelio` – **(2.3.0)** ¿puede el Lore disparar de verdad? Recorrido de solo lectura que reporta qué
   Pistas quedaron **sin micorriza**: ningún paso de ningún procedimiento las corre, así que no pueden
-  dispararse. Se corre en **tres momentos**: antes de una tarea compleja, justo después de instalar o actualizar el
-  kit, y **al salir de cualquier pasada que escribió Lore** —`PRUNE`, `GRAFT`, una destilación—, antes
-  del trabajo que se va a apoyar en el resultado. **La pasada de salida no es la de entrada repetida:**
-  una Pista nueva **nace aislada**, así que una pasada que escribe fabrica el defecto que este modo
-  detecta, y el barrido anterior es ciego a lo que ella produjo.
-  Reporta pares —Pista ⇢ junta que falta— y una **tasa**, nunca un puntaje: un porcentaje invita a
-  subirlo borrando lo desconectado. La primera corrida real encontró cuatro, las cuatro de menos de
-  48 horas (`H14`).
-  **Desde el 2026-08-22 el barrido no se detiene en `lore/`:** también recorre las carpetas de fuente
-  —`docs/`, `notas/`, `estrategia/`— buscando lenguaje imperativo, porque **criterio que aterrizó ahí
-  no puede ni clasificarse**: el universo del paso 1 nunca lo contuvo. Ese es el quinto resultado, y el
-  único cuyo reparo son **dos movimientos** — primero se mueve adentro de `lore/`, y recién ahí se le
-  cuelga un paso.
-  **Nunca hace falta aprender vocabulario para usarlo, y el modo corre en silencio.** No se anuncia
-  ni narra que corrió: una pasada limpia no dice nada, y una con hallazgos reporta **los hallazgos**
-  en frase llana — *«nada la corre»*, *«apunta a un lugar donde no está»*. Lo que los seis resultados
-  conservan es su distinción, no sus nombres: dos de ellos se reparan al revés, y una redacción que
-  los fusionara devolvería el reparo al lugar equivocado.
-  **El tercer disparador es automático y su condición es estrecha:** salta cuando una pasada
-  **escribió criterio y tocó enrutamiento**, las dos mitades, y **nunca vuelve a reportar lo que ya
-  declinaste** — un chequeo que se vuelve ruido no se corre, y entonces no detecta nada.
-  **Y un sexto, del mismo día:** `Junta a otro árbol` — la junta existe, está bien declarada, y el
-  paso que nombra vive en **un artefacto operativo que la sesión no carga**. No falta nada y nada
-  está fuera de lugar: la Pista simplemente no puede disparar *acá*. Se confunde con `Media junta` y
-  se repara al revés — ahí el término falta en el destino, acá está y el destino no es el artefacto
-  en vigor—, así que el reparo no es escribirlo otra vez sino **nombrar el paso en el artefacto que
-  de verdad está corriendo**. Lo delata el paso 0: resuelto el árbol dueño de cada raíz, se pregunta
-  de cada junta si el artefacto que nombra es uno que esta sesión carga.
+  dispararse. Reporta pares —Pista ⇢ la junta que falta— y una **tasa, nunca un puntaje**: un
+  porcentaje invita a subirlo borrando lo desconectado (`H14`). Tres disparadores: antes de una tarea
+  compleja, justo después de instalar o actualizar el kit, y automáticamente al salir de cualquier
+  pasada que **escribió criterio y tocó enrutamiento** — una pasada que escribe fabrica exactamente el
+  defecto que esto detecta, así que la pasada de salida nunca es la de entrada repetida, y nunca vuelve
+  a reportar lo que ya declinaste. Desde el 2026-08-22 el barrido también recorre carpetas de fuente
+  (`docs/`, `notas/`) buscando lenguaje imperativo: criterio que aterrizó ahí no puede ni clasificarse,
+  y su reparo son dos movimientos — adentro de `lore/` primero, y recién ahí colgarle un paso. Ojo con
+  `Junta a otro árbol`: la junta existe pero nombra un artefacto que esta sesión no carga — el reparo es
+  nombrar el paso donde el trabajo de verdad corre, no escribir la Pista otra vez. Corre en silencio:
+  una pasada limpia no dice nada.
 - `leave` – **(2.3.0)** deja el Lore sin perder el proyecto — quita el gobierno (`<!-- lore:always-on -->`) pero conserva `lore/` y el enrutamiento como `enrutamiento.md` plano, dejando `FASES.md` con marca `leave:` para que `UPGRADE` pueda volver. El proyecto sigue buildeable sin el kit (H13).
 - `crystallize` – exporta el Lore vivo y enrutado como un solo Markdown seguro y trazable para un
   chat, proyecto de IA o notebook. La fotografía es derivada, puede quedar obsoleta, nunca
@@ -452,12 +393,9 @@ hallazgos sin ningún `Earned` en un Lore con historia es señal de que el pase 
 formateador. Además: la confianza **nunca** sube por antigüedad —una conjetura que sobrevivió tres
 versiones sigue siendo conjetura— y una frontera ausente se **pregunta**, no se infiere.
 
-**Desde 2.1.4, el upgrade de un árbol (o de varios) no se lee entero.** Se nombra primero dónde está cada git y cada `lore/`. En `lore/`, contrato y `FASES` que mandan hoy, `HARD-GATE` se dice umbral. El registro fechado se deja. Un índice largo recibe la cabecera del formato y no se reescribe fila por fila. Falta `identidad.md` es ADD, no este modo. En una campaña, el umbral es por clase: el primer árbol la muestra; los siguientes la aplican.
+**Desde 2.1.4, el upgrade de un árbol no se lee entero:** se nombra primero dónde está cada git y cada `lore/`; se deja registro fechado; un índice largo recibe cabecera de formato sin reescribir fila por fila; falta `identidad.md` es ADD, no este modo; en campaña el umbral es por clase — el primer árbol la muestra, los siguientes la aplican.
 
-**`Stale` es el que ninguna lectura encuentra**, y por eso se detecta contra el repositorio —los
-commits recientes y los entregables reales que ese módulo gobierna— y nunca releyendo. Un artefacto
-consistente consigo mismo y falso hacia afuera sobrevive toda revisión: el texto viejo se lee
-perfectamente coherente, y eso es justamente lo que impide notarlo.
+**`Stale` es el que ninguna lectura encuentra**, y por eso se detecta contra el repositorio y nunca releyendo: el texto viejo se lee perfectamente coherente, y eso es justamente lo que impide notarlo.
 
 **Sobre `prune`, el único modo sustractivo.** Clasifica cada hallazgo en cuatro tipos propios, y
 cuenta antes de leer — porque el defecto que existe para atacar es invisible leyendo los archivos de
@@ -731,11 +669,3 @@ Para que tu Lore se mantenga útil:
 - Revisa siempre el diff que Lore propone antes de confirmar cambios.
 
 Si quieres una visión más conceptual de por qué existe Lore y en qué se diferencia de la documentación tradicional, consulta el [`README.md`](../README.md).
-
-- **`brainstorming-lore` — segundo caso (2.3.0).** Además del artefacto **propiedad** de Lore, entra
-  cuando un `lore/` enrutado **gobierna cómo se produce** un entregable que Lore no posee —un lote de
-  publicaciones, un informe— y el diseño consiste en decidir cómo correr criterio ya escrito. El
-  predicado se contesta **antes** de invocar nada, y **si el Lore solo aportaría contexto de fondo,
-  no entra**. Existe porque el caso excluido cae en un brainstorming genérico que **termina
-  obligando `writing-plans`**, metiendo un planificador ajeno en medio de un proceso cuyo paso
-  siguiente el propio Lore ya define. El handoff va a esa fase, nunca a `writing-plans`.

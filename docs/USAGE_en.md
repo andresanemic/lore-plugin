@@ -8,11 +8,7 @@ keeping your Lore clean and useful.
 > It helps you preserve the **criteria** behind your decisions, so your AI never has to start from scratch.  
 > Closest analogy: local fine-tuning for your own tasks, and the one doing the training is you.
 
-Lore Plugin is the technical arm of LUS. Its wider hypothesis is that beginning a professional
-memory card early can help people become better professionals by carrying earned criteria across
-models and producing ambitious work with less repetition. Productivity is a possible effect, not
-the purpose. Following Morin, this is an ethical wager toward a better world, not a claim that we
-already possess “the best of all worlds”; the README gives the sources and evidence boundary.
+Lore Plugin is the technical arm of LUS: begin a professional memory card early, and earned criteria travels across models with you. Productivity may follow; it is not the purpose. The README carries the sources and the evidence boundary.
 
 ---
 
@@ -34,9 +30,6 @@ The Lore plugin bundles a set of **skills** that implement this loop:
 - `transmute-lore` – add, clean, translate, upgrade or crystallize an existing body of Lore.
 - `create-bot` – one place to work across several Areas or projects with their criteria loaded.
 - `obsidian-lore` – capture free notes in the same tree and **mine** that inbox for criteria.
-
-When PRUNE receives a quantitative target, that number is an acceptance constraint: measure the
-baseline, expected remainder, and final result instead of treating the percentage as a suggestion.
 
 > **Lore speaks your language.** The skills are written in English, but everything they generate —
 > content **and artifact filenames** — is written in the language you work in. `identidad.md`,
@@ -187,39 +180,21 @@ You can ask things like:
 - “Guide me to the right skill for capturing a new invariant.”
 - “Build this complex deliverable from several sources and deliver it to the target system.”
 
-`use-lore` is the safest place to start if you’re unsure which skill to use next.
-For **complex deliverables**, it first fixes the owning project, routed Lore, an approved precedent
-or human-approved specimen, and the capabilities actually available through tools, connectors or
-MCPs. When the batch splits into mechanical bulk and arbitration, it suggests `/model` for a
-cheaper tier on the bulk instead of a subagent — a subagent re-reads the whole Lore tree before it
-starts, which burns the tokens this move exists to save. Work then advances in reviewable batches
-with human review and checked delivery; the domain skill still owns each medium and tool.
+`use-lore` is the safest place to start if you’re unsure which skill to use next. For **complex deliverables** it fixes the owning project, the routed Lore, an approved precedent and the capabilities your tools actually have, then advances in reviewable batches with human review and checked delivery — suggesting `/model` on a cheaper tier for mechanical bulk, because a subagent re-reads the whole Lore tree and burns the tokens this move exists to save. The domain skill still owns each medium and tool.
 
 ---
 
 ### 5.2 `brainstorming-lore` – Design Lore Changes Before Writing
 
-With provisional canon, ask only what is needed for a first victory. Later questions must unlock a decision or improve the artifact, while keeping uncertainty and correction explicit.
-
-For structural work, carry every approved answer into one accumulated artifact and recap it at contextual milestones. The floor is recognizable continuity: the human can still identify and correct their intention without restarting. This applies to creating or materially transforming bots, projects, Areas and crystallizations, not to mechanical edits or one capture.
-
-The accumulated artifact is also the shared return point: independent advances may accumulate without constant contact, and an approved distillation resynchronizes them with the common criterion.
-
-An enjoyable Entre is not one that always agrees or pleases. Shared effort is fertile when correction, disagreement and review produce recognizable movement in the artifact or criterion. If effort accumulates without that movement, stop and repair the process.
-
-**Purpose:** explore a new or materially changed Lore artifact without taking ownership away from
-the skill that will write it.
-
-It is usually invoked by `create-area`, `create-project`, or `create-bot` before their threshold. You
-can also invoke it directly:
+**Purpose:** explore a new or materially changed Lore artifact without taking ownership away from the skill that will write it. It is usually invoked by `create-area`, `create-project`, or `create-bot` before their threshold; you can also invoke it directly:
 
 ```text
 brainstorm this Lore before we restructure it
 ```
 
-It reads the current criterion first, asks one decision-changing question at a time, compares only
-the approaches that matter, and hands the approved design back to the owner skill. Read-only audits,
-small mechanical edits, and an already approved plan do not need it.
+It reads the current criterion first, asks one decision-changing question at a time, compares only the approaches that matter, and hands the approved design back to the owner skill. With provisional canon it asks only what a first victory needs. Every approved answer lands in one accumulated artifact that recaps at milestones — the floor is **recognizable continuity**, so you can still see your intention and correct course without restarting. Independent advances resynchronize through approved distillation; effort stays fertile while correction leaves recognizable movement, and if it stops leaving movement, stop and repair the process. Read-only audits, small mechanical edits, and an already approved plan do not need it.
+
+**Second case (2.3.0):** beyond artifacts Lore owns, it enters when a routed `lore/` **governs how a deliverable gets produced** — a batch of posts, a report — and the design work is deciding how to run criteria already written. The predicate is answered before invoking anything; if the Lore would only supply background colour, it does not enter, and handoff goes to the governing phase, never to a third-party planner.
 
 ---
 
@@ -281,10 +256,7 @@ Keep candidates while the session continues. Suggest capture at a contextual mil
 from: **capture** (lived friction) and **graft** (criteria imported from a third-party skill,
 guide, or another kit's governing document).
 
-> *Renamed in 2.1.1: through 2.0.9 the second mode was called `arbitrate`, and in 2.1 `transplant`.
-> Same law, same four gates — the new name says what the operation is. A graft is foreign tissue
-> bound to a living rootstock: it takes root or it is rejected, and what grows afterwards belongs to the
-> host. A graft nobody checks is deadwood tied to a healthy tree.*
+> *Renamed in 2.1.1 (`arbitrate`, then `transplant`). Same law, same four gates: a graft is foreign tissue bound to a living rootstock — it takes root or is rejected, and what grows afterwards belongs to the host.*
 
 #### `capture` mode (default) — the scar
 
@@ -322,22 +294,9 @@ Lore will do three things you should expect:
 
 Three cases worth knowing before you run it:
 
-- **A governing document is the hardest one, and the most often skipped.** When a second kit ships a
-  constitution or charter that declares its own authority, the reflex is to treat it as configuration
-  and adopt it. It is criteria written under someone else's purpose, and a supremacy clause is exactly
-  the kind that **loses** — a kit installed this week cannot govern criteria you paid for before it
-  existed. That defeat gets written down rather than quietly omitted, because an omission leaves a
-  hole the next template regeneration fills back in.
-- **On a schedule, it starts by reading what already lost.** A recurring pass over a field that moves
-  slower than its own schedule keeps meeting the same material, so it reads the existing defeats first
-  and does not re-arbitrate them. **"Nothing entered this time" is a valid result** and is written as
-  such — a recurring pass that always finds something stopped looking and started justifying itself.
-- **A third-party skill you *invoke* carries criteria too**, and applies it without asking. This mode
-  is for criteria arriving as a document to read; the harder case is a tool that runs — a formatter, a
-  linter, a style checker. Feed it your Lore in the invocation, as its input: most have a calibration
-  clause that makes a provided sample outrank their defaults, and the ones that do not should be
-  treated as capacity and kept away from what your Lore governs. **A tool is not neutral because it is
-  useful.**
+- **A governing document is the hardest case.** A second kit's constitution is criteria written under someone else's purpose, and its supremacy clause is exactly the kind that **loses** — a kit installed this week cannot govern criteria you paid for before it existed. The defeat gets written down, never quietly omitted: an omission leaves a hole the next template regeneration fills back in.
+- **On a recurring pass, it reads the existing defeats first** and does not re-arbitrate them. **"Nothing entered this time" is a valid result**, written as such — a pass that always finds something stopped looking and started justifying itself.
+- **A third-party tool you *invoke* carries criteria too.** Feed it your Lore in the invocation: most tools accept a calibration clause that makes a provided sample outrank their defaults, and the ones that do not are capacity — kept away from what your Lore governs. **A tool is not neutral because it is useful.**
 
 > **What the source loses is worth more than what the source offers.** The summary already exists,
 > better written, in the source. The disagreement exists nowhere else, and it is the only thing that
@@ -397,37 +356,18 @@ It is not a CLI command: the mode is inferred from the phrase, not from a flag. 
   and removing it is the one cut this mode cannot undo. **And it scans again on the way out**, because
   a removal changes junctions and not only volume: the step it took out may have been the one running
   a clue it left alive.
-- `micelio` – **(2.3.0)** can the Lore actually fire? A read-only walk of the network reporting which
-  clues have **no micorriza**: no step of any procedure runs them, so they cannot fire. Three
-  triggers — before a complex task, right after installing or updating the kit, and **on the way out
-  of any pass that wrote Lore** (`PRUNE`, `GRAFT`, a distillation), before the work leans on the
-  result. **The exit pass is not the entry pass repeated:** a new clue is born `Aislada`, so a pass
-  that writes manufactures the very defect this mode detects. Run it
-  **before a complex task** and right after installing or updating the kit. It reports pairs — clue
-  ⇢ the junction that is missing — and a **rate**, never a score: a percentage invites raising it by
-  deleting the disconnected clues. First real run found four, all under 48 hours old (`H14`).
-  **Since 2026-08-22 the sweep does not stop at `lore/`:** it also walks the source folders —
-  `docs/`, `notes/`, `estrategia/` — looking for imperative language, because **criteria that landed
-  there cannot even be classified**: step 1's universe never contained it. That is the fifth outcome, and
-  the only one whose repair is **two moves** — first move it into `lore/`, and only then attach a
-  step.
-  **You never have to learn a vocabulary to use it, and the mode runs quiet.** It does not announce
-  itself and does not narrate that it ran: a clean pass says nothing, and a pass with findings
-  reports the findings in plain language — *"nothing runs it"*, *"it names a place where it is not
-  written"*. What the six outcomes keep is their distinction, not their names: two of them are
-  repaired in opposite directions, and wording that merged them would send the repair back to the
-  wrong place.
-  **The third trigger is automatic and its condition is narrow:** it fires when a pass **wrote
-  criteria and touched routing** — both halves — and **never re-reports a finding you already
-  declined**, because a check that turns into noise stops being run, and then it detects nothing.
-  **And a sixth, from the same day:** `Junta a otro árbol` — the junction exists, is correctly
-  declared, and the step it names lives in **an operating artifact the session does not load**.
-  Nothing is missing and nothing is misplaced: the clue simply cannot fire *here*. It is easily
-  mistaken for `Media junta` and repaired backwards — there the term is absent at the destination,
-  here it is present and the destination is not the artifact in force — so the repair is not writing
-  it again but **naming the step in the artifact that is actually running**. Step 0 is what surfaces
-  it: once every tree's owning area is resolved, ask of each junction whether the artifact it names
-  is one this session loads.
+- `micelio` – **(2.3.0)** can the Lore actually fire? A read-only walk reporting which clues have
+  **no micorriza**: no step of any procedure runs them, so they cannot fire. It reports pairs — clue
+  ⇢ the missing junction — and a **rate, never a score**: a percentage invites raising it by deleting
+  disconnected clues. Three triggers: before a complex task, right after installing or updating the
+  kit, and automatically on the way out of any pass that **wrote criteria and touched routing** — a
+  writing pass manufactures exactly the defect this detects, so the exit pass is never the entry pass
+  repeated, and it never re-reports a finding you already declined. Since 2026-08-22 the sweep also
+  walks source folders (`docs/`, `notes/`) for imperative language: criteria that landed there cannot
+  even be classified, and its repair is two moves — into `lore/` first, then attach a step. Watch for
+  `Junta a otro árbol`: the junction exists but names an artifact this session does not load — the fix
+  is naming the step where the work actually runs, not writing the clue again. It runs quiet: a clean
+  pass says nothing (`H14`).
 - `leave` – **(2.3.0)** leave Lore without losing the project — remove governance (`<!-- lore:always-on -->`) but keep `lore/` and routing as plain `enrutamiento.md`, leaving `FASES.md` with `leave:` marker so `UPGRADE` can return. Project stays buildable without the kit (H13).
 - `crystallize` – export the live, routed Lore as one safe and traceable Markdown for a chat, AI
   project or notebook. The snapshot is derived, may become stale, never replaces the source, and
@@ -448,12 +388,9 @@ no `Earned` entries in a Lore with real history means the pass is being run as a
 confidence **never** rises with age — a conjecture that survived three versions is still a conjecture
 — and a missing boundary is **asked for**, never inferred.
 
-**Since 2.1.4, upgrading a tree (or several) is not a full read.** Name every git root and every `lore/` first. In live `lore/`, contract and `FASES` that still command, `HARD-GATE` is said as threshold. A dated record is left. A long index gets a format header; its rows are not rewritten. A missing `identidad.md` is ADD, not this mode. In a campaign the threshold is per class: the first tree shows it; later trees apply it.
+**Since 2.1.4, upgrading a tree is not a full read:** name every git root and every `lore/` first; leave a dated record; a long index gets a format header without rewriting its rows; a missing `identidad.md` is ADD, not this mode; in a campaign the threshold is per class — the first tree shows it, later trees apply it.
 
-**`Stale` is the one no reading finds**, which is why it is detected against the repository — the
-recent commits and the actual deliverables the module governs — and never by re-reading. An artifact
-consistent with itself and false about the outside survives every review: the stale text reads
-perfectly coherent on its own, and that is exactly what keeps anyone from noticing.
+**`Stale` is the one no reading finds**, which is why it is detected against the repository and never by re-reading: stale text reads perfectly coherent on its own, and that is exactly what keeps anyone from noticing.
 
 **About `prune`, the only subtractive mode.** It sorts every finding into four kinds of its own, and
 it counts before it reads — because the defect it exists for is invisible when you read files one at
@@ -727,11 +664,3 @@ To keep your Lore useful:
 - Always review the diff that Lore proposes before committing changes.
 
 If you want a conceptual overview of why Lore exists and how it differs from traditional documentation, see the main [`README.md`](../README.md).
-
-- **`brainstorming-lore` — second case (2.3.0).** Beyond the artifact Lore **owns**, it enters when a
-  routed `lore/` **governs how a deliverable is produced** — a batch of posts, a report — and the
-  design work is deciding how to run criteria already written. The predicate is answered **before**
-  invoking anything, and **if the Lore would only supply background colour, it does not enter**. It
-  exists because the excluded case lands in a generic brainstorming skill that **terminates by
-  requiring `writing-plans`**, inserting a third-party planner into a process whose next step the
-  governing Lore already specifies. Handoff goes to that phase, never to `writing-plans`.

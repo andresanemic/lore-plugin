@@ -44,9 +44,6 @@ El plugin Lore expone ocho skills principales a través de agentes de IA compati
 
 Cada skill opera sobre, o crea, artefactos Markdown específicos dentro de tu repositorio.
 
-En PRUNE, un objetivo cuantitativo es una restricción de aceptación: fija la base y el remanente
-esperado, y luego mide el resultado antes de aceptar la edición.
-
 **Idioma:** los skills están escritos en inglés, pero el Lore que generan se escribe siempre en el
 **idioma del usuario** — tanto el contenido como los nombres de los artefactos. `identidad.md`,
 `principios.md`, `FASES.md`, `proyectos/` son las formas canónicas en español (y así aparecen en
@@ -73,12 +70,7 @@ Estos skills **no son comandos de una CLI**: son *skills* del agente que se disp
 - Explicar la arquitectura de Lore para el proyecto o Área actual.
 - Mostrar qué artefactos existen y cómo están estructurados.
 - Dirigirte al skill adecuado según tu intención.
-- Para **entregables complejos**, fijar el dueño y el Lore enrutado, un precedente aprobado o
-  ejemplar aprobado por una persona, las capacidades verificadas de herramientas, conectores o
-  MCPs, lotes revisables, revisión humana y la entrega comprobada. Cuando el lote se divide entre
-  tramo mecánico y arbitraje, sugerir `/model` para bajar de nivel en vez de un subagente — un
-  subagente relee todo el árbol de Lore antes de empezar. Enrutar cada medio y herramienta a su
-  skill dueña en vez de convertirse en una novena skill de producción.
+- Para **entregables complejos**, fijar dueño, Lore enrutado, precedente, capacidades verificadas, lotes revisables y entrega comprobada; sugerir `/model` para el tramo mecánico en vez de un subagente — un subagente relee todo el árbol de Lore primero. Enrutar cada medio a su skill dueña en vez de convertirse en una novena skill de producción.
 - **Enrutar una petición de bot, nunca contestarla con un Área** (2.1.1). En una máquina sin nada de
   Lore, quien pide bots ya nombró el entregable: las Áreas son **pasos**, `create-bot` corre al
   final, y la cadena se dice completa con su costo — un `create-area` más un `transmute-lore` por
@@ -100,11 +92,11 @@ Usa `use-lore` siempre que no tengas claro dónde empezar.
 
 **Regla de canon provisional:** las preguntas sirven a la primera victoria; después solo existen para desbloquear decisiones o mejorar el artefacto, y deben admitir incertidumbre y corrección.
 
-**Regla de continuidad reconocible:** el trabajo estructural mantiene un solo artefacto acumulado, avanza una decisión por vez y recapitula en hitos contextuales. La persona debe seguir reconociendo y pudiendo corregir su intención original. `create-area`, `create-project`, `create-bot` y los modos estructurales de `transmute-lore` heredan la regla; el trabajo mecánico no.
+**Regla de continuidad reconocible:** el trabajo estructural mantiene un solo artefacto acumulado, avanza una decisión por vez y recapitula en hitos — la persona sigue reconociendo su intención y puede corregirla. `create-area`, `create-project`, `create-bot` y los modos estructurales de `transmute-lore` heredan la regla; el trabajo mecánico no.
 
-**Regla de autonomía con retorno:** el artefacto acumulado es el punto compartido de retorno. El trabajo autónomo puede acumularse; una recapitulación contextual y una destilación aprobada lo resincronizan sin exigir contacto constante.
+**Regla de autonomía con retorno:** el trabajo autónomo puede acumularse; una recapitulación y una destilación aprobada lo resincronizan con el criterio común.
 
-**Regla del esfuerzo fértil:** un Entre disfrutable no se mide por acuerdo ni complacencia. La corrección, el desacuerdo y la revisión deben dejar movimiento reconocible en el artefacto o el criterio; el esfuerzo sin ese movimiento exige reparar el proceso.
+**Regla del esfuerzo fértil:** corrección, desacuerdo y revisión deben dejar movimiento reconocible en el artefacto o el criterio; el esfuerzo sin movimiento exige reparar el proceso.
 
 **Rol:** Diseñar un artefacto Lore nuevo o materialmente distinto antes de que la skill dueña lo escriba.
 
@@ -144,19 +136,15 @@ Usa `use-lore` siempre que no tengas claro dónde empezar.
 - Una carpeta `proyectos/` vacía, donde nacerán los proyectos futuros.
 - Una carpeta `_starter/` con las plantillas de proyecto ajustadas al dominio del Área
   (`CLAUDE.template.md` o `AGENTS.template.md`, `FASES.md` y, si aplica,
-  `golden-paths.template.md`, más cualquier
-  scaffold de código base). `create-project` instancia estas plantillas al crear cada proyecto.
-  El piso es estructural (2.1.5): always-on, `FASES` fuera, umbral, heredar por ruta. Si el Área es
+  `golden-paths.template.md`, más cualquier scaffold de código base); `create-project` las instancia por proyecto.
+  El piso es estructural (2.1.5): always-on, `FASES` fuera, umbral, heredar por ruta — para un Área
   `bots`, la variante es `canon/` + enrutamiento.
 
 **Responsabilidades:**
 
 - Establecer un lugar donde viva el criterio compartido de un dominio.
 - Proporcionar el esqueleto (`_starter/`) que los proyectos instancian.
-- **Devolver el control a la skill que la llamó** (2.1.1). Un Área es tantas veces un **paso** como un
-  destino: `create-bot` la necesita antes de que el bot exista, y `create-project` necesita el Área a
-  la que apunta. Cuando la llamó `create-bot`, el Área es `bots` —**una**, con todos los bots dentro
-  como proyectos— y su dominio son los bots del usuario, nunca el de ninguno de ellos.
+- **Devolver el control a la skill que la llamó** (2.1.1). Un Área es tantas veces un **paso** como un destino. Cuando la llamó `create-bot`, el Área es `bots` —**una**, con todos los bots como proyectos— y su dominio son los bots del usuario, nunca el de alguno de ellos.
 
 Usa `create-area` cuando quieras que varios proyectos compartan el mismo criterio fundamental.
 
@@ -208,15 +196,9 @@ Usa `create-project` siempre que arranques una nueva base de código dentro de u
 | **CAPTURE** (por defecto) | fricción vivida (bug, colapso, rechazo del cliente) | Destila la cicatriz en una Pista Invariante. Todo lo descrito abajo se refiere a este modo. |
 | **GRAFT** | criterio importado (una *skill*, una guía de estilo, un manual ajeno, **la constitución o documento de gobierno de otro kit**) | **Juzga** ese criterio contra la finalidad del proyecto. Solo entra lo que sobrevive. |
 
-> **Por qué «injerto».** Un injerto es tejido ajeno unido a un patrón que ya está vivo: **echa raíces o es
-> rechazado**, y lo que crece después pertenece al huésped. Un injerto que nadie mira es madera muerta
-> atada a un árbol sano — hay que decir qué logró crecer y qué no. Es la contraparte exacta de
-> `transmute-lore` PRUNE: la poda quita lo que la planta creció sola, el injerto juzga lo que vino de
-> afuera. Un Lore con uno y sin el otro se hincha o se osifica.
+> *Por qué «injerto»:* echa raíces o es rechazado, y lo que crece después pertenece al huésped — la contraparte exacta de `transmute-lore` PRUNE: la poda quita lo que la planta creció sola, el injerto juzga lo que vino de afuera. Un Lore con uno y sin el otro se hincha o se osifica.
 >
-> *Renombrado en 2.1.1. Hasta la 2.0.9 este modo se llamaba `arbitrate` y en la 2.1 `transplant`: misma
-> ley, mismas cuatro puertas. Cambió el nombre porque un trasplante mueve una planta sin cambiarla, y
-> este modo cambia lo que deja entrar.*
+> *Renombrado en 2.1.1 (`arbitrate`, luego `transplant`): misma ley, mismas cuatro puertas — un trasplante mueve una planta sin cambiarla; este modo cambia lo que deja entrar.*
 
 **Modo `GRAFT` — cuatro puertas:**
 
@@ -231,32 +213,13 @@ Usa `create-project` siempre que arranques una nueva base de código dentro de u
    contradice el estándar y **pierde**. **Sin derrotas, no entra:** o no hubo arbitraje (fue copia),
    o la fuente traía capacidad, no criterio.
 
-**Un documento de gobierno es el caso más difícil, y el que más se saltea.** Cuando un segundo kit
-trae una constitución o un estatuto que declara su propia autoridad, el reflejo es tratarlo como
-configuración y adoptarlo. Es criterio escrito bajo la finalidad de otro, y una cláusula de supremacía
-es precisamente de las que **pierden**: un kit instalado esta semana no puede gobernar criterio pagado
-con fricción antes de que existiera. Esa derrota se **escribe**, no se omite — una omisión deja un
-hueco que la próxima regeneración de plantilla vuelve a llenar. Lo que no ocurre es deferir a él
-mientras se decide: arbitrar es juzgar, no negociar.
+**Un documento de gobierno es el caso más difícil.** La constitución de un segundo kit es criterio escrito bajo la finalidad de otro, y su cláusula de supremacía es precisamente de las que **pierden**: un kit instalado esta semana no puede gobernar criterio pagado antes de que existiera. Esa derrota se **escribe**, nunca se omite — una omisión deja un hueco que la próxima regeneración de plantilla vuelve a llenar. Arbitrar es juzgar, no negociar.
 
-**En calendario, `GRAFT` empieza leyendo lo que ya perdió.** Una pasada recurrente sobre un campo
-que se mueve más lento que su propia frecuencia se encuentra siempre el mismo material. Las secciones
-de derrotas que este modo ya escribe **son** ese registro: se leen primero, y no se vuelve a arbitrar
-ni a reportar lo que ya está en ellas. **«Esta vez no entró nada» es un resultado válido y se escribe
-así** — una pasada recurrente que siempre encuentra algo dejó de mirar y empezó a justificarse.
+**En calendario, `GRAFT` empieza leyendo lo que ya perdió.** Las secciones de derrotas que escribe **son** ese registro: se leen primero, y no se vuelve a arbitrar ni a reportar lo que ya está en ellas. **«Esta vez no entró nada» es un resultado válido y se escribe así** — una pasada que siempre encuentra algo dejó de mirar y empezó a justificarse.
 
-**Una skill ajena que se *invoca* también trae criterio, y lo aplica sin preguntar.** `GRAFT` es
-para criterio que llega como **documento** a leer; el caso difícil es el que llega como **herramienta
-que corre** — un formateador, un linter, un revisor de estilo. Nadie los arbitra porque parecen
-capacidad, y toda herramienta opinada trae un cuerpo de criterio. **Pasale tu Lore en la invocación,
-como su entrada:** casi todas tienen una cláusula de calibración que hace que una muestra provista le
-gane a sus valores por defecto, y las que no la tienen se tratan como capacidad y se mantienen lejos
-de lo que el Lore gobierna.
+**Una skill ajena que se *invoca* también trae criterio, y lo aplica sin preguntar.** El caso difícil es el criterio que llega como **herramienta que corre** — toda herramienta opinada trae un cuerpo de criterio que nadie arbitra porque parece capacidad. **Pasale tu Lore en la invocación:** casi todas dejan que una muestra provista les gane a sus valores por defecto; las que no, se mantienen lejos de lo que el Lore gobierna.
 
-**Confianza en `GRAFT`:** lo adoptado *de* la fuente entra como `conjecture` (nadie lo ha pagado
-aún con fricción real); **el arbitraje mismo** —las derrotas, derivadas de una identidad ya
-validada— entra como `confirmed`. El módulo declara su procedencia: *"Destilado de `<fuente>`,
-arbitrado contra `<identidad.md>`."*
+**Confianza en `GRAFT`:** lo adoptado *de* la fuente entra como `conjecture`; **el arbitraje mismo** —las derrotas, derivadas de una identidad ya validada— entra como `confirmed`. El módulo declara su procedencia: *"Destilado de `<fuente>`, arbitrado contra `<identidad.md>`."*
 
 **Entrada:**
 
@@ -279,18 +242,9 @@ estándar), **señal** (destilable a Contexto → Causa → Pista, sin logs crud
 (una directriz inequívoca) y **genericidad** (le serviría a otro proyecto del Área). Cambios
 cosméticos no cuentan.
 
-**`destino:` y verificación de aterrizaje — 2.3.0.** Una Pista que exige un artefacto o un paso
-verificable declara **dónde se corre**: módulo y paso. Antes de cerrar el umbral se **grepea el
-término declarado en el archivo declarado** y se reporta `aterrizó` o `escrito, nunca ejercido`; en
-el segundo caso la pista queda en `conjecture` y **su promoción está bloqueada** hasta que el destino
-exista. Un chequeo que se cumple leyendo no es punto de aplicación: no deja artefacto dentro del
-umbral.
+**`destino:` y verificación de aterrizaje — 2.3.0.** Una Pista que exige un artefacto o un paso verificable declara **dónde se corre**: módulo y paso. Antes de cerrar el umbral se **grepea el término declarado en el archivo declarado** y se reporta `aterrizó` o `escrito, nunca ejercido`; en el segundo caso la pista queda en `conjecture` y **su promoción está bloqueada** hasta que el destino exista.
 
-**Y la junta se escribe de los dos lados.** La Pista lleva su `destino:`; el paso lleva una línea que
-nombra la Pista. No es simetría decorativa: los dos lados **suelen vivir en árboles distintos**, y una
-sesión carga el bloque always-on del suyo y de ninguno más. Con el puntero en una sola dirección,
-quien está parado en el paso ve un procedimiento sin obligación visible detrás —y una poda ahí lo
-quita como sobrante, porque desde ese lado lo es—.
+**La junta se escribe de los dos lados:** la Pista lleva su `destino:`; el paso lleva una línea que nombra la Pista. Los dos lados suelen vivir en árboles distintos, y una sesión carga solo su propio bloque always-on — con el puntero en una sola dirección, quien está parado en el paso ve un procedimiento sin obligación visible detrás, y una poda ahí lo quita como sobrante. Desde ese lado, lo es.
 
 **Sistema de confianza:** cada pista se guarda como `conjecture` (por defecto) o `confirmed` (solo
 si se validó realmente en la app en marcha). Nunca se infla a `confirmed` solo para forzar una
@@ -301,23 +255,9 @@ genérico** se propone para promoción al `lore/` del Área (nunca se escribe el
 En el `index.md` del proyecto, una línea ya promovida se marca con el glifo ` · ↑` — re-ejecutar el
 skill sobre esa pista es un no-op seguro (idempotencia).
 
-**Corregir un hecho no es capturar criterio.** El enrutamiento de arriba está hecho para criterio, que
-vive en un solo lugar por diseño. Un **hecho verificable** —una sede, una cifra, una fecha— se
-comporta al revés: está repetido en cada artefacto que lo citó y en el documento fuente que lo
-repartió, así que corregirlo donde se notó el error deja la raíz intacta y todas las demás copias con
-ella, y ninguna de las que sobreviven da ningún error. **La unidad de trabajo es el conjunto de
-apariciones:** barrer el árbol antes de escribir, corregirlas todas en una pasada, y si el hecho está
-además en un corpus fuente que no se edita, marcarlo ahí también — tachado y fechado, nunca borrado.
+**Corregir un hecho no es capturar criterio.** El criterio vive en un solo lugar por diseño; un **hecho verificable** —una sede, una cifra, una fecha— se comporta al revés: está repetido en cada artefacto que lo citó y en el documento fuente que lo repartió. Corregirlo donde se notó deja todas las demás copias mal. **La unidad de trabajo es el conjunto de apariciones:** barrer el árbol antes de escribir, corregirlas todas en una pasada y, si el hecho está además en un corpus fuente que no se edita, marcarlo ahí también — tachado y fechado, nunca borrado.
 
-**Invariantes:**
-
-- El criterio nunca se inventa.
-- Todo proviene de experiencia real.
-- El ruido descartado se informa; nunca se elimina en silencio.
-- Todo cambio pasa por un umbral antes de escribirse.
-- Nada hace commit automáticamente; nunca se hace `git push`.
-- Un ser humano siempre revisa el *diff* final.
-- Una Pista que cita otra ley hereda su **frontera de validez** o dice por qué no, y enuncia su regla
+**Invariantes:** el criterio nunca se inventa; todo proviene de experiencia real; el ruido descartado se informa, nunca se elimina en silencio; todo cambio pasa por un umbral antes de escribirse; nada hace commit automáticamente y nunca se hace `git push`; un ser humano siempre revisa el *diff* final. Una Pista que cita otra ley hereda su **frontera de validez** o dice por qué no, y enuncia su regla
   por la **condición**, no por la categoría en la que esa condición suele cumplirse.
 
 Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decisiones importantes.
@@ -328,10 +268,7 @@ Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decision
 
 **Rol:** Operar un cuerpo de Lore existente mediante ocho modos distintos.
 
-**Frontera de entrada y portabilidad:** ADD puede crear Lore donde no existe desde carpetas,
-documentos, resúmenes de chats y notas, pero esas entradas siguen siendo fuentes hasta la
-destilación aprobada. CRYSTALLIZE crea la memory card portable en un solo Markdown: derivada,
-trazable y extraíble, nunca autoridad que reemplaza al Lore vivo.
+**Frontera de entrada y portabilidad:** ADD puede crear Lore donde no existe desde carpetas, documentos, resúmenes de chat y notas, pero esas entradas siguen siendo fuentes hasta la destilación aprobada; CRYSTALLIZE crea una memory card derivada, trazable y extraíble que nunca reemplaza al Lore vivo.
 
 **Entrada:**
 
@@ -345,18 +282,15 @@ trazable y extraíble, nunca autoridad que reemplaza al Lore vivo.
     que se degradó acumulando cosas que por separado son correctas.
   - `micelio` – «corre el micelio», «¿está conectado el lore?» — recorrido de **solo lectura** que
     reporta qué Pistas ningún paso corre. No escribe nada y nunca poda. Tres disparadores: antes de
-    una tarea compleja, tras instalar o actualizar el kit, y **al salir de cualquier pasada que
-    escribió Lore**; la de salida no es la de entrada repetida, porque una Pista nueva nace
-    desconectada. **Los hallazgos bloquean** lo que venía después hasta que se escriban o se
-    declinen, y **nunca se re-reportan los declinados**. Se reporta en lenguaje llano —*«nada la
-    corre»*, *«apunta a un lugar donde no está»*— y el vocabulario técnico se infiere del uso, como
-    el perfil profesional: nunca se exige para hacer una pregunta.
+    una tarea compleja, tras instalar o actualizar el kit, y al salir de cualquier pasada que escribió
+    Lore — una Pista nueva nace desconectada, así que la de salida nunca es la de entrada repetida.
+    Los hallazgos bloquean lo que venía después hasta que se escriban o se declinen, y los declinados
+    nunca se re-reportan.
 
-  Seis resultados, y se dicen en frase llana: hay un paso que la corre · nada la corre · nombra un
-  lugar y no está escrita ahí · un paso solo dice «consultá» · es criterio y no está en `lore/` · el
-  paso existe, en un archivo que esta sesión no carga. **El modo corre en silencio: no se anuncia, y
-  nadie tiene que aprender vocabulario para preguntar.** Los seis no se fusionan: los últimos cuatro
-  se reparan en direcciones distintas.
+  Seis resultados, en frase llana: hay un paso que la corre · nada la corre · nombra un lugar y no
+  está escrita ahí · un paso solo dice «consultá» · es criterio fuera de `lore/` · el paso existe en
+  un archivo que esta sesión no carga. Corre en silencio — nadie necesita el vocabulario para
+  preguntar — los seis no se fusionan: los últimos cuatro se reparan distinto.
   - `leave` – «dejar el lore», «salir del lore sin perder criterio» — quita el gobierno y conserva
     `lore/`. Deja la marca `leave:` en `FASES.md`, que es toda su reversibilidad: `UPGRADE` la lee
     para volver.
@@ -365,9 +299,7 @@ trazable y extraíble, nunca autoridad que reemplaza al Lore vivo.
     para un chat, proyecto de IA o notebook, marcada para desempaquetarse en una carpeta cuyo
     enrutamiento resuelve.
 
-**Precondición de seguridad:** los modos que modifican artefactos fuente exigen un árbol de Git
-limpio antes de escribir. `crystallize` no escribe artefactos fuente y puede diagnosticar un árbol
-sucio, pero igualmente exige una vista previa explícita de la exportación y un umbral.
+**Precondición de seguridad:** los modos que modifican artefactos fuente exigen un árbol de Git limpio antes de escribir. `crystallize` no escribe fuentes y puede diagnosticar un árbol sucio, pero igual exige vista previa explícita de la exportación y umbral.
 
 **Proceso — modo `add` (conceptual):**
 
@@ -412,25 +344,11 @@ sucio, pero igualmente exige una vista previa explícita de la exportación y un
    sí cruza el límite — al renombrar módulos de un Área se actualizan (o reportan) los enlaces de
    sus proyectos hacia esos archivos.
 
-**Binarios: comparar antes de extraer, anotar después.** Un `.pdf`, `.docx` o `.xlsx` entre las
-fuentes parece trabajo pendiente para siempre, porque un binario **ya transcrito** es indistinguible
-de uno que no lo está: la transmutación escribe el `.md` con el nombre que le corresponde al contenido
-y deja el binario donde estaba, con su extensión intacta. Por eso el modo `add` compara el texto del
-binario contra el corpus existente antes de extraerlo —el solapamiento literal por tramos cuesta
-segundos— y **anota la correspondencia binario → transcripción** en el destino cuando sí transcribe
-uno. Los pendientes de extracción se redactan por **contenido, no por extensión**.
+**Binarios: comparar antes de extraer, anotar después.** Un binario **ya transcrito** es indistinguible de uno pendiente, así que el modo `add` compara el texto del binario contra el corpus existente antes de extraerlo y **anota la correspondencia binario → transcripción** en el destino cuando sí transcribe uno. El `.md` se escribe con el nombre que le corresponde al contenido; el binario queda donde estaba, extensión intacta. Los pendientes de extracción se redactan por **contenido, no por extensión**.
 
 **Proceso — modo `upgrade` (conceptual):**
 
-1. **Establecer las dos versiones.** La instalada se lee del **registro de instalación del host**,
-   nunca de un `plugin.json` encontrado recorriendo el árbol de trabajo — el manifiesto es la versión
-   de la *fuente* y el registro es la versión que va a correr. Y el registro tampoco es la última
-   palabra: una sesión resuelve su versión de plugin **al abrirse**, así que una abierta antes de
-   instalar sigue corriendo la copia anterior y el registro no lo va a decir. El testigo que sobrevive
-   es el path que la propia skill declara al cargarse, contrastado contra una palabra que solo exista
-   en una versión. La versión del Lore casi nunca está escrita y se infiere de lo que llevan sus
-   artefactos; hay que decir con claridad cuándo eso es una estimación. Si la copia instalada está
-   atrasada, **parar y avisar**.
+1. **Establecer las dos versiones.** La instalada se lee del **registro de instalación del host**, nunca de un `plugin.json` encontrado en el árbol — y una sesión resuelve su versión de plugin al abrirse, así que el registro puede no describir lo que corre. El testigo que sobrevive es el path que la propia skill declara al cargarse, contrastado contra una palabra que solo exista en una versión. La versión del Lore se infiere de sus artefactos; decir con claridad cuándo eso es una estimación. Si la copia instalada está atrasada, **parar y avisar**.
 2. **Arbitrar artefacto por artefacto**, clasificando cada hallazgo en exactamente cuatro tipos:
 
 | Tipo | Qué significa | Qué produce |
@@ -440,35 +358,17 @@ uno. Los pendientes de extracción se redactan por **contenido, no por extensió
 | **Earned** | Se aparta del estándar actual **porque este proyecto lo pagó**. | Dejarlo, y escribir por qué en `FASES.md` — una línea por excepción, nunca dentro del artefacto que defiende. |
 | **Stale** | Coincide con el kit y ya no coincide con **el proyecto**: describe una práctica que cambió y nadie enmendó el texto. | Reportarlo con la evidencia que lo contradice y **preguntar**; la corrección la enuncia el usuario. |
 
-3. **`index.md` se arbitra contra su propio formato de fila**, no solo contra sus enlaces. El fallo
-   que hay que buscar es un campo del medio que se partió en dos sin que nadie lo note — unas filas
-   diciendo *cuándo abrir esto* y otras cargando un marcador de confianza. Se esconde bien porque
-   **una lista malformada se ve exactamente igual de bien formada que una completa**, y cada fila
-   por separado se lee perfecta.
-4. Una lista de hallazgos **sin ningún `Earned`** en un Lore con historia significa que el pase se
-   está corriendo como formateador. **`Stale` es el que ninguna lectura encuentra:** se detecta contra
-   el repositorio —los commits recientes y los entregables reales que el módulo gobierna— y nunca
-   releyendo, porque un artefacto consistente consigo mismo y falso hacia afuera sobrevive toda
-   revisión.
+3. **`index.md` se arbitra contra su propio formato de fila**, no solo contra sus enlaces. El fallo que hay que buscar es un campo del medio que se partió en dos sin que nadie lo note — unas filas diciendo *cuándo abrir esto*, otras cargando un marcador de confianza. Se esconde bien: **una lista malformada se ve tan bien formada como una completa**.
+4. Una lista de hallazgos **sin ningún `Earned`** en un Lore con historia significa que el pase se está corriendo como formateador. **`Stale` es el que ninguna lectura encuentra:** se detecta contra el repositorio y nunca releyendo — un artefacto consistente consigo mismo y falso hacia afuera sobrevive toda revisión.
 5. Presentar el umbral completo, escribir solo tras aprobación, y registrar la versión a la que se
    actualizó en `FASES.md` — no en el Lore. **No commitea.**
 6. **Desde 2.1.4, un árbol se mapea antes de leerse** (gits, dónde vive `lore/`, qué contrato se carga). El índice largo se repara por cabecera, no por filas. En un `.md` vivo que manda, `HARD-GATE` se dice umbral. Falta `identidad.md`/`principios.md` es ADD. En una campaña el umbral es por clase, no por árbol. La bandeja se cuenta; no se mina salvo que restrinja esta pasada.
 
 **Proceso — modo `prune` (conceptual):**
 
-**La unidad que este modo cuenta es el entregable, no el Lore.** Un cuerpo de criterio no es demasiado
-grande en abstracto; es demasiado grande *para la cosa que tiene que producir*. Hay que pedir el
-artefacto que el proyecto realmente publica —un post, una página, un componente, un informe— antes de
-leer un solo módulo. Sin eso, `prune` no tiene denominador y se convierte en gusto.
+**La unidad que este modo cuenta es el entregable, no el Lore.** Un cuerpo de criterio no es demasiado grande en abstracto; es demasiado grande *para la cosa que tiene que producir*. Hay que pedir el artefacto que el proyecto realmente publica antes de leer un solo módulo — sin eso, `prune` no tiene denominador y se convierte en gusto.
 
-1. **Medir antes de leer**, porque el defecto que este modo existe para atacar es invisible leyendo
-   los archivos de a uno: leyes en `principios.md` (área + proyecto), Pistas en los módulos temáticos,
-   **Pistas sin frontera de validez** (una sin frontera aplica *siempre* — ese es el multiplicador),
-   guardarraíles de la fase activa, y **aparato contra contenido en los últimos tres entregables**.
-   Ese último conteo encuentra lo que la lectura no puede: no pertenece a ninguna Pista en particular,
-   que es exactamente por qué ningún pase por artefacto lo detectó nunca. También hay que inventariar
-   si cada tipo de pieza que el proyecto publica tiene un **techo de extensión declarado** — la pieza
-   sin techo es la que se va a inflar, y suele ser la *más* publicada.
+1. **Medir antes de leer**, porque el defecto que este modo ataca es invisible leyendo los archivos de a uno: leyes en `principios.md` (área + proyecto), Pistas en los módulos temáticos, **Pistas sin frontera de validez** (una sin frontera aplica *siempre* — ese es el multiplicador), guardarraíles de la fase activa, y **aparato contra contenido en los últimos tres entregables** — ese último conteo encuentra lo que ningún pase por artefacto detectó nunca. También hay que inventariar si cada tipo de pieza publicada tiene un **techo de extensión declarado**: la pieza sin techo es la que se infla, y suele ser la más publicada.
 2. **Clasificar, cuatro tipos:**
 
 | Tipo | Qué significa | Qué produce |
@@ -478,9 +378,7 @@ leer un solo módulo. Sin eso, `prune` no tiene denominador y se convierte en gu
 | **Rooted** | Estructural: hay una cicatriz real detrás y una decisión que todavía depende de él. | Intacto, y **no se re-examina en el próximo pase**. |
 | **Unhealed** | Declarado aplicado y aplicado a medias — la corrección aterrizó en un lugar y no en sus hermanos. | **Se termina o se desmarca.** No puede quedar declarado-y-falso. |
 
-3. **Una lista de poda sin ningún `Rooted` es un pase corrido como motosierra.** Es el espejo de la
-   regla `Earned` de `upgrade` y existe por la misma razón: un modo que solo quita siempre va a
-   encontrar algo que quitar.
+3. **Una lista de poda sin ningún `Rooted` es un pase corrido como motosierra** — el espejo de la regla `Earned`: un modo que solo quita siempre encuentra algo que quitar.
 4. Nada sale sin dejar su residuo escrito, y **lo que encoge es el entregable, no necesariamente el
    corpus**.
 
@@ -503,7 +401,7 @@ Usa `transmute-lore` cuando ya tienes proyectos en marcha y quieres incorporarlo
 
 ### 3.7 `create-bot`
 
-**Nacimiento desde una idea:** la declaración humana inicial es fuente primaria y canon provisional. El primer artefacto complejo es una configuración individual que ejecuta el ciclo operativo hasta una primera victoria revisada. Toda interfaz es prototipo honesto y laboratorio local: el producto es el objeto transformado, no el chat; las decisiones preceden a los prompts; el estado de Travesía deriva del propósito.
+**Nacimiento desde una idea:** la declaración inicial es canon provisional; la configuración ejecuta el ciclo hasta una primera victoria revisada. Toda interfaz mantiene canon, lógica y presentación aparte, pone decisiones antes que prompts y deriva el estado de Travesía del propósito.
 
 **Rol:** Construir un **bot** — un lugar donde abrir una sesión y trabajar en varios proyectos o
 Áreas a la vez, con su criterio ya cargado, en vez de responder preguntas sobre ellos.
@@ -514,25 +412,19 @@ distingue **una** propiedad: **enruta hacia afuera**, hacia Lore que pertenece a
 está cargado, sin instalar nada—. **Empaquetarlo como *plugin* instalable es opcional** y sirve para
 una sola cosa: repartirlo a un equipo.
 
-> **Por qué no puede ser un Área.** Un Área contiene proyectos y es dueña del criterio de su
-> dominio. Un bot no es dueño de nada del criterio que enruta: lo toma prestado. Construirlo como
-> Área crea una madre que acumula criterio que no pagó, y la consecuencia aparece rápido — cuando un
-> criterio se generaliza, se promueve al bot en vez de al Área que se lo ganó.
+> **Por qué no puede ser un Área.** Un Área es dueña del criterio de su dominio; un bot toma prestado lo que enruta. Construido como Área, se vuelve una madre que acumula criterio que no pagó — y cuando un criterio se generaliza, se promueve al bot en vez de al Área que se lo ganó.
+>
+> **La confusión inversa (2.1.1): un bot no administra bots.** El que existe para agregar bots o reordenar carpetas es el Área `bots` con forma de bot — ese trabajo no necesita canon ni tabla de enrutamiento. Si aparece uno así, lo que falta es el Área.
 
-> **Y la confusión inversa (2.1.1): un bot no administra bots.** El que existe para agregar bots o
-> reordenar carpetas es el Área `bots` con forma de bot — ese trabajo es un `FASES.md` y un `lore/`
-> de Área, y no necesita canon ni tabla de enrutamiento. Si aparece uno así, lo que falta es el Área.
-
-> **El estreno abre con el chequeo de acceso (2.1.1).** El bot se abre **como lo abrirá su usuario** y
-> se comprueba que la sesión alcanza las rutas del manifiesto. Cada host lo concede a su manera —una
-> sesión de Claude Code abierta en el bot más su `.claude/settings.local.json`; un proyecto de Codex
-> cuya carpeta es la **madre** del árbol federado, nunca la carpeta del bot; `--add-dir` en la CLI—.
-> Un host apuntando a la carpeta equivocada falla como *«lee el Lore equivocado»*, síntoma que manda
-> a depurar el criterio y nunca el acceso.
+> **El estreno abre con el chequeo de acceso (2.1.1).** El bot se abre **como lo abrirá su usuario**,
+> comprobando que la sesión alcanza las rutas del manifiesto — cada host lo concede a su manera
+> (Claude: sesión en el bot más `.claude/settings.local.json`; Codex: proyecto en la carpeta **madre**
+> del árbol federado; CLI: `--add-dir`). Un host apuntando a la carpeta equivocada falla como *«lee el
+> Lore equivocado»*, síntoma que manda a depurar el criterio y nunca el acceso.
 
 **Entrada:**
 
-- Ruta del Área destino, `slug` del bot (que es también el nombre de la skill) y su propósito.
+- Ruta del Área destino, `slug` del bot (también el nombre de la skill) y su propósito.
 - Documentos fuente de los que se destila el canon.
 - Modo `federar`: qué cuerpos de Lore enruta y qué **tipo de tarea** gobierna cada uno.
 
@@ -543,26 +435,13 @@ una sola cosa: repartirlo a un equipo.
 | `nuevo` | No hay Lore previo que reunir. | Nada; solo canon. |
 | `federar` | El criterio ya existe, disuelto en varias Áreas. | `scripts/ecosistema.json`, `scripts/sync.js` y dos archivos **generados**: `lore/enrutamiento.md` (la tabla) y `.claude/settings.local.json` (el acceso a los árboles vivos). **No copia nada** salvo que se encienda la copia. |
 
-Si el bot ya existe, la skill ejecuta una **auditoría** en vez de cualquiera de los procedimientos de
-creación. Contrasta el registro real de la institución, alcance, fuentes, enrutamiento y README;
-después retoma sincronización y verificación.
+Si el bot ya existe, la skill ejecuta una **auditoría** en vez de cualquiera de los procedimientos de creación: contrasta el registro real de la institución, alcance, fuentes, enrutamiento y README, y después retoma sincronización y verificación.
 
-> **Federar es apuntar, no copiar.** Cada fila del manifiesto es una **dirección**: la tabla dice qué
-> Lore gobierna una tarea y el acceso generado deja que la sesión lo alcance **donde vive**. Ese
-> criterio conserva un solo dueño y una sola versión — la misma regla DRY del resto del kit, donde un
-> proyecto referencia los módulos de su Área en vez de duplicarlos.
+> **Federar es apuntar, no copiar:** cada fila del manifiesto es una dirección al Lore que vive donde vive, y ese criterio conserva un solo dueño y una sola versión.
 
-**Un Área se federa como se abre:** `lore` **más** su contrato elegido y su `FASES.md`. Federar solo su
-`lore/` es la asimetría a evitar, y es invisible desde adentro: las **leyes** del Área viven en el
-Lore, pero la **secuencia de trabajo** —qué se lee primero, con qué skill cierra un entregable— vive
-en su `CLAUDE.md` o `AGENTS.md`, y el **registro de qué existe y dónde** en su `FASES.md`, incluidos los proyectos
-adoptados por ruta. Un bot que se lleva solo el Lore cita cada regla correctamente y trabaja distinto.
+**Un Área se federa como se abre:** `lore` **más** su contrato elegido y su `FASES.md`. Las **leyes** del Área viven en el Lore; la **secuencia de trabajo** vive en su `CLAUDE.md` o `AGENTS.md`, y el **registro de qué existe y dónde** en su `FASES.md`, incluidos los proyectos adoptados por ruta. Un bot que se lleva solo el Lore cita cada regla correctamente y trabaja distinto.
 
-**El acceso se declara por fuente, no se infiere de su categoría.** Se pregunta si algún proyecto
-dentro de la carpeta queda fuera del alcance del bot. Si la respuesta es sí —el caso normal de un
-Área— el acceso de trabajo queda apagado para no reabrir proyectos excluidos por la puerta trasera.
-Si el bot federa deliberadamente el Área completa y no deja ningún proyecto fuera, esa Área puede
-llevar `"trabajo": true`, con la razón escrita junto a la fila del manifiesto.
+**El acceso se declara por fuente, no se infiere de su categoría.** Si algún proyecto dentro de un Área queda fuera del alcance del bot —el caso normal— el acceso de trabajo queda apagado para no reabrir proyectos excluidos por la puerta trasera. Solo una federación deliberada del Área completa puede llevar `"trabajo": true`, con la razón junto a la fila del manifiesto.
 
 **Cadena para fuentes sin Lore:**
 
@@ -579,25 +458,18 @@ carpeta en bruto → create-area → transmute-lore (add) → create-bot (federa
 
 `create-bot` inspecciona las rutas y clasifica cada fuente: ya tiene Lore (se federa), tiene criterio
 sin destilar (`transmute-lore` add primero), no tiene Área dueña (`create-area` primero), o no es
-texto (extraer antes — `sync.js` solo mueve `.md`, `.txt` y `.json`, así que lo no extraído es
-invisible y no avisa). El reporte de esa clasificación es parte del brainstorm.
+texto (extraer antes — `sync.js` mueve solo `.md`, `.txt` y `.json`, así que lo no extraído es
+invisible y no avisa). El reporte va con el brainstorm.
 
-**Registro con el usuario:** la skill pregunta tres cosas —nombre, para qué se va a usar, y dónde
-están las carpetas útiles— **en lenguaje simple**. El vocabulario denso (canon, destilar, frontera de
-validez, Pista Invariante) es del documento de la skill, no de la conversación.
+**Registro con el usuario:** la skill pregunta tres cosas —nombre, para qué, dónde están las carpetas útiles— **en lenguaje simple**; el vocabulario denso es del documento de la skill, no de la conversación.
 
 **Crea / actualiza:**
 
-- `CLAUDE.md` o `AGENTS.md` — **el bot**: configuración de primer uso, carga del canon, enrutamiento, ejecución y
-  propuesta de destilación al cerrar. Se carga solo por abrir la sesión en esa carpeta.
-- `canon/*.md` — el criterio que el bot **es**, con su origen y su frontera de validez declarados en
-  cada módulo.
+- `CLAUDE.md` o `AGENTS.md` — **el bot**: configuración de primer uso, carga del canon, enrutamiento, ejecución y propuesta de destilación al cerrar.
+- `canon/*.md` — el criterio que el bot **es**, con origen y frontera de validez declarados por módulo.
 - `lore/`, `FASES.md`, `.gitignore`.
-- Modo `federar`: `scripts/ecosistema.json`, `scripts/sync.js`, y los generados `lore/enrutamiento.md`
-  y `.claude/settings.local.json` (local, nunca se versiona).
-- Un README solo si el usuario lo pide. No envuelvas el bot como plugin. Empaquetar es
-  cristalizar: extraer reconstruye `lore-ecosistema/`.
-- Registra el bot en el `FASES.md` del Área.
+- Modo `federar`: `scripts/ecosistema.json`, `scripts/sync.js`, y los generados `lore/enrutamiento.md` y `.claude/settings.local.json` (local, nunca se versiona).
+- Un README solo si el usuario lo pide. Registra el bot en el `FASES.md` del Área.
 
 **Los tres cuerpos de criterio (invariante central):**
 
@@ -620,17 +492,11 @@ Así la copia **se desactiva sola**, fila por fila, a medida que alguien va teni
 
 **Responsabilidades:**
 
-- Brainstorm del canon **antes** de crear nada (umbral).
-- Destilar el canon **desde la fuente**, nunca desde otro destilado ni desde el conocimiento propio
-  del modelo. Cada módulo nombra su origen y dónde deja de valer.
+- Brainstorm del canon **antes** de crear nada (umbral), destilado **desde la fuente** — nunca desde otro destilado ni desde el conocimiento propio del modelo; cada módulo nombra su origen y dónde deja de valer.
 - Enrutar **por tipo de tarea, no por nombre de proyecto**; ante ambigüedad entre dos Lore, preguntar.
 - Cerrar **toda** tarea con una propuesta de destilación, reportando lo descartado.
-- Escribir los informes **negativos con su cobertura en la misma frase**: *«ninguna de las leyes que
-  cargo se viola»*, nunca *«está bien»*. Un bot apunta a criterio ajeno, así que hereda su cobertura
-  **y su silencio** — lo que nadie cicatrizó no está escrito, y su ausencia del corpus se ve igual
-  que su ausencia del trabajo.
-- Modo `federar`: un solo manifiesto genera la tabla, el acceso y la poda, para que no puedan
-  desincronizarse; `enrutamiento.md` no se edita a mano y la sincronización va en una sola dirección.
+- Escribir informes negativos con cobertura en la misma frase: *«ninguna de las leyes que cargo se viola»*, nunca *«está bien»* — lo que nadie cicatrizó no está escrito, y su ausencia del corpus se ve igual que su ausencia del trabajo.
+- Modo `federar`: un solo manifiesto genera la tabla, el acceso y la poda; `enrutamiento.md` no se edita a mano y la sincronización va en una sola dirección.
 
 **El primer uso es un brainstorming, no un formulario:**
 
@@ -640,37 +506,30 @@ instalada, el bot corre el primer uso a través de ella; si no, corre uno mínim
 movimientos:
 
 1. **Muestra qué alcanza antes de preguntar nada** — cada cuerpo federado con si resuelve *en esta
-   máquina*, qué destila el canon, qué queda fuera de alcance. Esa pantalla es también el
-   pre-flight: un puntero roto aparece delante de quien puede arreglarlo.
+   máquina*, qué destila el canon, qué queda fuera de alcance. Un puntero roto aparece delante de
+   quien puede arreglarlo.
 2. **Pregunta solo lo que cambia comportamiento**, de a una pregunta, y **nunca con opciones cerradas
-   para un campo que decide una rama**. Una lista cerrada no tiene default para la respuesta que
-   nombra dos de sus ítems, así que la pregunta se hace por su **condición** —*«¿tu trabajo cae en
-   más de uno de estos?»*— y una respuesta que nombra dos cuerpos de criterio abre por los dos. El
-   tono y el apodo no se preguntan: se infieren y se corrigen en una frase.
-3. **Cierra separando configuración de criterio.** La configuración va a `.{slug}.json`; lo que
-   resultó ser criterio se propone **al Lore de quien lo pagó con experiencia**, nunca se guarda en
-   el bot.
+   para un campo que decide una rama**: la pregunta se hace por su **condición** —*«¿tu trabajo cae en
+   más de uno de estos?»*— y una respuesta que nombra dos cuerpos abre por los dos. Tono y apodo se
+   infieren, corregibles en una frase.
+3. **Cierra separando configuración de criterio.** La configuración va a `.{slug}.json`; el criterio se propone **al Lore de quien lo pagó con experiencia**, nunca se guarda en el bot.
 
 **Configurar el primer uso no es el primer uso.** Ese gate se contesta igual con el canon vacío y las
 rutas rotas, así que pasarla no prueba nada sobre si el bot funciona. El bot se reporta terminado después de un
 **estreno**: una instrucción que no nombra el criterio, anotada **textual** en el `FASES.md` del
 Área — una parafraseada ya no permite juzgar si era corta.
 
-**Opcionales, apagados por defecto:**
+Opcional y apagado por defecto:
 
 - **Cifrado** (*experimental*, ver [`ENCRYPTION.md`](./ENCRYPTION.md)): se cifra en distribución,
-  nunca en consulta. El `.gitignore` depende de la decisión — con cifrado se excluye el texto plano;
-  sin cifrado el criterio **debe** commitearse, o el repositorio viaja sin criterio y el bot no le
-  sirve al equipo. La passphrase se pide por *stdin* y **nunca entra al chat**.
+  nunca en consulta. Con cifrado el texto plano queda fuera de git; sin cifrado el criterio **debe**
+  commitearse, o el repositorio viaja sin criterio. La passphrase se pide por *stdin* y nunca entra al chat.
 
-Un bot sin él está completo. **Empaquetar es cristalizar**, no envolver el bot como plugin.
-Extraer la fotografía reconstruye la carpeta, incluido `lore-ecosistema/`. Así viaja el trabajo
-a quien no tiene tu árbol. `create-bot` sigue federando por puntero; no inventa esa copia.
+Un bot sin él está completo. **Empaquetar es cristalizar**, no envolver el bot como plugin:
+extraer la fotografía reconstruye la carpeta, incluido `lore-ecosistema/` — así viaja el trabajo
+a quien no tiene tu árbol.
 
-Usa `create-bot` cuando quieras una sola sesión que trabaje sobre varios proyectos — también desde
-cero. Si las fuentes aún no tienen Lore, el skill orquesta la cadena (`create-area` → `transmute-lore`
-add → `create-bot`); no exige que el Lore exista de antemano. Cuando ya está, lo federa. El bot nunca
-sustituye construir ese Lore en el Área que lo posee.
+Usa `create-bot` cuando quieras una sola sesión que trabaje sobre varios proyectos — con o sin Lore previo: sin él, orquesta la cadena de arriba; con él, lo federa. Nunca sustituye construir ese Lore en el Área que lo posee.
 
 ---
 
@@ -680,22 +539,11 @@ sustituye construir ese Lore en el Área que lo posee.
 archivos, capturar notas y minar la bandeja. La nota siempre es material fuente; `save-to-lore` es
 dueña de cualquier criterio que sobreviva clasificación, enrutamiento y umbral.
 
-**Precondición:** la vault debe ser la **carpeta madre que contiene las Áreas**, no una carpeta al
-lado. La skill verifica que al menos un hijo directo de la raíz tenga `lore/`; si no, se detiene y
-apunta a `create-area`. La ruta nunca se asume: es la del árbol de cada usuario.
+**Precondición:** la vault debe ser la **carpeta madre que contiene las Áreas**, no una carpeta al lado — la skill verifica que al menos un hijo directo de la raíz tenga `lore/`, o se detiene y apunta a `create-area`. La ruta nunca se asume.
 
-**La bandeja:** una carpeta nombrada en el idioma del usuario (`notas/` en español). El barrido es
-recursivo sobre `**/*.md`, así que las subcarpetas quedan a criterio de quien escribe; la skill no
-impone ninguna.
+**La bandeja:** una carpeta nombrada en el idioma del usuario (`notas/`). El barrido es recursivo sobre `**/*.md`; las subcarpetas quedan a criterio de quien escribe.
 
-**Recomendación permanente: la bandeja vive en un bot.** No es una opción entre varias, es la
-configuración para la que esta skill fue diseñada, y la skill la recomienda en su primera ejecución
-y cada vez que un barrido ocurre fuera de un bot. La razón es el enrutamiento: un bot lleva
-`lore/enrutamiento.md`, donde está escrita la finalidad de cada Área y proyecto que federa, así que
-una nota se enruta **contra esa tabla** y los casos frontera se preguntan en vez de adivinarse. Fuera
-de un bot, el enrutamiento sale de una sola ruta y de la lectura del texto: una conjetura con la
-misma cara de certeza. Si el usuario no tiene bot y sus notas tocan más de un Área, la skill propone
-`create-bot`.
+**Recomendación permanente: la bandeja vive en un bot.** Es la configuración para la que esta skill fue diseñada, recomendada en su primera ejecución y cada vez que un barrido ocurre fuera de un bot. La razón es el enrutamiento: un bot enruta cada nota **contra `lore/enrutamiento.md`**, donde está escrita la finalidad de cada Área y proyecto federado, y los casos frontera se preguntan en vez de adivinarse. Fuera de un bot, el enrutamiento sale de una sola ruta y de la lectura del texto — una conjetura con la misma cara de certeza. ¿Sin bot y notas que tocan más de un Área? La skill propone `create-bot`.
 
 **Vive donde se abre la sesión**, y esto no es cosmético:
 
@@ -703,24 +551,9 @@ misma cara de certeza. Si el usuario no tiene bot y sus notas tocan más de un �
 |---|---|
 | Un **bot** ← *recomendado* | `<bot>/notas/` |
 | Un proyecto o un Área | el `notas/` de esa carpeta |
-| **La raíz de la vault** | **ninguna. La raíz nunca tiene bandeja** |
+| **La raíz nunca tiene bandeja, y es ley, no orden.** Una nota en la raíz no tiene dueño ni tabla contra la cual enrutarse, y el fallo es silencioso — el barrido no la lee, no falla y **reporta deuda cero**, dejando la nota intacta: justo el estado que la destilación existe para romper. Una nota que no pertenece a ningún proyecto significa que **falta el proyecto** (`create-project`), no que haga falta una bandeja huérfana.
 
-**La raíz nunca tiene bandeja, y es ley, no orden.** Una nota escrita en la raíz no tiene dueño ni
-tabla contra la cual enrutarse, y el fallo es silencioso — una sesión solo alcanza la carpeta donde se
-abrió más las rutas de su `.claude/settings.local.json`, que nunca incluye la raíz, así que el barrido
-no la lee, no falla y **reporta deuda cero**. La nota queda intacta, que es justo el estado que la
-destilación existe para romper. Una nota que no pertenece a ningún proyecto significa que **falta el
-proyecto** (`create-project`), no que haga falta una bandeja huérfana.
-
-**Y el motivo no es que nadie trabaje en la raíz — alguien sí trabaja.** Todo lo que tiene que estar
-por encima de todas las Áreas vive ahí: un launcher que enruta a todas, una spec que decide un Área
-nueva, un script que recorre el árbol entero. La raíz es **un lugar de trabajo sin Lore** — sin dueño,
-sin `FASES.md`, sin bandeja y sin ningún contrato que cargue las reglas que habrían hecho registrar
-lo que pasó. Así que el silencio va un paso más allá del párrafo anterior: **el trabajo mismo queda sin
-registrar**, y no se escribe ninguna nota que un barrido pueda encontrar. Cuando es ese el caso, lo que
-falta está un nivel por encima del proyecto: un **Área** (`create-area`). Hasta que exista, la nota va
-a la bandeja del Área que pidió el trabajo, nunca a la raíz.
-
+**Y alguien sí trabaja en la raíz** — launchers que enrutan a todas las Áreas, specs que deciden una nueva, scripts que recorren el árbol entero. La raíz es **un lugar de trabajo sin Lore**: sin dueño, sin `FASES.md`, sin bandeja ni contrato que registre lo que pasó, así que **el trabajo mismo queda sin registrar** y no se escribe ninguna nota que un barrido pueda encontrar. Lo que falta está un nivel por encima: un **Área** (`create-area`). Hasta que exista, la nota va a la bandeja del Área que pidió el trabajo, nunca a la raíz.
 **Frontmatter de una nota:**
 
 ```yaml
@@ -748,27 +581,15 @@ destilado:                      # vacío = sin minar
 | Criterio ajeno que **juzga** | criterio importado | `save-to-lore` **graft** (sin derrotas no entra) |
 | Un resumen, una cita, un enlace, un apunte | información | fuente de `create-area` / `create-project` / `transmute-lore`, o **ruido informado** |
 
-Existe un quinto destino, más raro: una nota que cambia **cómo se trabaja en conjunto** (qué se lee
-primero, con qué cierra un entregable) pertenece al contrato de instrucciones, no al Lore.
+Existe un quinto destino, más raro: una nota que cambia **cómo se trabaja en conjunto** pertenece al contrato de instrucciones, no al Lore.
 
-**Enrutamiento**, en orden, deteniéndose en el primero que resuelva: el `origen` de la nota → si la
-sesión corre en un bot, su `lore/enrutamiento.md` → el proyecto o Área donde corre la sesión →
-**ambiguo entre dos cuerpos, se pregunta**. La primera vez que se resuelve una ambigüedad, la
-**frontera** puede valer como Pista; el filtro de ruido también aplica ahí.
+**Enrutamiento**, deteniéndose en el primero que resuelva: el `origen` de la nota → el `lore/enrutamiento.md` del bot → el proyecto o Área donde corre la sesión → **ambiguo, se pregunta**. La primera vez que se resuelve una ambigüedad, la **frontera** puede valer como Pista; el filtro de ruido también aplica ahí.
 
-**Idempotencia y ciclo de vida:** al cerrar, cada nota minada recibe su `destilado:` con fecha y
-destino — incluidas las que no produjeron nada (`nada` es un resultado legítimo). Una nota con
-`destilado` no vacío se salta en los barridos siguientes. **La skill nunca borra una nota:** se mina
-antes de borrar, y borrar lo decide el humano.
+**Idempotencia y ciclo de vida:** al cerrar, cada nota minada recibe su `destilado:` con fecha y destino — incluidas las que no produjeron nada. Una nota con `destilado` no vacío se salta en los barridos siguientes. **La skill nunca borra una nota:** se mina antes de borrar; borrar lo decide el humano.
 
-**Por qué un barrido y no un comando disponible.** Una nota satisface las ganas de preservar sin
-producir criterio: existiendo el registro, la destilación no ocurre y el criterio queda inerte
-adentro. Separar las notas del Lore no lo evita — ya se hizo, y el registro siguió inerte seis
-semanas. Lo que lo evita es el barrido y su deuda visible, que `save-to-lore` también reporta al
-cerrar.
+**Por qué un barrido y no un comando disponible.** Una nota satisface las ganas de preservar con el criterio inerte adentro — separar las notas del Lore no lo evitó: el registro siguió inerte seis semanas. Lo que lo evita es el barrido y su deuda visible, que `save-to-lore` también reporta al cerrar.
 
-Usa `obsidian-lore` cuando ya acumules notas y quieras que dejen de ser solo notas. No es un gestor
-de notas: `Read` y `Grep` ya leen la vault.
+Usa `obsidian-lore` cuando ya acumules notas y quieras que dejen de ser solo notas — no es un gestor de notas: `Read` y `Grep` ya leen la vault.
 
 ---
 
@@ -800,10 +621,7 @@ reglas:** un umbral sigue siendo un umbral, un `MUST` sigue siendo un `MUST`, y 
 validez no se omite nunca. Un calibrador capaz de apagar una puerta sería una forma de saltarse el kit
 pidiéndoselo amablemente.
 
-Se **infiere, no se pregunta** —de cómo escribe la persona durante el brainstorm—, y después se
-declara en voz alta en una línea, ofreciendo la corrección en el mismo aliento. Es una **preferencia
-declarada, no criterio**: no restringe ninguna decisión sobre el trabajo, así que no lleva marcador de
-confianza y nunca se promueve al área. Si la línea no está, se asume `equilibrado`.
+Se **infiere, no se pregunta**, y se declara en una línea con la corrección ofrecida en el mismo aliento. Es **preferencia declarada, no criterio**: no lleva marcador de confianza y nunca se promueve al área; si falta la línea, se asume `equilibrado`.
 
 **Guías:**
 
@@ -954,12 +772,7 @@ canal siempre-activo del kit — su sección de punteros, delimitada por un par 
   idéntico → **no-op, no se escribe nada**. Un par bien formado con contenido distinto → **reportar
   la divergencia y esperar**. Marcadores duplicados o rotos → **detener y reportar**; nunca adivinar.
   Salvo el bloque, el archivo no cambia.
-- **Colisión con prosa preexistente.** Las reglas de arriba cubren los marcadores, no el texto que
-  los rodea. Un contrato anterior al bloque suele nombrar ya las mismas rutas en una sección de
-  carga, y estamparlo deja dos copias de los mismos punteros. El bloque es el que las skills
-  reestampan, así que la copia que se desactualiza es la escrita a mano. Los punteros quedan solo
-  dentro del bloque y esa sección se reduce a lo que el bloque no lleva — reportado en el mismo
-  umbral, nunca en silencio.
+- **Colisión con prosa preexistente.** Un contrato anterior al bloque suele nombrar ya las mismas rutas en una sección de carga, y estamparlo deja dos copias de los mismos punteros. El bloque es el que las skills reestampan, así que la copia que se desactualiza es la escrita a mano: los punteros quedan solo dentro del bloque y esa sección se reduce a lo que el bloque no lleva — reportado en el mismo umbral, nunca en silencio.
 
 ---
 
@@ -986,10 +799,7 @@ el *ciclo* (spec → plan → tasks → implement); el Lore la tiene sobre el *c
 se construye todo eso. La plantilla deja esa frontera escrita en vez de dejarla a quien redacte el
 próximo documento.
 
-**Por qué es puntero y no copia.** Una constitución que repite las reglas del Lore se vuelve una
-segunda fuente que deriva — y la deriva es invisible, porque los dos documentos siguen leyéndose bien
-por separado. La plantilla apunta a `lore/` para todo lo que el Lore posee, y declara por escrito que
-ahí no gobierna.
+**Por qué es puntero y no copia.** Una constitución que repite las reglas del Lore se vuelve una segunda fuente que deriva en silencio — los dos documentos siguen leyéndose bien por separado. La plantilla apunta a `lore/` para todo lo que el Lore posee, y declara por escrito que ahí no gobierna.
 
 **Su regla propia, que es la que más se saltea:** una cláusula del tipo *«este documento reemplaza
 cualquier otra práctica»* se **revoca por escrito, con su razón** — nunca se borra sin más. Una
@@ -1032,9 +842,7 @@ Una estructura típica de Lore, con Área y proyecto, se ve así:
 Puntos clave de esta jerarquía:
 
 - Los proyectos **siempre** viven en `{área}/proyectos/{slug}/`, nunca directamente bajo el Área.
-- Los módulos temáticos genéricos **no se copian** al proyecto: viven una sola vez en
-  `{área}/lore/`, y el `index.md` del proyecto los referencia por ruta relativa. Esa ruta sube
-  **tres** niveles (`lore/` → `{slug}/` → `proyectos/` → `{área}/`), no dos.
+- Los módulos temáticos genéricos **no se copian** al proyecto: viven una sola vez en `{área}/lore/`, y el `index.md` del proyecto los referencia por ruta relativa, que sube **tres** niveles, no dos.
 - El criterio compartido vive en el Área. El criterio específico de proyecto vive en el proyecto.
 
 ---
@@ -1059,18 +867,4 @@ el objetivo es mantener un cuerpo de criterio confiable, curado por humanos, del
 
 ## 7. Relación con README y otros docs
 
-La documentación de Lore suele dividirse así:
-
-- `README.md` – historia, motivación, visión de arquitectura, instalación y comparación de alto nivel con documentación tradicional.
-- `USAGE_en.md` / `USAGE_es.md` – guías prácticas de uso y flujos de trabajo.
-- `REFERENCE_en.md` / `REFERENCE_es.md` – esta referencia técnica del modelo.
-- `MIGRATION_en.md` / `MIGRATION_es.md` – estrategias y ejemplos de migración para proyectos heredados.
-- `ENCRYPTION.md` – el cifrado opcional y experimental del criterio de un bot (inglés y español).
-
-Todos estos archivos viven en la raíz del repositorio (no hay una carpeta `docs/`).
-
-Separar referencia de uso y narrativa facilita:
-
-- Consultar el comportamiento exacto de un skill o la semántica de un artefacto.
-- Mantener el README enfocado y legible.
-- Evolucionar patrones de uso sin romper el modelo subyacente.
+La documentación se reparte por oficio: [`README.md`](../README.md) lleva historia, motivación y arquitectura; [`USAGE_es.md`](./USAGE_es.md) / [`USAGE_en.md`](./USAGE_en.md), flujos prácticos; esta referencia, el modelo técnico; [`MIGRATION_es.md`](./MIGRATION_es.md) / [`MIGRATION_en.md`](./MIGRATION_en.md), estrategias de migración; [`ENCRYPTION.md`](./ENCRYPTION.md), el cifrado opcional del criterio de un bot. Todos viven bajo `docs/`. Separar referencia de uso y narrativa hace las consultas precisas y deja que los patrones de uso evolucionen sin tocar el modelo.

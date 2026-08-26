@@ -1,9 +1,8 @@
 # Lore Plugin – Reference
 
-This document is the technical reference for the provider-neutral **Lore plugin**.
-It defines Lore’s core concepts, the available skills, the Markdown artifacts, and how they fit together.
+This document is the technical reference for the provider-neutral **Lore plugin**: core concepts, skills, Markdown artifacts, and how they fit together.
 
-For a practical “how to use it every day” guide, see [`USAGE_en.md`](./USAGE_en.md).  
+For a practical "how to use it every day" guide, see [`USAGE_en.md`](./USAGE_en.md).
 For a conceptual overview and philosophy, see the main [`README.md`](../README.md).
 
 ---
@@ -22,8 +21,7 @@ Traditional documentation stores information.
 Lore stores criteria that constrain what should happen next.
 
 **Purpose boundary:** Lore Plugin is the technical arm of LUS. The professional-memory-card impact
-and Morin's wager toward a better world are a declared hypothesis and ethical north, not benchmark
-results. Productivity measures an effect; it does not replace the purpose.
+and Morin's wager are declared hypothesis and ethical north, not benchmark results. Productivity measures an effect; it does not replace the purpose.
 
 ---
 
@@ -43,9 +41,6 @@ The Lore plugin exposes eight main skills through compatible AI agents:
 | `obsidian-lore`  | Capture free notes in the same tree the Lore lives in, and **mine** that inbox for what deserves to become criteria | "review my Obsidian notes and see what belongs in my lore", "mine my inbox", "save this note to Obsidian" |
 
 Each skill operates on or creates specific Markdown artifacts under your repository.
-
-For PRUNE, a quantitative target is an acceptance constraint: establish the baseline and expected
-remainder, then measure the result before accepting the edit.
 
 **Language:** the skills are written in English, but the Lore they generate is always written in
 the **user's language** — both content and artifact filenames. `identidad.md`, `principios.md`,
@@ -81,13 +76,11 @@ triggers documented in each skill's `SKILL.md`.
   before it starts. Route each medium and tool to its owner skill rather than becoming a ninth
   production skill.
 - **Route a request for a bot, never answer it with an Area** (2.1.1). On a machine with no Lore at
-  all, someone asking for bots has already named the deliverable: the Areas are **steps**,
-  `create-bot` runs last, and the whole chain is stated with its cost — one `create-area` plus one
-  `transmute-lore` per source before the bot can route to anything.
+  all, someone asking for bots has already named the deliverable: the Areas are **steps**, `create-bot`
+  runs last, and the whole chain is stated with its cost — one `create-area` plus one `transmute-lore`
+  per source.
 
-**Typical interactions:**
-
-- “Explain the Lore structure for this repository.”
+**Typical interactions:**- “Explain the Lore structure for this repository.”
 - “What artifacts exist for this project?”
 - “Which skill should I use to capture a new invariant?”
 - “I want to create a bot for X and Y.”
@@ -101,11 +94,11 @@ Use `use-lore` whenever you are unsure where to start.
 
 **Provisional-canon rule:** questions serve the first victory; later questions exist only to unlock decisions or improve the artifact, and must admit uncertainty and correction.
 
-**Recognizable-continuity rule:** structural work maintains one accumulated artifact, advances one decision at a time and recaps at contextual milestones. The user must still recognize and be able to correct the original intention. `create-area`, `create-project`, `create-bot` and structural `transmute-lore` modes inherit the rule; mechanical work does not.
+**Recognizable-continuity rule:** structural work maintains one accumulated artifact, advances one decision at a time and recaps at milestones — the user can still recognize and correct the original intention. `create-area`, `create-project`, `create-bot` and structural `transmute-lore` modes inherit the rule; mechanical work does not.
 
-**Autonomy-with-return rule:** the accumulated artifact is the shared return point. Independent work may accumulate; a contextual recap and approved distillation resynchronize it without requiring constant contact.
+**Autonomy-with-return rule:** independent work may accumulate; a recap and approved distillation resynchronize it with the shared criterion.
 
-**Fertile-effort rule:** an enjoyable Entre is not measured by agreement or pleasing. Correction, disagreement and review must leave recognizable movement in the artifact or criterion; effort without that movement triggers repair.
+**Fertile-effort rule:** correction, disagreement and review must leave recognizable movement in the artifact or criterion; effort without movement triggers repair.
 
 **Role:** Design a new or materially changed Lore artifact before its owner skill writes it.
 
@@ -145,19 +138,15 @@ Use `use-lore` whenever you are unsure where to start.
 - An empty `proyectos/` folder, where future projects will be born.
 - A `_starter/` folder with project templates tuned to the Area's domain
   (`CLAUDE.template.md` or `AGENTS.template.md`, `FASES.md`, and, if applicable,
-  `golden-paths.template.md`, plus any base
-  code scaffold). `create-project` instantiates these templates for each new project.
-  The floor is structural (2.1.5): always-on, `FASES` outside, threshold, inherit by path. If the
-  Area is `bots`, the variant is `canon/` plus routing.
+  `golden-paths.template.md`, plus any base code scaffold); `create-project` instantiates them per project.
+  The floor is structural (2.1.5): always-on, `FASES` outside, threshold, inherit by path — for a `bots`
+  Area, the variant is `canon/` plus routing.
 
 **Responsibilities:**
 
 - Establish a place where shared criteria for a domain live.
 - Provide the skeleton (`_starter/`) that projects instantiate.
-- **Return control to the skill that called it** (2.1.1). An Area is a **step** as often as it is a
-  destination: `create-bot` needs one before the bot can exist, and `create-project` needs the Area
-  it was pointed at. When `create-bot` called, the Area is `bots` — **one** of them, holding every
-  bot as a project — and its domain is the user's bots, never the domain of any one of them.
+- **Return control to the skill that called it** (2.1.1). An Area is a **step** as often as a destination. When `create-bot` called, the Area is `bots` — **one** Area holding every bot as a project — and its domain is the user's bots, never any single bot's.
 
 Use `create-area` when you want multiple projects to share the same foundational criteria.
 
@@ -175,8 +164,7 @@ Use `create-area` when you want multiple projects to share the same foundational
 **Creates / updates:**
 
 - The project folder, always at `{area}/proyectos/{slug}/` — never directly under the Area.
-- If the Area has a `_starter/` folder, instantiates its templates (and any code scaffold) into the
-  project instead of starting from scratch.
+- If the Area has a `_starter/` folder, instantiates its templates (and any code scaffold) into the project.
 - Project‑level artifacts:
   - `lore/identidad.md` and `lore/principios.md`, leading with **their own** content, then a
     pointer to the Area standard.
@@ -198,7 +186,7 @@ Use `create-project` whenever you start a new codebase inside an existing Area.
 
 ### 3.5 `save-to-lore`
 
-**Contextual capture:** hold candidates until a real milestone or a cluster of related clues. The preview shows destination, wording and why now; approval covers the shown batch's writes and commits, never push.
+**Contextual capture:** hold candidates until a real milestone or a cluster of related clues; the preview shows destination, wording and why now, and approval covers the shown batch's writes and commits, never push.
 
 **Role:** Distill newly acquired experience into reusable criteria.
 
@@ -209,15 +197,9 @@ Use `create-project` whenever you start a new codebase inside an existing Area.
 | **CAPTURE** (default) | lived friction (bug, collapse, client rejection) | Distills the scar into an Invariant Clue. Everything described below refers to this mode. |
 | **GRAFT** | imported criteria (a *skill*, a style guide, a third-party playbook, **another kit's constitution or governing document**) | **Judges** that criteria against the project's purpose. Only what survives gets in. |
 
-> **Why "graft".** A graft is foreign tissue bound to a rootstock that is already alive: **it takes root or
-> it is rejected**, and what grows afterwards belongs to the host. A graft nobody checks is deadwood
-> tied to a healthy tree — you say what took and what did not. It is the exact counterpart of
-> `transmute-lore` PRUNE: pruning removes what the plant grew on its own, grafting judges what came
-> from outside. A Lore with one and not the other either bloats or ossifies.
+> *Why "graft".* A graft takes root or is rejected, and what grows afterwards belongs to the host — the exact counterpart of `transmute-lore` PRUNE: pruning removes what the plant grew on its own, grafting judges what came from outside. A Lore with one and not the other either bloats or ossifies.
 >
-> *Renamed in 2.1.1. Through 2.0.9 this mode was called `arbitrate`, and in 2.1 `transplant`: same law,
-> same four gates. The name changed because a transplant moves a plant without changing it, and this
-> mode changes what it lets in.*
+> *Renamed in 2.1.1 (`arbitrate`, then `transplant`): same law, same four gates — a transplant moves a plant without changing it; this mode changes what it lets in.*
 
 **`GRAFT` mode — four gates:**
 
@@ -232,27 +214,11 @@ Use `create-project` whenever you start a new codebase inside an existing Area.
    the standard and **loses**. **No defeats, no entry:** either nothing was arbitrated (it was a
    copy), or the source carried capacity, not criteria.
 
-**A governing document is the hardest case, and the one most often skipped.** When a second kit ships
-a constitution or charter declaring its own authority, the reflex is to treat it as configuration and
-adopt it. It is criteria written under someone else's purpose, and a supremacy clause is precisely the
-kind that **loses** — a kit installed this week cannot govern criteria paid for with friction before
-it existed. That defeat is **written down**, not merely omitted: an omission leaves a hole the next
-template regeneration fills back in. What does not happen is deferring to it while deciding;
-arbitration is judgment, not negotiation.
+**A governing document is the hardest case.** A second kit's constitution is criteria written under someone else's purpose, and its supremacy clause is precisely the kind that **loses** — a kit installed this week cannot govern criteria paid for before it existed. The defeat is **written down**, never omitted: an omission leaves a hole the next template regeneration fills back in. Arbitration is judgment, not negotiation.
 
-**On a schedule, `GRAFT` starts by reading what already lost.** A recurring pass over a field
-that moves slower than its own schedule keeps meeting the same material. The defeats sections this
-mode already writes **are** that ledger: read them first, and never re-arbitrate or re-report what is
-already in them. **"Nothing entered this time" is a valid result and is written as such** — a
-recurring pass that always finds something stopped looking and started justifying itself.
+**On a schedule, `GRAFT` starts by reading what already lost.** The defeats sections it writes **are** the ledger: read them first, never re-arbitrate or re-report what is in them. **"Nothing entered this time" is a valid result and is written as such** — a pass that always finds something stopped looking and started justifying itself.
 
-**A third-party skill you *invoke* carries criteria too, and applies it without asking.** `GRAFT`
-is for criteria arriving as a **document** to be read; the harder case is criteria arriving as a
-**tool that runs** — a formatter, a linter, a style checker. Nobody arbitrates those because they look
-like capacity, and every opinionated tool ships a body of criteria. **Feed it your Lore in the
-invocation, as its input:** most such tools have a calibration clause that makes a provided sample
-outrank their defaults, and the ones that do not are treated as capacity and kept away from anything
-the Lore governs.
+**A third-party skill you *invoke* carries criteria too, and applies it without asking.** The harder case is criteria arriving as a **tool that runs** — every opinionated tool ships a body of criteria nobody arbitrates because it looks like capacity. **Feed it your Lore in the invocation:** most tools let a provided sample outrank their defaults; the ones that do not stay away from anything the Lore governs.
 
 **Confidence in `GRAFT`:** what is adopted *from* the source enters as `conjecture` (nobody has
 paid for it with real friction yet); **the arbitration itself** — the defeats, derived from an
@@ -261,7 +227,7 @@ from `<source>`, arbitrated against `<identidad.md>`."*
 
 **Input:**
 
-- A short description of the problem, decision, or lesson (e.g. `"Hydration bug on Next.js landing"`); or the name of the source to arbitrate (e.g. `"distill the copywriting skill"`).
+- A short description of the problem or lesson (`"Hydration bug on Next.js landing"`), or the source to arbitrate (`"distill the copywriting skill"`).
 
 **Process (conceptually):**
 
@@ -280,45 +246,17 @@ conditions must hold at once: **constraint** (forbids a future error or demands 
 directive), and **genericity** (would help another project in the Area). Cosmetic changes never
 count.
 
-**`destino:` and landing verification — 2.3.0.** A clue that demands a verifiable artifact or step
-declares **where it is run**: module and step. Before the threshold closes, the declared term is
-**grepped in the declared file** and reported as `arrived` or `written, never exercised`; in the
-second case the clue stays `conjecture` and **its promotion is blocked** until the destination
-exists. A check fulfilled by reading is not a point of application: it leaves no artifact inside the
-threshold.
+**`destino:` and landing verification — 2.3.0.** A clue demanding a verifiable artifact or step declares **where it is run**: module and step. Before the threshold closes, the declared term is **grepped in the declared file** and reported as `arrived` or `written, never exercised`; in the second case the clue stays `conjecture` and **its promotion is blocked** until the destination exists.
 
-**And the junction is written on both sides.** The clue carries its `destino:`; the step carries one
-line naming the clue. This is not decorative symmetry: the two sides **often live in different
-trees**, and a session loads the always-on block of its own and no other. With the pointer written in
-one direction only, whoever stands at the step sees a procedure with no visible obligation behind it
-— and a prune there removes it as surplus, because from that side it is.
+**The junction is written on both sides:** the clue carries its `destino:`; the step carries one line naming the clue. The two sides often live in different trees, and a session loads only its own always-on block — a pointer written in one direction leaves whoever stands at the step looking at a procedure with no visible obligation behind it, which a prune there removes as surplus. From that side, it is.
 
-**Confidence system:** each clue is stored as `conjecture` (default) or `confirmed` (only once
-actually validated in the running app). Confidence is never inflated to `confirmed` just to force
-a promotion.
+**Confidence system:** each clue is `conjecture` (default) or `confirmed` (only once validated in the running app) — never inflated to force a promotion.
 
-**Routing and promotion:** criteria is always captured in the project first; only what is
-**confirmed and generic** is proposed for promotion to the Area's `lore/` (the Area is never
-written silently). In the project's `index.md`, an already‑promoted line is marked with the
-` · ↑` glyph — re‑running the skill on that clue is a safe no‑op (idempotency).
+**Routing and promotion:** criteria is captured in the project first; only what is **confirmed and generic** is proposed for promotion to the Area's `lore/`, which is never written silently. In the project's `index.md`, an already-promoted line carries the ` · ↑` glyph — re-running the skill on that clue is a safe no-op.
 
-**Correcting a fact is not capturing criteria.** The routing above is built for criteria, which lives
-in exactly one place by design. A **verifiable fact** — an address, a figure, a date — behaves the
-opposite way: it is repeated in every artifact that cited it and in the source document that handed
-it out, so fixing it where the error was noticed leaves the root intact and every other copy with it,
-and none of the survivors produce an error. **The unit of work is the set of appearances:** sweep the
-tree before writing, fix them all in one pass, and if the fact also sits in a source corpus that is
-not edited, mark it there too — struck through and dated, never deleted.
+**Correcting a fact is not capturing criteria.** Criteria lives in exactly one place by design; a **verifiable fact** — an address, a figure, a date — behaves the opposite way: it repeats in every citing artifact and in the source that handed it out. Fixing it where noticed leaves every other copy wrong. **The unit of work is the set of appearances:** sweep the tree before writing, fix them all in one pass, and if the fact also sits in an unedited source corpus, mark it there too — struck through and dated, never deleted.
 
-**Invariants:**
-
-- Criteria are never invented.
-- Everything comes from real experience.
-- Discarded noise is reported, never silently removed.
-- Every change passes through a threshold before being written.
-- Nothing commits automatically; `git push` is never run.
-- A human always reviews the final diff.
-- A clue citing an older law inherits its **boundary of validity** or says why not, and states its
+**Invariants:** criteria are never invented; everything comes from real experience; discarded noise is reported, never silently removed; every change passes through a threshold before being written; nothing commits automatically and `git push` is never run; a human always reviews the final diff. A clue citing an older law inherits its **boundary of validity** or says why not, and states its
   rule by the **condition**, not by the category the condition usually holds in.
 
 Use `save-to-lore` as the main mechanism for feeding your Lore after important decisions.
@@ -330,9 +268,8 @@ Use `save-to-lore` as the main mechanism for feeding your Lore after important d
 **Role:** Operate an existing body of Lore through eight distinct modes.
 
 **Entry and portability boundary:** ADD may build Lore where none exists from folders, documents,
-chat summaries and notes, but those inputs remain sources until approved distillation. CRYSTALLIZE
-creates the portable single-Markdown memory card; it is derivative, traceable and extractable, never
-the authority that replaces the live Lore.
+chat summaries and notes, but those inputs remain sources until approved distillation; CRYSTALLIZE
+creates a derivative, traceable, extractable memory card that never replaces the live Lore.
 
 **Input:**
 
@@ -352,18 +289,14 @@ the authority that replaces the live Lore.
     a Lore that decayed by accumulating things that are each individually correct.
   - `micelio` – "run the micelio", "is the Lore plugged in?" — a **read-only** walk reporting which
     clues no step runs. It writes nothing and never prunes. Three triggers: before a complex task,
-    after installing or updating the kit, and **on the way out of any pass that wrote Lore**; the
-    exit pass is not the entry pass repeated, because a new clue is born disconnected. **Its
-    findings block** whatever came next until they are written or declined, and **a declined finding
-    is never re-reported**. It reports in plain language — *"nothing runs it"*, *"it names a place
-    where it is not written"* — and the technical vocabulary is inferred from use, like the
-    professional profile: never required in order to ask a question.
+    after installing or updating the kit, and on the way out of any pass that wrote Lore — a new clue
+    is born disconnected, so the exit pass is never the entry pass repeated. Findings block whatever
+    comes next until they are written or declined, and a declined finding is never re-reported.
 
   Six outcomes, said in plain language: there is a step that runs it · nothing runs it · it names a
-  place and is not written there · a step only says "consult this" · it is criteria and is not in
-  `lore/` · the step exists, in a file this session does not load. **The mode runs quiet: it never
-  announces itself, and nobody has to learn a vocabulary in order to ask.** The six do not merge —
-  the last four are repaired in different directions.
+  place and is not written there · a step only says "consult this" · it is criteria outside `lore/` ·
+  the step exists, in a file this session does not load. The mode runs quiet — nobody needs the
+  vocabulary to ask, and the six do not merge: the last four are repaired in different directions.
   - `leave` – "leave Lore", "leave Lore without losing the criterion" — removes governance and keeps
     `lore/`. Writes the `leave:` marker in `FASES.md`, which is the whole of its reversibility:
     `UPGRADE` reads it to come back.
@@ -371,16 +304,15 @@ the authority that replaces the live Lore.
     crystallization" — resolve the live routing into a safe, traceable reading copy for a chat,
     AI project or notebook, marked so it can be unpacked into a folder whose routing table resolves.
 
-**Safety precondition:** modes that modify source artifacts require a clean git tree before writing.
-`crystallize` writes no source artifact and may diagnose a dirty tree, but it still requires an
-explicit export preview and threshold.
+**Safety precondition:** modes that modify source artifacts require a clean git tree before writing;
+`crystallize` writes none and may diagnose a dirty tree, but still requires an explicit export preview and threshold.
 
 **Process — `add` mode (conceptually):**
 
 1. Inventory existing sources of criteria: `CLAUDE.md`/`AGENTS.md` (usually the biggest deposit of
    mixed criteria), `README.md`, a stale or missing `lore/`, `incidents/`, code comments with
    signals like "never", "always", "WARNING".
-2. Separate **criteria** (constrains a future decision) from **noise** (merely descriptive).
+2. Separate **criteria** (which constrains future decisions) from **noise**.
 3. Propose how to map that criteria onto:
    - `identidad.md`, `principios.md`, `index.md`, thematic modules under `lore/`.
    - `FASES.md` and the instruction contract at the root.
@@ -393,7 +325,7 @@ explicit export preview and threshold.
    `clean` does not apply and this is reported.
 2. Compare each of the project's thematic modules against its counterpart in `{area}/lore/`: if every
    clue in the project module is already in the Area, the module is redundant and removable.
-3. Any clue **not** found in the Area is reported (not deleted) so the user can decide.
+3. Any clue **not** found in the Area is reported (not deleted) for the user to decide.
 4. **Never deletes** `identidad.md`, `principios.md`, or `index.md` — only redundant thematic
    modules. Rewrites `index.md` to point at the Area's modules.
 
@@ -418,24 +350,16 @@ explicit export preview and threshold.
    cross the boundary — renaming an Area's modules updates (or reports) its projects' links into
    those files.
 
-**Binaries: compare before extracting, record after.** A `.pdf`, `.docx` or `.xlsx` among the sources
-looks like pending work forever, because a binary that **has already been transcribed** is
-indistinguishable from one that has not: transmutation writes the `.md` under the name the content
-deserves and leaves the binary where it was, extension intact. So `add` mode compares a binary's text
-against the existing corpus before extracting it — literal overlap in chunks costs seconds — and
-**records the correspondence binary → transcription** in the destination when it does transcribe one.
-Pending extraction items are written by **content, not by extension**.
+**Binaries: compare before extracting, record after.** A transcribed binary is indistinguishable from a pending one, so `add` compares a binary's text against the existing corpus before extracting it and **records the correspondence binary → transcription** in the destination when it transcribes one. The `.md` is written under the name the content deserves; the binary stays put, extension intact. Pending extraction items are written by **content, not by extension**.
 
 **Process — `upgrade` mode (conceptually):**
 
 1. **Establish both versions.** The installed one comes from the host's installation registry, never
-   from a `plugin.json` found by walking the working tree — the manifest is the *source's* version and
-   the registry is the version that will run. And the registry is not the last word either: a session
-   resolves its plugin version **when it opens**, so one opened before an install keeps running the
-   previous copy and the registry will not say so. The witness that survives is the path the skill
-   declares as it loads, contrasted against a word that exists in only one version. The Lore's own
-   version is usually not written down and is inferred from what its artifacts carry; say plainly when
-   that is a guess. If the installed copy is stale, **stop and say so**.
+   from a `plugin.json` found in the tree — the manifest is the *source's* version, and a session
+   resolves its plugin version when it opens, so the registry may not describe what is running. The
+   witness that survives is the path the skill declares as it loads, contrasted against a word that
+   exists in only one version. The Lore's own version is inferred from its artifacts; say plainly when
+   that is a guess, and if the installed copy is stale, **stop and say so**.
 2. **Arbitrate artifact by artifact**, sorting every finding into exactly four kinds:
 
 | Kind | What it means | What it produces |
@@ -461,17 +385,13 @@ Pending extraction items are written by **content, not by extension**.
 
 **The unit this mode counts is the deliverable, not the Lore.** A body of criteria is not too big in
 the abstract; it is too big *for the thing it has to produce*. Ask for the artifact the project
-actually ships — a post, a page, a component, a report — before reading a single module. Without it,
-`prune` has no denominator and turns into taste.
+actually ships before reading a single module — without it, `prune` has no denominator and turns into taste.
 
 1. **Measure before reading**, because the defect this mode exists for is invisible when reading files
    one at a time: laws in `principios.md` (area + project), clues across thematic modules, **clues
    with no validity boundary** (one with no boundary applies *always* — this is the multiplier),
    guardrails from the active phase, and **scaffolding against content in the last three
-   deliverables**. That last count finds what reading cannot: it belongs to no single clue, which is
-   exactly why no per-artifact pass ever caught it. Also inventory whether each piece type the project
-   ships has a **declared length ceiling** — the piece with no ceiling is the one that will bloat, and
-   it is usually the *most* published one.
+   deliverables** — that last count finds what no per-artifact pass ever caught. Also inventory whether each piece type the project ships has a **declared length ceiling**: the piece with no ceiling is the one that will bloat, usually the most published one.
 2. **Classify, four kinds:**
 
 | Kind | What it means | What it produces |
@@ -481,9 +401,8 @@ actually ships — a post, a page, a component, a report — before reading a si
 | **Rooted** | Load-bearing: a real scar behind it and a decision that still depends on it. | Untouched, and **not re-examined by the next pass**. |
 | **Unhealed** | Declared applied and only partly applied — the correction landed in one place and not in its siblings. | **Finish it or unmark it.** It may not stay declared-and-false. |
 
-3. **A prune list with no `Rooted` entries is a pass being run as a chainsaw.** This is the mirror of
-   `upgrade`'s `Earned` rule and exists for the same reason: a mode that only removes will always find
-   something to remove.
+3. **A prune list with no `Rooted` entries is a pass being run as a chainsaw** — the mirror of
+   `upgrade`'s `Earned` rule: a mode that only removes will always find something to remove.
 4. Nothing comes out without its residue written down, and **what shrinks is the deliverable, not
    necessarily the corpus**.
 
@@ -507,36 +426,30 @@ Use `transmute-lore` when you already have a project and want to bring it into L
 
 ### 3.7 `create-bot`
 
-**Birth from an idea:** the initial human declaration is primary source and provisional canon. The first complex artifact is an individual configuration that runs the operational cycle to a reviewed first victory. Any interface is an honest prototype and local laboratory: the transformed object, not chat, is the product; decisions precede prompts; Journey state derives from purpose.
+**Birth from an idea:** the initial declaration is provisional canon; configuration runs the cycle to a reviewed first victory. Any interface keeps canon, logic and presentation apart, puts decisions before prompts, and derives Journey state from purpose.
 
 **Role:** Build a **bot** — one place to open a session and work across several projects or Areas at
 once, with their criteria already loaded, instead of answering questions about them.
 
 A bot is a sibling of `create-project`, not of `create-area`: it lives at
-`{area}/proyectos/{slug}/`. **One** property sets it apart: it **routes outward**, into Lore owned by
-other projects and Areas. By default it is a folder with its canon and its host-selected contract — open a
+`{area}/proyectos/{slug}/`, and **one** property sets it apart — it **routes outward**, into Lore owned by
+other projects and Areas. By default it is a folder with its canon and its host-selected contract: open a
 session there and the criteria is already loaded, with nothing installed. **Packaging it as an
 installable plugin is optional**, and serves one purpose: handing it to a team.
 
-> **Why it cannot be an Area.** An Area holds projects and owns its domain's criteria. A bot owns
-> none of the criteria it routes to: it borrows it. Building it as an Area creates a parent that
-> accumulates criteria it never paid for, and the consequence shows up fast — when a criterion
-> generalizes, it gets promoted to the bot instead of to the Area that earned it.
-
-> **And the inverse confusion (2.1.1): a bot administers no bots.** One that exists to add bots or
-> reorganize folders is the `bots` Area wearing a bot's shape — that job is a `FASES.md` and an Area
-> `lore/`, and it needs no canon and no routing table. If one shows up, what is missing is the Area.
+> **Why it cannot be an Area.** An Area owns its domain's criteria; a bot borrows what it routes to. Built as an Area, it becomes a parent accumulating criteria it never paid for — and when a criterion generalizes, it gets promoted to the bot instead of to the Area that earned it.
+>
+> **The inverse confusion (2.1.1): a bot administers no bots.** One that exists to add bots or reorganize folders is the `bots` Area wearing a bot's shape — that job needs no canon and no routing table. If one shows up, what is missing is the Area.
 
 > **The premiere opens with the access check (2.1.1).** The bot is opened **the way its user will open
-> it**, confirming the session reaches the manifest's paths. Each host grants that reach its own way:
-> a Claude Code session opened in the bot plus its `.claude/settings.local.json`; a Codex project
-> whose folder is the **mother** of the federated tree, never the bot's own folder; `--add-dir` for
-> the CLI. A host pointed at the wrong folder fails as *«it reads the wrong Lore»* — a symptom that
-> sends whoever debugs it into the criteria and never into the access.
+> it**, confirming the session reaches the manifest's paths — each host grants that reach its own way
+> (Claude: session in the bot plus `.claude/settings.local.json`; Codex: a project at the **mother**
+> folder of the federated tree; CLI: `--add-dir`). A host pointed at the wrong folder fails as *«it
+> reads the wrong Lore»*, a symptom that sends debugging into the criteria and never into the access.
 
 **Input:**
 
-- Target Area path, the bot's `slug` (which is also the skill name), and its purpose.
+- Target Area path, the bot's `slug` (also the skill name), and its purpose.
 - Source documents the canon is distilled from.
 - `federar` mode: which Lore bodies it routes to, and what **type of task** each one governs.
 
@@ -547,27 +460,14 @@ installable plugin is optional**, and serves one purpose: handing it to a team.
 | `nuevo` | No prior Lore to gather. | Nothing; canon only. |
 | `federar` | The criteria already exists, dissolved across several Areas. | `scripts/ecosistema.json`, `scripts/sync.js`, and two **generated** files: `lore/enrutamiento.md` (the table) and `.claude/settings.local.json` (access to the live trees). **It copies nothing** unless the copy is turned on. |
 
-For an existing bot, the skill runs an **audit pass** instead of either creation procedure. It checks
-the institution's actual registry, scope, sources, routing and README, then rejoins
-the sync and verification flow.
+For an existing bot, the skill runs an **audit pass** instead of either creation procedure: it checks the institution's actual registry, scope, sources, routing and README, then rejoins the sync and verification flow.
 
-> **Federating is pointing, not copying.** Each row of the manifest is an **address**: the table says
-> which Lore governs a task, and the generated access lets the session reach it **where it lives**.
-> That criteria keeps one owner and one version — the same DRY rule the rest of the kit runs on, where
-> a project references its Area's modules instead of duplicating them.
+> **Federating is pointing, not copying:** each manifest row is an address to Lore living where it
+> lives, so that criteria keeps one owner and one version.
 
-**An Area is federated the way it is opened:** `lore` **plus** its selected contract and its `FASES.md`.
-Federating only its `lore/` is the asymmetry to avoid, and it is invisible from inside: the Area's
-**laws** live in the Lore, but the **sequence of work** — what is read first, which skill closes a
-deliverable — lives in its `CLAUDE.md` or `AGENTS.md`, and the **registry of what exists and where** in its
-`FASES.md`, including projects adopted by path. A bot carrying only the Lore cites every rule
-correctly and still works differently.
+**An Area is federated the way it is opened:** `lore` **plus** its selected contract and its `FASES.md`. Its **laws** live in the Lore, but the **sequence of work** lives in its `CLAUDE.md` or `AGENTS.md`, and the **registry of what exists and where** in its `FASES.md`, including projects adopted by path. A bot carrying only the Lore cites every rule correctly and still works differently.
 
-**Access is declared per source, not inferred from its category.** Ask whether any project inside the
-folder falls outside the bot's scope. If yes — the normal case for an Area — working access stays off
-so excluded projects cannot reopen through the back door. If the bot deliberately federates the
-whole Area and leaves no project out, that Area may carry `"trabajo": true`, with the reason written
-beside the manifest row.
+**Access is declared per source, not inferred from its category.** If any project inside an Area falls outside the bot's scope — the normal case — working access stays off so excluded projects cannot reopen through the back door. Only a deliberately whole-Area federation may carry `"trabajo": true`, with the reason beside the manifest row.
 
 **Chain for sources with no Lore:**
 
@@ -584,25 +484,18 @@ raw folder → create-area → transmute-lore (add) → create-bot (federar)
 
 `create-bot` inspects the paths and classifies each source: already has Lore (federate), has
 undistilled criteria (`transmute-lore` add first), has no owning Area (`create-area` first), or is
-not text (extract first — `sync.js` only moves `.md`, `.txt` and `.json`, so anything unextracted is
-invisible and it will not warn). That classification is reported as part of the brainstorm.
+not text (extract first — `sync.js` moves only `.md`, `.txt` and `.json`, so anything unextracted is
+invisible and unwarned). Reported as part of the brainstorm.
 
-**Register with the user:** the skill asks three things — the name, what it will be used for, and
-where the useful folders are — **in plain language**. The dense vocabulary (canon, distill, boundary
-of validity, Invariant Clue) belongs to the skill document, not to the conversation.
+**Register with the user:** the skill asks three things — name, purpose, where the useful folders are — **in plain language**; the dense vocabulary belongs to the skill document, not the conversation.
 
 **Creates / updates:**
 
-- `CLAUDE.md` or `AGENTS.md` — **the bot**: first-use configuration, canon loading, routing, execution, and the
-  distillation proposal on close. It loads just for the session being opened in that folder.
-- `canon/*.md` — the criteria the bot **is**, each module declaring its origin and its boundary of
-  validity.
+- `CLAUDE.md` or `AGENTS.md` — **the bot**: first-use configuration, canon loading, routing, execution, distillation proposal on close.
+- `canon/*.md` — the criteria the bot **is**, each module declaring origin and boundary of validity.
 - `lore/`, `FASES.md`, `.gitignore`.
-- `federar` mode: `scripts/ecosistema.json`, `scripts/sync.js`, and the generated
-  `lore/enrutamiento.md` and `.claude/settings.local.json` (local, never committed).
-- A README only when the user asks for one. Do not wrap the bot as a plugin. Packaging is
-  crystallization: unpacking rebuilds `lore-ecosistema/`.
-- Registers the bot in the Area's `FASES.md`.
+- `federar` mode: `scripts/ecosistema.json`, `scripts/sync.js`, plus the generated `lore/enrutamiento.md` and `.claude/settings.local.json` (local, never committed).
+- A README only when the user asks for one. Registers the bot in the Area's `FASES.md`.
 
 **The three bodies of criteria (the central invariant):**
 
@@ -615,27 +508,15 @@ of validity, Invariant Clue) belongs to the skill document, not to the conversat
 The test that keeps them apart: **would the source be discardable?** Distilling produces something
 smaller that can replace its origin; copying produces something identical that cannot.
 
-**The copy (`lore-ecosistema/`) is optional and off by default** (`"copia": true` in the manifest).
-It answers a single question: *do the people who will use this bot have your folders, or only the
-bot?* Without the tree, the pointer resolves to nothing and the copy is the only way that criteria
-exists on their machine. With the copy on, `sync.js` never summarizes — a summary living next to the
-consultation index competes with the original and wins by being closer — and **precedence is checked
-per row at read time**: if the live source resolves on that machine, it is read there and the copy is
-not opened. That way the copy **deactivates itself**, row by row, as someone acquires the folders.
+**The copy (`lore-ecosistema/`) is optional and off by default** (`"copia": true`). It answers one question: *do the people who will use this bot have your folders, or only the bot?* Without the tree the pointer resolves to nothing and the copy is the only way that criteria exists on their machine. With it on, `sync.js` never summarizes — a summary next to the consultation index competes with the original and wins by being closer — and **precedence is checked per row at read time**: if the live source resolves, it is read there and the copy is not opened, so the copy **deactivates itself**, row by row, as someone acquires the folders.
 
 **Responsibilities:**
 
-- Brainstorm the canon **before** creating anything (threshold).
-- Distill the canon **from the source**, never from another distillation nor from the model's own
-  knowledge. Each module names its origin and where it stops applying.
+- Brainstorm the canon **before** creating anything (threshold), distilled **from the source** — never from another distillation nor from the model's own knowledge; each module names its origin and where it stops applying.
 - Route **by type of task, not by name of project**; when ambiguous between two Lore bodies, ask.
 - Close **every** task with a distillation proposal, reporting what was discarded.
-- Write **negative reports with their coverage in the same sentence**: *«none of the laws I carry are
-  broken»*, never *«it is fine»*. A bot points at borrowed criteria, so it inherits its coverage and
-  its silence — what nobody scarred is not written down, and its absence from the corpus looks
-  exactly like its absence from the work.
-- `federar` mode: one manifest generates the table, the access and the pruning so they cannot drift;
-  sync runs one way only, and `enrutamiento.md` is never hand-edited.
+- Write negative reports with coverage in the same sentence: *«none of the laws I carry are broken»*, never *«it is fine»* — what nobody scarred is not written down, and its absence from the corpus looks exactly like its absence from the work.
+- `federar`: one manifest generates table, access and pruning so they cannot drift; sync runs one way only; `enrutamiento.md` is never hand-edited.
 
 **First use — a brainstorm, not a form:**
 
@@ -644,37 +525,32 @@ with four fields to fill. If a brainstorming skill is installed, the bot runs th
 it; otherwise it runs a minimal one itself. Three moves:
 
 1. **It shows what it reaches before asking anything** — each federated body with whether it resolves
-   *on this machine*, what the canon distills, what is out of scope. That display is also the
-   pre-flight: a broken pointer surfaces in front of the person who can fix it.
+   *on this machine*, what the canon distills, what is out of scope. A broken pointer surfaces in
+   front of the person who can fix it.
 2. **It asks only what changes behaviour**, one question at a time, and **never with closed options
-   for a field that picks a branch**. A closed list has no default for the answer naming two of its
-   items, so the question is asked by its **condition** — *«does your work fall into more than one of
-   these?»* — and an answer naming two bodies of criteria opens by both. Tone and nickname are not
-   asked: they are inferred and corrected in a sentence.
-3. **It closes by separating configuration from criteria.** Configuration goes to
-   `.{slug}.json`; what turned out to be criteria is proposed to **the Lore of whoever paid for it**,
-   never stored in the bot.
+   for a field that picks a branch**: the question is asked by its **condition** — *«does your work
+   fall into more than one of these?»* — and an answer naming two bodies opens by both. Tone and
+   nickname are inferred, corrected in a sentence.
+3. **It closes by separating configuration from criteria.** Configuration goes to `.{slug}.json`;
+   criteria is proposed to **the Lore of whoever paid for it**, never stored in the bot.
 
 **Configuring the first use is not the first use.** That gate is answered identically with an empty
 canon and broken paths, so passing it proves nothing about whether the bot works. The bot is reported as finished after a
 **premiere**: an instruction that does not name the criteria, recorded **verbatim** in the Area's
 `FASES.md` — a paraphrase can no longer be judged for whether it was short.
 
-**Optional, off by default:**
+Optional, off by default:
 
 - **Encryption** (*experimental*, see [`ENCRYPTION.md`](./ENCRYPTION.md)): encrypt in distribution,
-  never at consultation. The `.gitignore` follows the choice — with encryption the plaintext is
-  excluded; without it the criteria **must** be committed, or the repository travels with no criteria
-  and the bot is useless to the team. The passphrase is read from *stdin* and **never enters the
-  chat**.
+  never at consultation. With encryption the plaintext stays out of git; without it the criteria
+  **must** be committed, or the repository travels with no criteria. The passphrase comes from *stdin*
+  and never enters the chat.
 
-A bot without it is complete. **Packaging is crystallization**, not wrapping the bot as a plugin.
-Unpacking the snapshot rebuilds the folder, including `lore-ecosistema/`. That is how the work
-travels to someone who does not have your tree. `create-bot` still federates by pointing; it does
-not invent that copy.
+A bot without it is complete. **Packaging is crystallization**, not wrapping the bot as a plugin:
+unpacking the snapshot rebuilds the folder, including `lore-ecosistema/` — that is how the work
+travels to someone who does not have your tree.
 
-Use `create-bot` when you want one session that works across several projects — including from zero.
-If the sources have no Lore yet, the skill orchestrates the chain (`create-area` → `transmute-lore` add → `create-bot`); it does not require Lore to already exist. When the Lore is already there, it federates it. The bot never substitutes for building that Lore in the Area that owns it.
+Use `create-bot` when you want one session that works across several projects — with or without existing Lore: none, it orchestrates the chain above; some, it federates it. It never substitutes for building that Lore in the Area that owns it.
 
 ---
 
@@ -684,20 +560,11 @@ If the sources have no Lore yet, the skill orchestrates the chain (`create-area`
 capture notes, and mine the inbox. A note is always source material; `save-to-lore` owns any criterion
 that survives classification, routing and the threshold.
 
-**Precondition:** the vault must be the **mother folder containing the Areas**, not a folder beside
-them. The skill verifies that at least one direct child of the root holds a `lore/`; if none does, it
-stops and points at `create-area`. The path is never assumed: it is whatever tree the user has.
+**Precondition:** the vault must be the **mother folder containing the Areas**, not a folder beside them — the skill verifies that at least one direct child of the root holds a `lore/`, or it stops and points at `create-area`. The path is never assumed.
 
-**The inbox:** a folder named in the user's language (`notas/` in Spanish, `notes/` in English). The
-sweep is recursive over `**/*.md`, so subfolders are the writer's business; the skill imposes none.
+**The inbox:** a folder named in the user's language (`notas/` / `notes/`). The sweep is recursive over `**/*.md`; subfolders are the writer's business.
 
-**Standing recommendation: the inbox lives in a bot.** Not one option among several — it is the
-setup this skill was designed for, and the skill recommends it on first run and whenever a sweep
-happens outside one. The reason is routing: a bot carries `lore/enrutamiento.md`, where the purpose
-of every Area and project it federates is written down, so a note is routed **against that table**
-and border cases are asked instead of guessed. Outside a bot, routing comes from one path plus the
-model's reading of the text: a guess wearing the same confidence. If the user has no bot and their
-notes touch more than one Area, the skill proposes `create-bot`.
+**Standing recommendation: the inbox lives in a bot.** It is the setup this skill was designed for, recommended on first run and whenever a sweep happens outside one. The reason is routing: a bot routes each note **against `lore/enrutamiento.md`**, where the purpose of every federated Area and project is written down, and border cases get asked instead of guessed. Outside a bot, routing is one path plus the model's reading — a guess wearing the same confidence. No bot, and notes touching more than one Area? The skill proposes `create-bot`.
 
 **It lives where the session is opened**, and this is not cosmetic:
 
@@ -707,21 +574,9 @@ notes touch more than one Area, the skill proposes `create-bot`.
 | A project or an area | that folder's `notes/` |
 | **The vault root** | **none. The root never has an inbox** |
 
-**The root never has an inbox, and that is a law rather than tidiness.** A note written at the root
-has no owner and no table to be routed against, and the failure is silent — a session only reaches
-the folder it was opened in plus the paths in its `.claude/settings.local.json`, which never includes
-the root, so the sweep does not read it, does not fail, and **reports a debt of zero**. The note stays
-intact, which is the exact state distillation exists to break. A note that belongs to no project
-means **the project is missing** (`create-project`), not that an orphan inbox is needed.
+**The root never has an inbox, and that is a law rather than tidiness.** A note at the root has no owner and no table to route against, and the failure is silent — the sweep does not read it, does not fail, and **reports a debt of zero**, leaving the note intact: the exact state distillation exists to break. A note belonging to no project means **the project is missing** (`create-project`), not that an orphan inbox is needed.
 
-**And the reason is not that nobody works at the root — somebody does.** Anything that has to sit
-above every Area lives there: a launcher that routes into all of them, a spec that decides a new Area,
-a script that walks the whole tree. The root is **a place of work with no Lore** — no owner, no
-`FASES.md`, no inbox, no instruction contract to load the rules that would have registered what happened. So
-the silence goes one step further than the paragraph above: **the work itself goes unregistered**, and
-no note is ever written for a sweep to find. When that is the case, what is missing is one level above
-the project: an **Area** (`create-area`). Until it exists, the note goes to the inbox of the Area that
-asked for the work, never to the root.
+**And somebody does work at the root** — launchers that route into every Area, specs that decide a new one, whole-tree scripts. The root is **a place of work with no Lore**: no owner, no `FASES.md`, no inbox, no contract to register what happened, so **the work itself goes unregistered** and no note ever exists for a sweep to find. What is missing is one level up: an **Area** (`create-area`). Until it exists, the note goes to the inbox of the Area that asked for the work, never to the root.
 
 **A note's frontmatter:**
 
@@ -738,7 +593,7 @@ destilado:                      # empty = unmined
 | Operation | What it does |
 |---|---|
 | **Capture** | Writes a `.md` into the inbox with that frontmatter. Never inside `lore/`, and never touches `identidad.md`, `principios.md`, a module, `FASES.md` or the instruction contract. |
-| **Mine** | Sweeps the inbox, reports the debt, classifies, routes, proposes and waits for approval. The writing is executed by `save-to-lore`. **Debt is what the human wrote and nobody distilled** (2.1.1): a note the agent itself wrote during the session is not counted as the user's without saying so. |
+| **Mine** | Sweeps the inbox, reports the debt, classifies, routes, proposes and waits for approval. The writing is executed by `save-to-lore`. **Debt is what the human wrote and nobody distilled** (2.1.1): a note the agent wrote itself does not count as the user's without saying so. |
 
 **The four buckets.** The discriminator is not the quality of the note: it is whether the note records
 a **transformation** or only a **fact**.
@@ -750,27 +605,15 @@ a **transformation** or only a **fact**.
 | Someone else's criteria that **judges** | imported criteria | `save-to-lore` **graft** (no defeats, no entry) |
 | A summary, a quote, a link, a jotting | information | source for `create-area` / `create-project` / `transmute-lore`, or **reported noise** |
 
-A fifth destination exists and is rarer: a note that changes **how we work together** (what gets read
-first, what closes a deliverable) belongs in the instruction contract, not the Lore.
+A fifth destination exists and is rarer: a note that changes **how we work together** belongs in the instruction contract, not the Lore.
 
-**Routing**, in order, stopping at the first that resolves: the note's `origen` → if the session runs
-in a bot, its `lore/enrutamiento.md` → the project or area the session runs in → **ambiguous between
-two bodies, ask**. The first time an ambiguity is resolved, the **border** may be worth a Clue; the
-noise filter applies there too.
+**Routing**, stopping at the first that resolves: the note's `origen` → the bot's `lore/enrutamiento.md` → the project or area the session runs in → **ambiguous, ask**. The first time an ambiguity resolves, the **border** may be worth a Clue; the noise filter applies there too.
 
-**Idempotency and lifecycle:** on close, every mined note gets its `destilado:` with date and
-destination — including the ones that produced nothing (`nada` is a legitimate result). A note with a
-non-empty `destilado` is skipped on later sweeps. **The skill never deletes a note:** mine before
-deleting, and deleting is the human's call.
+**Idempotency and lifecycle:** on close, every mined note gets its `destilado:` with date and destination — including the ones that produced nothing. A non-empty `destilado` is skipped on later sweeps. **The skill never deletes a note:** mine before deleting; deleting is the human's call.
 
-**Why a sweep and not an available command.** A note satisfies the urge to preserve without producing
-criteria: once the record exists, the distillation does not happen and the criterion stays inert
-inside it. Separating notes from Lore does not prevent that — it was already done, and the record
-stayed inert for six weeks. What prevents it is the sweep and its visible debt, which `save-to-lore`
-also reports on close.
+**Why a sweep and not an available command.** A note satisfies the urge to preserve while the criterion stays inert inside it — separating notes from Lore did not prevent that; the record stayed inert for six weeks. What prevents it is the sweep and its visible debt, which `save-to-lore` also reports on close.
 
-Use `obsidian-lore` once you have notes piling up and want them to stop being only notes. It is not a
-note manager: `Read` and `Grep` already read the vault.
+Use `obsidian-lore` once you have notes piling up and want them to stop being only notes — it is not a note manager: `Read` and `Grep` already read the vault.
 
 ---
 
@@ -956,11 +799,7 @@ always-on channel — its pointer section, delimited by a marker pair:
   content → **no-op, write nothing**. One well-formed pair with different content → **report the
   divergence and wait**. Duplicated or broken markers → **stop and report**; never guess. Apart from
   the block, the file does not change.
-- **Collision with pre-existing prose.** The rules above cover the markers, not the text around
-  them. A contract older than the block usually already names the same paths in a load section, and
-  stamping leaves two copies of the same pointers. The block is the one the skills re-stamp, so the
-  stale copy is the hand-written section. Leave the pointers only inside the block and reduce that
-  section to what the block does not carry — reported in the same threshold, never silently.
+- **Collision with pre-existing prose.** A contract older than the block usually already names the same paths in a load section, and stamping leaves two copies of the same pointers. The block is the one the skills re-stamp, so the stale copy is the hand-written section: leave the pointers only inside the block and reduce that section to what the block does not carry — reported in the same threshold, never silently.
 
 ---
 
@@ -973,9 +812,7 @@ always-on channel — its pointer section, delimited by a marker pair:
 - Document the critical routes/flows that must be manually verified (e.g. key web routes in a
   frontend Area).
 
-This is not part of the six-piece core: `create-area` and `create-project` only generate it
-when the domain warrants it (e.g. a web Area with critical routes). If the domain doesn't need it,
-it simply doesn't exist.
+This is not part of the six-piece core: `create-area` and `create-project` generate it only when the domain warrants it (e.g. a web Area with critical routes); otherwise it simply does not exist.
 
 ### 4.8 `assets/constitucion-puntero.md` — the pointer constitution (2.1.0)
 
@@ -987,15 +824,9 @@ criteria silently absorbing the other. spec-kit's constitution is authoritative 
 of it gets built. The template makes that boundary explicit instead of leaving it to whoever writes
 the next document.
 
-**Why it is a pointer and not a copy.** A constitution that restates the Lore's rules becomes a second
-source that drifts — and the drift is invisible, because both documents keep reading correctly on
-their own. The template points at `lore/` for anything Lore owns, and states in writing that it does
-not govern there.
+**Why it is a pointer and not a copy.** A constitution that restates the Lore's rules becomes a second source that drifts invisibly — both documents keep reading correctly on their own. The template points at `lore/` for anything Lore owns and states in writing that it does not govern there.
 
-**Its own rule, and it is the one people skip:** a clause of the *"this document supersedes all other
-practices"* family is **revoked in writing, with its reason** — never merely deleted. An omission
-leaves a hole that the next template regeneration fills back in. Arbitrating a governing document is
-`save-to-lore` **graft**, and it is the hardest case that mode has.
+**Its own rule, and the one people skip:** a clause of the *"this document supersedes all other practices"* family is **revoked in writing, with its reason** — never merely deleted. An omission leaves a hole the next template regeneration fills back in. Arbitrating a governing document is `save-to-lore` **graft**, the hardest case that mode has.
 
 See [`SPEC_KIT_en.md`](./SPEC_KIT_en.md) for installation and the three entry scenarios.
 
@@ -1042,9 +873,7 @@ Key points of this hierarchy:
 
 ## 6. Operational Invariants
 
-Lore’s behavior is governed by a set of shared invariants:
-
-- **Lore is written in the user's language** – content and artifact filenames; only the selected
+Lore’s behavior is governed by a set of shared invariants:- **Lore is written in the user's language** – content and artifact filenames; only the selected
   contract name, `lore/`, `index.md`, `golden-paths.md`, and English terms of general technical use stay fixed.
 - **Criteria are never invented** – all rules come from actual experience.
 - **Everything comes from real work** – experiments, incidents, decisions.
@@ -1053,25 +882,10 @@ Lore’s behavior is governed by a set of shared invariants:
 - **Nothing commits automatically** – human review is required.
 - **A human always reviews the final diff** – AI assists, but does not silently change Lore.
 
-These invariants distinguish Lore from generic note‑taking or logging tools:  
-the goal is to maintain a trusted, human‑curated body of criteria that AI can rely on.
+These invariants are what separate Lore from generic note‑taking or logging tools: a trusted, human‑curated body of criteria that AI can rely on.
 
 ---
 
 ## 7. Relationship to README and Usage Docs
 
-Lore’s documentation is typically split as follows:
-
-- `README.md` – story, motivation, architecture overview, installation, and high‑level comparison with traditional docs.
-- `USAGE_en.md` / `USAGE_es.md` – practical usage guides and workflows.
-- `REFERENCE_en.md` / `REFERENCE_es.md` – this document, which defines the technical model.
-- `MIGRATION_en.md` / `MIGRATION_es.md` – migration strategies and examples for legacy projects.
-- `ENCRYPTION.md` – the optional, experimental encryption for a bot's criteria (English and Spanish).
-
-All of these files live at the repository root (there is no `docs/` folder).
-
-Keeping reference separate from usage and narrative docs makes it easier to:
-
-- Look up specific skill behavior or artifact semantics.
-- Keep the README focused and readable.
-- Evolve usage patterns without breaking the underlying model.
+The documentation splits by job: [`README.md`](../README.md) carries story, motivation and architecture; [`USAGE_en.md`](./USAGE_en.md) / [`USAGE_es.md`](./USAGE_es.md), practical workflows; this reference, the technical model; [`MIGRATION_en.md`](./MIGRATION_en.md) / [`MIGRATION_es.md`](./MIGRATION_es.md), migration strategies; [`ENCRYPTION.md`](./ENCRYPTION.md), the optional bot-criteria encryption. All live under `docs/`. Keeping reference separate from usage and narrative makes lookups precise and lets usage patterns evolve without touching the model.
