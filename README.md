@@ -37,13 +37,9 @@
 
 ## The problem
 
-Every session starts blank. Everything you taught the agent yesterday — every correction, every
-back-and-forth — gets erased, unless it is written somewhere that gets read again. Your Lore is
-where that stays.
+Every session starts blank: everything you taught the agent yesterday — every correction, every back-and-forth — gets erased, and you open the next one explaining the project again. Your Lore is where that stays.
 
-You open a session. You explain, again, what the project is for. Which approach you already tried and why you dropped it.
-
-In *Groundhog Day* (Harold Ramis, 1993), Phil Connors wakes up to the same radio every February 2nd and nobody in his town remembers a thing about yesterday — only he does. Your agent stands on the other side of that scene: it is the town, not Phil. Every session opens on the same morning, and the one who walks in carrying the memory is you, again, for free.
+In *Groundhog Day* (Harold Ramis, 1993), Phil Connors wakes up to the same radio every February 2nd and nobody in town remembers a thing about yesterday — only him. Your agent is the town, not Phil: every session opens on that same morning, and the one who walks in carrying the memory is you, again, for free.
 
 Meanwhile, the things you actually paid to learn keep piling up: architecture decisions, production incidents, failed experiments, dozens of *"let's never do that again"* moments. That is the real cost — and **none of it survives the session**.
 
@@ -52,40 +48,6 @@ It is a loop of re-explanations and mediocre solutions you had already rejected.
 ---
 
 <h3 align="center"><strong>+44.5 points of cross-domain first-pass compliance</strong>.</h3>
-
-<div align="center">
-<table>
-  <thead>
-    <tr>
-      <th>Metric</th>
-      <th align="right">Cold Codex</th>
-      <th align="right">Codex + Lore</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>First-pass compliance (Web–Editorial macro-average)</td>
-      <td align="right">51.3%</td>
-      <td align="right"><strong>95.8% (+44.5 pp)</strong></td>
-    </tr>
-    <tr>
-      <td>Goals reached (≤1 correction; 52 units)</td>
-      <td align="right">39/52 (75.0%)</td>
-      <td align="right"><strong>52/52 (100%; +25.0 pp)</strong></td>
-    </tr>
-    <tr>
-      <td>Observed attempts to goal completion</td>
-      <td align="right">1.44</td>
-      <td align="right"><strong>1.08 (−25.3%)</strong></td>
-    </tr>
-    <tr>
-      <td>Observed time to goal completion</td>
-      <td align="right">68.7 s</td>
-      <td align="right"><strong>58.2 s (−15.2%)</strong></td>
-    </tr>
-  </tbody>
-</table>
-</div>
 
 <p align="center">
   <i>An SDD kit that gives you local fine-tuning for your own tasks — and the one doing the training is you.</i>
@@ -101,8 +63,8 @@ It is a loop of re-explanations and mediocre solutions you had already rejected.
 
 [The problem](#the-problem) ·
 [What is Lore](#what-is-lore) ·
-[Who is this for](#who-is-this-for) ·
-[How it works](#how-it-works) ·
+[Who can use it](#who-can-use-lore-plugin) ·
+[Start building](#start-building-your-lore) ·
 [Benchmark](#benchmark) ·
 [Installation](#installation)
 
@@ -131,15 +93,19 @@ It is a loop of re-explanations and mediocre solutions you had already rejected.
 
 ---
 
-## What is Lore
+## What is Lore?
 
 A lightweight, provider-neutral **Spec-Driven Development** kit for AI agents. Or, in one line: **local fine-tuning for your own tasks, and the one doing the training is you.**
+
+#### The same destination as a fine-tune, by the other road
 
 A fine-tune conditions a model on thousands of examples until it stops answering like a generalist. Lore gets to the same place from the other side: one written constraint per thing that went wrong. No training happens and no weights move, so your criteria stays as plain text you can read, correct in one line, and carry to a different model tomorrow.
 
 A fine-tune stops asking things of you the day it ships. Lore never stops: one distillation, every time something breaks. That is the cost, and it is worth knowing before you install anything.
 
-It provides three things:
+#### What it provides
+
+Three things:
 
 - a simple convention for organizing a project's criteria;
 - eight skills that operate that convention;
@@ -147,40 +113,40 @@ It provides three things:
 
 Spec-driven is not a label here: one contract per project (`CLAUDE.md` or `AGENTS.md`, whichever your host reads), `FASES.md` for where the work stands, `lore/` for what constrains how it gets built.
 
-Unlike documentation, Lore does not try to describe everything. It only preserves what changes future behavior.
+#### You can start from what you already have
 
-You do not need existing Lore to start. In **ADD** mode, `transmute-lore` can read what you already have — project folders, documents, exported chat summaries, loose notes — and propose the criteria, canon and routing hidden inside. Sources remain sources: nothing becomes Lore until you approve the distillation.
+In **ADD** mode, `transmute-lore` reads what you already have — project folders, documents, exported chat summaries, loose notes — and proposes the criteria, canon and routing hidden inside. Sources remain sources: nothing becomes Lore until you approve the distillation.
 
-When that criterion needs to travel, **CRYSTALLIZE** creates a traceable single-Markdown “memory
-card”: portable across models, usable wherever Markdown instructions are accepted, shareable on
-your terms and extractable back into a working folder. It is a snapshot, never a replacement for
-the live Lore.
+When that criterion needs to travel, **CRYSTALLIZE** creates a traceable single-Markdown “memory card”: portable across models, usable wherever Markdown instructions are accepted, shareable on your terms and extractable back into a working folder. It is a snapshot, never a replacement for the live Lore.
 
-What none of that promises is that the work will come out right. Accumulated criteria does not end uncertainty: it only shrinks the space of ways to be wrong. Albert Camus, in *The Myth of Sisyphus* (1942), argued that the absurd is not solved but inhabited, and the line this kit takes from him is its own: **a system of criteria does not reduce the absurd; it knows what to do when the absurd shows up.** Lore does not promise the deploy holds. It promises there is a next step for the morning it does not, and that you chose that step back when you still had time to think.
+#### What it does not promise
 
-A README answers *"what is this?"*. Lore answers something else: **What did we learn that we should never have to learn again?**
+That the work will come out right. Accumulated criteria does not end uncertainty: it only shrinks the space of ways to be wrong. Albert Camus, in *The Myth of Sisyphus* (1942), argued that the absurd is not solved but inhabited, and the line this kit takes from him is its own: **a system of criteria does not reduce the absurd; it knows what to do when the absurd shows up.** Lore does not promise the deploy holds. It promises there is a next step for the morning it does not, and that you chose that step back when you still had time to think.
+
+#### The only filter
+
+Lore does not try to describe everything — that is what documentation is for. It preserves what changes future behavior. A README answers *"what is this?"*; Lore answers something else: **What did we learn that we should never have to learn again?**
 
 > **If a sentence does not constrain a future decision, it is not Lore.** That rule is the whole filter, and it is what keeps the system from becoming another graveyard of documents.
 
-That filter is borrowed, and it is worth naming its owner. Gregory Bateson, in *Steps to an Ecology of Mind* (1972), defined information as **"a difference that makes a difference"**: a difference that changes nothing downstream is not information, it is noise. Lore applies that test to experience. What happened yesterday only becomes criteria if it would change what you do tomorrow — everything else is a log.
+The filter is borrowed, and it is worth naming its owner. Gregory Bateson, in *Steps to an Ecology of Mind* (1972), defined information as **"a difference that makes a difference"**: a difference that changes nothing downstream is not information, it is noise. Lore applies that test to experience. What happened yesterday only becomes criteria if it would change what you do tomorrow — everything else is a log.
 
 ---
 
-## Who is this for?
+## Who can use Lore Plugin?
 
-**The floor is everyone who works with AI.** Free software, and it stays that way — use it, read every line of it, fork it. A few groups get there first:
+- **Professionals early in working with AI** — if you want what you learn to compound instead of evaporating, start here: a professional memory card that outlasts any project or model.
+- **People who read the benchmark before anything else**, willing to try something that is not mainstream yet if the numbers hold up.
+- **Researchers curious about LUS itself** — less the kit than the question behind it: what changes when a person and an AI accumulate criteria together over time. Lore is where that question gets answered one decision at a time.
+- **Teams already running spec-kit, SDD pipelines or another automation framework.** Those manage *process* — constitution, plan, tasks, quality gates — and none asks whether the knowledge behind those gates is still alive. That gap is what `MYCELIUM` and `PRUNE` close, and Lore runs alongside spec-kit rather than replacing it (see [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md)).
 
-**Professionals early in working with AI**, who want what they learn to compound instead of evaporating — a professional memory card that outlasts any one project or model. That is the LUS hypothesis this kit tests: a richer, more stable human–AI **Between** can mean fewer repeated mistakes and better work, at less cost. The word is Martin Buber's, from *I and Thou* (1923): he argued that what matters does not live inside either party but in the relation between them, and that the relation changes depending on whether you treat the other as a thing to use or as someone to address. This kit takes the structure, not the theology — what accumulates here is neither yours nor the model's, it is the criteria the two of you built.
+The LUS hypothesis this kit tests: a richer, more stable human–AI **Between** can mean fewer repeated mistakes and better work, at less cost.
 
-**People who read the benchmark before anything else** and are willing to try something that is not mainstream yet if the numbers hold up.
-
-**Researchers curious about LUS itself** — less about the kit than about the question behind it: what changes when a person and an AI accumulate criteria together over time. Lore is where that question gets answered one decision at a time.
-
-**People already running spec-kit, SDD pipelines, or another automation framework.** Those manage *process* — constitution, plan, tasks, quality gates. None of them ask whether the knowledge behind those gates is still alive, or whether a rule nobody follows anymore is still sitting there looking authoritative. That gap is what `MYCELIUM` and `PRUNE` close, and Lore runs alongside spec-kit rather than replacing it (see [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md)).
+> The word is Martin Buber's, from *I and Thou* (1923): what matters does not live inside either party but in the relation between them. This kit takes the structure, not the theology — what accumulates here is neither yours nor the model's: it is the criteria the two of you built.
 
 ---
 
-## How it works
+## Start building your Lore
 
 Every solved problem contains two things: the solution, and the reason that solution exists. Documentation keeps the first. **Lore keeps the second.**
 
@@ -199,19 +165,19 @@ The event is forgotten. The criteria keeps working.
   <img src="https://i.imgur.com/y3fsT7D.png" alt="Lore" width="100%">
 </p>
 
-In *Stalker* (Andrei Tarkovsky, 1979), a guide leads two men across a forbidden territory called the Zone by tossing a nut wrapped in gauze a few metres ahead and walking to wherever it lands. The straight line to the room they want is visible the entire film, and the straight line is the one that kills. Every step of this loop moves the same way: it is proposed, you approve, and only then is it written. **That gate is the threshold**, and it is the reason nothing reaches your Lore that you did not read first.
+Every step of the loop moves the same way: it is proposed, you approve, and only then is it written. **That gate is the threshold**, and it is the reason nothing reaches your Lore that you did not read first.
 
-So that is the mechanism: not documentation, not a memory dump — a threshold between what happened and what gets to constrain tomorrow. Andy Clark and David Chalmers called this shape the **extended mind** ("The Extended Mind", 1998): an external store stops being a filing cabinet and starts participating in the thinking when the system reaches for it by default and trusts what it finds. That is the difference this kit is built on. Documentation sits beside the work; Lore is loaded before the work starts. What is still missing is the shape it lives in, and how you get it running.
+The shape behind that gate has a name. Andy Clark and David Chalmers called it the **extended mind** ("The Extended Mind", 1998): an external store stops being a filing cabinet and starts participating in the thinking when the system reaches for it by default and trusts what it finds. Documentation sits beside the work; Lore is loaded before the work starts — reaching for it is not a step you remember to take, it is how the work begins.
+
+And the process has a name too. Gilbert Simondon called it **transduction**: an operation that advances through a domain step by step, each phase founded on the structuration of the one before. One distillation is exactly that — friction crystallizes into a constraint that changes the next interaction, and then the next, until the accumulated structure becomes a body of criteria no one ever designed in advance: your Lore.
+
+So that is the mechanism: not documentation, not a memory dump — a threshold between what happened and what gets to constrain tomorrow. The next section takes you from zero to a running install.
 
 ---
 
 ## Installation
 
-Choose **one** of the following routes. Claude Code and Codex use different commands; do not mix them.
-
-Claude Code and Codex install through each host's plugin manager, which verifies the package.
-OpenCode, Cursor and Antigravity below are manual copies — no host-side verification yet; the
-install is only as good as the copy, confirmed by hand.
+Pick the route that matches your setup — just don't mix hosts. Claude Code and Codex install through each host's plugin manager, which verifies the package. OpenCode, Cursor and Antigravity below are manual copies — the install is only as good as the copy, confirmed by hand.
 
 ### Claude Code
 
@@ -348,9 +314,7 @@ Each has one responsibility. None duplicates another.
 
 > **Lore is criteria (it persists); `FASES.md` is state (it advances).** They never mix, and `FASES.md` never lives inside `lore/`.
 
-Identity and state age at different speeds, and that is the whole reason they are kept apart. Who you
-are and how you work will still be true next month; which phase the project is in will not. Mixing
-them means re-reading a document where half the sentences expired and nothing says which half.
+They are kept apart because they age at different speeds: who you are and how you work stay true next month; which phase the project is in does not. Mixing them means re-reading a document where half the sentences expired and nothing says which half.
 
 The canonical names are Spanish; in your language they are localized.
 
@@ -411,7 +375,7 @@ Fix a generic clue once in the Area and every project sees it. Each project keep
 | Its Lore governs | the domain's method | that work | **how the agent behaves** |
 | Opened to | see the registry | advance that work | **work on any of several projects** |
 
-Areas and projects are places; **a bot is a lens you carry into them.** It is not an Area, because it owns none of the criteria it routes to. An Area that collects criteria it never earned starts receiving promotions that belong somewhere else.
+Areas and projects are places; **a bot is a lens you carry into them.** An Area that collects criteria it never earned starts receiving promotions that belong somewhere else.
 
 ---
 
@@ -432,11 +396,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** It is no
 | `create-bot` | One place to open a session and work across several Areas at once | from zero, or once there is Lore to federate |
 | `obsidian-lore` | Mines loose notes and routes what survives | once the inbox gets heavy |
 
-**Day one needs two of these:** `use-lore` routes you to whatever comes next, and `save-to-lore` is
-the one you will actually type — *"save to lore"*, after solving something that cost you. The other
-six show up when the situation calls for them; `use-lore` routes you there when it does. **How to
-use each one**, with worked examples, lives in [`USAGE_es.md`](./docs/USAGE_es.md); **the full
-mechanism and diagnostic categories** for each mode live in [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
+**Day one needs two of these:** `use-lore` routes you to whatever comes next, and `save-to-lore` is the one you will actually type — *"save to lore"*, after solving something that cost you. **How to use each one**, with worked examples, lives in [`USAGE_es.md`](./docs/USAGE_es.md); **the full mechanism** for each mode lives in [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
 
 <details>
 <summary><b>What each skill does</b></summary>
@@ -445,74 +405,29 @@ mechanism and diagnostic categories** for each mode live in [`REFERENCE_es.md`](
 
 ### `use-lore`
 
-> **2.0 rename:** `using-lore` is now `use-lore`. Remove the old skill when updating; do not keep
-> both names installed, because duplicate entry-point triggers make routing ambiguous.
+> **2.0 rename:** `using-lore` is now `use-lore`. Remove the old name when updating; duplicate entry points make routing ambiguous.
 
-The entry point: explains Lore's model, the six-piece standard, the Area↔Project model, and routes
-you to the right skill — read it before invoking any other. For **complex deliverables** (a
-researched CRM, a multi-source document, delivery into an external system) it also fixes the owning
-project, an approved precedent, verified tool capabilities and checked delivery; it routes each
-medium to its owner skill and is not a ninth production skill.
+The entry point — explains the model and routes you to the right skill. Read it before invoking any other.
 
 ### `brainstorming-lore`
 
-The kit's own design conversation — narrow on purpose: Lore, bots, Areas, projects and phases, not
-general ideation. Builds the artifact **one decision at a time**, with real trade-offs weighed and
-recaps along the way. The floor is **recognizable continuity** — you can still see your original
-intention in what is growing, and correct direction without starting over. `create-area`,
-`create-project`, `create-bot` and structural `transmute-lore` modes inherit this contract;
-mechanical edits do not.
-
-The **accumulated artifact** is the return point: work advances independently, and approved
-distillation resynchronizes it — portable professional criterion refines naturally through real
-work. An enjoyable Entre is not permanent agreement; its effort feels **fertile** because
-correction and review leave recognizable progress. Pleasantness alone is not the quality signal.
-
-### `create-area`
-
-Creates a new Area with its own shared Lore: `identity` + `principles`, an `index.md`, one host-selected contract, a `PHASES.md` acting as project registry, and an empty `projects/` folder. It brainstorms the identity **before** touching disk.
-
-### `create-project`
-
-Creates a project inside an existing Area. The project inherits the Area's criteria instead of duplicating it: it keeps its own identity and principles, plus an `index.md` that **points** at the Area's modules by relative path. Folder structure and phases are derived from the project's source documents, not from a generic template.
+The kit's own design conversation for Lore artifacts — narrow on purpose, one decision at a time; `create-area`, `create-project`, `create-bot` and structural `transmute-lore` modes inherit its contract.
 
 ### `save-to-lore`
 
-The flow you will use every day. You solve something that cost you, and you type:
-
-> "save to lore"
-
-It keeps candidates while work continues and proposes capture at a milestone; before writing, it shows destination, wording and why now — one approved preview covers the writes and commits, never a push. Specific lessons stay in the project; generic confirmed ones are proposed for the Area; nothing promotes automatically.
-
-**Two modes**: **capture** (default) distills a lived friction into an Invariant Clue; **graft** arbitrates imported criteria — a style guide, another kit's governing document — against your project's purpose, and records where the source loses. A skill that only *executes* (renders, crawls, compiles) is a dependency, not Lore. The Reference carries the full four-gate procedure.
+The daily flow: solve something that cost you, type *"save to lore"* — candidates stay parked until a milestone, where destination, wording and why-now are shown before anything is written. Specific lessons stay in the project; generic confirmed ones are proposed for the Area; nothing promotes automatically. Two modes: **capture** distills lived friction into an Invariant Clue; **graft** arbitrates imported criteria against your project's purpose and records where the source loses. A skill that only *executes* is a dependency, not Lore.
 
 ### `transmute-lore`
 
-Operates existing Lore in eight modes: **add** rescues criteria already scattered around (a bloated
-`CLAUDE.md`, code comments) into the six-piece architecture; **clean** removes what the Area already
-owns; **translate** standardizes language without changing meaning; **upgrade** sorts findings into
-Missing, Superseded, **Earned** or **Stale** against a newer kit version; **prune** does the same
-against a Lore that decayed by *accumulating correct things*; **mycelium** — *(2.3.0)* — is
-read-only and reports which clues **no step runs**, so they cannot fire; **leave** removes
-governance but keeps `lore/`, reversible; **crystallize** exports a safe single-Markdown snapshot
-for a chat or notebook. The Reference carries the full diagnostic categories and gates for each.
+Operates existing Lore in eight modes: **add** rescues scattered criteria into the six-piece architecture; **clean** removes what the Area already owns; **translate** standardizes language without changing meaning; **upgrade** sorts findings into Missing, Superseded, **Earned** or **Stale**; **prune** does the same against a Lore decayed by *accumulating correct things*; **mycelium** *(2.3.0)* reports clues **no step runs**; **leave** removes governance but keeps `lore/`, reversible; **crystallize** exports a safe single-Markdown snapshot. The Reference carries the full gates for each.
 
 ### `create-bot`
 
-Lets you **work from a single place across several Areas that belong to one project**. We call that *federating*.
-
-Think of a blockchain lab: a website, social media, research, technology transfer — each already an
-Area with its own Lore. A bot routes all of them into one folder, so one session can work on any of
-them. **It does not answer questions about the projects: it works in them.**
+One place to work across several Areas at once — *federating*. Think of a blockchain lab: website, social media, research, technology transfer, each already an Area with its own Lore; a bot routes them all into one folder. **It does not answer questions about the projects: it works in them.**
 
 > **Its north, and the only test that matters:** *a short instruction is enough.* If the project had to be explained to the bot to get the result, criteria were missing from the load.
 
-**Two modes:** `nuevo` builds provisional canon from a brainstorm, refined through a reviewed first
-victory; `federar` routes to criteria that already exists — raw folders earn real Lore in their own
-Area first (via `create-area` and `transmute-lore add`), adopted **by path, without moving it**, and
-only then does the bot point to it. Three bodies never merge: `canon/` is what the bot is, `lore/` is
-how it maintains itself, borrowed criteria stays in each project reached by pointer — **federating is
-pointing, not copying.** The Reference walks the full chain.
+**Two modes:** `nuevo` builds provisional canon from a brainstorm, refined through a reviewed first victory; `federar` routes to criteria that already exists — raw folders earn real Lore in their own Area first, adopted **by path, without moving it**. Three bodies never merge: `canon/` is what the bot is, `lore/` maintains it, borrowed criteria stays per project — **federating is pointing, not copying.**
 
 Optional Lore encryption remains experimental and off by default; see
 [`ENCRYPTION.md`](./docs/ENCRYPTION.md).
@@ -542,14 +457,9 @@ All eight skills follow the same rules:
 - Every change passes a **threshold** before being written.
 - **Nothing commits automatically.** You review the final diff.
 
-Those last two are the whole bet, and they are worth stating against the alternative. A growing class
-of agent frameworks keeps a memory of its own successes and failures and generates its own reusable
-skills from the patterns it finds. That is a real capability and it is the opposite choice: there,
-the agent gets better. Here, **the person does.** Lore's criteria live in files you own, in your
-language, and nothing enters them without you approving it with the content in view. If you want a
-system that learns behind your back, this is not it, and it never will be.
+Those last two are the whole bet. Agent frameworks increasingly keep a memory of their own successes and failures and generate reusable skills from the patterns they find — a real capability, and the opposite choice: there, the agent gets better; here, **the person does**. Lore's criteria live in files you own, in your language, and nothing enters them without your approval with the content in view. If you want a system that learns behind your back, this is not it, and it never will be.
 
-Those rules are not abstract, and one of them was bought. A README was asked to shrink by 40% and came back cut by nearly 80%. What broke that afternoon was not a number — it was that a human instruction had stopped being a floor anyone could stand on, and collaborating had quietly turned into supervising. The six rules above exist to make that afternoon structurally impossible.
+These rules were not designed in the abstract — one was bought. A README asked to shrink by 40% came back cut by nearly 80%: the instruction had stopped being a floor anyone could stand on, and collaborating had quietly turned into supervising. The six rules above exist to make that afternoon structurally impossible.
 
 ---
 
@@ -559,7 +469,7 @@ Those rules are not abstract, and one of them was bought. A README was asked to 
   <img src="./assets/benchmark-impact.png" alt="Audited Lore benchmark: 44.5 points more cross-domain first-pass compliance, every measured goal reached and 15.2 percent less observed time" width="100%">
 </p>
 
-**Lore acts as stability infrastructure when the domain changes.** The numbers above weigh Web work and Editorial work (community management, news writing) equally, so a good Web run cannot hide a bad Editorial one. Same model, prompt and tools on both arms — **`gpt-5.6-sol`, medium reasoning effort**. Lore reached every goal it was measured on. On Web alone (72 runs), Cold Codex reached **25/36 (69.4%)** and Codex + Lore **33/36 (91.7%)**.
+**Lore acts as stability infrastructure when the domain changes.** The result weighs Web work and Editorial work (community management, news writing) equally, so a good Web run cannot hide a bad Editorial one. Same model, prompt and tools on both arms — **`gpt-5.6-sol`, medium reasoning effort**. Lore reached every goal it was measured on. On Web alone (72 runs): Cold Codex **25/36 (69.4%)**, Codex + Lore **33/36 (91.7%)**.
 
 The harness, frozen tasks, graders, raw outputs and declared limits are in [`bench/`](./bench/). These are Codex results, not a universal model claim.
 
@@ -577,16 +487,16 @@ This README covers motivation and architecture. Everything else lives in its own
 | [`MIGRATION_en.md`](./docs/MIGRATION_en.md) | How to migrate an existing project into Lore using `transmute-lore`. |
 | [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | The optional, experimental encryption for a bot's criteria: what it protects and what it does not. |
 | [`CASES_en.md`](./docs/CASES_en.md) | The eighteen case studies, each with its declared boundary. |
-| [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md) | Running Lore alongside GitHub's spec-kit without one claiming authority over the other's files. Optional — Lore never depends on it. |
+| [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md) | Lore alongside GitHub's spec-kit: who governs what. Optional — Lore never depends on it. |
 | [`bench/`](./bench/) | The benchmark: Web, Editorial and UPGRADE harnesses; frozen tasks; method; declared limits; and raw results. |
 
 ---
 
 ## Case studies
 
-Lore was not designed ahead of time: every decision in this kit came from applying it to real projects and watching what broke. Those applications are documented as **eighteen case studies**, each with its own declared boundary — several turn the kit on itself, and **Case 12 is the first install run by someone who is not the author**.
+Lore was not designed ahead of time: every decision came from applying it to real projects and watching what broke — documented as **eighteen case studies**, each with its declared boundary, several turning the kit on itself. **Case 12 is the first install run by someone who is not the author.**
 
-> **Status:** these are cases, not proofs. Small n, and **seventeen of the eighteen come from the same researcher** — Case 12 is the one that does not. What they claim constrains how we use the kit; it does not pretend to be a law. The measured claim belongs to [Case 08 and its benchmark](#benchmark); the rest are qualitative evidence.
+> **Status:** cases, not proofs — small n, and **seventeen of the eighteen come from the same researcher** (Case 12 is the exception). They constrain how we use the kit; they do not pretend to be law. The measured claim belongs to [Case 08 and its benchmark](#benchmark); the rest are qualitative evidence.
 
 **[Read the eighteen case studies →](./docs/CASES_en.md)**
 
@@ -608,16 +518,11 @@ Lore was not designed ahead of time: every decision in this kit came from applyi
 GitHub traffic windows preserved in [`data/traffic/clones.json`](./data/traffic/clones.json).
 
 Lore Plugin is the technical arm of LUS, not a productivity system with philosophy attached — the
-LUS hypothesis, only partly tested by the benchmark, is [above](#who-is-this-for).
+LUS hypothesis, only partly tested by the benchmark, is [above](#who-can-use-lore-plugin).
 
-Morin gives this work its ethical north. In UNESCO's [*Seven Complex Lessons in Education for the
-Future*](https://unesdoc.unesco.org/ark:/48223/pf0000378091), he writes that “the notion of
-wager should be generalized to every faith” (our translation), including faith in fraternity,
-justice and a better world — and that giving up the best of all worlds does not mean giving up a
-better world. Lore makes that wager actionable through projects and bots, while evidence stays
-bounded to what was measured.
+Morin gives this work its ethical north: in UNESCO's [*Seven Complex Lessons in Education for the Future*](https://unesdoc.unesco.org/ark:/48223/pf0000378091) he writes that “the notion of wager should be generalized to every faith” (our translation) — giving up the best of all worlds is not giving up a better world. Lore makes that wager actionable through projects and bots; evidence stays bounded to what was measured.
 
-> **This is a reach signal, not a demonstration.** Nobody knows what anyone did with their copy: how many installed it, how many distilled anything, how many opened the folder once. It does not count as a case and it does not answer the question the [case studies](./docs/CASES_en.md) do. Note also that the "unique cloners" the API returns are unique **per day**, not people, so they cannot be summed into a headcount.
+> **A reach signal, not a demonstration.** Nobody knows what anyone did with their copy — installed, distilled, opened once? It is no case, and answers none of the questions the [case studies](./docs/CASES_en.md) do. And the API's "unique cloners" are unique **per day**, not people: they cannot be summed into a headcount.
 
 ---
 
@@ -626,7 +531,7 @@ bounded to what was measured.
 
 Lore was born as a distillation of **LUS (Lore User System)**, a research program that studies how a human and an AI accumulate shared criteria over a long-term collaboration.
 
-LUS studies the relationship. Lore is an operational implementation that emerged from that research. Its core principle fits in one idea:
+LUS studies the relationship; Lore is its operational implementation. One idea sums up its core principle:
 
 > **Experience only creates value when it can participate in a future decision.**
 
@@ -666,7 +571,7 @@ two carry, inside the entry, where the source loses.
 - **Daniel Wegner** · transactive memory (1985) — **who remembers what**: a pair remembers more than its two members, and only while it knows who holds which part.
 - **Karl Weick** · *Sensemaking in Organizations* (1995) — **sensemaking**: meaning is made retrospectively, which is why a clue is written after the friction and not during it.
 - **Heinz von Foerster** · *Understanding Understanding* (2003) — **second-order cybernetics**: the observer is inside the system being described.
-- **Albert Camus** · *The Myth of Sisyphus* (1942) · *The Stranger* (1942) · *The Misunderstanding* (1944) · *The Rebel* (1951) · *Summer* (1954), for "Helen's Exile" and "The Almond Trees" — **entered as criterion, in one affirmation**: *a system of criteria does not reduce the absurd; it knows what to do when it appears.* The play carries it: a mother and sister kill the son who came home **because he would not say his name** — no malice, no faulty reasoning, only what was known failing to reach where it was decided. **Where Camus loses:** his *mesure* is an ethical-political limit on rebellion, not an epistemic rule of routing. It enters as a declared analogy and grounds no routing rule.
+- **Albert Camus** · *The Myth of Sisyphus* (1942) · *The Stranger* (1942) · *The Misunderstanding* (1944) · *The Rebel* (1951) · *Summer* (1954), for "Helen's Exile" and "The Almond Trees" — **entered as criterion, in one affirmation**: *a system of criteria does not reduce the absurd; it knows what to do when it appears.* The play carries it: a mother and sister kill the son who came home **because he would not say his name** — no malice, no faulty reasoning, only what was known failing to reach where it was decided. **Where Camus loses:** his *mesure* is an ethical-political limit on rebellion, not an epistemic rule of routing; he enters as a declared analogy and grounds none.
 - **Martin Heidegger** · *Being and Time* (1927) — **entered as bibliography, and NOT as criterion.** Finitude assumed is what makes an existence authentic, and the intuition it was brought in for is that **the Between is finite too**. But in *Being and Time* death is *je meines* — radically one's own, **not shareable** — and that incompartibility is the engine of the argument: death **individualizes**. The unit of LUS is the relation. Adopting it would mean contradicting Heidegger exactly where his thesis rests, and that work is not done. **What he leaves open is worth more than anything adoptable today:** how can a relation anticipate an ending that neither of its parts can anticipate on the other's behalf?
 
 </details>
@@ -678,7 +583,7 @@ That is the argued genealogy. The felt one — what shaped taste rather than cla
 
 <br>
 
-**Registry, not rule.** These works constrain no decision and govern nothing. They are recorded because the aesthetics and the intuitions of a technical artifact are never neutral, and knowing where they came from is what lets someone tell **inherited taste** from **argument** the day anybody proposes changing them. It belongs to LUS, not to the kit. Only two of them still appear in the body of this README, next to what they illustrate: *Groundhog Day* and *Stalker*. The rest were pulled out of the argument and left here, because a work that has to be explained before it illustrates anything is charging the reader for the author's taste.
+**Registry, not rule.** These works constrain no decision and govern nothing. They are recorded because the aesthetics and the intuitions of a technical artifact are never neutral, and knowing where they came from is what lets someone tell **inherited taste** from **argument** the day anybody proposes changing them. It belongs to LUS, not to the kit. Only one still appears in the body of this README, next to what it illustrates: *Groundhog Day*. The rest were pulled out of the argument and left here, because a work that has to be explained before it illustrates anything is charging the reader for the author's taste.
 
 - ***Fire*** · Waxahatchee (2020) — growing up as moving without the whole picture. What accumulated criteria actually buys: not the end of uncertainty, a smaller space of ways to be wrong.
 - ***Loving*** · Land of Talk (2017) — a bond that holds two people without dissolving either of them. The shape behind asking one question at a time.
@@ -693,12 +598,11 @@ That is the argued genealogy. The felt one — what shaped taste rather than cla
 
 [Explore the research in the LUS NotebookLM](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b79450)
 
-> **How to read it.** NotebookLM is the accessible introduction, not the source of record. For what
-> the kit does, this repository wins; for a number, use the current benchmark cut.
+> **How to read it:** NotebookLM is the accessible introduction, not the source of record — for what the kit does, this repository wins; for a number, the current benchmark cut.
 
 ### Why "Lore"?
 
-In video games, *lore* is the accumulated story and rules that keep a universe coherent — tournament results, world rules, what can and cannot happen next. We borrow that image and shift the weight: here, specific events fade and **what remains is the criteria** that keeps the next work coherent. The visual debt is explicit too: the anime palette and graphic sensibility come from ***Tales of Berseria*** (Bandai Namco, 2016), the author's favorite game. Naming that provenance separates a design decision from inherited taste.
+In video games, *lore* is the accumulated story and rules that keep a universe coherent — what can and cannot happen next. We borrow the image and shift the weight: specific events fade, and **what remains is the criteria** that keeps the next work coherent. The visual debt is explicit too: the anime palette comes from ***Tales of Berseria*** (Bandai Namco, 2016), the author's favorite game — naming that provenance separates a design decision from inherited taste.
 
 ## Author
 
@@ -759,13 +663,9 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 
 ## El problema
 
-Cada sesión arranca en blanco. Todo lo que le enseñaste al agente ayer —cada corrección, cada ida
-y vuelta— se borra, a menos que quede escrito en algo que vuelva a leer. Tu Lore es donde eso sí
-permanece.
+Cada sesión arranca en blanco: todo lo que le enseñaste al agente ayer —cada corrección, cada ida y vuelta— se borra, y abres la siguiente explicando otra vez el proyecto. Tu Lore es donde eso sí permanece.
 
-Abres una sesión. Explicas, otra vez, para qué es el proyecto. Qué camino ya probaste y por qué lo descartaste.
-
-En *El día de la marmota* (Harold Ramis, 1993), Phil Connors despierta con la misma radio cada 2 de febrero y nadie en el pueblo recuerda nada de lo de ayer — solo él. Tu agente está del otro lado de esa escena: es el pueblo, no Phil. Cada sesión abre en la misma mañana, y el único que entra con memoria eres tú, de nuevo, gratis.
+En *El día de la marmota* (Harold Ramis, 1993), Phil Connors despierta con la misma radio cada 2 de febrero y nadie en el pueblo recuerda nada de lo de ayer — solo él. Tu agente es el pueblo, no Phil: cada sesión abre en esa misma mañana, y el único que entra con memoria eres tú, de nuevo, gratis.
 
 Mientras tanto, lo que de verdad te costó aprender se sigue acumulando: decisiones de arquitectura, incidentes en producción, experimentos fallidos, decenas de momentos de *«nunca volvamos a hacer esto»*. Ese es el costo real — y **nada de eso sobrevive a la sesión**.
 
@@ -774,40 +674,6 @@ Es un bucle de reexplicaciones y soluciones mediocres que ya habías descartado.
 ---
 
 <h3 align="center"><strong>+44,5 puntos de cumplimiento multidominio al primer intento</strong>.</h3>
-
-<div align="center">
-<table>
-  <thead>
-    <tr>
-      <th>Métrica</th>
-      <th align="right">Codex frío</th>
-      <th align="right">Codex + Lore</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Cumplimiento al primer intento (macromedia Web–Editorial)</td>
-      <td align="right">51,3%</td>
-      <td align="right"><strong>95,8% (+44,5 pp)</strong></td>
-    </tr>
-    <tr>
-      <td>Metas alcanzadas (≤1 corrección; 52 unidades)</td>
-      <td align="right">39/52 (75,0%)</td>
-      <td align="right"><strong>52/52 (100%; +25,0 pp)</strong></td>
-    </tr>
-    <tr>
-      <td>Intentos observados hasta completar la meta</td>
-      <td align="right">1,44</td>
-      <td align="right"><strong>1,08 (−25,3%)</strong></td>
-    </tr>
-    <tr>
-      <td>Tiempo observado hasta completar la meta</td>
-      <td align="right">68,7 s</td>
-      <td align="right"><strong>58,2 s (−15,2%)</strong></td>
-    </tr>
-  </tbody>
-</table>
-</div>
 
 <p align="center">
   <i>Un kit SDD que te permite hacer fine-tuning local de tus tareas — y el que entrena eres tú.</i>
@@ -823,8 +689,8 @@ Es un bucle de reexplicaciones y soluciones mediocres que ya habías descartado.
 
 [El problema](#el-problema) ·
 [Qué es Lore](#qué-es-lore) ·
-[Para quién es esto](#para-quién-es-esto) ·
-[Cómo funciona](#cómo-funciona) ·
+[Quién puede usarlo](#quién-puede-usar-lore-plugin) ·
+[Comienza a construir](#comienza-a-construir-tu-lore) ·
 [Benchmark](#el-benchmark) ·
 [Instalación](#instalación)
 
@@ -853,15 +719,19 @@ Es un bucle de reexplicaciones y soluciones mediocres que ya habías descartado.
 
 ---
 
-## Qué es Lore
+## ¿Qué es Lore?
 
 Un kit ligero y neutral al proveedor de **Spec-Driven Development** para agentes de IA. O, en una línea: **fine-tuning local de tus tareas, y el que entrena eres tú.**
+
+#### El mismo destino que un fine-tune, por el otro camino
 
 Un fine-tune condiciona un modelo con miles de ejemplos hasta que deja de responder como generalista. Lore llega al mismo lugar por el otro lado: una restricción escrita por cada cosa que salió mal. No se entrena nada y ningún peso se mueve, así que tu criterio se queda en texto plano que puedes leer, corregir en una línea y llevarte mañana a otro modelo.
 
 Un fine-tune deja de pedirte cosas el día que está listo. Lore no para nunca: una destilación, cada vez que algo se rompe. Ese es el costo, y conviene saberlo antes de instalar nada.
 
-Aporta tres cosas:
+#### Qué aporta
+
+Tres cosas:
 
 - una convención sencilla para organizar el criterio de un proyecto;
 - ocho *skills* que operan esa convención;
@@ -869,40 +739,40 @@ Aporta tres cosas:
 
 Lo de *spec-driven* no es una etiqueta: un contrato por proyecto (`CLAUDE.md` o `AGENTS.md`, el que lea tu host), `FASES.md` para dónde está el trabajo, `lore/` para lo que restringe cómo se construye.
 
-A diferencia de la documentación, Lore no intenta describirlo todo. Solo conserva aquello que modifica el comportamiento futuro.
+#### Puedes empezar desde lo que ya tienes
 
-No necesitas tener Lore para empezar. En modo **ADD**, `transmute-lore` lee lo que ya tienes —carpetas del proyecto, documentos, resúmenes de chats exportados, notas sueltas— y propone el criterio, el canon y el enrutamiento que viven dispersos ahí. Las fuentes siguen siendo fuentes: nada se vuelve Lore hasta que apruebas la destilación.
+En modo **ADD**, `transmute-lore` lee lo que ya tienes —carpetas del proyecto, documentos, resúmenes de chats exportados, notas sueltas— y propone el criterio, el canon y el enrutamiento que viven dispersos ahí. Las fuentes siguen siendo fuentes: nada se vuelve Lore hasta que apruebas la destilación.
 
-Cuando ese criterio necesita viajar, **CRYSTALLIZE** crea una «memory card» trazable en un solo
-Markdown: portable entre modelos, utilizable donde se acepten instrucciones Markdown, compartible
-en tus términos y extraíble de vuelta a una carpeta de trabajo. Es una fotografía, nunca un
-reemplazo del Lore vivo.
+Cuando ese criterio necesita viajar, **CRYSTALLIZE** crea una «memory card» trazable en un solo Markdown: portable entre modelos, utilizable donde se acepten instrucciones Markdown, compartible en tus términos y extraíble de vuelta a una carpeta de trabajo. Es una fotografía, nunca un reemplazo del Lore vivo.
 
-Nada de eso promete que el trabajo salga bien. El criterio acumulado no termina con la incertidumbre: apenas achica el espacio de maneras de equivocarse. Albert Camus, en *El mito de Sísifo* (1942), sostuvo que el absurdo no se resuelve sino que se habita, y la línea que este kit toma de ahí es suya propia: **un sistema de criterio no reduce el absurdo; sabe qué hacer cuando el absurdo aparece.** Lore no promete que el despliegue aguante. Promete que hay un paso siguiente para la mañana en que no aguante, y que ese paso lo elegiste cuando todavía tenías tiempo de pensarlo.
+#### Qué no promete
 
-Un README responde *«¿qué es esto?»*. Lore responde otra cosa: **¿Qué aprendimos que nunca deberíamos tener que volver a aprender?**
+Que el trabajo salga bien. El criterio acumulado no termina con la incertidumbre: apenas achica el espacio de maneras de equivocarse. Albert Camus, en *El mito de Sísifo* (1942), sostuvo que el absurdo no se resuelve sino que se habita, y la línea que este kit toma de ahí es suya propia: **un sistema de criterio no reduce el absurdo; sabe qué hacer cuando el absurdo aparece.** Lore no promete que el despliegue aguante. Promete que hay un paso siguiente para la mañana en que no aguante, y que ese paso lo elegiste cuando todavía tenías tiempo de pensarlo.
+
+#### El único filtro
+
+Lore no intenta describirlo todo — para eso está la documentación. Conserva aquello que modifica el comportamiento futuro. Un README responde *«¿qué es esto?»*; Lore responde otra cosa: **¿Qué aprendimos que nunca deberíamos tener que volver a aprender?**
 
 > **Si una frase no restringe una decisión futura, no es Lore.** Esa regla es todo el filtro, y es lo que impide que el sistema se convierta en otro cementerio de documentos.
 
-Ese filtro es prestado, y conviene decir de quién. Gregory Bateson, en *Pasos hacia una ecología de la mente* (1972), definió la información como **«una diferencia que hace una diferencia»**: una diferencia que no cambia nada más adelante no es información, es ruido. Lore le aplica esa prueba a la experiencia. Lo que pasó ayer se vuelve criterio solo si cambiaría lo que haces mañana — todo lo demás es un registro.
+El filtro es prestado, y conviene decir de quién. Gregory Bateson, en *Pasos hacia una ecología de la mente* (1972), definió la información como **«una diferencia que hace una diferencia»**: una diferencia que no cambia nada más adelante no es información, es ruido. Lore le aplica esa prueba a la experiencia. Lo que pasó ayer se vuelve criterio solo si cambiaría lo que haces mañana — todo lo demás es un registro.
 
 ---
 
-## ¿Para quién es esto?
+## ¿Quién puede usar Lore Plugin?
 
-**El piso es cualquiera que trabaje con IA.** Software libre, y se queda así — úsalo, léelo entero, forkealo. Algunos grupos llegan primero:
+- Si recién empiezas a trabajar con IA y quieres que lo aprendido se acumule en vez de evaporarse, empieza por acá: una memory card profesional que sobrevive a cualquier proyecto o modelo.
+- **Quienes leen el benchmark antes que cualquier otra cosa**, dispuestos a probar algo que todavía no es mainstream si los números se sostienen.
+- **Investigadores curiosos por LUS en sí** — menos por el kit que por la pregunta detrás: qué cambia cuando una persona y una IA acumulan criterio juntas a lo largo del tiempo. Lore es donde esa pregunta se responde una decisión a la vez.
+- **Equipos que ya corren spec-kit, pipelines SDD u otro framework de automatización.** Esos gestionan *proceso* — constitución, plan, tareas, puertas de calidad — y ninguno pregunta si el conocimiento detrás de esas puertas sigue vivo. Ese hueco es el que cierran `MYCELIUM` y `PRUNE`, y Lore corre junto a spec-kit en vez de reemplazarlo (ver [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md)).
 
-**Profesionales que recién empiezan a trabajar con IA**, y quieren que lo que aprenden se acumule en vez de evaporarse — una memory card profesional que sobrevive a cualquier proyecto o modelo. Esa es la hipótesis de LUS que este kit pone a prueba: un **Entre** humano–IA más rico y estable puede significar menos errores repetidos y mejor trabajo, a menor costo. La palabra es de Martin Buber, en *Yo y Tú* (1923): sostuvo que lo que importa no vive dentro de ninguna de las dos partes sino en la relación entre ellas, y que esa relación cambia según si tratas al otro como una cosa que se usa o como alguien a quien se le habla. Este kit toma la estructura, no la teología — lo que se acumula acá no es tuyo ni del modelo: es el criterio que construyeron los dos.
+La hipótesis de LUS que este kit pone a prueba: un **Entre** humano–IA más rico y estable puede significar menos errores repetidos y mejor trabajo, a menor costo.
 
-**Quienes leen el benchmark antes que cualquier otra cosa** y están dispuestos a probar algo que todavía no es mainstream si los números se sostienen.
-
-**Investigadores curiosos por LUS en sí** — menos por el kit que por la pregunta detrás: qué cambia cuando una persona y una IA acumulan criterio juntas a lo largo del tiempo. Lore es donde esa pregunta se responde una decisión a la vez.
-
-**Quienes ya corren spec-kit, pipelines SDD u otro framework de automatización.** Esos gestionan *proceso* — constitución, plan, tareas, puertas de calidad. Ninguno pregunta si el conocimiento detrás de esas puertas sigue vivo, o si una regla que ya nadie sigue sigue ahí parada con cara de autoridad. Ese hueco es el que cierran `MYCELIUM` y `PRUNE`, y Lore corre junto a spec-kit en vez de reemplazarlo (ver [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md)).
+> La palabra es de Martin Buber, en *Yo y Tú* (1923): lo que importa no vive dentro de ninguna de las dos partes sino en la relación entre ellas. Este kit toma la estructura, no la teología — lo que se acumula acá no es tuyo ni del modelo: es el criterio que construyeron los dos.
 
 ---
 
-## Cómo funciona
+## Comienza a construir tu Lore
 
 Todo problema resuelto contiene dos cosas: la solución, y la razón por la que esa solución existe. La documentación conserva la primera. **Lore conserva la segunda.**
 
@@ -921,19 +791,19 @@ El acontecimiento se olvida. El criterio sigue trabajando.
   <img src="https://i.imgur.com/I7odxus.png" alt="Lore" width="100%">
 </p>
 
-En *Stalker* (Andréi Tarkovski, 1979), un guía lleva a dos hombres a través de un territorio prohibido llamado la Zona lanzando unos metros por delante una tuerca envuelta en una venda y caminando hasta donde cayó. La línea recta hacia la habitación que buscan se ve durante toda la película, y la línea recta es la que mata. Cada paso de este ciclo avanza igual: la máquina propone con el contenido a la vista, tú apruebas y recién entonces se escribe. **Esa puerta es el umbral**, y es la razón de que nada llegue a tu Lore sin que lo hayas leído antes.
+Cada paso del ciclo avanza igual: se propone, apruebas, y recién entonces se escribe. **Esa puerta es el umbral**, y es la razón de que nada llegue a tu Lore sin que lo hayas leído antes.
 
-Ese es el mecanismo: no es documentación ni un volcado de memoria, es un umbral entre lo que pasó y lo que puede condicionar mañana. Andy Clark y David Chalmers llamaron a esta forma **mente extendida** («The Extended Mind», 1998): un almacén externo deja de ser un archivador y empieza a participar del pensamiento cuando el sistema lo consulta por defecto y confía en lo que encuentra. Esa es la diferencia sobre la que está construido este kit. La documentación queda al lado del trabajo; el Lore se carga antes de empezarlo.
+La forma detrás de esa puerta tiene nombre. Andy Clark y David Chalmers la llamaron **mente extendida** («The Extended Mind», 1998): un almacén externo deja de ser un archivador y empieza a participar del pensamiento cuando el sistema lo consulta por defecto y confía en lo que encuentra. La documentación queda al lado del trabajo; el Lore se carga antes de empezarlo — alcanzarlo no es un paso que recuerdas dar, es la forma en que el trabajo empieza.
+
+Y el proceso también tiene nombre. Gilbert Simondon lo llamó **transducción**: una operación que avanza por un dominio paso a paso, cada fase fundada en la estructuración de la anterior. Una destilación es exactamente eso — la fricción cristaliza en una restricción que modifica la siguiente interacción, y luego la siguiente, hasta que la estructura acumulada se vuelve un cuerpo de criterio que nadie diseñó de antemano: tu Lore.
+
+Ese es el mecanismo: no es documentación ni un volcado de memoria, es un umbral entre lo que pasó y lo que puede condicionar mañana. La sección siguiente te lleva de cero a tenerlo corriendo.
 
 ---
 
 ## Instalación
 
-Elige **una** de las siguientes rutas. Claude Code y Codex usan comandos distintos; no los mezcles.
-
-Claude Code y Codex instalan a través del gestor de plugins de cada host, que verifica el paquete.
-OpenCode, Cursor y Antigravity, más abajo, son copias manuales — sin verificación del lado del host
-todavía; la instalación vale lo que valga la copia, confirmada a mano.
+Elige la ruta que coincida con tu equipo — solo no mezcles hosts. Claude Code y Codex instalan a través del gestor de plugins de cada host, que verifica el paquete. OpenCode, Cursor y Antigravity, más abajo, son copias manuales — la instalación vale lo que valga la copia, confirmada a mano.
 
 ### Claude Code
 
@@ -1068,10 +938,7 @@ Cada uno tiene una responsabilidad. Ninguno duplica a otro.
 
 > **El Lore es criterio (persiste); `FASES.md` es estado (avanza).** Nunca se mezclan, y `FASES.md` nunca vive dentro de `lore/`.
 
-Identidad y estado envejecen a velocidades distintas, y esa es toda la razón por la que se mantienen
-separados. Quién eres y cómo trabajas va a seguir siendo cierto el mes que viene; en qué fase está el
-proyecto, no. Mezclarlos significa releer un documento donde la mitad de las frases venció y nada
-dice cuál mitad.
+Se mantienen aparte porque envejecen a velocidades distintas: quién eres y cómo trabajas sigue siendo cierto el mes que viene; en qué fase está el proyecto, no. Mezclarlos significa releer un documento donde la mitad de las frases venció y nada dice cuál mitad.
 
 #### El bloque siempre-activo
 
@@ -1149,12 +1016,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 | `create-bot` | Un lugar donde abrir sesión y trabajar sobre varias Áreas a la vez | desde cero, o cuando ya hay Lore que federar |
 | `obsidian-lore` | Mina tus notas sueltas y enruta lo que sobrevive | cuando la bandeja pesa |
 
-**El primer día necesitas dos de estas:** `use-lore` te enruta hacia lo que sigue, y `save-to-lore`
-es la que vas a escribir de verdad — *"guarda en lore"*, después de resolver algo que te costó. Las
-otras seis aparecen cuando la situación las pide; `use-lore` te lleva ahí cuando corresponde. **Cómo
-usar cada una**, con ejemplos trabajados, vive en [`USAGE_es.md`](./docs/USAGE_es.md); **el
-mecanismo completo y las categorías de diagnóstico** de cada modo viven en
-[`REFERENCE_es.md`](./docs/REFERENCE_es.md).
+**El primer día necesitas dos de estas:** `use-lore` te enruta hacia lo que sigue, y `save-to-lore` es la que vas a escribir de verdad — *"guarda en lore"*, después de resolver algo que te costó. **Cómo usar cada una**, con ejemplos trabajados, vive en [`USAGE_es.md`](./docs/USAGE_es.md); **el mecanismo completo** de cada modo vive en [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
 
 <details>
 <summary><b>Qué hace cada skill</b></summary>
@@ -1163,71 +1025,29 @@ mecanismo completo y las categorías de diagnóstico** de cada modo viven en
 
 ### `use-lore`
 
-El punto de entrada: explica el modelo de Lore, el estándar de seis piezas, el modelo Área↔Proyecto,
-y te guía hacia la skill adecuada — léelo antes de invocar cualquier otro. Para **entregables
-complejos** (un CRM investigado, un documento de múltiples fuentes, una entrega en un sistema
-externo) también fija el proyecto dueño, un precedente aprobado, las capacidades verificadas de
-herramientas y la entrega comprobada; enruta cada medio a su skill dueña y no es una novena skill de
-producción.
+> **Cambio de nombre en 2.0:** `using-lore` ahora es `use-lore`. Al actualizar, elimina el nombre anterior; puntos de entrada duplicados vuelven ambiguo el enrutamiento.
 
-> **Cambio de nombre en 2.0:** `using-lore` ahora es `use-lore`. Al actualizar, elimina la skill
-> anterior; no conserves ambos nombres instalados porque duplican el trigger de entrada.
+El punto de entrada — explica el modelo y te guía hacia la skill adecuada. Léelo antes de invocar cualquier otro.
 
 ### `brainstorming-lore`
 
-La conversación de diseño propia del kit — específica a propósito: Lore, bots, Áreas, proyectos y
-fases, no ideación general. Construye el artefacto **una decisión por vez**, pesando trade-offs
-reales y recapitulando en el camino. El piso es la **continuidad reconocible**: seguís viendo tu
-intención original en lo que crece, y podés corregir el rumbo sin empezar de nuevo. `create-area`,
-`create-project`, `create-bot` y los modos estructurales de `transmute-lore` heredan este contrato;
-las ediciones mecánicas no.
-
-El **artefacto acumulado** es el punto de retorno: el trabajo avanza por separado, y la destilación
-aprobada lo resincroniza — el criterio profesional portable se afina naturalmente con el uso real.
-Un Entre disfrutable no es acuerdo permanente; su esfuerzo se percibe **fértil** porque la
-corrección y la revisión dejan progreso reconocible. La agradabilidad sola no es la señal de calidad.
-
-### `create-area`
-
-Crea un Área nueva con su propio Lore compartido: `identidad.md` + `principios.md`, un `index.md`, un contrato elegido por host, un `FASES.md` que hace de registro de proyectos, y una carpeta `proyectos/` vacía. Hace un brainstorm de la identidad **antes** de tocar el disco.
-
-### `create-project`
-
-Crea un proyecto dentro de un Área existente. El proyecto hereda el criterio del Área en vez de duplicarlo: conserva su `identidad.md` y `principios.md` propios, y un `index.md` que **apunta** a los módulos del Área por ruta relativa. La estructura de carpetas y las fases se derivan de los documentos fuente del proyecto, no de una plantilla genérica.
+La conversación de diseño propia del kit para artefactos Lore — específica a propósito, una decisión por vez; `create-area`, `create-project`, `create-bot` y los modos estructurales de `transmute-lore` heredan su contrato.
 
 ### `save-to-lore`
 
-Mantiene candidatas mientras avanza el trabajo y propone guardarlas en un hito; antes de escribir muestra destino, redacción y por qué ahora — una vista aprobada cubre las escrituras y commits, nunca un push. Lo específico se queda en el proyecto; lo genérico y confirmado se propone para el Área; nada se promueve automáticamente.
-
-**Dos modos**: **capture** (por defecto) destila una fricción vivida en una Pista Invariante; **graft** arbitra criterio importado — una guía ajena, el documento de gobierno de otro kit — contra la finalidad de tu proyecto, y registra dónde la fuente pierde. Una skill que solo *ejecuta* (renderiza, rastrea, compila) es una dependencia, no Lore. El procedimiento completo de cuatro puertas vive en la Referencia.
+El flujo diario: resolvés algo que te costó, escribís *"guarda en lore"* — las candidatas quedan estacionadas hasta un hito, donde se muestran destino, redacción y por qué ahora antes de escribir nada. Lo específico se queda en el proyecto; lo genérico y confirmado se propone para el Área; nada se promueve automáticamente. Dos modos: **capture** destila una fricción vivida en una Pista Invariante; **graft** arbitra criterio importado contra la finalidad de tu proyecto y registra dónde la fuente pierde. Una skill que solo *ejecuta* es una dependencia, no Lore.
 
 ### `transmute-lore`
 
-Opera un Lore existente en ocho modos: **add** rescata el criterio ya disperso (un `CLAUDE.md`
-sobrecargado, comentarios de código) hacia la arquitectura de seis piezas; **clean** elimina lo que
-el Área ya posee; **translate** estandariza el idioma sin alterar el significado; **upgrade**
-clasifica hallazgos en Missing, Superseded, **Earned** o **Stale** contra una versión más nueva del
-kit; **prune** hace lo mismo contra un Lore que se degradó *acumulando cosas correctas*;
-**mycelium** — *(2.3.0)* — es de solo lectura y reporta qué pistas **ningún paso corre**, así que no
-pueden dispararse; **leave** quita gobierno pero conserva `lore/`, reversible; **crystallize**
-exporta una fotografía de un solo Markdown para un chat o notebook. La Referencia conserva las
-categorías de diagnóstico y las puertas completas de cada uno.
+Opera un Lore existente en ocho modos: **add** rescata criterio disperso hacia la arquitectura de seis piezas; **clean** elimina lo que el Área ya posee; **translate** estandariza el idioma sin alterar el significado; **upgrade** clasifica hallazgos en Missing, Superseded, **Earned** o **Stale**; **prune** hace lo mismo contra un Lore degradado por *acumular cosas correctas*; **mycelium** *(2.3.0)* reporta las pistas que **ningún paso corre**; **leave** quita gobierno pero conserva `lore/`, reversible; **crystallize** exporta una fotografía segura en un solo Markdown. La Referencia conserva las puertas completas de cada uno.
 
 ### `create-bot`
 
-Piensa en un laboratorio de blockchain: sitio web, redes sociales, investigación, transferencia
-tecnológica — cada una ya es un Área con su propio Lore. Un bot las enruta a todas hacia una misma
-carpeta, así una sesión trabaja en cualquiera de ellas. **No responde preguntas sobre los proyectos:
-trabaja en ellos.**
+Un solo lugar para abrir sesión y trabajar sobre varias Áreas a la vez — *federar*. Piensa en un laboratorio de blockchain: sitio web, redes sociales, investigación, transferencia tecnológica, cada una ya un Área con su propio Lore; un bot las enruta todas hacia una misma carpeta. **No responde preguntas sobre los proyectos: trabaja en ellos.**
 
 > **Su norte, y el único test que importa:** *una instrucción corta basta.* Si hubo que explicarle el proyecto al bot para obtener el resultado, faltaba criterio cargado.
 
-**Dos modos:** `nuevo` construye canon provisional desde un brainstorm, refinado con una primera
-victoria revisada; `federar` enruta hacia criterio que ya existe — las carpetas en bruto primero
-ganan Lore real en su propia Área (vía `create-area` y `transmute-lore add`), adoptadas **por ruta,
-sin moverlas**, y recién ahí el bot las apunta. Tres cuerpos nunca se mezclan: `canon/` es lo que el
-bot es, `lore/` es cómo se mantiene, el criterio prestado sigue en cada proyecto alcanzado por
-puntero — **federar es apuntar, no copiar.** La Referencia recorre la cadena completa.
+**Dos modos:** `nuevo` construye canon provisional desde un brainstorm, refinado con una primera victoria revisada; `federar` enruta hacia criterio que ya existe — las carpetas en bruto primero ganan Lore real en su propia Área, adoptadas **por ruta, sin moverlas**. Tres cuerpos nunca se mezclan: `canon/` es lo que el bot es, `lore/` lo mantiene, el criterio prestado sigue por proyecto — **federar es apuntar, no copiar.**
 
 El cifrado del Lore sigue experimental y apagado por defecto; consulta
 [`ENCRYPTION.md`](./docs/ENCRYPTION.md).
@@ -1255,14 +1075,9 @@ Apunta Obsidian a la **carpeta madre de tus Áreas** y agrega una carpeta `notas
 - Todo cambio pasa por un **umbral** antes de escribirse.
 - **Nada hace *commit* automáticamente.** Tú revisas el *diff* final.
 
-Esas dos últimas son la apuesta entera, y conviene decirla contra la alternativa. Hay una clase
-creciente de frameworks de agentes que guarda memoria de sus propios éxitos y fracasos y **genera sus
-propias skills** a partir de los patrones que encuentra. Es una capacidad real y es la elección
-contraria: ahí mejora el agente. Acá **mejoras tú.** El criterio de Lore vive en archivos que son
-tuyos, en tu idioma, y nada entra en ellos sin que lo apruebes con el contenido a la vista. Si
-quieres un sistema que aprenda a tus espaldas, este no es, y no va a serlo.
+Esas dos últimas son la apuesta entera. Hay una clase creciente de frameworks de agentes que guarda memoria de sus propios éxitos y fracasos y genera skills a partir de sus patrones — una capacidad real, y la elección contraria: ahí mejora el agente; acá **mejoras tú**. El criterio vive en archivos tuyos, en tu idioma, y nada entra sin tu aprobación con el contenido a la vista. Si quieres un sistema que aprenda a tus espaldas, este no es, y no va a serlo.
 
-Esas reglas no son abstractas, y una de ellas se pagó. A un README se le pidió encoger un 40% y volvió recortado casi al 80%. Lo que se rompió esa tarde no fue una cifra — fue que una instrucción humana dejó de ser un piso donde pararse, y colaborar se había vuelto, sin que nadie lo anunciara, supervisar. Las seis reglas de arriba existen para volver esa tarde estructuralmente imposible.
+Estas reglas no son abstractas: una se pagó. A un README se le pidió encoger un 40% y volvió recortado casi al 80% — la instrucción dejó de ser un piso donde pararse, y colaborar se había vuelto supervisar. Las seis reglas de arriba existen para volver esa tarde estructuralmente imposible.
 
 ---
 
@@ -1272,11 +1087,7 @@ Esas reglas no son abstractas, y una de ellas se pagó. A un README se le pidió
   <img src="./assets/benchmark-impact-es.png" alt="Benchmark auditado de Lore: 44,5 puntos más de cumplimiento multidominio al primer intento, todas las metas medidas alcanzadas y 15,2 por ciento menos tiempo observado" width="100%">
 </p>
 
-**Lore funciona como infraestructura de estabilidad cuando cambia el dominio.** Las cifras de arriba
-pesan igual el trabajo Web y el Editorial (community management, redacción de noticias), así una
-buena corrida Web no tapa una mala Editorial. Mismo modelo, prompt y herramientas en los dos brazos
-— **`gpt-5.6-sol`, esfuerzo de razonamiento medio**. Lore alcanzó todas las metas que se midieron.
-Solo en Web (72 corridas), Codex frío alcanzó **25/36 (69,4%)** y Codex + Lore **33/36 (91,7%)**.
+**Lore funciona como infraestructura de estabilidad cuando cambia el dominio.** El resultado pesa igual el trabajo Web y el Editorial (community management, redacción de noticias), así una buena corrida Web no tapa una mala Editorial. Mismo modelo, prompt y herramientas en los dos brazos — **`gpt-5.6-sol`, esfuerzo de razonamiento medio**. Lore alcanzó todas las metas medidas. Solo en Web (72 corridas): Codex frío **25/36 (69,4%)**, Codex + Lore **33/36 (91,7%)**.
 
 El harness, las tareas congeladas, los graders, las salidas crudas y las fronteras declaradas están en [`bench/`](./bench/). Son resultados de Codex, no una afirmación universal sobre modelos.
 
@@ -1292,16 +1103,16 @@ El harness, las tareas congeladas, los graders, las salidas crudas y las fronter
 | [`MIGRATION_es.md`](./docs/MIGRATION_es.md) | Cómo migrar un proyecto existente con `transmute-lore`. |
 | [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | El cifrado opcional y experimental del criterio de un bot: qué protege y qué no. |
 | [`CASES_es.md`](./docs/CASES_es.md) | Los dieciocho casos de estudio, cada uno con su frontera declarada. |
-| [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md) | Usar Lore junto a spec-kit de GitHub sin que uno reclame autoridad sobre los archivos del otro. Opcional — Lore no depende de él. |
+| [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md) | Lore junto a spec-kit de GitHub: quién gobierna qué. Opcional — Lore no depende de él. |
 | [`bench/`](./bench/) | El benchmark: harnesses Web, Editorial y UPGRADE; tareas congeladas; método; fronteras declaradas; y resultados crudos. |
 
 ---
 
 ## Casos de estudio
 
-Lore no se diseñó de antemano: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía. Esas aplicaciones están documentadas como **dieciocho casos de estudio**, cada uno con su frontera declarada — varios vuelven el kit contra sí mismo, y el **Caso 12 es la primera instalación hecha por alguien que no es el autor**.
+Lore no se diseñó de antemano: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía — documentado como **dieciocho casos de estudio**, cada uno con su frontera declarada, varios vuelven el kit contra sí mismo. El **Caso 12 es la primera instalación hecha por alguien que no es el autor**.
 
-> **Estatus:** son casos, no demostraciones. n pequeño, y **diecisiete de los dieciocho vienen del mismo investigador** — el Caso 12 es el que no. Restringen cómo usamos el kit; no pretenden ser una ley. La afirmación medida pertenece al [Caso 08 y su benchmark](#el-benchmark); los demás aportan evidencia cualitativa.
+> **Estatus:** casos, no demostraciones — n pequeño, y **diecisiete de los dieciocho vienen del mismo investigador** (la excepción es el Caso 12). Restringen cómo usamos el kit; no pretenden ser ley. La afirmación medida pertenece al [Caso 08 y su benchmark](#el-benchmark); los demás aportan evidencia cualitativa.
 
 **[Leer los dieciocho casos de estudio →](./docs/CASES_es.md)**
 
@@ -1323,16 +1134,11 @@ Lore no se diseñó de antemano: cada decisión salió de aplicarlo a proyectos 
 Ventanas GitHub preservadas en [`data/traffic/clones.json`](./data/traffic/clones.json).
 
 Lore Plugin es el brazo técnico de LUS, no un sistema de productividad con filosofía agregada — la
-hipótesis de LUS, solo parcialmente puesta a prueba por el benchmark, está [arriba](#para-quién-es-esto).
+hipótesis de LUS, solo parcialmente puesta a prueba por el benchmark, está [arriba](#quién-puede-usar-lore-plugin).
 
-Morin le da a este trabajo su norte ético. En la edición de UNESCO de [*Los siete saberes
-necesarios para la educación del futuro*](https://unesdoc.unesco.org/ark:/48223/pf0000378091)
-escribe: «La noción de apuesta se debe generalizar para cualquier fe», incluidas la fe en la
-fraternidad, la justicia y un mundo mejor — y que la renuncia al mejor de los mundos no es de
-ninguna manera la renuncia a un mundo mejor. Lore vuelve esa apuesta operable mediante proyectos y
-bots, mientras la evidencia se limita a lo realmente medido.
+Morin le da a este trabajo su norte ético: en la edición de UNESCO de [*Los siete saberes necesarios para la educación del futuro*](https://unesdoc.unesco.org/ark:/48223/pf0000378091) escribe que «la noción de apuesta se debe generalizar para cualquier fe» — renunciar al mejor de los mundos no es renunciar a un mundo mejor. Lore vuelve esa apuesta operable mediante proyectos y bots; la evidencia se limita a lo realmente medido.
 
-> **Es una señal de alcance, no una demostración.** Nadie sabe qué hizo cada quien con su copia: cuántos la instalaron, cuántos destilaron algo, cuántos abrieron la carpeta una vez. No cuenta como caso y no responde la pregunta que sí responden los [casos de estudio](./docs/CASES_es.md). Y los «clonadores únicos» que devuelve la API son únicos **por día**, no personas: no se pueden sumar para contar cabezas.
+> **Una señal de alcance, no una demostración.** Nadie sabe qué hizo cada quien con su copia — ¿instalada, destilada, abierta una vez? No es un caso y no responde lo que responden los [casos de estudio](./docs/CASES_es.md). Y los «clonadores únicos» de la API son únicos **por día**, no personas: no se pueden sumar para contar cabezas.
 
 ---
 
@@ -1381,7 +1187,7 @@ dos llevan escrito, dentro de la entrada, dónde pierde la fuente.
 - **Daniel Wegner** · memoria transactiva (1985) — **quién recuerda qué**: una pareja recuerda más que sus dos miembros, y solo mientras sepa quién guarda cada parte.
 - **Karl Weick** · *Sensemaking in Organizations* (1995) — el **sentido se construye hacia atrás**, que es por qué una Pista se escribe después de la fricción y no durante.
 - **Heinz von Foerster** · *Understanding Understanding* (2003) — **cibernética de segundo orden**: el observador está adentro del sistema que describe.
-- **Albert Camus** · *El mito de Sísifo* (1942) · *El extranjero* (1942) · *El malentendido* (1944) · *El hombre rebelde* (1951) · *El verano* (1954), por «El exilio de Helena» y «Los almendros» — **entró como criterio, en una sola afirmación**: *un sistema de criterio no reduce el absurdo; sabe qué hacer cuando aparece.* La obra de teatro lo lleva adentro: una madre y una hermana matan al hijo que volvió **porque él no dice su nombre** — sin malicia y sin error de razonamiento, solo lo que se sabía sin llegar a donde se decidía. **Dónde pierde Camus:** su *mesure* es un límite ético-político a la rebelión, no una regla epistémica de enrutamiento. Entra como analogía declarada y no funda ninguna regla de enrutamiento.
+- **Albert Camus** · *El mito de Sísifo* (1942) · *El extranjero* (1942) · *El malentendido* (1944) · *El hombre rebelde* (1951) · *El verano* (1954), por «El exilio de Helena» y «Los almendros» — **entró como criterio, en una sola afirmación**: *un sistema de criterio no reduce el absurdo; sabe qué hacer cuando aparece.* La obra de teatro lo lleva adentro: una madre y una hermana matan al hijo que volvió **porque él no dice su nombre** — sin malicia y sin error de razonamiento, solo lo que se sabía sin llegar a donde se decidía. **Dónde pierde Camus:** su *mesure* es un límite ético-político a la rebelión, no una regla epistémica de enrutamiento: entra como analogía declarada y no funda ninguna.
 - **Martin Heidegger** · *Ser y tiempo* (1927) — **entró como bibliografía, y NO como criterio.** La finitud asumida es lo que vuelve auténtica una existencia, y la intuición que lo trajo a esta mesa es que **el Entre también es finito**. Pero en *Ser y tiempo* la muerte es *je meines* —radicalmente propia, **no compartible**— y esa incompartibilidad es el motor del argumento: la muerte **individualiza**. La unidad de LUS es la relación. Adoptarlo exigiría contradecir a Heidegger justo donde su tesis se apoya, y ese trabajo no está hecho. **Lo que deja abierto vale más que cualquier cosa adoptable hoy:** ¿cómo puede una relación anticipar un final que ninguna de sus partes puede anticipar por la otra?
 
 </details>
@@ -1393,7 +1199,7 @@ Esa es la genealogía argumentada. La sentida —lo que formó el gusto y no una
 
 <br>
 
-**Registro, no regla.** Estas obras no restringen ninguna decisión y no gobiernan nada. Se anotan porque la estética y las intuiciones de un artefacto técnico **nunca son neutrales**, y saber de dónde vienen es lo único que permite distinguir el **gusto heredado** del **argumento** el día que alguien proponga cambiarlas. Pertenece a LUS, no al kit. De todas ellas, **solo dos siguen apareciendo en el cuerpo de este README**, al lado de lo que ilustran: *El día de la marmota* y *Stalker*. El resto se sacó del argumento y quedó acá, porque una obra que hay que explicar antes de que ilustre algo le está cobrando al lector el gusto del autor.
+**Registro, no regla.** Estas obras no restringen ninguna decisión y no gobiernan nada. Se anotan porque la estética y las intuiciones de un artefacto técnico **nunca son neutrales**, y saber de dónde vienen es lo único que permite distinguir el **gusto heredado** del **argumento** el día que alguien proponga cambiarlas. Pertenece a LUS, no al kit. De todas ellas, **solo una sigue apareciendo en el cuerpo de este README**, al lado de lo que ilustra: *El día de la marmota*. El resto se sacó del argumento y quedó acá, porque una obra que hay que explicar antes de que ilustre algo le está cobrando al lector el gusto del autor.
 
 - ***Fire*** · Waxahatchee (2020) — madurar como avanzar sin la visión completa. Lo que de verdad compra el criterio acumulado: no el fin de la incertidumbre, un espacio más chico de maneras de equivocarse.
 - ***Loving*** · Land of Talk (2017) — un vínculo que sostiene a dos sin disolver a ninguno. La forma detrás de preguntar de a una cosa por vez.
@@ -1409,12 +1215,11 @@ Esa es la genealogía argumentada. La sentida —lo que formó el gusto y no una
 
 [Explora la investigación en el NotebookLM de LUS](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b79450)
 
-> **Cómo leerlo.** NotebookLM es la introducción accesible, no la fuente de registro. Para saber qué
-> hace el kit manda este repositorio; para una cifra, usa el corte vigente del benchmark.
+> **Cómo leerlo:** NotebookLM es la introducción accesible, no la fuente de registro — para qué hace el kit manda este repositorio; para una cifra, el corte vigente del benchmark.
 
 ### ¿Por qué «Lore»?
 
-En los videojuegos, el *lore* es la historia y las reglas acumuladas que mantienen coherente un universo —resultados de torneos pasados, reglas del mundo, qué puede y qué no puede pasar después. Tomamos esa imagen y cambiamos el peso: acá los hechos puntuales se desvanecen y **lo que permanece es el criterio** que mantiene coherente el próximo trabajo. La deuda visual también es explícita: la paleta anime y el tratamiento gráfico vienen de ***Tales of Berseria*** (Bandai Namco, 2016), el juego favorito del autor. Nombrar esa procedencia separa una decisión de diseño de un gusto heredado.
+En los videojuegos, el *lore* es la historia y las reglas acumuladas que mantienen coherente un universo —qué puede y qué no puede pasar después. Tomamos esa imagen y cambiamos el peso: los hechos puntuales se desvanecen, y **lo que permanece es el criterio** que mantiene coherente el próximo trabajo. La deuda visual también es explícita: la paleta anime viene de ***Tales of Berseria*** (Bandai Namco, 2016), el juego favorito del autor — nombrar esa procedencia separa una decisión de diseño de un gusto heredado.
 
 ## Autor
 
