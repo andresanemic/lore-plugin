@@ -12,8 +12,7 @@ Migration makes sense when:
 - Teams repeatedly re‑discuss the same decisions or rediscover old lessons.
 - You want AI‑assisted work to rely on a stable body of criteria, not just ad‑hoc notes.
 
-Lore does not require you to rewrite your entire history.  
-You only need to bring in the **criteria** that should keep influencing future decisions.
+Lore does not require rewriting your history: bring in only the **criteria** that should keep influencing future decisions.
 
 ---
 
@@ -27,10 +26,7 @@ A pragmatic migration strategy is:
 3. **Run `transmute-lore`** on those projects:
    - start with `add` to create missing artifacts;
    - then use `clean` to move shared criteria up to the Area.
-4. **Refine the Lore**:
-   - consolidate rules;
-   - remove duplication;
-   - clarify Invariant Clues.
+4. **Refine the Lore**: consolidate rules, remove duplication, clarify Invariant Clues.
 5. **Expand to other projects** once the pattern feels solid.
 6. **If the destination is a bot**, this guide is the first half of the chain, not a separate
    product. Migration is how sources that started as raw folders become Lore that `create-bot` can
@@ -40,37 +36,33 @@ A pragmatic migration strategy is:
 raw folder → create-area → transmute-lore (add) → create-bot (federar)
 ```
 
-`transmute-lore` is the middle step. Do not skip it to distill everything into the bot: the bot
-never distills into itself. If the Lore already exists, go straight to `create-bot`. If it does
-not, stay here until each source has an owning Area and a rescued Lore, then invoke `create-bot`.
+`transmute-lore` is the middle step — do not skip it to distill everything into the bot: the bot
+never distills into itself. If the Lore already exists, go straight to `create-bot`; if not, stay
+here until each source has an owning Area and a rescued Lore.
 
 ---
 
 ## 3. Using `transmute-lore`
 
-`transmute-lore` is the main tool for migration. It is not a CLI command: the mode is inferred from
-the phrase you use, not from a flag.
+`transmute-lore` is the main tool for migration; the mode is inferred from your phrase, not a flag.
 
 **Safety precondition for source-changing modes:** the project's repository must have a clean git
 tree before writing, so the migration lands as a reviewable diff.
 
 > **Since v1.2.1 there is a fourth mode, `upgrade`.** It migrates nothing: it brings a Lore that is
-> **already in the standard** up to date when it was written against an older version of these
-> skills. If your project already migrated and you only want what the kit learned afterwards, that
-> is the mode, not `add`.
+> **already in the standard** up to date when written against an older version of these skills.
+> Already migrated and only want what the kit learned afterwards? That is the mode, not `add`.
 > **Since 2.1.4** that mode can raise a tree or an ecosystem without a full reread: git map first, index header instead of rewriting rows, live `HARD-GATE` becomes threshold, threshold per class in a campaign.
 
-> **The fifth mode is `crystallize`.** It is not a migration: it exports a safe, traceable Markdown
-> snapshot for a destination that cannot navigate the live tree. The snapshot can be extracted back
-> into a folder whose routing table resolves. It never replaces or edits Lore.
-> See [`USAGE_en.md`](./USAGE_en.md) for daily use and [`REFERENCE_en.md`](./REFERENCE_en.md) for its
-> privacy, routing and threshold contract.
+> **The fifth mode is `crystallize`.** Not a migration: it exports a safe, traceable Markdown
+> snapshot for a destination that cannot navigate the live tree, extractable back into a folder
+> whose routing table resolves. It never replaces or edits Lore — see
+> [`USAGE_en.md`](./USAGE_en.md) and [`REFERENCE_en.md`](./REFERENCE_en.md) for its contract.
 
-> **Since 2.1.0 there is a sixth mode, `prune`.** It is not a migration either, and it is the only
-> subtractive one: it removes **weight** from a Lore that decayed by accumulating things that are each
-> individually correct. Do not reach for it while migrating — a freshly migrated Lore has not had time
-> to accumulate anything. It is the pass for a corpus that has been in daily use, and the unit it
-> counts is the **deliverable**, not the Lore.
+> **Since 2.1.0 there is a sixth mode, `prune`** — the only subtractive one: it removes **weight**
+> from a Lore that decayed by accumulating things that are each individually correct. Never while
+> migrating: a freshly migrated Lore has had no time to accumulate anything. Its unit of count is
+> the **deliverable**, not the Lore.
 
 ### 3.1 `add` Mode – Create Missing Lore
 
@@ -94,7 +86,7 @@ Conceptually, Lore will:
     Nested instruction files owned by frameworks or other tools remain in their narrower scope.
 - Suggest which parts are criteria vs. pure information.
 
-You then review and confirm or adjust the proposed structure.
+You review, confirm or adjust the proposed structure.
 
 ### 3.2 `clean` Mode – DRY Shared Criteria
 
@@ -114,19 +106,15 @@ Conceptually, Lore will:
 - Compare each of the project's thematic modules against its counterpart in the Area's Lore.
 - If every clue in a project module is already in the Area, propose removing that module and
   pointing `index.md` at the Area's version via relative path.
-- Report any clue **not yet** found in the Area (never discard it) so you can decide whether it
-  stays as a project‑only module or gets promoted to the Area first.
+- Report any clue **not yet** found in the Area (never discard it) so you decide whether it stays as a project‑only module or gets promoted to the Area first.
 - **Never** touch or rewrite `identidad.md` or `principios.md` — only redundant thematic modules.
-
-You review changes to ensure nothing important is lost and that shared rules are correctly placed.
 
 ### 3.3 `translate` Mode – Standardize the Language
 
 **Purpose:** Leave a project's (or Area's) entire Lore in a single language.
 
-Useful after a migration: a legacy project may carry artifacts in English, in Spanish, or mixed.
-Lore's skills generate content in your language, but pre-migration material keeps the language it
-was written in.
+Useful after a migration, when a legacy project carries artifacts in English, Spanish, or mixed:
+pre-migration material keeps the language it was written in.
 
 Example prompts:
 
@@ -158,10 +146,7 @@ When migrating, you’ll typically map legacy content like this:
 - High‑level identity and purpose → `lore/identidad.md`.
 - Summary of main concerns and domains → `lore/index.md` + initial thematic modules.
 
-Example:
-
-- README section “Project Overview” → identity.
-- README section “Tech Stack and Principles” → principles + modules.
+E.g. “Project Overview” → identity; “Tech Stack and Principles” → principles + modules.
 
 ### 4.2 Architecture Documents
 
@@ -178,9 +163,7 @@ Focus on rules that still constrain decisions today; ignore outdated details.
 
 ### 4.4 Onboarding Notes and “How We Work”
 
-- Onboarding guides and collaboration notes → the instruction contract (for AI‑specific parts) +
-  `identidad.md` / `principios.md` where relevant.
-- Any explicit agreements on how the team uses AI → the instruction contract.
+- Onboarding guides and collaboration notes → the instruction contract (AI‑specific parts, explicit agreements on how the team uses AI) + `identidad.md` / `principios.md` where relevant.
 
 ---
 
@@ -188,16 +171,15 @@ Focus on rules that still constrain decisions today; ignore outdated details.
 
 ### 5.1 Migrating a Legacy Frontend Project
 
-1. **Create the Area** (if it doesn't exist yet):
+1. **Create the Area** (if missing):
 
    ```text
    create a work area for "AI‑Assisted Frontend"
    ```
 
-2. **Adopt the legacy project.** `create-project` scaffolds **brand‑new** projects from scratch — it
-   is not the tool for bringing in an already‑existing codebase. A legacy project is instead
-   **adopted** by adding a row with its path to the Area's `FASES.md` (without moving it or
-   touching its git):
+2. **Adopt the legacy project.** `create-project` scaffolds **brand‑new** projects; an existing
+   codebase is instead **adopted** by adding a row with its path to the Area's `FASES.md`, without
+   moving it or touching its git:
 
    ```text
    register "Legacy Marketing Site" in the Area's FASES.md, at its current path
@@ -209,9 +191,8 @@ Focus on rules that still constrain decisions today; ignore outdated details.
    transmute the lore of "Legacy Marketing Site"
    ```
 
-   - The project must have a clean git tree before this (`transmute-lore`'s precondition).
-   - Review proposed `identidad.md`, `principios.md`, modules, `FASES.md`, instruction contract, and approve
-     the mapping before anything is written (threshold).
+   - Clean git tree required (`transmute-lore`'s precondition).
+   - Review the proposed mapping and approve it before anything is written (threshold).
 
 4. **Clean redundant modules** once the Area already owns its own general modules:
 
@@ -219,16 +200,14 @@ Focus on rules that still constrain decisions today; ignore outdated details.
    clean the lore of "Legacy Marketing Site"
    ```
 
-   - Removes project thematic modules that already duplicate the Area's (e.g. a generic rendering
-     module, if the Area already has one).
-   - Keeps genuinely project‑specific criteria (e.g. “This brand’s homepage must stay below X ms”)
-     — `identidad.md` and `principios.md` are never touched in this mode.
+   - Removes project modules that already duplicate the Area's; keeps genuinely project‑specific
+     criteria (“this homepage must stay below X ms”). `identidad.md` and `principios.md` are never
+     touched.
 
 5. **Refine and Commit:**
 
-   - Manually edit artifacts for clarity.
-   - Confirm that the final structure reflects real constraints.
-   - `transmute-lore` does not commit for you: the diff is left for you to review and commit.
+   - Edit artifacts for clarity; confirm the structure reflects real constraints.
+   - `transmute-lore` does not commit for you: the diff is yours to review and commit.
 
 ---
 
@@ -236,25 +215,11 @@ Focus on rules that still constrain decisions today; ignore outdated details.
 
 After running `transmute-lore` and adjusting artifacts, verify:
 
-- **Areas capture shared criteria:**
-  - Principles that apply across projects live in the Area.
-  - Project modules don’t repeat general rules.
-
-- **Projects keep only specific criteria:**
-  - Project Lore focuses on decisions unique to that codebase.
-  - Thematic modules are scoped to project concerns.
-
-- **Invariant Clues are actionable:**
-  - Rules are specific enough to constrain future decisions.
-  - Ambiguous or obsolete statements are removed or clarified.
-
-- **`FASES.md` reflects reality:**
-  - Current phase is accurate.
-  - Roadmap aligns with how you actually work.
-
-- **The instruction contract matches your collaboration:**
-  - Describes how you use Claude in practice.
-  - Includes non‑negotiable constraints on AI behavior.
+- **Areas capture shared criteria:** cross-project principles live in the Area; project modules don’t repeat general rules.
+- **Projects keep only specific criteria:** project Lore holds decisions unique to that codebase.
+- **Invariant Clues are actionable:** rules constrain future decisions; ambiguous or obsolete statements are gone or clarified.
+- **`FASES.md` reflects reality:** current phase accurate; roadmap aligned with how you actually work.
+- **The instruction contract matches your collaboration:** how you actually use Claude, with non‑negotiable constraints on AI behavior.
 
 ---
 
@@ -264,7 +229,7 @@ To keep migration manageable:
 
 - Do **not** try to preserve every historical detail.
 - Focus on what still constrains decisions today.
-- Treat Lore as living documentation: it should reflect how you work now, not just how you used to work.
+- Treat Lore as living documentation: it reflects how you work now, not how you used to.
 - Let `transmute-lore` do the heavy lifting, but always review its suggestions as a human editor.
 
-Once one or two pilot projects are migrated, you can reuse the same patterns for other repositories in the Area.
+One or two pilots migrated, reuse the same patterns across the Area's repositories.

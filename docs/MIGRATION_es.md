@@ -27,10 +27,7 @@ Una estrategia pragmática de migración es:
 3. **Ejecutar `transmute-lore`** sobre esos proyectos:
    - empezar con `add` para crear artefactos que faltan;
    - luego usar `clean` para subir criterio compartido al Área.
-4. **Refinar el Lore**:
-   - consolidar reglas;
-   - eliminar duplicaciones;
-   - clarificar Pistas Invariantes.
+4. **Refinar el Lore**: consolidar reglas, eliminar duplicaciones, clarificar Pistas Invariantes.
 5. **Extender el patrón** a otros proyectos cuando la estructura se sienta sólida.
 6. **Si el destino es un bot**, esta guía es la primera mitad de la cadena, no un producto aparte.
    Migrar es cómo las fuentes que empezaron como carpetas en bruto se vuelven Lore que `create-bot`
@@ -40,35 +37,32 @@ Una estrategia pragmática de migración es:
 carpeta en bruto → create-area → transmute-lore (add) → create-bot (federar)
 ```
 
-`transmute-lore` es el paso de en medio. No lo saltes para destilarlo todo dentro del bot: el bot
-nunca destila hacia sí mismo. Si el Lore ya existe, ve directo a `create-bot`. Si no, quédate aquí
-hasta que cada fuente tenga Área dueña y Lore rescatado, y entonces invoca `create-bot`.
+`transmute-lore` es el paso de en medio — no lo saltes para destilarlo todo dentro del bot: el bot
+nunca destila hacia sí mismo. Si el Lore ya existe, ve directo a `create-bot`; si no, quédate aquí
+hasta que cada fuente tenga Área dueña y Lore rescatado.
 
 ---
 
 ## 3. Uso de `transmute-lore`
 
-`transmute-lore` es la herramienta principal para migrar. No es un comando de CLI: el modo se
-infiere de la frase que uses, no de un flag.
+`transmute-lore` es la herramienta principal para migrar; el modo se infiere de tu frase, no de un flag.
 
 **Precondición de seguridad para los modos que cambian fuentes:** el repositorio del proyecto debe
 tener el árbol de Git limpio antes de escribir, para que la migración aterrice como un *diff* revisable.
 
 > **Desde v1.2.1 hay un cuarto modo, `upgrade`.** No migra nada: pone al día un Lore que **ya está
-> en el estándar** pero se escribió contra una versión anterior de estos skills. Si tu proyecto ya
-> migró y solo quieres incorporar lo que el kit aprendió después, ese es el modo, y no `add`.
+> en el estándar** pero se escribió contra una versión anterior de estos skills. ¿Ya migraste y solo
+> quieres lo que el kit aprendió después? Ese es el modo, no `add`.
 > **Desde 2.1.4** ese modo sabe subir un árbol o un ecosistema sin releerlo entero: mapa de git primero, cabecera de índice en vez de reescribir filas, `HARD-GATE` vivo a umbral, umbral por clase en una campaña.
 
 > **El quinto modo es `crystallize`.** No es una migración: exporta una fotografía Markdown segura y
-> trazable para un destino que no puede navegar el árbol vivo. La fotografía se puede extraer de
-> vuelta a una carpeta cuyo enrutamiento resuelve. Nunca reemplaza ni edita el Lore.
-> Consulta [`USAGE_es.md`](./USAGE_es.md) para el uso cotidiano y [`REFERENCE_es.md`](./REFERENCE_es.md)
-> para su contrato de privacidad, enrutamiento y umbral.
+> trazable para un destino que no puede navegar el árbol vivo, extraíble de vuelta a una carpeta cuyo
+> enrutamiento resuelve. Nunca reemplaza ni edita el Lore — su contrato en [`USAGE_es.md`](./USAGE_es.md)
+> y [`REFERENCE_es.md`](./REFERENCE_es.md).
 
-> **Desde la 2.1.0 hay un sexto modo, `prune`.** Tampoco es una migración, y es el único sustractivo:
-> le quita **peso** a un Lore que se degradó acumulando cosas que por separado son correctas. No lo
-> uses mientras migras — un Lore recién migrado no tuvo tiempo de acumular nada. Es el pase para un
-> corpus que lleva tiempo en uso diario, y la unidad que cuenta es el **entregable**, no el Lore.
+> **Desde la 2.1.0 hay un sexto modo, `prune`** — el único sustractivo: le quita **peso** a un Lore
+> que se degradó acumulando cosas que por separado son correctas. Nunca mientras migras: un Lore
+> recién migrado no tuvo tiempo de acumular nada. Su unidad de conteo es el **entregable**, no el Lore.
 
 ### 3.1 Modo `add` – Crear Lore donde falta
 
@@ -118,15 +112,12 @@ Conceptualmente, Lore:
 - **Nunca** elimina ni reescribe `identidad.md` o `principios.md` — solo módulos temáticos
   redundantes.
 
-Tú revisas los cambios para asegurarte de que no se pierde nada importante y que las reglas compartidas quedan bien ubicadas.
-
 ### 3.3 Modo `translate` – Estandarizar el idioma
 
 **Propósito:** dejar todo el Lore de un proyecto (o Área) en un único idioma.
 
-Útil tras una migración: un proyecto heredado puede traer artefactos en inglés, en español o
-mezclados. Los skills de Lore generan contenido en tu idioma, pero el material previo a la
-migración conserva el idioma en que fue escrito.
+Útil tras una migración, cuando el proyecto heredado trae artefactos en inglés, español o mezclados:
+el material previo a la migración conserva el idioma en que fue escrito.
 
 Ejemplos de prompt:
 
@@ -160,10 +151,7 @@ Al migrar, normalmente mapearás contenido heredado de esta forma:
 - Identidad y propósito de alto nivel → `lore/identidad.md`.
 - Resumen de preocupaciones y dominios → `lore/index.md` + módulos temáticos iniciales.
 
-Ejemplo:
-
-- Sección “Project Overview” → identidad.
-- Sección “Tech Stack and Principles” → principios + módulos.
+P. ej. “Project Overview” → identidad; “Tech Stack and Principles” → principios + módulos.
 
 ### 4.2 Documentos de arquitectura
 
@@ -190,15 +178,14 @@ Enfócate en reglas que aún restringen decisiones hoy; ignora detalles obsoleto
 
 ### 5.1 Migrar un proyecto de frontend heredado
 
-1. **Crear el Área** (si todavía no existe):
+1. **Crear el Área** (si falta):
 
    ```text
    crea un área de trabajo para "Frontend asistido por IA"
    ```
 
-2. **Adoptar el proyecto heredado.** `create-project` crea proyectos **nuevos** desde cero — no es
-   la herramienta para incorporar un proyecto ya existente. Para uno heredado, se **adopta**
-   añadiendo una fila con su ruta al `FASES.md` del Área (sin moverlo ni tocar su git):
+2. **Adoptar el proyecto heredado.** `create-project` crea proyectos **nuevos**; uno ya existente se
+   **adopta** añadiendo una fila con su ruta al `FASES.md` del Área, sin moverlo ni tocar su git:
 
    ```text
    registra "Sitio de marketing heredado" en el FASES.md del Área, con su ruta actual
@@ -210,9 +197,8 @@ Enfócate en reglas que aún restringen decisiones hoy; ignora detalles obsoleto
    transmuta el lore del "Sitio de marketing heredado"
    ```
 
-   - El proyecto debe tener el árbol de git limpio antes de esto (precondición de `transmute-lore`).
-   - Revisar los `identidad.md`, `principios.md`, módulos, `FASES.md`, contrato propuesto, y
-     aprobar el mapeo antes de que se escriba nada (umbral).
+   - Árbol de git limpio requerido (precondición de `transmute-lore`).
+   - Revisar el mapeo propuesto y aprobarlo antes de que se escriba nada (umbral).
 
 4. **Limpiar módulos redundantes** una vez que el Área ya tiene sus propios módulos generales:
 
@@ -220,16 +206,14 @@ Enfócate en reglas que aún restringen decisiones hoy; ignora detalles obsoleto
    limpia el lore del "Sitio de marketing heredado"
    ```
 
-   - Elimina del proyecto los módulos temáticos que ya duplican los del Área (por ejemplo, un
-     módulo genérico de renderizado si el Área ya lo tiene).
-   - Mantiene en el proyecto el criterio verdaderamente específico (por ejemplo, «La home de esta
-     marca debe mantenerse bajo X ms») — `identidad.md` y `principios.md` nunca se tocan en este modo.
+   - Elimina del proyecto los módulos que ya duplican los del Área; mantiene el criterio
+     verdaderamente específico («la home debe mantenerse bajo X ms»). `identidad.md` y
+     `principios.md` nunca se tocan.
 
 5. **Refinar y hacer commit:**
 
-   - Editar artefactos manualmente para mayor claridad.
-   - Confirmar que la estructura final refleja las restricciones reales.
-   - `transmute-lore` no hace commit por ti: el *diff* queda para que tú lo revises y confirmes.
+   - Editar artefactos para mayor claridad; confirmar que la estructura refleja las restricciones reales.
+   - `transmute-lore` no hace commit por ti: el *diff* es tuyo para revisar y confirmar.
 
 ---
 
@@ -237,25 +221,11 @@ Enfócate en reglas que aún restringen decisiones hoy; ignora detalles obsoleto
 
 Tras ejecutar `transmute-lore` y ajustar artefactos, verifica:
 
-- **El Lore de las Áreas captura el criterio compartido:**
-  - Principios que aplican a varios proyectos viven en el Área.
-  - Los módulos de proyecto no repiten reglas generales.
-
-- **Los proyectos conservan sólo el criterio específico:**
-  - El Lore del proyecto se centra en decisiones únicas de esa base de código.
-  - Los módulos temáticos están acotados a preocupaciones del proyecto.
-
-- **Las Pistas Invariantes son accionables:**
-  - Las reglas son suficientemente específicas como para restringir decisiones futuras.
-  - Las afirmaciones ambiguas u obsoletas se eliminan o se clarifican.
-
-- **`FASES.md` refleja la realidad:**
-  - La fase actual es correcta.
-  - La hoja de ruta está alineada con cómo trabajas de verdad.
-
-- **El contrato de instrucciones coincide con tu colaboración:**
-  - Describe cómo usas Claude en la práctica.
-  - Incluye restricciones innegociables sobre el comportamiento de la IA.
+- **El Lore de las Áreas captura el criterio compartido:** los principios que aplican a varios proyectos viven en el Área; los módulos de proyecto no repiten reglas generales.
+- **Los proyectos conservan sólo el criterio específico:** decisiones únicas de esa base de código.
+- **Las Pistas Invariantes son accionables:** restringen decisiones futuras; lo ambiguo u obsoleto se elimina o se clarifica.
+- **`FASES.md` refleja la realidad:** fase actual correcta; hoja de ruta alineada con cómo trabajas de verdad.
+- **El contrato de instrucciones coincide con tu colaboración:** cómo usas Claude en la práctica, con restricciones innegociables sobre el comportamiento de la IA.
 
 ---
 
@@ -265,7 +235,7 @@ Para mantener la migración manejable:
 
 - **No** intentes preservar todos los detalles históricos.
 - Enfócate en lo que aún restringe decisiones hoy.
-- Trata Lore como documentación viva: debe reflejar cómo trabajas ahora, no solo cómo trabajabas.
+- Trata Lore como documentación viva: refleja cómo trabajas ahora, no cómo trabajabas.
 - Deja que `transmute-lore` haga el trabajo pesado, pero revisa siempre sus propuestas como editor humano.
 
-Una vez que uno o dos proyectos piloto estén migrados, podrás reutilizar los mismos patrones para otros repositorios dentro del Área.
+Con uno o dos pilotos migrados, reutiliza los mismos patrones en los demás repositorios del Área.
