@@ -128,10 +128,19 @@ first:
 3. **A project's own Lore is checked against the kit too, not only which skill runs.** Before
    non-trivial work on a project that already has `lore/`, read its `FASES.md` for the most recent
    `## UPGRADE a X.Y.Z` line and compare that version to the installed kit's. If the kit is ahead,
-   say so plainly and offer `transmute-lore` in **UPGRADE** mode, once, before the work starts — a
-   healthy Lore behind the kit looks correct in every reading, which is exactly why nobody notices
-   on their own. If the person defers, proceed; do not repeat the offer on every later message in
-   the same session.
+   determine whether the delta between the local version and the installed version actually affects
+   this tree: collect the RELEASE notes between those two versions first, then intersect module names
+   with what this tree uses — the module list in its `lore/index.md` + `lore/enrutamiento.md`, its shape
+   (area/project/bot), and any open concern in its `FASES.md` that explicitly names an affected module.
+   `Uses Lore` in general is not an intersection; a module name must appear on both sides. Do not infer
+   affect from the version number alone. If there is no intersection — e.g. a BlockVoz/redaccion-noticias
+   project on 2.3.0 with kit 2.3.1–2.3.2 where the delta (save-to-lore provenance, use-lore session guard,
+   obsidian-lore archive, 2.3.2 gate itself) touches none of `anatomia-nota`/`estilo-y-legibilidad`/`fuentes-y-transcripcion`
+   — say nothing and do not block; continue with the work. `Kit is ahead so I must offer` without checking
+   the delta is the rationalization this gate exists to stop. Silence when unaffected is the correct outcome,
+   not a missed check. If there is an intersection, say so plainly and offer `transmute-lore` in **UPGRADE** mode, once, before the work starts — a healthy Lore behind the kit looks correct in every
+   reading, which is exactly why nobody notices on its own. If the person defers, proceed; do not repeat the offer on every later message in the same session. `barrido-lore.ps1` mirrors this as
+   `desactualizado` vs `desactualizado (no afecta)`.
 
 > **Right after installing or updating the kit, run `transmute-lore` in **MYCELIUM** mode over the
 > Lore already on this machine.** An update changes what the skills demand; the criteria written
