@@ -65,7 +65,7 @@ Este caso originó el injerto: nació `arbitrate`, pasó a `transplant` en la 2.
 
 <br>
 
-El primer caso fuera del software: periodismo y estrategia de contenido ya tenían Lore destilado de trabajo real, no andamiaje vacío —módulos nacidos de oficio, consultados por proyectos vivos—.
+El primer caso que cruza de software a otra disciplina: periodismo y estrategia de contenido ya tenían Lore destilado de trabajo real, no andamiaje vacío —módulos nacidos de oficio, consultados por proyectos vivos—.
 
 - **La arquitectura no es un rasgo del software**: el mismo esqueleto se reprodujo sin compilador ni test, con práctica disciplinada y finalidad explícita.
 - **Existencia no es medición.** El caso muestra que el método *produce* criterio en otro dominio; no mide todavía que ese criterio *redujo el reaprendizaje*.
