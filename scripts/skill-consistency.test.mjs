@@ -60,6 +60,12 @@ test("save-to-lore pregunta por fuente autoritativa antes de destilar un hecho",
   assert.match(save, /provenance/i);
 });
 
+test("use-lore gobierna la apertura de sesión y la reanudación por continuidad", () => {
+  const use = skillText(join(skillsRoot, "use-lore"));
+  assert.match(use, /resumed from a continuity summary/i);
+  assert.match(use, /continuing is deciding/i);
+});
+
 test("use-lore sugiere /model para el tramo mecanico de un lote, nunca un subagente", () => {
   const text = skillText(join(skillsRoot, "use-lore"));
   assert.match(text, /suggest `\/model`/);

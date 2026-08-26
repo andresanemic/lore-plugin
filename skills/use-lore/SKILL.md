@@ -18,6 +18,12 @@ SDD kits speak in pure engineering terms, this one borrows a linguistic and epis
 This skill is the map. It teaches the model and points at the operating skills. Read it before
 invoking any other Lore skill.
 
+> **This skill governs session openings too.** A session that opens — including one resumed from a continuity summary, or handed an unfinished task — resolves what Lore governs its tree **before
+> continuing**, and says so on screen: which bodies it loaded and from where. A change of territory
+> mid-session (new task type, new tree) re-resolves the same way. *"Finishing what was started" is
+> not an exemption: continuing is deciding.* Criterion that waits to be remembered is criterion
+> that does not run.
+
 ## 0. Very first use of the kit — a brainstorm, not a menu (threshold)
 
 **If this machine has no Lore yet** — no area with a `lore/`, no project carrying the six pieces —
