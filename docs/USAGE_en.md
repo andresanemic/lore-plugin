@@ -348,7 +348,8 @@ It is not a CLI command: the mode is inferred from the phrase, not from a flag. 
   version of these skills. Nothing is broken: it is in the standard and in use, and it lacks the
   gates the kit learned afterwards. It arbitrates what already exists against the installed version. On a tree or an ecosystem: map first (git roots, where `lore/` lives, which contract is loaded), then grep; it does not rewrite a long index; in a live `.md` that still commands, `HARD-GATE` becomes threshold.
 - `prune` – **(2.1.0)** remove **weight** from a Lore that decayed by accumulating things that are
-  each individually correct. Not the same as `clean`: `clean` removes *duplicates*, `prune` removes
+  each individually correct — a quantitative target is an acceptance constraint, never a suggestion.
+  Not the same as `clean`: `clean` removes *duplicates*, `prune` removes
   criteria that is not duplicated, not wrong and not superseded, and whose only defect is still being
   there. It is the only subtractive mode, and **the unit it counts is the deliverable, not the Lore**
   — it will ask what your project actually ships before reading a single module. Since **2.3.0** it

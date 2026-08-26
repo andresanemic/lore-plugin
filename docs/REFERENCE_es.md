@@ -279,7 +279,8 @@ Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decision
   - `translate` – «estandariza el idioma del lore de {proyecto}», «traduce el lore de {proyecto} a {idioma}» — estandariza el idioma de todos los artefactos del Lore: contenido y nombres de archivo.
   - `upgrade` – «mejora el lore de {proyecto} con la versión nueva», «arbitra mi lore contra la versión nueva» — pone al día un Lore sano escrito contra una versión anterior de estos skills.
   - `prune` – «poda el lore de {proyecto}», «este lore se puso muy pesado» — quita **peso** a un Lore
-    que se degradó acumulando cosas que por separado son correctas.
+    que se degradó acumulando cosas que por separado son correctas — el objetivo cuantitativo es una
+    restricción de aceptación.
   - `micelio` – «corre el micelio», «¿está conectado el lore?» — recorrido de **solo lectura** que
     reporta qué Pistas ningún paso corre. No escribe nada y nunca poda. Tres disparadores: antes de
     una tarea compleja, tras instalar o actualizar el kit, y al salir de cualquier pasada que escribió

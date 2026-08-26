@@ -353,7 +353,8 @@ No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene oc
   skills. No está roto: está en el estándar y en uso, y le faltan las puertas que el kit aprendió
   después. Arbitra lo que ya existe contra la versión instalada. Sobre un árbol o un ecosistema: primero el mapa (gits, dónde vive `lore/`, qué contrato se carga), después el grep; no reescribe un índice largo; en un `.md` vivo que manda, `HARD-GATE` pasa a umbral.
 - `prune` – **(2.1.0)** quita **peso** a un Lore que se degradó acumulando cosas que por separado son
-  correctas. No es lo mismo que `clean`: `clean` quita *duplicados*, `prune` quita criterio que no
+  correctas — el objetivo cuantitativo es una restricción de aceptación, no una sugerencia. No es lo
+  mismo que `clean`: `clean` quita *duplicados*, `prune` quita criterio que no
   está duplicado, no está mal y no está superado, y cuyo único defecto es seguir ahí. Es el único
   modo sustractivo, y **la unidad que cuenta es el entregable, no el Lore** — te va a preguntar qué
   publica tu proyecto antes de leer un solo módulo. Desde **2.3.0** corre antes un **barrido MYCELIUM**,

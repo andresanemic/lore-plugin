@@ -286,7 +286,8 @@ creates a derivative, traceable, extractable memory card that never replaces the
     date with the plugin" — raise a healthy Lore written against an older version of these skills to
     the current standard.
   - `prune` – "prune the lore of Legacy Frontend", "this lore got too heavy" — remove **weight** from
-    a Lore that decayed by accumulating things that are each individually correct.
+    a Lore that decayed by accumulating things that are each individually correct —
+    a quantitative target is an acceptance constraint.
   - `micelio` – "run the micelio", "is the Lore plugged in?" — a **read-only** walk reporting which
     clues no step runs. It writes nothing and never prunes. Three triggers: before a complex task,
     after installing or updating the kit, and on the way out of any pass that wrote Lore — a new clue

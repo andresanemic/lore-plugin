@@ -135,7 +135,7 @@ The filter is borrowed, and it is worth naming its owner. Gregory Bateson, in *S
 
 ## Who can use Lore Plugin?
 
-- **Professionals early in working with AI** — if you want what you learn to compound instead of evaporating, start here: a professional memory card that outlasts any project or model.
+- **Professionals early in working with AI** — if you want what you learn to compound instead of evaporating, start here: a professional memory card that outlasts any project or model, where your **professional criterion** refines how real work gets done.
 - **People who read the benchmark before anything else**, willing to try something that is not mainstream yet if the numbers hold up.
 - **Researchers curious about LUS itself** — less the kit than the question behind it: what changes when a person and an AI accumulate criteria together over time. Lore is where that question gets answered one decision at a time.
 - **Teams already running spec-kit, SDD pipelines or another automation framework.** Those manage *process* — constitution, plan, tasks, quality gates — and none asks whether the knowledge behind those gates is still alive. That gap is what `MYCELIUM` and `PRUNE` close, and Lore runs alongside spec-kit rather than replacing it (see [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md)).
@@ -407,7 +407,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** An Area 
 
 > **2.0 rename:** `using-lore` is now `use-lore`. Remove the old name when updating; duplicate entry points make routing ambiguous.
 
-The entry point — explains the model and routes you to the right skill. Read it before invoking any other.
+The entry point — explains the model and routes you to the right skill. Read it before invoking any other. For complex deliverables it fixes the owner project, the routed Lore and an approved precedent before work starts.
 
 ### `brainstorming-lore`
 
@@ -761,7 +761,7 @@ El filtro es prestado, y conviene decir de quién. Gregory Bateson, en *Pasos ha
 
 ## ¿Quién puede usar Lore Plugin?
 
-- Si recién empiezas a trabajar con IA y quieres que lo aprendido se acumule en vez de evaporarse, empieza por acá: una memory card profesional que sobrevive a cualquier proyecto o modelo.
+- Si recién empiezas a trabajar con IA y quieres que lo aprendido se acumule en vez de evaporarse, empieza por acá: una memory card profesional que sobrevive a cualquier proyecto o modelo, donde tu **criterio profesional** afina el uso real con cada decisión.
 - **Quienes leen el benchmark antes que cualquier otra cosa**, dispuestos a probar algo que todavía no es mainstream si los números se sostienen.
 - **Investigadores curiosos por LUS en sí** — menos por el kit que por la pregunta detrás: qué cambia cuando una persona y una IA acumulan criterio juntas a lo largo del tiempo. Lore es donde esa pregunta se responde una decisión a la vez.
 - **Equipos que ya corren spec-kit, pipelines SDD u otro framework de automatización.** Esos gestionan *proceso* — constitución, plan, tareas, puertas de calidad — y ninguno pregunta si el conocimiento detrás de esas puertas sigue vivo. Ese hueco es el que cierran `MYCELIUM` y `PRUNE`, y Lore corre junto a spec-kit en vez de reemplazarlo (ver [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md)).
@@ -1008,7 +1008,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 | Skill | Para qué | Cuándo |
 |---|---|---|
 | `use-lore` | Punto de entrada: explica el modelo y te manda a la skill correcta | primero, siempre |
-| `brainstorming-lore` | Diseña cambios en los artefactos Lore sin chocar con skills generales de brainstorming | antes de crear o reestructurar Lore de forma material |
+| `brainstorming-lore` | Diseña cambios en los artefactos Lore sin chocar con skills generales de brainstorming; sostiene la continuidad reconocible del Entre y su esfuerzo fértil | antes de crear o reestructurar Lore de forma material |
 | `create-area` | Crea un Área con su Lore compartido | al abrir un dominio nuevo |
 | `create-project` | Crea un proyecto que hereda del Área | al empezar un trabajo |
 | `save-to-lore` | Destila una lección y decide si sube al Área | todos los días |
