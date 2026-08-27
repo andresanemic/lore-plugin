@@ -1,0 +1,27 @@
+{
+  "task": "web-landing",
+  "arm": "cold",
+  "trial": 2,
+  "attempt": 1,
+  "model": "gpt-5.6-terra",
+  "reasoning_effort": "medium",
+  "verdict": "pending",
+  "compliance": [],
+  "violation": [],
+  "failed_criteria": [],
+  "text": "# Studio Ember — Landing alpha 0.1\n\n## Propósito\n\nPresentar Studio Ember como un espacio de trabajo de escritorio para artistas independientes y gestores culturales que ya tienen sus materiales, pero necesitan reunirlos y convertirlos en un dossier o borrador de postulación sin reconstruir el proyecto cada vez.\n\nObjetivo único: llevar a “Solicitar acceso a la prueba cerrada”. Objetivo secundario: ver la demo grabada.\n\n## Dirección creativa\n\nUn estudio de trabajo tranquilo: papeles, notas, carpetas y obra en proceso. La página debe sentirse editorial y material, no como SaaS corporativo ni como vitrina de arte.\n\nPaleta sobria: papel cálido como fondo, tinta casi negra, gris piedra y un único acento terracota apagado. Tipografía serif contemporánea para titulares y sans limpia para interfaz/cuerpo. Mucho aire, bordes discretos, sin gradientes tecnológicos, métricas animadas ni iconografía genérica.\n\nUsar únicamente material autorizado: capturas reales del escritorio, carpetas de proceso, papeles escaneados y fragmentos de obra. La obra acompaña el relato; nunca se recorta como decoración dominante ni se atribuye a Studio Ember.\n\n## Estructura y copy\n\n### 1. Barra superior\n\nLogo textual: **Studio Ember**  \nNavegación: “Cómo funciona”, “Demo”, “Acceso alpha”  \nCTA compacto: **Solicitar acceso**\n\nBarra fija solo después de superar el bloque inicial.\n\n### 2. Hero\n\nEtiqueta pequeña: `ALPHA 0.1 · PROCESAMIENTO LOCAL`\n\nTítulo:\n\n> Tu proyecto ya existe.  \n> Reunirlo también debería ser parte del trabajo.\n\nTexto:\n\n> Studio Ember organiza los materiales que eliges en tu escritorio —intención, trayectoria, presupuesto, referencias y convocatoria— para preparar un dossier y un primer borrador de postulación.\n\nCTAs:\n\n- Primario: **Solicitar acceso a la prueba cerrada**\n- Secundario, con icono de reproducción: **Ver la demo alpha**\n\nVisual: composición asimétrica de una captura real del escritorio, parcialmente superpuesta con una hoja escaneada o carpeta de proceso. Incluir pie editorial: `Material de proceso autorizado.`\n\n### 3. El problema\n\nTitular:\n\n> Cada convocatoria pide volver a armar lo mismo.\n\nTres frases en columna, sin tarjetas:\n\n- Biografías y trayectorias repartidas entre versiones.\n- Presupuestos, referencias y textos que no coinciden entre sí.\n- Un proyecto que se vuelve a explicar desde cero.\n\nCierre:\n\n> Studio Ember no inventa el proyecto: ayuda a volver legible el trabajo que ya hiciste.\n\n### 4. Cómo funciona\n\nTitular: **Del material disperso a un punto de partida claro.**\n\nSecuencia horizontal en escritorio, vertical en móvil:\n\n1. **Elige tus archivos**  \n   Abre los textos que quieres trabajar desde tu dispositivo.\n\n2. **Ordena por proyecto**  \n   Reúne intención, trayectoria, presupuesto, referencias y convocatoria.\n\n3. **Prepara una primera versión**  \n   Ordena un dossier y genera un primer borrador de postulación.\n\n4. **Exporta en Markdown**  \n   Conserva una versión portable para seguir trabajando.\n\nUsar una captura por pasos 2–3; los demás pueden ser texto y pequeños recortes de documentos.\n\n### 5. Bloque de confianza\n\nFondo ligeramente contrastado.\n\nTítulo: **Tus archivos permanecen en tu dispositivo durante el flujo alpha.**\n\nTexto:\n\n> Studio Ember alpha 0.1 trabaja localmente con los archivos que eliges. No incluye sincronización en la nube, colaboración multiusuario ni una base propia de convocatorias.\n\nEvitar sellos, promesas de seguridad absolutas o lenguaje legal innecesario.\n\n### 6. Demo\n\nTitular: **Mira un flujo completo, de carpeta a borrador.**\n\nInsertar la demo grabada en un marco sobrio, con portada hecha a partir de una captura real. Debajo:\n\n> La demo muestra el alcance actual de alpha 0.1: organizar materiales, preparar un dossier y exportar a Markdown.\n\n### 7. Acceso alpha\n\nTitular:\n\n> Estamos abriendo una prueba cerrada.\n\nTexto:\n\n> Buscamos artistas y gestores culturales que trabajen con proyectos en desarrollo y quieran probar este flujo con material propio.\n\nFormulario breve:\n\n- Nombre\n- Correo\n- Rol: Artista / Gestión cultural / Ambos\n- “¿En qué etapa está tu proyecto?” (opcional)\n\nBotón: **Solicitar acceso a la prueba cerrada**\n\nNota: `No hay precio definido para esta etapa.`\n\n### 8. Pie\n\n`Studio Ember · Alpha 0.1`  \nEnlace ancla: “Ver demo”  \nTexto breve: `Hecho para el trabajo que ocurre antes de enviar.`\n\n## Comportamiento\n\nEl CTA principal abre o desplaza al formulario. “Ver la demo alpha” hace scroll al video y reproduce solo por acción explícita. Mantener animaciones mínimas: aparición suave de bloques al entrar en pantalla; nunca autoplay de video ni carruseles.\n\n## Límites de mensaje\n\nNo prometer PDF, envíos automáticos, convocatorias integradas, nube, móvil, colaboración o fecha de lanzamiento. Nombrar Markdown y procesamiento local con claridad.",
+  "error": false,
+  "stderr": "",
+  "read_lore": false,
+  "tool_calls": 2,
+  "cost_usd": null,
+  "input_tokens": 52273,
+  "output_tokens": 1424,
+  "cache_read": 43264,
+  "duration_ms": 36231,
+  "num_turns": 1,
+  "tools": [
+    "pwsh -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'\"",
+    "pwsh -Command \"Get-Content -Raw -LiteralPath '..\\\\dossier.md'\""
+  ]
+}
