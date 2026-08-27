@@ -1,0 +1,136 @@
+{
+  "reviewer": "GPT-5.6 Sol",
+  "mode": "blind binary criterion adjudication",
+  "runs": [
+    {
+      "label": "R01",
+      "criteria": [
+        { "id": "FOUNDER-01", "verdict": "pass", "evidence": "Incluye los ocho leads con prioridad, estado, evidencia, canal, acción y justificación." },
+        { "id": "FOUNDER-02", "verdict": "pass", "evidence": "Centro Diagnóstico Sur y Boreal lideran por dolor confirmado y acceso; el tamaño sin evidencia queda abajo." },
+        { "id": "FOUNDER-03", "verdict": "pass", "evidence": "Distingue hechos, datos no confirmados, hipótesis y brechas sin tratarlos como equivalentes." },
+        { "id": "FOUNDER-04", "verdict": "pass", "evidence": "Respeta correos nominales, formulario, portal y la ausencia de canal B2B." },
+        { "id": "FOUNDER-05", "verdict": "pass", "evidence": "Las acciones escalan desde contacto hasta espera o no prospección según la evidencia." },
+        { "id": "FOUNDER-06", "verdict": "pass", "evidence": "Personaliza con los 18.000 certificados de Diego y la prioridad 2026 de Paula." },
+        { "id": "FOUNDER-07", "verdict": "pass", "evidence": "Ambos mensajes presentan problema, piloto pagado de seis semanas y una pregunta breve." },
+        { "id": "FOUNDER-08", "verdict": "pass", "evidence": "Declara que la verificación funciona y que el trigger automático sigue simulado y requiere integración institucional." }
+      ]
+    },
+    {
+      "label": "R02",
+      "criteria": [
+        { "id": "WEB-01", "verdict": "pass", "evidence": "El hero fija audiencia, problema, propuesta local y dos acciones específicas." },
+        { "id": "WEB-02", "verdict": "pass", "evidence": "Las ocho secciones contienen función, copy, activos y comportamiento." },
+        { "id": "WEB-03", "verdict": "pass", "evidence": "Describe la demo como alcance actual y enumera capacidades que no deben prometerse." },
+        { "id": "WEB-04", "verdict": "pass", "evidence": "Paleta, tipografía, materiales, composición y prohibiciones quedan implementables." },
+        { "id": "WEB-05", "verdict": "pass", "evidence": "El movimiento orienta una vez y `prefers-reduced-motion` elimina transiciones y desplazamientos." },
+        { "id": "WEB-06", "verdict": "pass", "evidence": "Explicita procesamiento local y permanencia en dispositivo sin sellos ni promesas absolutas." },
+        { "id": "WEB-07", "verdict": "pass", "evidence": "Cierra con una maqueta responsive, activos etiquetados y orden de sustitución ejecutable." },
+        { "id": "WEB-08", "verdict": "pass", "evidence": "Incluye siete comprobaciones observables y no escribe código." }
+      ]
+    },
+    {
+      "label": "R03",
+      "criteria": [
+        { "id": "NEWS-01", "verdict": "pass", "evidence": "Reordena el paquete en una nota propia sin copiar bloques fuente." },
+        { "id": "NEWS-02", "verdict": "pass", "evidence": "Mantiene tono neutral y limita lanzamiento, adopción e impacto." },
+        { "id": "NEWS-03", "verdict": "fail", "evidence": "Afirma que la ronda fue «para desarrollar su infraestructura», destino de fondos ausente de las fuentes." },
+        { "id": "NEWS-04", "verdict": "pass", "evidence": "Privilegia USD 1,24 millones y separa USD 1,3 y USD 1,2 por fuente." },
+        { "id": "NEWS-05", "verdict": "pass", "evidence": "Expone diferencias sobre monto, comercios y México sin resolverlas por intuición." },
+        { "id": "NEWS-06", "verdict": "pass", "evidence": "Usa sólo el contexto latinoamericano permitido y niega impacto fuera de Colombia." },
+        { "id": "NEWS-07", "verdict": "fail", "evidence": "No contiene subtítulos editoriales útiles ni línea Fuente antes del bloque SEO." },
+        { "id": "NEWS-08", "verdict": "fail", "evidence": "Inventa como uso de la ronda el desarrollo de infraestructura, dato no contenido en el paquete." }
+      ]
+    },
+    {
+      "label": "R04",
+      "criteria": [
+        { "id": "FOUNDER-01", "verdict": "pass", "evidence": "Registra ocho leads con los seis campos y estado explícito." },
+        { "id": "FOUNDER-02", "verdict": "pass", "evidence": "Prioriza dolor, volumen, compra e interlocutor y relega afinidad o tamaño sin oportunidad." },
+        { "id": "FOUNDER-03", "verdict": "pass", "evidence": "Separa evidencia confirmada, ausencia de evidencia y cifras no confirmadas." },
+        { "id": "FOUNDER-04", "verdict": "pass", "evidence": "Cada acción usa el canal realmente disponible y evita WhatsApp de soporte." },
+        { "id": "FOUNDER-05", "verdict": "pass", "evidence": "Contacto, espera, calificación y no contacto son proporcionales al caso." },
+        { "id": "FOUNDER-06", "verdict": "pass", "evidence": "Los dos mensajes citan contexto propio y verificable de cada institución." },
+        { "id": "FOUNDER-07", "verdict": "pass", "evidence": "Ambos ofrecen explícitamente el piloto pagado y piden 20 minutos." },
+        { "id": "FOUNDER-08", "verdict": "pass", "evidence": "Diferencia la verificación funcional de la conexión automática todavía simulada." }
+      ]
+    },
+    {
+      "label": "R05",
+      "criteria": [
+        { "id": "NEWS-01", "verdict": "pass", "evidence": "La pieza reescribe y estructura la información como nota periodística." },
+        { "id": "NEWS-02", "verdict": "pass", "evidence": "El tono es neutral y no convierte pruebas o planes condicionados en adopción." },
+        { "id": "NEWS-03", "verdict": "pass", "evidence": "Atribuye comunicado, publicación del fundador y Mercado Digital con enlaces." },
+        { "id": "NEWS-04", "verdict": "pass", "evidence": "Conserva USD 1,24 millones y contextualiza las dos cifras discrepantes." },
+        { "id": "NEWS-05", "verdict": "pass", "evidence": "Explicita diferencias de comercios, monto y expansión sin inventar resolución." },
+        { "id": "NEWS-06", "verdict": "pass", "evidence": "Aporta contexto regional permitido y declara que no hay evidencia de impacto fuera de Colombia." },
+        { "id": "NEWS-07", "verdict": "pass", "evidence": "Incluye titular, bajada, apertura, subtítulo, enlaces, Fuente y Elementos SEO." },
+        { "id": "NEWS-08", "verdict": "pass", "evidence": "No añade hechos, prompts ni tics prohibidos." }
+      ]
+    },
+    {
+      "label": "R06",
+      "criteria": [
+        { "id": "FOUNDER-01", "verdict": "pass", "evidence": "Incluye los ocho leads y completa todos los campos solicitados." },
+        { "id": "FOUNDER-02", "verdict": "pass", "evidence": "Los primeros puestos combinan evidencia, ajuste, responsable y próxima acción." },
+        { "id": "FOUNDER-03", "verdict": "pass", "evidence": "Usa etiquetas «Confirmado», «Inferencia», «Brecha» y «No usar»." },
+        { "id": "FOUNDER-04", "verdict": "pass", "evidence": "Correo, formulario, portal, buzón y no contacto siguen las restricciones del dossier." },
+        { "id": "FOUNDER-05", "verdict": "pass", "evidence": "Cada paso es concreto y proporcional a la certeza disponible." },
+        { "id": "FOUNDER-06", "verdict": "pass", "evidence": "Diego recibe contexto de volumen y flujo; Paula, reverificación y prioridad 2026." },
+        { "id": "FOUNDER-07", "verdict": "pass", "evidence": "Cada correo contiene fricción, piloto pagado y CTA de 20 minutos." },
+        { "id": "FOUNDER-08", "verdict": "pass", "evidence": "Declara que la verificación funciona y que el trigger simulado se integra durante el piloto." }
+      ]
+    },
+    {
+      "label": "R07",
+      "criteria": [
+        { "id": "WEB-01", "verdict": "pass", "evidence": "Define hero, audiencia, resultado, alcance local y CTA concretos." },
+        { "id": "WEB-02", "verdict": "pass", "evidence": "Seis bloques especifican contenido, activos, copy y comportamiento." },
+        { "id": "WEB-03", "verdict": "pass", "evidence": "La demo representa lo disponible hoy y el bloque contiguo lista lo aún inexistente." },
+        { "id": "WEB-04", "verdict": "pass", "evidence": "Resuelve paleta, fuentes, materiales, layout, contraste y anti-patrones." },
+        { "id": "WEB-05", "verdict": "pass", "evidence": "La alineación breve tiene propósito y muestra estado final bajo reducción de movimiento." },
+        { "id": "WEB-06", "verdict": "pass", "evidence": "Hace visible que los archivos permanecen en el dispositivo durante el flujo alpha." },
+        { "id": "WEB-07", "verdict": "pass", "evidence": "Asigna a la próxima sesión página responsive, tres activos concretos y formulario." },
+        { "id": "WEB-08", "verdict": "pass", "evidence": "Presenta seis criterios verificables y no incluye código." }
+      ]
+    },
+    {
+      "label": "R08",
+      "criteria": [
+        { "id": "WEB-01", "verdict": "pass", "evidence": "El hero fija problema, propuesta, público, demo y acceso cerrado." },
+        { "id": "WEB-02", "verdict": "pass", "evidence": "Las seis secciones contienen mensaje, función, activos y acciones." },
+        { "id": "WEB-03", "verdict": "pass", "evidence": "Usa la demo real como prueba y enumera capacidades que no se presentan como actuales." },
+        { "id": "WEB-04", "verdict": "pass", "evidence": "La mesa editorial se traduce a paleta, tipografía, activos, jerarquía y móvil." },
+        { "id": "WEB-05", "verdict": "pass", "evidence": "La gramática de ordenar fragmentos ocurre una vez y tiene alternativa reducida." },
+        { "id": "WEB-06", "verdict": "pass", "evidence": "Declara flujo local y permanencia en dispositivo sin garantía absoluta." },
+        { "id": "WEB-07", "verdict": "pass", "evidence": "Ordena construir wireframe, ubicar activos, conectar CTA y aplicar decisiones fijadas." },
+        { "id": "WEB-08", "verdict": "pass", "evidence": "Incluye seis comprobaciones observables y no escribe código." }
+      ]
+    },
+    {
+      "label": "R09",
+      "criteria": [
+        { "id": "WEB-01", "verdict": "pass", "evidence": "La propuesta y hero nombran proyecto, audiencia, problema y conversión." },
+        { "id": "WEB-02", "verdict": "pass", "evidence": "Seis secciones resuelven copy, contenido, activos y acciones." },
+        { "id": "WEB-03", "verdict": "pass", "evidence": "La tabla separa de forma explícita lo disponible de lo aún no disponible." },
+        { "id": "WEB-04", "verdict": "pass", "evidence": "Fija estética, paleta, tipografía, materiales y prohibiciones implementables." },
+        { "id": "WEB-05", "verdict": "pass", "evidence": "Las transiciones orientan el flujo y se eliminan con `prefers-reduced-motion`." },
+        { "id": "WEB-06", "verdict": "pass", "evidence": "Comunica procesamiento local, elección de archivos y permanencia en dispositivo." },
+        { "id": "WEB-07", "verdict": "pass", "evidence": "La próxima sesión debe reunir seis activos e implementar una página responsive conectada." },
+        { "id": "WEB-08", "verdict": "pass", "evidence": "Incluye ocho criterios de aceptación y no contiene código." }
+      ]
+    },
+    {
+      "label": "R10",
+      "criteria": [
+        { "id": "NEWS-01", "verdict": "pass", "evidence": "Redacta una nota propia sin replicar bloques de las fuentes." },
+        { "id": "NEWS-02", "verdict": "pass", "evidence": "Mantiene cautela sobre México, comercios activos e impacto regional." },
+        { "id": "NEWS-03", "verdict": "fail", "evidence": "Atribuye al comunicado que «la inversión acompañará el desarrollo de su propuesta de pagos», afirmación ausente de esa fuente." },
+        { "id": "NEWS-04", "verdict": "pass", "evidence": "Separa USD 1,24, USD 1,3 y USD 1,2 y mantiene la cifra exacta principal." },
+        { "id": "NEWS-05", "verdict": "pass", "evidence": "Contrasta explícitamente las tres fuentes sobre monto, México y comercios." },
+        { "id": "NEWS-06", "verdict": "pass", "evidence": "Contextualiza stablecoins en la región sin atribuir impacto local a SendaPay." },
+        { "id": "NEWS-07", "verdict": "fail", "evidence": "No incluye bajada en cursiva, subtítulos de cuerpo, enlaces ni línea Fuente." },
+        { "id": "NEWS-08", "verdict": "fail", "evidence": "Inventa un destino de la inversión ausente del paquete factual." }
+      ]
+    }
+  ]
+}
