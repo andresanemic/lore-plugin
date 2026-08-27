@@ -1,12 +1,22 @@
 {
+  "file": "founder-crm__cold__t1.json",
   "task": "founder-crm",
   "arm": "cold",
   "trial": 1,
   "attempt": 2,
   "model": "gpt-5.6-terra",
   "reasoning_effort": "medium",
-  "verdict": "pending",
-  "compliance": [],
+  "verdict": "pass",
+  "compliance": [
+    "FOUNDER-01",
+    "FOUNDER-02",
+    "FOUNDER-03",
+    "FOUNDER-04",
+    "FOUNDER-05",
+    "FOUNDER-06",
+    "FOUNDER-07",
+    "FOUNDER-08"
+  ],
   "violation": [],
   "failed_criteria": [],
   "text": "# CRM de prospección — VeriTrace Health\n\n| Prioridad | Lead | Estado | Evidencia disponible | Canal | Siguiente acción | Justificación |\n|---|---|---|---|---|---|---|\n| P1 | Centro Diagnóstico Sur | Listo para contacto | Procesa 18.000 certificados/mes; mantiene validación manual de documentos presentados fuera de su red; abrió convocatoria para proveedores de integración en agosto de 2026. | Diego León, gerente de Operaciones — `diego.leon@cdsur.example` | Enviar el mensaje de abajo y solicitar 20 min para entender el flujo y definir si un piloto acotado tiene encaje. | Combina alto volumen, proceso manual confirmado y señal reciente de integración. |\n| P2 | Laboratorio Boreal | Listo para contacto | Calidad revisa manualmente certificados de terceros; reducir la reverificación es prioridad 2026; Paula Ríos participó en un panel de interoperabilidad documental. | Paula Ríos, directora de Calidad — `paula.rios@boreal.example` | Enviar el mensaje de abajo y solicitar 20 min para conocer el flujo de revisión. | Dolor operativo y prioridad explícitamente declarados, con contacto funcional identificado. |\n| P3 | Hospital Cordillera | En espera de licitación | Licitará modernización de archivo clínico en 2027; aún no publica bases técnicas. | Portal de proveedores | Revisar las bases cuando se publiquen y evaluar si contemplan un flujo de verificación documental. | Hay proceso formal futuro, pero no requerimiento verificable ni admisión de propuesta por correo. |\n| P4 | Clínica Horizonte | Calificación inicial | Digitalizó la recepción de licencias y certificados; no hay evidencia de falsificación ni reverificación. | Formulario de innovación | Consultar si existe revisión de autenticidad documental y pedir derivación al responsable pertinente. | Cuenta con un canal institucional y digitalización, pero el problema que resuelve VeriTrace no está confirmado. |\n| P5 | Seguros Pacífico | Calificación pendiente | Solo hay un correo genérico de innovación. La cifra de USD 4 millones por documentos falsos no está confirmada y no hay publicaciones sobre verificación documental. | `innovacion@pacifico.example` | Preguntar si gestionan verificación de documentos médicos y quién es responsable del proceso, sin mencionar la cifra no confirmada. | Potencial no verificable; falta evidencia de necesidad y de comprador. |\n| P6 | Red Sana | Brecha de contacto y necesidad | Opera nueve clínicas; no hay evidencia de dolor documental ni búsqueda de proveedor. | Central telefónica general | Identificar si existe un canal de Calidad, Operaciones o Innovación; registrar únicamente la información obtenida. | Tamaño relevante, pero sin problema confirmado ni contacto adecuado. |\n| P7 | Universidad Clínica Central | Relación técnica potencial | Elena Mora investiga integridad de registros de salud; no hay señal de compra institucional o piloto pagado. | Elena Mora — `elena.mora@ucc.example` | Contactar solo para intercambio técnico o posible derivación institucional, sin propuesta comercial. | Afinidad temática, pero baja evidencia de oportunidad comercial. |\n| P8 | Isapre Valle | No priorizar | WhatsApp disponible solo para soporte de afiliados; la supuesta investigación por licencias falsas no está confirmada. | WhatsApp de soporte | No contactar por este canal; dejar en espera hasta contar con un canal B2B autorizado. | Canal inadecuado y necesidad no confirmada. |\n\n## Primer contacto — Centro Diagnóstico Sur\n\n**Asunto:** Consulta sobre validación de certificados externos\n\nHola Diego:\n\nVi que Centro Diagnóstico Sur procesa 18.000 certificados al mes y mantiene una validación manual para documentos presentados fuera de su red.\n\nVeriTrace Health ya permite verificar la autenticidad de un documento médico sin exponer su contenido clínico. La conexión automática con el evento de emisión requiere integración con cada institución; hoy esa conexión usa un trigger simulado.\n\nNuestra oferta actual es un piloto pagado de seis semanas para un flujo acotado, con mapeo, integración del emisor, demo con documentos de prueba y reporte de resultados.\n\n¿Tendrías 20 minutos para revisar si este flujo podría ser pertinente?\n\nSaludos,  \n[Nombre]  \nVeriTrace Health\n\n## Primer contacto — Laboratorio Boreal\n\n**Asunto:** Consulta sobre reverificación de certificados de terceros\n\nHola Paula:\n\nVi que Boreal señaló como prioridad 2026 reducir la reverificación de certificados remitidos por terceros.\n\nVeriTrace Health ya permite verificar la autenticidad de un documento médico sin exponer su contenido clínico. Para automatizar la conexión con el evento de emisión, se requiere integración con cada institución; actualmente esa conexión usa un trigger simulado.\n\nOfrecemos un piloto pagado de seis semanas para un flujo documental acotado: mapeo, integración del emisor, demo con documentos de prueba y reporte de resultados.\n\n¿Podemos coordinar 20 minutos para entender el proceso actual y evaluar si el piloto tiene encaje?\n\nSaludos,  \n[Nombre]  \nVeriTrace Health",
@@ -24,5 +34,47 @@
     "pwsh -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'; \\\"\"'`n---DOSSIER---`n\"; Get-Content -Raw -LiteralPath '\"'..\\\\dossier.md'\"",
     "pwsh -Command \"Get-Content -Raw -LiteralPath 'CLAUDE.md'\"",
     "pwsh -Command \"Get-Content -Raw -LiteralPath '..\\\\dossier.md'\""
+  ],
+  "criterion_results": [
+    {
+      "id": "FOUNDER-01",
+      "verdict": "pass",
+      "evidence": "Registra ocho leads con los seis campos y estado explícito."
+    },
+    {
+      "id": "FOUNDER-02",
+      "verdict": "pass",
+      "evidence": "Prioriza dolor, volumen, compra e interlocutor y relega afinidad o tamaño sin oportunidad."
+    },
+    {
+      "id": "FOUNDER-03",
+      "verdict": "pass",
+      "evidence": "Separa evidencia confirmada, ausencia de evidencia y cifras no confirmadas."
+    },
+    {
+      "id": "FOUNDER-04",
+      "verdict": "pass",
+      "evidence": "Cada acción usa el canal realmente disponible y evita WhatsApp de soporte."
+    },
+    {
+      "id": "FOUNDER-05",
+      "verdict": "pass",
+      "evidence": "Contacto, espera, calificación y no contacto son proporcionales al caso."
+    },
+    {
+      "id": "FOUNDER-06",
+      "verdict": "pass",
+      "evidence": "Los dos mensajes citan contexto propio y verificable de cada institución."
+    },
+    {
+      "id": "FOUNDER-07",
+      "verdict": "pass",
+      "evidence": "Ambos ofrecen explícitamente el piloto pagado y piden 20 minutos."
+    },
+    {
+      "id": "FOUNDER-08",
+      "verdict": "pass",
+      "evidence": "Diferencia la verificación funcional de la conexión automática todavía simulada."
+    }
   ]
 }

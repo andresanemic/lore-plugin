@@ -1,0 +1,82 @@
+[
+  {
+    "label": "R01",
+    "file": "founder-crm__cold__t2.json",
+    "task": "founder-crm",
+    "arm": "cold",
+    "trial": 2,
+    "packet_sha256": "97ec8daf3219562ff141848c0700740a09d542175952cdfc5c72a18bb90b85bc"
+  },
+  {
+    "label": "R02",
+    "file": "web-landing__cold__t2.json",
+    "task": "web-landing",
+    "arm": "cold",
+    "trial": 2,
+    "packet_sha256": "62cd225eae52c5c3060f1ee76917cd3f29b1971787fe557985a68dcef0c61e1d"
+  },
+  {
+    "label": "R03",
+    "file": "news-draft__cold__t1.json",
+    "task": "news-draft",
+    "arm": "cold",
+    "trial": 1,
+    "packet_sha256": "06094f6b147a8734fdacba337ac038d906b889e2f5814cedf6909bd1a35171a7"
+  },
+  {
+    "label": "R04",
+    "file": "founder-crm__cold__t1.json",
+    "task": "founder-crm",
+    "arm": "cold",
+    "trial": 1,
+    "packet_sha256": "0c7b31a9f823a6ebbd66266ba45bbbcc1dd23a99656dc123ddf7ae1fce0f2cb5"
+  },
+  {
+    "label": "R05",
+    "file": "news-draft__lore__t1.json",
+    "task": "news-draft",
+    "arm": "lore",
+    "trial": 1,
+    "packet_sha256": "79c84bfbc365e037b3bb7649d13fc9585dc9bdc09ad9102d29606665c8cc5b97"
+  },
+  {
+    "label": "R06",
+    "file": "founder-crm__lore__t1.json",
+    "task": "founder-crm",
+    "arm": "lore",
+    "trial": 1,
+    "packet_sha256": "8bc31efc128a4c231c025edd43dee1a93f17d467cd2f2847b673a70fb0901594"
+  },
+  {
+    "label": "R07",
+    "file": "web-landing__lore__t1.json",
+    "task": "web-landing",
+    "arm": "lore",
+    "trial": 1,
+    "packet_sha256": "c59d87bef6aa65ceb4065ed81bfdc6a13db8512dd1c5997cae6e8e48a042c99e"
+  },
+  {
+    "label": "R08",
+    "file": "web-landing__lore__t2.json",
+    "task": "web-landing",
+    "arm": "lore",
+    "trial": 2,
+    "packet_sha256": "6339314b4491f6c543707e03136d6f210aa2146a034168fd40a22b189f0e7b42"
+  },
+  {
+    "label": "R09",
+    "file": "web-landing__cold__t1.json",
+    "task": "web-landing",
+    "arm": "cold",
+    "trial": 1,
+    "packet_sha256": "78d1a2b7c0a00aa203c4d47955ff3522f283843476e9219634e30c38fcc3d7ae"
+  },
+  {
+    "label": "R10",
+    "file": "news-draft__cold__t2.json",
+    "task": "news-draft",
+    "arm": "cold",
+    "trial": 2,
+    "packet_sha256": "bb49c740cf13bdcb810a5edf9f6622a6980993bb162ef085e8ec039904821352"
+  }
+]

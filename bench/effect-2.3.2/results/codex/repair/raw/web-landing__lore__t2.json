@@ -1,12 +1,22 @@
 {
+  "file": "web-landing__lore__t2.json",
   "task": "web-landing",
   "arm": "lore",
   "trial": 2,
   "attempt": 2,
   "model": "gpt-5.6-terra",
   "reasoning_effort": "medium",
-  "verdict": "pending",
-  "compliance": [],
+  "verdict": "pass",
+  "compliance": [
+    "WEB-01",
+    "WEB-02",
+    "WEB-03",
+    "WEB-04",
+    "WEB-05",
+    "WEB-06",
+    "WEB-07",
+    "WEB-08"
+  ],
   "violation": [],
   "failed_criteria": [],
   "text": "# Dirección de landing — Studio Ember alpha 0.1\n\n## Decisión central\n\nPresentar Studio Ember como un escritorio local que transforma materiales de proyecto ya existentes en un dossier ordenado y reutilizable. No crea la obra ni postula en nombre de la persona: reúne, estructura y prepara una base revisable para volver a aplicar sin reconstruir todo.\n\n**Hero**\n\n> Tu proyecto ya existe. Ordénalo para volver a usarlo.  \n> Studio Ember reúne tus textos y materiales en un dossier de trabajo para preparar nuevas convocatorias sin empezar de cero.\n\nCTA principal: **Ver la demo alpha**  \nCTA secundario: **Solicitar acceso a la prueba cerrada**\n\nBajo los CTA: “Alpha de escritorio · durante este flujo, tus archivos permanecen en tu dispositivo.”\n\nEl CTA principal abre o desplaza a la demo; el secundario desplaza al formulario. No hay navegación que compita con esas dos acciones.\n\n## Estructura, contenido y evidencia\n\n1. **Hero + captura del escritorio**  \n   La captura real muestra materiales organizados bajo intención, trayectoria, presupuesto, referencias y convocatoria. Una pequeña superposición editorial puede nombrar esas categorías, sin inventar interfaz ni añadir métricas. La captura es evidencia del producto, no decoración.\n\n2. **Problema: trabajo repartido**  \n   Título: “Cada convocatoria no debería obligarte a reconstruir tu proyecto.”  \n   Texto: biografías, presupuestos, referencias y versiones viven entre carpetas y documentos; volver a postular suele significar rearmarlos desde cero.  \n   Visual: composición legible de carpetas de proceso, papeles escaneados y textos reales deliberadamente dispersos.\n\n3. **Flujo: de materiales a dossier**  \n   Título: “De materiales dispersos a un dossier de trabajo.”  \n   Tres pasos, cada uno apoyado por una captura real:\n\n   1. **Elige tus textos**: abres los archivos que decides usar.\n   2. **Ordénalos por proyecto**: reúnes intención, trayectoria, presupuesto, referencias y convocatoria.\n   3. **Prepara una base revisable**: Studio Ember ordena un dossier y ayuda a preparar un primer borrador de postulación; tú decides qué cambia y qué presentas.\n\n   Cierre: “Exporta el resultado a Markdown.”\n\n4. **Demo grabada**  \n   Título: “Mira el flujo completo de alpha 0.1.”  \n   Insertar la demo real con thumbnail o reproductor y un botón de reproducción inequívoco.  \n   Texto: “Desde los archivos elegidos hasta el dossier organizado.”  \n   Esta es la prueba principal de la promesa: no sustituirla por un mockup, animación conceptual o lista de funcionalidades.\n\n5. **Límite y confianza**  \n   Dos columnas:\n\n   - **Local durante el flujo alpha**: “Los archivos permanecen en tu dispositivo.”\n   - **La autoría sigue siendo tuya**: “Studio Ember ordena y asiste; tú decides qué entra, qué cambia y qué se presenta.”\n\n   No mencionar como presentes: nube, colaboración, móvil, envío automático, base de fondos, PDF ni fecha de lanzamiento.\n\n6. **Acceso cerrado**  \n   Título: “Prueba Studio Ember con un proyecto real.”  \n   Texto: “Buscamos artistas y gestores culturales que ya tengan materiales y quieran probar este flujo de escritorio.”  \n   CTA/formulario: **Solicitar acceso a la prueba cerrada**.\n\n   Campos: nombre, correo, rol (artista / gestor/a), tipo de proyecto y respuesta abierta a: “¿Qué parte de preparar una convocatoria repites más?”  \n   No incluir precio, lista de espera masiva ni promesa de acceso general.\n\n## Dirección visual e interacción\n\nLa landing debe sentirse como una mesa de trabajo serena: fondo claro cálido, papel, tinta y un acento cromático tomado de un fragmento de obra autorizado. Usar tipografía editorial legible en titulares y sans sobria para interfaz. Dar protagonismo a capturas, documentos y fragmentos autorizados; la obra acompaña el contexto y nunca se apropia como fondo ornamental.\n\nLa única gramática de movimiento es **ordenar fragmentos**: al entrar en viewport, piezas documentales se alinean brevemente para formar un dossier. Ocurre una vez, sin bucles ni ornamento persistente. Con `prefers-reduced-motion`, mostrar directamente el estado ordenado, conservando jerarquía mediante contraste y aparición instantánea.\n\nEn móvil: hero, acceso a demo y CTA de prueba se mantienen antes de cualquier contenido secundario; las capturas se muestran completas y legibles, no como collage recortado.\n\n## Siguiente paso ejecutable\n\nLa próxima sesión debe construir primero un wireframe de una página con estas seis secciones y colocar los activos reales en este orden: captura principal en hero, composición de proceso en problema, tres capturas en flujo y demo grabada en su sección. Después debe conectar ambos CTA al reproductor y al formulario, redactar el copy aquí fijado y aplicar la gramática visual y de movimiento definida. No debe decidir nuevas capacidades, audiencias, precios ni promesas.\n\n## Criterios de aceptación\n\n- El primer pantallazo comunica audiencia, problema, escritorio local y acción principal.\n- La demo real se abre desde el hero y desde su sección propia.\n- Toda capacidad escrita existe en alpha 0.1 y los límites no se disfrazan de roadmap.\n- El formulario de acceso cerrado aparece antes del footer y contiene los cinco campos definidos.\n- Solo se usan capturas, proceso y obra autorizada disponibles; no hay mockups genéricos.\n- En móvil y con movimiento reducido se conserva jerarquía, legibilidad y acceso a demo/formulario.",
@@ -29,5 +39,47 @@
     "pwsh -Command \"Get-Content -LiteralPath 'C:\\\\Claude\\\\plugins\\\\worktrees\\\\lore-plugin-benchmark-effect-2.3.2\\\\bench\\\\effect-2.3.2\\\\.runtime-1WaTNs\\\\lore\\\\.agents\\\\skills\\\\use-lore\\\\SKILL.md' | Select-Object -Skip 400 -First 160\"",
     "pwsh -Command \"Get-Content -LiteralPath 'FASES.md' -Raw; Write-Output \\\"\"'`n---IDENTIDAD---\"; Get-Content -LiteralPath '\"'lore\\\\identity.md' -Raw; Write-Output \\\"\"'`n---PRINCIPIOS---\"; Get-Content -LiteralPath '\"'lore\\\\principles.md' -Raw; Write-Output \\\"\"'`n---INDICE---\"; Get-Content -LiteralPath '\"'lore\\\\index.md' -Raw\"",
     "pwsh -Command \"Get-Content -LiteralPath 'lore\\\\landing-direction.md' -Raw\""
+  ],
+  "criterion_results": [
+    {
+      "id": "WEB-01",
+      "verdict": "pass",
+      "evidence": "El hero fija problema, propuesta, público, demo y acceso cerrado."
+    },
+    {
+      "id": "WEB-02",
+      "verdict": "pass",
+      "evidence": "Las seis secciones contienen mensaje, función, activos y acciones."
+    },
+    {
+      "id": "WEB-03",
+      "verdict": "pass",
+      "evidence": "Usa la demo real como prueba y enumera capacidades que no se presentan como actuales."
+    },
+    {
+      "id": "WEB-04",
+      "verdict": "pass",
+      "evidence": "La mesa editorial se traduce a paleta, tipografía, activos, jerarquía y móvil."
+    },
+    {
+      "id": "WEB-05",
+      "verdict": "pass",
+      "evidence": "La gramática de ordenar fragmentos ocurre una vez y tiene alternativa reducida."
+    },
+    {
+      "id": "WEB-06",
+      "verdict": "pass",
+      "evidence": "Declara flujo local y permanencia en dispositivo sin garantía absoluta."
+    },
+    {
+      "id": "WEB-07",
+      "verdict": "pass",
+      "evidence": "Ordena construir wireframe, ubicar activos, conectar CTA y aplicar decisiones fijadas."
+    },
+    {
+      "id": "WEB-08",
+      "verdict": "pass",
+      "evidence": "Incluye seis comprobaciones observables y no escribe código."
+    }
   ]
 }

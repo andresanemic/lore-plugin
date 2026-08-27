@@ -1,14 +1,29 @@
 {
+  "file": "news-draft__cold__t2.json",
   "task": "news-draft",
   "arm": "cold",
   "trial": 2,
   "attempt": 2,
   "model": "gpt-5.6-terra",
   "reasoning_effort": "medium",
-  "verdict": "pending",
-  "compliance": [],
-  "violation": [],
-  "failed_criteria": [],
+  "verdict": "fail",
+  "compliance": [
+    "NEWS-01",
+    "NEWS-02",
+    "NEWS-04",
+    "NEWS-05",
+    "NEWS-06"
+  ],
+  "violation": [
+    "NEWS-03",
+    "NEWS-07",
+    "NEWS-08"
+  ],
+  "failed_criteria": [
+    "NEWS-03",
+    "NEWS-07",
+    "NEWS-08"
+  ],
   "text": "# SendaPay anuncia ronda pre-semilla de USD 1,24 millones para pagos con stablecoins\n\nLa empresa informó un piloto con 180 comercios en Colombia y evaluará una expansión a México, condicionada a integraciones y revisión regulatoria.\n\nSendaPay anunció una ronda pre-semilla de USD 1,24 millones, liderada por Río Claro Ventures y con la participación de dos inversionistas ángeles no identificados. La startup desarrolla infraestructura de liquidación con stablecoins para comercios.\n\nDe acuerdo con el comunicado oficial de la compañía, la inversión acompañará el desarrollo de su propuesta de pagos. SendaPay también señaló que completó un piloto con 180 comercios en Colombia.\n\nLa empresa estudiará una expansión a México durante el cuarto trimestre de 2026, aunque supeditada a integraciones y a una revisión regulatoria. El anuncio no confirma un lanzamiento en ese país.\n\nLas cifras y el alcance comercial presentan diferencias entre las fuentes disponibles. Mientras el comunicado reporta una ronda de USD 1,24 millones y un piloto de 180 comercios, el fundador publicó que la empresa recaudó USD 1,3 millones y que más de 300 comercios “han probado” SendaPay. No explicó el redondeo de la ronda ni precisó cuántos de esos comercios corresponden al piloto, pruebas breves o negocios activos.\n\nPor su parte, Mercado Digital reportó una inversión de USD 1,2 millones, afirmó que SendaPay “lanzará en México este año” y señaló que 300 comercios “usan” el producto. Sin embargo, esa cobertura no aclara las condiciones planteadas en el comunicado oficial ni aporta una confirmación independiente de un lanzamiento. Tampoco permite concluir que los 300 comercios estén activos.\n\nEl comunicado de SendaPay no incluye volumen transado ni cantidad de usuarios finales del piloto colombiano. Por ello, la información disponible no permite medir el impacto de la empresa fuera de esa prueba ni su adopción efectiva en la región.\n\nLas stablecoins se utilizan en América Latina para pagos y como resguardo frente a monedas volátiles. En el caso de SendaPay, la ronda sitúa a la compañía en una etapa temprana, con una prueba comercial reportada en Colombia y una posible expansión a México aún bajo evaluación.\n\n## Elementos SEO\n\n- **Título SEO:** SendaPay levanta USD 1,24 millones para pagos con stablecoins\n- **Meta descripción:** SendaPay anunció una ronda pre-semilla de USD 1,24 millones, un piloto con 180 comercios en Colombia y una expansión a México aún condicionada.\n- **Slug:** sendapay-ronda-pre-semilla-pagos-stablecoins\n- **Palabra clave principal:** SendaPay ronda pre-semilla\n- **Etiquetas:** stablecoins, pagos cripto, startups, Colombia, México",
   "error": false,
   "stderr": "",
@@ -23,5 +38,47 @@
   "tools": [
     "pwsh -Command 'Get-ChildItem -Force -Name; Get-ChildItem -Path .. -Filter CLAUDE.md -Recurse -Force | Select-Object -ExpandProperty FullName; Get-ChildItem -Path .. -Filter dossier.md -Recurse -Force | Select-Object -ExpandProperty FullName'",
     "pwsh -Command \"Get-Content -LiteralPath .\\\\CLAUDE.md -Raw; Write-Output '---DOSSIER---'; Get-Content -LiteralPath ..\\\\dossier.md -Raw\""
+  ],
+  "criterion_results": [
+    {
+      "id": "NEWS-01",
+      "verdict": "pass",
+      "evidence": "Redacta una nota propia sin replicar bloques de las fuentes."
+    },
+    {
+      "id": "NEWS-02",
+      "verdict": "pass",
+      "evidence": "Mantiene cautela sobre México, comercios activos e impacto regional."
+    },
+    {
+      "id": "NEWS-03",
+      "verdict": "fail",
+      "evidence": "Atribuye al comunicado que «la inversión acompañará el desarrollo de su propuesta de pagos», afirmación ausente de esa fuente."
+    },
+    {
+      "id": "NEWS-04",
+      "verdict": "pass",
+      "evidence": "Separa USD 1,24, USD 1,3 y USD 1,2 y mantiene la cifra exacta principal."
+    },
+    {
+      "id": "NEWS-05",
+      "verdict": "pass",
+      "evidence": "Contrasta explícitamente las tres fuentes sobre monto, México y comercios."
+    },
+    {
+      "id": "NEWS-06",
+      "verdict": "pass",
+      "evidence": "Contextualiza stablecoins en la región sin atribuir impacto local a SendaPay."
+    },
+    {
+      "id": "NEWS-07",
+      "verdict": "fail",
+      "evidence": "No incluye bajada en cursiva, subtítulos de cuerpo, enlaces ni línea Fuente."
+    },
+    {
+      "id": "NEWS-08",
+      "verdict": "fail",
+      "evidence": "Inventa un destino de la inversión ausente del paquete factual."
+    }
   ]
 }

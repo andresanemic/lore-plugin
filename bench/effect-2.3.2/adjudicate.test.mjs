@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { adjudicate } from "./adjudicate.mjs";
+import { adjudicate, resolveAdjudicationPaths } from "./adjudicate.mjs";
 
 test("reveals frozen binary judgments into their raw run", () => {
   const criteria = Array.from({ length: 8 }, (_, index) => ({ id: `C-${index + 1}` }));
@@ -15,4 +15,13 @@ test("reveals frozen binary judgments into their raw run", () => {
   assert.equal(row.record.verdict, "fail");
   assert.deepEqual(row.record.failed_criteria, ["C-8"]);
   assert.equal(row.record.criterion_results.length, 8);
+});
+
+test("routes repair adjudication to the repair artifacts", () => {
+  assert.deepEqual(resolveAdjudicationPaths("C:\\suite", true), {
+    blindRoot: "C:\\suite\\results\\repair-blind",
+    rawRoot: "C:\\suite\\results\\codex\\repair\\raw",
+    reviewPath: "C:\\suite\\results\\repair-blind-review.csv",
+    resultsPath: "C:\\suite\\results\\codex\\repair\\results.csv",
+  });
 });
