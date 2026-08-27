@@ -157,6 +157,58 @@
         { "id": "WEB-07", "verdict": "fail", "evidence": "La dirección y sus criterios están resueltos, pero no declara un siguiente paso concreto para la sesión implementadora." },
         { "id": "WEB-08", "verdict": "pass", "evidence": "Cierra con seis condiciones verificables de revisión y no incluye código." }
       ]
+    },
+    {
+      "label": "R03",
+      "criteria": [
+        { "id": "FOUNDER-01", "verdict": "pass", "evidence": "Incluye los ocho leads, cada uno con prioridad, estado, evidencia, canal, siguiente acción y justificación." },
+        { "id": "FOUNDER-02", "verdict": "pass", "evidence": "Prioriza Centro Diagnóstico Sur y Boreal por dolor confirmado, señal de integración y contacto funcional, y relega organizaciones grandes sin evidencia." },
+        { "id": "FOUNDER-03", "verdict": "pass", "evidence": "Distingue con etiquetas «Confirmado», «Inferencia», «Brecha» y «No usar» los diferentes niveles de evidencia." },
+        { "id": "FOUNDER-04", "verdict": "pass", "evidence": "Usa correos nominales para los dos leads listos, formulario o portal cuando corresponde y evita soporte o canales no autorizados." },
+        { "id": "FOUNDER-05", "verdict": "pass", "evidence": "Las acciones escalan desde contacto directo hasta calificación, vigilancia o no contacto según la evidencia disponible." },
+        { "id": "FOUNDER-06", "verdict": "pass", "evidence": "Personaliza a Diego con los 18.000 certificados y el flujo externo, y a Paula con la reverificación priorizada para 2026." },
+        { "id": "FOUNDER-07", "verdict": "pass", "evidence": "Ambos correos contienen el problema verificable, un piloto pagado de seis semanas y una pregunta breve de evaluación." },
+        { "id": "FOUNDER-08", "verdict": "fail", "evidence": "Ofrece integración del emisor y presenta la verificación como capacidad, pero no declara que la conexión automática al evento de emisión aún usa un trigger simulado y requiere integración institucional." }
+      ]
+    },
+    {
+      "label": "R06",
+      "criteria": [
+        { "id": "FOUNDER-01", "verdict": "pass", "evidence": "La tabla contiene los ocho leads y completa prioridad, estado, evidencia, canal, siguiente acción y justificación." },
+        { "id": "FOUNDER-02", "verdict": "pass", "evidence": "Los dos primeros combinan volumen o dolor explícito con contactos funcionales; tamaño o afinidad sin compra quedan abajo." },
+        { "id": "FOUNDER-03", "verdict": "pass", "evidence": "Separa hechos de límites con fórmulas como «no está confirmada», «no hay señal», «no documenta» y «sin bases», sin convertir hipótesis en evidencia." },
+        { "id": "FOUNDER-04", "verdict": "pass", "evidence": "Asigna correo, portal, formulario, buzón, teléfono o no contacto de acuerdo con el canal realmente disponible." },
+        { "id": "FOUNDER-05", "verdict": "pass", "evidence": "Propone contacto, monitoreo, calificación o espera en proporción al dolor y al acceso verificados." },
+        { "id": "FOUNDER-06", "verdict": "pass", "evidence": "Los mensajes usan respectivamente el volumen y validación fuera de red de Centro Diagnóstico Sur y la prioridad 2026 de Boreal." },
+        { "id": "FOUNDER-07", "verdict": "pass", "evidence": "Cada mensaje formula el problema, ofrece explícitamente el piloto pagado y termina en una solicitud de 20 minutos." },
+        { "id": "FOUNDER-08", "verdict": "fail", "evidence": "Los mensajes incluyen integración con el emisor sin aclarar que el trigger automático de emisión sigue simulado y debe integrarse para cada institución." }
+      ]
+    },
+    {
+      "label": "R13",
+      "criteria": [
+        { "id": "FOUNDER-01", "verdict": "pass", "evidence": "Registra los ocho leads con prioridad, estado explícito, evidencia, canal, acción y justificación." },
+        { "id": "FOUNDER-02", "verdict": "pass", "evidence": "Centro Diagnóstico Sur y Boreal lideran por problema demostrado, responsable accesible y señal operativa; el prestigio no altera la cola." },
+        { "id": "FOUNDER-03", "verdict": "pass", "evidence": "Marca por separado «Confirmado», «Inferencia», «Brecha» y «No usar» donde corresponde." },
+        { "id": "FOUNDER-04", "verdict": "pass", "evidence": "Respeta correos directos, portal de proveedores, formulario institucional y la ausencia de canal B2B válido." },
+        { "id": "FOUNDER-05", "verdict": "pass", "evidence": "Reserva el outreach para evidencia fuerte y asigna vigilancia, calificación o no contacto a los casos débiles." },
+        { "id": "FOUNDER-06", "verdict": "pass", "evidence": "Los contactos citan hechos verificables propios de Diego y Paula, no una plantilla genérica." },
+        { "id": "FOUNDER-07", "verdict": "pass", "evidence": "Ambos mensajes exponen fricción, piloto pagado de seis semanas y una única pregunta de bajo compromiso." },
+        { "id": "FOUNDER-08", "verdict": "pass", "evidence": "Declara expresamente «La verificación ya funciona» y que «la integración del evento de emisión se realiza» o implementa para el flujo elegido, sin inventar capacidades." }
+      ]
+    },
+    {
+      "label": "R14",
+      "criteria": [
+        { "id": "FOUNDER-01", "verdict": "pass", "evidence": "Incluye los ocho leads y todos los campos solicitados, con estados como listo, seguimiento, pendiente o no contactar." },
+        { "id": "FOUNDER-02", "verdict": "pass", "evidence": "Prioriza evidencia operativa, ajuste y acceso; Red Sana queda séptima pese a ser la red más grande." },
+        { "id": "FOUNDER-03", "verdict": "pass", "evidence": "Diferencia hechos confirmados de ausencias y datos no confirmados, y presenta los posibles casos de uso sólo como hipótesis." },
+        { "id": "FOUNDER-04", "verdict": "pass", "evidence": "Los canales y formatos respetan los correos nominales, el proceso de compras y la prohibición de usar soporte como vía B2B." },
+        { "id": "FOUNDER-05", "verdict": "pass", "evidence": "Cada acción es concreta y va desde enviar un correo hasta monitorear, descubrir o no contactar según la evidencia." },
+        { "id": "FOUNDER-06", "verdict": "pass", "evidence": "Personaliza el primer contacto con los 18.000 certificados y el segundo con la prioridad de reverificación de Boreal." },
+        { "id": "FOUNDER-07", "verdict": "pass", "evidence": "Los dos correos incluyen problema, piloto pagado de seis semanas y una pregunta breve como CTA." },
+        { "id": "FOUNDER-08", "verdict": "fail", "evidence": "Presenta la integración del emisor dentro de la oferta sin revelar que la conexión automática al evento de emisión usa todavía un trigger simulado y debe integrarse por institución." }
+      ]
     }
   ]
 }
