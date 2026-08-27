@@ -105,6 +105,58 @@
         { "id": "CM-07", "verdict": "pass", "evidence": "Cada alternativa articula una sola tesis y ambos CTA son breves, uno respondible y otro de exploración." },
         { "id": "CM-08", "verdict": "pass", "evidence": "La composición usa pantalla conversacional y shell neutral permitidos; describe, no manda generar." }
       ]
+    },
+    {
+      "label": "R10",
+      "criteria": [
+        { "id": "WEB-01", "verdict": "pass", "evidence": "Define «Tu proyecto ya existe...» con CTA de prueba cerrada y demo para artistas y gestores." },
+        { "id": "WEB-02", "verdict": "pass", "evidence": "Las seis secciones fijan función, titulares, copy, activos y CTA; no son sólo nombres." },
+        { "id": "WEB-03", "verdict": "pass", "evidence": "Incluye una tabla «Disponible en alpha 0.1 / Aún no disponible» y marca la demo como flujo actual." },
+        { "id": "WEB-04", "verdict": "pass", "evidence": "Fija paleta, tipografía, jerarquía, materiales reales y prohibiciones visuales implementables." },
+        { "id": "WEB-05", "verdict": "fail", "evidence": "No define ningún comportamiento de movimiento ni equivalente para reducción de movimiento." },
+        { "id": "WEB-06", "verdict": "pass", "evidence": "«Procesamiento local en tu dispositivo» y «Tú eliges qué archivos abrir», sin garantía absoluta." },
+        { "id": "WEB-07", "verdict": "fail", "evidence": "La salida termina en tono visual y no declara un siguiente paso de implementación para otra sesión." },
+        { "id": "WEB-08", "verdict": "fail", "evidence": "No contiene una lista de criterios de aceptación verificables; no escribe código." }
+      ]
+    },
+    {
+      "label": "R11",
+      "criteria": [
+        { "id": "WEB-01", "verdict": "pass", "evidence": "Hero específico: «Tu proyecto ya existe. Ordénalo para volver a usarlo» con demo y acceso cerrado." },
+        { "id": "WEB-02", "verdict": "pass", "evidence": "Ordena seis bloques y especifica trabajo, contenido y evidencia visual de cada uno." },
+        { "id": "WEB-03", "verdict": "pass", "evidence": "La demo alpha es «la prueba principal» y prohíbe presentar nube, colaboración, PDF, base de fondos, envíos o fecha como actuales." },
+        { "id": "WEB-04", "verdict": "pass", "evidence": "Define materiales, composición, paleta, tipografías, protagonismo y anti-patrones visuales." },
+        { "id": "WEB-05", "verdict": "pass", "evidence": "La gramática «ordenar fragmentos» tiene propósito, duración y equivalente directo bajo `prefers-reduced-motion`." },
+        { "id": "WEB-06", "verdict": "pass", "evidence": "«Tus archivos permanecen en tu dispositivo durante este flujo» sin superlativos de privacidad." },
+        { "id": "WEB-07", "verdict": "fail", "evidence": "Aunque la dirección es implementable, no cierra con un siguiente paso explícito asignable a otra sesión." },
+        { "id": "WEB-08", "verdict": "pass", "evidence": "Incluye seis criterios observables de aceptación y no contiene código." }
+      ]
+    },
+    {
+      "label": "R12",
+      "criteria": [
+        { "id": "WEB-01", "verdict": "pass", "evidence": "El hero fija audiencia, propuesta local, CTA de acceso y demo alpha." },
+        { "id": "WEB-02", "verdict": "pass", "evidence": "Ocho bloques detallan copy, contenido, activos y comportamiento." },
+        { "id": "WEB-03", "verdict": "pass", "evidence": "La demo enumera alcance actual y «Límites de mensaje» excluye capacidades futuras." },
+        { "id": "WEB-04", "verdict": "pass", "evidence": "Paleta, familias tipográficas, activos, layout y prohibiciones están resueltos para implementación." },
+        { "id": "WEB-05", "verdict": "fail", "evidence": "Sólo pide «aparición suave» y no define propósito ni equivalente para `prefers-reduced-motion`." },
+        { "id": "WEB-06", "verdict": "pass", "evidence": "Explica que los archivos permanecen en dispositivo y ordena evitar promesas de seguridad absolutas." },
+        { "id": "WEB-07", "verdict": "fail", "evidence": "No identifica el próximo paso concreto que debe ejecutar otra sesión." },
+        { "id": "WEB-08", "verdict": "fail", "evidence": "No presenta criterios de aceptación verificables; no escribe código." }
+      ]
+    },
+    {
+      "label": "R15",
+      "criteria": [
+        { "id": "WEB-01", "verdict": "pass", "evidence": "Propuesta, bajada, público, CTA primario y demo quedan específicos en el primer bloque." },
+        { "id": "WEB-02", "verdict": "pass", "evidence": "Seis secciones fijan su función, contenido, activos y conducta responsive." },
+        { "id": "WEB-03", "verdict": "pass", "evidence": "La demo dice «disponible hoy» y el bloque contiguo enumera explícitamente lo que la alpha aún no hace." },
+        { "id": "WEB-04", "verdict": "pass", "evidence": "Resuelve paleta, tipografía, composición, uso de capturas, obra y estados accesibles." },
+        { "id": "WEB-05", "verdict": "pass", "evidence": "La única gramática alinea fragmentos con propósito y muestra el estado final bajo `prefers-reduced-motion`." },
+        { "id": "WEB-06", "verdict": "pass", "evidence": "Visibiliza procesamiento local y permanencia en dispositivo sin prometer privacidad absoluta." },
+        { "id": "WEB-07", "verdict": "fail", "evidence": "La dirección y sus criterios están resueltos, pero no declara un siguiente paso concreto para la sesión implementadora." },
+        { "id": "WEB-08", "verdict": "pass", "evidence": "Cierra con seis condiciones verificables de revisión y no incluye código." }
+      ]
     }
   ]
 }
