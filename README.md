@@ -3,14 +3,6 @@
   <img src="https://i.imgur.com/DWYL7vz.png" alt="Lore" width="100%">
 </p>
 
-<!-- Language selector (top of README.md) -->
-
-<p align="right">
-  <strong>Language / Idioma:</strong>
-  <a href="#english">English</a> |
-  <a href="#español">Español</a>
-</p>
-
 <h1 align="center">Lore</h1>
 
 <p align="center">
@@ -576,12 +568,6 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 
 <p align="center">
   <img src="https://i.imgur.com/AKHwfNa.png" alt="Lore" width="100%">
-</p>
-
-<p align="right">
-  <strong>Language / Idioma:</strong>
-  <a href="#english">English</a> |
-  <a href="#español">Español</a>
 </p>
 
 <h1 align="center">Lore</h1>
