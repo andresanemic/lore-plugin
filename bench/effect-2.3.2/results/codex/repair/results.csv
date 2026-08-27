@@ -1,0 +1,7 @@
+task,arm,trial,verdict,read_lore,compliance_hits,violation_hits,cost_usd,input_tokens,output_tokens,cache_read,tool_calls,duration_ms,num_turns
+web-landing,cold,1,pending,false,0,0,,37149,1517,26112,1,36340,1
+web-landing,lore,1,pending,true,0,0,,453772,3016,414464,12,88734,1
+news-draft,lore,1,pending,true,0,0,,235802,2119,203776,7,65815,1
+news-draft,cold,1,pending,false,0,0,,72114,1129,64512,3,47347,1
+founder-crm,lore,1,pending,true,0,0,,505124,3548,454144,13,104542,1
+founder-crm,cold,1,pending,false,0,0,,75107,1768,69632,3,45661,1
