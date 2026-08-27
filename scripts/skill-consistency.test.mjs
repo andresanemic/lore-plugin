@@ -104,8 +104,12 @@ assert.match(casesEn, /Case 17.*Jasmine/is);
   assert.match(casesEs, /Caso 17.*Jazmín/is);
   assert.match(casesEn, /Case 18.*threshold/is);
   assert.match(casesEs, /Caso 18.*umbral/is);
-  assert.match(docs.map((file) => readFileSync(join(root, file), "utf8")).join("\n"), /eighteen case studies/i);
-  assert.match(docs.map((file) => readFileSync(join(root, file), "utf8")).join("\n"), /dieciocho casos de estudio/i);
+  assert.match(casesEn, /Case 19.*complete system/is);
+  assert.match(casesEs, /Caso 19.*sistema completo/is);
+  assert.match(casesEn, /LUS.*Case 18/is);
+  assert.match(casesEs, /LUS.*Caso 18/is);
+  assert.match(docs.map((file) => readFileSync(join(root, file), "utf8")).join("\n"), /nineteen case studies/i);
+  assert.match(docs.map((file) => readFileSync(join(root, file), "utf8")).join("\n"), /diecinueve casos de estudio/i);
 });
 
 test("el perfil profesional es opcional, progresivo y viaja como puntero", () => {
@@ -196,8 +200,9 @@ test("la documentación no conserva afirmaciones ya refutadas", () => {
   assert.doesNotMatch(text, /\bseven (?:documented )?case studies|all seven|\bsiete casos de estudio|las siete evidencias/i);
   assert.doesNotMatch(text, /twelve case studies|doce casos de estudio|eleven of the twelve|once de los doce/i);
   assert.doesNotMatch(text, /seventeen case studies|diecisiete casos de estudio|sixteen of the seventeen|dieciséis de los diecisiete/i);
-  assert.match(text, /eighteen case studies/);
-  assert.match(text, /dieciocho casos de estudio/);
+  assert.doesNotMatch(text, /eighteen case studies|dieciocho casos de estudio/i);
+  assert.match(text, /nineteen case studies/);
+  assert.match(text, /diecinueve casos de estudio/);
   assert.doesNotMatch(text, /three optional extras|tres extras opcionales|a bot with none of the three|un bot sin ninguno de los tres/i);
   assert.doesNotMatch(text, /Five optional extras|Cinco extras opcionales|A bot with none of the five|Un bot sin ninguno de los cinco/i);
   assert.doesNotMatch(text, /turn loose notes into criteria|convertir notas sueltas en criterio/i);

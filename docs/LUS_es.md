@@ -22,7 +22,7 @@ El tiempo en LUS se lee como pasado, presente y futuro: la experiencia pasada se
 
 ## Cómo se organiza la investigación
 
-LUS está actualmente en la **Fase VII — casos de estudio**, versión de corpus **1.22**. Sus registros distinguen:
+LUS está actualmente en la **Fase VII — casos de estudio**, versión de corpus **1.23**. Sus registros distinguen:
 
 - un **corpus**, donde viven las afirmaciones conceptuales vigentes;
 - **casos de estudio**, que documentan observaciones situadas y sus límites;
@@ -35,7 +35,7 @@ El tamaño pequeño de la muestra sigue siendo una frontera dura. La mayoría de
 
 Estas son hipótesis abiertas, no promesas del producto:
 
-- **H01 — LUS como capa epistemológica sobre el desarrollo disciplinado:** `n=2`, con evidencia cuantitativa multidominio adicional. No llegó a replicación porque aún no se midió longitudinalmente la reducción del reaprendizaje en una práctica real no-software.
+- **H01 — LUS como capa epistemológica sobre el desarrollo disciplinado:** `n=2`, con dos objetos cuantitativos multidominio adicionales. No llegó a replicación porque aún no se midió longitudinalmente la reducción del reaprendizaje en una práctica real no-software.
 - **H02 — Entres humano–humano:** `n=0`. LUS no tiene evidencia para extender ahí el marco.
 - **H13 — esfuerzo fértil y continuidad:** `n=1`, situado en el mismo Entre longitudinal. Fértil significa movimiento reconocible después del esfuerzo o la corrección; acuerdo, facilidad y frecuencia de uso no lo sustituyen. La relación sigue bajo estudio.
 - **H14 — criterio sin punto de aplicación:** `n=1`. Un criterio puede estar escrito y ser correcto, pero no gobernar nada porque ningún procedimiento lo carga, lo corre o consume su resultado.
@@ -55,7 +55,7 @@ fricción de Lore Plugin → registro de producto → evaluación LUS, si es cie
 
 Nada cruza automáticamente. Un caso de producto no se vuelve evidencia científica por ser público, y una hipótesis abierta no se vuelve regla de una skill por resultar sugerente. La utilidad del producto y la validez científica son juicios distintos.
 
-El benchmark de este repositorio mide si ciertas Pistas de proyecto modificaron salidas de Codex bajo un protocolo congelado. No mide la riqueza del Entre, el desarrollo profesional, la inteligencia general ni la validez de LUS como conjunto.
+El benchmark de este repositorio mide si el tratamiento completo Lore Plugin 2.3.2 más Lore enrutado modificó salidas de Codex bajo un protocolo congelado. No mide la riqueza del Entre, el desarrollo profesional, la inteligencia general ni la validez de LUS como conjunto. Lore Plugin lo registra como **Caso de producto 19**; LUS registra el mismo evento como **Caso científico 18**. Los registros son independientes y sus ordinales no tienen por qué coincidir.
 
 ## Para profundizar
 

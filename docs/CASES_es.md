@@ -17,9 +17,9 @@ Para seguir cada caso hace falta el mismo vocabulario que el kit usa cuando trab
 - Un **injerto** juzga criterio que llega de afuera contra la finalidad de tu proyecto: echa raíces o se rechaza, y lo que crece después te pertenece.
 - **Cristalizar** es sacar una fotografía trazable en un solo Markdown, extraíble de vuelta a una carpeta, sin reemplazar el Lore vivo.
 
-> **Estatus:** son casos, no demostraciones. Son pocos, y **diecisiete de las dieciocho evidencias vienen del mismo investigador**, así que restringen cómo usamos el kit sin pretender ley. El Caso 08 añade medición controlada sin borrar esa frontera. Los que miden el kit contra sí mismo: el 10, un día entero contra un Lore vivo; el 11, dos versiones propias cabeza a cabeza con juez a ciegas; el 13, bots vivos cristalizados y juzgados como fotografía; el 14, un ecosistema instalado subido sin reescribir lo ganado; el 18, 31 árboles en ocho áreas con dos modelos por rol.
+> **Estatus:** son casos, no demostraciones. Son pocos, y **dieciocho de las diecinueve evidencias vienen del mismo investigador**, así que restringen cómo usamos el kit sin pretender ley. El Caso 08 añade medición controlada sin borrar esa frontera. Los que miden el kit contra sí mismo: el 10, un día entero contra un Lore vivo; el 11, dos versiones propias cabeza a cabeza con juez a ciegas; el 13, bots vivos cristalizados y juzgados como fotografía; el 14, un ecosistema instalado subido sin reescribir lo ganado; el 18, 31 árboles en ocho áreas con dos modelos por rol; el 19, el sistema completo 2.3.2 frente a su ausencia en cuatro dominios de trabajo.
 >
-> **El Caso 12 no viene del investigador** y vale distinto por eso: alguien de afuera instaló el kit y lo usó una hora. Rompe la frontera de autoría de los otros diecisiete y abre otra, más chica y declarada dentro del caso.
+> **El Caso 12 no viene del investigador** y vale distinto por eso: alguien de afuera instaló el kit y lo usó una hora. Rompe la frontera de autoría de los otros dieciocho y abre otra, más chica y declarada dentro del caso.
 
 <details>
 <summary><b>Caso 01 — El Lore como forma operativa de un proyecto entero</b></summary>
@@ -326,6 +326,23 @@ El primer defecto real no estaba en ningún módulo de Lore — estaba en el scr
 **Qué cambió en el kit:** ninguna lógica de ninguna skill. Lo que cambió es la vara vigente para esta forma de trabajo: un modelo caro que arbitra cada árbol antes de que se escriba, uno barato que ejecuta el tramo mecánico sin margen para inventar criterio, y cada commit revisado contra el diff real y no contra el informe que el modelo barato escribió sobre su propio trabajo. `use-lore` ahora nombra este patrón directamente — sugiere `/model` para el tramo mecánico de un lote en vez de un subagente, porque un subagente relee todo el árbol de Lore antes de poder empezar.
 
 **Frontera declarada.** Un investigador, una sesión orquestadora, un árbitro con veto sobre cada árbol antes de que se escribiera. No prueba qué pasa si el ejecutor barato escribe sin ese árbitro presente, y los 31 árboles comparten un mismo diseño de aprobación — no son 31 réplicas independientes. LUS registra el mismo evento como Caso 16, evidencia abierta para sus propias hipótesis sobre criterio desconectado y corrección mutua; el contador ahí no sube por la misma razón que no sube acá — mismo investigador, misma sesión.
+
+</details>
+
+<details>
+<summary><b>Caso 19 — El sistema completo llega más veces a la meta, pero tarda más por corrida</b></summary>
+
+<br>
+
+El benchmark emparejado comparó el **tratamiento completo** —Lore Plugin 2.3.2 más Lore de proyecto enrutado— con la misma tarea, dossier factual y modelo de ejecución sin ninguno de los dos. Cubrió dirección de landing, redacción de noticias, community management y CRM founder: **16 primeras pasadas**, seguidas solo donde hizo falta por **10 reparaciones controladas**. GPT-5.6 Sol medium diseñó el protocolo congelado y adjudicó ocho criterios binarios por salida mediante paquetes sin marca de brazo; GPT-5.6 Terra medium ejecutó todas las corridas aisladas.
+
+Al primer intento, el brazo frío cumplió **53/64 criterios (82,8 %)** y el brazo Lore **59/64 (92,2 %)**: **+9,4 puntos porcentuales**. Los entregables completos de primera pasada se duplicaron (**2/8 → 4/8**). En un máximo de dos intentos, frío alcanzó **6/8 metas** y Lore **8/8**, con dos fallos residuales en frío y ninguno con Lore.
+
+El resultado no sostiene una afirmación de rapidez de reloj. Las metas frías exitosas promediaron **64,0 segundos**, con dos observaciones censuradas tras agotar el límite; Lore promedió **110,6 segundos** en ocho éxitos. «Más rápido a la meta» significa acá menos ciclos de revisión y ninguna falla residual, no menos segundos. El input informado también fue materialmente mayor con Lore y gran parte estaba cacheado; ninguno de los totales mide costo monetario.
+
+**Qué cambió en el producto:** el benchmark público ahora reporta por separado cumplimiento al primer intento, entregables completos y metas dentro de dos intentos, con juicios ciegos y salidas crudas auditables en [`bench/effect-2.3.2`](../bench/effect-2.3.2/). No cambió ningún contrato de skill, versión del paquete ni release.
+
+**Frontera declarada.** El tratamiento agrupa plugin y Lore, así que no permite aislar ninguno de los componentes. Cuatro dossiers sintéticos, dos ensayos emparejados, una familia de modelos y un juez del mismo ecosistema de investigación no establecen un efecto universal ni reducción longitudinal del reaprendizaje. El registro científico documenta el mismo evento como **Caso 18 de LUS**; este registro de producto lo llama **Caso 19 de Lore Plugin** porque cada repositorio avanza su propia secuencia. El ordinal no es un identificador compartido.
 
 </details>
 

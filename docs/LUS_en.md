@@ -22,7 +22,7 @@ Time in LUS is read as past, present and future: past experience is distilled or
 
 ## How the research is organized
 
-LUS is currently in **Phase VII — case studies**, corpus version **1.22**. Its records distinguish:
+LUS is currently in **Phase VII — case studies**, corpus version **1.23**. Its records distinguish:
 
 - a **corpus**, where the program's current conceptual claims live;
 - **case studies**, which document situated observations and their limits;
@@ -35,7 +35,7 @@ Small samples remain a hard boundary. Most cases come from one researcher, one e
 
 These are open hypotheses, not product claims:
 
-- **H01 — LUS as an epistemological layer over disciplined development:** `n=2`, with additional quantitative multidomain evidence. It has not reached replication because longitudinal reduction of relearning in a real non-software practice has not been measured.
+- **H01 — LUS as an epistemological layer over disciplined development:** `n=2`, with two additional quantitative multidomain objects. It has not reached replication because longitudinal reduction of relearning in a real non-software practice has not been measured.
 - **H02 — human–human Betweens:** `n=0`. LUS has no evidence for extending the framework there.
 - **H13 — fertile effort and continuity:** `n=1`, situated in the same long-running Between. Fertility means recognizable movement after effort or correction; agreement, ease and frequency of use are not substitutes. The relation remains under study.
 - **H14 — criteria without a point of application:** `n=1`. A criterion may be written and correct yet govern nothing because no procedure loads it, runs it or consumes its result.
@@ -55,7 +55,7 @@ Lore Plugin friction → product record → LUS evaluation, if scientifically re
 
 Nothing crosses automatically. A product case does not become scientific evidence merely because it is public, and an open hypothesis does not become a skill rule because it is suggestive. Product usefulness and scientific validity are different judgments.
 
-The benchmark in this repository measures whether selected project clues changed Codex outputs under a frozen protocol. It does not measure the richness of the Between, professional development, general intelligence, or the validity of LUS as a whole.
+The benchmark in this repository measures whether the complete Lore Plugin 2.3.2 plus routed-Lore treatment changed Codex outputs under a frozen protocol. It does not measure the richness of the Between, professional development, general intelligence, or the validity of LUS as a whole. Lore Plugin records it as **Product Case 19**; LUS records the same event as **Scientific Case 18**. The ledgers are independent, so their ordinals are not expected to match.
 
 ## Reading further
 

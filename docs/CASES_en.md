@@ -10,9 +10,9 @@ Lore was not designed ahead of time: every decision came from applying it to rea
 
 The kit's own working vocabulary, for following the cases: **distill** turns a lived scar into a constraining rule by deliberate pass — nothing gets in on its own; **threshold** means the machine proposes with content in view and you approve before anything is written; **area** is the mother folder of a craft, owning shared criteria projects inherit; **bot** is a working folder keeping no criteria of its own — it **routes** each task to the body that owns it; **graft** judges outside criteria against your project's purpose; **crystallize** exports a traceable single-Markdown snapshot, extractable back into a folder, never replacing the live Lore.
 
-> **Status:** these are cases, not proofs — few, and **seventeen of the eighteen documented come from the same researcher**. What they claim constrains use; it does not pretend to be law. Case 08 adds controlled measurement without removing that boundary; Cases 09, 10, 11, 13, 14 and 18 measure this kit against itself — a full day against a live Lore (10), two of its own versions judged blind (11), crystallized bots judged by a third person's bar (13), an installed ecosystem raised without rewriting what was earned (14), 31 trees across eight areas with two models split by role (18).
+> **Status:** these are cases, not proofs — few, and **eighteen of the nineteen documented come from the same researcher**. What they claim constrains use; it does not pretend to be law. Case 08 adds controlled measurement without removing that boundary; Cases 09, 10, 11, 13, 14, 18 and 19 measure this kit against itself — a full day against a live Lore (10), two of its own versions judged blind (11), crystallized bots judged by a third person's bar (13), an installed ecosystem raised without rewriting what was earned (14), 31 trees across eight areas with two models split by role (18), and the complete 2.3.2 system against its absence across four work domains (19).
 >
-> **Case 12 is the first from outside**: someone else installed the kit and used it for an hour — breaking the seventeen's shared boundary on authorship, opening a smaller one declared inside the case.
+> **Case 12 is the first from outside**: someone else installed the kit and used it for an hour — breaking the other eighteen's shared boundary on authorship, opening a smaller one declared inside the case.
 
 <details>
 <summary><b>Case 01 — Lore as the operational form of an entire project</b></summary>
@@ -318,6 +318,23 @@ The first real defect was not in any Lore module — it was in the script orches
 **What it changed in the kit:** no skill's logic — the standing bar for this shape of work. The expensive model arbitrates every tree before it is written, the cheap one executes mechanically, and every commit is checked against the real diff rather than the report the cheap model wrote about its own work. `use-lore` names the pattern directly: suggest `/model` for the mechanical part of a batch instead of a subagent, which re-reads the whole Lore tree before it can start.
 
 **Declared boundary.** One researcher, one orchestrating session, one arbiter with veto on every tree before it was written. It does not test the cheap executor writing without that arbiter present, and the 31 trees share one approval design — not 31 independent replications. LUS records the same event as Case 16, open evidence on disconnected criteria and mutual correction; the count does not rise there either — same researcher, same session.
+
+</details>
+
+<details>
+<summary><b>Case 19 — The complete system reaches more goals, but takes longer per run</b></summary>
+
+<br>
+
+The paired benchmark compared the **complete treatment** —Lore Plugin 2.3.2 plus routed project Lore— with the same task, factual dossier and execution model without either. It covered landing direction, news writing, community management and founder CRM work: **16 first passes**, followed only where needed by **10 controlled repairs**. GPT-5.6 Sol medium designed the frozen protocol and adjudicated eight binary criteria per output through arm-blind packets; GPT-5.6 Terra medium executed every isolated run.
+
+At the first attempt, the cold arm met **53/64 criteria (82.8%)** and the Lore arm **59/64 (92.2%)**: **+9.4 percentage points**. Complete first-pass deliverables doubled (**2/8 → 4/8**). Within two attempts, cold reached **6/8 goals** and Lore **8/8**, leaving two residual cold failures and none with Lore.
+
+The result does not support a wall-clock speed claim. Successful cold goals averaged **64.0 seconds**, with two observations censored after the attempt limit; Lore averaged **110.6 seconds** across eight successes. “Faster to goal” here means fewer review cycles and no residual failures, not fewer seconds. Reported input was also materially higher with Lore, much of it cached; neither total is a monetary-cost measure.
+
+**What it changed in the product:** the public benchmark now reports first-pass compliance, complete deliverables and goals within two attempts separately, with blind judgments and raw outputs auditable in [`bench/effect-2.3.2`](../bench/effect-2.3.2/). No skill contract, package version or release changed.
+
+**Declared boundary.** The treatment bundles plugin and Lore, so it cannot isolate either component. Four synthetic dossiers, two paired trials, one model family and a judge from the same research ecosystem do not establish a universal effect or longitudinal reduction in relearning. The scientific ledger records the same event as **LUS Case 18**; this product ledger calls it **Lore Plugin Case 19** because each repository advances its own sequence. The ordinal is not a shared identifier.
 
 </details>
 
