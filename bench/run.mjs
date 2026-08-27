@@ -16,9 +16,11 @@ import { readFileSync, writeFileSync, mkdirSync, appendFileSync, existsSync, rea
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { isRateLimit, shouldRun } from "./resume.mjs";
-import { parseCodexStream, resolveCodexBin } from "./providers.mjs";
+import { buildCodexArgs, parseCodexStream, removeStagedWorkspace, resolveCodexInvocation, resolveInstalledLoreRoot, stageCodexWorkspace } from "./providers.mjs";
 import { resolveSuite } from "./suite.mjs";
 import { buildRepairPrompt, failedOriginal } from "./repair.mjs";
+import { gradeTask, validateTaskGrader } from "./effect-2.3.2/grading.mjs";
+import { assertFrozenExecution, selectRuns, writeJsonAtomic } from "./effect-2.3.2/protocol.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const argv = process.argv.slice(2);
@@ -33,34 +35,6 @@ const GRADE_SCOPE = TASK_DATA._grade_scope ?? "code";
 const ARMS = ["cold", "lore"];
 const TIMEOUT_MS = 300_000;
 
-// --- grader -----------------------------------------------------------------
-// pass = pegan TODAS las de compliance y NINGUNA de violation.
-// Una lista de compliance vacía significa "basta con no violar" (identity-font).
-//
-// Se juzga el CÓDIGO, no la prosa: si la respuesta trae bloques cercados, solo esos
-// entran al grader. Sin esto, un brazo que explica "nunca uses Compress-Archive"
-// reprobaría por nombrar la trampa que está evitando — un falso negativo que
-// castigaría justo al brazo con lore.
-function codeOnly(text) {
-  const blocks = text.match(/```[\s\S]*?```/g);
-  return blocks ? blocks.join("\n") : text;
-}
-
-function grade(task, raw) {
-  const text = GRADE_SCOPE === "full" ? raw : codeOnly(raw);
-  const hit = (pattern) => {
-    const prefix = pattern.match(/^\(\?([im]+)\)/);
-    const flags = new Set(["m", ...(prefix?.[1] ?? "")]);
-    const re = prefix ? pattern.slice(prefix[0].length) : pattern;
-    return new RegExp(re, [...flags].join("")).test(text);
-  };
-  const compliance = task.compliance.filter(hit);
-  const violation = task.violation.filter(hit);
-  const verdict =
-    violation.length > 0 || compliance.length < task.compliance.length ? "fail" : "pass";
-  return { verdict, compliance, violation };
-}
-
 // --- una corrida ------------------------------------------------------------
 function runOne(task, arm, model, provider, reasoningEffort, repairPrompt = null) {
   return new Promise((resolve) => {
@@ -73,20 +47,26 @@ function runOne(task, arm, model, provider, reasoningEffort, repairPrompt = null
       "--strict-mcp-config",            // sin MCP heredado
       "--allowed-tools", "Read,Grep,Glob",
     ];
-    const codexArgs = [
-      "--ask-for-approval", "never", "--model", model,
-      "-c", `model_reasoning_effort="${reasoningEffort}"`,
-      "exec", "--ephemeral", "--json", "--ignore-user-config", "--ignore-rules",
-      "--sandbox", "read-only", "-",
-    ];
-    const command = provider === "codex" ? resolveCodexBin() : "claude";
-    const args = provider === "codex" ? codexArgs : claudeArgs;
+    const codexArgs = buildCodexArgs({ arm, model, reasoningEffort });
+    const invocation = provider === "codex" ? resolveCodexInvocation() : { command: "claude", prefix: [] };
+    const command = invocation.command;
+    const args = [...invocation.prefix, ...(provider === "codex" ? codexArgs : claudeArgs)];
+    const fixture = task.fixture
+      ? join(SUITE.root, "fixtures", task.fixture, arm)
+      : join(SUITE.root, "fixtures", arm);
+    const runtime = provider === "codex" && TASK_DATA.execution?.plugin_version
+      ? stageCodexWorkspace({
+          fixture,
+          arm,
+          suiteRoot: SUITE.root,
+          pluginRoot: resolveInstalledLoreRoot(TASK_DATA.execution.plugin_version),
+          version: TASK_DATA.execution.plugin_version,
+        })
+      : null;
     const started = Date.now();
     const child = spawn(command, args, {
-      cwd: task.fixture
-        ? join(SUITE.root, "fixtures", task.fixture, arm)
-        : join(SUITE.root, "fixtures", arm),
-      shell: true,
+      cwd: runtime?.workspace ?? fixture,
+      shell: false,
       windowsHide: true,
     });
 
@@ -102,9 +82,15 @@ function runOne(task, arm, model, provider, reasoningEffort, repairPrompt = null
 
     child.on("close", (code) => {
       clearTimeout(timer);
+      if (runtime) removeStagedWorkspace(runtime.root, SUITE.root);
       resolve(provider === "codex"
         ? parseCodexStream(out, err, code, Date.now() - started)
         : parseStream(out, err, code));
+    });
+    child.on("error", (error) => {
+      clearTimeout(timer);
+      if (runtime) removeStagedWorkspace(runtime.root, SUITE.root);
+      resolve({ text: error.message, error: true, stderr: error.stack ?? error.message, read_lore: false, tool_calls: 0, cost_usd: null, input_tokens: 0, output_tokens: 0, cache_read: 0, duration_ms: Date.now() - started, num_turns: 0, tools: [] });
     });
   });
 }
@@ -157,14 +143,11 @@ function toolsOf(events) {
 function selftest() {
   let failed = 0;
   for (const t of TASKS) {
-    if (!t.selftest) { console.error(`SIN SELFTEST: ${t.id}`); failed++; continue; }
-    const bad = grade(t, t.selftest.bad).verdict;
-    const good = grade(t, t.selftest.good).verdict;
-    if (bad !== "fail") { console.error(`FALLA: "${t.id}" da ${bad} sobre su violación`); failed++; }
-    if (good !== "pass") { console.error(`FALLA: "${t.id}" da ${good} sobre su versión correcta`); failed++; }
+    try { validateTaskGrader(t); }
+    catch (error) { console.error(`FALLA: "${t.id}": ${error.message}`); failed++; }
   }
   if (failed) { console.error(`\n${failed} fallo(s) en el self-check del grader.`); process.exit(1); }
-  console.log(`Self-check OK: ${TASKS.length} tareas separan su violación de su cumplimiento.`);
+  console.log(`Self-check OK: ${TASKS.length} tareas tienen grader o rúbrica válida.`);
 }
 
 // --- salida -----------------------------------------------------------------
@@ -223,7 +206,7 @@ function regradeSaved() {
   for (const f of files) {
     const r = JSON.parse(readFileSync(join(RAW, f), "utf8"));
     const task = TASKS.find((t) => t.id === r.task);
-    const g = r.error ? { verdict: "n/a", compliance: [], violation: [] } : grade(task, r.text);
+    const g = r.error ? { verdict: "n/a", compliance: [], violation: [] } : gradeTask(task, r.text, GRADE_SCOPE);
     if (g.verdict !== r.verdict) console.log(`  ${r.verdict} → ${g.verdict}   ${f}`);
     if (r.events) { r.tools = toolsOf(r.events); delete r.events; }  // transcripts viejos
     writeFileSync(join(RAW, f), JSON.stringify({ ...r, ...g }, null, 2));
@@ -244,17 +227,22 @@ const trials = Number(flag("-n", flag("--trials", 3)));
 const model = flag("--model", provider === "codex" ? "gpt-5.6-sol" : "sonnet");
 const reasoningEffort = flag("--reasoning-effort", "medium");
 const retryNa = argv.includes("--retry-na");
+const waveFlag = flag("--wave", null);
+const wave = waveFlag == null ? null : Number(waveFlag);
 const tasks = only ? TASKS.filter((t) => t.id === only) : TASKS;
 if (!tasks.length) { console.error(`No existe la tarea "${only}".`); process.exit(2); }
+
+if (TASK_DATA.execution?.plugin_version) {
+  const preflight = JSON.parse(readFileSync(join(SUITE.root, "preflight.json"), "utf8"));
+  assertFrozenExecution({ execution: TASK_DATA.execution, model, reasoningEffort, trials, preflight });
+}
 
 selftest();
 
 mkdirSync(RAW, { recursive: true });
 if (!existsSync(CSV)) writeFileSync(CSV, HEAD);
 
-const runs = tasks.flatMap((task) => ARMS.flatMap((arm) =>
-  Array.from({ length: trials }, (_, i) => ({ task, arm, trial: i + 1 }))
-)).filter(({ task, arm, trial }) => {
+const runs = selectRuns(tasks, trials, wave).filter(({ task, arm, trial }) => {
   const name = `${task.id}__${arm}__t${trial}.json`;
   if (repair) {
     const originalPath = join(BASE_RESULTS, "raw", name);
@@ -274,13 +262,17 @@ for (const { task, arm, trial } of runs) {
       const original = repair
         ? JSON.parse(readFileSync(join(BASE_RESULTS, "raw", name), "utf8"))
         : null;
-      const repairPrompt = original ? buildRepairPrompt(task, original.text) : null;
+      const repairPrompt = original
+        ? buildRepairPrompt(task, original.text, original.failed_criteria ?? [])
+        : null;
       const r = await runOne(task, arm, model, provider, reasoningEffort, repairPrompt);
-      const g = r.error ? { verdict: "n/a", compliance: [], violation: [] } : grade(task, r.text);
+      const g = r.error
+        ? { verdict: "n/a", compliance: [], violation: [], failed_criteria: [] }
+        : gradeTask(task, r.text, GRADE_SCOPE);
 
-      writeFileSync(
+      writeJsonAtomic(
         join(RAW, name),
-        JSON.stringify({ task: task.id, arm, trial, attempt: repair ? 2 : 1, model, reasoning_effort: reasoningEffort, ...g, ...r }, null, 2)
+        { task: task.id, arm, trial, attempt: repair ? 2 : 1, model, reasoning_effort: reasoningEffort, ...g, ...r },
       );
 
       if (isRateLimit(r.text)) {

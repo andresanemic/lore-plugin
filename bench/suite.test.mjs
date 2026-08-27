@@ -13,6 +13,11 @@ test("aísla tareas, fixtures y resultados de una suite nombrada", () => {
   assert.equal(config.root, "C:\\repo\\bench\\writing");
 });
 
+test("acepta una suite con versión semántica en el nombre", () => {
+  const config = resolveSuite("C:\\repo\\bench", "effect-2.3.2");
+  assert.equal(config.root, "C:\\repo\\bench\\effect-2.3.2");
+});
+
 test("rechaza nombres de suite que puedan escapar de bench", () => {
   assert.throws(() => resolveSuite("C:\\repo\\bench", "../fuera"), /Suite inválida/);
 });

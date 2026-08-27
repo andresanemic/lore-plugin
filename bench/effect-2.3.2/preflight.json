@@ -1,0 +1,20 @@
+{
+  "model": "gpt-5.6-terra",
+  "reasoning_effort": "medium",
+  "exposure_control": "Both arms ignore user config; the lore workspace alone receives the exact public 2.3.2 skills from the installed release cache.",
+  "cold": {
+    "lore_plugin": false,
+    "text": "LORE_UNAVAILABLE",
+    "error": false,
+    "tool_calls": 1
+  },
+  "lore": {
+    "lore_plugin": true,
+    "version": "2.3.2",
+    "read_lore": true,
+    "text": "LORE_AVAILABLE",
+    "error": false,
+    "tool_calls": 6,
+    "other_plugins": []
+  }
+}

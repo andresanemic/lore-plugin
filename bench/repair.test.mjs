@@ -19,3 +19,16 @@ test("la reparación conserva encargo, respuesta y feedback", () => {
   assert.match(prompt, /usa Y/);
   assert.match(prompt, /respuesta completa corregida/);
 });
+
+test("la reparación semántica revela solo los criterios fallidos", () => {
+  const prompt = buildRepairPrompt(
+    { prompt: "Haz X", criteria: [
+      { id: "X-01", description: "cumple uno" },
+      { id: "X-02", description: "cumple dos" },
+    ] },
+    "respuesta anterior",
+    ["X-02"],
+  );
+  assert.match(prompt, /X-02.*cumple dos/s);
+  assert.doesNotMatch(prompt, /X-01|cumple uno/);
+});

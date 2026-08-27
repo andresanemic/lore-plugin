@@ -9,3 +9,6 @@ CLAUDE.md
 AGENTS.md
 .specify/
 .claude/skills/
+bench/**/preflight.failed.json
+bench/**/.runtime-*/
+bench/**/.preflight-runtime-*/

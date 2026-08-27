@@ -1,7 +1,10 @@
 import assert from "node:assert/strict";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
 import test from "node:test";
 
-import { parseCodexStream, resolveCodexBin } from "./providers.mjs";
+import { buildCodexArgs, parseCodexStream, removeStagedWorkspace, resolveCodexBin, resolveCodexInvocation, stageCodexWorkspace } from "./providers.mjs";
 
 test("resuelve el codex.cmd global de npm en Windows", () => {
   const seen = [];
@@ -41,4 +44,48 @@ test("marca como error un turno fallido de Codex", () => {
   const result = parseCodexStream(stream, "detalle", 1, 50);
   assert.equal(result.error, true);
   assert.match(result.text, /rate limit/);
+});
+
+test("evita shell en Windows ejecutando el wrapper JS con Node", () => {
+  const invocation = resolveCodexInvocation("win32", { APPDATA: "C:\\Users\\ana\\AppData\\Roaming" }, () => true);
+  assert.equal(invocation.command, process.execPath);
+  assert.deepEqual(invocation.prefix, ["C:\\Users\\ana\\AppData\\Roaming\\npm\\node_modules\\@openai\\codex\\bin\\codex.js"]);
+});
+
+test("aísla cold de la configuración de usuario", () => {
+  const args = buildCodexArgs({ arm: "cold", model: "gpt-5.6-terra", reasoningEffort: "medium" });
+  assert.ok(args.includes("--ignore-user-config"));
+  assert.ok(args.includes("--ignore-rules"));
+  assert.ok(args.includes("read-only"));
+});
+
+test("aísla lore de la configuración de usuario", () => {
+  const args = buildCodexArgs({ arm: "lore", model: "gpt-5.6-terra", reasoningEffort: "medium" });
+  assert.ok(args.includes("--ignore-user-config"));
+  assert.doesNotMatch(args.join("\n"), /plugins\./);
+});
+
+test("monta el release sólo en lore y limpia únicamente su runtime", () => {
+  const sandbox = mkdtempSync(join(tmpdir(), "lore-stage-test-"));
+  try {
+    const suite = join(sandbox, "suite");
+    const fixture = join(suite, "fixtures", "web", "lore");
+    const plugin = join(sandbox, "plugin");
+    mkdirSync(join(fixture, "lore"), { recursive: true });
+    mkdirSync(join(plugin, ".codex-plugin"), { recursive: true });
+    mkdirSync(join(plugin, "skills", "use-lore"), { recursive: true });
+    writeFileSync(join(fixture, "CLAUDE.md"), "contract");
+    writeFileSync(join(fixture, "lore", "index.md"), "index");
+    writeFileSync(join(suite, "fixtures", "web", "dossier.md"), "facts");
+    writeFileSync(join(plugin, ".codex-plugin", "plugin.json"), JSON.stringify({ version: "2.3.2" }));
+    writeFileSync(join(plugin, "skills", "use-lore", "SKILL.md"), "skill");
+    const staged = stageCodexWorkspace({ fixture, arm: "lore", suiteRoot: suite, pluginRoot: plugin, version: "2.3.2" });
+    assert.equal(readFileSync(join(staged.workspace, ".agents", "skills", "use-lore", "SKILL.md"), "utf8"), "skill");
+    assert.equal(readFileSync(join(staged.root, "dossier.md"), "utf8"), "facts");
+    assert.equal(existsSync(join(staged.root, "cold")), false);
+    removeStagedWorkspace(staged.root, suite);
+    assert.equal(existsSync(staged.root), false);
+  } finally {
+    rmSync(sandbox, { recursive: true, force: true });
+  }
 });
