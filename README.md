@@ -601,7 +601,7 @@ Es un bucle de reexplicaciones y soluciones mediocres que ya habías descartado.
 
 ---
 
-<h3 align="center"><strong>+44,5 puntos de cumplimiento multidominio al primer intento</strong>.</h3>
+<h3 align="center"><strong>+9,4 puntos de cumplimiento multidominio al primer intento</strong>.</h3>
 
 <p align="center">
   <i>Un kit SDD que te permite hacer fine-tuning local de tus tareas — y el que entrena eres tú.</i>

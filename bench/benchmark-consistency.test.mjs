@@ -18,6 +18,8 @@ test("the public README matches the audited 2.3.2 effect summary", () => {
   assert.equal(summary.first_pass.delta_pp, 9.375);
   assert.equal(summary.attempts_to_goal.cold.reached, 6);
   assert.equal(summary.attempts_to_goal.lore.reached, 8);
+  assert.match(readme, /\+9,4 puntos de cumplimiento multidominio al primer intento/);
+  assert.doesNotMatch(readme, /44[,.]5 puntos de cumplimiento multidominio/);
   assert.doesNotMatch(readme, /37%|65%|118 s|85 s|4[,.]116|3[,.]119/);
 });
 
