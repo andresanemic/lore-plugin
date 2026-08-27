@@ -21,11 +21,11 @@ export function renderPacket(label, task, text) {
   return `# Anonymous run ${label}\n\nTask: ${task.id}\n\n## Frozen rubric\n\n${rubric}\n\n## Output\n\n${text.trim()}\n`;
 }
 
-export function prepareBlind({ tasks, rawRoot, outputRoot, randomized = shuffle }) {
+export function prepareBlind({ tasks, rawRoot, outputRoot, expectedCount = tasks.length * 4, randomized = shuffle }) {
   const keyPath = join(outputRoot, "key.json");
   if (existsSync(keyPath)) throw new Error("Blind key already exists; refusing to reshuffle.");
   const files = readdirSync(rawRoot).filter((name) => name.endsWith(".json")).sort();
-  if (files.length !== tasks.length * 4) throw new Error(`Expected ${tasks.length * 4} primary runs, found ${files.length}.`);
+  if (files.length !== expectedCount) throw new Error(`Expected ${expectedCount} runs, found ${files.length}.`);
   const records = files.map((file) => ({ file, ...JSON.parse(readFileSync(join(rawRoot, file), "utf8")) }));
   if (records.some((record) => record.error || record.verdict !== "pending")) throw new Error("Every primary run must be valid and pending.");
 
@@ -53,7 +53,12 @@ export function prepareBlind({ tasks, rawRoot, outputRoot, randomized = shuffle 
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const tasks = JSON.parse(readFileSync(join(HERE, "tasks.json"), "utf8")).tasks;
-  const outputRoot = join(HERE, "results", "blind");
-  const count = prepareBlind({ tasks, rawRoot: join(HERE, "results", "codex", "raw"), outputRoot });
+  const repair = process.argv.includes("--repair");
+  const outputRoot = join(HERE, "results", repair ? "repair-blind" : "blind");
+  const rawRoot = join(HERE, "results", "codex", ...(repair ? ["repair", "raw"] : ["raw"]));
+  const expectedCount = repair
+    ? readdirSync(join(HERE, "results", "codex", "raw")).filter((file) => file.endsWith(".json") && JSON.parse(readFileSync(join(HERE, "results", "codex", "raw", file), "utf8")).verdict === "fail").length
+    : tasks.length * 4;
+  const count = prepareBlind({ tasks, rawRoot, outputRoot, expectedCount });
   console.log(`Prepared ${count} anonymous packets. Do not open results/blind/key.json before judgments are frozen.`);
 }

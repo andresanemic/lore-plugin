@@ -23,3 +23,13 @@ test("prepares arm-blind packets and a separate key", () => {
   assert.equal(key.length, 4);
   assert.throws(() => prepareBlind({ tasks: [task], rawRoot: raw, outputRoot: out }), /already exists/);
 });
+
+test("accepts a frozen repair count smaller than the primary design", () => {
+  const root = mkdtempSync(join(tmpdir(), "blind-repair-"));
+  const raw = join(root, "raw");
+  const out = join(root, "blind");
+  mkdirSync(raw);
+  const task = { id: "task", criteria: Array.from({ length: 8 }, (_, index) => ({ id: `C-${index + 1}`, description: "Criterion" })) };
+  for (const arm of ["cold", "lore"]) writeFileSync(join(raw, `task__${arm}__t1.json`), JSON.stringify({ task: "task", arm, trial: 1, verdict: "pending", error: false, text: arm }));
+  assert.equal(prepareBlind({ tasks: [task], rawRoot: raw, outputRoot: out, expectedCount: 2, randomized: (items) => items }), 2);
+});
