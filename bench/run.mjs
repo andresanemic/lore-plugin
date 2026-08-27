@@ -289,7 +289,7 @@ for (const { task, arm, trial } of runs) {
       rows.push(row);
 
       done++;
-      const mark = g.verdict === "pass" ? "PASS" : g.verdict === "fail" ? "fail" : "n/a ";
+      const mark = g.verdict === "pass" ? "PASS" : g.verdict === "fail" ? "fail" : g.verdict.padEnd(7);
       console.log(
         `[${String(done).padStart(3)}/${total}] ${mark}  ${arm.padEnd(4)} ${task.id.padEnd(28)}` +
         ` ${((Date.now() - t0) / 1000).toFixed(0)}s` +
