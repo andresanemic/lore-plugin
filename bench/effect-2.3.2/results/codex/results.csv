@@ -9,3 +9,5 @@ founder-crm,cold,1,pending,false,0,0,,88453,1504,60416,4,42101,1
 founder-crm,lore,1,pending,true,0,0,,608885,3514,559872,16,104720,1
 web-landing,lore,2,pending,true,0,0,,376729,2831,343040,11,82531,1
 web-landing,cold,2,pending,false,0,0,,52273,1424,43264,2,36231,1
+news-draft,lore,2,pending,true,0,0,,146177,1532,122368,5,44256,1
+news-draft,cold,2,pending,false,0,0,,52623,811,49408,2,29242,1
