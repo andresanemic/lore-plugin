@@ -1,0 +1,58 @@
+{
+  "reviewer": "GPT-5.6 Sol",
+  "mode": "blind binary criterion adjudication",
+  "runs": [
+    {
+      "label": "R01",
+      "criteria": [
+        { "id": "NEWS-01", "verdict": "pass", "evidence": "La nota reconstruye la información en una narración propia con secciones editoriales." },
+        { "id": "NEWS-02", "verdict": "pass", "evidence": "«La publicación no explica el redondeo... ni distingue entre piloto, pruebas breves y comercios activos»." },
+        { "id": "NEWS-03", "verdict": "pass", "evidence": "Distingue y enlaza «comunicado oficial», «publicación del fundador» y «Mercado Digital» en las afirmaciones correspondientes." },
+        { "id": "NEWS-04", "verdict": "pass", "evidence": "Mantiene «USD 1,24 millones» y contextualiza por separado USD 1,3 y USD 1,2." },
+        { "id": "NEWS-05", "verdict": "pass", "evidence": "«Esa formulación no incorpora las condiciones... citadas por SendaPay» y cuestiona también la equivalencia entre probar y usar." },
+        { "id": "NEWS-06", "verdict": "pass", "evidence": "«Las stablecoins se utilizan en América Latina... No obstante, la información disponible no permite medir el impacto de SendaPay fuera de Colombia»." },
+        { "id": "NEWS-07", "verdict": "pass", "evidence": "Incluye titular, bajada en cursiva, apertura, subtítulos, enlaces, línea Fuente y los cinco Elementos SEO." },
+        { "id": "NEWS-08", "verdict": "pass", "evidence": "Declara límites de los datos, no agrega prompts de imagen y evita los tics prohibidos." }
+      ]
+    },
+    {
+      "label": "R02",
+      "criteria": [
+        { "id": "NEWS-01", "verdict": "pass", "evidence": "La información se reordena y reescribe como nota, sin bloques copiados del comunicado." },
+        { "id": "NEWS-02", "verdict": "pass", "evidence": "«El desembarco en ese mercado no aparece como confirmado»." },
+        { "id": "NEWS-03", "verdict": "pass", "evidence": "Atribuye explícitamente al comunicado, al fundador y a Mercado Digital las capas que usa." },
+        { "id": "NEWS-04", "verdict": "pass", "evidence": "Cierra reafirmando «La cifra exacta... es USD 1,24 millones» tras presentar USD 1,3 y USD 1,2 como reportes separados." },
+        { "id": "NEWS-05", "verdict": "pass", "evidence": "Contrasta el lanzamiento afirmado por Mercado Digital con «las condiciones señaladas por la empresa» y separa probar de uso verificable." },
+        { "id": "NEWS-06", "verdict": "pass", "evidence": "Aporta el uso regional permitido y aclara que no se puede medir impacto fuera de Colombia." },
+        { "id": "NEWS-07", "verdict": "fail", "evidence": "La salida termina tras el cuerpo y no contiene subtítulos útiles, línea Fuente ni bloque «Elementos SEO»." },
+        { "id": "NEWS-08", "verdict": "pass", "evidence": "No fabrica cifras o impacto, no incluye prompts y evita los tics definidos." }
+      ]
+    },
+    {
+      "label": "R08",
+      "criteria": [
+        { "id": "NEWS-01", "verdict": "pass", "evidence": "La pieza reorganiza el paquete con secciones propias y no replica bloques fuente." },
+        { "id": "NEWS-02", "verdict": "pass", "evidence": "«No permite concluir que 300 negocios usen actualmente la plataforma»." },
+        { "id": "NEWS-03", "verdict": "fail", "evidence": "Atribuye al comunicado que «los fondos acompañarán el desarrollo de su propuesta de pagos», uso de fondos que la Fuente A no contiene." },
+        { "id": "NEWS-04", "verdict": "pass", "evidence": "Privilegia «USD 1,24 millones» y presenta USD 1,3 como redondeo y USD 1,2 como cifra de la cobertura." },
+        { "id": "NEWS-05", "verdict": "pass", "evidence": "Explicita el conflicto entre «lanzará en México» y una expansión condicionada, además de la ambigüedad de los 300 comercios." },
+        { "id": "NEWS-06", "verdict": "pass", "evidence": "Sitúa las stablecoins en América Latina y declara que faltan cifras regionales e impacto fuera de Colombia." },
+        { "id": "NEWS-07", "verdict": "pass", "evidence": "Incluye la anatomía completa, línea Fuente y cinco Elementos SEO." },
+        { "id": "NEWS-08", "verdict": "fail", "evidence": "Inventa un destino de los fondos —«acompañarán el desarrollo de su propuesta de pagos»— ausente del universo permitido." }
+      ]
+    },
+    {
+      "label": "R16",
+      "criteria": [
+        { "id": "NEWS-01", "verdict": "pass", "evidence": "Redacta una nota propia en pirámide invertida sin copiar párrafos de las fuentes." },
+        { "id": "NEWS-02", "verdict": "pass", "evidence": "«La empresa no confirmó un lanzamiento» y «no permite medir el impacto... ni concluir que los comercios... continúen activos»." },
+        { "id": "NEWS-03", "verdict": "pass", "evidence": "Identifica el comunicado y la publicación del fundador al atribuir sus afirmaciones." },
+        { "id": "NEWS-04", "verdict": "pass", "evidence": "Conserva USD 1,24 y presenta USD 1,3 como diferencia que «parece responder a un redondeo», sin fusionarlas." },
+        { "id": "NEWS-05", "verdict": "fail", "evidence": "Omite por completo la Fuente C y, con ella, sus desacuerdos relevantes sobre USD 1,2, México y 300 comercios activos." },
+        { "id": "NEWS-06", "verdict": "pass", "evidence": "Usa únicamente el contexto regional permitido y niega inferencias de impacto fuera de Colombia." },
+        { "id": "NEWS-07", "verdict": "fail", "evidence": "No incluye bajada en cursiva, subtítulos, enlaces, línea Fuente ni bloque «Elementos SEO»." },
+        { "id": "NEWS-08", "verdict": "pass", "evidence": "No añade hechos fuera del paquete, no incluye prompts y evita los tics prohibidos." }
+      ]
+    }
+  ]
+}
