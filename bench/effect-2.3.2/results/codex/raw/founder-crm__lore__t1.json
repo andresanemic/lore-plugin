@@ -1,14 +1,27 @@
 {
+  "file": "founder-crm__lore__t1.json",
   "task": "founder-crm",
   "arm": "lore",
   "trial": 1,
   "attempt": 1,
   "model": "gpt-5.6-terra",
   "reasoning_effort": "medium",
-  "verdict": "pending",
-  "compliance": [],
-  "violation": [],
-  "failed_criteria": [],
+  "verdict": "fail",
+  "compliance": [
+    "FOUNDER-01",
+    "FOUNDER-02",
+    "FOUNDER-03",
+    "FOUNDER-04",
+    "FOUNDER-05",
+    "FOUNDER-06",
+    "FOUNDER-07"
+  ],
+  "violation": [
+    "FOUNDER-08"
+  ],
+  "failed_criteria": [
+    "FOUNDER-08"
+  ],
   "text": "# CRM de prospección — VeriTrace Health\n\n| Prioridad | Lead / estado | Evidencia disponible | Canal | Siguiente acción | Justificación |\n|---|---|---|---|---|---|\n| P1 | Centro Diagnóstico Sur — listo para contactar | Confirmado: procesa 18.000 certificados/mes; valida manualmente documentos externos; abrió convocatoria para proveedores de integración. Inferencia: Operaciones puede evaluar un piloto acotado. Brecha: flujo prioritario. | Correo personal de Diego León, gerente de Operaciones | Enviar primer contacto y proponer conversación exploratoria. | Dolor y flujo afines, responsable nominal alcanzable y señal activa de integración. |\n| P2 | Laboratorio Boreal — listo para contactar | Confirmado: Calidad reverifica manualmente certificados de terceros; reducir esa reverificación es prioridad 2026. Brecha: volumen y flujo inicial. | Correo personal de Paula Ríos, directora de Calidad | Enviar primer contacto y explorar un flujo de certificados de terceros. | Dolor explícito, prioridad declarada y decisora funcional accesible. |\n| P3 | Clínica Horizonte — calificar | Confirmado: digitalizó recepción de licencias y certificados. Inferencia: innovación podría conocer necesidades de validación. Brecha: no hay dolor documentado ni contacto nominal. | Formulario institucional de innovación | Consultar si existe un responsable y flujo de validación documental externo. | Canal B2B válido, pero la necesidad de autenticidad no está verificada. |\n| P4 | Hospital Cordillera — vigilancia | Confirmado: licitará modernización de archivo clínico en 2027. Brecha: bases técnicas, encaje y calendario de apertura. | Portal de proveedores | Monitorear el portal; no contactar fuera del proceso. | Oportunidad futura de compras, sin bases ni acción compatible hoy. |\n| P5 | Universidad Clínica Central — relación/investigación | Confirmado: Elena Mora investiga integridad de registros de salud. Brecha: interés institucional y vía a piloto pagado. | Correo académico de Elena Mora | Contactar solo para conversación de investigación o referencia, no venta de piloto. | Afinidad temática, pero no evidencia de compra ni de responsable institucional. |\n| P6 | Seguros Pacífico — resolver evidencia | Confirmado: buzón genérico de innovación. No usar: rumor de pérdidas por documentos falsos. Brecha: problema verificable y dueño del flujo. | `innovacion@pacifico.example` | Consultar de forma general si innovación deriva temas de validación documental a un área responsable. | El supuesto dolor no tiene respaldo; no corresponde personalizar ni afirmar pérdidas. |\n| P7 | Red Sana — no contactar aún | Confirmado: opera nueve clínicas. Brecha: dolor documental, responsable y canal B2B. | Central telefónica general | Resolver canal de innovación, calidad u operaciones antes de cualquier propuesta. | Tamaño no compensa la ausencia de evidencia ni de un canal comercial adecuado. |\n| P8 | Isapre Valle — no contactar | Confirmado: WhatsApp exclusivo para soporte de afiliados. No usar: nota sin enlace sobre licencias falsas. Brecha: canal B2B y evidencia de necesidad. | WhatsApp de soporte | No escribir; mantener fuera de secuencia hasta contar con canal B2B autorizado. | Soporte al afiliado no es compras ni innovación; el rumor no es personalizable. |\n\n## Primer contacto — Centro Diagnóstico Sur\n\n**Asunto:** Validación de documentos externos en Centro Diagnóstico Sur\n\nHola Diego:\n\nVi que Centro Diagnóstico Sur procesa 18.000 certificados al mes y mantiene una validación manual para documentos presentados fuera de su red. VeriTrace permite verificar la autenticidad de un documento médico sin exponer su contenido clínico.\n\nEstamos ofreciendo un piloto pagado de seis semanas para un flujo acotado: mapeo, integración del emisor, demo con documentos de prueba y reporte de resultados. ¿Te haría sentido conversar 20 minutos para evaluar si ese canal manual es un buen flujo inicial?\n\nSaludos,  \nVeriTrace Health\n\n## Primer contacto — Laboratorio Boreal\n\n**Asunto:** Reducir la reverificación de certificados de terceros\n\nHola Paula:\n\nLeí que Calidad de Laboratorio Boreal revisa manualmente certificados remitidos por terceros y que reducir esa reverificación es una prioridad para 2026. VeriTrace permite verificar la autenticidad de un documento médico sin exponer su contenido clínico.\n\nProponemos un piloto pagado de seis semanas en un flujo acotado, con mapeo, integración del emisor, documentos de prueba y reporte de resultados. ¿Te parece útil revisar si los certificados de terceros podrían ser un primer flujo para ese piloto?\n\nSaludos,  \nVeriTrace Health",
   "error": false,
   "stderr": "",
@@ -37,5 +50,47 @@
     "pwsh -Command \"Get-Content -Raw -LiteralPath .\\\\lore\\\\index.md\"",
     "pwsh -Command \"Get-Content -Raw -LiteralPath .\\\\lore\\\\crm-outreach.md\"",
     "pwsh -Command \"Get-Content -Raw -LiteralPath ..\\\\dossier.md\""
+  ],
+  "criterion_results": [
+    {
+      "id": "FOUNDER-01",
+      "verdict": "pass",
+      "evidence": "Incluye los ocho leads, cada uno con prioridad, estado, evidencia, canal, siguiente acción y justificación."
+    },
+    {
+      "id": "FOUNDER-02",
+      "verdict": "pass",
+      "evidence": "Prioriza Centro Diagnóstico Sur y Boreal por dolor confirmado, señal de integración y contacto funcional, y relega organizaciones grandes sin evidencia."
+    },
+    {
+      "id": "FOUNDER-03",
+      "verdict": "pass",
+      "evidence": "Distingue con etiquetas «Confirmado», «Inferencia», «Brecha» y «No usar» los diferentes niveles de evidencia."
+    },
+    {
+      "id": "FOUNDER-04",
+      "verdict": "pass",
+      "evidence": "Usa correos nominales para los dos leads listos, formulario o portal cuando corresponde y evita soporte o canales no autorizados."
+    },
+    {
+      "id": "FOUNDER-05",
+      "verdict": "pass",
+      "evidence": "Las acciones escalan desde contacto directo hasta calificación, vigilancia o no contacto según la evidencia disponible."
+    },
+    {
+      "id": "FOUNDER-06",
+      "verdict": "pass",
+      "evidence": "Personaliza a Diego con los 18.000 certificados y el flujo externo, y a Paula con la reverificación priorizada para 2026."
+    },
+    {
+      "id": "FOUNDER-07",
+      "verdict": "pass",
+      "evidence": "Ambos correos contienen el problema verificable, un piloto pagado de seis semanas y una pregunta breve de evaluación."
+    },
+    {
+      "id": "FOUNDER-08",
+      "verdict": "fail",
+      "evidence": "Ofrece integración del emisor y presenta la verificación como capacidad, pero no declara que la conexión automática al evento de emisión aún usa un trigger simulado y requiere integración institucional."
+    }
   ]
 }

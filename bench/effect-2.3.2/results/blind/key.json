@@ -1,0 +1,130 @@
+[
+  {
+    "label": "R01",
+    "file": "news-draft__lore__t2.json",
+    "task": "news-draft",
+    "arm": "lore",
+    "trial": 2,
+    "packet_sha256": "b9bd55628def69ca022bc3fd9509f4bb1bfd0bf18d64aa1621cc2f8c597b9189"
+  },
+  {
+    "label": "R02",
+    "file": "news-draft__cold__t1.json",
+    "task": "news-draft",
+    "arm": "cold",
+    "trial": 1,
+    "packet_sha256": "d1644ecb2fe37f6f362f8394c51cc967cd43aa7ee3d9c2e1af02944e68c2b736"
+  },
+  {
+    "label": "R03",
+    "file": "founder-crm__lore__t1.json",
+    "task": "founder-crm",
+    "arm": "lore",
+    "trial": 1,
+    "packet_sha256": "958c8748732f6d44455104598e009ed6e64b0c4bb72479e243d9f2b57e1439d3"
+  },
+  {
+    "label": "R04",
+    "file": "community-b2b__cold__t2.json",
+    "task": "community-b2b",
+    "arm": "cold",
+    "trial": 2,
+    "packet_sha256": "5eb100cd65bbe97ed1d26beb2ae8fd1a160d494eaa13246c9570e956a2a22241"
+  },
+  {
+    "label": "R05",
+    "file": "community-b2b__cold__t1.json",
+    "task": "community-b2b",
+    "arm": "cold",
+    "trial": 1,
+    "packet_sha256": "8fda027df97341c5446a83d40ea560a378d495cb2cd701946ab76b0fcccd2115"
+  },
+  {
+    "label": "R06",
+    "file": "founder-crm__cold__t1.json",
+    "task": "founder-crm",
+    "arm": "cold",
+    "trial": 1,
+    "packet_sha256": "df26130dc0e7f6886895babfd45f0a0bac3ad39e8eb518dc87a3aa9923fc2862"
+  },
+  {
+    "label": "R07",
+    "file": "community-b2b__lore__t2.json",
+    "task": "community-b2b",
+    "arm": "lore",
+    "trial": 2,
+    "packet_sha256": "302f4be73e3230cc186e458773147b61dd6144f24b05e290a60d684af2ffc313"
+  },
+  {
+    "label": "R08",
+    "file": "news-draft__lore__t1.json",
+    "task": "news-draft",
+    "arm": "lore",
+    "trial": 1,
+    "packet_sha256": "deabdc2bc2f89f3fbd3ea3d47f42ba5afc88fb0327bf5561ea4673bfbdb1f3ab"
+  },
+  {
+    "label": "R09",
+    "file": "community-b2b__lore__t1.json",
+    "task": "community-b2b",
+    "arm": "lore",
+    "trial": 1,
+    "packet_sha256": "8b7c18b504352858aef1ec2b122ebf9f256a30b76dd18c7855e439b842d44249"
+  },
+  {
+    "label": "R10",
+    "file": "web-landing__cold__t1.json",
+    "task": "web-landing",
+    "arm": "cold",
+    "trial": 1,
+    "packet_sha256": "fc84ac46f5c7c8df9621bae630239b864879254db6834714cf098ecb615ad58f"
+  },
+  {
+    "label": "R11",
+    "file": "web-landing__lore__t2.json",
+    "task": "web-landing",
+    "arm": "lore",
+    "trial": 2,
+    "packet_sha256": "09f01778aebf77071773731440866849a094f35aae07a28cae6dfb590e8f3cd6"
+  },
+  {
+    "label": "R12",
+    "file": "web-landing__cold__t2.json",
+    "task": "web-landing",
+    "arm": "cold",
+    "trial": 2,
+    "packet_sha256": "2b70187620481f3de1cc37d974db95ccdb1416f822197511257df91def2fb5f1"
+  },
+  {
+    "label": "R13",
+    "file": "founder-crm__lore__t2.json",
+    "task": "founder-crm",
+    "arm": "lore",
+    "trial": 2,
+    "packet_sha256": "761f5bd3a67dd4c14ae7e224b1696639b2077ca0bee31d393579a9a49fc3c959"
+  },
+  {
+    "label": "R14",
+    "file": "founder-crm__cold__t2.json",
+    "task": "founder-crm",
+    "arm": "cold",
+    "trial": 2,
+    "packet_sha256": "145576e711166abf0f969c6396056738f93f57442367c49b002980990fc7c0bf"
+  },
+  {
+    "label": "R15",
+    "file": "web-landing__lore__t1.json",
+    "task": "web-landing",
+    "arm": "lore",
+    "trial": 1,
+    "packet_sha256": "39b0762bb8b2ef2b43d29a2f150f231a1bb738495a5687162c301baeec7dfea4"
+  },
+  {
+    "label": "R16",
+    "file": "news-draft__cold__t2.json",
+    "task": "news-draft",
+    "arm": "cold",
+    "trial": 2,
+    "packet_sha256": "24820aae4ddaea386226fba341ab741f1e252fee2c71984f02dbd2f00eed55c3"
+  }
+]

@@ -1,14 +1,27 @@
 {
+  "file": "web-landing__lore__t1.json",
   "task": "web-landing",
   "arm": "lore",
   "trial": 1,
   "attempt": 1,
   "model": "gpt-5.6-terra",
   "reasoning_effort": "medium",
-  "verdict": "pending",
-  "compliance": [],
-  "violation": [],
-  "failed_criteria": [],
+  "verdict": "fail",
+  "compliance": [
+    "WEB-01",
+    "WEB-02",
+    "WEB-03",
+    "WEB-04",
+    "WEB-05",
+    "WEB-06",
+    "WEB-08"
+  ],
+  "violation": [
+    "WEB-07"
+  ],
+  "failed_criteria": [
+    "WEB-07"
+  ],
   "text": "# Dirección de landing — Studio Ember / alpha 0.1\n\n## Propósito\n\nQue un/a artista o gestor/a con material disperso entienda en menos de un minuto que Studio Ember ordena un proyecto existente para reutilizarlo en dossiers y primeras postulaciones, vea la prueba del flujo y solicite acceso a la prueba cerrada.\n\nNo vender una plataforma futura ni prometer resultados de una postulación.\n\n## Mensaje y CTA\n\n**Propuesta principal:**  \n**Tu proyecto ya existe. Dale una forma que puedas volver a usar.**\n\n**Bajada:**  \nStudio Ember reúne los textos y materiales que eliges en un espacio de trabajo local para ordenar intención, trayectoria, presupuesto, referencias y convocatorias; después te ayuda a preparar un dossier y un primer borrador de postulación.\n\n**CTA primario:** `Solicitar acceso a la prueba cerrada`  \nAbre un formulario breve: nombre, correo, rol (artista / gestor/a / otro), disciplina, y una pregunta abierta: “¿Qué parte de preparar una postulación te hace recomenzar?”. Confirmación: “Recibimos tu solicitud. La prueba es cerrada y contactaremos a las personas seleccionadas.”\n\n**CTA secundario:** `Ver la demo alpha`  \nHace scroll a la demo y activa su reproducción. No competir visualmente con el CTA primario.\n\n## Estructura de página\n\n1. **Encabezado mínimo**\n   - Wordmark “Studio Ember”.\n   - En escritorio: enlace ancla `Ver la demo` y CTA primario.\n   - En móvil: wordmark y botón CTA; navegación sin menú desplegable.\n\n2. **Hero: del material disperso al dossier**\n   - Izquierda: titular, bajada, CTA primario y una línea de alcance: “Alpha de escritorio · tus archivos permanecen en tu dispositivo durante este flujo.”\n   - Derecha: composición de una captura real del escritorio sobre fragmentos discretos de papeles escaneados, notas o carpeta de proceso. La captura manda; la obra y el papel enmarcan, nunca decoran el producto ni se presentan como producción de Studio Ember.\n   - Pie de imagen: “Material de proceso y pantalla de la alpha.”\n\n3. **Problema concreto**\n   - Encabezado: “No debería haber que reconstruir el mismo proyecto cada vez.”\n   - Tres fragmentos breves: biografía e intención en documentos distintos; presupuesto y referencias fuera de contexto; cada convocatoria obliga a recomponer el relato.\n   - Acompañar con una imagen de carpeta/material real, sin iconos corporativos ni ilustraciones de productividad.\n\n4. **Flujo existente**\n   - Encabezado: “Un lugar para volver a encontrar el hilo.”\n   - Tres pasos numerados, con una captura real por paso si existe:\n     1. **Elige tus archivos de texto.** Studio Ember los abre en tu escritorio.\n     2. **Ordena el proyecto.** Reúne intención, trayectoria, presupuesto, referencias y convocatoria.\n     3. **Prepara una salida.** Estructura un dossier, desarrolla un primer borrador de postulación y exporta a Markdown.\n   - Mantener verbos de asistencia: “ordena”, “ayuda a preparar”, “desarrolla un primer borrador”; nunca “gana fondos”, “envía” ni “crea tu obra”.\n\n5. **Demo alpha**\n   - Encabezado: “Mira el flujo completo.”\n   - Reproductor de la demo grabada con poster hecho de una captura real; controles nativos y subtítulos/transcripción accesibles si están disponibles.\n   - Texto lateral: “La demo muestra el flujo disponible hoy.”  \n   - Debajo, bloque “Lo que esta alpha aún no hace”: sincronización en la nube, colaboración multiusuario, móvil, envío automático de postulaciones, base propia de convocatorias, exportación directa a PDF y fecha pública de lanzamiento. Es una delimitación clara, no una lista de próximas funciones.\n\n6. **Cierre**\n   - Titular: “Si ya tienes el material, puedes probar otra forma de reunirlo.”\n   - Repetir CTA primario y aclarar: “Sin precio definido todavía; acceso mediante prueba cerrada.”\n   - Footer con contacto y una nota breve: “Studio Ember procesa los archivos localmente durante el flujo alpha.”\n\n## Dirección visual\n\nUn estudio sereno y editorial: fondo cálido claro (papel/arcilla muy pálida), tinta casi negra, un acento brasa apagada para CTAs y estados; evitar negro absoluto, gradientes neón, tarjetas tipo dashboard, grids de métricas y promesas de IA.\n\nUsar una sans legible para interfaz y una serif editorial, sobria, solo para titulares y citas breves. Mucho espacio en blanco, bordes finos y sombras apenas perceptibles. Las capturas deben conservar su contexto y no quedar recortadas como mockups genéricos. Tratar las obras autorizadas como evidencia de proceso, con crédito o pie cuando corresponda.\n\n## Movimiento y accesibilidad\n\nÚnica gramática: fragmentos quietos que se alinean suavemente para formar una composición más clara. Aplicarla al entrar al hero y a los pasos del flujo; duración breve, sin bucles ni parallax. Con `prefers-reduced-motion`, mostrar directamente la composición final y conservar estados de foco, selección y reproducción sin desplazamientos animados.\n\nContraste AA mínimo, foco visible, CTA descriptivo, navegación completa por teclado, imágenes con alt que describa la pantalla o el material y no atribuya intención artística no confirmada.\n\n## Criterio de aceptación\n\nLa implementación está lista para revisión cuando:\n\n- El hero dice qué hace la alpha, para quién y que el flujo es local.\n- La demo es visible y reproducible sin depender de una función inexistente.\n- Cada capacidad mencionada corresponde al dossier factual.\n- La lista de límites está presente antes del CTA final.\n- El formulario expresa “prueba cerrada” y no precio, lanzamiento ni acceso garantizado.\n- Las imágenes principales son material disponible y la página se lee como estudio de trabajo, no como SaaS corporativo.",
   "error": false,
   "stderr": "",
@@ -29,5 +42,47 @@
     "pwsh -Command \"rg --files -g 'identity.md' -g 'principles.md' -g 'index.md' -g 'FASES.md' -g 'enrutamiento.md' -g 'RELEASE*'\"",
     "pwsh -Command 'Get-ChildItem -Force -Recurse -Depth 2 | Select-Object FullName'",
     "pwsh -Command \"Get-Content -Raw FASES.md; Get-Content -Raw lore\\\\identity.md; Get-Content -Raw lore\\\\principles.md; Get-Content -Raw lore\\\\index.md; Get-Content -Raw lore\\\\landing-direction.md\""
+  ],
+  "criterion_results": [
+    {
+      "id": "WEB-01",
+      "verdict": "pass",
+      "evidence": "Propuesta, bajada, público, CTA primario y demo quedan específicos en el primer bloque."
+    },
+    {
+      "id": "WEB-02",
+      "verdict": "pass",
+      "evidence": "Seis secciones fijan su función, contenido, activos y conducta responsive."
+    },
+    {
+      "id": "WEB-03",
+      "verdict": "pass",
+      "evidence": "La demo dice «disponible hoy» y el bloque contiguo enumera explícitamente lo que la alpha aún no hace."
+    },
+    {
+      "id": "WEB-04",
+      "verdict": "pass",
+      "evidence": "Resuelve paleta, tipografía, composición, uso de capturas, obra y estados accesibles."
+    },
+    {
+      "id": "WEB-05",
+      "verdict": "pass",
+      "evidence": "La única gramática alinea fragmentos con propósito y muestra el estado final bajo `prefers-reduced-motion`."
+    },
+    {
+      "id": "WEB-06",
+      "verdict": "pass",
+      "evidence": "Visibiliza procesamiento local y permanencia en dispositivo sin prometer privacidad absoluta."
+    },
+    {
+      "id": "WEB-07",
+      "verdict": "fail",
+      "evidence": "La dirección y sus criterios están resueltos, pero no declara un siguiente paso concreto para la sesión implementadora."
+    },
+    {
+      "id": "WEB-08",
+      "verdict": "pass",
+      "evidence": "Cierra con seis condiciones verificables de revisión y no incluye código."
+    }
   ]
 }

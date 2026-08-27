@@ -1,14 +1,29 @@
 {
+  "file": "web-landing__cold__t1.json",
   "task": "web-landing",
   "arm": "cold",
   "trial": 1,
   "attempt": 1,
   "model": "gpt-5.6-terra",
   "reasoning_effort": "medium",
-  "verdict": "pending",
-  "compliance": [],
-  "violation": [],
-  "failed_criteria": [],
+  "verdict": "fail",
+  "compliance": [
+    "WEB-01",
+    "WEB-02",
+    "WEB-03",
+    "WEB-04",
+    "WEB-06"
+  ],
+  "violation": [
+    "WEB-05",
+    "WEB-07",
+    "WEB-08"
+  ],
+  "failed_criteria": [
+    "WEB-05",
+    "WEB-07",
+    "WEB-08"
+  ],
   "text": "# Studio Ember — Landing alpha 0.1\n\n## Propósito\n\nPresentar Studio Ember como un espacio de trabajo local para artistas independientes y gestores culturales que ya tienen sus materiales, pero necesitan reunirlos y convertirlos en un dossier/postulación inicial sin reconstruir cada proyecto desde cero.\n\nObjetivo principal: conseguir solicitudes de acceso a una prueba cerrada.  \nObjetivos secundarios: explicar el flujo, transmitir confianza sobre privacidad y llevar a la demo grabada.\n\n## Mensaje central\n\n**Tu proyecto ya existe. Studio Ember te ayuda a volver a encontrarlo y ordenarlo para la próxima convocatoria.**\n\nApoyo: organiza materiales elegidos desde tu escritorio —intención, trayectoria, presupuesto, referencias y convocatoria— para preparar un dossier y un primer borrador de postulación. Todo el flujo alpha ocurre localmente en tu dispositivo.\n\nCTA principal: **Solicitar acceso a la prueba cerrada**  \nCTA secundaria: **Ver demo de 3 minutos**\n\nNo usar lenguaje de automatización total, “IA mágica”, productividad corporativa ni promesas de éxito en convocatorias.\n\n## Estructura de página\n\n### 1. Hero\n\n- Etiqueta discreta: `Alpha 0.1 · prueba cerrada`\n- Titular central.\n- Párrafo de dos líneas sobre reunir materiales dispersos y preparar una postulación.\n- Dos CTA.\n- Visual: captura real del escritorio de Studio Ember, enmarcada como una mesa de trabajo digital; no como mockup SaaS.\n- Microcopy bajo CTAs: `Para artistas y gestores que ya trabajan con sus propios archivos.`\n\n### 2. El problema\n\nTitular: **Cada convocatoria pide volver a armar el proyecto.**\n\nTres situaciones breves:\n\n- La biografía vive en un documento; el presupuesto, en otro.\n- Las referencias y versiones del proyecto quedan repartidas entre carpetas.\n- Preparar una postulación empieza por buscar, copiar y recomponer.\n\nVisual lateral: composición de carpetas de proceso, papeles escaneados y fragmentos de obra. Mantener la obra como contexto material, nunca como decoración dominante.\n\n### 3. Qué hace Studio Ember\n\nTitular: **Un lugar para ordenar el material antes de escribir.**\n\nMostrar el flujo en cuatro pasos, con capturas reales:\n\n1. **Elige tus archivos**  \n   Abre textos desde tu escritorio.\n2. **Reúne el proyecto**  \n   Organiza intención, trayectoria, presupuesto, referencias y convocatoria.\n3. **Ordena el dossier**  \n   Usa la asistencia para dar estructura a los materiales.\n4. **Prepara un primer borrador**  \n   Exporta el resultado a Markdown para seguir trabajándolo.\n\nNota fija: `Studio Ember no envía postulaciones ni reemplaza tu criterio.`\n\n### 4. Demo\n\nTitular: **Mira un proyecto pasar de archivos dispersos a un primer borrador.**\n\nInsertar la demo grabada con portada tomada de una captura real, botón claro de reproducción y duración visible. Debajo: `El flujo mostrado corresponde a la alpha 0.1.`\n\nCTA repetido: **Ver demo**\n\n### 5. Privacidad y límites de la alpha\n\nBloque sereno, no técnico. Titular: **Tus archivos permanecen contigo durante el flujo alpha.**\n\nTres afirmaciones:\n\n- Procesamiento local en tu dispositivo.\n- Exportación disponible en Markdown.\n- Tú eliges qué archivos abrir.\n\nSeparar “Disponible ahora” de “Aún no disponible”:\n\n| Disponible en alpha 0.1 | Aún no disponible |\n|---|---|\n| Espacio de trabajo de escritorio | Sincronización en la nube |\n| Organización por proyecto | Colaboración multiusuario |\n| Dossier y primer borrador | App móvil |\n| Exportación Markdown | Exportación PDF |\n| Procesamiento local | Envío automático de postulaciones |\n\nNo insinuar fechas ni roadmap comprometido.\n\n### 6. Cierre y formulario\n\nTitular: **Si estás preparando proyectos para convocatorias, queremos conocer tu proceso.**\n\nFormulario corto:\n\n- Nombre\n- Correo\n- Rol: Artista / Gestor/a cultural / Otro\n- ¿Qué tipo de proyectos o convocatorias trabajas? (campo opcional)\n\nBotón: **Solicitar acceso a la prueba cerrada**\n\nTexto de expectativa: `La prueba es cerrada. Revisaremos cada solicitud y contactaremos a las personas seleccionadas.` No mencionar precio.\n\n## Dirección visual y tono\n\nPaleta cálida y apagada: blanco hueso, grafito suave, terracota quemada y verde grisáceo. Tipografía editorial legible para titulares, sans limpia para interfaz y cuerpo. Mucho aire, bordes suaves o inexistentes, textura muy sutil de papel solo en fondos secundarios.\n\nLa sensación debe ser la de un estudio tranquilo: materiales, procesos y atención. Evitar gradientes tecnológicos, tarjetas KPI, iconografía de “startup”, fotografías de stock y mosaicos que conviertan la obra en producto decorativo.\n\nLa voz es precisa, cálida y sobria: habla de materiales, proyectos, versiones y proceso; no de “optimizar”, “escalar” o “revolucionar”.",
   "error": false,
   "stderr": "",
@@ -25,5 +40,47 @@
     "pwsh -Command 'Get-ChildItem -Force'",
     "pwsh -Command 'Get-Content -Raw CLAUDE.md'",
     "pwsh -Command \"Get-Content -Raw ..\\\\dossier.md\""
+  ],
+  "criterion_results": [
+    {
+      "id": "WEB-01",
+      "verdict": "pass",
+      "evidence": "Define «Tu proyecto ya existe...» con CTA de prueba cerrada y demo para artistas y gestores."
+    },
+    {
+      "id": "WEB-02",
+      "verdict": "pass",
+      "evidence": "Las seis secciones fijan función, titulares, copy, activos y CTA; no son sólo nombres."
+    },
+    {
+      "id": "WEB-03",
+      "verdict": "pass",
+      "evidence": "Incluye una tabla «Disponible en alpha 0.1 / Aún no disponible» y marca la demo como flujo actual."
+    },
+    {
+      "id": "WEB-04",
+      "verdict": "pass",
+      "evidence": "Fija paleta, tipografía, jerarquía, materiales reales y prohibiciones visuales implementables."
+    },
+    {
+      "id": "WEB-05",
+      "verdict": "fail",
+      "evidence": "No define ningún comportamiento de movimiento ni equivalente para reducción de movimiento."
+    },
+    {
+      "id": "WEB-06",
+      "verdict": "pass",
+      "evidence": "«Procesamiento local en tu dispositivo» y «Tú eliges qué archivos abrir», sin garantía absoluta."
+    },
+    {
+      "id": "WEB-07",
+      "verdict": "fail",
+      "evidence": "La salida termina en tono visual y no declara un siguiente paso de implementación para otra sesión."
+    },
+    {
+      "id": "WEB-08",
+      "verdict": "fail",
+      "evidence": "No contiene una lista de criterios de aceptación verificables; no escribe código."
+    }
   ]
 }
