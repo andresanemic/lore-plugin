@@ -5,3 +5,7 @@ news-draft,lore,1,pending,true,0,0,,235802,2119,203776,7,65815,1
 news-draft,cold,1,pending,false,0,0,,72114,1129,64512,3,47347,1
 founder-crm,lore,1,pending,true,0,0,,505124,3548,454144,13,104542,1
 founder-crm,cold,1,pending,false,0,0,,75107,1768,69632,3,45661,1
+web-landing,lore,2,pending,true,0,0,,277790,2841,243456,8,79295,1
+web-landing,cold,2,pending,false,0,0,,106166,1883,94720,5,49469,1
+news-draft,cold,2,pending,false,0,0,,50501,1025,42240,2,29159,1
+founder-crm,cold,2,pending,false,0,0,,35069,1474,26112,1,35581,1
