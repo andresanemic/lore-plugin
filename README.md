@@ -3,14 +3,6 @@
   <img src="https://i.imgur.com/DWYL7vz.png" alt="Lore" width="100%">
 </p>
 
-<!-- Language selector (top of README.md) -->
-
-<p align="right">
-  <strong>Language / Idioma:</strong>
-  <a href="#english">English</a> |
-  <a href="#español">Español</a>
-</p>
-
 <h1 align="center">Lore</h1>
 
 <p align="center">
@@ -511,12 +503,12 @@ Lore was not designed ahead of time: every decision came from applying it to rea
 ## Reach
 
 <p align="center">
-  <img src="./assets/reach-en.png" alt="1,000+ clones and counting" width="100%">
+  <img src="./assets/reach-en.png" alt="2,000+ clones and counting" width="100%">
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/1%2C916-clones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="1,916 clones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/50-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="50 days"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/2%2C008-clones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="2,008 clones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/52-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="52 days"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~38-a_day-F94F79?style=for-the-badge&labelColor=0B0B12" alt="38 a day"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-peak-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 peak"></a>
 </p>
@@ -578,16 +570,10 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
   <img src="https://i.imgur.com/AKHwfNa.png" alt="Lore" width="100%">
 </p>
 
-<p align="right">
-  <strong>Language / Idioma:</strong>
-  <a href="#english">English</a> |
-  <a href="#español">Español</a>
-</p>
-
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.3.0-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.3.2-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/proveedor_IA-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Proveedor IA: neutral"></a>
   <a href="#las-ocho-skills"><img src="https://img.shields.io/badge/writing--skills-validado-63C49B?style=for-the-badge&labelColor=0B0B12" alt="Validado contra writing-skills"></a>
   <a href="./docs/SPEC_KIT_es.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
@@ -1069,12 +1055,12 @@ Lore no se diseñó de antemano: cada decisión salió de aplicarlo a proyectos 
 ## Alcance
 
 <p align="center">
-  <img src="./assets/reach-es.png" alt="1.000+ clonaciones y sumando" width="100%">
+  <img src="./assets/reach-es.png" alt="2.000+ clonaciones y sumando" width="100%">
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/1%2C916-clonaciones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="1.916 clonaciones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/50-d%C3%ADas-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="50 días"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/2%2C008-clonaciones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="2.008 clonaciones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/52-d%C3%ADas-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="52 días"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~38-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="38 al día"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-pico-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 pico"></a>
 </p>

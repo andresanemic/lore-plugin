@@ -1,4 +1,4 @@
-# Lore Plugin 2.3.1 — asking where a fact comes from
+# Lore Plugin 2.3.1 — Asking where a fact comes from
 
 > [README](https://github.com/andresanemic/lore-plugin#readme) — [Español](#español)
 
