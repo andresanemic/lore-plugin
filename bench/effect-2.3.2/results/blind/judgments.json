@@ -53,6 +53,58 @@
         { "id": "NEWS-07", "verdict": "fail", "evidence": "No incluye bajada en cursiva, subtítulos, enlaces, línea Fuente ni bloque «Elementos SEO»." },
         { "id": "NEWS-08", "verdict": "pass", "evidence": "No añade hechos fuera del paquete, no incluye prompts y evita los tics prohibidos." }
       ]
+    },
+    {
+      "label": "R04",
+      "criteria": [
+        { "id": "CM-01", "verdict": "pass", "evidence": "Entrega tres Alternative, dos First-comment CTAs y una Visual direction, todo en inglés." },
+        { "id": "CM-02", "verdict": "pass", "evidence": "«while keeping your brand in the flow» mantiene el producto del partner como experiencia visible." },
+        { "id": "CM-03", "verdict": "pass", "evidence": "Convierte API y acciones en «adding utility does not always require teaching users a new interface»." },
+        { "id": "CM-04", "verdict": "pass", "evidence": "Usa «60+ blockchain networks» y «12,480 wallet actions were completed» con unidad exacta." },
+        { "id": "CM-05", "verdict": "pass", "evidence": "No aparecen Meridian Bank, proyecciones, alianzas pendientes ni cash-out." },
+        { "id": "CM-06", "verdict": "pass", "evidence": "La voz es concreta y funcional; no contiene hype, FOMO ni retorno financiero." },
+        { "id": "CM-07", "verdict": "pass", "evidence": "Cada alternativa desarrolla la familiaridad de interfaz como idea única; los CTA ofrecen un enlace o una reflexión breve." },
+        { "id": "CM-08", "verdict": "pass", "evidence": "Describe un mockup conversacional permitido y explicita «Avoid bank logos, user-growth claims, or unapproved cash-out features»." }
+      ]
+    },
+    {
+      "label": "R05",
+      "criteria": [
+        { "id": "CM-01", "verdict": "pass", "evidence": "Contiene exactamente tres alternativas, dos CTA y una dirección visual en inglés." },
+        { "id": "CM-02", "verdict": "pass", "evidence": "«while keeping the partner’s brand in the user-facing flow» centra la experiencia del partner." },
+        { "id": "CM-03", "verdict": "pass", "evidence": "Relaciona white-label API, acciones y redes con no aprender «a new wallet interface»." },
+        { "id": "CM-04", "verdict": "pass", "evidence": "Conserva «60+ blockchain networks» y «12,480 wallet actions» sin llamarlas usuarios." },
+        { "id": "CM-05", "verdict": "pass", "evidence": "No filtra nombres, forecast, LOI ni roadmap internos." },
+        { "id": "CM-06", "verdict": "pass", "evidence": "El tono es sobrio y de producto, sin claims de categoría o promesas financieras." },
+        { "id": "CM-07", "verdict": "pass", "evidence": "Cada copy converge en reducir fricción y los CTA ofrecen explorar o ver encaje en el journey." },
+        { "id": "CM-08", "verdict": "pass", "evidence": "La dirección usa el material visual autorizado, mantiene al partner visible y no ordena generar una imagen." }
+      ]
+    },
+    {
+      "label": "R07",
+      "criteria": [
+        { "id": "CM-01", "verdict": "pass", "evidence": "El review pack contiene 3 alternativas, 2 CTA y 1 Visual Direction, todos en inglés." },
+        { "id": "CM-02", "verdict": "pass", "evidence": "«inside your own branded flow» y «keeping their own brand» hacen protagonista al producto del partner." },
+        { "id": "CM-03", "verdict": "pass", "evidence": "Explica la consecuencia como acciones útiles dentro de una conversación familiar." },
+        { "id": "CM-04", "verdict": "pass", "evidence": "Usa las cifras públicas y aclara expresamente «actions, not user accounts»." },
+        { "id": "CM-05", "verdict": "pass", "evidence": "No cruza ningún dato privado del memo." },
+        { "id": "CM-06", "verdict": "pass", "evidence": "Voz específica y contenida, sin FOMO, superlativos ni promesas financieras." },
+        { "id": "CM-07", "verdict": "pass", "evidence": "Las alternativas sostienen una consecuencia central; un CTA enlaza y el otro formula una pregunta de tres opciones." },
+        { "id": "CM-08", "verdict": "pass", "evidence": "Pide usar una pantalla real y mockup neutral, con Relay Pocket sólo como «subtle infrastructure cue»." }
+      ]
+    },
+    {
+      "label": "R09",
+      "criteria": [
+        { "id": "CM-01", "verdict": "pass", "evidence": "Entrega exactamente 3 copies, 2 First-comment CTAs y 1 Visual direction en inglés." },
+        { "id": "CM-02", "verdict": "pass", "evidence": "«in their own branded experience» y «partner experience should feel like the subject» fijan el marco B2B." },
+        { "id": "CM-03", "verdict": "pass", "evidence": "Traduce las capacidades en «a more direct path to useful actions» sin salir de la conversación." },
+        { "id": "CM-04", "verdict": "pass", "evidence": "Mantiene 60+ redes y 12,480 «wallet actions» con precisión y sin equivalerlas a adopción." },
+        { "id": "CM-05", "verdict": "pass", "evidence": "No contiene nombres, acuerdos, proyecciones ni funcionalidades privadas." },
+        { "id": "CM-06", "verdict": "pass", "evidence": "El lenguaje es humano y funcional, sin hype, FOMO o rendimiento financiero." },
+        { "id": "CM-07", "verdict": "pass", "evidence": "Cada alternativa articula una sola tesis y ambos CTA son breves, uno respondible y otro de exploración." },
+        { "id": "CM-08", "verdict": "pass", "evidence": "La composición usa pantalla conversacional y shell neutral permitidos; describe, no manda generar." }
+      ]
     }
   ]
 }
