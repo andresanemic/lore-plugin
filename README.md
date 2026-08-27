@@ -14,7 +14,7 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.3.1-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.3.2-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/AI_provider-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="AI provider: neutral"></a>
   <a href="#the-eight-skills"><img src="https://img.shields.io/badge/writing--skills-validated-63C49B?style=for-the-badge&labelColor=0B0B12" alt="Validated against writing-skills"></a>
   <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
@@ -47,7 +47,7 @@ It is a loop of re-explanations and mediocre solutions you had already rejected.
 
 ---
 
-<h3 align="center"><strong>+44.5 points of cross-domain first-pass compliance</strong>.</h3>
+<h3 align="center"><strong>+9.4 points of cross-domain first-pass compliance</strong>.</h3>
 
 <p align="center">
   <i>An SDD kit that gives you local fine-tuning for your own tasks — and the one doing the training is you.</i>
@@ -466,12 +466,12 @@ These rules were not designed in the abstract — one was bought. A README asked
 ## Benchmark
 
 <p align="center">
-  <img src="./assets/benchmark-impact.png" alt="Audited Lore benchmark: 44.5 points more cross-domain first-pass compliance, every measured goal reached and 15.2 percent less observed time" width="100%">
+  <img src="./assets/benchmark-impact.png" alt="Lore Plugin 2.3.2 benchmark: 9.4 points more cross-domain first-pass compliance, 8 of 8 goals reached within two attempts versus 6 of 8 without Lore, and twice as many goals reached on the first attempt" width="100%">
 </p>
 
-**Lore acts as stability infrastructure when the domain changes.** The result weighs Web work and Editorial work (community management, news writing) equally, so a good Web run cannot hide a bad Editorial one. Same model, prompt and tools on both arms — **`gpt-5.6-sol`, medium reasoning effort**. Lore reached every goal it was measured on. On Web alone (72 runs): Cold Codex **25/36 (69.4%)**, Codex + Lore **33/36 (91.7%)**.
+**Lore improved convergence across different kinds of practical work.** With the same task, factual dossier and execution model, the complete system — Lore Plugin 2.3.2 plus routed project Lore — reached **59/64 criteria (92.2%)** on the first pass, against **53/64 (82.8%)** without Lore. It doubled complete first-pass deliverables (**4/8 vs 2/8**) and brought **8/8 goals** within two attempts; the cold arm reached **6/8**. Lore runs took longer, so “faster to goal” here means fewer review cycles and no residual failures, not fewer wall-clock seconds.
 
-The harness, frozen tasks, graders, raw outputs and declared limits are in [`bench/`](./bench/). These are Codex results, not a universal model claim.
+The benchmark was designed and preregistered with **GPT-5.6 Sol medium**, then executed in isolated sessions with **GPT-5.6 Terra medium**: 16 first passes and 10 controlled repairs across landing direction, news writing, community management and founder CRM work. The [frozen instrument, blind adjudication, raw outputs and derived summary](./bench/effect-2.3.2/) are auditable. These are situated Codex results, not a universal model claim.
 
 ---
 
@@ -1026,12 +1026,12 @@ Estas reglas no son abstractas: una se pagó. A un README se le pidió encoger u
 ## El benchmark
 
 <p align="center">
-  <img src="./assets/benchmark-impact-es.png" alt="Benchmark auditado de Lore: 44,5 puntos más de cumplimiento multidominio al primer intento, todas las metas medidas alcanzadas y 15,2 por ciento menos tiempo observado" width="100%">
+  <img src="./assets/benchmark-impact-es.png" alt="Benchmark de Lore Plugin 2.3.2: 9,4 puntos más de cumplimiento multidominio al primer intento, 8 de 8 metas alcanzadas en dos intentos frente a 6 de 8 sin Lore, y el doble de metas alcanzadas al primer intento" width="100%">
 </p>
 
-**Lore funciona como infraestructura de estabilidad cuando cambia el dominio.** El resultado pesa igual el trabajo Web y el Editorial (community management, redacción de noticias), así una buena corrida Web no tapa una mala Editorial. Mismo modelo, prompt y herramientas en los dos brazos — **`gpt-5.6-sol`, esfuerzo de razonamiento medio**. Lore alcanzó todas las metas medidas. Solo en Web (72 corridas): Codex frío **25/36 (69,4%)**, Codex + Lore **33/36 (91,7%)**.
+**Lore mejoró la convergencia entre distintos tipos de trabajo práctico.** Con la misma tarea, dossier factual y modelo de ejecución, el sistema completo —Lore Plugin 2.3.2 más Lore de proyecto enrutado— alcanzó **59/64 criterios (92,2%)** al primer intento, frente a **53/64 (82,8%)** sin Lore. Duplicó los entregables completos de primera pasada (**4/8 frente a 2/8**) y llevó **8/8 metas** a objetivo en un máximo de dos intentos; el brazo frío alcanzó **6/8**. Las corridas con Lore tardaron más: «más rápido a la meta» significa menos ciclos de revisión y ninguna falla residual, no menos segundos de reloj.
 
-El harness, las tareas congeladas, los graders, las salidas crudas y las fronteras declaradas están en [`bench/`](./bench/). Son resultados de Codex, no una afirmación universal sobre modelos.
+El benchmark fue diseñado y prerregistrado con **GPT-5.6 Sol medium**, y después ejecutado en sesiones aisladas con **GPT-5.6 Terra medium**: 16 primeras pasadas y 10 reparaciones controladas sobre dirección de landing, redacción de noticias, community management y CRM founder. El [instrumento congelado, la adjudicación ciega, las salidas crudas y el resumen derivado](./bench/effect-2.3.2/) son auditables. Son resultados situados de Codex, no una afirmación universal sobre modelos.
 
 ---
 

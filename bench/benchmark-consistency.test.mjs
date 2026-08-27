@@ -2,28 +2,22 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 
-function rows(path) {
-  const [header, ...lines] = readFileSync(path, "utf8").trim().split(/\r?\n/);
-  const keys = header.split(",");
-  return lines.map((line) => Object.fromEntries(line.split(",").map((value, index) => [keys[index], value])));
-}
-
-test("the public benchmark matches the audited 72-run Codex CSV", () => {
-  const results = rows(new URL("./results/codex/results.csv", import.meta.url));
-  const byArm = Object.groupBy(results, ({ arm }) => arm);
-
-  assert.equal(results.length, 72);
-  assert.equal(byArm.cold.filter(({ verdict }) => verdict === "pass").length, 25);
-  assert.equal(byArm.lore.filter(({ verdict }) => verdict === "pass").length, 33);
+test("the public README matches the audited 2.3.2 effect summary", () => {
+  const summary = JSON.parse(readFileSync(new URL("./effect-2.3.2/results/summary.json", import.meta.url), "utf8"));
 
   const readme = readFileSync(new URL("../README.md", import.meta.url), "utf8");
-  const method = readFileSync(new URL("./README.md", import.meta.url), "utf8");
+  const method = readFileSync(new URL("./effect-2.3.2/README.md", import.meta.url), "utf8");
 
   for (const document of [readme, method]) {
-    assert.match(document, /25\/36 \(69[,.]4%\)/);
-    assert.match(document, /33\/36 \(91[,.]7%\)/);
+    assert.match(document, /53\/64 \(82[,.]8%\)/);
+    assert.match(document, /59\/64[^\r\n]*\(92[,.]2%\)/);
+    assert.match(document, /6\/8/);
+    assert.match(document, /8\/8/);
   }
 
+  assert.equal(summary.first_pass.delta_pp, 9.375);
+  assert.equal(summary.attempts_to_goal.cold.reached, 6);
+  assert.equal(summary.attempts_to_goal.lore.reached, 8);
   assert.doesNotMatch(readme, /37%|65%|118 s|85 s|4[,.]116|3[,.]119/);
 });
 

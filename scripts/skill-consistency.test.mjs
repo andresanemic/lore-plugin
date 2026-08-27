@@ -351,9 +351,8 @@ test("el cierre de create-bot no exige Lore previo", () => {
 
 test("el README identifica el modelo del benchmark en ambos idiomas", () => {
   const text = readFileSync(join(root, "README.md"), "utf8");
-  assert.equal((text.match(/gpt-5\.6-sol/g) ?? []).length >= 2, true);
-  assert.match(text, /medium reasoning effort/);
-  assert.match(text, /esfuerzo de razonamiento medio/);
+  assert.equal((text.match(/GPT-5\.6 Sol medium/g) ?? []).length >= 2, true);
+  assert.equal((text.match(/GPT-5\.6 Terra medium/g) ?? []).length >= 2, true);
   // 2026-08-24: la seccion ## Benchmark tenia su propia tabla con las mismas cuatro cifras que
   // ya estan en la tabla hero de arriba -- duplicacion real, no dos hechos distintos. Se corto
   // esa segunda tabla (poda de README, permiso de Andres); ya no hay invariante que la exija.
