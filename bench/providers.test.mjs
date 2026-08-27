@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import test from "node:test";
 
-import { buildCodexArgs, parseCodexStream, removeStagedWorkspace, resolveCodexBin, resolveCodexInvocation, stageCodexWorkspace } from "./providers.mjs";
+import { buildCodexArgs, parseCodexStream, removeStagedWorkspace, resolveCodexBin, resolveCodexInvocation, sanitizeCommand, stageCodexWorkspace } from "./providers.mjs";
 
 test("resuelve el codex.cmd global de npm en Windows", () => {
   const seen = [];
@@ -44,6 +44,13 @@ test("marca como error un turno fallido de Codex", () => {
   const result = parseCodexStream(stream, "detalle", 1, 50);
   assert.equal(result.error, true);
   assert.match(result.text, /rate limit/);
+});
+
+test("retira la ruta local del ejecutable auditado", () => {
+  assert.equal(
+    sanitizeCommand('"C:\\Users\\ana\\runtime\\pwsh.exe" -Command "Get-Content CLAUDE.md"'),
+    'pwsh -Command "Get-Content CLAUDE.md"',
+  );
 });
 
 test("evita shell en Windows ejecutando el wrapper JS con Node", () => {

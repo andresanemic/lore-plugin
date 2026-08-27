@@ -64,6 +64,10 @@ export function buildCodexArgs({ arm, model, reasoningEffort }) {
   ];
 }
 
+export function sanitizeCommand(command) {
+  return command.replace(/^"[^"]*[\\/]pwsh\.exe"\s+-Command\s+/i, "pwsh -Command ");
+}
+
 export function parseCodexStream(out, err, code, durationMs) {
   const events = out
     .split(/\r?\n/)
@@ -78,14 +82,14 @@ export function parseCodexStream(out, err, code, durationMs) {
   const completed = events.findLast((event) => event.type === "turn.completed");
   const tools = events
     .filter((event) => event.type === "item.completed" && event.item?.type === "command_execution")
-    .map((event) => event.item.command ?? "");
+    .map((event) => sanitizeCommand(event.item.command ?? ""));
   const usage = completed?.usage ?? {};
   const text = messages.at(-1) ?? failed?.error?.message ?? "";
 
   return {
     text,
     error: code !== 0 || Boolean(failed) || !text,
-    stderr: err.slice(-2000),
+    stderr: code === 0 && !failed ? "" : err.slice(-2000),
     read_lore: tools.some((tool) => /lore[\\/]/i.test(tool)),
     tool_calls: tools.length,
     cost_usd: null,

@@ -16,7 +16,7 @@ import { readFileSync, writeFileSync, mkdirSync, appendFileSync, existsSync, rea
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { isRateLimit, shouldRun } from "./resume.mjs";
-import { buildCodexArgs, parseCodexStream, removeStagedWorkspace, resolveCodexInvocation, resolveInstalledLoreRoot, stageCodexWorkspace } from "./providers.mjs";
+import { buildCodexArgs, parseCodexStream, removeStagedWorkspace, resolveCodexInvocation, resolveInstalledLoreRoot, sanitizeCommand, stageCodexWorkspace } from "./providers.mjs";
 import { resolveSuite } from "./suite.mjs";
 import { buildRepairPrompt, failedOriginal } from "./repair.mjs";
 import { gradeTask, validateTaskGrader } from "./effect-2.3.2/grading.mjs";
@@ -180,9 +180,10 @@ function summary(rows) {
     if (!a.length) continue;
     const pass = a.filter((r) => r.verdict === "pass").length;
     const na = a.filter((r) => r.verdict === "n/a").length;
+    const pending = a.filter((r) => r.verdict === "pending").length;
     const mean = (k) => a.reduce((s, r) => s + Number(r[k]), 0) / a.length;
     console.log(
-      `${arm.padEnd(5)} ${pass}/${a.length} pistas respetadas` +
+      `${arm.padEnd(5)} ${pending === a.length ? `${pending} pendiente(s) de adjudicación` : `${pass}/${a.length} pistas respetadas`}` +
       (a.some((r) => r.cost_usd != null) ? `   $${mean("cost_usd").toFixed(4)}/tarea` : "") +
       `   ${mean("output_tokens").toFixed(0)} tok out` +
       `   ${(mean("duration_ms") / 1000).toFixed(0)}s` +
@@ -205,6 +206,8 @@ function regradeSaved() {
   const rows = [];
   for (const f of files) {
     const r = JSON.parse(readFileSync(join(RAW, f), "utf8"));
+    if (Array.isArray(r.tools)) r.tools = r.tools.map(sanitizeCommand);
+    if (!r.error) r.stderr = "";
     const task = TASKS.find((t) => t.id === r.task);
     const g = r.error ? { verdict: "n/a", compliance: [], violation: [] } : gradeTask(task, r.text, GRADE_SCOPE);
     if (g.verdict !== r.verdict) console.log(`  ${r.verdict} → ${g.verdict}   ${f}`);

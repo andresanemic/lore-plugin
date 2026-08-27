@@ -1,0 +1,3 @@
+task,arm,trial,verdict,read_lore,compliance_hits,violation_hits,cost_usd,input_tokens,output_tokens,cache_read,tool_calls,duration_ms,num_turns
+web-landing,cold,1,pending,false,0,0,,88100,1527,60416,4,44326,1
+web-landing,lore,1,pending,true,0,0,,271477,2636,239360,8,68985,1
