@@ -84,7 +84,7 @@ resultados del benchmark. La productividad mide un efecto; no reemplaza el prop�
 
 ## 2. Resumen de skills
 
-El plugin Lore expone ocho skills principales a través de agentes de IA compatibles:
+El plugin Lore expone siete skills principales a través de agentes de IA compatibles:
 
 | Skill            | Propósito                                     | Frase disparadora típica                                   |
 |------------------|-----------------------------------------------|------------------------------------------------------------|
@@ -92,10 +92,9 @@ El plugin Lore expone ocho skills principales a través de agentes de IA compati
 | `brainstorming-lore` | Diseñar cambios específicos de Lore sin apropiarse del brainstorming general | «haz brainstorming de este Lore», o la invoca una skill Lore dueña del artefacto |
 | `create-area`    | Crear una nueva Área con Lore compartido      | «crea un área de trabajo para Frontend», «quiero empezar a trabajar en X con Lore» |
 | `create-project` | Crear un proyecto que hereda de un Área       | «crea un proyecto de Sitio de marketing en el área Frontend» |
-| `save-to-lore`   | Capturar criterio tras resolver un problema (**capture**) o arbitrar criterio importado de una skill/guía ajena (**graft**) | «guarda en lore», «destila esto en el lore» (capture) / «destila la skill X en el lore» (graft) |
+| `save-to-lore`   | Capturar criterio (**capture**), arbitrar criterio importado (**graft**) o minar condicionalmente una bandeja de notas sueltas | «guarda en lore», «destila la skill X en el lore», «revisa mis notas y guarda lo que corresponda» |
 | `transmute-lore` | Operar un Lore existente en ocho modos | add / clean / translate / upgrade / prune / **mycelium** / leave / crystallize |
 | `create-bot`     | Construir un bot: un solo lugar donde abrir sesión y trabajar en varios proyectos a la vez, con su criterio alcanzable y enrutado | «crea un bot para trabajar en X e Y» (nuevo) / «quiero un bot que federe el lore que ya existe en A y B» (federar) |
-| `obsidian-lore`  | Capturar notas libres en el mismo árbol donde vive el Lore, y **minar** esa bandeja buscando lo que merece volverse criterio | «revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore», «mina la bandeja», «guarda esta nota en Obsidian» |
 
 Cada skill opera sobre, o crea, artefactos Markdown específicos dentro de tu repositorio.
 
@@ -169,7 +168,7 @@ Usa `use-lore` siempre que no tengas claro dónde empezar.
 - Preguntar una decisión que cambie el diseño a la vez y comparar solo caminos materialmente distintos.
 - Presentar un diseño proporcional, conservar el umbral de la skill dueña y devolverle el control tras la aprobación.
 - No escribir el artefacto final ni quitarle la propiedad a `create-area`, `create-project`, `create-bot`,
-  `save-to-lore`, `transmute-lore` u `obsidian-lore`.
+  `save-to-lore` o `transmute-lore`.
 
 ---
 
@@ -316,6 +315,13 @@ skill sobre esa pista es un no-op seguro (idempotencia).
 
 **Invariantes:** el criterio nunca se inventa; todo proviene de experiencia real; el ruido descartado se informa, nunca se elimina en silencio; todo cambio pasa por un umbral antes de escribirse; nada hace commit automáticamente y nunca se hace `git push`; un ser humano siempre revisa el *diff* final. Una Pista que cita otra ley hereda su **frontera de validez** o dice por qué no, y enuncia su regla
   por la **condición**, no por la categoría en la que esa condición suele cumplirse.
+
+**Función de notas sueltas (lectura condicional):** cuando la petición apunta a `notas/`, `notes/`
+o `apuntes/`, `save-to-lore` carga `skills/save-to-lore/notas.md`. El procedimiento es neutral a la
+aplicación: Obsidian es opcional. Barre la bandeja completa —aunque sea una sola carpeta—, extrae
+`.md`, `.txt` y `.docx`, reporta deuda, clasifica en experiencia, estado, criterio importado o
+información, enruta, propone el diff y espera aprobación. Al cerrar marca `destilado:` y mueve las
+notas cerradas a `archivadas/`; nunca las borra. La nota sigue siendo fuente, no criterio.
 
 Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decisiones importantes.
 
@@ -595,17 +601,18 @@ Usa `create-bot` cuando quieras una sola sesión que trabaje sobre varios proyec
 
 ---
 
-### 3.8 `obsidian-lore`
+### Función de notas que carga `save-to-lore`
 
-**Propósito:** gobernar el solape entre una vault de Obsidian y el Lore cuando comparten árbol de
-archivos, capturar notas y minar la bandeja. La nota siempre es material fuente; `save-to-lore` es
-dueña de cualquier criterio que sobreviva clasificación, enrutamiento y umbral.
+**Propósito:** capturar notas sueltas y minar la bandeja sin depender de una aplicación. La nota
+siempre es material fuente; `save-to-lore` es dueña de cualquier criterio que sobreviva
+clasificación, enrutamiento y umbral. El detalle operativo vive en `skills/save-to-lore/notas.md` y
+se carga solo cuando la petición trata una carpeta de notas.
 
-**Precondición:** la vault debe ser la **carpeta madre que contiene las Áreas**, no una carpeta al lado — la skill verifica que al menos un hijo directo de la raíz tenga `lore/`, o se detiene y apunta a `create-area`. La ruta nunca se asume.
+**Precondición:** la raíz de trabajo debe ser la **carpeta madre que contiene las Áreas**, no una carpeta al lado — la función verifica que al menos un hijo directo de la raíz tenga `lore/`, o se detiene y apunta a `create-area`. La ruta nunca se asume.
 
-**La bandeja:** una carpeta nombrada en el idioma del usuario (`notas/`). El barrido es recursivo sobre `**/*.md`; las subcarpetas quedan a criterio de quien escribe.
+**La bandeja:** una carpeta nombrada en el idioma del usuario (`notas/`, `notes/` o `apuntes/`). El barrido es recursivo y extrae `.md`, `.txt` y `.docx`; las subcarpetas quedan a criterio de quien escribe.
 
-**Recomendación permanente: la bandeja vive en un bot.** Es la configuración para la que esta skill fue diseñada, recomendada en su primera ejecución y cada vez que un barrido ocurre fuera de un bot. La razón es el enrutamiento: un bot enruta cada nota **contra `lore/enrutamiento.md`**, donde está escrita la finalidad de cada Área y proyecto federado, y los casos frontera se preguntan en vez de adivinarse. Fuera de un bot, el enrutamiento sale de una sola ruta y de la lectura del texto — una conjetura con la misma cara de certeza. ¿Sin bot y notas que tocan más de un Área? La skill propone `create-bot`.
+**Recomendación permanente: la bandeja vive en un bot.** Es la configuración recomendada en la primera ejecución y cada vez que un barrido ocurre fuera de un bot. La razón es el enrutamiento: un bot enruta cada nota **contra `lore/enrutamiento.md`**, donde está escrita la finalidad de cada Área y proyecto federado, y los casos frontera se preguntan en vez de adivinarse. Fuera de un bot, el enrutamiento sale de una sola ruta y de la lectura del texto — una conjetura con la misma cara de certeza. ¿Sin bot y notas que tocan más de un Área? La función propone `create-bot`.
 
 **Vive donde se abre la sesión**, y esto no es cosmético:
 
@@ -647,11 +654,11 @@ Existe un quinto destino, más raro: una nota que cambia **cómo se trabaja en c
 
 **Enrutamiento**, deteniéndose en el primero que resuelva: el `origen` de la nota → el `lore/enrutamiento.md` del bot → el proyecto o Área donde corre la sesión → **ambiguo, se pregunta**. La primera vez que se resuelve una ambigüedad, la **frontera** puede valer como Pista; el filtro de ruido también aplica ahí.
 
-**Idempotencia y ciclo de vida:** al cerrar, cada nota minada recibe su `destilado:` con fecha y destino — incluidas las que no produjeron nada. Una nota con `destilado` no vacío se salta en los barridos siguientes. Las notas cerradas se mueven luego a `<bandeja>/archivadas/` (una bandeja que ya usa otra subcarpeta para esto conserva su nombre); un cuaderno vivo con `destilado:` vacío se queda donde está. La marca viaja con el archivo, así que la idempotencia se mantiene y el conteo de deuda no cambia. **La skill nunca borra una nota:** mover no es borrar; se mina antes de borrar, y borrar lo decide el humano.
+**Idempotencia y ciclo de vida:** al cerrar, cada nota minada recibe su `destilado:` con fecha y destino — incluidas las que no produjeron nada. Una nota con `destilado` no vacío se salta en los barridos siguientes. Las notas cerradas se mueven luego a `<bandeja>/archivadas/` (una bandeja que ya usa otra subcarpeta para esto conserva su nombre); un cuaderno vivo con `destilado:` vacío se queda donde está. La marca viaja con el archivo, así que la idempotencia se mantiene y el conteo de deuda no cambia. **La función nunca borra una nota:** mover no es borrar; se mina antes de borrar, y borrar lo decide el humano.
 
 **Por qué un barrido y no un comando disponible.** Una nota satisface las ganas de preservar con el criterio inerte adentro — separar las notas del Lore no lo evitó: el registro siguió inerte seis semanas. Lo que lo evita es el barrido y su deuda visible, que `save-to-lore` también reporta al cerrar.
 
-Usa `obsidian-lore` cuando ya acumules notas y quieras que dejen de ser solo notas — no es un gestor de notas: `Read` y `Grep` ya leen la vault.
+Usa `save-to-lore` cuando ya acumules notas y quieras que dejen de ser solo notas — no es un gestor de notas: las herramientas de lectura ya leen la bandeja.
 
 ---
 

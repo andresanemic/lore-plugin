@@ -1,6 +1,6 @@
 ---
 name: save-to-lore
-description: Use when saving a lesson to the Lore or right after solving a problem worth keeping, or when distilling Lore from an external body of criteria (a skill, a style guide, a third-party playbook). Trigger on "save to lore", "distill this to the lore", "guarda en lore", "distill this skill", "destila esta skill", "guárdalo como formato base", "esto es el estándar de ahora en más", or proactively after resolving a friction that passes the Lore bar (constraint + signal + executability + genericity).
+description: Use when saving a lesson to the Lore, distilling an external body of criteria, or reviewing a folder of loose notes to decide what becomes criteria or state. Trigger on "save to lore", "guarda en lore", "destila esta skill", "revisa mis notas", "mina la bandeja", or proactively after resolving a friction worth keeping.
 ---
 
 # save-to-lore — Incremental capture and promotion
@@ -26,6 +26,17 @@ incremental counterpart to the structural skills: `transmute-lore` migrates a wh
 > **The area is the shared corpus.** A project lives in `{area}/proyectos/{name}/` and inherits from
 > `{area}/lore/`. Generic, confirmed criteria belongs in the **area** (every project sees it);
 > project-specific criteria stays in the **project**. This skill decides which is which.
+
+## Loose-note function — load only for note tasks
+
+When the request points at `notas/`, `notes/`, `apuntes/`, meeting notes, or any folder of `.md`,
+`.txt` or `.docx` and asks to review, integrate, extract, distill or save its contents, **read
+[`notas.md`](notas.md) before touching the files**. That file owns the source-side sweep,
+frontmatter, four-bucket classification, debt report and archive. It is app-neutral: Obsidian is one
+possible editor, never a prerequisite.
+
+Do not load `notas.md` for an ordinary CAPTURE or GRAFT whose source is not a loose-note folder.
+The separation is deliberate: users who never keep notes should not pay for the mining procedure.
 
 ## Before anything: the mode is decided here, not before you arrived
 
@@ -223,17 +234,9 @@ each clue or commit. Never push.
 
 ### The input can be a note, not only a conversation
 
-One or several **free notes** — an Obsidian inbox, a folder of Markdown, meeting minutes — are a
-valid input to either mode. The note is **source, never criteria**: it does not skip the threshold,
-it does not enter verbatim, and it is never cited as a rule. Pick the mode by what the note records —
-a friction the user lived through → CAPTURE; someone else's criteria the user collected → GRAFT.
-
-A note that records a friction **still open** is state, not criteria → `FASES.md`. A note that is a
-summary, a link or an agenda is **information**, and information is not distillable: report it as
-noise, or hand it to `create-area` / `create-project` / `transmute-lore` as source material.
-
-`obsidian-lore` is what sweeps a `notes/` or `notas/` inbox and routes it here, so invoke it first
-whenever the source lives there. A standalone source note outside an inbox may be handled directly.
+A standalone source note may enter either mode directly. A folder or inbox of loose notes uses the
+conditional function in [`notas.md`](notas.md) first; it preserves source-side tracking before this
+skill writes any destination.
 
 ### A professional profile is learned, not collected
 
@@ -380,8 +383,8 @@ Lore that grows by accumulation. A flat list of independent rules has no inherit
 
 ### Step 3 — Inbox debt (one line, only if an inbox exists)
 
-If the current project, area, or bot has a free-note inbox (see `obsidian-lore`), count the notes with an
-empty `destilado` and close with one line: *«N notas sin minar, la más vieja de hace X días.»*
+If the current project, area, or bot has a free-note inbox, follow [`notas.md`](notas.md): count the
+notes with an empty `destilado` and close with one line: *«N notas sin minar, la más vieja de hace X días.»*
 Nothing else — no listing, no proposal.
 
 > **Why here and nowhere else.** A note satisfies the urge to preserve without producing criteria,

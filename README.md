@@ -6,12 +6,11 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.3.3-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.4.0-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/AI_provider-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="AI provider: neutral"></a>
-  <a href="#the-eight-skills"><img src="https://img.shields.io/badge/writing--skills-validated-63C49B?style=for-the-badge&labelColor=0B0B12" alt="Validated against writing-skills"></a>
+  <a href="#the-seven-skills"><img src="https://img.shields.io/badge/writing--skills-validated-63C49B?style=for-the-badge&labelColor=0B0B12" alt="Validated against writing-skills"></a>
   <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
-  <a href="#obsidian-notes"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Obsidian compatible"></a>
   <a href="#origin"><img src="https://img.shields.io/badge/research-active-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Status"></a>
 </p>
 
@@ -66,8 +65,8 @@ It is a loop of re-explanations and mediocre solutions you had already rejected.
 **Use it**
 
 [Architecture](#architecture) ·
-[The eight skills](#the-eight-skills) ·
-[Obsidian](#obsidian-notes) ·
+[The seven skills](#the-seven-skills) ·
+[Loose notes](#loose-notes) ·
 [Documentation](#documentation)
 
 </td>
@@ -100,7 +99,7 @@ A fine-tune stops asking things of you the day it ships. Lore never stops: one d
 Three things:
 
 - a simple convention for organizing a project's criteria;
-- eight skills that operate that convention;
+- seven skills that operate that convention;
 - and a continuous loop for distilling experience into reusable criteria.
 
 Spec-driven is not a label here: one contract per project (`CLAUDE.md` or `AGENTS.md`, whichever your host reads), `FASES.md` for where the work stands, `lore/` for what constrains how it gets built.
@@ -283,7 +282,7 @@ You just shipped a landing page and the feedback is: "I didn't know what to do o
 
 Three months later, another project in the same Area ships a landing page. The criteria is already loaded, so that mistake does not happen again.
 
-> None of it was written without a human saying yes. The same gate governs all eight skills.
+> None of it was written without a human saying yes. The same gate governs all seven skills.
 
 ---
 
@@ -371,9 +370,9 @@ Areas and projects are places; **a bot is a lens you carry into them.** An Area 
 
 ---
 
-## The eight skills
+## The seven skills
 
-**This kit moves with Superpowers' `writing-skills` discipline, not past it.** Every changed skill is checked against it before it ships; the 2.3.3 control/treatment evidence is recorded with the benchmark. Nemotron 3 Ultra performed the 2.3.3 audit; the remediation was rebuilt and verified with GPT-5.6 Sol medium and Claude Code Sonnet 5.
+**This kit moves with Superpowers' `writing-skills` discipline, not past it.** Every changed skill is checked against it before it ships; the current loose-note GREEN/REFACTOR evidence lives in [`bench/writing-skills-2.4.0/README.md`](./bench/writing-skills-2.4.0/README.md), alongside the earlier 2.3.3 audit record.
 
 > **The skills are written in English; the Lore they produce is not** — content and filenames included, in your language. The English in a `SKILL.md` is the portable substrate that lets the kit run on other hosts, not the language of the kit. Do not open one to explain a mode to someone (we learned this in Case 12, live) — that is what the table and the two docs below are for.
 
@@ -383,10 +382,9 @@ Areas and projects are places; **a bot is a lens you carry into them.** An Area 
 | `brainstorming-lore` | Designs Lore artifacts, or deliverables governed by routed process modules, without taking over generic ideation; preserves recognizable continuity and fertile effort | before a material Lore change or governed design |
 | `create-area` | Creates an Area with its shared Lore | opening a new domain |
 | `create-project` | Creates a project that inherits from the Area | starting a piece of work |
-| `save-to-lore` | Distills a lesson and decides whether it rises to the Area | every day |
+| `save-to-lore` | Distills a lesson, or mines a loose-notes inbox, and decides whether it rises to the Area | every day |
 | `transmute-lore` | Migrates, cleans, translates, upgrades, prunes or exports a safe snapshot of Lore | inheriting, maintaining, updating or sharing Lore |
 | `create-bot` | One place to open a session and work across several Areas at once | from zero, or once there is Lore to federate |
-| `obsidian-lore` | Mines loose notes and routes what survives | once the inbox gets heavy |
 
 **Day one needs two of these:** `use-lore` routes you to whatever comes next, and `save-to-lore` is the one you will actually type — *"save to lore"*, after solving something that cost you. **Getting started, day-to-day use and the full mechanism for every skill and mode** live in one place: [`REFERENCE_en.md`](./docs/REFERENCE_en.md).
 
@@ -394,19 +392,19 @@ Optional Lore encryption remains experimental and off by default; see [`ENCRYPTI
 
 ---
 
-## Obsidian notes
+## Loose notes
 
-Point Obsidian at the **mother folder of your Areas** and add a `notes/` (or `notas/`) folder inside any project, Area or bot — the same tree is your workspace and your vault. When you want the AI to read what you left there, run:
+Add a `notes/`, `notas/` or `apuntes/` folder inside any project, Area or bot. It can be written with any editor; Obsidian is optional. When you want the AI to read what you left there, run:
 
-> "review my Obsidian notes and see what belongs in my lore"
+> "review my notes and see what belongs in my lore"
 
-`obsidian-lore` scans the folder, separates criteria from tasks and noise, proposes the owning Lore and waits for your approval. It marks each mined note with date and destination and never deletes it. A bot routes notes more reliably because it already knows each project's purpose. **A note is source, never criteria** — nothing crosses without explicit distillation and an approved diff.
+`save-to-lore` conditionally loads its loose-note procedure, scans the whole inbox, separates criteria from tasks and noise, proposes the owning Lore and waits for your approval. It marks each mined note with date and destination and never deletes it. A bot routes notes more reliably because it already knows each project's purpose. **A note is source, never criteria** — nothing crosses without explicit distillation and an approved diff.
 
 ---
 
 ## Shared invariants
 
-All eight skills follow the same rules:
+All seven skills follow the same rules:
 
 - Lore is written **in your language**.
 - **Criteria is never invented.** Everything comes from real experience.
@@ -537,12 +535,11 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.3.3-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.4.0-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/proveedor_IA-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Proveedor IA: neutral"></a>
-  <a href="#las-ocho-skills"><img src="https://img.shields.io/badge/writing--skills-validado-63C49B?style=for-the-badge&labelColor=0B0B12" alt="Validado contra writing-skills"></a>
+  <a href="#las-siete-skills"><img src="https://img.shields.io/badge/writing--skills-validado-63C49B?style=for-the-badge&labelColor=0B0B12" alt="Validado contra writing-skills"></a>
   <a href="./docs/SPEC_KIT_es.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
-  <a href="#notas-obsidian"><img src="https://img.shields.io/badge/Obsidian-compatible-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white&labelColor=0B0B12" alt="Compatible con Obsidian"></a>
   <a href="#origen"><img src="https://img.shields.io/badge/investigaci%C3%B3n-activa-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Estado"></a>
 </p>
 
@@ -592,8 +589,8 @@ Es un bucle de reexplicaciones y soluciones mediocres que ya habías descartado.
 **Usarlo**
 
 [Arquitectura](#arquitectura) ·
-[Las ocho skills](#las-ocho-skills) ·
-[Obsidian](#notas-obsidian) ·
+[Las siete skills](#las-siete-skills) ·
+[Notas sueltas](#notas-sueltas) ·
 [Documentación](#documentación)
 
 </td>
@@ -729,7 +726,7 @@ codex plugin add lore@lore-plugin
 
 ### OpenCode
 
-Desde un clon local, copia las ocho carpetas de Lore en el directorio global de OpenCode:
+Desde un clon local, copia las siete carpetas de Lore en el directorio global de OpenCode:
 
 ```bash
 mkdir -p ~/.config/opencode/skills
@@ -891,9 +888,9 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 ---
 
-## Las ocho skills
+## Las siete skills
 
-**Este kit avanza junto a la disciplina `writing-skills` de Superpowers, no por delante de ella.** Cada skill modificada se revisa antes de publicarse; la evidencia de control/tratamiento de 2.3.3 queda registrada junto al benchmark. Nemotron 3 Ultra realizó la auditoría de 2.3.3; la subsanación se reconstruyó y verificó con GPT-5.6 Sol medium y Claude Code Sonnet 5.
+**Este kit avanza junto a la disciplina `writing-skills` de Superpowers, no por delante de ella.** Cada skill modificada se revisa antes de publicarse; la evidencia GREEN/REFACTOR actual de notas sueltas vive en [`bench/writing-skills-2.4.0/README.md`](./bench/writing-skills-2.4.0/README.md), junto al registro anterior de la auditoría 2.3.3.
 
 > **Las skills están escritas en inglés y el Lore que producen, no** — contenido y nombres de archivo incluidos, en tu idioma. El inglés del `SKILL.md` es el sustrato portable con el que el kit funciona en otros hosts, no el idioma del kit. No abras uno para explicarle a alguien qué hace un modo (lo aprendimos en el Caso 12, en vivo) — para eso está la tabla y los dos docs de abajo.
 
@@ -903,10 +900,9 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 | `brainstorming-lore` | Diseña artefactos Lore, o entregables gobernados por módulos de proceso enrutados, sin apropiarse de la ideación genérica; preserva la continuidad reconocible y el esfuerzo fértil | antes de un cambio Lore material o un diseño gobernado |
 | `create-area` | Crea un Área con su Lore compartido | al abrir un dominio nuevo |
 | `create-project` | Crea un proyecto que hereda del Área | al empezar un trabajo |
-| `save-to-lore` | Destila una lección y decide si sube al Área | todos los días |
+| `save-to-lore` | Destila una lección, o mina una bandeja de notas sueltas, y decide si sube al Área | todos los días |
 | `transmute-lore` | Migra, limpia, traduce, actualiza, poda o exporta una fotografía segura del Lore | al heredar, mantener, actualizar o compartir Lore |
 | `create-bot` | Un lugar donde abrir sesión y trabajar sobre varias Áreas a la vez | desde cero, o cuando ya hay Lore que federar |
-| `obsidian-lore` | Mina tus notas sueltas y enruta lo que sobrevive | cuando la bandeja pesa |
 
 **El primer día necesitas dos de estas:** `use-lore` te enruta hacia lo que sigue, y `save-to-lore` es la que vas a escribir de verdad — *"guarda en lore"*, después de resolver algo que te costó. **Cómo empezar, el uso cotidiano y el mecanismo completo de cada skill y modo** viven en un solo lugar: [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
 
@@ -914,13 +910,13 @@ El cifrado del Lore sigue experimental y apagado por defecto; consulta [`ENCRYPT
 
 ---
 
-## Notas Obsidian
+## Notas sueltas
 
-Apunta Obsidian a la **carpeta madre de tus Áreas** y agrega una carpeta `notas/` (o `notes/`) dentro del proyecto, Área o bot donde estés trabajando — el mismo árbol es tu espacio de trabajo y tu vault. Cuando quieras que la IA lo lea, activa la skill:
+Agrega una carpeta `notas/`, `notes/` o `apuntes/` dentro del proyecto, Área o bot donde estés trabajando. Puedes escribirla con cualquier editor; Obsidian es opcional. Cuando quieras que la IA la lea, pide:
 
-> «revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore»
+> «revisa mis notas y checa si algo se puede guardar en mi lore»
 
-`obsidian-lore` hace el barrido, separa criterio de tareas y ruido, propone el Lore dueño y espera tu aprobación. Marca cada nota minada con fecha y destino y nunca la borra. Un bot enruta mejor porque ya conoce la finalidad de cada proyecto. **Una nota es fuente, nunca criterio**: nada cruza sin destilación explícita y un diff aprobado.
+`save-to-lore` carga condicionalmente su procedimiento de notas, hace el barrido completo, separa criterio de tareas y ruido, propone el Lore dueño y espera tu aprobación. Marca cada nota minada con fecha y destino y nunca la borra. Un bot enruta mejor porque ya conoce la finalidad de cada proyecto. **Una nota es fuente, nunca criterio**: nada cruza sin destilación explícita y un diff aprobado.
 
 ---
 

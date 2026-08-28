@@ -61,7 +61,7 @@ This is cheap and mandatory on an area tree. A standalone project with one git r
 
 ### Phase 2 — Arbitrate the existing Lore against the current kit
 
-Before the artifact pass, detect a local `notas/` or `notes/` inbox. **Count it and declare the debt.** Mine a note only when it constrains a decision of *this* upgrade. The rest wait for `obsidian-lore` as its own job. **The notes stay in their inbox**; they are source and provenance, never migration debris. UPGRADE must not move, delete or absorb them into `lore/`.
+Before the artifact pass, detect a local `notas/`, `notes/` or `apuntes/` inbox. **Count it and declare the debt.** Mine a note only when it constrains a decision of *this* upgrade. The rest wait for the conditional `save-to-lore/notas.md` function as its own job. **The notes stay in their inbox**; they are source and provenance, never migration debris. UPGRADE must not move, delete or absorb them into `lore/`.
 
 Go artifact by artifact and produce a finding list. Each finding is one of exactly four kinds, and
 naming the kind is what keeps this from becoming a rewrite:

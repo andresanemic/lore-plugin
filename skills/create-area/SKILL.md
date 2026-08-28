@@ -71,7 +71,9 @@ creates the area.
 > written when control returns.
 
 **If the user already has material about this domain — source documents, or a pile of free notes
-they have been writing (an Obsidian inbox, meeting minutes) — read it before proposing anything.**
+they have been writing in any app — read it before proposing anything.** If they ask to mine or save
+that inbox rather than use it as creation input, route to `save-to-lore` and its conditional
+`notas.md` function.
 An area born from real material has a purpose and an anti-scope that can be argued; one born from a
 blank brainstorm has adjectives. The notes are source: they shape the identity, and nothing in them
 becomes criteria until it is distilled.

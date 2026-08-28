@@ -139,8 +139,9 @@ kind of apparatus `PRUNE` exists to catch — so this skill does not preload the
 - **Clean tree gates writing, not diagnosis:** ADD/CLEAN/TRANSLATE keep their existing Phase 0
   precondition; UPGRADE may diagnose and present its threshold in a dirty/read-only tree, then
   requires a clean tree immediately before applying the approved findings.
-- **Free notes survive transmutation.** A `notas/` / `notes/` inbox is mined by `obsidian-lore`,
-  receives traceable frontmatter, and remains in place. No transmute mode deletes it as cleanup.
+- **Free notes survive transmutation.** A `notas/` / `notes/` / `apuntes/` inbox is mined by the
+  conditional `save-to-lore/notas.md` function, receives traceable frontmatter, and remains in
+  place. No transmute mode deletes it as cleanup.
 - **Do not overwrite old lore/docs without surfacing discrepancies** with code or the description.
 - **A paragraph is a paragraph.** Continuous prose in `lore/`, the contract and `FASES.md` runs to
   the period, not to column 80. Full statement and boundary live in `use-lore`; this skill is the

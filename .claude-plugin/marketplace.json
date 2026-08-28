@@ -5,13 +5,13 @@
   },
   "metadata": {
     "description": "The Lore marketplace — provider-neutral project criterion for AI agents.",
-    "version": "2.3.3"
+    "version": "2.4.0"
   },
   "plugins": [
     {
       "name": "lore",
       "source": "./",
-      "description": "Local fine-tuning for your own tasks, except the one doing the training is you. Operate Lore with use-lore, brainstorming-lore, create-area, create-project, create-bot, save-to-lore, transmute-lore, and obsidian-lore."
+      "description": "Local fine-tuning for your own tasks, except the one doing the training is you. Operate Lore with use-lore, brainstorming-lore, create-area, create-project, create-bot, save-to-lore, and transmute-lore."
     }
   ]
 }

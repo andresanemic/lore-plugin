@@ -85,7 +85,7 @@ El método volvió, seis semanas después, al proyecto donde había nacido en br
 - **«Indexado y obligatorio» no implica «consultado»**: estaba en la tabla del `CLAUDE.md` y era ley en `principios.md`, y aun así no se cargó. Accesible es necesario y no suficiente.
 - **El filtro de admisión no mide la altitud.** Una Pista entró un día y al siguiente no impidió el segundo síntoma de su causa: escrita sobre la superficie vista, no sobre la causa.
 
-**Este caso es la razón de que `obsidian-lore` sea un barrido y no un botón:** recorre las notas buscando criterio; no convierte una nota suelta a pedido.
+**Este caso es la razón de que la función de notas de `save-to-lore` sea un barrido y no un botón:** recorre las notas buscando criterio; no convierte una nota suelta a pedido.
 
 **Frontera declarada:** es software, mismo investigador y mismo interlocutor, y no hay contrafactual. Evidencia testimonial, no medida.
 
