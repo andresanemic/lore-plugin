@@ -121,6 +121,12 @@ the routing table below and this section is skipped.
 Three rules that hold for **every** new Lore configuration the user builds, forever, not only the
 first:
 
+Before applying the version gate, read LEAVE state in `FASES.md`. A `leave:partial` marker means the
+exit never finished: resume LEAVE from its checklist and do not start another structural operation.
+A final `leave:` marker means governance is intentionally dormant; offer UPGRADE once if the person
+wants to re-enter, because UPGRADE owns restoration from the retained checklist. Otherwise leave the
+tree dormant and continue without treating its version as an upgrade debt.
+
 1. **The skill that governs an artifact is always invoked to write it.** Not consulted afterwards,
    not imitated from memory. See *The failure these skills cannot see*, below.
 2. **The version that runs is the installed, up-to-date one.** These skills accumulate scars: a

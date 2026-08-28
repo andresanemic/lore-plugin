@@ -297,7 +297,8 @@ Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decision
   - `leave` – «dejar el lore», «salir del lore sin perder criterio» — inventaría cada junta activa
     de ejecución, se detiene antes de cambiar un symlink o contrato compartido y retira solo las
     rutas automáticas aprobadas, conservando `lore/` y `enrutamiento.md` plano. Un pase interrumpido
-    queda como `leave:partial`; `leave:` se escribe solo tras verificación estática y en sesión fresca.
+    queda como `leave:partial`; `leave:` se escribe solo tras verificación estática y en sesión fresca
+    y conserva el checklist aprobado para una reentrada posterior mediante UPGRADE.
   - `crystallize` – «cristaliza este Lore», «exporta este Lore a un solo Markdown», «extrae esta
     cristalización» — resuelve el enrutamiento vivo en una copia de lectura segura y trazable
     para un chat, proyecto de IA o notebook, marcada para desempaquetarse en una carpeta cuyo

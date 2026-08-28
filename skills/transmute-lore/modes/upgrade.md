@@ -12,6 +12,15 @@ relitigate what the project already paid for.
 
 ### Phase 0 — Safety precondition
 
+Read `FASES.md` for LEAVE state before ordinary upgrade diagnosis. `leave:partial` means the exit is
+unfinished: stop UPGRADE and resume LEAVE from its approved checklist. A final `leave:` means the
+person is asking to re-enter governance. Use its approved junction checklist as the restoration
+manifest, re-check each recorded surface against the current tree, and present the routes that can
+still be restored as `Missing` findings at the normal threshold. Never recreate a deleted hook,
+contract or generated file from memory. A legacy `leave:` with no checklist can restore only the
+canonical block and `FASES.md` pointers that can be derived from the current shape; report every
+other former junction as unknown.
+
 Inspect `git status` and report whether the tree is clean, but **do not stop the diagnosis**. UPGRADE
 is useful before the user is ready to write: it can read, arbitrate and present the full threshold
 in a dirty or read-only tree. A clean tree is a precondition for **Phase 4 (writing)**, not for

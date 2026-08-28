@@ -9,7 +9,9 @@ read-only pre-flight now inventories the always-on block, surrounding host-contr
 secondary contracts, `FASES.md`, hooks and generated configuration. It stops before changing a
 symlink or shared contract, shows the exact removal set, writes `leave:partial` before mutation and
 keeps that recovery checklist until both static and fresh-session verification pass. It preserves
-`lore/`, plain `enrutamiento.md` and unrelated contract or hook content.
+`lore/`, plain `enrutamiento.md` and unrelated contract or hook content. The final marker retains
+the checklist; use-lore resumes a partial exit and UPGRADE re-checks the recorded surfaces before
+offering a later re-entry.
 
 The same audit closed four adjacent contract gaps:
 
@@ -57,7 +59,8 @@ contrato del host, contratos secundarios, `FASES.md`, hooks y configuración gen
 antes de cambiar un symlink o contrato compartido, muestra el conjunto exacto a retirar, escribe
 `leave:partial` antes de mutar y conserva ese checklist de recuperación hasta que pasan la
 verificación estática y la de sesión fresca. Preserva `lore/`, `enrutamiento.md` plano y el contenido
-ajeno de contratos y hooks.
+ajeno de contratos y hooks. El marcador final conserva el checklist; use-lore reanuda una salida
+parcial y UPGRADE vuelve a comprobar las superficies registradas antes de ofrecer una reentrada.
 
 La misma auditoría cerró cuatro brechas contractuales adyacentes:
 

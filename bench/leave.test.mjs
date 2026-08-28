@@ -95,6 +95,18 @@ test("LEAVE conserva leave:partial hasta terminar las dos verificaciones", () =>
   assert.match(procedure, /keep `leave:partial`/i);
   assert.doesNotMatch(procedure, /replace the partial marker with.*`leave:/i);
   assert.match(leave, /Only after both checks pass may the partial marker become `leave:`/i);
+  assert.match(leave, /retain the approved junction checklist/i);
+});
+
+test("use-lore y UPGRADE distinguen LEAVE parcial de una reentrada", () => {
+  const use = skill("use-lore");
+  const transmute = skill("transmute-lore");
+  const upgrade = transmute.slice(transmute.indexOf("## UPGRADE mode"), transmute.indexOf("## PRUNE mode"));
+  assert.match(use, /`leave:partial`.*resume LEAVE/is);
+  assert.match(use, /final `leave:`.*offer UPGRADE/is);
+  assert.match(upgrade, /`leave:partial`.*resume LEAVE/is);
+  assert.match(upgrade, /final `leave:`.*approved junction checklist/is);
+  assert.match(upgrade, /re-check each recorded surface/i);
 });
 
 test("LEAVE separa checks estáticos de la prueba conductual en sesión fresca", () => {

@@ -303,7 +303,8 @@ creates a derivative, traceable, extractable memory card that never replaces the
   - `leave` – "leave Lore", "leave Lore without losing the criterion" — inventories every active
     execution junction, stops before changing a symlink or shared contract, and removes only the
     approved automatic routes while keeping `lore/` and plain `enrutamiento.md`. An interrupted pass
-    stays `leave:partial`; `leave:` is written only after static and fresh-session verification.
+    stays `leave:partial`; `leave:` is written only after static and fresh-session verification and
+    retains the approved checklist for a later UPGRADE re-entry.
   - `crystallize` – "crystallize this Lore", "export this Lore to one Markdown", "extract this
     crystallization" — resolve the live routing into a safe, traceable reading copy for a chat,
     AI project or notebook, marked so it can be unpacked into a folder whose routing table resolves.

@@ -24,6 +24,9 @@
 - **Static verification:** repeat the junction inventory; the approved execution surfaces contain no automatic Lore route, `lore/` and plain `enrutamiento.md` remain, the diff contains no unrelated deletion, the project must remain buildable without the kit, and its normal checks pass.
 - **Behavioral verification:** open a fresh session, give it a task whose result a known clue would change, and do so without mentioning Lore. The agent does not apply that clue unless the user explicitly supplies it. This is a fresh-agent observation, not a regex or an `npm test` claim.
 
-Only after both checks pass may the partial marker become `leave:` and LEAVE be reported complete. If either fails, keep `leave:partial` and report the exact remaining junction.
+Only after both checks pass may the partial marker become `leave:` and LEAVE be reported complete.
+Retain the approved junction checklist beside the final marker as the dated restoration record that
+UPGRADE can arbitrate on re-entry. If either check fails, keep `leave:partial` and report the exact
+remaining junction.
 
 **Why here and not in `save-to-lore`:** `save-to-lore` adds one clue at a time (`use-lore:282`); `transmute-lore` migrates/restructures a whole project (`use-lore:284`). LEAVE touches three artifacts at once — it is ADD/CLEAN/PRUNE class, not CAPTURE/GRAFT. Placing it in `save-to-lore` was the exact error `H14` describes: well written, right frontier, wrong module, never governed.

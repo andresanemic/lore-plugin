@@ -371,7 +371,7 @@ It is not a CLI command: the mode is inferred from the phrase, not from a flag. 
   `Junta a otro árbol`: the junction exists but names an artifact this session does not load — the fix
   is naming the step where the work actually runs, not writing the clue again. It runs quiet: a clean
   pass says nothing (`H14`).
-- `leave` – **(2.3.3)** leave Lore without losing the project — inventory every active junction, stop on shared contracts, and remove only the approved automatic routes while keeping `lore/` and plain `enrutamiento.md`. `leave:partial` makes an interrupted pass resumable; `leave:` is written only after static checks and a fresh-session observation both pass (H13).
+- `leave` – **(2.3.3)** leave Lore without losing the project — inventory every active junction, stop on shared contracts, and remove only the approved automatic routes while keeping `lore/` and plain `enrutamiento.md`. `leave:partial` makes an interrupted pass resumable; `leave:` is written only after static checks and a fresh-session observation both pass, retaining the approved checklist so UPGRADE can arbitrate a later re-entry (H13).
 - `crystallize` – export the live, routed Lore as one safe and traceable Markdown for a chat, AI
   project or notebook. The snapshot is derived, may become stale, never replaces the source, and
   can be **extracted** back into a folder whose routing table resolves.

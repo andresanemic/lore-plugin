@@ -374,7 +374,7 @@ No es un comando de CLI: el modo se infiere de la frase, no de un flag. Tiene oc
   `Junta a otro árbol`: la junta existe pero nombra un artefacto que esta sesión no carga — el reparo es
   nombrar el paso donde el trabajo de verdad corre, no escribir la Pista otra vez. Corre en silencio:
   una pasada limpia no dice nada.
-- `leave` – **(2.3.3)** deja el Lore sin perder el proyecto — inventaría cada junta activa, se detiene ante contratos compartidos y retira solo las rutas automáticas aprobadas, conservando `lore/` y `enrutamiento.md` plano. `leave:partial` permite reanudar un pase interrumpido; `leave:` se escribe solo cuando pasan el chequeo estático y la observación en sesión fresca (H13).
+- `leave` – **(2.3.3)** deja el Lore sin perder el proyecto — inventaría cada junta activa, se detiene ante contratos compartidos y retira solo las rutas automáticas aprobadas, conservando `lore/` y `enrutamiento.md` plano. `leave:partial` permite reanudar un pase interrumpido; `leave:` se escribe solo cuando pasan el chequeo estático y la observación en sesión fresca, conservando el checklist aprobado para que UPGRADE arbitre una reentrada posterior (H13).
 - `crystallize` – exporta el Lore vivo y enrutado como un solo Markdown seguro y trazable para un
   chat, proyecto de IA o notebook. La fotografía es derivada, puede quedar obsoleta, nunca
   reemplaza la fuente, y se puede **extraer** de vuelta a una carpeta cuyo enrutamiento resuelve.
