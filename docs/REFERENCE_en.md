@@ -298,9 +298,10 @@ creates a derivative, traceable, extractable memory card that never replaces the
   place and is not written there · a step only says "consult this" · it is criteria outside `lore/` ·
   the step exists, in a file this session does not load. The mode runs quiet — nobody needs the
   vocabulary to ask, and the six do not merge: the last four are repaired in different directions.
-  - `leave` – "leave Lore", "leave Lore without losing the criterion" — removes governance and keeps
-    `lore/`. Writes the `leave:` marker in `FASES.md`, which is the whole of its reversibility:
-    `UPGRADE` reads it to come back.
+  - `leave` – "leave Lore", "leave Lore without losing the criterion" — inventories every active
+    execution junction, stops before changing a symlink or shared contract, and removes only the
+    approved automatic routes while keeping `lore/` and plain `enrutamiento.md`. An interrupted pass
+    stays `leave:partial`; `leave:` is written only after static and fresh-session verification.
   - `crystallize` – "crystallize this Lore", "export this Lore to one Markdown", "extract this
     crystallization" — resolve the live routing into a safe, traceable reading copy for a chat,
     AI project or notebook, marked so it can be unpacked into a folder whose routing table resolves.

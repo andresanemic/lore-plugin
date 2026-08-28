@@ -6,7 +6,7 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.3.2-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.3.3-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/AI_provider-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="AI provider: neutral"></a>
   <a href="#the-eight-skills"><img src="https://img.shields.io/badge/writing--skills-validated-63C49B?style=for-the-badge&labelColor=0B0B12" alt="Validated against writing-skills"></a>
   <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
@@ -411,7 +411,7 @@ The daily flow: solve something that cost you, type *"save to lore"* — candida
 
 ### `transmute-lore`
 
-Operates existing Lore in eight modes: **add** rescues scattered criteria into the six-piece architecture; **clean** removes what the Area already owns; **translate** standardizes language without changing meaning; **upgrade** sorts findings into Missing, Superseded, **Earned** or **Stale**; **prune** does the same against a Lore decayed by *accumulating correct things*; **mycelium** *(2.3.0)* reports clues **no step runs**; **leave** removes governance but keeps `lore/`, reversible; **crystallize** exports a safe single-Markdown snapshot. The Reference carries the full gates for each.
+Operates existing Lore in eight modes: **add** rescues scattered criteria into the six-piece architecture; **clean** removes what the Area already owns; **translate** standardizes language without changing meaning; **upgrade** sorts findings into Missing, Superseded, **Earned** or **Stale**; **prune** does the same against a Lore decayed by *accumulating correct things*; **mycelium** *(2.3.0)* reports clues **no step runs**; **leave** inventories and removes every active Lore junction while preserving `lore/`, reversible; **crystallize** exports a safe single-Markdown snapshot. The Reference carries the full gates for each.
 
 ### `create-bot`
 
@@ -573,7 +573,7 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.3.2-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.3.3-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/proveedor_IA-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Proveedor IA: neutral"></a>
   <a href="#las-ocho-skills"><img src="https://img.shields.io/badge/writing--skills-validado-63C49B?style=for-the-badge&labelColor=0B0B12" alt="Validado contra writing-skills"></a>
   <a href="./docs/SPEC_KIT_es.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
@@ -967,7 +967,7 @@ El flujo diario: resolvés algo que te costó, escribís *"guarda en lore"* — 
 
 ### `transmute-lore`
 
-Opera un Lore existente en ocho modos: **add** rescata criterio disperso hacia la arquitectura de seis piezas; **clean** elimina lo que el Área ya posee; **translate** estandariza el idioma sin alterar el significado; **upgrade** clasifica hallazgos en Missing, Superseded, **Earned** o **Stale**; **prune** hace lo mismo contra un Lore degradado por *acumular cosas correctas*; **mycelium** *(2.3.0)* reporta las pistas que **ningún paso corre**; **leave** quita gobierno pero conserva `lore/`, reversible; **crystallize** exporta una fotografía segura en un solo Markdown. La Referencia conserva las puertas completas de cada uno.
+Opera un Lore existente en ocho modos: **add** rescata criterio disperso hacia la arquitectura de seis piezas; **clean** elimina lo que el Área ya posee; **translate** estandariza el idioma sin alterar el significado; **upgrade** clasifica hallazgos en Missing, Superseded, **Earned** o **Stale**; **prune** hace lo mismo contra un Lore degradado por *acumular cosas correctas*; **mycelium** *(2.3.0)* reporta las pistas que **ningún paso corre**; **leave** inventaría y retira cada junta activa de Lore mientras conserva `lore/`, reversible; **crystallize** exporta una fotografía segura en un solo Markdown. La Referencia conserva las puertas completas de cada uno.
 
 ### `create-bot`
 

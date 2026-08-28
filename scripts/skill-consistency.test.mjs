@@ -300,7 +300,21 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.3.2"]));
+  assert.deepEqual(new Set(versions), new Set(["2.3.3"]));
+});
+
+test("2.3.3 sincroniza badges, release y evidencia sin publicar la auditoría privada", () => {
+  const readme = readFileSync(join(root, "README.md"), "utf8");
+  const releasePath = join(root, "docs", "RELEASE_2.3.3.md");
+  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.3\.3-/g) ?? []).length, 2);
+  assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.3.3.md");
+  const release = readFileSync(releasePath, "utf8");
+  assert.match(release, /Nemotron 3 Ultra/);
+  assert.match(release, /GPT-5\.6 Sol medium/);
+  assert.match(release, /bench\/leave-behavior\/README\.md/);
+  assert.doesNotMatch(release, /AUDIT_2\.3\.3|AUDITORIA-2\.3\.3|bench\/audit/);
+  assert.equal(existsSync(join(root, "docs", "AUDIT_2.3.3.md")), false);
+  assert.equal(existsSync(join(root, "docs", "AUDITORIA-2.3.3.md")), false);
 });
 
 test("ninguna skill manda HARD: ni usa cristalizar como destilar", () => {
