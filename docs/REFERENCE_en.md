@@ -81,7 +81,7 @@ and Morin's wager are declared hypothesis and ethical north, not benchmark resul
 
 ## 2. Skills Overview
 
-The Lore plugin exposes eight main skills through compatible AI agents:
+The Lore plugin exposes seven main skills through compatible AI agents:
 
 | Skill            | Purpose                                     | Typical trigger phrase                                |
 |------------------|---------------------------------------------|------------------------------------------------------|
@@ -89,10 +89,9 @@ The Lore plugin exposes eight main skills through compatible AI agents:
 | `brainstorming-lore` | Design Lore-specific changes without taking over general brainstorming | "brainstorm this Lore", or invoked by an artifact-owning Lore skill |
 | `create-area`    | Create a new Area with shared Lore          | "create a work area for Frontend", "I want to start working on X with Lore" |
 | `create-project` | Create a project inheriting an Area         | "create a project Marketing Site in area Frontend Development" |
-| `save-to-lore`   | Capture criteria after solving a problem (**capture**) or arbitrate criteria imported from a third-party skill/guide (**graft**) | "save to lore", "distill this to the lore" (capture) / "distill skill X into the lore" (graft) |
+| `save-to-lore`   | Capture criteria (**capture**), arbitrate imported criteria (**graft**), or conditionally mine a loose-notes inbox | "save to lore", "distill skill X into the lore", "review my notes and save what belongs" |
 | `transmute-lore` | Operate an existing Lore in eight modes | add / clean / translate / upgrade / prune / **mycelium** / leave / crystallize |
 | `create-bot`     | Build a bot: one place to open a session and work across several projects at once, with their criteria reachable and routed | "create a bot to work on X and Y" (nuevo) / "I want a bot that federates the lore already living in A and B" (federar) |
-| `obsidian-lore`  | Capture free notes in the same tree the Lore lives in, and **mine** that inbox for what deserves to become criteria | "review my Obsidian notes and see what belongs in my lore", "mine my inbox", "save this note to Obsidian" |
 
 Each skill operates on or creates specific Markdown artifacts under your repository.
 
@@ -170,7 +169,7 @@ Use `use-lore` whenever you are unsure where to start.
 - Ask one decision-changing question at a time and compare only materially different approaches.
 - Present a proportional design, preserve the owner skill's own threshold, and hand control back after approval.
 - Never write the final artifact or take ownership from `create-area`, `create-project`, `create-bot`,
-  `save-to-lore`, `transmute-lore`, or `obsidian-lore`.
+  `save-to-lore` or `transmute-lore`.
 
 ---
 
@@ -314,6 +313,13 @@ count.
 
 **Invariants:** criteria are never invented; everything comes from real experience; discarded noise is reported, never silently removed; every change passes through a threshold before being written; nothing commits automatically and `git push` is never run; a human always reviews the final diff. A clue citing an older law inherits its **boundary of validity** or says why not, and states its
   rule by the **condition**, not by the category the condition usually holds in.
+
+**Loose-note function (conditional reading):** when the request targets `notes/`, `notas/` or
+`apuntes/`, `save-to-lore` loads `skills/save-to-lore/notas.md`. The procedure is app-neutral;
+Obsidian is optional. It sweeps the whole inbox — even when it is only one folder — extracts `.md`,
+`.txt` and `.docx`, reports debt, classifies experience, state, imported criteria or information,
+routes, proposes the diff and waits for approval. On close it marks `destilado:` and moves closed
+notes to `archivadas/`; it never deletes them. A note remains source, not criteria.
 
 Use `save-to-lore` as the main mechanism for feeding your Lore after important decisions.
 
@@ -614,17 +620,18 @@ Use `create-bot` when you want one session that works across several projects �
 
 ---
 
-### 3.8 `obsidian-lore`
+### 3.8 Note function loaded by `save-to-lore`
 
-**Purpose:** govern the overlap between an Obsidian vault and the Lore when they share a file tree,
-capture notes, and mine the inbox. A note is always source material; `save-to-lore` owns any criterion
-that survives classification, routing and the threshold.
+**Purpose:** capture loose notes and mine the inbox without depending on an app. A note is always
+source material; `save-to-lore` owns any criterion that survives classification, routing and the
+threshold. The operational detail lives in `skills/save-to-lore/notas.md` and is loaded only when the
+request concerns a notes folder.
 
-**Precondition:** the vault must be the **mother folder containing the Areas**, not a folder beside them — the skill verifies that at least one direct child of the root holds a `lore/`, or it stops and points at `create-area`. The path is never assumed.
+**Precondition:** the work root must be the **mother folder containing the Areas**, not a folder beside them — the function verifies that at least one direct child of the root holds a `lore/`, or it stops and points at `create-area`. The path is never assumed.
 
-**The inbox:** a folder named in the user's language (`notas/` / `notes/`). The sweep is recursive over `**/*.md`; subfolders are the writer's business.
+**The inbox:** a folder named in the user's language (`notes/`, `notas/` or `apuntes/`). The sweep is recursive and extracts `.md`, `.txt` and `.docx`; subfolders are the writer's business.
 
-**Standing recommendation: the inbox lives in a bot.** It is the setup this skill was designed for, recommended on first run and whenever a sweep happens outside one. The reason is routing: a bot routes each note **against `lore/enrutamiento.md`**, where the purpose of every federated Area and project is written down, and border cases get asked instead of guessed. Outside a bot, routing is one path plus the model's reading — a guess wearing the same confidence. No bot, and notes touching more than one Area? The skill proposes `create-bot`.
+**Standing recommendation: the inbox lives in a bot.** It is the recommended setup on first run and whenever a sweep happens outside one. The reason is routing: a bot routes each note **against `lore/enrutamiento.md`**, where the purpose of every federated Area and project is written down, and border cases get asked instead of guessed. Outside a bot, routing is one path plus the model's reading — a guess wearing the same confidence. No bot, and notes touching more than one Area? The function proposes `create-bot`.
 
 **It lives where the session is opened**, and this is not cosmetic:
 
@@ -669,11 +676,11 @@ A fifth destination exists and is rarer: a note that changes **how we work toget
 
 **Routing**, stopping at the first that resolves: the note's `origen` → the bot's `lore/enrutamiento.md` → the project or area the session runs in → **ambiguous, ask**. The first time an ambiguity resolves, the **border** may be worth a Clue; the noise filter applies there too.
 
-**Idempotency and lifecycle:** on close, every mined note gets its `destilado:` with date and destination — including the ones that produced nothing. A non-empty `destilado` is skipped on later sweeps. Closed notes then move to `<inbox>/archivadas/` (an inbox that already uses another subfolder for this keeps its name); a living notebook with an empty `destilado:` stays put. The mark travels with the file, so idempotency holds and the debt count does not change. **The skill never deletes a note:** moving is not deleting; mine before deleting, and deleting is the human's call.
+**Idempotency and lifecycle:** on close, every mined note gets its `destilado:` with date and destination — including the ones that produced nothing. A non-empty `destilado` is skipped on later sweeps. Closed notes then move to `<inbox>/archivadas/` (an inbox that already uses another subfolder for this keeps its name); a living notebook with an empty `destilado:` stays put. The mark travels with the file, so idempotency holds and the debt count does not change. **The function never deletes a note:** moving is not deleting; mine before deleting, and deleting is the human's call.
 
 **Why a sweep and not an available command.** A note satisfies the urge to preserve while the criterion stays inert inside it — separating notes from Lore did not prevent that; the record stayed inert for six weeks. What prevents it is the sweep and its visible debt, which `save-to-lore` also reports on close.
 
-Use `obsidian-lore` once you have notes piling up and want them to stop being only notes — it is not a note manager: `Read` and `Grep` already read the vault.
+Use `save-to-lore` once you have notes piling up and want them to stop being only notes — it is not a note manager: the reading tools already read the inbox.
 
 ---
 

@@ -17,8 +17,9 @@ Inventory the existing sources of criteria and their state:
 - **Free notes about this project** — the current project/area/bot inbox, a folder of Markdown,
   meeting minutes. They are source like any other, and most of what they hold is information rather
   than criteria: keep only what constrains a future decision, and report the rest as discarded. If
-  the source is a `notes/` or `notas/` inbox, invoke `obsidian-lore` first regardless of size; it
-  sweeps the source and hands over what is distillable.
+  the source is a `notes/`, `notas/` or `apuntes/` inbox, invoke `save-to-lore` and read its
+  conditional `notas.md` function first regardless of size; it sweeps the source and hands over
+  what is distillable.
 
 Report what exists, where, and in what state (current / stale / narrative).
 

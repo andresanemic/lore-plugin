@@ -8,29 +8,32 @@ import { skillText } from "../scripts/skill-text.mjs";
 const skillsRoot = join(dirname(fileURLToPath(import.meta.url)), "..", "skills");
 const skill = (name) => skillText(join(skillsRoot, name));
 
-test("obsidian-lore enruta peticiones sobre notas antes que la skill de dominio", () => {
-  const text = skill("obsidian-lore");
-  assert.match(text, /Cross-skill routing rule/);
-  assert.match(text, /invokes this skill first/);
-  assert.doesNotMatch(text, /research-lus/);
+test("save-to-lore carga la función app-neutral solo para peticiones sobre notas", () => {
+  const text = skill("save-to-lore");
+  assert.match(text, /Loose-note function — load only for note tasks/);
+  assert.match(text, /read\s+\[`notas\.md`\]\(notas\.md\)/i);
+  assert.match(text, /Do not load `notas\.md` for an ordinary CAPTURE or GRAFT/);
 });
 
 test("las notas minadas se archivan al cerrar, con trazabilidad y sin borrar", () => {
-  const text = skill("obsidian-lore");
-  assert.match(text, /Archive what you close/);
+  const text = readFileSync(join(skillsRoot, "save-to-lore", "notas.md"), "utf8");
+  assert.match(text, /Close and archive/);
   assert.match(text, /archivadas/);
-  assert.match(text, /never deletes a note/);
-  assert.match(text, /travels with the file/);
+  assert.match(text, /Never delete a\s+note/i);
+  assert.match(text, /frontmatter travels with them/i);
   assert.doesNotMatch(text, /Never move\s+or delete the note after mining/);
 });
 
-test("obsidian-lore define raíz inválida, frontmatter recuperable y cierre posterior a la escritura", () => {
-  const text = skill("obsidian-lore");
-  assert.match(text, /The root never gets an inbox/);
-  assert.match(text, /missing field as empty/);
-  assert.match(text, /add all three fields.*after approval/is);
-  assert.match(text, /delegate the writing to `save-to-lore`/);
-  assert.match(text, /`git mv` inside a repository/);
+test("la función de notas define raíz inválida, frontmatter recuperable y cierre posterior a la escritura", () => {
+  const text = readFileSync(join(skillsRoot, "save-to-lore", "notas.md"), "utf8");
+  assert.match(text, /The root never has an inbox/i);
+  assert.match(text, /Empty or missing `destilado` means unmined/);
+  assert.match(text, /without frontmatter.*add\s+the fields only after approval/is);
+  assert.match(text, /ordinary CAPTURE or GRAFT machinery in `SKILL\.md`/);
+  assert.match(text, /\(`git mv` in\s+a repository/);
+  assert.match(text, /\.docx\.destilado\.md/);
+  assert.match(text, /archive the original and sidecar together/);
+  assert.match(text, /overrides the main skill's batch-commit default/);
   assert.doesNotMatch(text, /Would delegate|obsidian-sweep\.mjs/);
 });
 
@@ -38,7 +41,7 @@ test("UPGRADE diagnostica antes de exigir un arbol limpio para escribir", () => 
   const text = skill("transmute-lore");
   assert.match(text, /do not stop the diagnosis/);
   assert.match(text, /precondition for \*\*Phase 4 \(writing\)\*\*/);
-  assert.match(text, /invoke\s+`obsidian-lore`/);
+  assert.match(text, /conditional `save-to-lore\/notas\.md` function/);
 });
 
 test("use-lore declara precedencia de la fuente inbox", () => {

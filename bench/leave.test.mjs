@@ -12,7 +12,7 @@ const skill = (name) => skillText(join(skillsRoot, name));
 // Forma estructural, no prosa: writing-skills manda automatizar lo que un regex verifica.
 
 const SKILLS = ["use-lore", "brainstorming-lore", "create-area", "create-project",
-                "create-bot", "save-to-lore", "transmute-lore", "obsidian-lore"];
+                "create-bot", "save-to-lore", "transmute-lore"];
 
 export function orphanSections(read = skill) {
   const orphans = [];
@@ -139,7 +139,7 @@ test("el gate de enrutamiento no se dispara con el `index.md` que todo CAPTURE t
 
 test("ningún frontmatter supera los 1024 caracteres de la especificación", () => {
   for (const name of ["use-lore", "brainstorming-lore", "create-area", "create-project",
-                      "create-bot", "save-to-lore", "transmute-lore", "obsidian-lore"]) {
+                      "create-bot", "save-to-lore", "transmute-lore"]) {
     const fm = skill(name).split("---")[1];
     assert.ok(fm.length <= 1024, `${name}: frontmatter de ${fm.length} caracteres`);
   }

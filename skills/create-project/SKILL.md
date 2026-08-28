@@ -84,7 +84,8 @@ does not exist, **stop** and propose `create-area` first.
    Gantt** (→ phases). The source wins over any tentative structure.
    **Free notes count as source documents** — a project often begins as a pile of them. They inform
    the structure and the identity; they are never copied into the Lore, and nothing in them is
-   criteria until it is distilled.
+   criteria until it is distilled. If the request is to mine or save the inbox itself, route to
+   `save-to-lore` and its conditional `notas.md` function.
 
 ### 3. Project identity brainstorm (threshold)
 

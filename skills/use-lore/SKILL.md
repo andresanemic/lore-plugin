@@ -1,6 +1,6 @@
 ---
 name: use-lore
-description: Use when the user mentions "lore", asks how this kit or its skills work, installs or updates the plugin, is unsure which Lore skill to invoke, starts a new work area, project or bot, wants to migrate an old project to the Lore standard, or keeps Obsidian notes in the same folder tree as their Lore.
+description: Use when the user mentions "lore", asks how this kit or its skills work, installs or updates the plugin, is unsure which Lore skill to invoke, starts a new work area, project or bot, wants to migrate an old project to the Lore standard, or keeps loose notes in the same folder tree as their Lore.
 ---
 
 # Using Lore
@@ -31,7 +31,7 @@ invoking any other Lore skill.
 **If this machine has no Lore yet** — no area with a `lore/`, no project carrying the six pieces —
 this runs **before anything else**, and before offering any skill by name. The kit **brainstorms to
 build** every artifact it makes; it would be incoherent for the kit itself to greet its first user
-with a list of eight skills.
+with a list of seven skills.
 
 > **Invoke Lore Plugin's own `brainstorming-lore` skill** (`lore:brainstorming-lore` where skills are
 > namespaced) and run this through it. If the runtime failed to expose an installed Lore skill,
@@ -95,7 +95,7 @@ spent on register buys nothing, and this move exists to produce an artifact.
 
 **And offer a short orientation in the same breath, inferred like the register — one shape, never a
 menu — 2.3.0.** Somebody meeting this kit for the first time has no picture of what it is, and a list
-of eight skills is not that picture. Pick **one** shape from what the person already wrote: they
+of seven skills is not that picture. Pick **one** shape from what the person already wrote: they
 asked what it does or how it works → a short text; they described their work as a structure or a set
 of relations → a concept map; they write in fragments and want to be shown rather than told → a
 worked example over the artifact they are about to get; they answered tersely and moved fast → skip
@@ -142,8 +142,8 @@ tree dormant and continue without treating its version as an upgrade debt.
    (area/project/bot), and any open concern in its `FASES.md` that explicitly names an affected module.
    `Uses Lore` in general is not an intersection; a module name must appear on both sides. Do not infer
    affect from the version number alone. If there is no intersection — e.g. a BlockVoz/redaccion-noticias
-   project on 2.3.0 with kit 2.3.1–2.3.2 where the delta (save-to-lore provenance, use-lore session guard,
-   obsidian-lore archive, 2.3.2 gate itself) touches none of `anatomia-nota`/`estilo-y-legibilidad`/`fuentes-y-transcripcion`
+   project on 2.3.0 with kit 2.3.1–2.3.2 where the delta (save-to-lore provenance and note archive,
+   use-lore session guard, 2.3.2 gate itself) touches none of `anatomia-nota`/`estilo-y-legibilidad`/`fuentes-y-transcripcion`
    — say nothing and do not block; continue with the work. `Kit is ahead so I must offer` without checking
    the delta is the rationalization this gate exists to stop. Silence when unaffected is the correct outcome,
    not a missed check. If there is an intersection, say so plainly and offer `transmute-lore` in **UPGRADE** mode, once, before the work starts — a healthy Lore behind the kit looks correct in every
@@ -262,7 +262,7 @@ full-line match after trimming whitespace.
 **Contents — exactly four things, in this order.** What Lore governs here; where it lives (relative
 paths that resolve from the root); **where the state lives** (`FASES.md`, one line, path only); and
 the signal that writing criteria by hand feels like competence and is the moment to invoke the skill.
-Nothing else. Reproducing a clue, listing the eight skills or explaining what Lore is belongs
+Nothing else. Reproducing a clue, listing the seven skills or explaining what Lore is belongs
 elsewhere and already has an owner.
 
 > **Why state earns a line in a block that is otherwise about criteria.** Criteria and state are two
@@ -362,7 +362,7 @@ never paid for will start receiving promotions that belong somewhere else.
 | **Check whether a Lore can actually fire** before leaning on it for real work, right after installing/updating the kit, **and again on the way out of any pass that wrote Lore** (`PRUNE`, `GRAFT`, a distillation) — it looks healthy, and *looking* healthy is exactly the symptom | `transmute-lore` (**MYCELIUM**): read-only walk of the network reporting which clues have **no micorriza** — no step of any procedure runs them. Reports pairs (clue ⇢ missing junction) and a rate, never a score; proposes the enchufe and never prunes. **Three triggers, and the exit pass is not the entry pass repeated:** a new clue is born `Aislada`, so a pass that writes manufactures the very defect this mode detects, and the scan that ran before it cannot see its own output |
 | Leave Lore without losing the project — remove governance, keep `lore/` and routing as plain `enrutamiento.md` | `transmute-lore` (**LEAVE**): one-pass structural removal of the `<!-- lore:always-on -->` block, conversion of `FASES.md` to host init, project stays buildable; a kit you cannot leave makes `H13` unmeasurable |
 | Export a project, Area or bot's **live routed Lore as one Markdown** for a chat, AI project or notebook — and **extract** that file back into a folder whose routing table resolves | `transmute-lore` (**CRYSTALLIZE**): inlines every routed `lore/` (including `lore-ecosistema/`) into one snapshot marked so the bundled script can unpack it; a file that only points at missing bodies has failed the mode |
-| Keep **Obsidian notes in the same folder tree** as the Lore, and **mine that inbox** for what deserves to become criteria ("revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore") | `obsidian-lore` |
+| Capture or **mine loose notes** (`notas/`, `notes/`, `apuntes/`, `.md`, `.txt`, `.docx`) and route what deserves to become criteria | `save-to-lore` — read its conditional `notas.md` function |
 | Work in a repository that **also** has GitHub's spec-kit (`.specify/` is present) | Nothing new to invoke. Read [`docs/SPEC_KIT_en.md`](../../docs/SPEC_KIT_en.md) and copy `assets/constitucion-puntero.md` over the constitution `specify init` generated. **Lore never depends on spec-kit** — this row is recognition, not a dependency |
 | **Decide whether to add spec-kit** to a repository that has Lore | Answer by level before installing anything: an **area** does not take it — its unit of work is a clue, not a feature; a **project** takes the whole cycle; a **bot** takes `specify → plan → tasks` only, and `implement` runs in the destination repository its spec names. Table and the closing clause for the bot case: [`docs/SPEC_KIT_en.md`](../../docs/SPEC_KIT_en.md) |
 
@@ -382,10 +382,10 @@ precondition: if the sources have no Lore yet, `create-area` and `transmute-lore
 `create-bot` runs last. `create-bot` orchestrates that chain; it does not require Lore to already
 exist, and it never substitutes for building it in the Area that owns it.
 
-**Source-side precedence:** when a request points at `notas/` or `notes/` and asks to integrate,
-extract, distill or save its contents anywhere, invoke `obsidian-lore` first. Then invoke the skill
-that owns the destination (`save-to-lore` or another domain workflow). A domain
-skill understanding the notes does not replace the mining pass or its frontmatter.
+**Source-side precedence:** when a request points at `notas/`, `notes/`, `apuntes/` or another loose-note
+folder and asks to integrate, extract, distill or save its contents anywhere, invoke `save-to-lore`
+and read its conditional `notas.md` function first. A domain skill understanding the notes does not
+replace the source-side sweep, debt report, classification, frontmatter or archive.
 
 ### The failure these skills cannot see: not being invoked at all
 
@@ -399,7 +399,7 @@ enter, and the moment you decide not to enter has a specific shape — it feels 
 | "It's one clue, not a migration" | One clue is exactly `save-to-lore`'s unit of work. |
 | "I'll invoke it after I draft the file" | The skill decides the **mode**, and the mode decides what the draft must contain. |
 | "The lore is small / this project is simple" | Size is not the classifier. Source of the criteria is. |
-| "The research/domain skill already read the notes" | Reading is not mining. If the source is an inbox, invoke `obsidian-lore` and leave a trace in every note. |
+| "The research/domain skill already read the notes" | Reading is not mining. If the source is an inbox, load `save-to-lore/notas.md` and leave a trace in every note. |
 
 **There is no error signal for this.** Criteria written by hand comes out well-worded, lands in the
 right file, and passes human review. What is missing does not look missing, because it never got
@@ -434,9 +434,9 @@ has three steps and the middle one is an act, not a folder:
 experience piled up (notes)  →  distillation (an explicit pass + threshold)  →  criteria (lore/)
 ```
 
-`obsidian-lore` governs the first arrow when the notes live in the same tree as the Lore — the
-vault being the mother folder of the Areas. It captures notes **outside any `lore/`** and **mines**
-the inbox, routing what survives into `save-to-lore`. It writes no criteria itself.
+The conditional `save-to-lore/notas.md` function governs the first arrow when loose notes live in
+the same tree as the Lore. It captures notes **outside any `lore/`**, mines the inbox and hands what
+survives to CAPTURE or GRAFT. Obsidian is one possible editor, never a prerequisite.
 
 > **Why an explicit mining pass and not simply "save when you feel like it".** A note satisfies the
 > urge to preserve without producing criteria — the record exists, so the distillation never

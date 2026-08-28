@@ -78,7 +78,7 @@ Six weeks after being invented in raw form, the method returned to its birthplac
 - **"Indexed and mandatory" does not imply "consulted".** It was in the `CLAUDE.md` lookup table and it was law in `principios.md`, and still it never loaded. Accessibility is necessary and not sufficient.
 - **The admission filter does not measure a Clue's altitude.** A Clue entered one day and the next failed to prevent the second symptom of its own root cause: it had been written about the surface that was seen, not the cause.
 
-**This case is why `obsidian-lore` is a sweep and not a button:** it walks the notes looking for criteria; it does not convert a single note on demand.
+**This case is why `save-to-lore`'s note function is a sweep and not a button:** it walks the notes looking for criteria; it does not convert a single note on demand.
 
 **Declared boundary:** this is software, same researcher and same interlocutor, and there is no counterfactual. Testimonial evidence, not measurement.
 

@@ -107,8 +107,9 @@ Resolve the nearest project or area root and **read before asking**:
 5. source notes or materials explicitly named by the user.
 
 If a file does not exist, continue with what is available and say which source of orientation is
-missing. Do not invent Lore to fill the gap. When notes share an Obsidian tree, invoke
-`obsidian-lore` for source-side classification before treating their contents as criteria.
+missing. Do not invent Lore to fill the gap. When loose notes share the tree, invoke
+`save-to-lore` and read its conditional `notas.md` function for source-side classification before
+treating their contents as criteria.
 
 Summarize internally:
 

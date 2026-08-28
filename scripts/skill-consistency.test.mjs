@@ -14,14 +14,14 @@ const docs = rootDocs.map((name) => name).concat(
   readdirSync(join(root, "docs")).filter((name) => name.endsWith(".md")).map((name) => join("docs", name)),
 );
 
-test("las ocho skills declaran un nombre único y neutral al proveedor", () => {
-  assert.equal(skills.length, 8);
+test("las siete skills declaran un nombre único y neutral al proveedor", () => {
+  assert.equal(skills.length, 7);
   const names = skills.map((entry) => {
     const text = skillText(join(skillsRoot, entry.name));
     assert.doesNotMatch(text, /Source of truth for Claude Code/i);
     return text.match(/^name:\s*(.+)$/m)?.[1]?.trim();
   });
-  assert.deepEqual(new Set(names).size, 8);
+  assert.deepEqual(new Set(names).size, 7);
   assert.deepEqual(names.sort(), skills.map((entry) => entry.name).sort());
 });
 
@@ -47,7 +47,7 @@ test("use-lore gobierna entregables complejos sin crear una novena skill", () =>
   assert.match(text, /available tools, connectors or MCPs/);
   assert.match(text, /batch/i);
   assert.match(text, /human review/);
-  assert.equal(skills.length, 8);
+  assert.equal(skills.length, 7);
   // 2026-08-28 (poda 2.3.x): el mecanismo vive una vez, en REFERENCE. README y USAGE apuntan.
   for (const file of ["docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
     const doc = readFileSync(join(root, file), "utf8");
@@ -191,7 +191,7 @@ test("el Entre fértil no se confunde con complacencia", () => {
 // 2026-08-28 (poda 2.3.x): USAGE_* y MIGRATION_* se plegaron dentro de REFERENCE_*, que es
 // ahora el único documento técnico (empezar + uso + spec + migración). El guard que vale
 // —ninguna skill desaparece en silencio de la spec, principios.md #15— se mantiene sobre él.
-test("REFERENCE documenta las ocho skills con sección propia", () => {
+test("REFERENCE documenta las siete skills con sección propia", () => {
   for (const file of ["docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
     const text = readFileSync(join(root, file), "utf8");
     for (const name of skillNames) {
@@ -202,7 +202,7 @@ test("REFERENCE documenta las ocho skills con sección propia", () => {
 
 test("la documentación no conserva afirmaciones ya refutadas", () => {
   const text = docs.map((file) => readFileSync(join(root, file), "utf8")).join("\n");
-  assert.doesNotMatch(text, /\bseven (?:documented )?case studies|all seven|\bsiete casos de estudio|las siete evidencias/i);
+  assert.doesNotMatch(text, /\bseven (?:documented )?case studies|all seven case studies|\bsiete casos de estudio|las siete evidencias/i);
   assert.doesNotMatch(text, /twelve case studies|doce casos de estudio|eleven of the twelve|once de los doce/i);
   assert.doesNotMatch(text, /seventeen case studies|diecisiete casos de estudio|sixteen of the seventeen|dieciséis de los diecisiete/i);
   assert.doesNotMatch(text, /eighteen case studies|dieciocho casos de estudio/i);
@@ -228,12 +228,12 @@ test("el README funciona como portada y no duplica las guías", () => {
   for (const required of [
     "## Installation",
     "## Architecture",
-    "## The eight skills",
+    "## The seven skills",
     "## Benchmark",
     "## Documentation",
     "## Instalación",
     "## Arquitectura",
-    "## Las ocho skills",
+    "## Las siete skills",
     "## El benchmark",
     "## Documentación",
   ]) assert.match(readme, new RegExp(required.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
@@ -302,24 +302,20 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.3.3"]));
+  assert.deepEqual(new Set(versions), new Set(["2.4.0"]));
 });
 
-test("2.3.3 sincroniza badges, release y evidencia sin publicar la auditoría privada", () => {
+test("2.4.0 sincroniza badges, release y evidencia del pliegue de notas", () => {
   const readme = readFileSync(join(root, "README.md"), "utf8");
-  const releasePath = join(root, "docs", "RELEASE_2.3.3.md");
-  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.3\.3-/g) ?? []).length, 2);
+  const releasePath = join(root, "docs", "RELEASE_2.4.0.md");
+  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.4\.0-/g) ?? []).length, 2);
   assert.equal((readme.match(/writing--skills-(?:validated|validado)/gi) ?? []).length, 2);
-  assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.3.3.md");
+  assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.4.0.md");
   const release = readFileSync(releasePath, "utf8");
-  assert.match(release, /Nemotron 3 Ultra/);
-  assert.match(release, /GPT-5\.6 Sol medium/);
-  assert.match(release, /bench\/leave-agent-scenarios\/README\.md/);
-  assert.match(release, /behavioral verification procedure was specified but not executed end to end/i);
-  assert.doesNotMatch(release, /fresh-session treatment checks that a known clue stays dormant/i);
-  assert.doesNotMatch(release, /AUDIT_2\.3\.3|AUDITORIA-2\.3\.3|bench\/audit/);
-  assert.equal(existsSync(join(root, "docs", "AUDIT_2.3.3.md")), false);
-  assert.equal(existsSync(join(root, "docs", "AUDITORIA-2.3.3.md")), false);
+  assert.match(release, /bench\/writing-skills-2\.4\.0\/README\.md/);
+  assert.match(release, /eight to seven|ocho a siete/i);
+  assert.match(release, /app-neutral|neutral a la aplicación/i);
+  assert.doesNotMatch(release, /requires Obsidian|requiere Obsidian/i);
 });
 
 test("ninguna skill manda HARD: ni usa cristalizar como destilar", () => {
@@ -393,13 +389,19 @@ test("las superficies públicas de 2.2.0 conservan una definición precisa", () 
 
 test("la documentación presenta ADD como entrada y CRYSTALLIZE como memory card portable", () => {
   // 2026-08-28 (poda 2.3.x): README lo introduce como portada; REFERENCE lo especifica. USAGE apunta.
-  const files = ["README.md", "docs/REFERENCE_en.md", "docs/REFERENCE_es.md"];
-  for (const file of files) {
+  // 2026-08-28 (2.4.0): la portada explica «aprender de lo que ya tienes» en palabras llanas y nombra
+  // `transmute-lore`; el token de modo ADD baja al registro que lo especifica —REFERENCE—, por
+  // `plugins/lore/principios.md` #26 (una obra/jargon que hay que explicar antes de ilustrar no va al cuerpo).
+  for (const file of ["docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
     const text = readFileSync(join(root, file), "utf8");
     assert.match(text, /ADD/);
     assert.match(text, /CRYSTALLIZE/);
     assert.match(text, /memory card/i);
   }
+  const readme = readFileSync(join(root, "README.md"), "utf8");
+  assert.match(readme, /transmute-lore/);
+  assert.match(readme, /CRYSTALLIZE/);
+  assert.match(readme, /memory card/i);
 });
 
 test("la documentación viva conserva la frontera de secretos de CRYSTALLIZE", () => {
@@ -427,7 +429,7 @@ test("los enlaces Markdown locales de la documentación resuelven", () => {
 // Verificar que el ancla EXISTE no basta, y este es el caso que lo probo: `#use-lore` existe
 // —es el encabezado ingles— asi que la tabla espanola apuntaba a el y saltaba al otro idioma.
 // Un ancla duplicada entre los dos bloques solo se distingue por el lado del que cae.
-// La tabla de las ocho skills ya no enlaza a ningun lado (su destino vivia dentro de un <details>
+// La tabla de las siete skills ya no enlaza a ningun lado (su destino vivia dentro de un <details>
 // cerrado, que el navegador no despliega); esto cuida los indices de navegacion, que si enlazan.
 test("el README bilingüe no enlaza de un idioma al ancla del otro", () => {
   const text = readFileSync(join(root, "README.md"), "utf8");
