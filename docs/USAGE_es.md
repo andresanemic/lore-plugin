@@ -428,7 +428,9 @@ cristaliza este lore en un solo Markdown para un proyecto de ChatGPT
 **Precondición:** los modos que modifican artefactos fuente exigen un árbol de Git limpio antes de
 escribir. `crystallize` no modifica el árbol fuente: inventaría las fuentes enrutadas, excluye por
 defecto material privado o incierto, muestra la vista previa completa y el destino, y espera en su
-propio umbral. Sobrescribir una fotografía existente requiere una aprobación separada.
+propio umbral. Omite nombres de archivo sensibles y aborta cuando el texto enrutado contiene
+marcadores de secreto reconocidos. Sobrescribir una fotografía existente requiere una aprobación
+separada.
 
 Comportamiento esperado:
 

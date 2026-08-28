@@ -307,6 +307,7 @@ test("2.3.3 sincroniza badges, release y evidencia sin publicar la auditoría pr
   const readme = readFileSync(join(root, "README.md"), "utf8");
   const releasePath = join(root, "docs", "RELEASE_2.3.3.md");
   assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.3\.3-/g) ?? []).length, 2);
+  assert.equal((readme.match(/writing--skills-(?:validated|validado)/gi) ?? []).length, 2);
   assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.3.3.md");
   const release = readFileSync(releasePath, "utf8");
   assert.match(release, /Nemotron 3 Ultra/);
@@ -399,6 +400,15 @@ test("la documentación presenta ADD como entrada y CRYSTALLIZE como memory card
     assert.match(text, /ADD/);
     assert.match(text, /CRYSTALLIZE/);
     assert.match(text, /memory card/i);
+  }
+});
+
+test("la documentación viva conserva la frontera de secretos de CRYSTALLIZE", () => {
+  const files = ["README.md", "docs/USAGE_en.md", "docs/USAGE_es.md", "docs/REFERENCE_en.md", "docs/REFERENCE_es.md"];
+  for (const file of files) {
+    const text = readFileSync(join(root, file), "utf8");
+    assert.match(text, /(?:sensitive\s+filenames?|nombres?\s+de\s+archivo\s+sensibles?)/i, `${file}: falta exclusión por nombre sensible`);
+    assert.match(text, /(?:secret\s+markers?|marcadores?\s+de\s+secreto)/i, `${file}: falta rechazo por marcador de secreto`);
   }
 });
 

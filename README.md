@@ -109,7 +109,7 @@ Spec-driven is not a label here: one contract per project (`CLAUDE.md` or `AGENT
 
 In **ADD** mode, `transmute-lore` reads what you already have — project folders, documents, exported chat summaries, loose notes — and proposes the criteria, canon and routing hidden inside. Sources remain sources: nothing becomes Lore until you approve the distillation.
 
-When that criterion needs to travel, **CRYSTALLIZE** creates a traceable single-Markdown “memory card”: portable across models, usable wherever Markdown instructions are accepted, shareable on your terms and extractable back into a working folder. It is a snapshot, never a replacement for the live Lore.
+When that criterion needs to travel, **CRYSTALLIZE** creates a traceable single-Markdown “memory card”: portable across models, usable wherever Markdown instructions are accepted, shareable on your terms and extractable back into a working folder. It omits sensitive filenames and aborts when routed text contains recognized secret markers. It is a snapshot, never a replacement for the live Lore.
 
 #### What it does not promise
 
@@ -373,7 +373,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** An Area 
 
 ## The eight skills
 
-**This kit moves with Superpowers' `writing-skills` discipline, not past it.** Every skill is checked against it before it ships, every time it changes.
+**This kit moves with Superpowers' `writing-skills` discipline, not past it.** Every changed skill is checked against it before it ships; the 2.3.3 control/treatment evidence is recorded with the benchmark. Nemotron 3 Ultra performed the 2.3.3 audit; the remediation was rebuilt and verified with GPT-5.6 Sol medium and Claude Code Sonnet 5.
 
 > **The skills are written in English; the Lore they produce is not** — content and filenames included, in your language. The English in a `SKILL.md` is the portable substrate that lets the kit run on other hosts, not the language of the kit. Do not open one to explain a mode to someone (we learned this in Case 12, live) — that is what the table and the two docs below are for.
 
@@ -671,7 +671,7 @@ Lo de *spec-driven* no es una etiqueta: un contrato por proyecto (`CLAUDE.md` o 
 
 En modo **ADD**, `transmute-lore` lee lo que ya tienes —carpetas del proyecto, documentos, resúmenes de chats exportados, notas sueltas— y propone el criterio, el canon y el enrutamiento que viven dispersos ahí. Las fuentes siguen siendo fuentes: nada se vuelve Lore hasta que apruebas la destilación.
 
-Cuando ese criterio necesita viajar, **CRYSTALLIZE** crea una «memory card» trazable en un solo Markdown: portable entre modelos, utilizable donde se acepten instrucciones Markdown, compartible en tus términos y extraíble de vuelta a una carpeta de trabajo. Es una fotografía, nunca un reemplazo del Lore vivo.
+Cuando ese criterio necesita viajar, **CRYSTALLIZE** crea una «memory card» trazable en un solo Markdown: portable entre modelos, utilizable donde se acepten instrucciones Markdown, compartible en tus términos y extraíble de vuelta a una carpeta de trabajo. Omite nombres de archivo sensibles y aborta cuando el texto enrutado contiene marcadores de secreto reconocidos. Es una fotografía, nunca un reemplazo del Lore vivo.
 
 #### Qué no promete
 
@@ -929,7 +929,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 ## Las ocho skills
 
-**Este kit avanza junto a la disciplina `writing-skills` de Superpowers, no por delante de ella.** Cada skill se revisa contra esa disciplina antes de publicarse, cada vez que cambia.
+**Este kit avanza junto a la disciplina `writing-skills` de Superpowers, no por delante de ella.** Cada skill modificada se revisa antes de publicarse; la evidencia de control/tratamiento de 2.3.3 queda registrada junto al benchmark. Nemotron 3 Ultra realizó la auditoría de 2.3.3; la subsanación se reconstruyó y verificó con GPT-5.6 Sol medium y Claude Code Sonnet 5.
 
 > **Las skills están escritas en inglés y el Lore que producen, no** — contenido y nombres de archivo incluidos, en tu idioma. El inglés del `SKILL.md` es el sustrato portable con el que el kit funciona en otros hosts, no el idioma del kit. No abras uno para explicarle a alguien qué hace un modo (lo aprendimos en el Caso 12, en vivo) — para eso está la tabla y los dos docs de abajo.
 

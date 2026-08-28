@@ -426,7 +426,8 @@ crystallize this lore into one Markdown for a ChatGPT project
 **Precondition:** modes that modify source artifacts require a clean git tree before writing.
 `crystallize` does not modify the source tree: it inventories routed sources, excludes private or
 uncertain material by default, shows the complete export preview and destination, and waits at its
-own threshold. Overwriting an existing snapshot requires separate approval.
+own threshold. It omits sensitive filenames and aborts when routed text contains recognized secret
+markers. Overwriting an existing snapshot requires separate approval.
 
 Expected behavior:
 

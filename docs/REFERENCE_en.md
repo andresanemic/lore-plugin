@@ -419,7 +419,8 @@ private, noise (notes, scripts other than the manifest, lockfiles) or unrouted; 
 manifest; wait for approval; write one snapshot outside `lore/`. Each inlined file is wrapped in
 `<!-- lore:extract path="..." owner="..." -->`; unpack with
 `skills/transmute-lore/scripts/crystallize.mjs` into a mini-root that mirrors `raiz`. The header
-states that the copy may become stale. Private material is excluded by default. "Without the
+states that the copy may become stale. Private material is excluded by default: sensitive filenames
+are omitted, and recognized secret markers in routed text abort the pass. "Without the
 ecosystem" is not a default. The user does not write the extractor.
 
 `transmute-lore` **does not commit the target project**. Source-changing modes leave a reviewable

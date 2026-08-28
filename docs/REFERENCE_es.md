@@ -395,7 +395,9 @@ como privado, ruido (notas, scripts que no sean el manifiesto, lockfiles) o no e
 muestra el manifiesto; se espera aprobación; se escribe un solo archivo fuera de `lore/`. Cada
 archivo va envuelto en `<!-- lore:extract path="..." owner="..." -->`; se extrae con
 `skills/transmute-lore/scripts/crystallize.mjs` a una mini-raíz que espeja `raiz`. «Sin el
-ecosistema» no es el default. El usuario no escribe el extractor.
+ecosistema» no es el default. El material privado se excluye por defecto: se omiten nombres de
+archivo sensibles y los marcadores de secreto reconocidos en texto enrutado abortan la pasada. El
+usuario no escribe el extractor.
 
 `transmute-lore` **no hace commit del proyecto destino**. Los modos que cambian fuentes dejan un
 *diff* revisable; `crystallize` verifica que los hashes o tamaños de las fuentes no cambiaron.
