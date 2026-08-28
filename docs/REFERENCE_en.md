@@ -1,9 +1,63 @@
 # Lore Plugin – Reference
 
-This document is the technical reference for the provider-neutral **Lore plugin**: core concepts, skills, Markdown artifacts, and how they fit together.
+This is **the technical document** for the provider-neutral **Lore plugin**: getting started, day-to-day
+use, core concepts, the exact spec for every skill, mode and artifact, and how to migrate an existing
+project. For the motivation, the architecture at a glance and the index of every document, see the
+main [`README.md`](../README.md); for the 90-second version, [`90_SECONDS_en.md`](./90_SECONDS_en.md).
 
-For a practical "how to use it every day" guide, see [`USAGE_en.md`](./USAGE_en.md).
-For a conceptual overview and philosophy, see the main [`README.md`](../README.md).
+---
+
+## Getting started
+
+### The daily loop
+
+1. You work with your AI agent to solve a problem in your project.
+2. You decide whether the solution revealed **criteria** that should shape future decisions.
+3. You use `save-to-lore` to capture that criterion into your Markdown Lore.
+4. Future sessions reuse that criterion instead of starting from scratch.
+
+**Example — capturing a hydration bug.** You and Claude debug a hydration problem in Next.js. Instead
+of just fixing it:
+
+```text
+save-to-lore "Hydration issue with initial opacity in Next.js"
+```
+
+Lore helps you extract the **Invariant Clue** (e.g. "the initial state goes in the markup; the
+library confirms it with `fromTo`, never creates it"), decide whether it belongs to a project module
+or to the Area's `principios.md`, and update the right Markdown artifacts — always after your approval
+at the threshold.
+
+### Your first Area and project
+
+Lore scales through **Areas**: a mother folder that owns shared criteria; projects inherit it instead
+of duplicating rules.
+
+```text
+create a work area for "AI-assisted frontend"
+create a project "Marketing site" in the area "AI-assisted frontend"
+```
+
+- `create-area` initializes `lore/identidad.md`, `lore/principios.md`, `lore/index.md`, whatever
+  thematic modules are needed, the Area's contract and its `FASES.md`, plus a `_starter/` with the
+  templates `create-project` instantiates.
+- `create-project` creates the folder in `{area}/proyectos/{slug}/` — never directly under the Area —
+  prepares `lore/` for its own modules (the Area's generic ones are only referenced by relative
+  path), `FASES.md` and the contract, and registers the project in the Area's `FASES.md`.
+
+Then you work in the project as usual and call `save-to-lore` whenever you solve something that
+reveals reusable criteria. **First time, you need to know no command:** write *"I want to start using
+Lore Plugin, help me"* and the kit opens a brainstorming that ends with your first artifact created.
+
+### Best practices
+
+- Capture criteria only: if it does not constrain a future decision, do not add it.
+- Prefer small, single-domain modules over long narrative documents.
+- Identity and principles change rarely; keep them short.
+- `FASES.md` reflects reality; update it when the phase changes.
+- Use Areas for anything that should be shared; keep project Lore light.
+- Keep all Lore in one language; if it ended up mixed, use `transmute-lore` `translate` mode.
+- Always review the diff Lore proposes before confirming.
 
 ---
 
@@ -892,6 +946,60 @@ These invariants are what separate Lore from generic note‑taking or logging to
 
 ---
 
-## 7. Relationship to README and Usage Docs
+## 7. Relationship to the other documents
 
-The documentation splits by job: [`README.md`](../README.md) carries story, motivation and architecture; [`USAGE_en.md`](./USAGE_en.md) / [`USAGE_es.md`](./USAGE_es.md), practical workflows; this reference, the technical model; [`MIGRATION_en.md`](./MIGRATION_en.md) / [`MIGRATION_es.md`](./MIGRATION_es.md), migration strategies; [`ENCRYPTION.md`](./ENCRYPTION.md), the optional bot-criteria encryption. All live under `docs/`. Keeping reference separate from usage and narrative makes lookups precise and lets usage patterns evolve without touching the model.
+This is the complete technical document: getting started, day-to-day use, concepts, the spec for
+every skill/mode/artifact, and migration. The [`README.md`](../README.md) carries story, motivation,
+architecture at a glance and the index of everything else; [`90_SECONDS_en.md`](./90_SECONDS_en.md)
+is the 90-second version; [`ENCRYPTION.md`](./ENCRYPTION.md), the optional bot-criteria encryption;
+[`CASES_en.md`](./CASES_en.md), the case studies. One technical document — instead of a separate
+usage guide and reference that restated the same model in a friendlier voice — keeps the spec in one
+place with no drift between copies.
+
+---
+
+## 8. Migrating an existing project
+
+Migrating a legacy project into Lore is `transmute-lore` (§3.6) applied to what you already have. It
+is worth doing when documentation is scattered (README, wikis, ADRs), teams keep re-litigating the
+same decisions, or you want AI-assisted work to rest on stable criteria rather than ad-hoc notes.
+**You do not have to rewrite your whole history** — only move the criteria that still constrains
+decisions.
+
+### 8.1 Strategy
+
+1. **Create the Area** for the domain (`create-area`).
+2. **Pick one or two pilot projects** representing typical work.
+3. **Run `transmute-lore`** on those projects: `add` to create missing artifacts, then `clean` to
+   lift shared criteria to the Area.
+4. **Refine the Lore**: consolidate rules, remove duplication, clarify Clues.
+5. **Extend the pattern** to the other projects once the structure feels solid.
+
+An **already existing** project is not created: it is **adopted** by adding a row with its path to
+the Area's `FASES.md`, without moving it or touching its git. If the destination is a bot, this is
+the first half of the chain `raw folder → create-area → transmute-lore (add) → create-bot (federate)`
+— the bot never distills into itself.
+
+### 8.2 Mapping old documentation to artifacts
+
+| Legacy source | Destination |
+|---|---|
+| Old READMEs: identity and purpose | `lore/identidad.md` |
+| Old READMEs: domain overview | `lore/index.md` + initial thematic modules |
+| Architecture docs: lasting principles | `lore/principios.md` |
+| Architecture docs: domain-specific criteria | thematic modules (`frontend-rendering.md`, `api-design.md`…) |
+| Roadmaps and phase notes | `FASES.md` |
+| Onboarding and "how we work" with AI | the instruction contract |
+
+Focus on rules that still constrain decisions today; ignore obsolete detail.
+
+### 8.3 Post-migration checklist
+
+- The Area's Lore captures the shared criteria; project modules do not repeat general rules.
+- Projects keep only their own specific criteria.
+- Clues are actionable: anything ambiguous or obsolete is removed or clarified.
+- `FASES.md` reflects the real phase and roadmap.
+- The contract matches how you actually use Claude.
+
+`transmute-lore` does not commit: the diff is yours to review as a human editor. With one or two
+pilots migrated, reuse the same patterns across the Area's other repositories.

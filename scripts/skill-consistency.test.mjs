@@ -48,7 +48,8 @@ test("use-lore gobierna entregables complejos sin crear una novena skill", () =>
   assert.match(text, /batch/i);
   assert.match(text, /human review/);
   assert.equal(skills.length, 8);
-  for (const file of ["README.md", "docs/USAGE_en.md", "docs/USAGE_es.md", "docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
+  // 2026-08-28 (poda 2.3.x): el mecanismo vive una vez, en REFERENCE. README y USAGE apuntan.
+  for (const file of ["docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
     const doc = readFileSync(join(root, file), "utf8");
     assert.match(doc, /complex deliverables|entregables complejos/i, `${file}: falta la ruta compleja`);
   }
@@ -181,13 +182,17 @@ test("el Entre fértil no se confunde con complacencia", () => {
   assert.match(use, /enjoyable Entre/i);
   assert.match(use, /fertile/i);
 
-  for (const file of ["README.md", "docs/USAGE_en.md", "docs/USAGE_es.md", "docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
+  // 2026-08-28 (poda 2.3.x): la frontera del Entre fértil vive en las skills y en REFERENCE.
+  for (const file of ["docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
     assert.match(readFileSync(join(root, file), "utf8"), /fertile|fértil/i, `${file}: falta la frontera del Entre fértil`);
   }
 });
 
-test("las guías bilingües documentan las ocho skills con una sección propia", () => {
-  for (const file of ["docs/USAGE_en.md", "docs/USAGE_es.md", "docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
+// 2026-08-28 (poda 2.3.x): USAGE_* y MIGRATION_* se plegaron dentro de REFERENCE_*, que es
+// ahora el único documento técnico (empezar + uso + spec + migración). El guard que vale
+// —ninguna skill desaparece en silencio de la spec, principios.md #15— se mantiene sobre él.
+test("REFERENCE documenta las ocho skills con sección propia", () => {
+  for (const file of ["docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
     const text = readFileSync(join(root, file), "utf8");
     for (const name of skillNames) {
       assert.match(text, new RegExp("^### \\d+\\.\\d+ `" + name + "`", "m"), `${file}: falta ${name}`);
@@ -241,7 +246,8 @@ test("PRUNE trata una magnitud pedida como restricción de aceptación", () => {
   assert.match(transmute, /quantitative target.*acceptance constraint/is);
   assert.match(transmute, /baseline.*expected remainder.*measure again/is);
   assert.match(transmute, /must not exceed.*requested cut/is);
-  for (const file of ["docs/USAGE_en.md", "docs/USAGE_es.md", "docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
+  // 2026-08-28 (poda 2.3.x): la restricción de aceptación de PRUNE se especifica en REFERENCE.
+  for (const file of ["docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
     assert.match(readFileSync(join(root, file), "utf8"), /quantitative target|objetivo cuantitativo/i, file);
   }
 });
@@ -249,12 +255,8 @@ test("PRUNE trata una magnitud pedida como restricción de aceptación", () => {
 test("los docs vivos y las skills no nombran research-lus ni Lore in the Shell", () => {
   const live = [
     "README.md",
-    "docs/USAGE_en.md",
-    "docs/USAGE_es.md",
     "docs/REFERENCE_en.md",
     "docs/REFERENCE_es.md",
-    "docs/MIGRATION_en.md",
-    "docs/MIGRATION_es.md",
     ...skillNames.flatMap((name) => skillFiles(root, name)),
   ];
   for (const file of live) {
@@ -353,12 +355,8 @@ test("el piso de _starter/ vive en las skills que lo escriben", () => {
 test("el cierre de create-bot no exige Lore previo", () => {
   const live = [
     "README.md",
-    "docs/USAGE_en.md",
-    "docs/USAGE_es.md",
     "docs/REFERENCE_en.md",
     "docs/REFERENCE_es.md",
-    "docs/MIGRATION_en.md",
-    "docs/MIGRATION_es.md",
     join("skills", "use-lore", "SKILL.md"),
   ];
   for (const file of live) {
@@ -394,7 +392,8 @@ test("las superficies públicas de 2.2.0 conservan una definición precisa", () 
 });
 
 test("la documentación presenta ADD como entrada y CRYSTALLIZE como memory card portable", () => {
-  const files = ["README.md", "docs/USAGE_en.md", "docs/USAGE_es.md", "docs/REFERENCE_en.md", "docs/REFERENCE_es.md"];
+  // 2026-08-28 (poda 2.3.x): README lo introduce como portada; REFERENCE lo especifica. USAGE apunta.
+  const files = ["README.md", "docs/REFERENCE_en.md", "docs/REFERENCE_es.md"];
   for (const file of files) {
     const text = readFileSync(join(root, file), "utf8");
     assert.match(text, /ADD/);
@@ -404,7 +403,8 @@ test("la documentación presenta ADD como entrada y CRYSTALLIZE como memory card
 });
 
 test("la documentación viva conserva la frontera de secretos de CRYSTALLIZE", () => {
-  const files = ["README.md", "docs/USAGE_en.md", "docs/USAGE_es.md", "docs/REFERENCE_en.md", "docs/REFERENCE_es.md"];
+  // 2026-08-28 (poda 2.3.x): la frontera de secretos se especifica en REFERENCE y en la skill.
+  const files = ["docs/REFERENCE_en.md", "docs/REFERENCE_es.md"];
   for (const file of files) {
     const text = readFileSync(join(root, file), "utf8");
     assert.match(text, /(?:sensitive\s+filenames?|nombres?\s+de\s+archivo\s+sensibles?)/i, `${file}: falta exclusión por nombre sensible`);

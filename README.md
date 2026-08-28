@@ -388,43 +388,9 @@ Areas and projects are places; **a bot is a lens you carry into them.** An Area 
 | `create-bot` | One place to open a session and work across several Areas at once | from zero, or once there is Lore to federate |
 | `obsidian-lore` | Mines loose notes and routes what survives | once the inbox gets heavy |
 
-**Day one needs two of these:** `use-lore` routes you to whatever comes next, and `save-to-lore` is the one you will actually type — *"save to lore"*, after solving something that cost you. **How to use each one**, with worked examples, lives in [`USAGE_es.md`](./docs/USAGE_es.md); **the full mechanism** for each mode lives in [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
+**Day one needs two of these:** `use-lore` routes you to whatever comes next, and `save-to-lore` is the one you will actually type — *"save to lore"*, after solving something that cost you. **Getting started, day-to-day use and the full mechanism for every skill and mode** live in one place: [`REFERENCE_en.md`](./docs/REFERENCE_en.md).
 
-<details>
-<summary><b>What each skill does</b></summary>
-
-<br>
-
-### `use-lore`
-
-> **2.0 rename:** `using-lore` is now `use-lore`. Remove the old name when updating; duplicate entry points make routing ambiguous.
-
-The entry point — explains the model and routes you to the right skill. Read it before invoking any other. For complex deliverables it fixes the owner project, the routed Lore and an approved precedent before work starts.
-
-### `brainstorming-lore`
-
-The kit's own design conversation for Lore artifacts — narrow on purpose, one decision at a time; `create-area`, `create-project`, `create-bot` and structural `transmute-lore` modes inherit its contract.
-
-### `save-to-lore`
-
-The daily flow: solve something that cost you, type *"save to lore"* — candidates stay parked until a milestone, where destination, wording and why-now are shown before anything is written. Specific lessons stay in the project; generic confirmed ones are proposed for the Area; nothing promotes automatically. Two modes: **capture** distills lived friction into an Invariant Clue — or captures an approved artifact along with the trace of what was discarded; **graft** arbitrates imported criteria against your project's purpose and records where the source loses. A skill that only *executes* is a dependency, not Lore.
-
-### `transmute-lore`
-
-Operates existing Lore in eight modes: **add** rescues scattered criteria into the six-piece architecture; **clean** removes what the Area already owns; **translate** standardizes language without changing meaning; **upgrade** sorts findings into Missing, Superseded, **Earned** or **Stale**; **prune** does the same against a Lore decayed by *accumulating correct things*; **mycelium** *(2.3.0)* reports clues **no step runs**; **leave** inventories and removes every active Lore junction while preserving `lore/`, reversible; **crystallize** exports a safe single-Markdown snapshot. The Reference carries the full gates for each.
-
-### `create-bot`
-
-One place to work across several Areas at once — *federating*. Think of a blockchain lab: website, social media, research, technology transfer, each already an Area with its own Lore; a bot routes them all into one folder. **It does not answer questions about the projects: it works in them.**
-
-> **Its north, and the only test that matters:** *a short instruction is enough.* If the project had to be explained to the bot to get the result, criteria were missing from the load.
-
-**Two modes:** `nuevo` builds provisional canon from a brainstorm, refined through a reviewed first victory; `federar` routes to criteria that already exists — raw folders earn real Lore in their own Area first, adopted **by path, without moving it**. Three bodies never merge: `canon/` is what the bot is, `lore/` maintains it, borrowed criteria stays per project — **federating is pointing, not copying.**
-
-Optional Lore encryption remains experimental and off by default; see
-[`ENCRYPTION.md`](./docs/ENCRYPTION.md).
-
-</details>
+Optional Lore encryption remains experimental and off by default; see [`ENCRYPTION.md`](./docs/ENCRYPTION.md).
 
 ---
 
@@ -474,9 +440,7 @@ This README covers motivation and architecture. Everything else lives in its own
 | Document | What it's for |
 |---|---|
 | [`90_SECONDS_en.md`](./docs/90_SECONDS_en.md) | **Start here.** The whole mechanism, short enough to read before deciding whether to install anything. |
-| [`USAGE_en.md`](./docs/USAGE_en.md) | Practical day-to-day usage guide: installation, core loop, and each skill with examples. |
-| [`REFERENCE_en.md`](./docs/REFERENCE_en.md) | Technical reference: core concepts, the exact spec for each artifact and each skill. |
-| [`MIGRATION_en.md`](./docs/MIGRATION_en.md) | How to migrate an existing project into Lore using `transmute-lore`. |
+| [`REFERENCE_en.md`](./docs/REFERENCE_en.md) | **The technical document.** Getting started, day-to-day use, core concepts, the exact spec for each skill, mode and artifact, and how to migrate an existing project. |
 | [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | The optional, experimental encryption for a bot's criteria: what it protects and what it does not. |
 | [`CASES_en.md`](./docs/CASES_en.md) | The nineteen case studies, each with its declared boundary. |
 | [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md) | Lore alongside GitHub's spec-kit: who governs what. Optional — Lore never depends on it. |
@@ -944,43 +908,9 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 | `create-bot` | Un lugar donde abrir sesión y trabajar sobre varias Áreas a la vez | desde cero, o cuando ya hay Lore que federar |
 | `obsidian-lore` | Mina tus notas sueltas y enruta lo que sobrevive | cuando la bandeja pesa |
 
-**El primer día necesitas dos de estas:** `use-lore` te enruta hacia lo que sigue, y `save-to-lore` es la que vas a escribir de verdad — *"guarda en lore"*, después de resolver algo que te costó. **Cómo usar cada una**, con ejemplos trabajados, vive en [`USAGE_es.md`](./docs/USAGE_es.md); **el mecanismo completo** de cada modo vive en [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
+**El primer día necesitas dos de estas:** `use-lore` te enruta hacia lo que sigue, y `save-to-lore` es la que vas a escribir de verdad — *"guarda en lore"*, después de resolver algo que te costó. **Cómo empezar, el uso cotidiano y el mecanismo completo de cada skill y modo** viven en un solo lugar: [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
 
-<details>
-<summary><b>Qué hace cada skill</b></summary>
-
-<br>
-
-### `use-lore`
-
-> **Cambio de nombre en 2.0:** `using-lore` ahora es `use-lore`. Al actualizar, elimina el nombre anterior; puntos de entrada duplicados vuelven ambiguo el enrutamiento.
-
-El punto de entrada — explica el modelo y te guía hacia la skill adecuada. Léelo antes de invocar cualquier otro.
-
-### `brainstorming-lore`
-
-La conversación de diseño propia del kit para artefactos Lore — específica a propósito, una decisión por vez; `create-area`, `create-project`, `create-bot` y los modos estructurales de `transmute-lore` heredan su contrato.
-
-### `save-to-lore`
-
-El flujo diario: resolvés algo que te costó, escribís *"guarda en lore"* — las candidatas quedan estacionadas hasta un hito, donde se muestran destino, redacción y por qué ahora antes de escribir nada. Lo específico se queda en el proyecto; lo genérico y confirmado se propone para el Área; nada se promueve automáticamente. Dos modos: **capture** destila una fricción vivida en una Pista — o captura un artefacto aprobado junto con la traza de lo descartado; **graft** arbitra criterio importado contra la finalidad de tu proyecto y registra dónde la fuente pierde. Una skill que solo *ejecuta* es una dependencia, no Lore.
-
-### `transmute-lore`
-
-Opera un Lore existente en ocho modos: **add** rescata criterio disperso hacia la arquitectura de seis piezas; **clean** elimina lo que el Área ya posee; **translate** estandariza el idioma sin alterar el significado; **upgrade** clasifica hallazgos en Missing, Superseded, **Earned** o **Stale**; **prune** hace lo mismo contra un Lore degradado por *acumular cosas correctas*; **mycelium** *(2.3.0)* reporta las pistas que **ningún paso corre**; **leave** inventaría y retira cada junta activa de Lore mientras conserva `lore/`, reversible; **crystallize** exporta una fotografía segura en un solo Markdown. La Referencia conserva las puertas completas de cada uno.
-
-### `create-bot`
-
-Un solo lugar para abrir sesión y trabajar sobre varias Áreas a la vez — *federar*. Piensa en un laboratorio de blockchain: sitio web, redes sociales, investigación, transferencia tecnológica, cada una ya un Área con su propio Lore; un bot las enruta todas hacia una misma carpeta. **No responde preguntas sobre los proyectos: trabaja en ellos.**
-
-> **Su norte, y el único test que importa:** *una instrucción corta basta.* Si hubo que explicarle el proyecto al bot para obtener el resultado, faltaba criterio cargado.
-
-**Dos modos:** `nuevo` construye canon provisional desde un brainstorm, refinado con una primera victoria revisada; `federar` enruta hacia criterio que ya existe — las carpetas en bruto primero ganan Lore real en su propia Área, adoptadas **por ruta, sin moverlas**. Tres cuerpos nunca se mezclan: `canon/` es lo que el bot es, `lore/` lo mantiene, el criterio prestado sigue por proyecto — **federar es apuntar, no copiar.**
-
-El cifrado del Lore sigue experimental y apagado por defecto; consulta
-[`ENCRYPTION.md`](./docs/ENCRYPTION.md).
-
-</details>
+El cifrado del Lore sigue experimental y apagado por defecto; consulta [`ENCRYPTION.md`](./docs/ENCRYPTION.md).
 
 ---
 
@@ -1026,9 +956,7 @@ El benchmark fue diseñado y prerregistrado con **GPT-5.6 Sol medium**, y despu�
 | Documento | Para qué sirve |
 |---|---|
 | [`90_SECONDS_es.md`](./docs/90_SECONDS_es.md) | **Empieza acá.** El mecanismo completo, corto como para leerlo antes de decidir si instalas algo. |
-| [`USAGE_es.md`](./docs/USAGE_es.md) | Guía práctica de uso día a día, con ejemplos. |
-| [`REFERENCE_es.md`](./docs/REFERENCE_es.md) | Referencia técnica de cada artefacto y cada *skill*. |
-| [`MIGRATION_es.md`](./docs/MIGRATION_es.md) | Cómo migrar un proyecto existente con `transmute-lore`. |
+| [`REFERENCE_es.md`](./docs/REFERENCE_es.md) | **El documento técnico.** Cómo empezar, uso cotidiano, conceptos, la especificación exacta de cada *skill*, modo y artefacto, y cómo migrar un proyecto existente. |
 | [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | El cifrado opcional y experimental del criterio de un bot: qué protege y qué no. |
 | [`CASES_es.md`](./docs/CASES_es.md) | Los diecinueve casos de estudio, cada uno con su frontera declarada. |
 | [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md) | Lore junto a spec-kit de GitHub: quién gobierna qué. Opcional — Lore no depende de él. |

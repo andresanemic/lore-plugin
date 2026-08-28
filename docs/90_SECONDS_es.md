@@ -63,4 +63,4 @@ decisiones futuras, nunca lo que guarda.
 Instala el plugin y escribe **«quiero comenzar a usar Lore Plugin, ayúdame»**. El kit hace brainstorming para construir — no te va a entregar un
 menú de comandos.
 
-Más largo: [uso](./USAGE_es.md) · [referencia](./REFERENCE_es.md) · [casos](./CASES_es.md)
+Más largo: [documento técnico](./REFERENCE_es.md) · [casos](./CASES_es.md)

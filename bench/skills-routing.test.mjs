@@ -127,12 +127,12 @@ test("create-bot federa de forma lazy y no se empaqueta como plugin", () => {
   assert.match(bot, /reachable and routed/);
   assert.match(bot, /loaded on demand/i);
   assert.doesNotMatch(bot, /criteria already loaded/);
-  for (const name of ["USAGE_en.md", "REFERENCE_en.md"]) {
-    const text = readFileSync(join(dirname(skillsRoot), "docs", name), "utf8");
+  {
+    const text = readFileSync(join(dirname(skillsRoot), "docs", "REFERENCE_en.md"), "utf8");
     assert.doesNotMatch(text, /criteria already loaded|Packaging it as (?:an? )?plugin is optional/i);
   }
-  for (const name of ["USAGE_es.md", "REFERENCE_es.md"]) {
-    const text = readFileSync(join(dirname(skillsRoot), "docs", name), "utf8");
+  {
+    const text = readFileSync(join(dirname(skillsRoot), "docs", "REFERENCE_es.md"), "utf8");
     assert.doesNotMatch(text, /criterio ya cargado|Empaquetarlo como (?:\*plugin\*|\*plugin\* instalable) es opcional/i);
   }
   const router = skill("use-lore");

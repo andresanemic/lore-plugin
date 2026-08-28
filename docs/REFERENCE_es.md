@@ -1,10 +1,65 @@
 # Plugin Lore – Referencia
 
-Este documento es la referencia técnica del **plugin Lore**, neutral al proveedor.
-Define los conceptos centrales de Lore, los skills disponibles, los artefactos en Markdown y cómo encajan entre sí.
+Este documento es **el documento técnico** del **plugin Lore**, neutral al proveedor: cómo empezar,
+el uso cotidiano, los conceptos centrales, la especificación exacta de cada skill, modo y artefacto,
+y cómo migrar un proyecto existente. Para la motivación, la arquitectura de un vistazo y el índice de
+todos los documentos, consulta el [`README.md`](../README.md); para la versión de 90 segundos,
+[`90_SECONDS_es.md`](./90_SECONDS_es.md).
 
-Para una guía práctica de “cómo usarlo en el día a día”, consulta [`USAGE_es.md`](./USAGE_es.md).  
-Para una visión conceptual y la filosofía del proyecto, consulta el [`README.md`](../README.md).
+---
+
+## Empezar
+
+### El ciclo cotidiano
+
+1. Trabajas con tu agente de IA para resolver un problema en tu proyecto.
+2. Decides si la solución reveló **criterio** que debería afectar decisiones futuras.
+3. Usas `save-to-lore` para capturar ese criterio en tu Lore en Markdown.
+4. Las sesiones futuras reutilizan ese criterio en lugar de empezar desde cero.
+
+**Ejemplo — capturar un bug de hidratación.** Tú y Claude depuran un problema de hidratación en
+Next.js. En lugar de solo corregirlo:
+
+```text
+save-to-lore "Problema de hidratación con opacidad inicial en Next.js"
+```
+
+Lore te ayuda a extraer la **Pista Invariante** (p. ej. «el estado inicial va en el markup; la
+librería lo confirma con `fromTo`, nunca lo crea»), a decidir si pertenece a un módulo del proyecto o
+a `principios.md` del Área, y a actualizar los artefactos Markdown correspondientes — siempre tras tu
+aprobación en el umbral.
+
+### Tu primera Área y proyecto
+
+Lore escala mediante **Áreas**: una carpeta madre que posee criterio compartido; los proyectos lo
+heredan en lugar de duplicar reglas.
+
+```text
+crea un área de trabajo para "Frontend asistido por IA"
+crea un proyecto "Sitio de marketing" en el área "Frontend asistido por IA"
+```
+
+- `create-area` inicializa `lore/identidad.md`, `lore/principios.md`, `lore/index.md`, los módulos
+  temáticos que hagan falta, el contrato del Área y su `FASES.md`, más un `_starter/` con las
+  plantillas que `create-project` instancia.
+- `create-project` crea la carpeta en `{Área}/proyectos/{slug}/` —nunca directamente bajo el Área—,
+  prepara `lore/` para módulos propios (los genéricos del Área solo se referencian por ruta
+  relativa), `FASES.md` y el contrato, y registra el proyecto en el `FASES.md` del Área.
+
+Después trabajas en el proyecto como siempre y llamas a `save-to-lore` cada vez que resuelves algo
+que revela criterio reutilizable. **Si es tu primera vez, no necesitas saber ningún nombre:** escribe
+*«quiero comenzar a usar Lore Plugin, ayúdame»* y el kit abre un brainstorming que termina creando tu
+primer artefacto.
+
+### Buenas prácticas
+
+- Captura solo **criterio**: si no restringe una decisión futura, no lo añadas.
+- Prefiere módulos pequeños y enfocados en un dominio a documentos narrativos largos.
+- Identidad y principios cambian poco; mantenlos breves.
+- `FASES.md` refleja la realidad; actualízalo al cambiar de fase.
+- Usa Áreas para todo lo que deba compartirse; mantén el Lore del proyecto ligero.
+- Mantén todo el Lore en un solo idioma; si quedó mezclado, usa `transmute-lore` modo `translate`.
+- Revisa siempre el diff que Lore propone antes de confirmar.
 
 ---
 
@@ -872,6 +927,60 @@ el objetivo es mantener un cuerpo de criterio confiable, curado por humanos, del
 
 ---
 
-## 7. Relación con README y otros docs
+## 7. Relación con los otros documentos
 
-La documentación se reparte por oficio: [`README.md`](../README.md) lleva historia, motivación y arquitectura; [`USAGE_es.md`](./USAGE_es.md) / [`USAGE_en.md`](./USAGE_en.md), flujos prácticos; esta referencia, el modelo técnico; [`MIGRATION_es.md`](./MIGRATION_es.md) / [`MIGRATION_en.md`](./MIGRATION_en.md), estrategias de migración; [`ENCRYPTION.md`](./ENCRYPTION.md), el cifrado opcional del criterio de un bot. Todos viven bajo `docs/`. Separar referencia de uso y narrativa hace las consultas precisas y deja que los patrones de uso evolucionen sin tocar el modelo.
+Este documento es el técnico completo: cómo empezar, uso cotidiano, conceptos, la especificación de
+cada skill/modo/artefacto y la migración. El [`README.md`](../README.md) lleva historia, motivación,
+arquitectura de un vistazo y el índice de todo lo demás; [`90_SECONDS_es.md`](./90_SECONDS_es.md) es
+la versión de 90 segundos; [`ENCRYPTION.md`](./ENCRYPTION.md), el cifrado opcional del criterio de un
+bot; [`CASES_es.md`](./CASES_es.md), los casos de estudio. Un solo documento técnico —en vez de una
+guía de uso y una referencia por separado que repetían el mismo modelo con otra voz— mantiene la
+especificación en un lugar y sin derivas entre copias.
+
+---
+
+## 8. Migración de un proyecto existente
+
+Migrar un proyecto heredado a Lore es `transmute-lore` (§3.6) aplicado a lo que ya tienes. Tiene
+sentido cuando hay documentación dispersa (README, wikis, ADRs), los equipos vuelven a discutir las
+mismas decisiones, o quieres que el trabajo asistido por IA se apoye en criterio estable y no en
+notas ad-hoc. **No hace falta reescribir toda la historia** — solo trasladar el criterio que aún
+restringe decisiones.
+
+### 8.1 Estrategia
+
+1. **Crea el Área** del dominio (`create-area`).
+2. **Elige uno o dos proyectos piloto** que representen trabajo típico.
+3. **Ejecuta `transmute-lore`** sobre esos proyectos: `add` para crear los artefactos que faltan,
+   luego `clean` para subir el criterio compartido al Área.
+4. **Refina el Lore**: consolida reglas, elimina duplicación, clarifica Pistas.
+5. **Extiende el patrón** a los demás proyectos cuando la estructura se sienta sólida.
+
+Un proyecto **ya existente** no se crea: se **adopta** añadiendo una fila con su ruta al `FASES.md`
+del Área, sin moverlo ni tocar su git. Si el destino es un bot, esta es la primera mitad de la cadena
+`carpeta en bruto → create-area → transmute-lore (add) → create-bot (federar)` — el bot nunca destila
+hacia sí mismo.
+
+### 8.2 Mapear documentación antigua a artefactos
+
+| Fuente heredada | Destino |
+|---|---|
+| Viejos README: identidad y propósito | `lore/identidad.md` |
+| Viejos README: resumen de dominios | `lore/index.md` + módulos temáticos iniciales |
+| Documentos de arquitectura: principios duraderos | `lore/principios.md` |
+| Documentos de arquitectura: criterio por dominio | módulos temáticos (`frontend-rendering.md`, `api-design.md`…) |
+| Roadmaps y notas de fase | `FASES.md` |
+| Onboarding y «cómo trabajamos» con IA | el contrato de instrucciones |
+
+Enfócate en reglas que aún restringen decisiones hoy; ignora los detalles obsoletos.
+
+### 8.3 Checklist posterior
+
+- El Lore del Área captura el criterio compartido; los módulos de proyecto no repiten reglas generales.
+- Los proyectos conservan solo su criterio específico.
+- Las Pistas son accionables: lo ambiguo u obsoleto se elimina o se clarifica.
+- `FASES.md` refleja la fase real y la hoja de ruta real.
+- El contrato coincide con cómo usas Claude de verdad.
+
+`transmute-lore` no hace commit: el diff es tuyo para revisar como editor humano. Con uno o dos
+pilotos migrados, reutiliza los mismos patrones en los demás repositorios del Área.
