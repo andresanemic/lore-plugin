@@ -389,13 +389,19 @@ test("las superficies públicas de 2.2.0 conservan una definición precisa", () 
 
 test("la documentación presenta ADD como entrada y CRYSTALLIZE como memory card portable", () => {
   // 2026-08-28 (poda 2.3.x): README lo introduce como portada; REFERENCE lo especifica. USAGE apunta.
-  const files = ["README.md", "docs/REFERENCE_en.md", "docs/REFERENCE_es.md"];
-  for (const file of files) {
+  // 2026-08-28 (2.4.0): la portada explica «aprender de lo que ya tienes» en palabras llanas y nombra
+  // `transmute-lore`; el token de modo ADD baja al registro que lo especifica —REFERENCE—, por
+  // `plugins/lore/principios.md` #26 (una obra/jargon que hay que explicar antes de ilustrar no va al cuerpo).
+  for (const file of ["docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
     const text = readFileSync(join(root, file), "utf8");
     assert.match(text, /ADD/);
     assert.match(text, /CRYSTALLIZE/);
     assert.match(text, /memory card/i);
   }
+  const readme = readFileSync(join(root, "README.md"), "utf8");
+  assert.match(readme, /transmute-lore/);
+  assert.match(readme, /CRYSTALLIZE/);
+  assert.match(readme, /memory card/i);
 });
 
 test("la documentación viva conserva la frontera de secretos de CRYSTALLIZE", () => {

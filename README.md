@@ -104,7 +104,7 @@ Spec-driven is not a label here: one contract per project (`CLAUDE.md` or `AGENT
 
 #### You can start from what you already have
 
-If your project is already underway, you do not have to start over. In **ADD** mode, `transmute-lore` reads what you have — project folders, documents, exported chat summaries, loose notes — and helps you find the criteria, canon and routing scattered through it. Your sources stay just as they are: nothing becomes Lore until you approve the distillation.
+You do not have to begin from an empty folder. Lore Plugin can learn from what is already there — your project folders, documents, exported chat summaries, the notes you have been keeping — and from what you tell it as you work. `transmute-lore` reads through all of it and helps you put words to the criteria, canon and routing that were already shaping the project, just never written down. Your files stay exactly as they are: nothing becomes Lore until you have read the distillation and approved it.
 
 When that criterion needs to travel, **CRYSTALLIZE** creates a traceable single-Markdown “memory card”: portable across models, usable wherever Markdown instructions are accepted, shareable on your terms and extractable back into a working folder. It omits sensitive filenames and aborts when routed text contains recognized secret markers. It is a snapshot, never a replacement for the live Lore.
 
@@ -624,7 +624,7 @@ Lo de *spec-driven* no es una etiqueta: un contrato por proyecto (`CLAUDE.md` o 
 
 #### Puedes empezar desde lo que ya tienes
 
-Si tu proyecto ya está andando, no tienes que empezar de cero. En modo **ADD**, `transmute-lore` lee lo que tienes —carpetas del proyecto, documentos, resúmenes de chats exportados, notas sueltas— y te ayuda a encontrar el criterio, el canon y el enrutamiento dispersos ahí. Tus fuentes se quedan tal como están: nada se vuelve Lore hasta que apruebas la destilación.
+No tienes que empezar con una carpeta vacía. Lore Plugin puede aprender de lo que ya está ahí —las carpetas del proyecto, documentos, resúmenes de chats exportados, las notas que has ido guardando— y de lo que le dices mientras trabajas. `transmute-lore` lee todo eso y te ayuda a poner en palabras el criterio, el canon y el enrutamiento que ya le daban forma al proyecto, solo que nunca se escribieron. Tus archivos se quedan tal como están: nada se vuelve Lore hasta que has leído la destilación y la has aprobado.
 
 Cuando ese criterio necesita viajar, **CRYSTALLIZE** crea una «memory card» trazable en un solo Markdown: portable entre modelos, utilizable donde se acepten instrucciones Markdown, compartible en tus términos y extraíble de vuelta a una carpeta de trabajo. Omite nombres de archivo sensibles y aborta cuando el texto enrutado contiene marcadores de secreto reconocidos. Es una fotografía, nunca un reemplazo del Lore vivo.
 
