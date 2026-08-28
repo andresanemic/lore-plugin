@@ -20,15 +20,22 @@ export function orphanSections(read = skill) {
     const txt = read(name);
     for (const m of txt.matchAll(/^#{2,3} +(.+)$/gm)) {
       const title = m[1];
-      if (/^Phase/i.test(title)) continue;              // un paso no se llama a si mismo
-      if (!/check|mode|scan|gate/i.test(title)) continue;
-      const key = (title.match(/[A-Z]{4,}/) || [])[0];
+      if (/^Phase\b/i.test(title)) continue;              // un paso no se llama a si mismo
+      if (!/\bcheck\b|\bmode\b|\bscan\b|\bgate\b/i.test(title)) continue;
+      const key = (title.match(/\b[A-Z]{4,}\b/) || [])[0];
       if (!key) continue;
       if (!new RegExp(key, "i").test(txt.slice(0, m.index))) orphans.push(`${name}: ## ${title.trim()}`);
     }
   }
   return orphans;
 }
+
+test("orphanSections detecta un modo sin ruta previa", () => {
+  const found = orphanSections((name) => name === "transmute-lore"
+    ? "# Dispatcher\n\n## LEAVE mode\n\nProcedure."
+    : "# Empty skill\n");
+  assert.deepEqual(found, ["transmute-lore: ## LEAVE mode"]);
+});
 
 
 
@@ -59,6 +66,35 @@ test("LEAVE deja criterio vivo y reversible (A+B) sin fantasma", () => {
   assert.match(t, /plain `enrutamiento\.md`/);
   assert.match(t, /project must remain buildable without the kit/);
   assert.match(t, /Why here and not in `save-to-lore`/);
+});
+
+test("LEAVE inventaría y apaga todas las rutas automáticas sin borrar criterio", () => {
+  const t = skill("transmute-lore");
+  const leave = t.slice(t.indexOf("## LEAVE mode"), t.indexOf("## CRYSTALLIZE mode"));
+  assert.match(leave, /inventory every active junction/i);
+  assert.match(leave, /secondary host contracts/i);
+  assert.match(leave, /hooks and generated configuration/i);
+  assert.match(leave, /project-owned automatic junction/i);
+  assert.match(leave, /human-authored content.*threshold/i);
+});
+
+test("LEAVE detiene symlinks compartidos y puede reanudar su propio pase parcial", () => {
+  const t = skill("transmute-lore");
+  const leave = t.slice(t.indexOf("## LEAVE mode"), t.indexOf("## CRYSTALLIZE mode"));
+  assert.match(leave, /symlink/i);
+  assert.match(leave, /stop before writing/i);
+  assert.match(leave, /leave:partial/);
+  assert.match(leave, /resume LEAVE/i);
+  assert.match(leave, /before the first mutation/i);
+});
+
+test("LEAVE separa checks estáticos de la prueba conductual en sesión fresca", () => {
+  const t = skill("transmute-lore");
+  const leave = t.slice(t.indexOf("## LEAVE mode"), t.indexOf("## CRYSTALLIZE mode"));
+  assert.match(leave, /static verification/i);
+  assert.match(leave, /fresh session/i);
+  assert.match(leave, /without mentioning Lore/i);
+  assert.match(leave, /does not apply/i);
 });
 
 // Auditoría 2.3.0 con Opus high (2026-08-22): tres defectos verificados sobre el borrador
