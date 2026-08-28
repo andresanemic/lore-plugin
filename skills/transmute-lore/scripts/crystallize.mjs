@@ -64,6 +64,7 @@ function skipRel(rel) {
   if (parts.some((p) => SKIP_DIR.has(p))) return true;
   if (SENSITIVE_NAME.test(normalized)) return true;
   if (/cristalizado/i.test(rel)) return true;
+  if (/(^|\/)[^/]+\.test\.(?:mjs|cjs|js|mts|cts|ts)$/i.test(normalized)) return true;
   if (/(^|\/)\.env(\.|$)/i.test(rel)) return true;
   if (/(^|\/)package-lock\.json$/.test(posix(rel))) return true;
   if (/(^|\/)pnpm-lock\.yaml$/.test(posix(rel))) return true;

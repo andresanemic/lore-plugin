@@ -111,3 +111,14 @@ test("pack omite archivos sensibles y aborta ante marcadores de secreto", () => 
   );
   assert.throws(() => collect(bot), /possible secret.*operacion\.md/i);
 });
+
+test("pack omite *.test.* — código de prueba, no criterio — aunque lleve fixtures de secreto", () => {
+  const { bot } = fixture();
+  writeFileSync(
+    join(bot, "lore", "helper.test.mjs"),
+    'const fake = "OPENAI_API_KEY=sk-proj-abcdefghijklmnopqrstuvwxyz123456";\nexport { fake };\n',
+    "utf8",
+  );
+  const collected = collect(bot);
+  assert.ok(!collected.files.some((f) => f.path.endsWith("helper.test.mjs")));
+});
