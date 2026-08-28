@@ -30,9 +30,7 @@
 
 Every session starts blank: everything you taught the agent yesterday — every correction, every back-and-forth — gets erased, and you open the next one explaining the project again. Your Lore is where that stays.
 
-In *Groundhog Day* (Harold Ramis, 1993), Phil Connors wakes up to the same radio every February 2nd and nobody in town remembers a thing about yesterday — only him. Your agent is the town, not Phil: every session opens on that same morning, and the one who walks in carrying the memory is you, again, for free.
-
-Meanwhile, the things you actually paid to learn keep piling up: architecture decisions, production incidents, failed experiments, dozens of *"let's never do that again"* moments. That is the real cost — and **none of it survives the session**.
+In *Groundhog Day* (Harold Ramis, 1993), Phil Connors wakes up to the same radio every February 2nd and nobody in town remembers a thing about yesterday — only him. Your agent is the town, not Phil: every session opens on that same morning, and the one who walks in carrying the memory is you.
 
 It is a loop of re-explanations and mediocre solutions you had already rejected. Lore calls this **ephemeral experience**: the facts may survive, but the learning never became a reusable structure.
 
@@ -106,7 +104,7 @@ Spec-driven is not a label here: one contract per project (`CLAUDE.md` or `AGENT
 
 #### You can start from what you already have
 
-In **ADD** mode, `transmute-lore` reads what you already have — project folders, documents, exported chat summaries, loose notes — and proposes the criteria, canon and routing hidden inside. Sources remain sources: nothing becomes Lore until you approve the distillation.
+If your project is already underway, you do not have to start over. In **ADD** mode, `transmute-lore` reads what you have — project folders, documents, exported chat summaries, loose notes — and helps you find the criteria, canon and routing scattered through it. Your sources stay just as they are: nothing becomes Lore until you approve the distillation.
 
 When that criterion needs to travel, **CRYSTALLIZE** creates a traceable single-Markdown “memory card”: portable across models, usable wherever Markdown instructions are accepted, shareable on your terms and extractable back into a working folder. It omits sensitive filenames and aborts when routed text contains recognized secret markers. It is a snapshot, never a replacement for the live Lore.
 
@@ -120,7 +118,7 @@ Lore does not try to describe everything — that is what documentation is for. 
 
 > **If a sentence does not constrain a future decision, it is not Lore.** That rule is the whole filter, and it is what keeps the system from becoming another graveyard of documents.
 
-The filter is borrowed, and it is worth naming its owner. Gregory Bateson, in *Steps to an Ecology of Mind* (1972), defined information as **"a difference that makes a difference"**: a difference that changes nothing downstream is not information, it is noise. Lore applies that test to experience. What happened yesterday only becomes criteria if it would change what you do tomorrow — everything else is a log.
+Gregory Bateson, in *Steps to an Ecology of Mind* (1972), defined information as **"a difference that makes a difference"**: a difference that changes nothing downstream is not information, it is noise. Lore applies that test to experience. What happened yesterday only becomes criteria if it would change what you do tomorrow — everything else is a log.
 
 ---
 
@@ -133,7 +131,7 @@ The filter is borrowed, and it is worth naming its owner. Gregory Bateson, in *S
 
 Lore Plugin operationalizes a narrow part of the questions LUS studies. Its benchmark tests product behavior under a frozen protocol; it does not test the richness or stability of a human–AI **Between**. [Read the current research boundary →](./docs/LUS_en.md)
 
-> The word is Martin Buber's, from *I and Thou* (1923): what matters does not live inside either party but in the relation between them. This kit takes the structure, not the theology — what accumulates here is neither yours nor the model's: it is the criteria the two of you built.
+> Martin Buber, in *I and Thou* (1923): what matters does not live inside either party but in the relation between them. This kit takes the structure, not the theology — what accumulates here is neither yours nor the model's: it is the criteria the two of you built.
 
 ---
 
@@ -202,7 +200,7 @@ codex plugin add lore@lore-plugin
 
 ### OpenCode
 
-From a local clone, copy Lore's eight skill folders into OpenCode's global directory:
+From a local clone, copy Lore's seven skill folders into OpenCode's global directory:
 
 ```bash
 mkdir -p ~/.config/opencode/skills
@@ -415,8 +413,6 @@ All seven skills follow the same rules:
 
 Those last two are the whole bet. Agent frameworks increasingly keep a memory of their own successes and failures and generate reusable skills from the patterns they find — a real capability, and the opposite choice: there, the agent gets better; here, **the person does**. Lore's criteria live in files you own, in your language, and nothing enters them without your approval with the content in view. If you want a system that learns behind your back, this is not it, and it never will be.
 
-These rules were not designed in the abstract — one was bought. A README asked to shrink by 40% came back cut by nearly 80%: the instruction had stopped being a floor anyone could stand on, and collaborating had quietly turned into supervising. The six rules above exist to make that afternoon structurally impossible.
-
 ---
 
 ## Benchmark
@@ -554,9 +550,7 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 
 Cada sesión arranca en blanco: todo lo que le enseñaste al agente ayer —cada corrección, cada ida y vuelta— se borra, y abres la siguiente explicando otra vez el proyecto. Tu Lore es donde eso sí permanece.
 
-En *El día de la marmota* (Harold Ramis, 1993), Phil Connors despierta con la misma radio cada 2 de febrero y nadie en el pueblo recuerda nada de lo de ayer — solo él. Tu agente es el pueblo, no Phil: cada sesión abre en esa misma mañana, y el único que entra con memoria eres tú, de nuevo, gratis.
-
-Mientras tanto, lo que de verdad te costó aprender se sigue acumulando: decisiones de arquitectura, incidentes en producción, experimentos fallidos, decenas de momentos de *«nunca volvamos a hacer esto»*. Ese es el costo real — y **nada de eso sobrevive a la sesión**.
+En *El día de la marmota* (Harold Ramis, 1993), Phil Connors despierta con la misma radio cada 2 de febrero y nadie en el pueblo recuerda nada de lo de ayer — solo él. Tu agente es el pueblo, no Phil: cada sesión abre en esa misma mañana, y el único que entra con memoria eres tú.
 
 Es un bucle de reexplicaciones y soluciones mediocres que ya habías descartado. Lore llama a esto **experiencia efímera**: los datos pueden sobrevivir, pero el aprendizaje nunca se convirtió en una estructura reutilizable.
 
@@ -623,14 +617,14 @@ Un fine-tune deja de pedirte cosas el día que está listo. Lore no para nunca: 
 Tres cosas:
 
 - una convención sencilla para organizar el criterio de un proyecto;
-- ocho *skills* que operan esa convención;
+- siete *skills* que operan esa convención;
 - y un ciclo continuo para destilar experiencia en criterio reutilizable.
 
 Lo de *spec-driven* no es una etiqueta: un contrato por proyecto (`CLAUDE.md` o `AGENTS.md`, el que lea tu host), `FASES.md` para dónde está el trabajo, `lore/` para lo que restringe cómo se construye.
 
 #### Puedes empezar desde lo que ya tienes
 
-En modo **ADD**, `transmute-lore` lee lo que ya tienes —carpetas del proyecto, documentos, resúmenes de chats exportados, notas sueltas— y propone el criterio, el canon y el enrutamiento que viven dispersos ahí. Las fuentes siguen siendo fuentes: nada se vuelve Lore hasta que apruebas la destilación.
+Si tu proyecto ya está andando, no tienes que empezar de cero. En modo **ADD**, `transmute-lore` lee lo que tienes —carpetas del proyecto, documentos, resúmenes de chats exportados, notas sueltas— y te ayuda a encontrar el criterio, el canon y el enrutamiento dispersos ahí. Tus fuentes se quedan tal como están: nada se vuelve Lore hasta que apruebas la destilación.
 
 Cuando ese criterio necesita viajar, **CRYSTALLIZE** crea una «memory card» trazable en un solo Markdown: portable entre modelos, utilizable donde se acepten instrucciones Markdown, compartible en tus términos y extraíble de vuelta a una carpeta de trabajo. Omite nombres de archivo sensibles y aborta cuando el texto enrutado contiene marcadores de secreto reconocidos. Es una fotografía, nunca un reemplazo del Lore vivo.
 
@@ -644,7 +638,7 @@ Lore no intenta describirlo todo — para eso está la documentación. Conserva 
 
 > **Si una frase no restringe una decisión futura, no es Lore.** Esa regla es todo el filtro, y es lo que impide que el sistema se convierta en otro cementerio de documentos.
 
-El filtro es prestado, y conviene decir de quién. Gregory Bateson, en *Pasos hacia una ecología de la mente* (1972), definió la información como **«una diferencia que hace una diferencia»**: una diferencia que no cambia nada más adelante no es información, es ruido. Lore le aplica esa prueba a la experiencia. Lo que pasó ayer se vuelve criterio solo si cambiaría lo que haces mañana — todo lo demás es un registro.
+Gregory Bateson, en *Pasos hacia una ecología de la mente* (1972), definió la información como **«una diferencia que hace una diferencia»**: una diferencia que no cambia nada más adelante no es información, es ruido. Lore le aplica esa prueba a la experiencia. Lo que pasó ayer se vuelve criterio solo si cambiaría lo que haces mañana — todo lo demás es un registro.
 
 ---
 
@@ -657,7 +651,7 @@ El filtro es prestado, y conviene decir de quién. Gregory Bateson, en *Pasos ha
 
 Lore Plugin vuelve operable una parte acotada de las preguntas que estudia LUS. Su benchmark prueba comportamiento de producto bajo un protocolo congelado; no prueba la riqueza ni la estabilidad de un **Entre** humano–IA. [Lee la frontera vigente de la investigación →](./docs/LUS_es.md)
 
-> La palabra es de Martin Buber, en *Yo y Tú* (1923): lo que importa no vive dentro de ninguna de las dos partes sino en la relación entre ellas. Este kit toma la estructura, no la teología — lo que se acumula acá no es tuyo ni del modelo: es el criterio que construyeron los dos.
+> Martin Buber, en *Yo y Tú* (1923): lo que importa no vive dentro de ninguna de las dos partes sino en la relación entre ellas. Este kit toma la estructura, no la teología — lo que se acumula acá no es tuyo ni del modelo: es el criterio que construyeron los dos.
 
 ---
 
@@ -930,8 +924,6 @@ Agrega una carpeta `notas/`, `notes/` o `apuntes/` dentro del proyecto, Área o 
 - **Nada hace *commit* automáticamente.** Tú revisas el *diff* final.
 
 Esas dos últimas son la apuesta entera. Hay una clase creciente de frameworks de agentes que guarda memoria de sus propios éxitos y fracasos y genera skills a partir de sus patrones — una capacidad real, y la elección contraria: ahí mejora el agente; acá **mejoras tú**. El criterio vive en archivos tuyos, en tu idioma, y nada entra sin tu aprobación con el contenido a la vista. Si quieres un sistema que aprenda a tus espaldas, este no es, y no va a serlo.
-
-Estas reglas no son abstractas: una se pagó. A un README se le pidió encoger un 40% y volvió recortado casi al 80% — la instrucción dejó de ser un piso donde pararse, y colaborar se había vuelto supervisar. Las seis reglas de arriba existen para volver esa tarde estructuralmente imposible.
 
 ---
 

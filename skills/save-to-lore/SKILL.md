@@ -1,6 +1,6 @@
 ---
 name: save-to-lore
-description: Use when saving a lesson to the Lore, distilling an external body of criteria, or reviewing a folder of loose notes to decide what becomes criteria or state. Trigger on "save to lore", "guarda en lore", "destila esta skill", "revisa mis notas", "mina la bandeja", or proactively after resolving a friction worth keeping.
+description: Use when saving a lesson to the Lore, right after solving a problem worth keeping, when distilling Lore from an external body of criteria (a skill, a style guide, a third-party playbook), or when reviewing a folder of loose notes to decide what becomes criteria or state. Trigger on "save to lore", "distill this to the lore", "guarda en lore", "distill this skill", "destila esta skill", "guárdalo como formato base", "esto es el estándar de ahora en más", "revisa mis notas", "mina la bandeja", or proactively after resolving a friction that passes the Lore bar (constraint + signal + executability + genericity).
 ---
 
 # save-to-lore — Incremental capture and promotion

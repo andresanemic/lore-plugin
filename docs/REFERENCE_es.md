@@ -601,7 +601,7 @@ Usa `create-bot` cuando quieras una sola sesión que trabaje sobre varios proyec
 
 ---
 
-### Función de notas que carga `save-to-lore`
+### 3.8 Función de notas que carga `save-to-lore`
 
 **Propósito:** capturar notas sueltas y minar la bandeja sin depender de una aplicación. La nota
 siempre es material fuente; `save-to-lore` es dueña de cualquier criterio que sobreviva

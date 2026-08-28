@@ -620,7 +620,7 @@ Use `create-bot` when you want one session that works across several projects â€
 
 ---
 
-### Note function loaded by `save-to-lore`
+### 3.8 Note function loaded by `save-to-lore`
 
 **Purpose:** capture loose notes and mine the inbox without depending on an app. A note is always
 source material; `save-to-lore` owns any criterion that survives classification, routing and the
