@@ -39,7 +39,7 @@ El plugin Lore expone ocho skills principales a través de agentes de IA compati
 | `create-project` | Crear un proyecto que hereda de un Área       | «crea un proyecto de Sitio de marketing en el área Frontend» |
 | `save-to-lore`   | Capturar criterio tras resolver un problema (**capture**) o arbitrar criterio importado de una skill/guía ajena (**graft**) | «guarda en lore», «destila esto en el lore» (capture) / «destila la skill X en el lore» (graft) |
 | `transmute-lore` | Operar un Lore existente en ocho modos | add / clean / translate / upgrade / prune / **mycelium** / leave / crystallize |
-| `create-bot`     | Construir un bot: un solo lugar donde abrir sesión y trabajar en varios proyectos a la vez, con su criterio ya cargado | «crea un bot para trabajar en X e Y» (nuevo) / «quiero un bot que federe el lore que ya existe en A y B» (federar) |
+| `create-bot`     | Construir un bot: un solo lugar donde abrir sesión y trabajar en varios proyectos a la vez, con su criterio alcanzable y enrutado | «crea un bot para trabajar en X e Y» (nuevo) / «quiero un bot que federe el lore que ya existe en A y B» (federar) |
 | `obsidian-lore`  | Capturar notas libres en el mismo árbol donde vive el Lore, y **minar** esa bandeja buscando lo que merece volverse criterio | «revisa mis notas de Obsidian y checa si algo se puede guardar en mi lore», «mina la bandeja», «guarda esta nota en Obsidian» |
 
 Cada skill opera sobre, o crea, artefactos Markdown específicos dentro de tu repositorio.
@@ -104,6 +104,8 @@ Usa `use-lore` siempre que no tengas claro dónde empezar.
 
 - Peticiones directas de hacer brainstorming sobre el propio Lore.
 - Invocación por una skill dueña de artefactos antes de su umbral.
+- Un entregable ajeno a Lore cuya producción gobiernan módulos de proceso enrutados pertinentes;
+  identidad más principios, o un `lore/` vacío, no satisfacen este disparo implícito.
 - No hace falta para inspección de solo lectura, una edición mecánica aprobada o ejecutar un plan existente.
 
 **Responsabilidades:**
@@ -406,13 +408,13 @@ Usa `transmute-lore` cuando ya tienes proyectos en marcha y quieres incorporarlo
 **Nacimiento desde una idea:** la declaración inicial es canon provisional; la configuración ejecuta el ciclo hasta una primera victoria revisada. Toda interfaz mantiene canon, lógica y presentación aparte, pone decisiones antes que prompts y deriva el estado de Travesía del propósito.
 
 **Rol:** Construir un **bot** — un lugar donde abrir una sesión y trabajar en varios proyectos o
-Áreas a la vez, con su criterio ya cargado, en vez de responder preguntas sobre ellos.
+Áreas a la vez, con su criterio alcanzable y enrutado, y cargado bajo demanda, en vez de responder preguntas sobre ellos.
 
 Un bot es hermano de `create-project`, no de `create-area`: vive en `{área}/proyectos/{slug}/`. Lo
 distingue **una** propiedad: **enruta hacia afuera**, hacia Lore que pertenece a otros proyectos y
-Áreas. Por defecto es una carpeta con su canon y su contrato elegido por host —abres la sesión ahí y el criterio ya
-está cargado, sin instalar nada—. **Empaquetarlo como *plugin* instalable es opcional** y sirve para
-una sola cosa: repartirlo a un equipo.
+Áreas. Por defecto es una carpeta con su canon y su contrato elegido por host: abrir la sesión carga
+el canon y la tabla de enrutamiento, mientras los cuerpos enrutados se leen cuando la tarea los
+selecciona. No se instala nada. **Empaquetar significa CRYSTALLIZE**, no un plugin instalable.
 
 > **Por qué no puede ser un Área.** Un Área es dueña del criterio de su dominio; un bot toma prestado lo que enruta. Construido como Área, se vuelve una madre que acumula criterio que no pagó — y cuando un criterio se generaliza, se promueve al bot en vez de al Área que se lo ganó.
 >

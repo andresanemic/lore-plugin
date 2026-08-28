@@ -16,7 +16,7 @@
 1. Before the first mutation, write `leave:partial · <date> · <reason>` plus the approved junction checklist in `FASES.md`. If that marker already exists, **resume LEAVE** from its checklist; absence of the always-on block does not prove the earlier pass completed.
 2. Remove the `<!-- lore:always-on -->` block from the selected host contract. Leave no orphan markers — one well-formed pair or none (`use-lore:stamping`).
 3. Disable only the approved project-owned automatic junctions and remove the approved Lore instructions from host contracts and `FASES.md`. Preserve unrelated content byte-for-byte.
-4. Convert `FASES.md` to the host's typical form (`init`) — state remains, but no longer routes to `lore/`. Replace the partial marker with exactly one kit line: `leave: <date> · <reason>`. That marker is the whole reversibility — `UPGRADE` reads it to come back.
+4. Convert `FASES.md` to the host's typical form (`init`) — state remains, but no longer routes to `lore/`. Keep `leave:partial` and its approved checklist through both verification steps; they are the recovery record until the exit is proven.
 5. Keep the routing table as plain `enrutamiento.md` (no generated pointer). A saved map is inert when no active procedure is obliged to consult it.
 
 **Verification — two different claims:**

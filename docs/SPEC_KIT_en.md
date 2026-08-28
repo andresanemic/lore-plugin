@@ -90,7 +90,7 @@ unit of work is a **feature** and its terminal step writes code, so it belongs w
 
 The bot row looks like a compromise and is not: a bot holds federated criteria from several areas
 and operates in repositories that hold none of it. The spec belongs written where that criteria is
-already loaded — a spec says *what good work is here*, and that is the bot's whole content. What a
+reachable through routing — a spec says *what good work is here*, and that is the bot's whole content. What a
 bot cannot do is finish: nothing to compile, so `implement` crosses over.
 
 **The cost has a clause.** The cycle's artifacts end up in one repository and the code in another,

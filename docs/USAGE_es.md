@@ -28,7 +28,7 @@ El plugin Lore agrupa un conjunto de **skills** que implementan este ciclo:
 - `create-project` – Lore a nivel proyecto que hereda de un Área.
 - `save-to-lore` – captura criterio después de resolver un problema.
 - `transmute-lore` – añade, limpia, traduce, actualiza o cristaliza un cuerpo de Lore existente.
-- `create-bot` – un lugar para trabajar en varias Áreas o proyectos con su criterio cargado.
+- `create-bot` – un lugar para trabajar en varias Áreas o proyectos con su criterio alcanzable y enrutado.
 - `obsidian-lore` – captura notas libres en el mismo árbol y **mina** esa bandeja buscando criterio.
 
 > **El Lore habla tu idioma.** Aunque los skills están escritos en inglés, todo lo que generan —
@@ -200,7 +200,7 @@ haz brainstorming de este Lore antes de reestructurarlo
 
 Primero lee el criterio vigente, pregunta de a una decisión que cambie el diseño, compara solo los caminos que importan y entrega el diseño a la skill dueña. Con canon provisional pregunta solo lo que necesita una primera victoria. Cada respuesta aprobada entra en un artefacto acumulado que recapitula en hitos — el piso es la **continuidad reconocible**: seguís viendo tu intención y podés corregir el rumbo sin recomenzar. Los avances autónomos se resincronizan con destilación aprobada; el esfuerzo es fértil mientras la corrección deja movimiento reconocible; si deja de dejarlo, frená y repará el proceso. Una auditoría de solo lectura, una edición mecánica pequeña o un plan ya aprobado no la necesitan.
 
-**Segundo caso (2.3.0):** además de los artefactos que Lore posee, entra cuando un `lore/` enrutado **gobierna cómo se produce un entregable** — un lote de posts, un informe — y el diseño consiste en decidir cómo correr criterio ya escrito. El predicado se responde antes de invocar nada; si el Lore solo aportaría color de fondo, no entra, y el traspaso va a la fase que gobierna, nunca a un planificador tercero.
+**Segundo caso (2.3.0):** además de los artefactos que Lore posee, entra cuando módulos de proceso pertinentes de un `lore/` enrutado **gobiernan cómo se produce un entregable** — un lote de posts, un informe — y el diseño consiste en decidir cómo correrlos. Estrategia, estándares, formatos y módulos de producción equivalentes califican; solo `identidad.md` más `principios.md`, o un `lore/` vacío, no. Si Lore solo aportaría color de fondo, no entra. El traspaso va a la fase que gobierna, nunca a un planificador tercero.
 
 ---
 
@@ -460,16 +460,15 @@ origen, con `ecosistema.json` reescrito para que `enrutamiento.md` resuelva. Reg
 En `nuevo`, la declaración inicial es canon provisional. La configuración es el primer artefacto complejo y cierra solo tras una primera victoria revisada. Una interfaz debe ser un laboratorio local honesto que separe canon, lógica y presentación, ponga decisiones antes que prompts y haga que la Travesía siga al propósito.
 
 **Propósito:** construir un **bot**: un solo lugar donde abrir una sesión y **trabajar en varios
-proyectos o Áreas a la vez**, con su criterio ya cargado, en vez de responder preguntas sobre ellos.
+proyectos o Áreas a la vez**, con su criterio alcanzable y enrutado, y cargado bajo demanda, en vez de responder preguntas sobre ellos.
 
 Un bot vive en `{Área}/proyectos/{slug}/` como cualquier proyecto. Lo distingue una cosa: **enruta
 hacia afuera**, hacia el Lore de otros proyectos y Áreas. Las Áreas y los proyectos son lugares; un
 bot es una lente que llevas a ellos.
 
 Por defecto **no se instala nada**: es una carpeta con su canon y el único contrato elegido por su
-Área. Abrir la sesión ahí carga el criterio en ese host.
-Empaquetarlo como *plugin* es opcional y sirve para repartirlo a un
-equipo.
+Área. Abrir la sesión ahí carga su canon y la tabla de enrutamiento; los cuerpos enrutados se leen
+cuando la tarea los selecciona. Empaquetar significa CRYSTALLIZE, no envolver el bot como plugin.
 
 > **El test que decide si el bot está bien hecho:** *una instrucción corta basta.* Si tuviste que
 > explicarle el proyecto al bot para obtener el resultado, faltaba criterio cargado.

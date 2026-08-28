@@ -1,12 +1,43 @@
-# Lore Plugin 2.3.3 — Leaving means no active route remains
+# Lore Plugin 2.3.3 — observable boundaries
 
 > [README](https://github.com/andresanemic/lore-plugin#readme) · [Español](#español)
 
-`LEAVE` used to remove the always-on block and preserve the criterion, but it did not inventory the other execution surfaces that could still load Lore. A root-contract instruction outside the block, a secondary host contract or a project-owned hook could keep governance alive after the mode reported success. 2.3.3 makes the exit boundary observable: the read-only pre-flight inventories every active junction, stops before touching symlinks or shared contracts, and shows the exact removal set at the threshold. After approval it disables only project-owned Lore routes, preserves unrelated contract and hook content byte-for-byte, keeps `lore/` plus plain `enrutamiento.md`, and records `leave:partial` before the first mutation so an interrupted pass resumes from its checklist instead of guessing from a missing marker.
+2.3.3 repairs contracts that could claim more than their observable result.
 
-Nemotron 3 Ultra performed the initial audit that exposed the LEAVE gap. Its proposed implementation and the audit's other claimed fixes were not accepted as evidence: they introduced untested behavior, contradicted MYCELIUM's read-only contract and attributed changes to files that had not changed. The correction was reimplemented and verified independently with GPT-5.6 Sol medium. Static regression tests are in [`bench/leave.test.mjs`](https://github.com/andresanemic/lore-plugin/blob/main/bench/leave.test.mjs); the separate fresh-agent control and treatment record is in [`bench/leave-behavior/README.md`](https://github.com/andresanemic/lore-plugin/blob/main/bench/leave-behavior/README.md). A regex proves that a safeguard is written; only the fresh-session treatment checks that a known clue stays dormant after exit.
+`LEAVE` is still an operational recipe executed by an agent, not a deterministic runner. Its
+read-only pre-flight now inventories the always-on block, surrounding host-contract instructions,
+secondary contracts, `FASES.md`, hooks and generated configuration. It stops before changing a
+symlink or shared contract, shows the exact removal set, writes `leave:partial` before mutation and
+keeps that recovery checklist until both static and fresh-session verification pass. It preserves
+`lore/`, plain `enrutamiento.md` and unrelated contract or hook content.
 
-This patch changes one mode of `transmute-lore`, its bilingual documentation, release metadata and tests; all eight skills and the public contract remain intact. It deliberately adds no OBSIDIAN executable, no UPGRADE/MYCELIUM score, no stricter BRAINSTORMING taxonomy and no new scientific hypothesis: those claims lacked behavioral evidence or were already covered by the current skills. Existing Lore needs no migration; the new boundary applies only when `LEAVE` runs.
+The same audit closed four adjacent contract gaps:
+
+- federated bots load canon plus routing first; federated Lore remains reachable and is loaded on
+  demand for the selected task. Packaging a bot means CRYSTALLIZE, not wrapping it as a plugin;
+- the implicit `brainstorming-lore` trigger requires relevant production modules. Identity plus
+  principles alone, or an empty `lore/`, do not qualify;
+- the UPGRADE relevance gate still requires a module-name intersection and stays silent when none
+  exists. Missing release notes now produce an explicit evidence gap, not a guessed result. The
+  2.3.2 note was corrected because no standalone `barrido-lore.ps1` shipped;
+- CRYSTALLIZE now omits sensitive filenames and aborts before composing a snapshot when a routed
+  text contains a recognized private-key, provider-token or credential-assignment marker. Its real
+  pack/extract and secret-rejection tests now run under `npm test`.
+
+Nemotron 3 Ultra performed the initial audit. The proposed post-audit implementation was discarded;
+the corrections above were rebuilt and verified with GPT-5.6 Sol medium. Static contract tests are
+in [`bench/leave.test.mjs`](https://github.com/andresanemic/lore-plugin/blob/main/bench/leave.test.mjs)
+and [`bench/skills-routing.test.mjs`](https://github.com/andresanemic/lore-plugin/blob/main/bench/skills-routing.test.mjs).
+Fresh-agent contract-application scenarios are recorded in
+[`bench/leave-agent-scenarios/README.md`](https://github.com/andresanemic/lore-plugin/blob/main/bench/leave-agent-scenarios/README.md).
+Those scenarios test decisions against synthetic fixtures, not filesystem execution. The behavioral verification procedure was specified but not executed end to end.
+
+No Obsidian executable was added: `obsidian-lore` remains an agent-run workflow and its contract is
+tested statically. MYCELIUM remains read-only and reports a descriptive rate, never a normative
+score. SAVE's existing exit trigger and the one-`bots`-area handoff already existed in the 2.3.2
+baseline; this release does not claim them as new fixes. No LUS hypothesis is created or promoted.
+
+Existing Lore needs no migration.
 
 Full notes: https://github.com/andresanemic/lore-plugin/releases/tag/v2.3.3
 
@@ -14,14 +45,51 @@ Full notes: https://github.com/andresanemic/lore-plugin/releases/tag/v2.3.3
 
 <a id="español"></a>
 
-# Lore Plugin 2.3.3 — salir significa que no queda ninguna ruta activa
+# Lore Plugin 2.3.3 — fronteras observables
 
 > [README](https://github.com/andresanemic/lore-plugin/blob/main/README.md#español)
 
-`LEAVE` quitaba el bloque siempre activo y conservaba el criterio, pero no inventariaba las otras superficies de ejecución capaces de seguir cargando Lore. Una instrucción fuera del bloque en el contrato raíz, un contrato secundario o un hook propio del proyecto podían mantener el gobierno después de que el modo declarara éxito. 2.3.3 vuelve observable la frontera de salida: el pre-flight de solo lectura inventaría cada junta activa, se detiene antes de tocar symlinks o contratos compartidos y muestra en el umbral el conjunto exacto que retirará. Después de la aprobación desactiva solo las rutas Lore propias del proyecto, conserva byte por byte el contenido ajeno de contratos y hooks, mantiene `lore/` más `enrutamiento.md` plano y escribe `leave:partial` antes de la primera mutación para que un pase interrumpido se reanude desde su checklist en vez de adivinar a partir de un marcador ausente.
+2.3.3 repara contratos que podían prometer más que su resultado observable.
 
-Nemotron 3 Ultra realizó la auditoría inicial que expuso el hueco de LEAVE. Su implementación propuesta y los demás arreglos atribuidos por la auditoría no se aceptaron como evidencia: introducían conducta sin probar, contradecían el contrato read-only de MYCELIUM y adjudicaban cambios a archivos que no habían cambiado. La corrección fue reimplementada y verificada de forma independiente con GPT-5.6 Sol medium. Los tests estáticos de regresión están en [`bench/leave.test.mjs`](https://github.com/andresanemic/lore-plugin/blob/main/bench/leave.test.mjs); el registro separado de controles y tratamientos con agentes frescos está en [`bench/leave-behavior/README.md`](https://github.com/andresanemic/lore-plugin/blob/main/bench/leave-behavior/README.md). Un regex demuestra que la guarda está escrita; solo el tratamiento en sesión fresca comprueba que una Pista conocida quede dormida después de salir.
+`LEAVE` sigue siendo una receta operacional ejecutada por un agente, no un runner determinista. Su
+pre-flight de solo lectura ahora inventaría el bloque always-on, instrucciones circundantes del
+contrato del host, contratos secundarios, `FASES.md`, hooks y configuración generada. Se detiene
+antes de cambiar un symlink o contrato compartido, muestra el conjunto exacto a retirar, escribe
+`leave:partial` antes de mutar y conserva ese checklist de recuperación hasta que pasan la
+verificación estática y la de sesión fresca. Preserva `lore/`, `enrutamiento.md` plano y el contenido
+ajeno de contratos y hooks.
 
-Este patch cambia un modo de `transmute-lore`, su documentación bilingüe, metadatos de release y tests; las ocho skills y el contrato público permanecen intactos. Deliberadamente no agrega un ejecutable OBSIDIAN, un score UPGRADE/MYCELIUM, una taxonomía más estricta para BRAINSTORMING ni una hipótesis científica nueva: esas afirmaciones carecían de evidencia conductual o ya estaban cubiertas por las skills vigentes. El Lore existente no requiere migración; la nueva frontera se aplica solo cuando corre `LEAVE`.
+La misma auditoría cerró cuatro brechas contractuales adyacentes:
+
+- los bots federados cargan primero canon y enrutamiento; el Lore federado queda alcanzable y se
+  carga bajo demanda para la tarea elegida. Empaquetar un bot significa CRYSTALLIZE, no envolverlo
+  como plugin;
+- el disparo implícito de `brainstorming-lore` exige módulos de producción pertinentes. Solo
+  identidad más principios, o un `lore/` vacío, no califican;
+- el filtro de relevancia de UPGRADE sigue exigiendo intersección por nombre de módulo y guarda
+  silencio cuando no existe. Si faltan notas de release, ahora declara el hueco de evidencia en vez
+  de adivinar. Se corrigió la nota de 2.3.2 porque nunca se publicó un `barrido-lore.ps1` autónomo;
+- CRYSTALLIZE ahora omite nombres de archivo sensibles y aborta antes de componer una fotografía si
+  un texto enrutado contiene un marcador reconocido de clave privada, token de proveedor o asignación
+  de credencial. Sus tests reales de pack/extract y rechazo de secretos ahora corren con `npm test`.
+
+Nemotron 3 Ultra realizó la auditoría inicial. La implementación posterior a esa auditoría fue
+descartada; las correcciones anteriores se reconstruyeron y verificaron con GPT-5.6 Sol medium. Los
+tests estáticos de contrato están en
+[`bench/leave.test.mjs`](https://github.com/andresanemic/lore-plugin/blob/main/bench/leave.test.mjs) y
+[`bench/skills-routing.test.mjs`](https://github.com/andresanemic/lore-plugin/blob/main/bench/skills-routing.test.mjs).
+Los escenarios de aplicación del contrato por agentes frescos están en
+[`bench/leave-agent-scenarios/README.md`](https://github.com/andresanemic/lore-plugin/blob/main/bench/leave-agent-scenarios/README.md).
+Esos escenarios prueban decisiones ante fixtures sintéticos, no ejecución sobre el filesystem. El
+procedimiento de verificación conductual quedó especificado, pero no fue ejecutado de extremo a
+extremo.
+
+No se agregó un ejecutable Obsidian: `obsidian-lore` sigue siendo un flujo ejecutado por el agente y
+su contrato se prueba estáticamente. MYCELIUM permanece read-only y reporta una tasa descriptiva,
+nunca un score normativo. El disparo de salida existente de SAVE y el handoff hacia una sola Área
+`bots` ya estaban en la base 2.3.2; esta release no los reclama como arreglos nuevos. No se crea ni
+promueve ninguna hipótesis LUS.
+
+El Lore existente no necesita migración.
 
 Notas completas: https://github.com/andresanemic/lore-plugin/releases/tag/v2.3.3

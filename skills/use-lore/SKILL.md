@@ -19,7 +19,9 @@ This skill is the map. It teaches the model and points at the operating skills. 
 invoking any other Lore skill.
 
 > **This skill governs session openings too.** A session that opens — including one resumed from a continuity summary, or handed an unfinished task — resolves what Lore governs its tree **before
-> continuing**, and says so on screen: which bodies it loaded and from where. A change of territory
+> continuing**, and says so on screen: which bodies it loaded and from where. In a bot, load its canon
+> and routing table first. **Do not preload every federated body**: load only the bodies selected by the task,
+> leaving the rest reachable through the routing table. A change of territory
 > mid-session (new task type, new tree) re-resolves the same way. *"Finishing what was started" is
 > not an exemption: continuing is deciding.* Criterion that waits to be remembered is criterion
 > that does not run.
@@ -139,8 +141,9 @@ first:
    — say nothing and do not block; continue with the work. `Kit is ahead so I must offer` without checking
    the delta is the rationalization this gate exists to stop. Silence when unaffected is the correct outcome,
    not a missed check. If there is an intersection, say so plainly and offer `transmute-lore` in **UPGRADE** mode, once, before the work starts — a healthy Lore behind the kit looks correct in every
-   reading, which is exactly why nobody notices on its own. If the person defers, proceed; do not repeat the offer on every later message in the same session. `barrido-lore.ps1` mirrors this as
-   `desactualizado` vs `desactualizado (no afecta)`.
+   reading, which is exactly why nobody notices on its own. If the person defers, proceed; do not repeat the offer on every later message in the same session. If release notes for any version in the
+   interval are missing, do not claim that the tree is affected or unaffected: report the evidence gap,
+   offer one optional manual UPGRADE review, and do not block the work if the person defers.
 
 > **Right after installing or updating the kit, run `transmute-lore` in **MYCELIUM** mode over the
 > Lore already on this machine.** An update changes what the skills demand; the criteria written

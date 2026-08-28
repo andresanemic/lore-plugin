@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readdirSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import test from "node:test";
@@ -22,6 +22,16 @@ test("las notas minadas se archivan al cerrar, con trazabilidad y sin borrar", (
   assert.match(text, /never deletes a note/);
   assert.match(text, /travels with the file/);
   assert.doesNotMatch(text, /Never move\s+or delete the note after mining/);
+});
+
+test("obsidian-lore define raíz inválida, frontmatter recuperable y cierre posterior a la escritura", () => {
+  const text = skill("obsidian-lore");
+  assert.match(text, /The root never gets an inbox/);
+  assert.match(text, /missing field as empty/);
+  assert.match(text, /add all three fields.*after approval/is);
+  assert.match(text, /delegate the writing to `save-to-lore`/);
+  assert.match(text, /`git mv` inside a repository/);
+  assert.doesNotMatch(text, /Would delegate|obsidian-sweep\.mjs/);
 });
 
 test("UPGRADE diagnostica antes de exigir un arbol limpio para escribir", () => {
@@ -89,6 +99,15 @@ test("brainstorming-lore no se activa para brainstorming genérico", () => {
   assert.match(text, /not changing Lore itself/);
 });
 
+test("brainstorming-lore exige módulos de proceso para el disparo implícito", () => {
+  const text = skill("brainstorming-lore");
+  assert.match(text, /relevant process modules/i);
+  assert.match(text, /`identidad\.md` and `principios\.md`\s+alone do not satisfy/i);
+  assert.match(text, /an empty `lore\/` does not satisfy/i);
+  assert.match(text, /explicit request to design.*Lore-owned artifact/is);
+  assert.doesNotMatch(text, /above\)\./);
+});
+
 test("create-area devuelve el control a la skill que la pidió", () => {
   const text = skill("create-area");
   assert.match(text, /If another skill sent you here, the next step is to go back to it/);
@@ -101,6 +120,33 @@ test("create-bot nombra el area anfitriona y declara que se reanuda", () => {
   const text = skill("create-bot");
   assert.match(text, /`bots` — one area, holding every bot as a project/);
   assert.match(text, /\*\*This skill resumes when the area exists\*\*/);
+});
+
+test("create-bot federa de forma lazy y no se empaqueta como plugin", () => {
+  const bot = skill("create-bot");
+  assert.match(bot, /reachable and routed/);
+  assert.match(bot, /loaded on demand/i);
+  assert.doesNotMatch(bot, /criteria already loaded/);
+  for (const name of ["USAGE_en.md", "REFERENCE_en.md"]) {
+    const text = readFileSync(join(dirname(skillsRoot), "docs", name), "utf8");
+    assert.doesNotMatch(text, /criteria already loaded|Packaging it as (?:an? )?plugin is optional/i);
+  }
+  for (const name of ["USAGE_es.md", "REFERENCE_es.md"]) {
+    const text = readFileSync(join(dirname(skillsRoot), "docs", name), "utf8");
+    assert.doesNotMatch(text, /criterio ya cargado|Empaquetarlo como (?:\*plugin\*|\*plugin\* instalable) es opcional/i);
+  }
+  const router = skill("use-lore");
+  assert.match(router, /Do not preload every federated body/i);
+  assert.match(router, /load only the bodies selected by the task/i);
+});
+
+test("use-lore define el delta-intersection sin falsos positivos genéricos", () => {
+  const text = skill("use-lore");
+  assert.match(text, /a module name must appear on both sides/);
+  assert.match(text, /`Uses Lore` in general is not an intersection/);
+  assert.match(text, /If release notes for any version in the\s+interval are missing/i);
+  assert.match(text, /do not claim that the tree is\s+affected or unaffected/i);
+  assert.match(text, /If there is no intersection.*say nothing and do not block/is);
 });
 
 test("create-bot rechaza el bot que administra bots y verifica el acceso en el estreno", () => {

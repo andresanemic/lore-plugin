@@ -4,8 +4,8 @@ description: >-
   Use only when designing or materially changing an artifact owned by the Lore system: a Lore body
   or module, work area, Lore-governed project scaffold, bot, FASES structure, routing contract,
   transmutation, distillation flow, or Lore Plugin skill — also for a deliverable Lore does not own
-  but a routed lore/ GOVERNS, a batch of posts, a report, where the design is deciding how to run
-  criteria already written. Do not trigger for generic brainstorming, ideation, product design,
+  but relevant process modules in a routed lore/ GOVERN, such as a batch of posts or a report, where
+  the design is deciding how to run criteria already written. Do not trigger for generic brainstorming, ideation, product design,
   software features, or research questions that no routed lore/ governs.
 ---
 
@@ -46,11 +46,14 @@ posts, a report, a lesson plan or a campaign is not a Lore-owned artifact — an
 may consist of deciding **how to run criteria that is already written**: which strategy, which
 format, which register, which visual family, what the area's process demands next.
 
-**The observable predicate, and it has to be answered before invoking anything:** *is there a routed
-`lore/` — of an area or a project — that **governs how this deliverable is produced**, such that the
-design work is deciding how to run it?* If yes, this skill enters. If the Lore would only supply
-background colour while the real decisions live elsewhere, **it does not enter** — that is ordinary
-ideation and belongs to the user's own method.
+**The observable predicate, and it has to be answered before invoking anything:** *does a routed
+`lore/` — of an area or a project — contain relevant process modules that **govern how this
+deliverable is produced**, such that the design work is deciding how to run them?* Strategy,
+standards, formats and equivalent production modules satisfy it. `identidad.md` and `principios.md`
+alone do not satisfy this second case, and an empty `lore/` does not satisfy it. If the Lore would
+only supply background colour while the real decisions live elsewhere, **it does not enter** — that
+is ordinary ideation and belongs to the user's own method. An explicit request to design or change a
+Lore-owned artifact still enters through the first case above.
 
 Two examples, and the contrast is the whole point:
 
@@ -76,8 +79,8 @@ approved here decides *what* the batch is; the routed Lore already says *how* it
 
 Do **not** invoke this skill when the user merely says «hagamos brainstorming» or asks for ideation
 about a product, article, campaign, software feature, research hypothesis, presentation, class, or
-any other task that is not changing Lore itself **and that no routed `lore/` governs** (second case
-above). Use the user's own brainstorming method or another installed skill for those requests.
+any other task that is not changing Lore itself **and that no routed process module governs** (the
+second case). Use the user's own brainstorming method or another installed skill for those requests.
 
 Do not invoke it automatically for every act that could be called creative. A typo fix, a requested
 read-only inspection, an approved mechanical edit, or execution of an existing plan does not need a

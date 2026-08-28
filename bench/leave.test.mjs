@@ -88,6 +88,15 @@ test("LEAVE detiene symlinks compartidos y puede reanudar su propio pase parcial
   assert.match(leave, /before the first mutation/i);
 });
 
+test("LEAVE conserva leave:partial hasta terminar las dos verificaciones", () => {
+  const t = skill("transmute-lore");
+  const leave = t.slice(t.indexOf("## LEAVE mode"), t.indexOf("## CRYSTALLIZE mode"));
+  const procedure = leave.slice(leave.indexOf("**Procedure"), leave.indexOf("**Verification"));
+  assert.match(procedure, /keep `leave:partial`/i);
+  assert.doesNotMatch(procedure, /replace the partial marker with.*`leave:/i);
+  assert.match(leave, /Only after both checks pass may the partial marker become `leave:`/i);
+});
+
 test("LEAVE separa checks estáticos de la prueba conductual en sesión fresca", () => {
   const t = skill("transmute-lore");
   const leave = t.slice(t.indexOf("## LEAVE mode"), t.indexOf("## CRYSTALLIZE mode"));

@@ -1,6 +1,6 @@
 ---
 name: create-bot
-description: Use when building a BOT — one place to open a session and work across several Areas or projects at once, with their criteria already loaded, instead of answering questions about them — including federating existing Areas under one bot, or auditing a bot that already exists (its scope, README or sources). Trigger on "create a bot for X", "a bot that works on several projects", "federate these areas", "audit my bot", or "fix my bot's scope".
+description: Use when building a BOT — one place to open a session and work across several Areas or projects at once, with their criteria reachable and routed, then loaded on demand, instead of answering questions about them — including federating existing Areas under one bot, or auditing a bot that already exists (its scope, README or sources). Trigger on "create a bot for X", "a bot that works on several projects", "federate these areas", "audit my bot", or "fix my bot's scope".
 ---
 
 # create-bot — Build a bot: one place to work
@@ -58,8 +58,9 @@ A bot is the only artifact in this kit that **routes outward**. Areas and projec
 bot is a lens you carry into them.
 
 > **A bot is a folder.** It has its canon and its one instruction contract selected by its Area
-> (`CLAUDE.md` for Claude Code or `AGENTS.md` for Codex): open a session there and the criteria
-> is already loaded, with nothing installed. Do not wrap it in a skill, a marketplace or its own
+> (`CLAUDE.md` for Claude Code or `AGENTS.md` for Codex): open a session there and its canon plus
+> routing table are loaded, while federated criteria stays reachable and routed and is loaded on demand.
+> Nothing is installed. Do not wrap it in a skill, a marketplace or its own
 > plugin repository. To package it, crystallize it: unpacking rebuilds `lore-ecosistema/`.
 
 > **Why it must not be an area.** An area is a container of projects and owns the criteria of its

@@ -28,6 +28,12 @@ const SKIP_DIR = new Set([
   ".git", "node_modules", ".claude", "assets", "local", "backups",
   "notas", "notes", "cristalizaciones",
 ]);
+const SENSITIVE_NAME = /(^|\/)(?:\.env(?:\.[^/]*)?|credentials?(?:\.[^/]*)?|secrets?(?:\.[^/]*)?|\.npmrc|\.pypirc|id_(?:rsa|dsa|ecdsa|ed25519))(?:$|\/)/i;
+const SECRET_PATTERNS = [
+  ["private key", /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/],
+  ["provider token", /\b(?:sk-(?:proj|ant)-|ghp_|github_pat_|xox[baprs]-)[A-Za-z0-9_-]{16,}/i],
+  ["credential assignment", /\b(?:OPENAI_API_KEY|ANTHROPIC_API_KEY|AWS_SECRET_ACCESS_KEY|GITHUB_TOKEN|API_KEY|ACCESS_TOKEN|PASSWORD)\s*[:=]\s*["']?(?!<|your_|example|test|xxx|replace|changeme)[A-Za-z0-9_./+=-]{16,}/i],
+];
 
 const EXTRACT_OPEN =
   /<!-- lore:extract path="([^"]+)" owner="([^"]*)"(?: destino="([^"]*)")? -->\r?\n/;
@@ -53,8 +59,10 @@ function isTextFile(abs) {
 }
 
 function skipRel(rel) {
-  const parts = posix(rel).split("/");
+  const normalized = posix(rel);
+  const parts = normalized.split("/");
   if (parts.some((p) => SKIP_DIR.has(p))) return true;
+  if (SENSITIVE_NAME.test(normalized)) return true;
   if (/cristalizado/i.test(rel)) return true;
   if (/(^|\/)\.env(\.|$)/i.test(rel)) return true;
   if (/(^|\/)package-lock\.json$/.test(posix(rel))) return true;
@@ -135,8 +143,10 @@ function addFile(files, seen, abs, extractPath, owner, dest) {
   if (!isSafeExtractPath(path)) return;
   if (skipRel(path)) return;
   if (seen.has(path)) return;
-  seen.add(path);
   const body = readFileSync(abs, "utf8");
+  const secret = SECRET_PATTERNS.find(([, pattern]) => pattern.test(body));
+  if (secret) throw new Error(`possible secret (${secret[0]}) in ${path}`);
+  seen.add(path);
   files.push({
     path,
     owner: owner || "",

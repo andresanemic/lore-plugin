@@ -28,7 +28,7 @@ The Lore plugin bundles a set of **skills** that implement this loop:
 - `create-project` – project‑level Lore inheriting an Area.
 - `save-to-lore` – capture criteria after solving a problem.
 - `transmute-lore` – add, clean, translate, upgrade or crystallize an existing body of Lore.
-- `create-bot` – one place to work across several Areas or projects with their criteria loaded.
+- `create-bot` – one place to work across several Areas or projects with their criteria reachable and routed.
 - `obsidian-lore` – capture free notes in the same tree and **mine** that inbox for criteria.
 
 > **Lore speaks your language.** The skills are written in English, but everything they generate —
@@ -194,7 +194,7 @@ brainstorm this Lore before we restructure it
 
 It reads the current criterion first, asks one decision-changing question at a time, compares only the approaches that matter, and hands the approved design back to the owner skill. With provisional canon it asks only what a first victory needs. Every approved answer lands in one accumulated artifact that recaps at milestones — the floor is **recognizable continuity**, so you can still see your intention and correct course without restarting. Independent advances resynchronize through approved distillation; effort stays fertile while correction leaves recognizable movement, and if it stops leaving movement, stop and repair the process. Read-only audits, small mechanical edits, and an already approved plan do not need it.
 
-**Second case (2.3.0):** beyond artifacts Lore owns, it enters when a routed `lore/` **governs how a deliverable gets produced** — a batch of posts, a report — and the design work is deciding how to run criteria already written. The predicate is answered before invoking anything; if the Lore would only supply background colour, it does not enter, and handoff goes to the governing phase, never to a third-party planner.
+**Second case (2.3.0):** beyond artifacts Lore owns, it enters when relevant process modules in a routed `lore/` **govern how a deliverable gets produced** — a batch of posts, a report — and the design work is deciding how to run them. Strategy, standards, formats and equivalent production modules qualify; `identidad.md` plus `principios.md` alone, or an empty `lore/`, do not. If Lore would only supply background colour, it does not enter. Handoff goes to the governing phase, never to a third-party planner.
 
 ---
 
@@ -458,16 +458,15 @@ it becomes stale; never edit the export as if it were authoritative Lore.
 In `nuevo`, the initial declaration is provisional canon. Configuration is the first complex artifact and closes only after a reviewed first victory. An interface must be an honest local laboratory that keeps canon, logic and presentation separate, puts decisions before prompts, and makes the Journey follow the purpose.
 
 **Purpose:** build a **bot**: one place to open a session and **work across several projects or Areas
-at once**, with their criteria already loaded, instead of answering questions about them.
+at once**, with their criteria reachable and routed, then loaded on demand, instead of answering questions about them.
 
 A bot lives at `{Area}/proyectos/{slug}/` like any project. One thing sets it apart: it **routes
 outward** — into Lore owned by other projects and Areas. Areas and projects are places; a bot is a
 lens you carry into them.
 
 By default **nothing gets installed**: it is a folder with its canon and the one contract selected
-by its Area. Opening the session there loads the criteria in that host.
-Packaging it as a plugin is optional, and serves to
-hand it to a team.
+by its Area. Opening the session there loads its canon and routing table; the routed bodies are read
+when the task selects them. Packaging is CRYSTALLIZE, not a plugin wrapper.
 
 > **The test that says whether the bot is well built:** *a short instruction is enough.* If you had
 > to explain the project to the bot to get the result, criteria were missing from the load.

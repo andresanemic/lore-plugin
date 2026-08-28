@@ -37,7 +37,7 @@ The Lore plugin exposes eight main skills through compatible AI agents:
 | `create-project` | Create a project inheriting an Area         | "create a project Marketing Site in area Frontend Development" |
 | `save-to-lore`   | Capture criteria after solving a problem (**capture**) or arbitrate criteria imported from a third-party skill/guide (**graft**) | "save to lore", "distill this to the lore" (capture) / "distill skill X into the lore" (graft) |
 | `transmute-lore` | Operate an existing Lore in eight modes | add / clean / translate / upgrade / prune / **mycelium** / leave / crystallize |
-| `create-bot`     | Build a bot: one place to open a session and work across several projects at once, with their criteria already loaded | "create a bot to work on X and Y" (nuevo) / "I want a bot that federates the lore already living in A and B" (federar) |
+| `create-bot`     | Build a bot: one place to open a session and work across several projects at once, with their criteria reachable and routed | "create a bot to work on X and Y" (nuevo) / "I want a bot that federates the lore already living in A and B" (federar) |
 | `obsidian-lore`  | Capture free notes in the same tree the Lore lives in, and **mine** that inbox for what deserves to become criteria | "review my Obsidian notes and see what belongs in my lore", "mine my inbox", "save this note to Obsidian" |
 
 Each skill operates on or creates specific Markdown artifacts under your repository.
@@ -106,6 +106,8 @@ Use `use-lore` whenever you are unsure where to start.
 
 - Direct requests to brainstorm Lore itself.
 - Invocation by an artifact-owning skill before its threshold.
+- A non-Lore deliverable whose production is governed by relevant routed process modules; identity
+  plus principles alone, or an empty `lore/`, do not satisfy this implicit trigger.
 - Not needed for read-only inspection, an approved mechanical edit, or execution of an existing plan.
 
 **Responsibilities:**
@@ -431,13 +433,13 @@ Use `transmute-lore` when you already have a project and want to bring it into L
 **Birth from an idea:** the initial declaration is provisional canon; configuration runs the cycle to a reviewed first victory. Any interface keeps canon, logic and presentation apart, puts decisions before prompts, and derives Journey state from purpose.
 
 **Role:** Build a **bot** — one place to open a session and work across several projects or Areas at
-once, with their criteria already loaded, instead of answering questions about them.
+once, with their criteria reachable and routed, then loaded on demand, instead of answering questions about them.
 
 A bot is a sibling of `create-project`, not of `create-area`: it lives at
 `{area}/proyectos/{slug}/`, and **one** property sets it apart — it **routes outward**, into Lore owned by
-other projects and Areas. By default it is a folder with its canon and its host-selected contract: open a
-session there and the criteria is already loaded, with nothing installed. **Packaging it as an
-installable plugin is optional**, and serves one purpose: handing it to a team.
+other projects and Areas. By default it is a folder with its canon and its host-selected contract:
+opening a session loads the canon and routing table, while routed bodies are read when the task
+selects them. Nothing is installed. **Packaging is CRYSTALLIZE**, not an installable plugin.
 
 > **Why it cannot be an Area.** An Area owns its domain's criteria; a bot borrows what it routes to. Built as an Area, it becomes a parent accumulating criteria it never paid for — and when a criterion generalizes, it gets promoted to the bot instead of to the Area that earned it.
 >

@@ -311,7 +311,9 @@ test("2.3.3 sincroniza badges, release y evidencia sin publicar la auditoría pr
   const release = readFileSync(releasePath, "utf8");
   assert.match(release, /Nemotron 3 Ultra/);
   assert.match(release, /GPT-5\.6 Sol medium/);
-  assert.match(release, /bench\/leave-behavior\/README\.md/);
+  assert.match(release, /bench\/leave-agent-scenarios\/README\.md/);
+  assert.match(release, /behavioral verification procedure was specified but not executed end to end/i);
+  assert.doesNotMatch(release, /fresh-session treatment checks that a known clue stays dormant/i);
   assert.doesNotMatch(release, /AUDIT_2\.3\.3|AUDITORIA-2\.3\.3|bench\/audit/);
   assert.equal(existsSync(join(root, "docs", "AUDIT_2.3.3.md")), false);
   assert.equal(existsSync(join(root, "docs", "AUDITORIA-2.3.3.md")), false);

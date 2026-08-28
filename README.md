@@ -380,7 +380,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** An Area 
 | Skill | What for | When |
 |---|---|---|
 | `use-lore` | Entry point: explains the model and routes you to the right skill | first, always |
-| `brainstorming-lore` | Designs changes to Lore artifacts without colliding with general-purpose brainstorming skills | before creating or materially restructuring Lore |
+| `brainstorming-lore` | Designs Lore artifacts, or deliverables governed by routed process modules, without taking over generic ideation; preserves recognizable continuity and fertile effort | before a material Lore change or governed design |
 | `create-area` | Creates an Area with its shared Lore | opening a new domain |
 | `create-project` | Creates a project that inherits from the Area | starting a piece of work |
 | `save-to-lore` | Distills a lesson and decides whether it rises to the Area | every day |
@@ -936,7 +936,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 | Skill | Para qué | Cuándo |
 |---|---|---|
 | `use-lore` | Punto de entrada: explica el modelo y te manda a la skill correcta | primero, siempre |
-| `brainstorming-lore` | Diseña cambios en los artefactos Lore sin chocar con skills generales de brainstorming; sostiene la continuidad reconocible del Entre y su esfuerzo fértil | antes de crear o reestructurar Lore de forma material |
+| `brainstorming-lore` | Diseña artefactos Lore, o entregables gobernados por módulos de proceso enrutados, sin apropiarse de la ideación genérica; preserva la continuidad reconocible y el esfuerzo fértil | antes de un cambio Lore material o un diseño gobernado |
 | `create-area` | Crea un Área con su Lore compartido | al abrir un dominio nuevo |
 | `create-project` | Crea un proyecto que hereda del Área | al empezar un trabajo |
 | `save-to-lore` | Destila una lección y decide si sube al Área | todos los días |

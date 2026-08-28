@@ -97,3 +97,17 @@ test("pack + extract reconstruye el enrutamiento de un bot federado", () => {
   assert.equal(posix(eco.raiz), posix(out));
   assert.match(readFileSync(join(out, "founder", "lore", "principios.md"), "utf8"), /Nunca cruzar cuerpos/);
 });
+
+test("pack omite archivos sensibles y aborta ante marcadores de secreto", () => {
+  const { bot } = fixture();
+  writeFileSync(join(bot, "canon", "credentials.json"), '{"api_key":"secret"}\n', "utf8");
+  let collected = collect(bot);
+  assert.ok(!collected.files.some((f) => f.path.endsWith("credentials.json")));
+
+  writeFileSync(
+    join(bot, "canon", "operacion.md"),
+    "# Operación\nOPENAI_API_KEY=sk-proj-abcdefghijklmnopqrstuvwxyz123456\n",
+    "utf8",
+  );
+  assert.throws(() => collect(bot), /possible secret.*operacion\.md/i);
+});
