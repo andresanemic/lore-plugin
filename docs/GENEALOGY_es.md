@@ -17,6 +17,9 @@ Este es un registro de obras que formaron la sensibilidad alrededor de LUS y Lor
 | *Running Back to You* · The Juan MacLean | Autonomía con retorno: una imagen vecina a H13, no evidencia a su favor. |
 | *1998* · Chet Faker y BANKS (2015) | El momento en que colaborar se vuelve supervisar entre dos personas. |
 | *Aliso* · Malena Zavala (2018) | Traducción, daño y reconstrucción cotidiana. “Broken By Two” sugiere un lenguaje roto entre las partes; “A Vision That's Changed” y “Send Out To The Water” mantienen separadas la identidad y el estado actual; “Should I Try” sitúa el esfuerzo bajo incertidumbre. Son lecturas, no hallazgos. |
+| *All the Good Times* · Angel Olsen (2022) | Soltar una relación sin negar lo bueno ni borrar lo aprendido: una figura afectiva próxima a LEAVE, no una razón para su mecanismo. |
+| *Seven Words* · Weyes Blood (2016) | La palabra que atraviesa una relación deja de pertenecer por completo a una sola voz; intención, efecto y ausencia abren un sentido entre ambas partes. |
+| *In the Morning I’ll Be Better* · Tennis (2017) | La reparación no borra el daño ni promete plenitud; sostiene la relación durante la noche y deja abierta la posibilidad de recomenzar mañana. |
 
 El registro solo puede crecer cuando una obra realmente formó la sensibilidad del programa y la contribución puede nombrar qué cambió. Una semejanza descubierta después no es genealogía.
 

@@ -17,6 +17,9 @@ This is a registry of works that shaped the sensibility around LUS and Lore Plug
 | *Running Back to You* · The Juan MacLean | Autonomy with return: an image adjacent to H13, not evidence for it. |
 | *1998* · Chet Faker and BANKS (2015) | The moment collaboration becomes supervision between two people. |
 | *Aliso* · Malena Zavala (2018) | Translation, damage and daily reconstruction. “Broken By Two” suggests a language broken between parties; “A Vision That's Changed” and “Send Out To The Water” keep identity distinct from current state; “Should I Try” places effort under uncertainty. These are readings, not findings. |
+| *All the Good Times* · Angel Olsen (2022) | Leaving a relationship without denying what was good or erasing what was learned: an affective figure adjacent to LEAVE, not a reason for its mechanism. |
+| *Seven Words* · Weyes Blood (2016) | Words that pass through a relationship no longer belong completely to one voice; intention, effect and absence open meaning between both parties. |
+| *In the Morning I’ll Be Better* · Tennis (2017) | Repair does not erase damage or promise wholeness; it holds the relationship through the night and leaves open the possibility of beginning again tomorrow. |
 
 The registry can grow only when a work has actually shaped the program's sensibility and the contribution can name what it changed. A resemblance discovered after the fact is not genealogy.
 
