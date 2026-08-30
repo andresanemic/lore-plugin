@@ -74,7 +74,7 @@ It is a loop of re-explanations and mediocre solutions you had already rejected.
 
 [Shared invariants](#shared-invariants) ·
 [Case studies](./docs/CASES_en.md) ·
-[Reach](#reach) · [Origin](#origin)
+[Reach](#reach) · [The deck](#the-deck) · [Origin](#origin)
 
 </td>
 </tr>
@@ -481,6 +481,21 @@ Morin gives this work its ethical north: in UNESCO's [*Seven Complex Lessons in 
 
 ---
 
+## The deck
+
+<p align="center">
+  <img src="./assets/deck-cover.png" alt="LUS + Lore Plugin deck — cover slide" width="100%">
+</p>
+
+The full **LUS + Lore Plugin** talk: what Lore Plugin is, the LUS research behind it, and how a project goes from zero to its first useful Lore — 23 slides with presenter notes.
+
+**[Open the deck →](https://docs.google.com/presentation/d/1eg0OBUwm86yMp3OYFBX_z9pyLrXPCKZV/edit?usp=sharing)**
+
+> [!NOTE]
+> The deck is in **Spanish**. An English version is on the way.
+
+---
+
 
 ## Origin
 
@@ -594,7 +609,7 @@ Es un bucle de reexplicaciones y soluciones mediocres que ya habías descartado.
 
 [Invariantes](#invariantes-compartidas) ·
 [Casos de estudio](./docs/CASES_es.md) ·
-[Alcance](#alcance) · [Origen](#origen)
+[Alcance](#alcance) · [El deck](#el-deck) · [Origen](#origen)
 
 </td>
 </tr>
@@ -988,6 +1003,18 @@ Lore Plugin es el brazo técnico de LUS, no un sistema de productividad con filo
 Morin le da a este trabajo su norte ético: en la edición de UNESCO de [*Los siete saberes necesarios para la educación del futuro*](https://unesdoc.unesco.org/ark:/48223/pf0000378091) escribe que «la noción de apuesta se debe generalizar para cualquier fe» — renunciar al mejor de los mundos no es renunciar a un mundo mejor. Lore vuelve esa apuesta operable mediante proyectos y bots; la evidencia se limita a lo realmente medido.
 
 > **Una señal de alcance, no una demostración.** Nadie sabe qué hizo cada quien con su copia — ¿instalada, destilada, abierta una vez? No es un caso y no responde lo que responden los [casos de estudio](./docs/CASES_es.md). Y los «clonadores únicos» de la API son únicos **por día**, no personas: no se pueden sumar para contar cabezas.
+
+---
+
+## El deck
+
+<p align="center">
+  <img src="./assets/deck-cover.png" alt="Deck LUS + Lore Plugin — portada" width="100%">
+</p>
+
+La charla completa de **LUS + Lore Plugin**: qué es Lore Plugin, la investigación LUS que hay detrás y cómo un proyecto va de cero a su primer Lore útil — 23 diapositivas con notas de presentador.
+
+**[Abrir el deck →](https://docs.google.com/presentation/d/1eg0OBUwm86yMp3OYFBX_z9pyLrXPCKZV/edit?usp=sharing)**
 
 ---
 
