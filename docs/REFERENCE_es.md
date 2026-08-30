@@ -896,6 +896,11 @@ Una estructura típica de Lore, con Área y proyecto, se ve así:
     golden-paths.template.md   → solo si el dominio lo justifica
   FASES.md                     → registro de proyectos del Área
   CLAUDE.md o AGENTS.md        → contrato único del Área, elegido por host
+  .lore-mycelium               → recibo del último barrido MYCELIUM (2.4.2). Digest
+                                 del contenido de los archivos de Lore del árbol.
+                                 Se escribe con `lore-plugin mycelium receipt` y se
+                                 versiona: al derivarse del contenido, es idéntico en
+                                 cualquier máquina para el mismo estado del árbol
 
   proyectos/
     {slug}/
@@ -928,6 +933,11 @@ El comportamiento de Lore está gobernado por un conjunto de invariantes compart
 - **Todo cambio pasa por un umbral** – el criterio debe revisarse antes de escribirse.
 - **Nada hace commit automáticamente** – la revisión humana es obligatoria.
 - **Un humano revisa siempre el diff final** – la IA asiste, pero no modifica Lore en secreto.
+- **Una pasada que escribió Lore no termina hasta que su barrido de salida queda registrado** – el
+  hook `Stop` de Claude Code compara el contenido de los archivos de Lore contra `.lore-mycelium` y
+  bloquea el cierre si difieren. Se detecta por **contenido**, así que da igual con qué herramienta se
+  escribió el archivo, y no se le pregunta al agente si corrió el barrido. Codex no ejecuta hooks: ahí
+  la garantía la carga el texto de las skills.
 
 Estas invariantes distinguen a Lore de herramientas genéricas de notas o logs:  
 el objetivo es mantener un cuerpo de criterio confiable, curado por humanos, del que la IA pueda depender.

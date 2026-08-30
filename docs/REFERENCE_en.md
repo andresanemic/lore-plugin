@@ -916,6 +916,11 @@ A typical Lore layout, with an Area and a project, looks like this:
     golden-paths.template.md   → only if the domain warrants it
   FASES.md                     → Area's project registry
   CLAUDE.md or AGENTS.md       → the Area's one host-selected contract
+  .lore-mycelium               → receipt of the last MYCELIUM sweep (2.4.2). A digest
+                                 of the content of the tree's Lore files. Written by
+                                 `lore-plugin mycelium receipt`, and committed: being
+                                 content-derived, it is identical on any machine for
+                                 the same tree state
 
   proyectos/
     {slug}/
@@ -948,6 +953,11 @@ Lore’s behavior is governed by a set of shared invariants:- **Lore is written 
 - **Every change passes through a threshold** – criteria must be reviewed before being written.
 - **Nothing commits automatically** – human review is required.
 - **A human always reviews the final diff** – AI assists, but does not silently change Lore.
+- **A pass that wrote Lore is not finished until its exit sweep is recorded** – the Claude Code `Stop`
+  hook compares the content of the Lore files against `.lore-mycelium` and blocks the stop when they
+  differ. Detection is by **content**, so the tool used to write the file does not matter, and the
+  agent is never asked whether the sweep ran. Codex does not run hooks: there the guarantee is carried
+  by the skills' own text.
 
 These invariants are what separate Lore from generic note‑taking or logging tools: a trusted, human‑curated body of criteria that AI can rely on.
 

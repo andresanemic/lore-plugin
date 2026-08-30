@@ -302,22 +302,38 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.4.1"]));
+  assert.deepEqual(new Set(versions), new Set(["2.4.2"]));
 });
 
-test("2.4.1 sincroniza badges, release y evidencia del bracket MYCELIUM", () => {
+test("2.4.2 sincroniza badges, release y evidencia de la guardia por contenido", () => {
   const readme = readFileSync(join(root, "README.md"), "utf8");
-  const releasePath = join(root, "docs", "RELEASE_2.4.1.md");
-  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.4\.1-/g) ?? []).length, 2);
+  const releasePath = join(root, "docs", "RELEASE_2.4.2.md");
+  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.4\.2-/g) ?? []).length, 2);
   assert.equal((readme.match(/writing--skills-(?:validated|validado)/gi) ?? []).length, 2);
-  assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.4.1.md");
+  assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.4.2.md");
   const release = readFileSync(releasePath, "utf8");
-  assert.match(release, /bench\/writing-skills-2\.4\.1\/README\.md/);
-  assert.match(release, /bench\/exit-mycelium-2\.4\.1\/README\.md/);
-  assert.match(release, /exit scan|barrido de salida/i);
+  assert.match(release, /bench\/mycelium-2\.4\.2\/README\.md/);
+  assert.ok(existsSync(join(root, "bench", "mycelium-2.4.2", "README.md")), "falta la evidencia del banco");
+  assert.match(release, /content hash|hash de contenido/i);
   assert.match(release, /No corpus change|Sin cambio de corpus/i);
-  // Los release docs anteriores se conservan como historial.
-  assert.ok(existsSync(join(root, "docs", "RELEASE_2.4.0.md")), "falta docs/RELEASE_2.4.0.md");
+  // La nota de la versión anterior NO se reescribe: el registro histórico se conserva
+  // y la corrección viaja como versión nueva.
+  for (const prev of ["RELEASE_2.4.1.md", "RELEASE_2.4.0.md"]) {
+    assert.ok(existsSync(join(root, "docs", prev)), `falta docs/${prev}`);
+  }
+});
+
+test("el artefacto del recibo está declarado en los registros del kit, no solo en la skill", () => {
+  // principios.md #15: un mecanismo nuevo se instala en los registros, no solo en el
+  // texto que lo introduce. REFERENCE declara la especificación exacta de cada artefacto.
+  for (const lang of ["es", "en"]) {
+    const ref = readFileSync(join(root, "docs", `REFERENCE_${lang}.md`), "utf8");
+    assert.match(ref, /\.lore-mycelium/, `REFERENCE_${lang}: falta el artefacto del recibo`);
+    assert.match(ref, /mycelium receipt/, `REFERENCE_${lang}: falta el comando que lo escribe`);
+  }
+  const mode = readFileSync(join(skillsRoot, "transmute-lore", "modes", "mycelium.md"), "utf8");
+  assert.match(mode, /mycelium receipt/, "el modo debe decir cómo se registra el barrido");
+  assert.match(mode, /mycelium bodies/, "el modo debe nombrar la pregunta de nivel de cuerpo");
 });
 
 test("el bracket MYCELIUM de entrada y salida está escrito en las skills que escriben Lore", () => {
