@@ -24,6 +24,16 @@ person has to type.
    machine it finds `0 of 0`, and **that green proves nothing**: there is no criteria yet to be
    disconnected. Say so in the same line, or the check manufactures confidence exactly during the
    period when it cannot fail.
+
+   **And it answers a narrower question than "am I current".** This pass — on its own, without
+   `UPGRADE` — only asks *does what's here fire?* It says nothing about whether the tree's own Lore
+   still matches the kit's current schema: a `lore/` written against an older version can be fully
+   connected and materially behind at the same time, because being wired to a step and being current
+   are independent properties. Confirmed at ecosystem scale on 2026-08-30: a 43-tree sweep for
+   connectivity alone found and fixed six trees, and none of it substituted for asking whether any of
+   the 43 needed `UPGRADE` — that question was never run. **`UPGRADE` already runs this scan on both
+   ends of its own procedure** (Phase 1c, Phase 6); a standalone connectivity pass after an update is
+   the lighter check, not a replacement for `UPGRADE` when the tree is old enough to need one.
 3. **On the way out of any pass that wrote Lore.** Not trigger 1 repeated: the pass on the way in
    looks at the Lore that survived; the pass on the way out looks at the Lore *the operation just
    wrote*.
