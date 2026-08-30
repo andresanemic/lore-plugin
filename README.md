@@ -112,6 +112,8 @@ When that criterion needs to travel, **CRYSTALLIZE** creates a traceable single-
 
 That the work will come out right. Accumulated criteria does not end uncertainty: it only shrinks the space of ways to be wrong. Albert Camus, in *The Myth of Sisyphus* (1942), argued that the absurd is not solved but inhabited, and the line this kit takes from him is its own: **a system of criteria does not reduce the absurd; it knows what to do when the absurd shows up.** Lore does not promise the deploy holds. It promises there is a next step for the morning it does not, and that you chose that step back when you still had time to think.
 
+And there is a cost on the other side, worth saying out loud because this kit sells accumulation. Karl Weick, studying a crew that died in the 1949 Mann Gulch fire still carrying the tools that defined their competence, made the general point in “Drop Your Tools” (1996): **a body of criteria makes reframing more expensive, and that cost peaks exactly when reframing is what would save you.** More accumulated criteria is not always more capacity. `PRUNE` and the connectivity sweep exist for that — and both assume you have time to think. Neither knows how to drop everything at once.
+
 #### The only filter
 
 Lore does not try to describe everything — that is what documentation is for. It preserves what changes future behavior. A README answers *"what is this?"*; Lore answers something else: **What did we learn that we should never have to learn again?**
@@ -440,7 +442,8 @@ This README covers motivation and architecture. Everything else lives in its own
 | [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md) | Lore alongside GitHub's spec-kit: who governs what. Optional — Lore never depends on it. |
 | [`LUS_en.md`](./docs/LUS_en.md) | The research program behind Lore, its current hypotheses and evidence boundaries. |
 | [`GENEALOGY_en.md`](./docs/GENEALOGY_en.md) | Affective genealogy: cultural provenance kept separate from theory and product rules. |
-| [`BIBLIOGRAPHY_en.md`](./docs/BIBLIOGRAPHY_en.md) | Conceptual sources, including where each analogy stops. |
+| [`BIBLIOGRAPHY_en.md`](./docs/BIBLIOGRAPHY_en.md) | Conceptual sources: the entry rule, and where each one loses. |
+| [`OBSERVER_en.md`](./docs/OBSERVER_en.md) | Observer provenance: the third registry — its method is published, its content does not travel. |
 | [`CONTRIBUTING_en.md`](./docs/CONTRIBUTING_en.md) | How to contribute product changes, cases, refutations and research questions. |
 | [`CODE_OF_CONDUCT.md`](./docs/CODE_OF_CONDUCT.md) | Participation standards and reporting route. |
 | [`LICENSE`](./LICENSE) | MIT license. |
@@ -643,6 +646,8 @@ Cuando ese criterio necesita viajar, **CRYSTALLIZE** crea una «memory card» tr
 #### Qué no promete
 
 Que el trabajo salga bien. El criterio acumulado no termina con la incertidumbre: apenas achica el espacio de maneras de equivocarse. Albert Camus, en *El mito de Sísifo* (1942), sostuvo que el absurdo no se resuelve sino que se habita, y la línea que este kit toma de ahí es suya propia: **un sistema de criterio no reduce el absurdo; sabe qué hacer cuando el absurdo aparece.** Lore no promete que el despliegue aguante. Promete que hay un paso siguiente para la mañana en que no aguante, y que ese paso lo elegiste cuando todavía tenías tiempo de pensarlo.
+
+Y hay un costo del otro lado, que conviene decir en voz alta porque este kit vende acumular. Karl Weick, estudiando a una brigada que murió en el incendio de Mann Gulch en 1949 todavía cargando las herramientas que definían su oficio, lo generalizó en «Drop Your Tools» (1996): **un cuerpo de criterio encarece re-encuadrar, y ese costo es máximo justo cuando re-encuadrar es lo que te salvaría.** Más criterio acumulado no siempre es más capacidad. `PRUNE` y el barrido de conectividad existen para eso — y los dos suponen que tienes tiempo de pensar. Ninguno sabe soltarlo todo de golpe.
 
 #### El único filtro
 
@@ -962,7 +967,8 @@ El benchmark fue diseñado y prerregistrado con **GPT-5.6 Sol medium**, y despu�
 | [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md) | Lore junto a spec-kit de GitHub: quién gobierna qué. Opcional — Lore no depende de él. |
 | [`LUS_es.md`](./docs/LUS_es.md) | El programa de investigación detrás de Lore, sus hipótesis vigentes y fronteras de evidencia. |
 | [`GENEALOGY_es.md`](./docs/GENEALOGY_es.md) | Genealogía afectiva: procedencia cultural separada de la teoría y las reglas de producto. |
-| [`BIBLIOGRAPHY_es.md`](./docs/BIBLIOGRAPHY_es.md) | Fuentes conceptuales, incluido dónde termina cada analogía. |
+| [`BIBLIOGRAPHY_es.md`](./docs/BIBLIOGRAPHY_es.md) | Fuentes conceptuales: la regla de entrada, y dónde pierde cada una. |
+| [`OBSERVER_es.md`](./docs/OBSERVER_es.md) | Procedencia del observador: el tercer registro — se publica su método, su contenido no viaja. |
 | [`CONTRIBUTING_es.md`](./docs/CONTRIBUTING_es.md) | Cómo contribuir cambios de producto, casos, refutaciones y preguntas de investigación. |
 | [`CODE_OF_CONDUCT.md`](./docs/CODE_OF_CONDUCT.md) | Normas de participación y vía de reporte. |
 | [`LICENSE`](./LICENSE) | Licencia MIT. |

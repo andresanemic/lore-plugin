@@ -1,8 +1,8 @@
 # Genealogía afectiva
 
-> [← Volver al README](../README.md) · [English version](./GENEALOGY_en.md) · [LUS](./LUS_es.md) · [Bibliografía](./BIBLIOGRAPHY_es.md)
+> [← Volver al README](../README.md) · [English version](./GENEALOGY_en.md) · [LUS](./LUS_es.md) · [Bibliografía](./BIBLIOGRAPHY_es.md) · [Procedencia del observador](./OBSERVER_es.md)
 
-Este es un registro de obras que formaron la sensibilidad alrededor de LUS y Lore Plugin. **No es evidencia, teoría ni política de producto.** Ninguna obra restringe una decisión por aparecer acá. Mantener el registro separado permite distinguir el gusto heredado del criterio argumentado.
+Este es un registro de obras que formaron la sensibilidad alrededor de LUS y Lore Plugin. **No es evidencia, teoría ni política de producto.** Ninguna obra restringe una decisión por aparecer acá. Mantener el registro separado permite distinguir el gusto heredado del criterio argumentado. Es **una de las tres clases de procedencia** que el programa no mezcla, porque mezclarlas destruye lo único que cada una sabe hacer.
 
 | Obra | Lo que ayudó a volver visible |
 |---|---|
@@ -23,4 +23,4 @@ Este es un registro de obras que formaron la sensibilidad alrededor de LUS y Lor
 
 El registro solo puede crecer cuando una obra realmente formó la sensibilidad del programa y la contribución puede nombrar qué cambió. Una semejanza descubierta después no es genealogía.
 
-Para las fuentes argumentadas y las fronteras de su uso, consulta la [bibliografía](./BIBLIOGRAPHY_es.md). Para las afirmaciones de investigación, consulta [LUS](./LUS_es.md).
+Para las fuentes argumentadas y las fronteras de su uso, consulta la [bibliografía](./BIBLIOGRAPHY_es.md). La tercera clase es la [procedencia del observador](./OBSERVER_es.md) —qué distinciones traía el investigador antes de observar el fenómeno—: de ella se publica el método y **su contenido no viaja**, por razones que están escritas ahí. Para las afirmaciones de investigación, consulta [LUS](./LUS_es.md).

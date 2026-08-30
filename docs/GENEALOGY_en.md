@@ -1,8 +1,8 @@
 # Affective genealogy
 
-> [← Back to the README](../README.md) · [Versión en español](./GENEALOGY_es.md) · [LUS](./LUS_en.md) · [Bibliography](./BIBLIOGRAPHY_en.md)
+> [← Back to the README](../README.md) · [Versión en español](./GENEALOGY_es.md) · [LUS](./LUS_en.md) · [Bibliography](./BIBLIOGRAPHY_en.md) · [Observer provenance](./OBSERVER_en.md)
 
-This is a registry of works that shaped the sensibility around LUS and Lore Plugin. **It is not evidence, theory or product policy.** None of these works constrains a decision merely by appearing here. Keeping the registry separate makes it possible to distinguish inherited taste from argued criteria.
+This is a registry of works that shaped the sensibility around LUS and Lore Plugin. **It is not evidence, theory or product policy.** None of these works constrains a decision merely by appearing here. Keeping the registry separate makes it possible to distinguish inherited taste from argued criteria. It is **one of three kinds of provenance** the program does not mix, because mixing them destroys the one thing each of them can do.
 
 | Work | What it helped make visible |
 |---|---|
@@ -23,4 +23,4 @@ This is a registry of works that shaped the sensibility around LUS and Lore Plug
 
 The registry can grow only when a work has actually shaped the program's sensibility and the contribution can name what it changed. A resemblance discovered after the fact is not genealogy.
 
-For argued sources and the boundaries of their use, see the [bibliography](./BIBLIOGRAPHY_en.md). For the research claims themselves, see [LUS](./LUS_en.md).
+For argued sources and the boundaries of their use, see the [bibliography](./BIBLIOGRAPHY_en.md). The third kind is [observer provenance](./OBSERVER_en.md) —what distinctions the researcher carried before observing the phenomenon—: its method is published and **its content does not travel**, for reasons written there. For the research claims themselves, see [LUS](./LUS_en.md).
