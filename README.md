@@ -370,7 +370,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** An Area 
 
 ## The seven skills
 
-**This kit moves with Superpowers' `writing-skills` discipline, not past it.** Every changed skill is checked against it before it ships; the current loose-note GREEN/REFACTOR evidence lives in [`bench/writing-skills-2.4.0/README.md`](./bench/writing-skills-2.4.0/README.md), alongside the earlier 2.3.3 audit record.
+**This kit moves with Superpowers' `writing-skills` discipline, not past it.** Every changed skill is checked against it before it ships; the latest record is [`bench/writing-skills-2.4.1/README.md`](./bench/writing-skills-2.4.1/README.md), alongside the 2.4.0 loose-note and 2.3.3 audit records.
 
 > **The skills are written in English; the Lore they produce is not** — content and filenames included, in your language. The English in a `SKILL.md` is the portable substrate that lets the kit run on other hosts, not the language of the kit. Do not open one to explain a mode to someone (we learned this in Case 12, live) — that is what the table and the two docs below are for.
 
@@ -896,7 +896,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 ## Las siete skills
 
-**Este kit avanza junto a la disciplina `writing-skills` de Superpowers, no por delante de ella.** Cada skill modificada se revisa antes de publicarse; la evidencia GREEN/REFACTOR actual de notas sueltas vive en [`bench/writing-skills-2.4.0/README.md`](./bench/writing-skills-2.4.0/README.md), junto al registro anterior de la auditoría 2.3.3.
+**Este kit avanza junto a la disciplina `writing-skills` de Superpowers, no por delante de ella.** Cada skill modificada se revisa antes de publicarse; el registro más reciente vive en [`bench/writing-skills-2.4.1/README.md`](./bench/writing-skills-2.4.1/README.md), junto a los de notas sueltas 2.4.0 y la auditoría 2.3.3.
 
 > **Las skills están escritas en inglés y el Lore que producen, no** — contenido y nombres de archivo incluidos, en tu idioma. El inglés del `SKILL.md` es el sustrato portable con el que el kit funciona en otros hosts, no el idioma del kit. No abras uno para explicarle a alguien qué hace un modo (lo aprendimos en el Caso 12, en vivo) — para eso está la tabla y los dos docs de abajo.
 
