@@ -209,7 +209,9 @@ declara que se está trabajando sin ese criterio**. Nunca se inventa lo que ese 
 
 if (!revisar) {
   fs.mkdirSync(path.dirname(TABLA), { recursive: true });
-  fs.writeFileSync(TABLA, tabla, 'utf8');
+  const sinFecha = texto => texto.replace(/^> Última generación:.*\r?$/m, '');
+  const anterior = fs.existsSync(TABLA) ? fs.readFileSync(TABLA, 'utf8') : '';
+  if (sinFecha(anterior) !== sinFecha(tabla)) fs.writeFileSync(TABLA, tabla, 'utf8');
 }
 
 /* ── acceso a los árboles vivos ───────────────────────────────────────────
