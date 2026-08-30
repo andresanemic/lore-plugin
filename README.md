@@ -487,7 +487,7 @@ Morin gives this work its ethical north: in UNESCO's [*Seven Complex Lessons in 
   <img src="./assets/deck-cover.png" alt="LUS + Lore Plugin deck — cover slide" width="100%">
 </p>
 
-The full **LUS + Lore Plugin** talk: what Lore Plugin is, the LUS research behind it, and how a project goes from zero to its first useful Lore — 23 slides with presenter notes.
+The full **LUS + Lore Plugin** talk: what Lore Plugin is, the LUS research behind it, and how a project goes from zero to its first useful Lore.
 
 **[Open the deck →](https://docs.google.com/presentation/d/1eg0OBUwm86yMp3OYFBX_z9pyLrXPCKZV/edit?usp=sharing)**
 
@@ -1012,7 +1012,7 @@ Morin le da a este trabajo su norte ético: en la edición de UNESCO de [*Los si
   <img src="./assets/deck-cover.png" alt="Deck LUS + Lore Plugin — portada" width="100%">
 </p>
 
-La charla completa de **LUS + Lore Plugin**: qué es Lore Plugin, la investigación LUS que hay detrás y cómo un proyecto va de cero a su primer Lore útil — 23 diapositivas con notas de presentador.
+La charla completa de **LUS + Lore Plugin**: qué es Lore Plugin, la investigación LUS que hay detrás y cómo un proyecto va de cero a su primer Lore útil.
 
 **[Abrir el deck →](https://docs.google.com/presentation/d/1eg0OBUwm86yMp3OYFBX_z9pyLrXPCKZV/edit?usp=sharing)**
 
