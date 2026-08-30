@@ -484,7 +484,7 @@ Morin gives this work its ethical north: in UNESCO's [*Seven Complex Lessons in 
 ## The deck
 
 <p align="center">
-  <img src="./assets/deck-cover.png" alt="LUS + Lore Plugin deck — cover slide" width="100%">
+  <img src="./assets/deck-cover-en.png" alt="LUS + Lore Plugin deck — cover slide" width="100%">
 </p>
 
 The full **LUS + Lore Plugin** talk: what Lore Plugin is, the LUS research behind it, and how a project goes from zero to its first useful Lore.
