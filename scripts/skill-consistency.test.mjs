@@ -302,7 +302,7 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.4.2"]));
+  assert.deepEqual(new Set(versions), new Set(["2.4.3"]));
 });
 
 test("la nota de release vigente respeta la forma fija — cuarta violación 2026-08-30, ahora con guardia", () => {
@@ -342,20 +342,29 @@ test("la nota de release vigente respeta la forma fija — cuarta violación 202
   assert.doesNotMatch(h1[0], /[áéíóúñ¿¡]/i, `el primer título debe estar en inglés: "${h1[0]}"`);
 });
 
-test("2.4.2 sincroniza badges, release y evidencia de la guardia por contenido", () => {
-  const readme = readFileSync(join(root, "README.md"), "utf8");
+test("2.4.2 (histórica) conserva su release y su evidencia de banco", () => {
+  // No se reescribe: se conserva y se verifica que siga existiendo, sin exigirle nada
+  // de la versión vigente — eso lo cubre el test de forma fija y el de badges de abajo.
   const releasePath = join(root, "docs", "RELEASE_2.4.2.md");
-  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.4\.2-/g) ?? []).length, 2);
-  assert.equal((readme.match(/writing--skills-(?:validated|validado)/gi) ?? []).length, 2);
   assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.4.2.md");
   const release = readFileSync(releasePath, "utf8");
   assert.match(release, /bench\/mycelium-2\.4\.2\/README\.md/);
   assert.ok(existsSync(join(root, "bench", "mycelium-2.4.2", "README.md")), "falta la evidencia del banco");
   assert.match(release, /content hash|hash de contenido/i);
+});
+
+test("2.4.3 sincroniza badges y release", () => {
+  const readme = readFileSync(join(root, "README.md"), "utf8");
+  const releasePath = join(root, "docs", "RELEASE_2.4.3.md");
+  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.4\.3-/g) ?? []).length, 2);
+  assert.equal((readme.match(/writing--skills-(?:validated|validado)/gi) ?? []).length, 2);
+  assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.4.3.md");
+  const release = readFileSync(releasePath, "utf8");
+  assert.match(release, /UPGRADE/);
   assert.match(release, /No corpus change|Sin cambio de corpus/i);
   // La nota de la versión anterior NO se reescribe: el registro histórico se conserva
   // y la corrección viaja como versión nueva.
-  for (const prev of ["RELEASE_2.4.1.md", "RELEASE_2.4.0.md"]) {
+  for (const prev of ["RELEASE_2.4.2.md", "RELEASE_2.4.1.md"]) {
     assert.ok(existsSync(join(root, "docs", prev)), `falta docs/${prev}`);
   }
 });
