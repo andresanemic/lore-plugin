@@ -13,6 +13,13 @@ Same as ADD: require a clean git tree (or warn if not a repo). The cleanup must 
    - Any clue **not** in the area → project-specific (or not yet promoted). **Do not delete it.**
      Report it so the user can decide (keep as project module, or promote to the area first).
 
+### Phase 1b — MYCELIUM entry scan (read-only)
+
+Run **MYCELIUM mode** (`modes/mycelium.md`) over the project's clues before deciding what comes out.
+A project module that looks fully redundant may carry the only step that runs a clue the area owns;
+removing it and repointing `index.md` breaks that junction silently. Address the findings — or note
+them for the threshold — before Phase 2.
+
 ### Phase 2 — Threshold
 Present: which modules will be removed (fully redundant with the area), which are kept (and why),
 and the exact rewritten `index.md` pointing to the area modules. Wait for explicit approval.
@@ -29,3 +36,10 @@ and the exact rewritten `index.md` pointing to the area modules. Wait for explic
 ### Phase 4 — Final report
 Report what was removed, what was kept and why, any clue that was NOT in the area (so nothing is
 lost silently), and the diff summary. **Do not commit.**
+
+### Phase 5 — MYCELIUM exit scan (read-only, mandatory)
+
+CLEAN rewrote `index.md` — it touched routing. Run **MYCELIUM mode** (`modes/mycelium.md`) over the
+rewritten map and the surviving modules: confirm every repointed link resolves to a real area file
+and no junction lost the step that ran it. CLEAN is **not complete** until this scan has run and
+every finding is written or declined in writing.

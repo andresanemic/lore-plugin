@@ -59,6 +59,13 @@ Before opening a thematic module, name: every git root in the tree; what the are
 
 This is cheap and mandatory on an area tree. A standalone project with one git root still costs one `git rev-parse` and one listing of `lore/`.
 
+### Phase 1c — MYCELIUM entry scan (read-only)
+
+Run **MYCELIUM mode** (`modes/mycelium.md`) over the existing Lore before arbitrating it. A clue
+nothing runs is not a `Missing` finding and not a `Superseded` one — it is disconnected, and the
+repair is a junction, not a boundary or a correction. Carry its findings into the Phase 3 threshold
+alongside the four arbitration kinds so the user decides on all of them in one pass.
+
 ### Phase 2 — Arbitrate the existing Lore against the current kit
 
 Before the artifact pass, detect a local `notas/`, `notes/` or `apuntes/` inbox. **Count it and declare the debt.** Mine a note only when it constrains a decision of *this* upgrade. The rest wait for the conditional `save-to-lore/notas.md` function as its own job. **The notes stay in their inbox**; they are source and provenance, never migration debris. UPGRADE must not move, delete or absorb them into `lore/`.
@@ -182,3 +189,11 @@ Apply the accepted findings. Three limits that do not move:
 Report per kind: what was added, what was corrected, what was left as `Earned` and why, and what was
 left pending because only the user could answer it. Record the version upgraded to, in the project's
 `FASES.md` — not in the Lore. **Do not commit.**
+
+### Phase 6 — MYCELIUM exit scan (read-only, mandatory)
+
+UPGRADE writes new boundaries, defeats sections, provenance headers and sometimes new procedure
+steps. Run **MYCELIUM mode** (`modes/mycelium.md`) over what Phase 4 wrote: a boundary added to a
+clue can move which step is obliged to run it, and a new gate in the contract is a step that needs
+its clue named back. UPGRADE is **not complete** until this scan has run and every finding is a
+two-sided junction or a written decline.

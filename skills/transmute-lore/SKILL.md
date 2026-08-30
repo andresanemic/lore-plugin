@@ -118,6 +118,13 @@ applies (the sections above already say which one, and its triggers). Reading a 
 not running wastes nothing on its own, but eight full procedures for one task is the exact
 kind of apparatus `PRUNE` exists to catch — so this skill does not preload them.
 
+> **Every writing mode is bracketed by MYCELIUM.** ADD, CLEAN, TRANSLATE, UPGRADE, PRUNE and LEAVE
+> open with a MYCELIUM entry scan when they will lean on existing Lore, and close with a MYCELIUM
+> exit scan over what they wrote or removed. `PRUNE` carries the reference shape — Phase 1b for the
+> entry scan, the closing block for the exit. A writing mode is **not complete** until its exit scan
+> has run and every finding is written as a junction or explicitly declined. MYCELIUM and CRYSTALLIZE
+> write nothing, so they are not bracketed.
+
 - **ADD** — `modes/add.md`
 - **CLEAN** — `modes/clean.md`
 - **TRANSLATE** — `modes/translate.md`
@@ -150,6 +157,11 @@ kind of apparatus `PRUNE` exists to catch — so this skill does not preload the
   junction that is missing) and a rate, never a score; a disconnected clue is proposed a junction,
   never pruned; and the next operation does not start until every finding is written or explicitly
   declined. Its premise (`H14`) is an open hypothesis with `Crowding` as declared rival.
+- **Every writing mode is bracketed by MYCELIUM, and the exit scan is the line between written and
+  done.** ADD, CLEAN, TRANSLATE, UPGRADE, PRUNE and LEAVE run an entry scan when they lean on
+  existing Lore and an exit scan over what they changed; the mode is not complete, and no work leans
+  on the result, until that exit scan ran and every finding is a two-sided junction or a written
+  decline. A finding deferred "to a later pass" leaves the mode not done.
 - **Threshold**: present the mapping with content in view and wait for approval before writing.
 - **Do not auto-commit the target project.** The user reviews the diff and decides.
 - **CLEAN never deletes `identidad.md` / `principios.md` / `index.md`** — only thematic modules, and

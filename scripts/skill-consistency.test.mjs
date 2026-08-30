@@ -302,20 +302,52 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.4.0"]));
+  assert.deepEqual(new Set(versions), new Set(["2.4.1"]));
 });
 
-test("2.4.0 sincroniza badges, release y evidencia del pliegue de notas", () => {
+test("2.4.1 sincroniza badges, release y evidencia del bracket MYCELIUM", () => {
   const readme = readFileSync(join(root, "README.md"), "utf8");
-  const releasePath = join(root, "docs", "RELEASE_2.4.0.md");
-  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.4\.0-/g) ?? []).length, 2);
+  const releasePath = join(root, "docs", "RELEASE_2.4.1.md");
+  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.4\.1-/g) ?? []).length, 2);
   assert.equal((readme.match(/writing--skills-(?:validated|validado)/gi) ?? []).length, 2);
-  assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.4.0.md");
+  assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.4.1.md");
   const release = readFileSync(releasePath, "utf8");
-  assert.match(release, /bench\/writing-skills-2\.4\.0\/README\.md/);
-  assert.match(release, /eight to seven|ocho a siete/i);
-  assert.match(release, /app-neutral|neutral a la aplicación/i);
-  assert.doesNotMatch(release, /requires Obsidian|requiere Obsidian/i);
+  assert.match(release, /bench\/writing-skills-2\.4\.1\/README\.md/);
+  assert.match(release, /bench\/exit-mycelium-2\.4\.1\/README\.md/);
+  assert.match(release, /exit scan|barrido de salida/i);
+  assert.match(release, /No corpus change|Sin cambio de corpus/i);
+  // Los release docs anteriores se conservan como historial.
+  assert.ok(existsSync(join(root, "docs", "RELEASE_2.4.0.md")), "falta docs/RELEASE_2.4.0.md");
+});
+
+test("el bracket MYCELIUM de entrada y salida está escrito en las skills que escriben Lore", () => {
+  const save = skillText(join(skillsRoot, "save-to-lore"));
+  assert.match(save, /bracketed by MYCELIUM/i);
+  assert.match(save, /Done means the exit scan ran/i);
+  assert.match(save, /not a completion state|not done/i);
+
+  const transmute = readFileSync(join(skillsRoot, "transmute-lore", "SKILL.md"), "utf8");
+  assert.match(transmute, /Every writing mode is bracketed by MYCELIUM/i);
+
+  for (const slug of ["add", "clean", "translate", "upgrade"]) {
+    const mode = readFileSync(join(skillsRoot, "transmute-lore", "modes", `${slug}.md`), "utf8");
+    assert.match(mode, /MYCELIUM (?:exit|entry) scan/i, `modes/${slug}.md: falta el ancla MYCELIUM`);
+  }
+  const leave = readFileSync(join(skillsRoot, "transmute-lore", "modes", "leave.md"), "utf8");
+  assert.match(leave, /this is LEAVE's exit scan/i);
+
+  // use-lore es la skill de entrada: su tono de MYCELIUM debe nombrar el gate de cierre.
+  const use = skillText(join(skillsRoot, "use-lore"));
+  assert.match(use, /exit scan is (?:a |their )?\*\*closing gate\*\*|closing gate — the pass is not done/i);
+});
+
+test("el hook Stop de MYCELIUM está declarado y falla abierto", () => {
+  const hooksPath = join(root, "hooks", "hooks.json");
+  assert.ok(existsSync(hooksPath), "falta hooks/hooks.json");
+  const hooks = JSON.parse(readFileSync(hooksPath, "utf8"));
+  assert.ok(Array.isArray(hooks.hooks?.Stop), "hooks.json no declara un hook Stop");
+  assert.match(JSON.stringify(hooks), /mycelium-guard\.mjs/);
+  assert.ok(existsSync(join(root, "hooks", "mycelium-guard.mjs")), "falta hooks/mycelium-guard.mjs");
 });
 
 test("ninguna skill manda HARD: ni usa cristalizar como destilar", () => {

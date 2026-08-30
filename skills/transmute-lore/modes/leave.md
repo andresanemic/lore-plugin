@@ -21,7 +21,7 @@
 
 **Verification — two different claims:**
 
-- **Static verification:** repeat the junction inventory; the approved execution surfaces contain no automatic Lore route, `lore/` and plain `enrutamiento.md` remain, the diff contains no unrelated deletion, the project must remain buildable without the kit, and its normal checks pass.
+- **Static verification (this is LEAVE's exit scan):** repeat the junction inventory; the approved execution surfaces contain no automatic Lore route, `lore/` and plain `enrutamiento.md` remain, the diff contains no unrelated deletion, the project must remain buildable without the kit, and its normal checks pass. LEAVE is the one writing mode whose exit scan confirms **disconnection matched the approved removal set** rather than looking for junctions to make — a MYCELIUM run here would flag every remaining clue by design. Any execution surface still carrying an automatic route that was **not** on the approved set is a finding: LEAVE is not complete until it is removed or the checklist is amended in writing.
 - **Behavioral verification:** open a fresh session, give it a task whose result a known clue would change, and do so without mentioning Lore. The agent does not apply that clue unless the user explicitly supplies it. This is a fresh-agent observation, not a regex or an `npm test` claim.
 
 Only after both checks pass may the partial marker become `leave:` and LEAVE be reported complete.

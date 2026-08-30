@@ -14,6 +14,15 @@ to the project's **mother area** the clues that are already **confirmed + generi
 incremental counterpart to the structural skills: `transmute-lore` migrates a whole project;
 `save-to-lore` adds one clue at a time and routes it to the right level.
 
+> **This pass is bracketed by MYCELIUM, and both ends are mandatory.** Set up two todos before you
+> write anything. **Entry:** if this pass will lean on existing Lore to decide where things go, open
+> with a MYCELIUM entry scan (`transmute-lore` MYCELIUM) and address its findings first. **Exit:**
+> after you write, close with a MYCELIUM exit scan over what this pass produced — detail in *Closing
+> either mode*, below. **The pass is not complete** — do not report success, do not hand back control
+> — until the exit scan has run and every finding is written as a junction or explicitly declined
+> with a reason. Deferring a junction "to a later pass" is not a completion state; it is the exact
+> failure the exit scan exists to catch.
+
 > **Language rule:** write every clue, index line and law in the **language the target lore already
 > uses** (consistency wins); if the lore has no established language yet, use the **user's
 > language** — never English by default. The same applies to filenames: new module files are named
@@ -149,11 +158,15 @@ where that step leaves an artifact**. If you cannot name one, say so in the same
 — an unplugged clue is a real result, not a failed save, and hiding it is what makes it undetectable
 later.
 
-**And when the pass wrote more than one clue, or touched a procedure, run `transmute-lore` in
-`MYCELIUM` mode over what it left** (trigger 3, *on the way out*). This is not optional politeness:
-the scan that ran *before* the pass is structurally blind to what the pass produced, and `GRAFT` in
-particular imports criteria that arrives with no junction by construction. Its findings block the
-work that was going to lean on this Lore.
+**Done means the exit scan ran.** When the pass wrote more than one clue, or touched a procedure,
+running `transmute-lore` in `MYCELIUM` mode over what it left (trigger 3, *on the way out*) is not
+the last optional courtesy — it is the line between *written* and *done*. The scan that ran *before*
+the pass is structurally blind to what the pass produced, and `GRAFT` in particular imports criteria
+that arrives with no junction by construction. So: do not report the save as finished, and do not
+move to the work that was going to lean on this Lore, until the exit scan has run and every finding
+it returns is either written as a junction on both sides or declined in writing with its reason. A
+finding parked as "connect it in a later transmute-lore pass" leaves the pass **not done**, and the
+next deliverable runs against a clue nothing invokes.
 
 ## Before either mode — is this a fact, or is it criteria?
 
@@ -457,3 +470,7 @@ does not happen. Two rules govern it:
   and any law written here runs to the period, not to column 80. Full statement in `use-lore`.
 - **No unseen commit, no push.** The user sees destination and wording before approval; that approval
   covers the corresponding writes and commits in the shown batch.
+- **The pass is bracketed by MYCELIUM and is not done until the exit scan closes.** Entry scan when
+  it will lean on existing Lore; exit scan over what it wrote, always. Reporting the save as finished
+  with a MYCELIUM finding still open — or deferred "to a later pass" — is the failure this bracket
+  exists to stop.

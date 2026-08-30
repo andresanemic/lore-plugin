@@ -50,3 +50,11 @@ links too (or report them if the projects cannot be touched).
 Report files translated (with source language), files renamed (old → new), links rewritten, files
 skipped and why, any nuance flagged for human review, and the diff summary. **Do not commit** —
 the user reviews the diff and decides.
+
+### Phase 5 — MYCELIUM exit scan (read-only, mandatory)
+
+TRANSLATE renames localizable files and rewrites the links that touch them — a `destino:` or a
+step's back-reference that named an old filename is now a dead pointer. Run **MYCELIUM mode**
+(`modes/mycelium.md`) over the renamed scope: every junction that survived translation must still
+resolve from both sides. TRANSLATE is **not complete** until this scan has run and every finding is
+written or declined in writing.

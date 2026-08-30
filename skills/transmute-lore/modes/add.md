@@ -108,6 +108,15 @@ contract and `FASES.md` runs to the period, not to column 80. Do not hard-wrap m
 Summarize: what was transmuted (by artifact), what was discarded as noise (justified), and the diff
 summary. **Do not commit the target project** — the diff stays for the user to review and commit.
 
+### Phase 7b — MYCELIUM exit scan (read-only, mandatory)
+
+ADD writes a whole `lore/` at once, so **every clue it produced is born disconnected**: nothing yet
+obliges any step to run it. Run **MYCELIUM mode** (`modes/mycelium.md`) over what this pass wrote —
+`principios.md`, every new module, the rewritten `index.md`, the slimmed contract. ADD is **not
+complete** until this scan has run and every finding is written as a two-sided junction or declined
+in writing with its reason. A finding parked "for a later pass" leaves ADD not done. (If a partial
+`lore/` already existed, run the same scan on entry, before Phase 2, over what was there.)
+
 ## Criteria-extraction heuristics (ADD)
 
 **Signals of CRITERIA** (enters the corpus):
