@@ -59,6 +59,35 @@ noise gets skipped — which costs more than the finding it was going to report.
    in another area means that area's `lore/` and contract **never enter context**, and nothing warns.
    For each tree in play, name its area root, its `lore/` and its contract, and load them.
 
+0b. **Before the clues: does the body that holds them load at all?** One command, and it is not the
+   same question as the rest of this mode:
+
+   ```bash
+   npx lore-plugin mycelium bodies          # or: --tree <dir>
+   ```
+
+   It reports two links of one chain — **contract → index → thematic module**. A core piece
+   (`identidad`, `principios`, `index`) that the contract's always-on block does not name, and a
+   module that the loaded index does not reach. **A thematic module absent from the always-on block is
+   not a defect**: by design it opens per task from the index, and asking for all of them would turn
+   this into noise over any healthy tree.
+
+   **Why it is not covered by the sweep below.** This mode asks, clue by clue, what step forces it to
+   run. A `lore/` with no loader produces **no disconnected clue at all** — it is a file the sweep
+   opens to read its clues without noticing the real session never opens it. Nine modules can sit
+   inert at once and every clue looks fine. It was found in the wild on 2026-08-24 exactly that way,
+   by a sweep that reported nothing.
+
+   **And the repair has two opposite outcomes — the tool reports data and decides nothing.** A body
+   the contract does not name is either **connected** (name it, so it loads) or **declared out of the
+   universe in writing, with its reason** — which is the right answer for a source folder, a registry
+   that only records, or a body the contract routes by another path. Guessing *connect* by default is
+   how a check starts giving the wrong repair.
+
+   **Resolve the tree first, as in step 0.** This check is a `grep` and a directory read, which makes
+   it cheap and therefore easy to point at the wrong place: a sweep that resolves the wrong tree
+   returns a perfectly well-formed finding about something else.
+
 1. **Take the universe, and it is narrower than the Lore.** Only clues that mandate a **verifiable
    artifact or step**. Criteria that governs continuously while writing — tone of voice, a dialect, a
    register — is satisfied in the text itself and is not in scope. Say what you excluded and why.
