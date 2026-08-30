@@ -664,6 +664,14 @@ reviewed exemplar, not re-read against itself.
 written and can be cited. And it does not apply to a bot that **measures** instead of checking: a
 measurement has its own margin of error, which is a different problem and is declared differently.
 
+Before closing any operation, run the six operational gates inherited from the `bots` area: passphrases
+enter only through stdin; a negative report states its coverage in the same sentence; an already-edited
+`.docx` is read back into its `.md` source before regeneration; a law that depends on another repeats
+that law's validity boundary; a corrected fact is swept across every appearance before publication;
+and a binary that already has a transcription is compared against the corpus, with the binary →
+transcription correspondence recorded. These are checks that produce an observable artifact or
+decision, not reminders to consult Lore.
+
 #### 6.4 Close: always propose criteria
 
 **Every task ends with a distillation proposal.** Not optional, and it does not wait to be asked —
