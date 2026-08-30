@@ -305,6 +305,43 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
   assert.deepEqual(new Set(versions), new Set(["2.4.2"]));
 });
 
+test("la nota de release vigente respeta la forma fija — cuarta violación 2026-08-30, ahora con guardia", () => {
+  // andamiaje/lore-plugin/lore/principios.md #6-ampliado: dos veces por versión (2.2.2, 2.3.3)
+  // un `docs/RELEASE_X.md` se envolvió a ~90 columnas antes de publicarse, y GitHub no colapsa
+  // un salto de línea suelto dentro de una página de Release —a diferencia de un .md navegado
+  // en el repo—, así que un párrafo envuelto se ve cortado en líneas cortas en la página
+  // pública aunque el markdown crudo "se vea bien" en el editor. Un tercer caso (2.4.2, el
+  // mismo release que este test corrige) fue detectado por Andrés mirando la página real,
+  // otra vez. La Pista pedía guardia estructural a la cuarta — esta lo es.
+  const version = JSON.parse(readFileSync(join(root, "package.json"), "utf8")).version;
+  const releasePath = join(root, "docs", `RELEASE_${version}.md`);
+  const body = readFileSync(releasePath, "utf8");
+
+  // Señal de envoltorio: un archivo cortado a columna fija tiene su línea más larga muy por
+  // debajo de lo que mide un párrafo real de prosa técnica. Los cinco releases previos sin
+  // envolver (2.3.3, 2.4.0, 2.4.1…) superan los 400 caracteres en su línea más larga.
+  const lines = body.split(/\r?\n/);
+  const maxLine = Math.max(...lines.map((l) => l.length));
+  assert.ok(maxLine > 400,
+    `docs/RELEASE_${version}.md: línea más larga = ${maxLine} — huele a envoltorio a columna fija ` +
+    `(gh release no colapsa un salto de línea suelto; ver principios.md #6-ampliado)`);
+
+  // Forma fija: dos títulos H1 "Lore Plugin X — …", nunca "## English"/"## Español" como
+  // subsección de un único H1 — esa fue la segunda parte del mismo defecto en 2.4.2.
+  const h1 = [...body.matchAll(/^# (.+)$/gm)].map((m) => m[1]);
+  assert.equal(h1.length, 2, `docs/RELEASE_${version}.md: esperaba 2 títulos H1 (EN + ES), hay ${h1.length}`);
+  const escapedVersion = version.split(".").join("\\.");
+  for (const title of h1) {
+    assert.match(title, new RegExp("^Lore Plugin " + escapedVersion + " — "),
+      `título H1 fuera de forma: "${title}"`);
+  }
+  assert.ok(!/^## (English|Español)/m.test(body),
+    'la forma fija no usa "## English"/"## Español" como subsección — dos H1 separados');
+
+  // El primer H1 es el título en inglés (gh release --title debe copiarlo tal cual).
+  assert.doesNotMatch(h1[0], /[áéíóúñ¿¡]/i, `el primer título debe estar en inglés: "${h1[0]}"`);
+});
+
 test("2.4.2 sincroniza badges, release y evidencia de la guardia por contenido", () => {
   const readme = readFileSync(join(root, "README.md"), "utf8");
   const releasePath = join(root, "docs", "RELEASE_2.4.2.md");
