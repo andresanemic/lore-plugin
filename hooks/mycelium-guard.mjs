@@ -1,97 +1,76 @@
 #!/usr/bin/env node
 // Stop hook — Lore Plugin.
-// If Lore files were written this session and no MYCELIUM exit scan ran since the
-// last such write, block the stop once and tell the agent to close the bracket.
-// Claude Code only; Codex ignores this file. Fails open on any error — a hook
-// must never break a session.
+// If the tree's Lore changed since the last recorded MYCELIUM sweep, block the stop
+// once and route the pass. Claude Code only; Codex ignores this file. Fails open on
+// any error — a hook must never break a session.
 //
-// Contract: reads the Stop-hook JSON on stdin ({ transcript_path, stop_hook_active }).
+// Detection is by CONTENT of the Lore files, not by what the transcript shows and
+// not by what the agent says it ran:
+//
+//   - tool names miss every write made with sed, a heredoc or a script, which is the
+//     default working mode of this host;
+//   - `git` is not a requirement of this kit, and Lore trees without it exist;
+//   - a sentence naming the mode is not evidence that the mode ran.
+//
+// Contract: reads the Stop-hook JSON on stdin ({ cwd, stop_hook_active }).
 // Emits {"decision":"block","reason":...} to force one more turn, or exits 0 silently.
 
 import { readFileSync } from "node:fs";
+import { digest, loreFiles, readReceipt, writeReceipt, RECEIPT } from "./lore-state.mjs";
 
 const OK = () => process.exit(0);
 
-let input = "";
+let data = {};
 try {
-  input = readFileSync(0, "utf8");
+  data = JSON.parse(readAll() || "{}");
 } catch {
   OK();
 }
 
-let data;
-try {
-  data = JSON.parse(input || "{}");
-} catch {
-  OK();
+function readAll() {
+  try {
+    return readFileSync(0, "utf8");
+  } catch {
+    return "";
+  }
 }
 
 // Already blocked once this stop — do not loop.
 if (data.stop_hook_active) OK();
 
-const transcriptPath = data.transcript_path;
-if (!transcriptPath) OK();
+const root = typeof data.cwd === "string" && data.cwd ? data.cwd : process.cwd();
 
-let lines;
+let current, recorded, files;
 try {
-  lines = readFileSync(transcriptPath, "utf8").split("\n").filter(Boolean);
+  files = loreFiles(root);
+  if (files.length === 0) OK(); // no Lore in this tree: nothing this hook governs
+  current = digest(root);
+  recorded = readReceipt(root);
 } catch {
   OK();
 }
 
-// A Lore write: an Edit/Write/MultiEdit whose target path sits in a `lore/`
-// directory, or is one of the distinctive Lore artifact filenames.
-const LORE_DIR = /(^|[\/\\])lore[\/\\][^\/\\]+\.md$/i;
-const LORE_FILE = /(^|[\/\\])(FASES|PHASES|principios|principles|identidad|identity|enrutamiento|routing)\.md$/i;
-const isLoreWrite = (name, inp) => {
-  if (!["Edit", "Write", "MultiEdit", "NotebookEdit"].includes(name)) return false;
-  const p = inp && (inp.file_path || inp.path || inp.notebook_path);
-  if (!p || typeof p !== "string") return false;
-  return LORE_DIR.test(p) || LORE_FILE.test(p);
-};
-
-// Evidence a MYCELIUM scan ran: the token appears in assistant text, or a
-// skill/agent invocation names transmute-lore + mycelium.
-const mentionsMycelium = (s) => typeof s === "string" && /MYCELIUM|mycelium|micelio/.test(s);
-
-let lastLoreWriteIdx = -1;
-let myceliumAfterIdx = -1;
-
-lines.forEach((raw, i) => {
-  let ev;
+// Bootstrap: adopting the kit on an existing tree must not produce a standing block.
+if (!recorded) {
   try {
-    ev = JSON.parse(raw);
+    writeReceipt(root, current);
   } catch {
-    return;
+    /* read-only tree: fail open */
   }
-  const msg = ev.message || ev;
-  const content = msg && msg.content;
-  const blocks = Array.isArray(content) ? content : content ? [content] : [];
+  OK();
+}
 
-  for (const b of blocks) {
-    if (!b || typeof b !== "object") {
-      if (mentionsMycelium(b)) myceliumAfterIdx = i;
-      continue;
-    }
-    if (b.type === "tool_use") {
-      if (isLoreWrite(b.name, b.input)) lastLoreWriteIdx = i;
-      if (b.name === "Skill" && mentionsMycelium(JSON.stringify(b.input || {}))) myceliumAfterIdx = i;
-      if ((b.name === "Task" || b.name === "Agent") && mentionsMycelium(JSON.stringify(b.input || {}))) myceliumAfterIdx = i;
-    }
-    if (b.type === "text" && mentionsMycelium(b.text)) myceliumAfterIdx = i;
-  }
-});
-
-if (lastLoreWriteIdx === -1) OK();
-if (myceliumAfterIdx > lastLoreWriteIdx) OK();
+if (recorded === current) OK();
 
 const reason =
-  "Lore files were edited this session and no MYCELIUM exit scan has run since the last edit. " +
-  "Before finishing: run `transmute-lore` in MYCELIUM mode over what changed, then write each " +
-  "finding as a two-sided junction or decline it in writing with its reason. This is the exit " +
-  "bracket from save-to-lore / transmute-lore — the pass is not done until it closes. " +
-  "If MYCELIUM already ran, or these edits are not Lore criteria (kit source, a docs-site index), " +
-  "say which and stop.";
+  `Lore changed in this tree since the last recorded MYCELIUM sweep (${files.length} Lore file(s) tracked). ` +
+  "The pass is not finished. Two things close it, in order. " +
+  "First, route the writing: criteria written by hand is what `save-to-lore` — or the matching write mode " +
+  "of `transmute-lore` — exists to replace, so if this criteria was hand-edited, say so and route it. " +
+  "Second, run `transmute-lore` in MYCELIUM mode over what changed, write each finding as a two-sided " +
+  "junction or decline it in writing with its reason, and then record the sweep with " +
+  "`npx lore-plugin mycelium receipt` so this bracket can close. " +
+  `If these edits are not Lore criteria, say which and stop — the receipt lives at ./${RECEIPT}.`;
 
 process.stdout.write(JSON.stringify({ decision: "block", reason }));
 process.exit(0);

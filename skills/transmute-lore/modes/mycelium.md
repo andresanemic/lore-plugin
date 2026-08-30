@@ -135,3 +135,33 @@ and if the same finding is really isolation, pruning destroys the junction nobod
 > *Registers written before this version name these outcomes with the older vocabulary — `Micorrizada`,
 > `Aislada`, `Media junta`, `Junta seca`, `Fuera del sustrato`, `Junta a otro árbol`. They stay as
 > written: they name what happened, not what governs.*
+
+
+## Recording the sweep — the receipt
+
+**A sweep that is not recorded did not close the bracket.** When the pass is done — every finding
+written as a two-sided junction or declined in writing with its reason — record it:
+
+```bash
+npx lore-plugin mycelium receipt          # or: lore-plugin mycelium receipt --tree <dir>
+```
+
+It writes `.lore-mycelium` at the tree root: a digest of the **content** of every Lore file the tree
+holds. The `Stop` hook (Claude Code) compares that digest against the tree and blocks the pass when
+Lore changed and no sweep was recorded since.
+
+**Why a fact and not a sentence, and this is the correction that 2.4.2 exists for.** Until then the
+hook accepted the word *MYCELIUM* appearing anywhere in the agent's prose as evidence that the sweep
+had run — including in the sentence *«I have not run MYCELIUM yet»*. It also only saw writes made
+through the editing tools, so any Lore written with `sed`, a heredoc or a script was invisible to it.
+**Content hashing removes both questions instead of answering them:** how the file was written stops
+being a variable, and nobody is asked whether the sweep ran.
+
+**Commit the receipt.** The digest is content-derived, so it is identical on every machine for the
+same tree — a teammate who pulls a swept Lore inherits a closed bracket, and one who pulls an unswept
+change inherits the block. It is shared state, not machine state.
+
+**What this does not cover, said here rather than discovered later.** Codex does not run hooks: there
+the guarantee is carried by this text and by the closing gate of the writing skills. And neither the
+hook nor the skills see Lore written **without invoking any skill in a tree the working directory
+does not reach** — a session editing another tree's Lore is outside the bracket entirely.
