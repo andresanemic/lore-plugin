@@ -10,8 +10,10 @@ const makePackage = () => {
   const root = mkdtempSync(join(tmpdir(), "lore-package-"));
   mkdirSync(join(root, ".codex-plugin"), { recursive: true });
   mkdirSync(join(root, "skills", "use-lore"), { recursive: true });
+  mkdirSync(join(root, "hooks"), { recursive: true });
   writeFileSync(join(root, ".codex-plugin", "plugin.json"), '{"name":"lore","version":"2.0.0"}');
   writeFileSync(join(root, "skills", "use-lore", "SKILL.md"), "---\nname: use-lore\n---\n");
+  writeFileSync(join(root, "hooks", "hooks.json"), '{"hooks":{}}');
   return root;
 };
 
@@ -22,6 +24,7 @@ test("Codex instala el plugin y crea un marketplace personal válido", () => {
   const pluginRoot = join(home, ".agents", "plugins", "plugins", "lore");
   assert.equal(existsSync(join(pluginRoot, ".codex-plugin", "plugin.json")), true);
   assert.equal(existsSync(join(pluginRoot, "skills", "use-lore", "SKILL.md")), true);
+  assert.equal(existsSync(join(pluginRoot, "hooks", "hooks.json")), true);
 
   const market = JSON.parse(readFileSync(join(home, ".agents", "plugins", "marketplace.json"), "utf8"));
   assert.equal(market.name, "personal");
@@ -62,12 +65,16 @@ test("Codex retira archivos obsoletos de una versión anterior de Lore", () => {
   const home = mkdtempSync(join(tmpdir(), "lore-home-"));
   const pluginRoot = join(home, ".agents", "plugins", "plugins", "lore");
   mkdirSync(join(pluginRoot, "skills", "using-lore"), { recursive: true });
+  mkdirSync(join(pluginRoot, "hooks"), { recursive: true });
   writeFileSync(join(pluginRoot, "skills", "using-lore", "SKILL.md"), "obsoleto\n");
+  writeFileSync(join(pluginRoot, "hooks", "obsolete.mjs"), "obsoleto\n");
 
   installCodex({ home, packageRoot: makePackage() });
 
   assert.equal(existsSync(join(pluginRoot, "skills", "using-lore")), false);
   assert.equal(existsSync(join(pluginRoot, "skills", "use-lore", "SKILL.md")), true);
+  assert.equal(existsSync(join(pluginRoot, "hooks", "obsolete.mjs")), false);
+  assert.equal(existsSync(join(pluginRoot, "hooks", "hooks.json")), true);
 });
 
 test("Claude usa comandos explícitos y no una copia silenciosa", () => {

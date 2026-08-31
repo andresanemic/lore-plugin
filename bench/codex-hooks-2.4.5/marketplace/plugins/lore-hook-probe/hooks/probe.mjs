@@ -19,7 +19,11 @@ const outputs = {
   block: JSON.stringify({ decision: "block", reason: "CODEX_HOOK_PROBE_BLOCK" }),
   inject: JSON.stringify({
     hookSpecificOutput: {
-      hookEventName: event === "session_end" ? "SessionEnd" : "PostToolUse",
+      hookEventName: {
+        session_start: "SessionStart",
+        session_end: "SessionEnd",
+        post_tool_use: "PostToolUse",
+      }[event],
       additionalContext: "CODEX_HOOK_PROBE_INJECT",
     },
   }),

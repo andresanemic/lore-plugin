@@ -8,6 +8,10 @@ Measured on 2026-08-31 with `codex-cli 0.147.0` and the isolated plugin under `m
 
 `PostToolUse` runs before the agent can close. Additional context was observed by the agent as `CODEX_HOOK_PROBE_INJECT`, and a block decision was reported by Codex as `CODEX_HOOK_PROBE_BLOCK`. It is the selected event for the 2.4.5 Codex adapter.
 
+Because `PostToolUse` runs only after a tool, `SessionStart` establishes the receipt before the first tool can mutate the tree. Its captured payload contained only the structural keys `cwd`, `hook_event_name`, `model`, `permission_mode`, `session_id`, `source`, and `transcript_path`. The product adapter uses `SessionStart` for the baseline and `PostToolUse` for enforcement; it does not register the ineffective `SessionEnd` branch.
+
+The product response uses additional context, not the visible block error. This lets Codex act before closing without showing hook protocol or internal vocabulary to the user.
+
 ## Healthy-path measurement
 
 Twenty sequential ephemeral sessions each invoked `Get-Location` once. The probe produced exactly 20 `post_tool_use` records, wrote 0 bytes to stdout in observe mode, averaged 0.315 ms internally, and reached a maximum of 0.528 ms.

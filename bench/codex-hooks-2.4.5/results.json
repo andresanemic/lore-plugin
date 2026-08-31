@@ -1,6 +1,7 @@
 {
   "codexVersion": "codex-cli 0.147.0",
   "selectedEvent": "post_tool_use",
+  "baselineEvent": "session_start",
   "healthyOutputBytes": 0,
   "meanMs": 0.315,
   "maxMs": 0.528,
