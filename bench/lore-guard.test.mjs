@@ -94,11 +94,13 @@ test("v1 current and stale receipts never invent expansion", () => {
 
 test("both pending conditions produce one plain intervention", () => {
   const message = formatIntervention(evaluateState(state(68_608), receipt(29_855)));
-  assert.match(message, /Lore cambió/);
+  assert.match(message, /cambios de criterio.*trabajo que deben guiar/);
+  assert.match(message, /conserva una sola parte: la respuesta que ya ibas a dar/);
+  assert.match(message, /solicita sólo ese permiso/);
   assert.match(message, /29,9 KB.*68,6 KB.*38,8 KB.*130%/s);
   assert.match(message, /aprobación/);
   assert.doesNotMatch(message, /MYCELIUM|save-to-lore|transmute-lore|receipt/i);
-  assert.equal(message.split("Lore cambió").length - 1, 1);
+  assert.equal(message.split("Antes de cerrar").length - 1, 1);
 });
 
 test("growth from zero reports absolute bytes without a fabricated percent", () => {

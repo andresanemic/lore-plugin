@@ -12,6 +12,12 @@ Because `PostToolUse` runs only after a tool, `SessionStart` establishes the rec
 
 The product response uses additional context, not the visible block error. This lets Codex act before closing without showing hook protocol or internal vocabulary to the user.
 
+## Fresh candidate session
+
+The personal candidate installed and loaded as `lore@personal` 2.4.5 from the Codex cache. Codex announced the guide in one simple line; that remaining visibility is acceptable for this candidate and stays open for refinement through 2.4.6–2.5.
+
+The fresh workspace was read-only, so the mutation itself did not execute. Codex ended by asking only for write permission in plain language, without exposing hook, skill, mode, receipt, or MYCELIUM internals. Automated tests and the latency probe cover the enforcement path; a writable fresh-host mutation remains a verification boundary, not a blocker for the 2.4.5 candidate.
+
 ## Healthy-path measurement
 
 Twenty sequential ephemeral sessions each invoked `Get-Location` once. The probe produced exactly 20 `post_tool_use` records, wrote 0 bytes to stdout in observe mode, averaged 0.315 ms internally, and reached a maximum of 0.528 ms.

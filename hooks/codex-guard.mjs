@@ -53,8 +53,7 @@ if (!result.pendingLore && !result.requiresApproval) {
   OK();
 }
 
-const additionalContext = `${formatIntervention(result)}\n` +
-  "Actúa antes de cerrar. Si necesitas intervenir, habla solo del resultado o de la aprobación necesaria.";
+const additionalContext = formatIntervention(result);
 process.stdout.write(JSON.stringify({
   hookSpecificOutput: {
     hookEventName: event === "session_start" ? "SessionStart" : "PostToolUse",

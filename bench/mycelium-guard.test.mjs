@@ -83,7 +83,7 @@ test("R1 · bloquea cuando el Lore cambió, sin importar con qué herramienta", 
   write(dir, "lore/principios.md", "# Principios\n\n## Pista nueva\n");
   const out = blocked(run(dir));
   assert.equal(out.decision, "block");
-  assert.match(out.reason, /Lore cambió/i);
+  assert.match(out.reason, /cambios de criterio.*trabajo que deben guiar/i);
   assert.doesNotMatch(out.reason, /MYCELIUM/i);
   rmSync(dir, { recursive: true, force: true });
 });
@@ -227,8 +227,8 @@ test("el mensaje pide la acción sin narrar la maquinaria", () => {
   run(dir);
   write(dir, "lore/principios.md", "# Principios\n\n## Otra\n");
   const { reason } = blocked(run(dir));
-  assert.match(reason, /Lore cambió/i);
-  assert.match(reason, /revisar sus conexiones/i);
+  assert.match(reason, /cambios de criterio.*trabajo que deben guiar/i);
+  assert.match(reason, /conserva una sola parte: la respuesta que ya ibas a dar/i);
   assert.doesNotMatch(reason, /MYCELIUM|save-to-lore|transmute-lore|receipt/i);
   rmSync(dir, { recursive: true, force: true });
 });
@@ -242,7 +242,7 @@ test("una expansión sola pide autoridad sin inventar una revisión pendiente", 
   write(dir, "CLAUDE.md",
     "<!-- lore:always-on -->\n- `lore/criterio.md`\n<!-- /lore:always-on -->\n");
   const { reason } = blocked(run(dir));
-  assert.doesNotMatch(reason, /Lore cambió/i);
+  assert.doesNotMatch(reason, /trabajo que deben guiar/i);
   assert.match(reason, /aprobación/i);
   assert.match(reason, /9,0 KB/);
   rmSync(dir, { recursive: true, force: true });
@@ -258,7 +258,7 @@ test("Lore cambiado y expansión material producen una sola intervención agrega
   const result = run(dir);
   const { reason } = blocked(result);
   assert.equal(result.stdout.trim().split("\n").length, 1);
-  assert.match(reason, /Lore cambió/i);
+  assert.match(reason, /cambios de criterio.*trabajo que deben guiar/i);
   assert.match(reason, /29,9 KB.*68,6 KB.*130%/s);
   assert.match(reason, /aprobación/i);
   assert.doesNotMatch(reason, /MYCELIUM|save-to-lore|transmute-lore|receipt/i);

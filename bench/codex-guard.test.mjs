@@ -77,8 +77,8 @@ test("a Lore change injects one plain action before close", () => {
   run(dir, "session_start");
   write(dir, "lore/principios.md", "# Principios\n\n## Nueva\n");
   const context = injected(run(dir, "post_tool_use"));
-  assert.match(context, /Lore cambió/i);
-  assert.match(context, /revisar sus conexiones/i);
+  assert.match(context, /cambios de criterio.*trabajo que deben guiar/i);
+  assert.match(context, /conserva una sola parte: la respuesta que ya ibas a dar/i);
   assert.doesNotMatch(context, /MYCELIUM|save-to-lore|transmute-lore|receipt|junction/i);
 });
 
@@ -91,7 +91,7 @@ test("an always-on expansion injects only the approval needed", () => {
   write(dir, "CLAUDE.md",
     "<!-- lore:always-on -->\n- `lore/criterio.md`\n<!-- /lore:always-on -->\n");
   const context = injected(run(dir, "post_tool_use"));
-  assert.doesNotMatch(context, /Lore cambió/i);
+  assert.doesNotMatch(context, /trabajo que deben guiar/i);
   assert.match(context, /9,0 KB/);
   assert.match(context, /aprobación/i);
 });
@@ -106,7 +106,7 @@ test("both pending conditions share one injection", () => {
   const stdout = run(dir, "post_tool_use");
   const context = injected(stdout);
   assert.equal(stdout.trim().split("\n").length, 1);
-  assert.match(context, /Lore cambió/i);
+  assert.match(context, /cambios de criterio.*trabajo que deben guiar/i);
   assert.match(context, /29,9 KB.*68,6 KB.*130%/s);
 });
 

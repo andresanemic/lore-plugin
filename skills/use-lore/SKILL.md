@@ -29,7 +29,11 @@ invoking any other Lore skill.
 > **Ordinary communication has only three shapes:** the result when work finished; the decision or
 > approval needed when something blocks it; silence when automatic work is clean. Loading, routing,
 > skill selection, mode selection and file classification stay below the conversation. If the user
-> names an identifier or asks for technical detail, use the exact skill or mode name and explain it.
+> names a specific skill or mode, or asks for technical detail, use that exact name and explain it.
+> Mentioning Lore in general or editing a path under `lore/` does not activate this exception.
+> Completing the installed lifecycle check after a user-authorized Lore edit is normal closure, not
+> an expansion of scope. It authorizes no unrelated edit. If the host still needs tool or filesystem
+> permission, ask only for that permission in plain language.
 
 ## 0. Very first use of the kit — a brainstorm, not a menu (threshold)
 

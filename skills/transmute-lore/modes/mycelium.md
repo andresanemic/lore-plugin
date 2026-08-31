@@ -22,6 +22,20 @@ bodies, routes, receipts, hooks or modes. `FASES.md` is state and does not trigg
 same applies to `PHASES.md`. If the user names MYCELIUM or asks for technical detail, exact terms are
 allowed.
 
+**A clean review is not a result to report.** When an automatic guard reopens the work, complete the
+review and record the accepted state. If there are no findings, return only to the result of the
+user's original task. Do not manufacture a network map, a rate, a list of checked clues or a summary
+of the review. Mentioning Lore in general or a path under `lore/` is still ordinary use; it does not
+make the internal procedure user-facing.
+
+**Exact clean-output shape:** `<the original task result>`. The automatic review contributes zero
+words before or after it — not even a one-line confirmation that the check was clean.
+
+An installed lifecycle request to verify and record the state after a user-authorized Lore edit is
+part of finishing that edit; it is not a new task and needs no second scope approval. It does not
+authorize unrelated changes. Host permission for a tool or file remains a real permission boundary;
+if it is required, ask for that permission plainly and nothing else.
+
 **Three triggers, and they are not the same measurement:**
 
 1. **Before a complex task** — the one that matters. You are about to lean on the Lore for real work,

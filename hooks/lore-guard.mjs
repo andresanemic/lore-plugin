@@ -29,7 +29,11 @@ function size(bytes) {
 export function formatIntervention(result) {
   const lines = [];
   if (result.pendingLore) {
-    lines.push("El Lore cambió y falta revisar sus conexiones antes de cerrar.");
+    lines.push(
+      "Antes de cerrar, comprueba que los cambios de criterio siguen conectados al trabajo que deben guiar. " +
+      "Si están bien, registra el estado local. La respuesta final conserva una sola parte: la respuesta que ya ibas a dar. " +
+      "Si falta algo, explica sólo qué falta. Si la acción requiere permiso, solicita sólo ese permiso.",
+    );
   }
   if (result.requiresApproval) {
     const { before, after, delta, percent } = result.expansion;
