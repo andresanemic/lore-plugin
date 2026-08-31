@@ -14,6 +14,8 @@ The guard witnesses state, not semantic quality. It cannot prove that a connecti
 
 Verification covers receipt v1/v2 migration, atomic writes, the 8 KiB boundary, rejection and acceptance, aggregated intervention, state-file exclusions, healthy silence, Claude and Codex protocol adapters, installer packaging, and conversational wording. `npm test`, `git diff --check`, and `npm pack --dry-run` are the release gates; the package now includes `hooks/`.
 
+The candidate was installed locally as 2.4.5 in Codex and Claude Code; the Claude cache contains all five hook files. OpenCode received the seven skill directories by manual copy and every file was hash-checked byte for byte against the candidate. This does not claim OpenCode hook parity: that remains the scope of 2.4.6.
+
 No corpus change. This release adds no skill, no mode, and no LUS claim. It is a product correction derived from situated use; it changes neither the LUS corpus nor its counters.
 
 # Lore Plugin 2.4.5 — Guardias silenciosas en Claude Code y Codex
@@ -31,5 +33,7 @@ El lenguaje visible cambió tanto como el mecanismo. La conversación silenciosa
 La guardia atestigua estado, no calidad semántica. No puede probar que la revisión de conexiones fue buena, diagnosticar crowding por cantidad de bytes ni ver trabajo fuera del árbol resuelto. Ambos adaptadores de host fallan abiertos ante errores inesperados de ejecución. `SessionEnd` sigue sin servir para enforcement en Codex, por lo que la paridad depende del camino medido `SessionStart` más `PostToolUse`. OpenCode queda para 2.4.6.
 
 La verificación cubre migración de recibos v1/v2, escritura atómica, frontera de 8 KiB, rechazo y aceptación, intervención agregada, exclusión de archivos de estado, silencio sano, adaptadores de protocolo para Claude y Codex, empaquetado del instalador y redacción conversacional. `npm test`, `git diff --check` y `npm pack --dry-run` son las puertas de release; el paquete ahora incluye `hooks/`.
+
+El candidato quedó instalado localmente como 2.4.5 en Codex y Claude Code; la caché de Claude contiene los cinco archivos de hooks. OpenCode recibió por copia manual los siete directorios de skills y cada archivo se contrastó byte a byte mediante hashes contra el candidato. Esto no declara paridad de hooks en OpenCode: ese sigue siendo el alcance de 2.4.6.
 
 Sin cambio de corpus. Esta versión no agrega una skill, un modo ni una afirmación de LUS. Es una corrección de producto derivada de uso situado; no cambia el corpus LUS ni sus contadores.
