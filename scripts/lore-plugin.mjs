@@ -57,7 +57,7 @@ if (command === "mycelium") {
   }
   const value = writeReceipt(tree);
   console.log(`MYCELIUM sweep recorded for ${files.length} Lore file(s) in ${tree}`);
-  console.log(`${RECEIPT}: ${value.slice(0, 12)}...`);
+  console.log(`${RECEIPT}: ${value.digest.slice(0, 12)}...`);
   process.exit(0);
 }
 

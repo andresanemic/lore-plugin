@@ -56,7 +56,10 @@ test("arranque: sin recibo previo no bloquea, y deja el recibo escrito", () => {
   const dir = tree();
   silent(run(dir));
   assert.ok(existsSync(join(dir, RECEIPT)), "adoptar el kit debe dejar el árbol al día");
-  assert.match(readFileSync(join(dir, RECEIPT), "utf8").trim(), /^[0-9a-f]{64}$/);
+  const receipt = JSON.parse(readFileSync(join(dir, RECEIPT), "utf8"));
+  assert.equal(receipt.version, 2);
+  assert.match(receipt.digest, /^[0-9a-f]{64}$/);
+  assert.equal(receipt.alwaysOnBytes, 0);
   rmSync(dir, { recursive: true, force: true });
 });
 
