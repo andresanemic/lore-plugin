@@ -59,7 +59,7 @@ creates the area.
 | `{{PURPOSE}}` | what does the area produce and for whom? → `identidad.md` |
 | `{{NORTH}}` | quality standard: what is every deliverable judged against? → `identidad.md` |
 | `{{ANTI_SCOPE}}` | what the area is NOT / what practice it rejects → `identidad.md` |
-| `{{REGISTRO}}` | how technical the kit speaks here: `tecnico` / `equilibrado` (default) / `llano` → `identidad.md`. **Inferred from how the user wrote during the brainstorm, never asked.** Declare which one you picked in one line and offer the correction in the same breath. It calibrates how much ground surrounds a rule and **never the rules themselves** — a threshold stays a threshold. It is a declared preference, not criteria: no confidence marker, never promoted |
+| `{{REGISTRO}}` | how technical the kit speaks here: `tecnico` / `equilibrado` (default) / `llano` → `identidad.md`. **Inferred from how the user wrote during the brainstorm, never asked, and applied silently.** Mention it only if the user asks about tone or a correction is needed. It calibrates how much ground surrounds a rule and **never the rules themselves** — a threshold stays a threshold. It is a declared preference, not criteria: no confidence marker, never promoted |
 | `{{PRINCIPLES}}` | invariant laws of the method (may inherit from a prior corpus) → `principios.md` |
 | `{{MODULES}}` | initial thematic modules (may be 0; created when the first friction appears) |
 
@@ -173,7 +173,8 @@ another person's Notion bases, house style or corpus into the kit. Every `_start
   adopt an existing one by registering it by hand in `FASES.md`).
 - **If another skill sent you here, the next step is to go back to it** — not `create-project`.
   `create-bot` needs its host area before the bot can exist, and `create-project` needs the area it
-  was pointed at. Name the skill you are returning to and **resume it in the same session**. The user
+  was pointed at. Resume the owning operation silently in the same session; name it only if the user
+  named it or asked for technical detail. The user
   asked for a bot or a project; an area reported as the finished deliverable answers a request nobody
   made, and the request that is still open is the one they will not restate.
 

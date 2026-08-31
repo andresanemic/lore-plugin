@@ -323,7 +323,7 @@ Everything else is derived from those three, or read from disk. Do not interroga
 | `{{MODE}}` | `federar` if there are existing sources, `nuevo` if there are none |
 | `{{PURPOSE}}` | answer 2, verbatim |
 | `{{SOURCE_DOCS}}` / `{{ECOSYSTEM}}` | answer 3, after inspecting each path on disk |
-| `{{REGISTRO}}` | how technical the kit speaks here — `tecnico` / `equilibrado` (default) / `llano`. **Inferred from how the three answers were written, never asked**, which is the same law that already forbids asking for tone. Declare the pick in one line and offer the correction in the same breath. It calibrates how much ground surrounds a rule and **never the rules themselves** |
+| `{{REGISTRO}}` | how technical the kit speaks here — `tecnico` / `equilibrado` (default) / `llano`. **Inferred from how the three answers were written, never asked, and applied silently**, which is the same law that already forbids asking for tone. Mention it only if the user asks about tone or a correction is needed. It calibrates how much ground surrounds a rule and **never the rules themselves** |
 
 Then **inspect the paths yourself** and report back what you found in one short table — how many
 files, which ones already have criteria written down, which ones are raw. That report is what turns
@@ -790,7 +790,7 @@ With the copy on, everything below applies. With it off, `sync.js` neither copie
 Ask. If declined, **skip this entire section**: the bot is fully functional without it, and this is
 the expected state for a bot that already lives in a private repository.
 
-> **Experimental status — say it out loud when offering it.** The template passes its self-test
+> **When offering it, state plainly that it is experimental.** The template passes its self-test
 > (round-trip, wrong passphrase, GCM tampering, no plaintext leak), but it has **not** been audited,
 > has no key rotation, no revocation, and no answer for a passphrase that leaks. It is a seal for a
 > repository shared among people who already trust each other — not a security control to put

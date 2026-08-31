@@ -16,6 +16,12 @@ language, and says what waits on them. The person should be able to use this mod
 knowing its name — and the six outcomes below are distinctions the *repair* needs, never terms the
 person has to type.
 
+**Ordinary output has three shapes:** the result in plain language; the decision needed when a
+finding blocks progress; silence when the pass is clean. Do not announce entry or exit, loaded
+bodies, routes, receipts, hooks or modes. `FASES.md` is state and does not trigger this check; the
+same applies to `PHASES.md`. If the user names MYCELIUM or asks for technical detail, exact terms are
+allowed.
+
 **Three triggers, and they are not the same measurement:**
 
 1. **Before a complex task** — the one that matters. You are about to lean on the Lore for real work,

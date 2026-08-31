@@ -114,7 +114,7 @@ test("brainstorming-lore exige módulos de proceso para el disparo implícito", 
 test("create-area devuelve el control a la skill que la pidió", () => {
   const text = skill("create-area");
   assert.match(text, /If another skill sent you here, the next step is to go back to it/);
-  assert.match(text, /resume it in the same session/);
+  assert.match(text, /Resume the owning operation silently in the same session/);
   assert.match(text, /the area is `bots` and its domain is/);
   assert.match(text, /There is \*\*one\*\* `bots` area/);
 });
