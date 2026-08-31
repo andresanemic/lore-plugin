@@ -43,12 +43,17 @@ function run(cwd, { stopHookActive = false, events = null } = {}) {
   }
 }
 
-const blocked = (r) => {
+const injected = (r) => {
   assert.equal(r.status, 0, "el hook nunca sale con error");
-  assert.notEqual(r.stdout.trim(), "", "esperaba bloqueo y hubo silencio");
-  return JSON.parse(r.stdout);
+  assert.notEqual(r.stdout.trim(), "", "esperaba inyección y hubo silencio");
+  const out = JSON.parse(r.stdout);
+  assert.ok(out.hookSpecificOutput, "esperaba hookSpecificOutput");
+  assert.equal(out.hookSpecificOutput.hookEventName, "Stop");
+  assert.ok(typeof out.hookSpecificOutput.additionalContext === "string" && out.hookSpecificOutput.additionalContext.length > 0);
+  return out;
 };
-const silent = (r) => assert.equal(r.stdout.trim(), "", "esperaba silencio y bloqueó");
+const blocked = injected;
+const silent = (r) => assert.equal(r.stdout.trim(), "", "esperaba silencio e inyectó");
 
 // --- arranque y estado limpio -------------------------------------------------
 
@@ -77,14 +82,13 @@ test("con el recibo al día, guarda silencio", () => {
 // defecto del host. Ahora la pregunta es por el contenido del árbol, así que CÓMO se
 // escribió el archivo deja de ser una variable.
 
-test("R1 · bloquea cuando el Lore cambió, sin importar con qué herramienta", () => {
+test("R1 · inyecta cuando el Lore cambió, sin importar con qué herramienta", () => {
   const dir = tree();
   run(dir);
   write(dir, "lore/principios.md", "# Principios\n\n## Pista nueva\n");
-  const out = blocked(run(dir));
-  assert.equal(out.decision, "block");
-  assert.match(out.reason, /cambios de criterio.*trabajo que deben guiar/i);
-  assert.doesNotMatch(out.reason, /MYCELIUM/i);
+  const out = injected(run(dir));
+  assert.match(out.hookSpecificOutput.additionalContext, /cambios de criterio.*trabajo que deben guiar/i);
+  assert.doesNotMatch(out.hookSpecificOutput.additionalContext, /MYCELIUM/i);
   rmSync(dir, { recursive: true, force: true });
 });
 
@@ -92,7 +96,7 @@ test("R1b · un módulo nuevo dentro de lore/ también cuenta", () => {
   const dir = tree();
   run(dir);
   write(dir, "lore/enrutamiento.md", "# Enrutamiento\n");
-  assert.equal(blocked(run(dir)).decision, "block");
+  assert.ok(injected(run(dir)).hookSpecificOutput.additionalContext.length > 0);
   rmSync(dir, { recursive: true, force: true });
 });
 
@@ -121,7 +125,7 @@ test("R2 · una prosa llena de «MYCELIUM» no cierra el bracket", () => {
       { type: "text", text: "Corro MYCELIUM de salida sobre lo que se escribió: 0 hallazgos." },
     ] } },
   ];
-  assert.equal(blocked(run(dir, { events })).decision, "block");
+  assert.ok(injected(run(dir, { events })).hookSpecificOutput.additionalContext.length > 0);
   rmSync(dir, { recursive: true, force: true });
 });
 
@@ -134,7 +138,7 @@ test("R2b · tampoco lo cierra decir explícitamente que no se corrió", () => {
       { type: "text", text: "Todavía no corrí MYCELIUM: queda para una pasada futura de transmute-lore." },
     ] } },
   ];
-  assert.equal(blocked(run(dir, { events })).decision, "block");
+  assert.ok(injected(run(dir, { events })).hookSpecificOutput.additionalContext.length > 0);
   rmSync(dir, { recursive: true, force: true });
 });
 
@@ -142,17 +146,17 @@ test("R2c · lo que sí lo cierra es el recibo — el hecho, no la frase", () =>
   const dir = tree();
   run(dir);
   write(dir, "lore/principios.md", "# Principios\n\n## Otra\n");
-  blocked(run(dir));
+  injected(run(dir));
   execFileSync("node", [join(root, "scripts", "lore-plugin.mjs"), "mycelium", "receipt", "--tree", dir], { encoding: "utf8" });
   silent(run(dir));
   rmSync(dir, { recursive: true, force: true });
 });
 
-test("el transcript ya no participa: bloquea igual sin transcript_path", () => {
+test("el transcript ya no participa: inyecta igual sin transcript_path", () => {
   const dir = tree();
   run(dir);
   write(dir, "lore/principios.md", "# Principios\n\n## Otra\n");
-  assert.equal(blocked(run(dir)).decision, "block");
+  assert.ok(injected(run(dir)).hookSpecificOutput.additionalContext.length > 0);
   rmSync(dir, { recursive: true, force: true });
 });
 
@@ -226,7 +230,7 @@ test("el mensaje pide la acción sin narrar la maquinaria", () => {
   const dir = tree();
   run(dir);
   write(dir, "lore/principios.md", "# Principios\n\n## Otra\n");
-  const { reason } = blocked(run(dir));
+  const { hookSpecificOutput: { additionalContext: reason } } = injected(run(dir));
   assert.match(reason, /cambios de criterio.*trabajo que deben guiar/i);
   assert.match(reason, /conserva una sola parte: la respuesta que ya ibas a dar/i);
   assert.doesNotMatch(reason, /MYCELIUM|save-to-lore|transmute-lore|receipt/i);
@@ -241,7 +245,7 @@ test("una expansión sola pide autoridad sin inventar una revisión pendiente", 
   run(dir);
   write(dir, "CLAUDE.md",
     "<!-- lore:always-on -->\n- `lore/criterio.md`\n<!-- /lore:always-on -->\n");
-  const { reason } = blocked(run(dir));
+  const { hookSpecificOutput: { additionalContext: reason } } = injected(run(dir));
   assert.doesNotMatch(reason, /trabajo que deben guiar/i);
   assert.match(reason, /aprobación/i);
   assert.match(reason, /9,0 KB/);
@@ -256,7 +260,7 @@ test("Lore cambiado y expansión material producen una sola intervención agrega
   run(dir);
   write(dir, "lore/criterio.md", "x".repeat(68_608));
   const result = run(dir);
-  const { reason } = blocked(result);
+  const { hookSpecificOutput: { additionalContext: reason } } = injected(result);
   assert.equal(result.stdout.trim().split("\n").length, 1);
   assert.match(reason, /cambios de criterio.*trabajo que deben guiar/i);
   assert.match(reason, /29,9 KB.*68,6 KB.*130%/s);

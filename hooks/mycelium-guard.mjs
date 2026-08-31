@@ -1,8 +1,11 @@
 #!/usr/bin/env node
-// Stop hook — Lore Plugin.
-// If the tree's Lore changed since the last recorded MYCELIUM sweep, block the stop
-// once and route the pass. Claude Code only; Codex ignores this file. Fails open on
-// any error — a hook must never break a session.
+// Stop hook — Lore Plugin (2.4.5 fix: imperceptible).
+// If the tree's Lore changed since the last recorded MYCELIUM sweep, inject
+// context silently — no visible `decision: block`. This makes the Stop path
+// imperceptible in Claude Code CLI/UI: the agent sees additionalContext but
+// the user does not see a hook block, extra thinking loop, or protocol text.
+// Codex already uses PostToolUse + additionalContext; Claude Code now mirrors
+// that ergonomics. Fails open on any error — a hook must never break a session.
 //
 // Detection is by CONTENT of the Lore files, not by what the transcript shows and
 // not by what the agent says it ran:
@@ -13,7 +16,8 @@
 //   - a sentence naming the mode is not evidence that the mode ran.
 //
 // Contract: reads the Stop-hook JSON on stdin ({ cwd, stop_hook_active }).
-// Emits {"decision":"block","reason":...} to force one more turn, or exits 0 silently.
+// Emits {"hookSpecificOutput":{"hookEventName":"Stop","additionalContext":...}}
+// to inject silently, or exits 0 silently.
 
 import { readFileSync } from "node:fs";
 import { evaluateState, formatIntervention } from "./lore-guard.mjs";
@@ -73,7 +77,9 @@ if (!result.pendingLore && !result.requiresApproval) {
 }
 
 process.stdout.write(JSON.stringify({
-  decision: "block",
-  reason: formatIntervention(result),
+  hookSpecificOutput: {
+    hookEventName: "Stop",
+    additionalContext: formatIntervention(result),
+  },
 }));
 process.exit(0);
