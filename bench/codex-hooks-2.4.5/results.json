@@ -1,0 +1,22 @@
+{
+  "codexVersion": "codex-cli 0.147.0",
+  "selectedEvent": "post_tool_use",
+  "healthyOutputBytes": 0,
+  "meanMs": 0.315,
+  "maxMs": 0.528,
+  "sampleCount": 20,
+  "tested": [
+    {
+      "event": "session_end",
+      "canBlock": false,
+      "canInject": false,
+      "afterCloseOnly": true
+    },
+    {
+      "event": "post_tool_use",
+      "canBlock": true,
+      "canInject": true,
+      "afterCloseOnly": false
+    }
+  ]
+}
