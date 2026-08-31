@@ -100,7 +100,8 @@ test("both pending conditions produce one plain intervention", () => {
   assert.match(message, /29,9 KB.*68,6 KB.*38,8 KB.*130%/s);
   assert.match(message, /aprobación/);
   assert.doesNotMatch(message, /MYCELIUM|save-to-lore|transmute-lore|receipt/i);
-  assert.equal(message.split("Antes de cerrar").length - 1, 1);
+  assert.match(message, /no le informes al usuario que revisaste/);
+  assert.equal(message.split("Mensaje del hook").length - 1, 1);
 });
 
 test("growth from zero reports absolute bytes without a fabricated percent", () => {

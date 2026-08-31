@@ -302,7 +302,7 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.4.5"]));
+  assert.deepEqual(new Set(versions), new Set(["2.4.6"]));
 });
 
 test("la nota de release vigente respeta la forma fija — cuarta violación 2026-08-30, ahora con guardia", () => {
@@ -353,24 +353,35 @@ test("2.4.2 (histórica) conserva su release y su evidencia de banco", () => {
   assert.match(release, /content hash|hash de contenido/i);
 });
 
-test("2.4.5 sincroniza badges, paquete y release", () => {
-  const readme = readFileSync(join(root, "README.md"), "utf8");
+test("2.4.5 (histórica) conserva su release, con nota de reemplazo", () => {
+  // No se reescribe el cuerpo: se conserva y se le antepone el puntero a 2.4.6, porque
+  // su afirmación in-place `284420b` quedó factualmente falsa. Igual que 2.4.2, sin
+  // exigirle nada de la versión vigente.
   const releasePath = join(root, "docs", "RELEASE_2.4.5.md");
-  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.4\.5-/g) ?? []).length, 2);
-  assert.equal((readme.match(/writing--skills-(?:validated|validado)/gi) ?? []).length, 2);
   assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.4.5.md");
   const release = readFileSync(releasePath, "utf8");
   assert.match(release, /Claude Code/i);
   assert.match(release, /Codex/i);
-  assert.match(release, /receipt v2/i);
-  assert.match(release, /loaded bodies|cuerpos cargados/i);
-  assert.match(release, /silent conversation|conversación silenciosa/i);
-  assert.match(release, /No corpus change|Sin cambio de corpus/i);
+  assert.match(release, /Superseded by 2\.4\.6|Reemplazado por 2\.4\.6/);
+});
+
+test("2.4.6 sincroniza badges, paquete y release", () => {
+  const readme = readFileSync(join(root, "README.md"), "utf8");
+  const releasePath = join(root, "docs", "RELEASE_2.4.6.md");
+  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.4\.6-/g) ?? []).length, 2);
+  assert.equal((readme.match(/writing--skills-(?:validated|validado)/gi) ?? []).length, 2);
+  assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.4.6.md");
+  const release = readFileSync(releasePath, "utf8");
+  assert.match(release, /Claude Code/i);
+  assert.match(release, /Codex/i);
+  assert.match(release, /UserPromptSubmit/);
+  assert.match(release, /`Stop`/);
+  assert.match(release, /deferred arming|armado diferido/i);
   const packageFiles = JSON.parse(readFileSync(join(root, "package.json"), "utf8")).files;
   assert.ok(packageFiles.includes("hooks/"), "package.json no incluye hooks/");
-  // La nota de la versión anterior NO se reescribe: el registro histórico se conserva
-  // y la corrección viaja como versión nueva.
-  for (const prev of ["RELEASE_2.4.4.md", "RELEASE_2.4.3.md", "RELEASE_2.4.2.md", "RELEASE_2.4.1.md"]) {
+  // Las notas de versiones anteriores NO se reescriben (salvo el puntero de reemplazo):
+  // el registro histórico se conserva y la corrección viaja como versión nueva.
+  for (const prev of ["RELEASE_2.4.5.md", "RELEASE_2.4.4.md", "RELEASE_2.4.3.md", "RELEASE_2.4.2.md", "RELEASE_2.4.1.md"]) {
     assert.ok(existsSync(join(root, "docs", prev)), `falta docs/${prev}`);
   }
 });
@@ -409,11 +420,12 @@ test("el bracket MYCELIUM de entrada y salida está escrito en las skills que es
   assert.match(use, /exit scan is (?:a |their )?\*\*closing gate\*\*|closing gate — the pass is not done/i);
 });
 
-test("el hook Stop de MYCELIUM está declarado y falla abierto", () => {
+test("el hook UserPromptSubmit de MYCELIUM está declarado y falla abierto", () => {
   const hooksPath = join(root, "hooks", "hooks.json");
   assert.ok(existsSync(hooksPath), "falta hooks/hooks.json");
   const hooks = JSON.parse(readFileSync(hooksPath, "utf8"));
-  assert.ok(Array.isArray(hooks.hooks?.Stop), "hooks.json no declara un hook Stop");
+  assert.ok(Array.isArray(hooks.hooks?.UserPromptSubmit), "hooks.json no declara un hook UserPromptSubmit");
+  assert.ok(!hooks.hooks?.Stop, "el hook Stop quedó atrás en 2.4.6: additionalContext no se inyecta en silencio en ese evento");
   assert.match(JSON.stringify(hooks), /mycelium-guard\.mjs/);
   assert.ok(existsSync(join(root, "hooks", "mycelium-guard.mjs")), "falta hooks/mycelium-guard.mjs");
 });

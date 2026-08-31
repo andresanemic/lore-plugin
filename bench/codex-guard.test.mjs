@@ -66,6 +66,25 @@ test("SessionStart establishes a silent baseline before the first tool", () => {
   assert.equal(JSON.parse(readFileSync(join(dir, receipt), "utf8")).version, 2);
 });
 
+test("SessionStart is silent even when the receipt was already stale from before", () => {
+  const dir = tree();
+  writeFileSync(join(dir, receipt),
+    `${JSON.stringify({ version: 2, digest: "0".repeat(64), alwaysOnBytes: 0 })}\n`);
+  assert.equal(run(dir, "session_start"), "");
+  // no evalúa en el arranque: no reescribe el recibo desfasado
+  assert.equal(JSON.parse(readFileSync(join(dir, receipt), "utf8")).digest, "0".repeat(64));
+});
+
+test("a receipt stale from before the session stays silent until an in-session change", () => {
+  const dir = tree();
+  writeFileSync(join(dir, receipt),
+    `${JSON.stringify({ version: 2, digest: "0".repeat(64), alwaysOnBytes: 0 })}\n`);
+  run(dir, "session_start");
+  assert.equal(run(dir, "post_tool_use"), "");
+  write(dir, "lore/principios.md", "# Principios\n\n## Nueva\n");
+  assert.match(injected(run(dir, "post_tool_use")), /cambios de criterio.*trabajo que deben guiar/i);
+});
+
 test("clean PostToolUse stays silent", () => {
   const dir = tree();
   run(dir, "session_start");
@@ -77,6 +96,8 @@ test("a Lore change injects one plain action before close", () => {
   run(dir, "session_start");
   write(dir, "lore/principios.md", "# Principios\n\n## Nueva\n");
   const context = injected(run(dir, "post_tool_use"));
+  assert.match(context, /Mensaje del hook, no del usuario/);
+  assert.match(context, /no le informes al usuario que revisaste/i);
   assert.match(context, /cambios de criterio.*trabajo que deben guiar/i);
   assert.match(context, /conserva una sola parte: la respuesta que ya ibas a dar/i);
   assert.doesNotMatch(context, /MYCELIUM|save-to-lore|transmute-lore|receipt|junction/i);

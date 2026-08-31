@@ -1,5 +1,7 @@
 # Lore Plugin 2.4.5 — Silent guards across Claude Code and Codex
 
+> **Superseded by 2.4.6.** The `284420b` in-place attempt below — moving the Claude Code check to `Stop` + `hookSpecificOutput.additionalContext` and calling it imperceptible — was wrong: Claude Code surfaces `additionalContext` on the `Stop` event as a visible `<system-reminder>` on every turn. 2.4.6 moves the check to `UserPromptSubmit` (where the field injects silently) and stops evaluating on session entry. The `v2.4.5` tag keeps the visible `decision: block` it shipped with; see `RELEASE_2.4.6.md`.
+
 Lore Plugin 2.4.5 turns two written expectations into local, observable guarantees on both supported plugin hosts: a Lore change cannot close against an older receipt, and a material expansion of the criterion loaded for every task cannot become the accepted baseline without user authority. This is two guarantees across Claude Code and Codex, implemented through one shared snapshot and one shared decision core rather than four divergent copies.
 
 Claude Code keeps its `Stop` check (`hooks/mycelium-guard.mjs` with `hookSpecificOutput.additionalContext`): when the receipt is stale it injects context silently without a visible `decision: block` — the agent sees the intervention, the user does not see a hook block or extra thinking loop. Codex captures a baseline at `SessionStart` and checks it after tool use via `PostToolUse` with the same `additionalContext` pattern. The lifecycle probe rejected `SessionEnd` because it only ran after closure; `PostToolUse` was the event that could inject action before the turn ended. In 20 local probe runs Codex's mean was 0.315 ms, its maximum was 0.528 ms, and a healthy path wrote 0 visible bytes on both hosts.
@@ -19,6 +21,8 @@ Version 2.4.5 was installed locally in Codex (silent `SessionStart`/`PostToolUse
 No corpus change. This release adds no skill, no mode, and no LUS claim. It is a product correction derived from situated use; it changes neither the LUS corpus nor its counters.
 
 # Lore Plugin 2.4.5 — Guardias silenciosas en Claude Code y Codex
+
+> **Reemplazado por 2.4.6.** El intento in-place `284420b` de más abajo —mover el chequeo de Claude Code a `Stop` + `hookSpecificOutput.additionalContext` y llamarlo imperceptible— estaba mal: Claude Code muestra `additionalContext` en el evento `Stop` como un `<system-reminder>` visible, en cada turno. 2.4.6 mueve el chequeo a `UserPromptSubmit` (donde el campo se inyecta en silencio) y deja de evaluar en el arranque de la sesión. El tag `v2.4.5` conserva el `decision: block` visible con el que se publicó; ver `RELEASE_2.4.6.md`.
 
 Lore Plugin 2.4.5 convierte dos expectativas escritas en garantías locales y observables en los dos hosts con plugin soportado: un cambio de Lore no puede cerrar contra un recibo anterior, y una expansión material del criterio cargado para cada tarea no puede volverse la base aceptada sin autoridad del usuario. Son dos garantías en Claude Code y Codex, implementadas con un único snapshot y un núcleo común de decisión, no con cuatro copias divergentes.
 

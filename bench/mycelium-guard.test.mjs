@@ -26,10 +26,11 @@ function write(dir, rel, body) {
   return full;
 }
 
-// Corre el hook. `events` es opcional y existe solo para probar que el transcript
-// YA NO PARTICIPA en la decisión.
-function run(cwd, { stopHookActive = false, events = null } = {}) {
-  const payload = { cwd, stop_hook_active: stopHookActive };
+// Corre el hook como `UserPromptSubmit`. `session_id` es fijo por corrida; la base
+// de sesión se indexa por `session_id` + ruta absoluta del árbol, y cada test usa
+// un `mkdtemp` propio, así que las bases no colisionan entre tests.
+function run(cwd, { sessionId = "probe-session", events = null } = {}) {
+  const payload = { cwd, session_id: sessionId, hook_event_name: "UserPromptSubmit" };
   if (events) {
     const t = join(cwd, "transcript.jsonl");
     writeFileSync(t, events.map((e) => JSON.stringify(e)).join("\n"));
@@ -48,16 +49,25 @@ const injected = (r) => {
   assert.notEqual(r.stdout.trim(), "", "esperaba inyección y hubo silencio");
   const out = JSON.parse(r.stdout);
   assert.ok(out.hookSpecificOutput, "esperaba hookSpecificOutput");
-  assert.equal(out.hookSpecificOutput.hookEventName, "Stop");
+  assert.equal(out.hookSpecificOutput.hookEventName, "UserPromptSubmit");
   assert.ok(typeof out.hookSpecificOutput.additionalContext === "string" && out.hookSpecificOutput.additionalContext.length > 0);
   return out;
 };
-const blocked = injected;
-const silent = (r) => assert.equal(r.stdout.trim(), "", "esperaba silencio e inyectó");
+const context = (r) => injected(r).hookSpecificOutput.additionalContext;
+const silent = (r) => {
+  assert.equal(r.status, 0);
+  assert.equal(r.stdout.trim(), "", "esperaba silencio e inyectó");
+};
 
-// --- arranque y estado limpio -------------------------------------------------
+// `armar` deja la sesión con base fijada y recibo al día, como haría el primer
+// `UserPromptSubmit` (o el `SessionStart` de codex-guard) antes de cualquier edición.
+function armar(dir, opts) {
+  silent(run(dir, opts));
+}
 
-test("arranque: sin recibo previo no bloquea, y deja el recibo escrito", () => {
+// --- arranque y armado diferido ---------------------------------------------
+
+test("primera vez: fija la base de sesión en silencio y deja el recibo escrito", () => {
   const dir = tree();
   silent(run(dir));
   assert.ok(existsSync(join(dir, RECEIPT)), "adoptar el kit debe dejar el árbol al día");
@@ -68,35 +78,47 @@ test("arranque: sin recibo previo no bloquea, y deja el recibo escrito", () => {
   rmSync(dir, { recursive: true, force: true });
 });
 
-test("con el recibo al día, guarda silencio", () => {
+test("sin cambio en la sesión, guarda silencio", () => {
   const dir = tree();
-  run(dir);
+  armar(dir);
   silent(run(dir));
   rmSync(dir, { recursive: true, force: true });
 });
 
-// --- R1 · la escritura por script deja de ser invisible -----------------------
+test("un recibo desfasado de ANTES de la sesión no dispara hasta el primer cambio in-session", () => {
+  const dir = tree();
+  // Recibo que quedó de una sesión anterior contra un digest distinto.
+  writeFileSync(join(dir, RECEIPT), `${JSON.stringify({ version: 2, digest: "0".repeat(64), alwaysOnBytes: 0 })}\n`);
+  armar(dir); // primera vista de esta sesión: base = estado actual, silencio pese al recibo viejo
+  silent(run(dir));
+  // Recién al tocar el Lore EN la sesión, el recibo pasa a importar.
+  write(dir, "lore/principios.md", "# Principios\n\n## Pista nueva\n");
+  assert.match(context(run(dir)), /cambios de criterio.*trabajo que deben guiar/i);
+  rmSync(dir, { recursive: true, force: true });
+});
+
+// --- R1 · la escritura por script deja de ser invisible ---------------------
 //
 // Antes el guard solo veía Edit/Write/MultiEdit/NotebookEdit, así que `sed`, un
-// heredoc o un script de python pasaban sin verse — y ese es el modo de trabajo por
-// defecto del host. Ahora la pregunta es por el contenido del árbol, así que CÓMO se
-// escribió el archivo deja de ser una variable.
+// heredoc o un script pasaban sin verse — y ese es el modo por defecto del host.
+// La pregunta es por el contenido del árbol, así que CÓMO se escribió el archivo
+// deja de ser una variable.
 
-test("R1 · inyecta cuando el Lore cambió, sin importar con qué herramienta", () => {
+test("R1 · inyecta cuando el Lore cambió en la sesión, sin importar con qué herramienta", () => {
   const dir = tree();
-  run(dir);
+  armar(dir);
   write(dir, "lore/principios.md", "# Principios\n\n## Pista nueva\n");
-  const out = injected(run(dir));
-  assert.match(out.hookSpecificOutput.additionalContext, /cambios de criterio.*trabajo que deben guiar/i);
-  assert.doesNotMatch(out.hookSpecificOutput.additionalContext, /MYCELIUM/i);
+  const c = context(run(dir));
+  assert.match(c, /cambios de criterio.*trabajo que deben guiar/i);
+  assert.doesNotMatch(c, /MYCELIUM/i);
   rmSync(dir, { recursive: true, force: true });
 });
 
 test("R1b · un módulo nuevo dentro de lore/ también cuenta", () => {
   const dir = tree();
-  run(dir);
+  armar(dir);
   write(dir, "lore/enrutamiento.md", "# Enrutamiento\n");
-  assert.ok(injected(run(dir)).hookSpecificOutput.additionalContext.length > 0);
+  assert.ok(context(run(dir)).length > 0);
   rmSync(dir, { recursive: true, force: true });
 });
 
@@ -105,46 +127,43 @@ test("R1c · FASES.md es estado: cambiarlo no reabre la revisión de Lore", () =
     "lore/principios.md": "# Principios\n",
     "FASES.md": "# Estado de este proyecto. NO es Lore.\n",
   });
-  run(dir);
+  armar(dir);
   write(dir, "FASES.md", "# Estado de este proyecto. NO es Lore.\n\n- avance\n");
   silent(run(dir));
   rmSync(dir, { recursive: true, force: true });
 });
 
-// --- R2 · decir la palabra deja de ser evidencia ------------------------------
-//
-// El defecto no era que la regex fuera laxa: era que se le preguntaba al agente. El
-// mecanismo nuevo no le pregunta, así que la pregunta desaparece con el defecto.
+// --- R2 · decir la palabra deja de ser evidencia ---------------------------
 
 test("R2 · una prosa llena de «MYCELIUM» no cierra el bracket", () => {
   const dir = tree();
-  run(dir);
+  armar(dir);
   write(dir, "lore/principios.md", "# Principios\n\n## Otra\n");
   const events = [
     { type: "assistant", message: { role: "assistant", content: [
       { type: "text", text: "Corro MYCELIUM de salida sobre lo que se escribió: 0 hallazgos." },
     ] } },
   ];
-  assert.ok(injected(run(dir, { events })).hookSpecificOutput.additionalContext.length > 0);
+  assert.ok(context(run(dir, { events })).length > 0);
   rmSync(dir, { recursive: true, force: true });
 });
 
 test("R2b · tampoco lo cierra decir explícitamente que no se corrió", () => {
   const dir = tree();
-  run(dir);
+  armar(dir);
   write(dir, "lore/principios.md", "# Principios\n\n## Otra\n");
   const events = [
     { type: "assistant", message: { role: "assistant", content: [
       { type: "text", text: "Todavía no corrí MYCELIUM: queda para una pasada futura de transmute-lore." },
     ] } },
   ];
-  assert.ok(injected(run(dir, { events })).hookSpecificOutput.additionalContext.length > 0);
+  assert.ok(context(run(dir, { events })).length > 0);
   rmSync(dir, { recursive: true, force: true });
 });
 
 test("R2c · lo que sí lo cierra es el recibo — el hecho, no la frase", () => {
   const dir = tree();
-  run(dir);
+  armar(dir);
   write(dir, "lore/principios.md", "# Principios\n\n## Otra\n");
   injected(run(dir));
   execFileSync("node", [join(root, "scripts", "lore-plugin.mjs"), "mycelium", "receipt", "--tree", dir], { encoding: "utf8" });
@@ -152,19 +171,65 @@ test("R2c · lo que sí lo cierra es el recibo — el hecho, no la frase", () =>
   rmSync(dir, { recursive: true, force: true });
 });
 
-test("el transcript ya no participa: inyecta igual sin transcript_path", () => {
+test("el transcript no participa: inyecta igual sin transcript_path", () => {
   const dir = tree();
-  run(dir);
+  armar(dir);
   write(dir, "lore/principios.md", "# Principios\n\n## Otra\n");
-  assert.ok(injected(run(dir)).hookSpecificOutput.additionalContext.length > 0);
+  assert.ok(context(run(dir)).length > 0);
   rmSync(dir, { recursive: true, force: true });
 });
 
-// --- fronteras ----------------------------------------------------------------
+// --- el texto de la intervención ------------------------------------------
 
-test("es contenido y no mtime: reescribir lo mismo no bloquea", () => {
+test("el mensaje se declara del hook y prohíbe reportarle al usuario", () => {
   const dir = tree();
-  run(dir);
+  armar(dir);
+  write(dir, "lore/principios.md", "# Principios\n\n## Otra\n");
+  const c = context(run(dir));
+  assert.match(c, /Mensaje del hook, no del usuario/);
+  assert.match(c, /no le informes al usuario que revisaste/i);
+  assert.match(c, /cambios de criterio.*trabajo que deben guiar/i);
+  assert.doesNotMatch(c, /MYCELIUM|save-to-lore|transmute-lore|receipt/i);
+  rmSync(dir, { recursive: true, force: true });
+});
+
+test("una expansión sola pide autoridad sin inventar una revisión pendiente", () => {
+  const dir = tree({
+    "CLAUDE.md": "<!-- lore:always-on -->\n<!-- /lore:always-on -->\n",
+    "lore/criterio.md": "x".repeat(9_000),
+  });
+  armar(dir);
+  write(dir, "CLAUDE.md",
+    "<!-- lore:always-on -->\n- `lore/criterio.md`\n<!-- /lore:always-on -->\n");
+  const c = context(run(dir));
+  assert.doesNotMatch(c, /trabajo que deben guiar/i);
+  assert.match(c, /aprobación/i);
+  assert.match(c, /9,0 KB/);
+  rmSync(dir, { recursive: true, force: true });
+});
+
+test("Lore cambiado y expansión material producen una sola intervención agregada", () => {
+  const dir = tree({
+    "CLAUDE.md": "<!-- lore:always-on -->\n- `lore/criterio.md`\n<!-- /lore:always-on -->\n",
+    "lore/criterio.md": "x".repeat(29_855),
+  });
+  armar(dir);
+  write(dir, "lore/criterio.md", "x".repeat(68_608));
+  const result = run(dir);
+  const c = context(result);
+  assert.equal(result.stdout.trim().split("\n").length, 1);
+  assert.match(c, /cambios de criterio.*trabajo que deben guiar/i);
+  assert.match(c, /29,9 KB.*68,6 KB.*130%/s);
+  assert.match(c, /aprobación/i);
+  assert.doesNotMatch(c, /MYCELIUM|save-to-lore|transmute-lore|receipt/i);
+  rmSync(dir, { recursive: true, force: true });
+});
+
+// --- fronteras -----------------------------------------------------------
+
+test("es contenido y no mtime: reescribir lo mismo no dispara", () => {
+  const dir = tree();
+  armar(dir);
   write(dir, "lore/principios.md", "# Principios\n");
   silent(run(dir));
   rmSync(dir, { recursive: true, force: true });
@@ -177,14 +242,6 @@ test("un árbol sin Lore no es asunto de este hook", () => {
   rmSync(dir, { recursive: true, force: true });
 });
 
-test("guarda anti-bucle: stop_hook_active corta en seco", () => {
-  const dir = tree();
-  run(dir);
-  write(dir, "lore/principios.md", "# Principios\n\n## Otra\n");
-  silent(run(dir, { stopHookActive: true }));
-  rmSync(dir, { recursive: true, force: true });
-});
-
 test("falla abierto ante un cwd que no existe", () => {
   const r = run(join(tmpdir(), "no-existe-lore-tree-xyz"));
   assert.equal(r.status, 0);
@@ -192,8 +249,6 @@ test("falla abierto ante un cwd que no existe", () => {
 });
 
 test("falla abierto ante stdin vacío", () => {
-  // `cwd` explícito a propósito: sin él el hook cae en process.cwd() y un test no
-  // debe escribir un recibo en el árbol del repositorio que lo corre.
   const dir = tree({ "src/index.js": "export default 1;\n" });
   try {
     const stdout = execFileSync("node", [hook], { input: "", encoding: "utf8", cwd: dir });
@@ -209,7 +264,7 @@ test("un backup del Lore de otro árbol no es el criterio de este", () => {
     "lore/principios.md": "# Principios\n",
     "informes/barrido/_backup/otro-proyecto/lore/principios.md": "# Lore ajeno respaldado\n",
   });
-  run(dir);
+  armar(dir);
   write(dir, "informes/barrido/_backup/otro-proyecto/lore/principios.md", "# Lore ajeno, editado\n");
   silent(run(dir));
   rmSync(dir, { recursive: true, force: true });
@@ -220,60 +275,21 @@ test("un fixture de prueba no es el criterio del árbol que lo contiene", () => 
     "lore/principios.md": "# Principios\n",
     "bench/fixtures/lore/principios.md": "# Lore de prueba de otro proyecto\n",
   });
-  run(dir);
+  armar(dir);
   write(dir, "bench/fixtures/lore/principios.md", "# Lore de prueba, editado\n");
   silent(run(dir));
   rmSync(dir, { recursive: true, force: true });
 });
 
-test("el mensaje pide la acción sin narrar la maquinaria", () => {
+test("un recibo v1 vigente migra a v2 sin disparar, tras un cambio in-session inofensivo", () => {
   const dir = tree();
-  run(dir);
-  write(dir, "lore/principios.md", "# Principios\n\n## Otra\n");
-  const { hookSpecificOutput: { additionalContext: reason } } = injected(run(dir));
-  assert.match(reason, /cambios de criterio.*trabajo que deben guiar/i);
-  assert.match(reason, /conserva una sola parte: la respuesta que ya ibas a dar/i);
-  assert.doesNotMatch(reason, /MYCELIUM|save-to-lore|transmute-lore|receipt/i);
-  rmSync(dir, { recursive: true, force: true });
-});
-
-test("una expansión sola pide autoridad sin inventar una revisión pendiente", () => {
-  const dir = tree({
-    "CLAUDE.md": "<!-- lore:always-on -->\n<!-- /lore:always-on -->\n",
-    "lore/criterio.md": "x".repeat(9_000),
-  });
-  run(dir);
-  write(dir, "CLAUDE.md",
-    "<!-- lore:always-on -->\n- `lore/criterio.md`\n<!-- /lore:always-on -->\n");
-  const { hookSpecificOutput: { additionalContext: reason } } = injected(run(dir));
-  assert.doesNotMatch(reason, /trabajo que deben guiar/i);
-  assert.match(reason, /aprobación/i);
-  assert.match(reason, /9,0 KB/);
-  rmSync(dir, { recursive: true, force: true });
-});
-
-test("Lore cambiado y expansión material producen una sola intervención agregada", () => {
-  const dir = tree({
-    "CLAUDE.md": "<!-- lore:always-on -->\n- `lore/criterio.md`\n<!-- /lore:always-on -->\n",
-    "lore/criterio.md": "x".repeat(29_855),
-  });
-  run(dir);
-  write(dir, "lore/criterio.md", "x".repeat(68_608));
-  const result = run(dir);
-  const { hookSpecificOutput: { additionalContext: reason } } = injected(result);
-  assert.equal(result.stdout.trim().split("\n").length, 1);
-  assert.match(reason, /cambios de criterio.*trabajo que deben guiar/i);
-  assert.match(reason, /29,9 KB.*68,6 KB.*130%/s);
-  assert.match(reason, /aprobación/i);
-  assert.doesNotMatch(reason, /MYCELIUM|save-to-lore|transmute-lore|receipt/i);
-  rmSync(dir, { recursive: true, force: true });
-});
-
-test("un recibo v1 vigente migra a v2 sin bloquear", () => {
-  const dir = tree();
-  run(dir);
+  armar(dir);
   const receipt = JSON.parse(readFileSync(join(dir, RECEIPT), "utf8"));
-  writeFileSync(join(dir, RECEIPT), `${receipt.digest}\n`);
+  writeFileSync(join(dir, RECEIPT), `${receipt.digest}\n`); // v1
+  // Cambio real en la sesión, pero el digest vuelve a coincidir con el v1 → sin pendiente.
+  write(dir, "lore/principios.md", "# Principios\n\n## x\n");
+  injected(run(dir)); // dispara: hay cambio y el recibo v1 no lo cubre
+  execFileSync("node", [join(root, "scripts", "lore-plugin.mjs"), "mycelium", "receipt", "--tree", dir], { encoding: "utf8" });
   silent(run(dir));
   assert.equal(JSON.parse(readFileSync(join(dir, RECEIPT), "utf8")).version, 2);
   rmSync(dir, { recursive: true, force: true });

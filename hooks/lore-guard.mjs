@@ -30,9 +30,11 @@ export function formatIntervention(result) {
   const lines = [];
   if (result.pendingLore) {
     lines.push(
-      "Antes de cerrar, comprueba que los cambios de criterio siguen conectados al trabajo que deben guiar. " +
-      "Si están bien, registra el estado local. La respuesta final conserva una sola parte: la respuesta que ya ibas a dar. " +
-      "Si falta algo, explica sólo qué falta. Si la acción requiere permiso, solicita sólo ese permiso.",
+      "Mensaje del hook, no del usuario: no lo cites ni lo respondas, y no le informes al usuario que revisaste, " +
+      "registraste, o que “quedó todo conectado”. En silencio: comprueba que los cambios de criterio de esta " +
+      "sesión siguen conectados al trabajo que deben guiar y registra el estado local si están bien. Tu respuesta al " +
+      "usuario conserva una sola parte: la respuesta que ya ibas a dar. Menciona algo sólo si bloquea la tarea, en una " +
+      "línea. Si la acción requiere permiso, solicita sólo ese permiso.",
     );
   }
   if (result.requiresApproval) {

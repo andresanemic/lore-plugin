@@ -10,6 +10,7 @@
 import { createHash } from "node:crypto";
 import {
   existsSync,
+  mkdirSync,
   readdirSync,
   readFileSync,
   renameSync,
@@ -17,6 +18,7 @@ import {
   unlinkSync,
   writeFileSync,
 } from "node:fs";
+import { tmpdir } from "node:os";
 import { basename, isAbsolute, join, relative, resolve, sep } from "node:path";
 
 // Un archivo de Lore: un `.md` dentro de un `lore/`, o uno de los nombres
@@ -188,6 +190,71 @@ export function writeReceipt(root, state = snapshot(root)) {
     if (existsSync(temporary)) unlinkSync(temporary);
   }
   return receipt;
+}
+
+// --- base de sesión: el guard no evalúa hasta que el Lore cambia EN la sesión -
+//
+// El recibo `.lore-mycelium` dice qué estado de Lore quedó aceptado la última vez.
+// Compararlo contra el árbol en el arranque hace que una sesión recién abierta
+// intervenga por deuda que no es de ella: nadie revisa si algo está roto en el
+// primer segundo, se empieza a trabajar. La base de sesión corrige eso —
+// `SessionStart` la fija en silencio, y el guard solo evalúa cuando el digest
+// actual se aparta de ella, es decir cuando ESTA sesión tocó el Lore.
+//
+// Vive en el tmp del sistema, no en el árbol: es efímera por sesión y no debe
+// ensuciar el repo ni viajar en `git add`. Falla abierta en todo — si el tmp no
+// está disponible, el guard trata la sesión como sin base y arma en el próximo
+// cambio, nunca en el arranque.
+
+const SESSION_DIR = join(tmpdir(), "lore-plugin-sessions");
+
+function sessionBaselinePath(sessionId, root) {
+  const key = createHash("sha1")
+    .update(`${sessionId ?? "no-session"}\0${resolve(root)}`)
+    .digest("hex");
+  return join(SESSION_DIR, `${key}.json`);
+}
+
+// La base guarda la firma completa del Lore al abrir la sesión —digest de
+// contenido y `alwaysOnBytes`—, porque el guard evalúa las dos cosas: un cambio
+// de contenido y una expansión material del bloque siempre-activo. Una expansión
+// se hace editando el contrato (`CLAUDE.md`), que no es archivo de Lore y no
+// mueve el digest; sin `alwaysOnBytes` en la base, esa expansión quedaría muda.
+
+export function readSessionBaseline(sessionId, root) {
+  try {
+    const raw = readFileSync(sessionBaselinePath(sessionId, root), "utf8");
+    const parsed = JSON.parse(raw);
+    return /^[0-9a-f]{64}$/.test(parsed?.digest)
+      && Number.isInteger(parsed?.alwaysOnBytes) && parsed.alwaysOnBytes >= 0
+      ? { digest: parsed.digest, alwaysOnBytes: parsed.alwaysOnBytes }
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+export function writeSessionBaseline(sessionId, root, state) {
+  if (!state
+    || !/^[0-9a-f]{64}$/.test(state.digest)
+    || !Number.isInteger(state.alwaysOnBytes)
+    || state.alwaysOnBytes < 0) return;
+  try {
+    mkdirSync(SESSION_DIR, { recursive: true });
+    const target = sessionBaselinePath(sessionId, root);
+    const temporary = `${target}.${process.pid}.tmp`;
+    writeFileSync(temporary,
+      `${JSON.stringify({ digest: state.digest, alwaysOnBytes: state.alwaysOnBytes })}\n`);
+    renameSync(temporary, target);
+  } catch {
+    /* tmp no disponible: el guard arma en el próximo cambio, no en el arranque */
+  }
+}
+
+// ¿la firma de Lore de esta sesión se apartó de la base?
+export function loreDeparted(baseline, state) {
+  return baseline.digest !== state.digest
+    || baseline.alwaysOnBytes !== state.alwaysOnBytes;
 }
 
 // --- ¿el cuerpo de criterio de este árbol se carga? --------------------------
