@@ -16,7 +16,8 @@
 // Emits {"decision":"block","reason":...} to force one more turn, or exits 0 silently.
 
 import { readFileSync } from "node:fs";
-import { readReceipt, snapshot, writeReceipt, RECEIPT } from "./lore-state.mjs";
+import { evaluateState, formatIntervention } from "./lore-guard.mjs";
+import { readReceipt, snapshot, writeReceipt } from "./lore-state.mjs";
 
 const OK = () => process.exit(0);
 
@@ -59,17 +60,20 @@ if (!recorded) {
   OK();
 }
 
-if (recorded.digest === state.digest) OK();
+const result = evaluateState(state, recorded);
+if (!result.pendingLore && !result.requiresApproval) {
+  if (recorded.version === 1) {
+    try {
+      writeReceipt(root, state);
+    } catch {
+      /* read-only tree: fail open */
+    }
+  }
+  OK();
+}
 
-const reason =
-  `Lore changed in this tree since the last recorded MYCELIUM sweep (${state.fileCount} Lore file(s) tracked). ` +
-  "The pass is not finished. Two things close it, in order. " +
-  "First, route the writing: criteria written by hand is what `save-to-lore` — or the matching write mode " +
-  "of `transmute-lore` — exists to replace, so if this criteria was hand-edited, say so and route it. " +
-  "Second, run `transmute-lore` in MYCELIUM mode over what changed, write each finding as a two-sided " +
-  "junction or decline it in writing with its reason, and then record the sweep with " +
-  "`npx lore-plugin mycelium receipt` so this bracket can close. " +
-  `If these edits are not Lore criteria, say which and stop — the receipt lives at ./${RECEIPT}.`;
-
-process.stdout.write(JSON.stringify({ decision: "block", reason }));
+process.stdout.write(JSON.stringify({
+  decision: "block",
+  reason: formatIntervention(result),
+}));
 process.exit(0);

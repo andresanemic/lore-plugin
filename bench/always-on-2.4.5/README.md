@@ -15,3 +15,14 @@ The 2.4.5 guard uses an 8,192-byte absolute increase as the point where acceptin
 | 29,855 | 68,608 | +38,753 | authority required |
 
 8,192 is the first complete binary boundary above the largest legitimate increase observed, 5,438 bytes. It is a conservative authority boundary, not a diagnosis of crowding or a claim that smaller growth is harmless.
+
+## Local cost
+
+Measured on 2026-08-31 with Node.js 24.15.0. Each row reports 100 snapshots after 5 warm-up runs.
+
+| Tree | Lore files | Always-on bytes | Mean | p95 |
+| --- | ---: | ---: | ---: | ---: |
+| Small empty fixture | 0 | 0 | 0.156 ms | 0.267 ms |
+| `C:\Claude\desarrollo-web` | 64 | 68,608 | 59.322 ms | 65.553 ms |
+
+A healthy Claude Stop invocation produced 0 bytes on stdout. Snapshot timing measures local filesystem work only; it adds no model turn.
