@@ -19,12 +19,21 @@ This skill is the map. It teaches the model and points at the operating skills. 
 invoking any other Lore skill.
 
 > **This skill governs session openings too.** A session that opens — including one resumed from a continuity summary, or handed an unfinished task — resolves what Lore governs its tree **before
-> continuing**, and says so on screen: which bodies it loaded and from where. In a bot, load its canon
+> continuing**, and loads it silently. In a bot, load its canon
 > and routing table first. **Do not preload every federated body**: load only the bodies selected by the task,
 > leaving the rest reachable through the routing table. A change of territory
 > mid-session (new task type, new tree) re-resolves the same way. *"Finishing what was started" is
 > not an exemption: continuing is deciding.* Criterion that waits to be remembered is criterion
 > that does not run.
+>
+> **Ordinary communication has only three shapes:** the result when work finished; the decision or
+> approval needed when something blocks it; silence when automatic work is clean. Loading, routing,
+> skill selection, mode selection and file classification stay below the conversation. If the user
+> names a specific skill or mode, or asks for technical detail, use that exact name and explain it.
+> Mentioning Lore in general or editing a path under `lore/` does not activate this exception.
+> Completing the installed lifecycle check after a user-authorized Lore edit is normal closure, not
+> an expansion of scope. It authorizes no unrelated edit. If the host still needs tool or filesystem
+> permission, ask only for that permission in plain language.
 
 ## 0. Very first use of the kit — a brainstorm, not a menu (threshold)
 
@@ -67,28 +76,29 @@ runs first:**
 > read their answers as **kinds of work** — which is exactly how *«three bots»* becomes three areas,
 > each one looking like a correct artifact. What is actually true is narrower: the Lore a bot routes
 > to does not exist yet. So the areas are **steps**, the bot is the deliverable, and `create-bot` runs **last**.
-> Name the whole chain out loud with its honest cost — one `create-area` +
-> `transmute-lore` per source before the bot can route to anything — and never report an area as the
+> Explain the whole chain in the user's task language with its honest cost — one area plus one pass
+> per source before the bot can route to anything — and never report an area as the
 > finished answer to a request for a bot.
 
 ### Move 3 — close by naming the route, and run it
 
-State which skill runs first and why, in one line, then run it. Do not list the other seven. The map
-below exists for **you**, so you can pick; it is not a menu to hand over.
+State the first operation and why, in one line, then invoke its owning skill silently. Do not name
+the skill unless the user named it or asked for technical detail. Do not list the other seven. The
+map below exists for **you**, so you can pick; it is not a menu to hand over.
 
-**When the first skill does not deliver what was asked for, name the last one in the same line.** The
-route is the answer, not its opening step — and the step that gets forgotten is always the one that
-was still pending when the first artifact came out looking finished.
+**When the first operation does not deliver what was asked for, state the final operation in the
+same line, without its internal name.** The route is the answer, not its opening step — and the step
+that gets forgotten is always the one that was still pending when the first artifact came out
+looking finished.
 
 > **What this move must never do is end in a recommendation.** The first use of the kit produces a
 > first artifact, or it produced nothing.
 
-**Declare the register here, in the same line, and do not spend a turn on it.** By now the person has
+**Apply the register here, silently, and do not spend a turn on it.** By now the person has
 written several answers, which is the evidence: technical vocabulary used comfortably and without
 explanation → `tecnico`; the work described in its own domain's words → `llano`; anything else →
-`equilibrado`. Say which one you picked and offer the correction in the same breath — *"I'll keep the
-technical vocabulary; tell me if you'd rather I explain as I go."* Then write it into `identidad.md`
-as `registro:` when the first artifact is created.
+`equilibrado`. Mention it only if the person asks about tone or a correction is needed. Then write it
+into `identidad.md` as `registro:` when the first artifact is created.
 
 **Never ask it as a question.** Tone is inferred and corrected in one sentence; a brainstorm turn
 spent on register buys nothing, and this move exists to produce an artifact.
@@ -146,7 +156,8 @@ tree dormant and continue without treating its version as an upgrade debt.
    use-lore session guard, 2.3.2 gate itself) touches none of `anatomia-nota`/`estilo-y-legibilidad`/`fuentes-y-transcripcion`
    — say nothing and do not block; continue with the work. `Kit is ahead so I must offer` without checking
    the delta is the rationalization this gate exists to stop. Silence when unaffected is the correct outcome,
-   not a missed check. If there is an intersection, say so plainly and offer `transmute-lore` in **UPGRADE** mode, once, before the work starts — a healthy Lore behind the kit looks correct in every
+   not a missed check. If there is an intersection, say so plainly and offer to update the local Lore
+   once, before the work starts; invoke the matching operation internally — a healthy Lore behind the kit looks correct in every
    reading, which is exactly why nobody notices on its own. If the person defers, proceed; do not repeat the offer on every later message in the same session. If release notes for any version in the
    interval are missing, do not claim that the tree is affected or unaffected: report the evidence gap,
    offer one optional manual UPGRADE review, and do not block the work if the person defers.
@@ -372,12 +383,11 @@ never paid for will start receiving promotions that belong somewhere else.
 
 > **Gate before adding a mode:** If your task touches an artifact that is **not a clue** — the governance block, the host contract, `FASES.md`, `enrutamiento.md`, the shape of the tree — it is `transmute-lore` class; check this table first. Writing a clue **and** its `index.md` line is one capture, not two artifacts. No row matches → run `brainstorming-lore` before choosing a skill. Proximity batching without this check put `Exit` in `save-to-lore` (`H14`, `837eb73`).
 
-> **The mode names in the right-hand column select the operation. They are not how you announce it.**
-> This table is what you read immediately before proposing something out loud, which makes it the
-> place the machine's vocabulary leaks from. Say the **verb, in the user's language** — *"we could
-> prune this"*, *"that skill is worth grafting"*, *"this one should be saved"* — and keep
-> `PRUNE`, `GRAFT` and the rest for the documentation, where a reader needs the exact token. The
-> skill name itself is always said as it is: it is what gets invoked.
+> **The names in the right-hand column select the operation; they do not announce it.** Report the
+> result, ask for the decision that blocks progress, or say nothing when the automatic work is clean.
+> Use the verb in the user's language — *"we could trim this"*, *"that guide is worth adding"*,
+> *"this one should be saved"*. Exact skill and mode names stay in documentation and diagnostics,
+> unless the user names one or asks for technical detail.
 | Understand the system / decide which skill applies | `use-lore` (this one) |
 
 **Order of a fresh setup:** `create-area` → `create-project` → (work, saving clues with `save-to-lore`)
@@ -472,15 +482,10 @@ with `transmute-lore` (TRANSLATE mode), which translates content and renames art
   fixed names (the selected contract name, `lore/`, `index.md`) and general technical English terms unchanged.
   Inside an existing corpus, its established names win.
 
-  > **And this covers what the kit says out loud, not only what it writes to disk.** A mode name is an
-  > internal identifier, not a word for a conversation. **Propose the operation in the user's language,
-  > as the verb it is** — *"now we can prune this"*, *"that guide is worth grafting"*, *"this one
-  > should be captured"* — never *"let's run a PRUNE"*.
-  >
-  > **Skill names do not change**: `use-lore`, `save-to-lore`, `transmute-lore` and the rest are how a
-  > skill is invoked, and translating them in prose would make the kit unusable. Mode names do not
-  > change either — in the **documentation**, where they are specification and a reader needs the exact
-  > token. What changes is the register of a **suggestion**.
+  > **And this covers what the kit says out loud, not only what it writes to disk.** Skill and mode
+  > names are internal identifiers, not conversational milestones. In ordinary conversation, report
+  > the result or required action in the user's language. Keep exact identifiers in documentation and
+  > diagnostics; use them with the user only when they name one or ask for technical detail.
   >
   > *Why this is not cosmetic.* Every mode ends at a threshold, and a threshold only works if the human
   > can agree or refuse **with the content in view**. Naming the machine's identifier asks them to
@@ -499,9 +504,8 @@ with `transmute-lore` (TRANSLATE mode), which translates content and renames art
   >
   > **It is never asked as a question.** The kit's own law is that tone is inferred from how the person
   > writes and corrected in one sentence, because spending a brainstorm turn on it buys nothing.
-  > So: **infer it, say it out loud in one line, and offer the correction in the same breath** —
-  > *"I'll speak to you in plain terms; say the word and I'll go technical."* The decision belongs to
-  > the reader and costs no question.
+  > So: **infer and apply it silently**. Mention it only if the user asks about tone or a correction is
+  > needed. The decision still belongs to the reader and costs no question.
   >
   > **Where it lives:** one line in `identidad.md`, under a `registro:` key. It is a **declared
   > preference, not criteria** — it constrains no decision about the work, so it is never promoted to

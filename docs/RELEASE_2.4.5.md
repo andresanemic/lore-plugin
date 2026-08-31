@@ -1,0 +1,39 @@
+# Lore Plugin 2.4.5 — Silent guards across Claude Code and Codex
+
+Lore Plugin 2.4.5 turns two written expectations into local, observable guarantees on both supported plugin hosts: a Lore change cannot close against an older receipt, and a material expansion of the criterion loaded for every task cannot become the accepted baseline without user authority. This is two guarantees across Claude Code and Codex, implemented through one shared snapshot and one shared decision core rather than four divergent copies.
+
+Claude Code keeps its `Stop` check. Codex now captures a baseline at `SessionStart` and checks it after tool use. The lifecycle probe rejected `SessionEnd` because it only ran after closure; `PostToolUse` was the event that could inject action before the turn ended. In 20 local probe runs its own mean was 0.315 ms, its maximum was 0.528 ms, and a healthy path wrote 0 visible bytes.
+
+The `.lore-mycelium` artifact is now a receipt v2 containing the content digest and `alwaysOnBytes`: the normalized UTF-8 size of Markdown criterion bodies pointed to directly by the always-on block. Duplicate pointers count once. Block prose, unresolved paths, `FASES.md`, and `PHASES.md` are excluded because state is not Lore. The historical 64-character receipt v1 remains readable; a current v1 migrates silently, while a stale v1 still exposes the content change without inventing an earlier size.
+
+Growth of 8,192 bytes or more in loaded bodies requires explicit authority before the receipt advances. The boundary is situated evidence, not a universal crowding score: the largest legitimate increase in the inspected history was 5,438 bytes, while the incident that required authority moved from 29,855 to 68,608 bytes, a 38,753-byte increase. The CLI records that decision with `lore-plugin mycelium receipt --accept-always-on`. A reduction or smaller increase does not open this gate.
+
+The visible language changed as much as the mechanism. Ordinary skill communication now has three shapes: the result, the decision or approval needed when blocked, or silence when automatic work is clean. Loading, routing, hook counts, receipts, file taxonomy, skill names, and mode names stay below the conversation. Exact identifiers remain in documentation and diagnostics, and return when the user names one or asks for technical detail. A real Claude Code 2.4.4 failure that exposed the complete Stop protocol is preserved as the RED case for this correction.
+
+The guard witnesses state, not semantic quality. It cannot prove that a connection review was good, diagnose crowding from byte count, or see work outside the resolved tree. Both host adapters fail open on unexpected runtime errors. Codex `SessionEnd` remains unsuitable for enforcement, so parity depends on the measured `SessionStart` plus `PostToolUse` path. OpenCode remains scheduled for 2.4.6.
+
+Verification covers receipt v1/v2 migration, atomic writes, the 8 KiB boundary, rejection and acceptance, aggregated intervention, state-file exclusions, healthy silence, Claude and Codex protocol adapters, installer packaging, and conversational wording. `npm test`, `git diff --check`, and `npm pack --dry-run` are the release gates; the package now includes `hooks/`.
+
+The candidate was installed locally as 2.4.5 in Codex and Claude Code; the Claude cache contains all five hook files. OpenCode received the seven skill directories by manual copy and every file was hash-checked byte for byte against the candidate. This does not claim OpenCode hook parity: that remains the scope of 2.4.6.
+
+No corpus change. This release adds no skill, no mode, and no LUS claim. It is a product correction derived from situated use; it changes neither the LUS corpus nor its counters.
+
+# Lore Plugin 2.4.5 — Guardias silenciosas en Claude Code y Codex
+
+Lore Plugin 2.4.5 convierte dos expectativas escritas en garantías locales y observables en los dos hosts con plugin soportado: un cambio de Lore no puede cerrar contra un recibo anterior, y una expansión material del criterio cargado para cada tarea no puede volverse la base aceptada sin autoridad del usuario. Son dos garantías en Claude Code y Codex, implementadas con un único snapshot y un núcleo común de decisión, no con cuatro copias divergentes.
+
+Claude Code conserva su control en `Stop`. Codex ahora captura una base en `SessionStart` y la comprueba después del uso de herramientas. La prueba instrumental descartó `SessionEnd` porque solo corría después del cierre; `PostToolUse` fue el evento capaz de inyectar una acción antes de terminar el turno. En 20 corridas locales, el probe tuvo 0,315 ms de media, 0,528 ms de máximo y escribió 0 bytes visibles en el camino sano.
+
+El artefacto `.lore-mycelium` pasa a ser un receipt v2 que contiene el digest de contenido y `alwaysOnBytes`: el tamaño UTF-8 normalizado de los cuerpos Markdown de criterio apuntados directamente por el bloque always-on. Los punteros repetidos cuentan una vez. Se excluyen la prosa del bloque, rutas que no resuelven, `FASES.md` y `PHASES.md`, porque el estado no es Lore. El recibo v1 histórico de 64 caracteres sigue siendo legible; uno vigente migra en silencio y uno desfasado conserva visible el cambio de contenido sin inventar un tamaño anterior.
+
+Un crecimiento de 8.192 bytes o más en los cuerpos cargados exige autoridad explícita antes de avanzar el recibo. La frontera es evidencia situada, no un puntaje universal de crowding: el mayor aumento legítimo de la historia inspeccionada fue 5.438 bytes, mientras el incidente que requería autoridad pasó de 29.855 a 68.608 bytes, un aumento de 38.753 bytes. El CLI registra esa decisión con `lore-plugin mycelium receipt --accept-always-on`. Una reducción o un aumento menor no abre esta puerta.
+
+El lenguaje visible cambió tanto como el mecanismo. La conversación silenciosa de las skills tiene ahora tres formas: el resultado, la decisión o aprobación necesaria cuando existe un bloqueo, o silencio cuando el trabajo automático termina limpio. La carga, el routing, los conteos del hook, los recibos, la taxonomía de archivos y los nombres de skills y modos quedan debajo de la conversación. Los identificadores exactos permanecen en documentación y diagnósticos, y vuelven cuando el usuario menciona uno o pide detalle técnico. Un fallo real de Claude Code 2.4.4 que expuso el protocolo completo de `Stop` queda conservado como caso RED de esta corrección.
+
+La guardia atestigua estado, no calidad semántica. No puede probar que la revisión de conexiones fue buena, diagnosticar crowding por cantidad de bytes ni ver trabajo fuera del árbol resuelto. Ambos adaptadores de host fallan abiertos ante errores inesperados de ejecución. `SessionEnd` sigue sin servir para enforcement en Codex, por lo que la paridad depende del camino medido `SessionStart` más `PostToolUse`. OpenCode queda para 2.4.6.
+
+La verificación cubre migración de recibos v1/v2, escritura atómica, frontera de 8 KiB, rechazo y aceptación, intervención agregada, exclusión de archivos de estado, silencio sano, adaptadores de protocolo para Claude y Codex, empaquetado del instalador y redacción conversacional. `npm test`, `git diff --check` y `npm pack --dry-run` son las puertas de release; el paquete ahora incluye `hooks/`.
+
+El candidato quedó instalado localmente como 2.4.5 en Codex y Claude Code; la caché de Claude contiene los cinco archivos de hooks. OpenCode recibió por copia manual los siete directorios de skills y cada archivo se contrastó byte a byte mediante hashes contra el candidato. Esto no declara paridad de hooks en OpenCode: ese sigue siendo el alcance de 2.4.6.
+
+Sin cambio de corpus. Esta versión no agrega una skill, un modo ni una afirmación de LUS. Es una corrección de producto derivada de uso situado; no cambia el corpus LUS ni sus contadores.

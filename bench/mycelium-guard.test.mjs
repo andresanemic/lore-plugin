@@ -56,7 +56,10 @@ test("arranque: sin recibo previo no bloquea, y deja el recibo escrito", () => {
   const dir = tree();
   silent(run(dir));
   assert.ok(existsSync(join(dir, RECEIPT)), "adoptar el kit debe dejar el árbol al día");
-  assert.match(readFileSync(join(dir, RECEIPT), "utf8").trim(), /^[0-9a-f]{64}$/);
+  const receipt = JSON.parse(readFileSync(join(dir, RECEIPT), "utf8"));
+  assert.equal(receipt.version, 2);
+  assert.match(receipt.digest, /^[0-9a-f]{64}$/);
+  assert.equal(receipt.alwaysOnBytes, 0);
   rmSync(dir, { recursive: true, force: true });
 });
 
@@ -80,7 +83,8 @@ test("R1 · bloquea cuando el Lore cambió, sin importar con qué herramienta", 
   write(dir, "lore/principios.md", "# Principios\n\n## Pista nueva\n");
   const out = blocked(run(dir));
   assert.equal(out.decision, "block");
-  assert.match(out.reason, /MYCELIUM/);
+  assert.match(out.reason, /cambios de criterio.*trabajo que deben guiar/i);
+  assert.doesNotMatch(out.reason, /MYCELIUM/i);
   rmSync(dir, { recursive: true, force: true });
 });
 
@@ -92,11 +96,14 @@ test("R1b · un módulo nuevo dentro de lore/ también cuenta", () => {
   rmSync(dir, { recursive: true, force: true });
 });
 
-test("R1c · FASES.md y CLAUDE-adyacentes en la raíz cuentan como Lore", () => {
-  const dir = tree({ "FASES.md": "# FASES\n" });
+test("R1c · FASES.md es estado: cambiarlo no reabre la revisión de Lore", () => {
+  const dir = tree({
+    "lore/principios.md": "# Principios\n",
+    "FASES.md": "# Estado de este proyecto. NO es Lore.\n",
+  });
   run(dir);
-  write(dir, "FASES.md", "# FASES\n\n- avance\n");
-  assert.equal(blocked(run(dir)).decision, "block");
+  write(dir, "FASES.md", "# Estado de este proyecto. NO es Lore.\n\n- avance\n");
+  silent(run(dir));
   rmSync(dir, { recursive: true, force: true });
 });
 
@@ -215,13 +222,55 @@ test("un fixture de prueba no es el criterio del árbol que lo contiene", () => 
   rmSync(dir, { recursive: true, force: true });
 });
 
-test("el mensaje enruta, no solo detecta", () => {
+test("el mensaje pide la acción sin narrar la maquinaria", () => {
   const dir = tree();
   run(dir);
   write(dir, "lore/principios.md", "# Principios\n\n## Otra\n");
   const { reason } = blocked(run(dir));
-  assert.match(reason, /save-to-lore/, "debe nombrar la skill que reemplaza escribir a mano");
-  assert.match(reason, /transmute-lore/);
-  assert.match(reason, /mycelium receipt/, "debe decir cómo se cierra el bracket");
+  assert.match(reason, /cambios de criterio.*trabajo que deben guiar/i);
+  assert.match(reason, /conserva una sola parte: la respuesta que ya ibas a dar/i);
+  assert.doesNotMatch(reason, /MYCELIUM|save-to-lore|transmute-lore|receipt/i);
+  rmSync(dir, { recursive: true, force: true });
+});
+
+test("una expansión sola pide autoridad sin inventar una revisión pendiente", () => {
+  const dir = tree({
+    "CLAUDE.md": "<!-- lore:always-on -->\n<!-- /lore:always-on -->\n",
+    "lore/criterio.md": "x".repeat(9_000),
+  });
+  run(dir);
+  write(dir, "CLAUDE.md",
+    "<!-- lore:always-on -->\n- `lore/criterio.md`\n<!-- /lore:always-on -->\n");
+  const { reason } = blocked(run(dir));
+  assert.doesNotMatch(reason, /trabajo que deben guiar/i);
+  assert.match(reason, /aprobación/i);
+  assert.match(reason, /9,0 KB/);
+  rmSync(dir, { recursive: true, force: true });
+});
+
+test("Lore cambiado y expansión material producen una sola intervención agregada", () => {
+  const dir = tree({
+    "CLAUDE.md": "<!-- lore:always-on -->\n- `lore/criterio.md`\n<!-- /lore:always-on -->\n",
+    "lore/criterio.md": "x".repeat(29_855),
+  });
+  run(dir);
+  write(dir, "lore/criterio.md", "x".repeat(68_608));
+  const result = run(dir);
+  const { reason } = blocked(result);
+  assert.equal(result.stdout.trim().split("\n").length, 1);
+  assert.match(reason, /cambios de criterio.*trabajo que deben guiar/i);
+  assert.match(reason, /29,9 KB.*68,6 KB.*130%/s);
+  assert.match(reason, /aprobación/i);
+  assert.doesNotMatch(reason, /MYCELIUM|save-to-lore|transmute-lore|receipt/i);
+  rmSync(dir, { recursive: true, force: true });
+});
+
+test("un recibo v1 vigente migra a v2 sin bloquear", () => {
+  const dir = tree();
+  run(dir);
+  const receipt = JSON.parse(readFileSync(join(dir, RECEIPT), "utf8"));
+  writeFileSync(join(dir, RECEIPT), `${receipt.digest}\n`);
+  silent(run(dir));
+  assert.equal(JSON.parse(readFileSync(join(dir, RECEIPT), "utf8")).version, 2);
   rmSync(dir, { recursive: true, force: true });
 });

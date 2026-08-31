@@ -8,13 +8,22 @@
 // Se usa desde `hooks/mycelium-guard.mjs` y desde `lore-plugin mycelium receipt`.
 
 import { createHash } from "node:crypto";
-import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { join, relative, sep } from "node:path";
+import {
+  existsSync,
+  readdirSync,
+  readFileSync,
+  renameSync,
+  statSync,
+  unlinkSync,
+  writeFileSync,
+} from "node:fs";
+import { basename, isAbsolute, join, relative, resolve, sep } from "node:path";
 
 // Un archivo de Lore: un `.md` dentro de un `lore/`, o uno de los nombres
-// distintivos del kit en cualquier nivel. Mismos criterios que usaba el guard.
+// distintivos de criterio en cualquier nivel. FASES/PHASES es estado y nunca entra.
 const LORE_DIR = /(^|[/\\])lore[/\\][^/\\]+\.md$/i;
-const LORE_FILE = /(^|[/\\])(FASES|PHASES|principios|principles|identidad|identity|enrutamiento|routing)\.md$/i;
+const LORE_FILE = /(^|[/\\])(principios|principles|identidad|identity|enrutamiento|routing)\.md$/i;
+const PHASE_FILE = /(^|[/\\])(FASES|PHASES)\.md$/i;
 
 // Directorios universales de dependencias y artefactos, más las dos formas en que
 // un árbol contiene Lore que no es suyo: **fixtures** (dato de prueba) y **backups**
@@ -52,7 +61,8 @@ export function loreFiles(root, { maxDepth = MAX_DEPTH } = {}) {
       const full = join(dir, e.name);
       if (e.isDirectory()) {
         if (!SKIP.has(e.name)) walk(full, depth + 1);
-      } else if (e.isFile() && (LORE_DIR.test(full) || LORE_FILE.test(full))) {
+      } else if (e.isFile() && !PHASE_FILE.test(full)
+        && (LORE_DIR.test(full) || LORE_FILE.test(full))) {
         found.push(full);
       }
     }
@@ -61,18 +71,25 @@ export function loreFiles(root, { maxDepth = MAX_DEPTH } = {}) {
   return found.sort();
 }
 
-// Digest por CONTENIDO, no por mtime: tocar un archivo sin cambiarlo no cuenta,
-// y el mismo árbol da el mismo digest en otra máquina.
-export function digest(root) {
-  const h = createHash("sha256");
-  for (const file of loreFiles(root)) {
-    let body = "";
+function normalizedBody(file) {
+  return readFileSync(file, "utf8").replace(/\r\n/g, "\n");
+}
+
+function loreBodies(files) {
+  const bodies = new Map();
+  for (const file of files) {
     try {
-      if (statSync(file).size > MAX_BYTES) continue;
-      body = readFileSync(file, "utf8").replace(/\r\n/g, "\n");
-    } catch {
-      continue;
-    }
+      if (statSync(file).size <= MAX_BYTES) bodies.set(file, normalizedBody(file));
+    } catch {}
+  }
+  return bodies;
+}
+
+function digestBodies(root, files, bodies) {
+  const h = createHash("sha256");
+  for (const file of files) {
+    const body = bodies.get(file);
+    if (body === undefined) continue;
     h.update(relative(root, file).split(sep).join("/"));
     h.update("\0");
     h.update(createHash("sha256").update(body).digest("hex"));
@@ -81,18 +98,96 @@ export function digest(root) {
   return h.digest("hex");
 }
 
+// Digest por CONTENIDO, no por mtime: tocar un archivo sin cambiarlo no cuenta,
+// y el mismo árbol da el mismo digest en otra máquina.
+export function digest(root) {
+  const files = loreFiles(root);
+  return digestBodies(root, files, loreBodies(files));
+}
+
+const CONTRACTS = ["CLAUDE.md", "AGENTS.md"];
+const BLOCK = /<!--\s*lore:always-on\s*-->([\s\S]*?)<!--\s*\/lore:always-on\s*-->/;
+
+function alwaysOnFiles(root) {
+  const contract = CONTRACTS.find((name) => existsSync(join(root, name)));
+  if (!contract) return [];
+
+  let scope;
+  try {
+    scope = BLOCK.exec(readFileSync(join(root, contract), "utf8"))?.[1];
+  } catch {
+    return [];
+  }
+  if (!scope) return [];
+
+  const found = new Set();
+  for (const match of scope.matchAll(/`([^`]+)`/g)) {
+    const pointer = match[1].trim();
+    const segments = pointer.split(/[/\\]+/);
+    if (isAbsolute(pointer)
+      || !pointer.toLowerCase().endsWith(".md")
+      || !segments.some((part) => /^(lore|canon)$/i.test(part))
+      || /^(FASES|PHASES)\.md$/i.test(basename(pointer))) continue;
+
+    const file = resolve(root, pointer);
+    try {
+      if (statSync(file).isFile()) found.add(file);
+    } catch {}
+  }
+  return [...found];
+}
+
+export function snapshot(root) {
+  const files = loreFiles(root);
+  const bodies = loreBodies(files);
+  return {
+    digest: digestBodies(root, files, bodies),
+    fileCount: files.length,
+    alwaysOnBytes: alwaysOnFiles(root).reduce((sum, file) =>
+      sum + Buffer.byteLength(bodies.get(file) ?? normalizedBody(file)), 0),
+  };
+}
+
 export function readReceipt(root) {
   try {
     const raw = readFileSync(join(root, RECEIPT), "utf8").trim();
-    return /^[0-9a-f]{64}$/.test(raw) ? raw : null;
+    if (/^[0-9a-f]{64}$/.test(raw)) {
+      return { version: 1, digest: raw, alwaysOnBytes: null };
+    }
+    const receipt = JSON.parse(raw);
+    return receipt?.version === 2
+      && /^[0-9a-f]{64}$/.test(receipt.digest)
+      && Number.isInteger(receipt.alwaysOnBytes)
+      && receipt.alwaysOnBytes >= 0
+      ? { version: 2, digest: receipt.digest, alwaysOnBytes: receipt.alwaysOnBytes }
+      : null;
   } catch {
     return null;
   }
 }
 
-export function writeReceipt(root, value = digest(root)) {
-  writeFileSync(join(root, RECEIPT), `${value}\n`);
-  return value;
+export function writeReceipt(root, state = snapshot(root)) {
+  if (!state
+    || !/^[0-9a-f]{64}$/.test(state.digest)
+    || !Number.isInteger(state.alwaysOnBytes)
+    || state.alwaysOnBytes < 0) {
+    throw new TypeError("Invalid Lore snapshot");
+  }
+
+  const receipt = {
+    version: 2,
+    digest: state.digest,
+    alwaysOnBytes: state.alwaysOnBytes,
+  };
+  const target = join(root, RECEIPT);
+  const temporary = join(root, `${RECEIPT}.${process.pid}.tmp`);
+  try {
+    writeFileSync(temporary, `${JSON.stringify(receipt)}\n`);
+    renameSync(temporary, target);
+  } finally {
+    if (existsSync(temporary)) unlinkSync(temporary);
+  }
+  return receipt;
 }
 
 // --- ¿el cuerpo de criterio de este árbol se carga? --------------------------
@@ -118,8 +213,6 @@ export function writeReceipt(root, value = digest(root)) {
 // opuestas —conectarlo, o declararlo explícitamente fuera del universo— y cuál
 // corresponde no lo sabe un recorrido de archivos.
 
-const CONTRACTS = ["CLAUDE.md", "AGENTS.md"];
-const BLOCK = /<!--\s*lore:always-on\s*-->([\s\S]*?)<!--\s*\/lore:always-on\s*-->/;
 const CORE = [
   ["identidad.md", "identity.md"],
   ["principios.md", "principles.md"],

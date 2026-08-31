@@ -133,17 +133,18 @@ later — within the **same** session.
 So after `specify init`, missing commands are not a missing step: wait or start a new session. Nothing
 should depend on a write taking effect the very next turn. Write it, then confirm it is live.
 
-## The optional Claude Code hook
+## Optional session emphasis
 
-Claude Code can run a `SessionStart` hook injecting text at the start of every session — a
-legitimate way to make a Lore louder, and **optional on purpose**:
+Both Claude Code and Codex can run lifecycle hooks. A project may add host-specific `SessionStart`
+text to make one rule louder, and that emphasis is **optional on purpose**:
 
-- It is **provider-specific**: Codex has no equivalent, so a kit relying on it would stop being
-  neutral — the contract, which both hosts already load, is the channel that keeps it.
+- Its configuration and output protocol are **provider-specific** — the contract, which both hosts
+  already load, remains the portable channel.
 - It is **not the primary mechanism**; the always-on block inside the contract is. The hook adds
   emphasis to something that already works without it.
 
-If you want it, add it to your own `.claude/settings.json`. Lore Plugin does not install it.
+If you want extra emphasis, configure it in the chosen host. Lore Plugin does not install this
+optional prompt injection; its silent 2.4.5 state guards are a separate mechanism.
 
 > **Never gitignore all of `.claude/`.** It is a common reflex and it takes the installed skills
 > with it.

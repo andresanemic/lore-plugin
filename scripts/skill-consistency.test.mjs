@@ -35,7 +35,7 @@ test("use-lore compara la version del proyecto contra el kit, y lo distingue de 
   const text = skillText(join(skillsRoot, "use-lore"));
   assert.match(text, /Three rules/);
   assert.match(text, /## UPGRADE a X\.Y\.Z/);
-  assert.match(text, /offer .*transmute-lore.* in \*\*UPGRADE\*\* mode/is);
+  assert.match(text, /offer to update the local Lore.*invoke the matching operation internally/is);
   assert.match(text, /do not repeat the offer on every later message/i);
   assert.match(text, /Rule 3 is not MYCELIUM, and must not fold into it/);
 });
@@ -302,7 +302,7 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.4.4"]));
+  assert.deepEqual(new Set(versions), new Set(["2.4.5"]));
 });
 
 test("la nota de release vigente respeta la forma fija — cuarta violación 2026-08-30, ahora con guardia", () => {
@@ -353,18 +353,24 @@ test("2.4.2 (histórica) conserva su release y su evidencia de banco", () => {
   assert.match(release, /content hash|hash de contenido/i);
 });
 
-test("2.4.4 sincroniza badges y release", () => {
+test("2.4.5 sincroniza badges, paquete y release", () => {
   const readme = readFileSync(join(root, "README.md"), "utf8");
-  const releasePath = join(root, "docs", "RELEASE_2.4.4.md");
-  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.4\.4-/g) ?? []).length, 2);
+  const releasePath = join(root, "docs", "RELEASE_2.4.5.md");
+  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.4\.5-/g) ?? []).length, 2);
   assert.equal((readme.match(/writing--skills-(?:validated|validado)/gi) ?? []).length, 2);
-  assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.4.4.md");
+  assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.4.5.md");
   const release = readFileSync(releasePath, "utf8");
-  assert.match(release, /idempotent|idempotente/i);
+  assert.match(release, /Claude Code/i);
+  assert.match(release, /Codex/i);
+  assert.match(release, /receipt v2/i);
+  assert.match(release, /loaded bodies|cuerpos cargados/i);
+  assert.match(release, /silent conversation|conversación silenciosa/i);
   assert.match(release, /No corpus change|Sin cambio de corpus/i);
+  const packageFiles = JSON.parse(readFileSync(join(root, "package.json"), "utf8")).files;
+  assert.ok(packageFiles.includes("hooks/"), "package.json no incluye hooks/");
   // La nota de la versión anterior NO se reescribe: el registro histórico se conserva
   // y la corrección viaja como versión nueva.
-  for (const prev of ["RELEASE_2.4.3.md", "RELEASE_2.4.2.md", "RELEASE_2.4.1.md"]) {
+  for (const prev of ["RELEASE_2.4.4.md", "RELEASE_2.4.3.md", "RELEASE_2.4.2.md", "RELEASE_2.4.1.md"]) {
     assert.ok(existsSync(join(root, "docs", prev)), `falta docs/${prev}`);
   }
 });

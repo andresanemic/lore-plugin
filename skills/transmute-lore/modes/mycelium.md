@@ -16,6 +16,26 @@ language, and says what waits on them. The person should be able to use this mod
 knowing its name — and the six outcomes below are distinctions the *repair* needs, never terms the
 person has to type.
 
+**Ordinary output has three shapes:** the result in plain language; the decision needed when a
+finding blocks progress; silence when the pass is clean. Do not announce entry or exit, loaded
+bodies, routes, receipts, hooks or modes. `FASES.md` is state and does not trigger this check; the
+same applies to `PHASES.md`. If the user names MYCELIUM or asks for technical detail, exact terms are
+allowed.
+
+**A clean review is not a result to report.** When an automatic guard reopens the work, complete the
+review and record the accepted state. If there are no findings, return only to the result of the
+user's original task. Do not manufacture a network map, a rate, a list of checked clues or a summary
+of the review. Mentioning Lore in general or a path under `lore/` is still ordinary use; it does not
+make the internal procedure user-facing.
+
+**Exact clean-output shape:** `<the original task result>`. The automatic review contributes zero
+words before or after it — not even a one-line confirmation that the check was clean.
+
+An installed lifecycle request to verify and record the state after a user-authorized Lore edit is
+part of finishing that edit; it is not a new task and needs no second scope approval. It does not
+authorize unrelated changes. Host permission for a tool or file remains a real permission boundary;
+if it is required, ask for that permission plainly and nothing else.
+
 **Three triggers, and they are not the same measurement:**
 
 1. **Before a complex task** — the one that matters. You are about to lean on the Lore for real work,
@@ -185,9 +205,14 @@ written as a two-sided junction or declined in writing with its reason — recor
 npx lore-plugin mycelium receipt          # or: lore-plugin mycelium receipt --tree <dir>
 ```
 
-It writes `.lore-mycelium` at the tree root: a digest of the **content** of every Lore file the tree
-holds. The `Stop` hook (Claude Code) compares that digest against the tree and blocks the pass when
-Lore changed and no sweep was recorded since.
+It writes receipt v2 to `.lore-mycelium` at the tree root: a digest of the **content** of every Lore
+file the tree holds plus `alwaysOnBytes`, the normalized size of criterion bodies loaded for every
+task. The Claude Code `Stop` hook and the Codex `SessionStart` + `PostToolUse` pair compare that state
+against the tree and intervene when Lore changed and no sweep was recorded since.
+
+If the loaded bodies grew by 8 KiB or more, the command leaves the receipt untouched and asks for
+authority in plain language. After approval, record it with `--accept-always-on`. The flag accepts
+the expansion only; it does not replace the connection review.
 
 **Why a fact and not a sentence, and this is the correction that 2.4.2 exists for.** Until then the
 hook accepted the word *MYCELIUM* appearing anywhere in the agent's prose as evidence that the sweep
@@ -200,7 +225,6 @@ being a variable, and nobody is asked whether the sweep ran.
 same tree — a teammate who pulls a swept Lore inherits a closed bracket, and one who pulls an unswept
 change inherits the block. It is shared state, not machine state.
 
-**What this does not cover, said here rather than discovered later.** Codex does not run hooks: there
-the guarantee is carried by this text and by the closing gate of the writing skills. And neither the
-hook nor the skills see Lore written **without invoking any skill in a tree the working directory
-does not reach** — a session editing another tree's Lore is outside the bracket entirely.
+**What this does not cover, said here rather than discovered later.** Neither host adapter sees Lore
+written in a tree the resolved working directory does not reach. The receipt proves that a state was
+accepted; it does not prove the semantic quality of the review that produced it.

@@ -1,0 +1,11 @@
+{
+  "name": "lore-hook-probe",
+  "owner": { "name": "local" },
+  "plugins": [
+    {
+      "name": "lore-hook-probe",
+      "source": "./plugins/lore-hook-probe",
+      "description": "Temporary Codex lifecycle probe for Lore Plugin 2.4.5."
+    }
+  ]
+}

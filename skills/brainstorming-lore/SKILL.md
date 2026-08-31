@@ -133,8 +133,9 @@ the domain deliverable itself.
 - **Decomposition:** the request contains several independent outcomes. Show the boundaries and
   order first; design only the first coherent unit unless the user explicitly wants the full system.
 
-Announce the chosen depth briefly so the user can correct it. Hidden complexity may increase depth;
-never use a label to reduce an owner skill's required gate.
+Infer the depth and apply it silently. Ask only about an unresolved choice that changes the result;
+do not announce the label. Hidden complexity may increase depth; never use a label to reduce an
+owner skill's required gate.
 
 ## 3. Clarify one decision at a time
 

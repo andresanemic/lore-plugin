@@ -31,7 +31,7 @@ export function installCodex({ home, packageRoot }) {
   }
   mkdirSync(pluginRoot, { recursive: true });
 
-  for (const name of ["skills", ".codex-plugin", "assets"]) {
+  for (const name of ["skills", ".codex-plugin", "assets", "hooks"]) {
     const source = join(packageRoot, name);
     const destination = join(pluginRoot, name);
     if (existsSync(destination)) {

@@ -4,7 +4,8 @@ import { homedir } from "node:os";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { claudeCommands, installCodex } from "./installer.mjs";
-import { loreFiles, unnamedBodies, writeReceipt, RECEIPT } from "../hooks/lore-state.mjs";
+import { evaluateState, formatIntervention } from "../hooks/lore-guard.mjs";
+import { unnamedBodies, readReceipt, snapshot, writeReceipt, RECEIPT } from "../hooks/lore-state.mjs";
 
 const args = process.argv.slice(2);
 const command = args[0];
@@ -50,14 +51,19 @@ if (command === "mycelium") {
     console.log("declare it out of the universe in writing, with its reason. Decide each one.");
     process.exit(0);
   }
-  const files = loreFiles(tree);
-  if (files.length === 0) {
+  const current = snapshot(tree);
+  if (current.fileCount === 0) {
     console.log(`No Lore files found under ${tree} - nothing to record.`);
     process.exit(1);
   }
-  const value = writeReceipt(tree);
-  console.log(`MYCELIUM sweep recorded for ${files.length} Lore file(s) in ${tree}`);
-  console.log(`${RECEIPT}: ${value.slice(0, 12)}...`);
+  const guard = evaluateState(current, readReceipt(tree));
+  if (guard.requiresApproval && args.indexOf("--accept-always-on") === -1) {
+    console.log(formatIntervention({ ...guard, pendingLore: false }));
+    process.exit(2);
+  }
+  const value = writeReceipt(tree, current);
+  console.log(`MYCELIUM sweep recorded for ${current.fileCount} Lore file(s) in ${tree}`);
+  console.log(`${RECEIPT}: ${value.digest.slice(0, 12)}...`);
   process.exit(0);
 }
 

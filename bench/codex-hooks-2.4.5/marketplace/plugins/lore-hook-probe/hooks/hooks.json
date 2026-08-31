@@ -5,7 +5,19 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/codex-guard.mjs\" session_start",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/probe.mjs\" session_start",
+            "shell": "bash",
+            "async": false
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/probe.mjs\" session_end",
             "shell": "bash",
             "async": false
           }
@@ -17,19 +29,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/codex-guard.mjs\" post_tool_use",
-            "shell": "bash",
-            "async": false
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/mycelium-guard.mjs\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/probe.mjs\" post_tool_use",
             "shell": "bash",
             "async": false
           }

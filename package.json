@@ -1,6 +1,6 @@
 {
   "name": "@andresanemic/lore-plugin",
-  "version": "2.4.4",
+  "version": "2.4.5",
   "description": "Provider-neutral project criterion that persists across AI agents and sessions.",
   "type": "module",
   "license": "MIT",
@@ -18,6 +18,7 @@
     ".codex-plugin/",
     "assets/",
     "docs/",
+    "hooks/",
     "skills/",
     "scripts/installer.mjs",
     "scripts/lore-plugin.mjs",

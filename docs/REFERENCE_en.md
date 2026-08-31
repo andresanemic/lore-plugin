@@ -916,11 +916,10 @@ A typical Lore layout, with an Area and a project, looks like this:
     golden-paths.template.md   → only if the domain warrants it
   FASES.md                     → Area's project registry
   CLAUDE.md or AGENTS.md       → the Area's one host-selected contract
-  .lore-mycelium               → receipt of the last MYCELIUM sweep (2.4.2). A digest
-                                 of the content of the tree's Lore files. Written by
-                                 `lore-plugin mycelium receipt`, and committed: being
-                                 content-derived, it is identical on any machine for
-                                 the same tree state
+  .lore-mycelium               → receipt v2 of the accepted Lore state: content digest
+                                 plus UTF-8 bytes of criterion bodies loaded for every
+                                 task. Written by `lore-plugin mycelium receipt`, and
+                                 committed: the same tree state produces the same value
 
   proyectos/
     {slug}/
@@ -945,7 +944,9 @@ Key points of this hierarchy:
 
 ## 6. Operational Invariants
 
-Lore’s behavior is governed by a set of shared invariants:- **Lore is written in the user's language** – content and artifact filenames; only the selected
+Lore’s behavior is governed by a set of shared invariants:
+
+- **Lore is written in the user's language** – content and artifact filenames; only the selected
   contract name, `lore/`, `index.md`, `golden-paths.md`, and English terms of general technical use stay fixed.
 - **Criteria are never invented** – all rules come from actual experience.
 - **Everything comes from real work** – experiments, incidents, decisions.
@@ -953,11 +954,10 @@ Lore’s behavior is governed by a set of shared invariants:- **Lore is written 
 - **Every change passes through a threshold** – criteria must be reviewed before being written.
 - **Nothing commits automatically** – human review is required.
 - **A human always reviews the final diff** – AI assists, but does not silently change Lore.
-- **A pass that wrote Lore is not finished until its exit sweep is recorded** – the Claude Code `Stop`
-  hook compares the content of the Lore files against `.lore-mycelium` and blocks the stop when they
-  differ. Detection is by **content**, so the tool used to write the file does not matter, and the
-  agent is never asked whether the sweep ran. Codex does not run hooks: there the guarantee is carried
-  by the skills' own text.
+- **A pass that wrote Lore is not finished until its exit sweep is recorded** – Claude Code checks at `Stop`; Codex captures the baseline at `SessionStart` and checks after tool use. Both compare the content digest against `.lore-mycelium`. Detection is by content, so the tool used to write the file does not matter and the agent is never asked whether the sweep ran.
+- **A material expansion of always-loaded criterion needs authority** – receipt v2 stores `alwaysOnBytes`, the normalized UTF-8 size of Markdown criterion bodies pointed to directly by the `<!-- lore:always-on -->` block. Duplicate pointers count once; unresolved paths, block prose, `FASES.md`, and `PHASES.md` are excluded. An increase of 8,192 bytes or more requires `lore-plugin mycelium receipt --accept-always-on`; without that flag the receipt is not advanced. This is an authority boundary derived from observed cases, not a diagnosis of crowding or semantic quality.
+- **Receipt v1 remains readable** – the historical 64-character digest migrates silently when still current. If it is stale, the content change remains pending and no size comparison is invented because v1 has no prior `alwaysOnBytes`.
+- **Healthy infrastructure is silent** – hooks emit no user-facing text when clean. Skills communicate the result, the decision or approval needed when blocked, or nothing for clean automatic work. Exact skill and mode identifiers remain available in documentation and technical diagnostics, and are used conversationally when the user names one or asks for detail.
 
 These invariants are what separate Lore from generic note‑taking or logging tools: a trusted, human‑curated body of criteria that AI can rely on.
 
