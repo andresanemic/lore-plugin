@@ -896,11 +896,10 @@ Una estructura típica de Lore, con Área y proyecto, se ve así:
     golden-paths.template.md   → solo si el dominio lo justifica
   FASES.md                     → registro de proyectos del Área
   CLAUDE.md o AGENTS.md        → contrato único del Área, elegido por host
-  .lore-mycelium               → recibo del último barrido MYCELIUM (2.4.2). Digest
-                                 del contenido de los archivos de Lore del árbol.
+  .lore-mycelium               → recibo v2 del estado aceptado de Lore: digest de contenido
+                                 más bytes de los cuerpos de criterio cargados en cada tarea.
                                  Se escribe con `lore-plugin mycelium receipt` y se
-                                 versiona: al derivarse del contenido, es idéntico en
-                                 cualquier máquina para el mismo estado del árbol
+                                 versiona: el mismo estado produce el mismo valor
 
   proyectos/
     {slug}/
@@ -933,11 +932,10 @@ El comportamiento de Lore está gobernado por un conjunto de invariantes compart
 - **Todo cambio pasa por un umbral** – el criterio debe revisarse antes de escribirse.
 - **Nada hace commit automáticamente** – la revisión humana es obligatoria.
 - **Un humano revisa siempre el diff final** – la IA asiste, pero no modifica Lore en secreto.
-- **Una pasada que escribió Lore no termina hasta que su barrido de salida queda registrado** – el
-  hook `Stop` de Claude Code compara el contenido de los archivos de Lore contra `.lore-mycelium` y
-  bloquea el cierre si difieren. Se detecta por **contenido**, así que da igual con qué herramienta se
-  escribió el archivo, y no se le pregunta al agente si corrió el barrido. Codex no ejecuta hooks: ahí
-  la garantía la carga el texto de las skills.
+- **Una pasada que escribió Lore no termina hasta que su barrido de salida queda registrado** – Claude Code comprueba en `Stop`; Codex captura la base en `SessionStart` y comprueba después del uso de herramientas. Ambos comparan el digest de contenido contra `.lore-mycelium`. La detección es por contenido, así que da igual con qué herramienta se escribió el archivo y no se le pregunta al agente si corrió el barrido.
+- **Una expansión material del criterio cargado siempre necesita autoridad** – el recibo v2 guarda `alwaysOnBytes`, el tamaño UTF-8 normalizado de los cuerpos Markdown de criterio apuntados directamente por el bloque `<!-- lore:always-on -->`. Los punteros repetidos cuentan una vez; se excluyen rutas que no resuelven, la prosa del bloque, `FASES.md` y `PHASES.md`. Un aumento de 8.192 bytes o más exige `lore-plugin mycelium receipt --accept-always-on`; sin ese flag el recibo no avanza. Es una frontera de autoridad derivada de casos observados, no un diagnóstico de crowding ni de calidad semántica.
+- **El recibo v1 sigue siendo legible** – el digest histórico de 64 caracteres migra en silencio cuando sigue vigente. Si quedó desfasado, el cambio de contenido sigue pendiente y no se inventa una comparación de tamaño porque v1 no conserva el `alwaysOnBytes` anterior.
+- **La infraestructura sana es silenciosa** – los hooks no emiten texto visible cuando todo está bien. Las skills comunican el resultado, la decisión o aprobación necesaria cuando hay un bloqueo, o nada cuando el trabajo automático termina limpio. Los nombres exactos de skills y modos siguen disponibles en documentación y diagnósticos técnicos, y se usan en conversación cuando el usuario menciona uno o pide detalle.
 
 Estas invariantes distinguen a Lore de herramientas genéricas de notas o logs:  
 el objetivo es mantener un cuerpo de criterio confiable, curado por humanos, del que la IA pueda depender.

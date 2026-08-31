@@ -191,9 +191,14 @@ written as a two-sided junction or declined in writing with its reason — recor
 npx lore-plugin mycelium receipt          # or: lore-plugin mycelium receipt --tree <dir>
 ```
 
-It writes `.lore-mycelium` at the tree root: a digest of the **content** of every Lore file the tree
-holds. The `Stop` hook (Claude Code) compares that digest against the tree and blocks the pass when
-Lore changed and no sweep was recorded since.
+It writes receipt v2 to `.lore-mycelium` at the tree root: a digest of the **content** of every Lore
+file the tree holds plus `alwaysOnBytes`, the normalized size of criterion bodies loaded for every
+task. The Claude Code `Stop` hook and the Codex `SessionStart` + `PostToolUse` pair compare that state
+against the tree and intervene when Lore changed and no sweep was recorded since.
+
+If the loaded bodies grew by 8 KiB or more, the command leaves the receipt untouched and asks for
+authority in plain language. After approval, record it with `--accept-always-on`. The flag accepts
+the expansion only; it does not replace the connection review.
 
 **Why a fact and not a sentence, and this is the correction that 2.4.2 exists for.** Until then the
 hook accepted the word *MYCELIUM* appearing anywhere in the agent's prose as evidence that the sweep
@@ -206,7 +211,6 @@ being a variable, and nobody is asked whether the sweep ran.
 same tree — a teammate who pulls a swept Lore inherits a closed bracket, and one who pulls an unswept
 change inherits the block. It is shared state, not machine state.
 
-**What this does not cover, said here rather than discovered later.** Codex does not run hooks: there
-the guarantee is carried by this text and by the closing gate of the writing skills. And neither the
-hook nor the skills see Lore written **without invoking any skill in a tree the working directory
-does not reach** — a session editing another tree's Lore is outside the bracket entirely.
+**What this does not cover, said here rather than discovered later.** Neither host adapter sees Lore
+written in a tree the resolved working directory does not reach. The receipt proves that a state was
+accepted; it does not prove the semantic quality of the review that produced it.

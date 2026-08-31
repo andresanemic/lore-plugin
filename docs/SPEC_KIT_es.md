@@ -134,17 +134,18 @@ Después de `specify init`, si los comandos no aparecen no te falta un paso: esp
 nueva. Y nada debería depender de surtir efecto en el turno siguiente al que lo escribió. Escríbelo
 y confirma que está vivo.
 
-## El hook opcional de Claude Code
+## Énfasis opcional al abrir sesión
 
-Claude Code puede correr un hook `SessionStart` que inyecta texto al inicio de cada sesión — forma
-legítima de hacer más fuerte un Lore, y **opcional a propósito**:
+Claude Code y Codex pueden ejecutar hooks de ciclo de vida. Un proyecto puede agregar texto propio
+en `SessionStart` para reforzar una regla, y ese énfasis es **opcional a propósito**:
 
-- Es **específico del proveedor**: Codex no tiene equivalente, así que depender de él quitaría
-  neutralidad — el contrato, que ambos hosts ya cargan, es el canal que la conserva.
+- Su configuración y protocolo de salida son **específicos de cada proveedor** — el contrato, que
+  ambos hosts ya cargan, sigue siendo el canal portable.
 - **No es el mecanismo principal**: el bloque siempre-activo del contrato lo es; el hook agrega
   énfasis a algo que ya funciona sin él.
 
-Si lo quieres, agrégalo a tu propio `.claude/settings.json`. Lore Plugin no lo instala.
+Si quieres ese énfasis extra, configúralo en el host elegido. Lore Plugin no instala esta inyección
+opcional de prompt; sus guardias silenciosas de estado de 2.4.5 son un mecanismo separado.
 
 > **Nunca pongas todo `.claude/` en el gitignore.** Es un reflejo común y se lleva las skills
 > instaladas por delante.
