@@ -36,7 +36,7 @@ test("snapshot sums pointed criterion bodies once and excludes phase state", () 
   const state = snapshot(dir);
   assert.equal(state.alwaysOnBytes,
     Buffer.byteLength("# Id\n") + Buffer.byteLength("# Principios\n"));
-  assert.equal(state.fileCount, 3);
+  assert.equal(state.fileCount, 2);
   assert.match(state.digest, /^[0-9a-f]{64}$/);
 });
 

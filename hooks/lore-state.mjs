@@ -20,9 +20,10 @@ import {
 import { basename, isAbsolute, join, relative, resolve, sep } from "node:path";
 
 // Un archivo de Lore: un `.md` dentro de un `lore/`, o uno de los nombres
-// distintivos del kit en cualquier nivel. Mismos criterios que usaba el guard.
+// distintivos de criterio en cualquier nivel. FASES/PHASES es estado y nunca entra.
 const LORE_DIR = /(^|[/\\])lore[/\\][^/\\]+\.md$/i;
-const LORE_FILE = /(^|[/\\])(FASES|PHASES|principios|principles|identidad|identity|enrutamiento|routing)\.md$/i;
+const LORE_FILE = /(^|[/\\])(principios|principles|identidad|identity|enrutamiento|routing)\.md$/i;
+const PHASE_FILE = /(^|[/\\])(FASES|PHASES)\.md$/i;
 
 // Directorios universales de dependencias y artefactos, más las dos formas en que
 // un árbol contiene Lore que no es suyo: **fixtures** (dato de prueba) y **backups**
@@ -60,7 +61,8 @@ export function loreFiles(root, { maxDepth = MAX_DEPTH } = {}) {
       const full = join(dir, e.name);
       if (e.isDirectory()) {
         if (!SKIP.has(e.name)) walk(full, depth + 1);
-      } else if (e.isFile() && (LORE_DIR.test(full) || LORE_FILE.test(full))) {
+      } else if (e.isFile() && !PHASE_FILE.test(full)
+        && (LORE_DIR.test(full) || LORE_FILE.test(full))) {
         found.push(full);
       }
     }

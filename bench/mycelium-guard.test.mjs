@@ -96,11 +96,14 @@ test("R1b · un módulo nuevo dentro de lore/ también cuenta", () => {
   rmSync(dir, { recursive: true, force: true });
 });
 
-test("R1c · FASES.md y CLAUDE-adyacentes en la raíz cuentan como Lore", () => {
-  const dir = tree({ "FASES.md": "# FASES\n" });
+test("R1c · FASES.md es estado: cambiarlo no reabre la revisión de Lore", () => {
+  const dir = tree({
+    "lore/principios.md": "# Principios\n",
+    "FASES.md": "# Estado de este proyecto. NO es Lore.\n",
+  });
   run(dir);
-  write(dir, "FASES.md", "# FASES\n\n- avance\n");
-  assert.equal(blocked(run(dir)).decision, "block");
+  write(dir, "FASES.md", "# Estado de este proyecto. NO es Lore.\n\n- avance\n");
+  silent(run(dir));
   rmSync(dir, { recursive: true, force: true });
 });
 
