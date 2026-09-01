@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
-import { mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { tmpdir } from "node:os";
 import test from "node:test";
 
-import { RECEIPT, readReceipt, snapshot, writeReceipt } from "../hooks/lore-state.mjs";
+import { RECEIPT, readReceipt, snapshot, writeReceipt, writeSessionBaseline } from "../hooks/lore-state.mjs";
 
 const OPEN = "<!-- lore:always-on -->";
 const CLOSE = "<!-- /lore:always-on -->";
@@ -101,4 +101,25 @@ test("writeReceipt writes v2 atomically and returns the accepted state", () => {
   assert.equal(receipt.alwaysOnBytes, Buffer.byteLength("# Id\n"));
   assert.deepEqual(readdirSync(dir).filter((name) => name.includes(".tmp")), []);
   assert.equal(readFileSync(join(dir, RECEIPT), "utf8"), `${JSON.stringify(receipt)}\n`);
+});
+
+test("session baseline filenames use a SHA-2 digest for the session identifier", (t) => {
+  const dir = tree({});
+  const sessionDir = join(tmpdir(), "lore-plugin-sessions");
+  const before = new Set(existsSync(sessionDir) ? readdirSync(sessionDir) : []);
+  t.after(() => {
+    if (!existsSync(sessionDir)) return;
+    for (const file of readdirSync(sessionDir)) {
+      if (!before.has(file)) rmSync(join(sessionDir, file), { force: true });
+    }
+  });
+
+  writeSessionBaseline(`codeql-${process.pid}-${Date.now()}`, dir, {
+    digest: "d".repeat(64),
+    alwaysOnBytes: 0,
+  });
+
+  const created = readdirSync(sessionDir).filter((file) => !before.has(file));
+  assert.equal(created.length, 1);
+  assert.match(created[0], /^[0-9a-f]{64}\.json$/);
 });

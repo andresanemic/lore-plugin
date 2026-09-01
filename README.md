@@ -6,7 +6,7 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.4.6-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.4.7-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/AI_provider-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="AI provider: neutral"></a>
   <a href="#the-seven-skills"><img src="https://img.shields.io/badge/writing--skills-validated-63C49B?style=for-the-badge&labelColor=0B0B12" alt="Validated against writing-skills"></a>
   <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
@@ -246,7 +246,7 @@ codex plugin add lore@personal
 
 Replace `all` with `claude` or `codex` to target only one CLI. The installer configures Claude directly; for Codex it prepares the local `personal` marketplace and prints the final `codex plugin add` command.
 
-From 2.4.5, Claude Code and Codex carry the same two silent local guarantees: a Lore change cannot close against an older receipt, and growth of at least 8 KiB in the criterion loaded for every task needs approval before becoming the new baseline. `FASES.md` and `PHASES.md` are state, so they do not trigger either guard. Healthy checks say nothing; skills report the result or the decision needed, and keep internal names out of ordinary conversation unless you ask for technical detail.
+Claude Code does not receive hook context: its adapter is deliberately absent because any context delivered to the agent can become visible or alter the reply. Codex keeps the automatic local guard through silent `SessionStart` and `PostToolUse`. In every host, `use-lore` checks body-load integrity at session opening; a clean check says nothing and a missing connection names only the decision needed. `FASES.md` and `PHASES.md` remain state and do not enter the receipt.
 
 </details>
 
@@ -548,7 +548,7 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.4.6-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.4.7-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/proveedor_IA-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Proveedor IA: neutral"></a>
   <a href="#las-siete-skills"><img src="https://img.shields.io/badge/writing--skills-validado-63C49B?style=for-the-badge&labelColor=0B0B12" alt="Validado contra writing-skills"></a>
   <a href="./docs/SPEC_KIT_es.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
@@ -783,7 +783,7 @@ codex plugin add lore@personal
 
 Reemplaza `all` por `claude` o `codex` para preparar solo una CLI. El instalador configura Claude directamente; para Codex prepara el marketplace local `personal` e imprime el comando final `codex plugin add`.
 
-Desde 2.4.5, Claude Code y Codex cargan las mismas dos garantías locales y silenciosas: un cambio de Lore no puede cerrar contra un recibo anterior, y un crecimiento de al menos 8 KiB en el criterio cargado para cada tarea necesita aprobación antes de volverse el nuevo estado aceptado. `FASES.md` y `PHASES.md` son estado, así que no activan ninguna guardia. Un control sano no dice nada; las skills informan el resultado o la decisión necesaria y dejan sus nombres internos fuera de la conversación ordinaria, salvo que pidas detalle técnico.
+Claude Code no recibe contexto del hook: su adaptador se retira deliberadamente porque cualquier contexto entregado al agente puede volverse visible o alterar la respuesta. Codex conserva la guardia local automática mediante `SessionStart` y `PostToolUse` silenciosos. En todos los hosts, `use-lore` comprueba al abrir la integridad de carga de los cuerpos; un control limpio no dice nada y una conexión faltante nombra solo la decisión necesaria. `FASES.md` y `PHASES.md` siguen siendo estado y no entran al recibo.
 
 </details>
 

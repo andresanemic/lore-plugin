@@ -302,7 +302,7 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.4.6"]));
+  assert.deepEqual(new Set(versions), new Set(["2.4.7"]));
 });
 
 test("la nota de release vigente respeta la forma fija — cuarta violación 2026-08-30, ahora con guardia", () => {
@@ -340,6 +340,18 @@ test("la nota de release vigente respeta la forma fija — cuarta violación 202
 
   // El primer H1 es el título en inglés (gh release --title debe copiarlo tal cual).
   assert.doesNotMatch(h1[0], /[áéíóúñ¿¡]/i, `el primer título debe estar en inglés: "${h1[0]}"`);
+
+  // principios.md §12: cada idioma conserva un ancla y exactamente 2 párrafos de clave + 1 de
+  // alcance. El último declara la superficie pública y la frontera científica.
+  const sections = body.split(/^# .+$/gm).slice(1);
+  for (const [index, section] of sections.entries()) {
+    const blocks = section.trim().split(/\r?\n\r?\n/);
+    assert.ok(blocks[0].startsWith("> [README]"), `sección ${index + 1}: falta el ancla README`);
+    assert.equal(blocks.slice(1).length, 3, `sección ${index + 1}: esperaba 3 párrafos, hay ${blocks.slice(1).length}`);
+    assert.match(blocks[3], /scientific claim|afirmación científica/i, `sección ${index + 1}: falta la frontera científica`);
+  }
+  assert.match(body, /seven-skill surface|superficie (?:pública )?de siete skills/i,
+    "la nota debe declarar la superficie pública real: siete skills");
 });
 
 test("2.4.2 (histórica) conserva su release y su evidencia de banco", () => {
@@ -362,30 +374,34 @@ test("2.4.5 (histórica) conserva su release, con nota de reemplazo", () => {
   const release = readFileSync(releasePath, "utf8");
   assert.match(release, /Claude Code/i);
   assert.match(release, /Codex/i);
-  assert.match(release, /Superseded by 2\.4\.6|Reemplazado por 2\.4\.6/);
+  assert.match(release, /Superseded twice|Reemplazado dos veces/);
 });
 
-test("2.4.6 sincroniza badges, paquete y release", () => {
-  const readme = readFileSync(join(root, "README.md"), "utf8");
+test("2.4.6 conserva el intento fallido y su aporte real", () => {
   const releasePath = join(root, "docs", "RELEASE_2.4.6.md");
-  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.4\.6-/g) ?? []).length, 2);
-  assert.equal((readme.match(/writing--skills-(?:validated|validado)/gi) ?? []).length, 2);
   assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.4.6.md");
   const release = readFileSync(releasePath, "utf8");
   assert.match(release, /Claude Code/i);
   assert.match(release, /Codex/i);
   assert.match(release, /UserPromptSubmit/);
-  assert.match(release, /`Stop`/);
+  assert.match(release, /Stop/);
   assert.match(release, /deferred arming|armado diferido/i);
-  const packageFiles = JSON.parse(readFileSync(join(root, "package.json"), "utf8")).files;
-  assert.ok(packageFiles.includes("hooks/"), "package.json no incluye hooks/");
-  // Las notas de versiones anteriores NO se reescriben (salvo el puntero de reemplazo):
-  // el registro histórico se conserva y la corrección viaja como versión nueva.
-  for (const prev of ["RELEASE_2.4.5.md", "RELEASE_2.4.4.md", "RELEASE_2.4.3.md", "RELEASE_2.4.2.md", "RELEASE_2.4.1.md"]) {
-    assert.ok(existsSync(join(root, "docs", prev)), `falta docs/${prev}`);
-  }
 });
 
+test("2.4.7 sincroniza badges, paquete y release", () => {
+  const readme = readFileSync(join(root, "README.md"), "utf8");
+  const releasePath = join(root, "docs", "RELEASE_2.4.7.md");
+  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.4\.7-/g) ?? []).length, 2);
+  assert.equal((readme.match(/writing--skills-(?:validated|validado)/gi) ?? []).length, 2);
+  assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.4.7.md");
+  const release = readFileSync(releasePath, "utf8");
+  assert.match(release, /Claude Code/i);
+  assert.match(release, /Codex/i);
+  assert.match(release, /mycelium bodies/i);
+  assert.match(release, /removes the Claude context adapter|retira por completo el adaptador contextual de Claude/i);
+  const packageFiles = JSON.parse(readFileSync(join(root, "package.json"), "utf8")).files;
+  assert.ok(packageFiles.includes("hooks/"), "package.json no incluye hooks/");
+});
 test("el artefacto del recibo está declarado en los registros del kit, no solo en la skill", () => {
   // principios.md #15: un mecanismo nuevo se instala en los registros, no solo en el
   // texto que lo introduce. REFERENCE declara la especificación exacta de cada artefacto.
@@ -420,14 +436,15 @@ test("el bracket MYCELIUM de entrada y salida está escrito en las skills que es
   assert.match(use, /exit scan is (?:a |their )?\*\*closing gate\*\*|closing gate — the pass is not done/i);
 });
 
-test("el hook UserPromptSubmit de MYCELIUM está declarado y falla abierto", () => {
+test("Claude no recibe contexto del guard y Codex conserva su guardia", () => {
   const hooksPath = join(root, "hooks", "hooks.json");
   assert.ok(existsSync(hooksPath), "falta hooks/hooks.json");
   const hooks = JSON.parse(readFileSync(hooksPath, "utf8"));
-  assert.ok(Array.isArray(hooks.hooks?.UserPromptSubmit), "hooks.json no declara un hook UserPromptSubmit");
-  assert.ok(!hooks.hooks?.Stop, "el hook Stop quedó atrás en 2.4.6: additionalContext no se inyecta en silencio en ese evento");
-  assert.match(JSON.stringify(hooks), /mycelium-guard\.mjs/);
-  assert.ok(existsSync(join(root, "hooks", "mycelium-guard.mjs")), "falta hooks/mycelium-guard.mjs");
+  assert.ok(!hooks.hooks?.UserPromptSubmit, "Claude sigue recibiendo additionalContext en cada prompt");
+  assert.ok(!hooks.hooks?.Stop, "Claude sigue recibiendo contexto al cerrar");
+  assert.ok(Array.isArray(hooks.hooks?.SessionStart), "falta la base silenciosa de Codex");
+  assert.ok(Array.isArray(hooks.hooks?.PostToolUse), "falta la guardia de Codex");
+  assert.ok(!existsSync(join(root, "hooks", "mycelium-guard.mjs")), "el adaptador retirado de Claude todavía se empaqueta");
 });
 
 test("ninguna skill manda HARD: ni usa cristalizar como destilar", () => {
@@ -596,4 +613,24 @@ test("transmute-lore es un dispatcher liviano — los 8 modos viven en modes/, n
   const full = skillText(join(skillsRoot, "transmute-lore"));
   assert.match(full, /## MYCELIUM mode/);
   assert.match(full, /## PRUNE mode/);
+
+  // sync-personal: USAGE_* se plegó en REFERENCE_*; esos dos archivos son el registro técnico
+  // vivo y cada uno debe nombrar los ocho modos. README solo apunta a la referencia.
+  for (const file of ["docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
+    const reference = readFileSync(join(root, file), "utf8");
+    for (const slug of modeSlugs) {
+      assert.match(reference, new RegExp("\\b" + slug + "\\b", "i"), `${file}: falta el modo ${slug}`);
+    }
+  }
+});
+test("la documentación viva separa silencio de Claude y enforcement de Codex", () => {
+  const read = (rel) => readFileSync(join(root, rel), "utf8");
+  const live = read("README.md") + read("docs/REFERENCE_en.md") + read("docs/REFERENCE_es.md");
+  assert.match(live, /Claude Code[\s\S]{0,500}(?:does not receive|no recibe).*(?:hook context|contexto del hook)/i);
+  assert.match(live, /Codex[\s\S]{0,500}(?:automatic|automátic).*(?:guard|guardia)/i);
+  assert.doesNotMatch(read("docs/REFERENCE_en.md"), /Claude Code at `UserPromptSubmit`/);
+  assert.doesNotMatch(read("docs/REFERENCE_es.md"), /Claude Code en `UserPromptSubmit`/);
+  const release = read("docs/RELEASE_2.4.6.md");
+  assert.match(release, /known defect|defecto conocido/i);
+  assert.match(release, /2\.4\.7/);
 });

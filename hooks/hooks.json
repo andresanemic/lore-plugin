@@ -23,18 +23,6 @@
           }
         ]
       }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/mycelium-guard.mjs\"",
-            "shell": "bash",
-            "async": false
-          }
-        ]
-      }
     ]
   }
 }

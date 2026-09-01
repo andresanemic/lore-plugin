@@ -1,6 +1,6 @@
 # Lore Plugin 2.4.5 — Silent guards across Claude Code and Codex
 
-> **Superseded by 2.4.6.** The `284420b` in-place attempt below — moving the Claude Code check to `Stop` + `hookSpecificOutput.additionalContext` and calling it imperceptible — was wrong: Claude Code surfaces `additionalContext` on the `Stop` event as a visible `<system-reminder>` on every turn. 2.4.6 moves the check to `UserPromptSubmit` (where the field injects silently) and stops evaluating on session entry. The `v2.4.5` tag keeps the visible `decision: block` it shipped with; see `RELEASE_2.4.6.md`.
+> **Superseded twice.** The 2.4.5 `Stop` path was visible, and 2.4.6 moved the same context delivery to `UserPromptSubmit` without removing the root cause: Claude still received a reminder and could surface or answer it. The approved 2.4.7 candidate removes the Claude context adapter; this historical release remains unchanged below.
 
 Lore Plugin 2.4.5 turns two written expectations into local, observable guarantees on both supported plugin hosts: a Lore change cannot close against an older receipt, and a material expansion of the criterion loaded for every task cannot become the accepted baseline without user authority. This is two guarantees across Claude Code and Codex, implemented through one shared snapshot and one shared decision core rather than four divergent copies.
 
@@ -22,7 +22,7 @@ No corpus change. This release adds no skill, no mode, and no LUS claim. It is a
 
 # Lore Plugin 2.4.5 — Guardias silenciosas en Claude Code y Codex
 
-> **Reemplazado por 2.4.6.** El intento in-place `284420b` de más abajo —mover el chequeo de Claude Code a `Stop` + `hookSpecificOutput.additionalContext` y llamarlo imperceptible— estaba mal: Claude Code muestra `additionalContext` en el evento `Stop` como un `<system-reminder>` visible, en cada turno. 2.4.6 mueve el chequeo a `UserPromptSubmit` (donde el campo se inyecta en silencio) y deja de evaluar en el arranque de la sesión. El tag `v2.4.5` conserva el `decision: block` visible con el que se publicó; ver `RELEASE_2.4.6.md`.
+> **Reemplazado dos veces.** La vía `Stop` de 2.4.5 era visible, y 2.4.6 movió la misma entrega de contexto a `UserPromptSubmit` sin retirar la causa raíz: Claude seguía recibiendo un recordatorio y podía mostrarlo o responderle. El candidato 2.4.7 aprobado retira el adaptador contextual de Claude; el registro histórico continúa intacto debajo.
 
 Lore Plugin 2.4.5 convierte dos expectativas escritas en garantías locales y observables en los dos hosts con plugin soportado: un cambio de Lore no puede cerrar contra un recibo anterior, y una expansión material del criterio cargado para cada tarea no puede volverse la base aceptada sin autoridad del usuario. Son dos garantías en Claude Code y Codex, implementadas con un único snapshot y un núcleo común de decisión, no con cuatro copias divergentes.
 

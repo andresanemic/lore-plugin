@@ -5,7 +5,7 @@
 // no el transcript (invisible a las escrituras por script), no lo que el agente
 // diga haber corrido (una frase no es un hecho).
 //
-// Se usa desde `hooks/mycelium-guard.mjs` y desde `lore-plugin mycelium receipt`.
+// Se usa desde la guardia de Codex y desde los subcomandos locales de `lore-plugin mycelium`.
 
 import { createHash } from "node:crypto";
 import {
@@ -209,7 +209,7 @@ export function writeReceipt(root, state = snapshot(root)) {
 const SESSION_DIR = join(tmpdir(), "lore-plugin-sessions");
 
 function sessionBaselinePath(sessionId, root) {
-  const key = createHash("sha1")
+  const key = createHash("sha256")
     .update(`${sessionId ?? "no-session"}\0${resolve(root)}`)
     .digest("hex");
   return join(SESSION_DIR, `${key}.json`);

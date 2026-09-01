@@ -26,6 +26,14 @@ invoking any other Lore skill.
 > not an exemption: continuing is deciding.* Criterion that waits to be remembered is criterion
 > that does not run.
 >
+> **Every session opening checks that those bodies can load.** In a tree with `lore/`, run the
+> bundled `lore-plugin mycelium bodies --tree <root>` check against the governed root just resolved above before relying on its criterion. When a territory change resolves another root, repeat the check. If the
+> bundled command is unavailable, inspect the same two links directly: contract → core pieces
+> (`identidad`, `principios`, `index`) and index → thematic modules. A clean check says nothing and
+> work continues. A missing link stops reliance on that body and names only the concrete decision:
+> connect it, or declare it explicitly outside the universe. Never edit either side automatically.
+> This is the cheap body-load check, not a full MYCELIUM pass and not a fourth trigger for that mode.
+>
 > **Ordinary communication has only three shapes:** the result when work finished; the decision or
 > approval needed when something blocks it; silence when automatic work is clean. Loading, routing,
 > skill selection, mode selection and file classification stay below the conversation. If the user

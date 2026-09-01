@@ -37,3 +37,10 @@ test("ordinary skill communication is result, decision, or silence", () => {
   assert.doesNotMatch(brainstorming, /Announce the chosen depth/i);
   assert.doesNotMatch(createArea + createBot, /Declare (which one you picked|the pick) in one line/i);
 });
+test("session opening checks body load integrity without narrating machinery", () => {
+  const useLore = read("skills/use-lore/SKILL.md");
+  assert.match(useLore, /session openings?[\s\S]{0,1200}mycelium bodies/i);
+  assert.match(useLore, /governed root[\s\S]{0,300}territory change[\s\S]{0,300}(repeat|check)/i);
+  assert.match(useLore, /clean|zero findings?[\s\S]{0,400}silence|says? nothing/i);
+  assert.match(useLore, /missing|unnamed|unindexed|disconnected[\s\S]{0,500}connect[\s\S]{0,300}outside the universe/i);
+});

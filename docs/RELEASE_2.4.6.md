@@ -1,5 +1,7 @@
 # Lore Plugin 2.4.6 — Silent MYCELIUM guard on Claude Code
 
+> **Known defect.** `UserPromptSubmit` still delivered `additionalContext` to the agent. In real Claude Code CLI and App use, the reminder remained visible and the agent answered it. The approved 2.4.7 candidate removes the Claude context adapter entirely; Codex keeps its automatic guard.
+
 Bug fix. The 2.4.5 in-place attempt put the Claude Code check on the `Stop` event with `hookSpecificOutput.additionalContext`, expecting a silent injection. Claude Code surfaces that field on `Stop` as a visible `<system-reminder>` on every turn — the opposite of silent. 2.4.6 corrects it:
 
 - **Event moved to `UserPromptSubmit`**, where `additionalContext` is injected into context without a visible block. Codex is unchanged (it already uses `PostToolUse`).
@@ -11,6 +13,8 @@ Same two guarantees as 2.4.5 (a Lore change cannot close against an older receip
 ---
 
 # Lore Plugin 2.4.6 — Guardia MYCELIUM silenciosa en Claude Code
+
+> **Defecto conocido.** `UserPromptSubmit` seguía entregando `additionalContext` al agente. En uso real de Claude Code CLI y App, el recordatorio continuó visible y el agente le respondió. El candidato 2.4.7 aprobado retira por completo el adaptador contextual de Claude; Codex conserva su guardia automática.
 
 Corrección de bug. El intento in-place de 2.4.5 puso el chequeo de Claude Code en el evento `Stop` con `hookSpecificOutput.additionalContext`, esperando una inyección silenciosa. Claude Code muestra ese campo en `Stop` como un `<system-reminder>` visible, en cada turno — lo contrario de silencioso. 2.4.6 lo corrige:
 
