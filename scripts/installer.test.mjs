@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
+import { mkdtempSync, mkdirSync, readdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
@@ -81,6 +81,43 @@ test("Codex retira archivos obsoletos de una versión anterior de Lore", () => {
   assert.equal(existsSync(join(pluginRoot, "skills", "use-lore", "SKILL.md")), true);
   assert.equal(existsSync(join(pluginRoot, "hooks", "obsolete.mjs")), false);
   assert.equal(existsSync(join(pluginRoot, "hooks", "hooks.json")), true);
+});
+
+// La prosa instalada es la misma en todos los hosts; la capacidad instalada no.
+// Esta prueba corre contra el paquete REAL, no contra un fixture: un fixture repetiría
+// el defecto que la produjo — certificar el mecanismo bajo las condiciones que su autor
+// imaginó. Detectado el 2026-09-03 instalando el RC de 2.4.8: `use-lore` mandaba correr
+// `lore-plugin mycelium bodies` desde 2.4.7 publicada y Codex nunca recibió `scripts/`.
+function invocacionesDelCLI(root) {
+  const tokens = new Set();
+  const skills = join(root, "skills");
+  for (const entry of readdirSync(skills, { recursive: true })) {
+    const name = String(entry);
+    if (!name.endsWith(".md")) continue;
+    const prosa = readFileSync(join(skills, name), "utf8");
+    for (const [, comando, sub] of prosa.matchAll(/lore-plugin\s+([a-z][a-z-]*)(?:\s+([a-z][a-z-]*))?/g)) {
+      tokens.add(comando);
+      if (sub) tokens.add(sub);
+    }
+  }
+  return [...tokens];
+}
+
+test("Codex recibe todo comando que la prosa de una skill ordena correr", () => {
+  const root = join(import.meta.dirname, "..");
+  const invocados = invocacionesDelCLI(root);
+  assert.ok(invocados.length > 0, "la prosa de las skills debe invocar el CLI del kit");
+
+  const home = mkdtempSync(join(tmpdir(), "lore-home-"));
+  installCodex({ home, packageRoot: root });
+
+  const cliPath = join(home, ".agents", "plugins", "plugins", "lore", "scripts", "lore-plugin.mjs");
+  assert.equal(existsSync(cliPath), true, "la prosa invoca `lore-plugin` y Codex no recibió el CLI");
+
+  const cli = readFileSync(cliPath, "utf8");
+  for (const token of invocados) {
+    assert.ok(cli.includes(token), `la prosa ordena "${token}" y el CLI instalado no lo implementa`);
+  }
 });
 
 test("Claude usa comandos explícitos y no una copia silenciosa", () => {
