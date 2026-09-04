@@ -5,7 +5,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { claudeCommands, installCodex } from "./installer.mjs";
 import { evaluateState, formatIntervention } from "../hooks/lore-guard.mjs";
-import { unnamedBodies, readReceipt, snapshot, writeReceipt, RECEIPT } from "../hooks/lore-state.mjs";
+import { claimAnnounce, unnamedBodies, readReceipt, snapshot, writeReceipt, RECEIPT } from "../hooks/lore-state.mjs";
 
 const args = process.argv.slice(2);
 const command = args[0];
@@ -22,9 +22,10 @@ if (command === "crystallize") {
 // Registra que el barrido MYCELIUM corrió sobre este árbol. Es lo que cierra el
 // bracket de salida: un hecho derivado del contenido del Lore, no una frase.
 if (command === "mycelium") {
-  if (!["receipt", "bodies"].includes(args[1])) {
-    console.log("Usage: lore-plugin mycelium receipt [--tree <dir>]");
-    console.log("       lore-plugin mycelium bodies  [--tree <dir>]");
+  if (!["receipt", "bodies", "announce"].includes(args[1])) {
+    console.log("Usage: lore-plugin mycelium receipt  [--tree <dir>]");
+    console.log("       lore-plugin mycelium bodies   [--tree <dir>]");
+    console.log("       lore-plugin mycelium announce [--tree <dir>]");
     process.exit(2);
   }
   const treeIndex = args.indexOf("--tree");
@@ -42,15 +43,37 @@ if (command === "mycelium") {
     const total = r.unnamed.length + r.unindexed.length;
     if (total === 0) {
       console.log(`${r.contract}: every core piece is named${r.hasBlock ? " in the always-on block" : ""}, and the index reaches every module.`);
-      process.exit(0);
+    } else {
+      for (const f of r.unnamed) console.log(`  not named by ${r.contract}: ${f}`);
+      for (const f of r.unindexed) console.log(`  not named by lore/index.md: ${f}`);
+      console.log("");
+      console.log("Two repairs are possible and they are opposite: name it so it loads, or");
+      console.log("declare it out of the universe in writing, with its reason. Decide each one.");
     }
-    for (const f of r.unnamed) console.log(`  not named by ${r.contract}: ${f}`);
-    for (const f of r.unindexed) console.log(`  not named by lore/index.md: ${f}`);
+    // Cobertura declarada: la frase de arriba es verdadera y mas estrecha de lo que
+    // se lee. Dice que clase de objeto quedo fuera del universo, y ningun veredicto
+    // sobre el: no afirma que falte una frontera, ni que este mal, ni que haya deuda.
     console.log("");
-    console.log("Two repairs are possible and they are opposite: name it so it loads, or");
-    console.log("declare it out of the universe in writing, with its reason. Decide each one.");
+    console.log("Coverage: this walked contract -> index -> module and nothing else. It did not");
+    console.log("ask what step runs any clue, and validity boundaries were never in its universe.");
     process.exit(0);
   }
+  // Ecualización del Anuncio: reclama una de las tres franjas del árbol. No emite
+  // el anuncio —eso es prosa del agente— ni decide su contenido; solo dice si queda
+  // presupuesto. Declara su propia cobertura por la misma razón que `bodies`.
+  if (args[1] === "announce") {
+    const claim = claimAnnounce(tree);
+    if (claim.granted) {
+      console.log(`Announce ${claim.used}/${claim.pool} claimed for ${tree}.`);
+      console.log("This meters per tree. One per session is written in use-lore and nothing here checks it.");
+      process.exit(0);
+    }
+    console.log(claim.reason === "exhausted"
+      ? `Announce pool spent for ${tree} (${claim.used}/${claim.pool}). No budget left.`
+      : `No ${RECEIPT} at ${tree} - no recorded sweep to meter an announce against.`);
+    process.exit(1);
+  }
+
   const current = snapshot(tree);
   if (current.fileCount === 0) {
     console.log(`No Lore files found under ${tree} - nothing to record.`);
@@ -72,6 +95,7 @@ if (command !== "install" || !["codex", "claude", "all"].includes(target)) {
   console.log("       lore-plugin crystallize pack --bot <dir> --out <file.md>");
   console.log("       lore-plugin crystallize extract --from <file.md> --out <dir>");
   console.log("       lore-plugin mycelium receipt [--tree <dir>]");
+  console.log("       lore-plugin mycelium bodies|announce [--tree <dir>]");
   process.exit(command ? 2 : 0);
 }
 

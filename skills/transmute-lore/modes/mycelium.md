@@ -118,9 +118,22 @@ noise gets skipped — which costs more than the finding it was going to report.
    it cheap and therefore easy to point at the wrong place: a sweep that resolves the wrong tree
    returns a perfectly well-formed finding about something else.
 
+   **Its clean result proves less than it reads, so the command now prints its own coverage — 2.4.8.**
+   Observed on 2026-09-03: it came back clean before *and* after four dead always-on pointers were
+   repaired in the same tree, and said nothing either time. That is the check working correctly inside
+   its universe, and it is why the universe stopped being something the reader had to infer.
+
 1. **Take the universe, and it is narrower than the Lore.** Only clues that mandate a **verifiable
    artifact or step**. Criteria that governs continuously while writing — tone of voice, a dialect, a
    register — is satisfied in the text itself and is not in scope. Say what you excluded and why.
+
+   **And the boundary of a clue is outside this universe too, which is the half nobody notices —
+   2.4.8.** A validity boundary is a **condition on** a clue, not a clue of its own, so the junction
+   this sweep looks for points at the clue and nothing points at the condition. A clue whose boundary
+   is written in its first line and perfectly routed comes back **connected**, and nobody was ever
+   asked what step evaluates that boundary before the clue gets applied. What makes it a defect rather
+   than a gap: **no boundary in any tree can come back isolated**, so the silence is indistinguishable
+   from health. It gets **declared** in the report, not inferred from a clean pass.
 
 1b. **Then widen it past `lore/`, because the worst case is not in there.** Sweep the tree's **source
    folders** — `docs/`, `notas/`/`notes/`, `estrategia/`, anything the routing table does not own —
@@ -162,6 +175,21 @@ noise gets skipped — which costs more than the finding it was going to report.
 4. **Report pairs, never a list of clues.** The value is in the junction, so each row carries the one
    that is missing: `clue file:line ⇢ the step that should run it, and does not`. A row without its
    proposed junction is half a finding.
+
+   **And the report declares what it did not look at — 2.4.8.** One clause, at the end, naming the
+   **class** of object that stayed outside the universe of step 1: the boundaries of the clues, and
+   criteria satisfied in the text itself. It is the exclusion step 1 already asks you to state, now
+   carried through to the person who reads the result.
+
+   **It is not a verdict and never becomes one.** It does not say a boundary is missing, wrong or
+   owed — it says the sweep did not look. **A count is not the shape of this either:** a census of
+   boundaries is a number anybody raises by writing *«boundary: everything»* (`H12` — counting
+   artifacts does not measure value), so the raw datum survives as a **debt signal** and never as a
+   measure of health.
+
+   **The silence does not change.** A clean automatic pass still contributes zero words, exactly as
+   above: this clause rides on a report that was already going to speak, and a tree with nothing
+   outside its coverage does not earn a new line.
 
 5. **Propose the junction. Never prune.** A disconnected clue looks exactly like surplus, and deleting
    it is the one move that cannot be undone — what looked like excess was criteria nobody had
@@ -223,7 +251,14 @@ being a variable, and nobody is asked whether the sweep ran.
 
 **Commit the receipt.** The digest is content-derived, so it is identical on every machine for the
 same tree — a teammate who pulls a swept Lore inherits a closed bracket, and one who pulls an unswept
-change inherits the block. It is shared state, not machine state.
+change inherits the block. **The digest** is shared state, not machine state.
+
+**And that claim is about the digest and stops there — 2.4.8.** The receipt also carries the process
+announcement's pool (`use-lore`, *Move 3*), which is **usage** state: it counts what was spent on this
+copy of the tree, so it is not derived from content and two machines will disagree about it without
+either being wrong. Nothing reads it but the pool itself, and the sweep carries it forward untouched.
+It is written here because narrowing the sentence costs one line and leaving it wide would make the
+receipt claim more than it verified.
 
 **What this does not cover, said here rather than discovered later.** Neither host adapter sees Lore
 written in a tree the resolved working directory does not reach. The receipt proves that a state was

@@ -157,12 +157,21 @@ export function readReceipt(root) {
       return { version: 1, digest: raw, alwaysOnBytes: null };
     }
     const receipt = JSON.parse(raw);
-    return receipt?.version === 2
-      && /^[0-9a-f]{64}$/.test(receipt.digest)
-      && Number.isInteger(receipt.alwaysOnBytes)
-      && receipt.alwaysOnBytes >= 0
-      ? { version: 2, digest: receipt.digest, alwaysOnBytes: receipt.alwaysOnBytes }
-      : null;
+    if (receipt?.version !== 2
+      || !/^[0-9a-f]{64}$/.test(receipt.digest)
+      || !Number.isInteger(receipt.alwaysOnBytes)
+      || receipt.alwaysOnBytes < 0) return null;
+
+    const state = {
+      version: 2,
+      digest: receipt.digest,
+      alwaysOnBytes: receipt.alwaysOnBytes,
+    };
+    // El pool solo aparece si está: un recibo sin Anuncio y uno con el pool en
+    // cero no son el mismo hecho, y la clave ausente es la que dice «nunca hubo».
+    const announce = readAnnounce(receipt.announce);
+    if (announce) state.announce = announce;
+    return state;
   } catch {
     return null;
   }
@@ -181,6 +190,10 @@ export function writeReceipt(root, state = snapshot(root)) {
     digest: state.digest,
     alwaysOnBytes: state.alwaysOnBytes,
   };
+  // El pool del Anuncio sobrevive al barrido. Sin esto se borraría en cada
+  // recibo, que es lo mismo que no llevar estado: el pool nunca se agotaría.
+  const carried = state.announce ?? readReceipt(root)?.announce;
+  if (carried) receipt.announce = carried;
   const target = join(root, RECEIPT);
   const temporary = join(root, `${RECEIPT}.${process.pid}.tmp`);
   try {
@@ -190,6 +203,45 @@ export function writeReceipt(root, state = snapshot(root)) {
     if (existsSync(temporary)) unlinkSync(temporary);
   }
   return receipt;
+}
+
+// --- pool del «Anuncio de proceso» (2.4.8, en trial) -------------------------
+//
+// El Anuncio es prosa que el agente emite, y el kit no lo escribe ni lo dispara:
+// lo único que aporta acá es la ECUALIZACIÓN, para que la orientación no se
+// vuelva ceremonia. Estado: un entero y un timestamp, dentro del recibo que ya
+// existe. Ningún artefacto nuevo, y `mycelium bodies` sigue siendo de solo lectura.
+//
+// Tres límites, declarados en vez de insinuados — que es la propiedad de 2.4.8:
+//
+//   1. El pool se agota **por árbol**, no por sesión. «Nunca dos por sesión» no
+//      es mecánico acá: el CLI no tiene `sessionId` —solo lo tiene el hook de
+//      `SessionStart`— así que esa mitad vive como instrucción escrita en
+//      `use-lore` y nada la verifica.
+//   2. Sin recibo v2 no hay reclamo. Escribir uno desde este camino metería en el
+//      árbol un digest que ningún barrido aceptó: exactamente la evidencia falsa
+//      que esta versión vino a sacar. Un árbol sin barrido registrado no ecualiza.
+//   3. El timestamp se guarda y no se lee. Es dato para juzgar el trial —¿tres
+//      anuncios en un día o en un mes?—, no una ventana que caduque sola.
+
+export const ANNOUNCE_POOL = 3;
+
+function readAnnounce(value) {
+  return Number.isInteger(value?.used) && value.used >= 0
+    && Number.isInteger(value?.last) && value.last >= 0
+    ? { used: value.used, last: value.last }
+    : null;
+}
+
+export function claimAnnounce(root, { pool = ANNOUNCE_POOL, now = Date.now() } = {}) {
+  const receipt = readReceipt(root);
+  if (!receipt) return { granted: false, reason: "no-receipt", used: null, pool };
+
+  const used = receipt.announce?.used ?? 0;
+  if (used >= pool) return { granted: false, reason: "exhausted", used, pool };
+
+  writeReceipt(root, { ...receipt, announce: { used: used + 1, last: now } });
+  return { granted: true, reason: "claimed", used: used + 1, pool };
 }
 
 // --- base de sesión: el guard no evalúa hasta que el Lore cambia EN la sesión -

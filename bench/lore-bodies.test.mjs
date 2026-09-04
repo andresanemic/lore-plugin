@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import test from "node:test";
 
 import { unnamedBodies } from "../hooks/lore-state.mjs";
@@ -151,5 +152,50 @@ test("si el índice no está cargado no se apila ruido sobre el primer eslabón"
   const r = unnamedBodies(dir);
   assert.ok(r.unnamed.includes("lore/index.md"), "el eslabón roto es el primero");
   assert.deepEqual(r.unindexed, [], "no se reporta el segundo mientras el primero esté roto");
+  rmSync(dir, { recursive: true, force: true });
+});
+
+// --- cobertura declarada del reporte (2.4.8) ---------------------------------
+//
+// La frase limpia «every core piece is named…, and the index reaches every module»
+// es VERDADERA, y el lector la convierte en «mi Lore está bien conectado». El
+// recorrido nunca miró una frontera de validez ni preguntó qué paso corre una Pista,
+// y ninguna frontera del ecosistema puede salir aislada: el silencio del instrumento
+// era indistinguible de la salud. Ahora el universo se imprime al lado del veredicto.
+//
+// No es un veredicto nuevo: dice qué clase de objeto quedó fuera, nunca que falte.
+
+const CLI = resolve(import.meta.dirname, "../scripts/lore-plugin.mjs");
+const CORE = Object.keys(LORE)
+  .map((f) => `- \`${f}\``)
+  .join("\n");
+const bodies = (dir) =>
+  spawnSync(process.execPath, [CLI, "mycelium", "bodies", "--tree", dir], { encoding: "utf8" });
+
+test("el resultado limpio declara que no miró fronteras ni pasos", () => {
+  const dir = tree({ ...LORE, "CLAUDE.md": withBlock(CORE) });
+  const { status, stdout } = bodies(dir);
+  assert.equal(status, 0);
+  assert.match(stdout, /index reaches every module/, "el veredicto de siempre sigue ahí");
+  assert.match(stdout, /contract -> index -> module and nothing else/, "declara qué sí miró");
+  assert.match(stdout, /what step runs any clue/, "declara que no preguntó por el paso");
+  assert.match(stdout, /validity boundaries were never in its universe/, "declara la clase fuera");
+  rmSync(dir, { recursive: true, force: true });
+});
+
+test("la cobertura viaja con los hallazgos, no solo con el resultado limpio", () => {
+  const dir = tree({ ...LORE, "CLAUDE.md": withBlock("- `FASES.md`") });
+  const { stdout } = bodies(dir);
+  assert.match(stdout, /not named by CLAUDE\.md/, "los hallazgos siguen yendo primero");
+  assert.match(stdout, /validity boundaries were never in its universe/);
+  rmSync(dir, { recursive: true, force: true });
+});
+
+test("no emite veredicto nuevo: dice que no miró, nunca que falte o que haya deuda", () => {
+  const dir = tree({ ...LORE, "CLAUDE.md": withBlock(CORE) });
+  const flat = bodies(dir).stdout.toLowerCase();
+  for (const word of ["missing", "debt", "deuda", "incomplete", "should", "%"]) {
+    assert.ok(!flat.includes(word), `la cobertura no juzga: apareció «${word}»`);
+  }
   rmSync(dir, { recursive: true, force: true });
 });

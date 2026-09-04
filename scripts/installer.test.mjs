@@ -14,6 +14,8 @@ const makePackage = () => {
   writeFileSync(join(root, ".codex-plugin", "plugin.json"), '{"name":"lore","version":"2.0.0"}');
   writeFileSync(join(root, "skills", "use-lore", "SKILL.md"), "---\nname: use-lore\n---\n");
   writeFileSync(join(root, "hooks", "hooks.json"), '{"hooks":{}}');
+  mkdirSync(join(root, "scripts"), { recursive: true });
+  writeFileSync(join(root, "scripts", "lore-plugin.mjs"), "// cli\n");
   return root;
 };
 
@@ -25,6 +27,10 @@ test("Codex instala el plugin y crea un marketplace personal válido", () => {
   assert.equal(existsSync(join(pluginRoot, ".codex-plugin", "plugin.json")), true);
   assert.equal(existsSync(join(pluginRoot, "skills", "use-lore", "SKILL.md")), true);
   assert.equal(existsSync(join(pluginRoot, "hooks", "hooks.json")), true);
+  // El kit manda correr `lore-plugin mycelium bodies` en cada apertura de sesión y
+  // `mycelium announce` para el Anuncio. Sin `scripts/`, Codex recibía la instrucción
+  // y no el comando — detectado el 2026-09-03 instalando el RC de 2.4.8 en los tres hosts.
+  assert.equal(existsSync(join(pluginRoot, "scripts", "lore-plugin.mjs")), true);
 
   const market = JSON.parse(readFileSync(join(home, ".agents", "plugins", "marketplace.json"), "utf8"));
   assert.equal(market.name, "personal");

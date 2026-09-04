@@ -31,7 +31,10 @@ export function installCodex({ home, packageRoot }) {
   }
   mkdirSync(pluginRoot, { recursive: true });
 
-  for (const name of ["skills", ".codex-plugin", "assets", "hooks"]) {
+  // `scripts/` viaja porque el kit lo invoca por nombre: la apertura de sesion corre
+  // `lore-plugin mycelium bodies` y el Anuncio reclama su franja con `mycelium announce`.
+  // Sin el, Codex recibe la prosa que manda correr un comando que ese host no tiene.
+  for (const name of ["skills", ".codex-plugin", "assets", "hooks", "scripts"]) {
     const source = join(packageRoot, name);
     const destination = join(pluginRoot, name);
     if (existsSync(destination)) {

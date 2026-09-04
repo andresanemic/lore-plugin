@@ -513,6 +513,12 @@ Read the full [LUS research overview](./docs/LUS_en.md), its [conceptual bibliog
 
 In video games, *lore* is the accumulated story and rules that keep a universe coherent — what can and cannot happen next. We borrow the image and shift the weight: specific events fade, and **what remains is the criteria** that keeps the next work coherent. The visual debt is explicit too: the anime palette comes from ***Tales of Berseria*** (Bandai Namco, 2016), the author's favorite game — naming that provenance separates a design decision from inherited taste.
 
+---
+
+None of this starts working the day you install it. It starts the first time you catch yourself about to explain something for the second time and write it down instead — and the honest version is that the second time is when you *notice*, not when it started costing you.
+
+And while a body of criteria you maintain by hand is plainly more work than one that maintains itself, what is true is that the work is the point: it only ends up sounding like you because you were the one who wrote it down. What you do with the morning that gives back is not something this kit gets to decide.
+
 ## Author
 
 **Andrés Peña Mellado** — principal researcher of LUS.
@@ -1039,6 +1045,12 @@ Lee la [presentación completa de LUS](./docs/LUS_es.md), su [bibliografía conc
 ### ¿Por qué «Lore»?
 
 En los videojuegos, el *lore* es la historia y las reglas acumuladas que mantienen coherente un universo —qué puede y qué no puede pasar después. Tomamos esa imagen y cambiamos el peso: los hechos puntuales se desvanecen, y **lo que permanece es el criterio** que mantiene coherente el próximo trabajo. La deuda visual también es explícita: la paleta anime viene de ***Tales of Berseria*** (Bandai Namco, 2016), el juego favorito del autor — nombrar esa procedencia separa una decisión de diseño de un gusto heredado.
+
+---
+
+Nada de esto empieza a funcionar el día que lo instalas. Empieza la primera vez que te descubres a punto de explicar algo por segunda vez y lo escribes en su lugar — y la versión honesta es que la segunda vez es cuando te *das cuenta*, no cuando empezó a costarte.
+
+Y si bien un cuerpo de criterio que mantienes a mano es más trabajo que uno que se mantiene solo, lo cierto es que el trabajo es justamente el punto: termina sonando a ti porque fuiste tú quien lo escribió. Qué haces con la mañana que eso te devuelve no es algo que este kit pueda decidir.
 
 ## Autor
 

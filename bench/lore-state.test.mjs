@@ -4,7 +4,7 @@ import { dirname, join } from "node:path";
 import { tmpdir } from "node:os";
 import test from "node:test";
 
-import { RECEIPT, readReceipt, snapshot, writeReceipt, writeSessionBaseline } from "../hooks/lore-state.mjs";
+import { ANNOUNCE_POOL, RECEIPT, claimAnnounce, readReceipt, snapshot, writeReceipt, writeSessionBaseline } from "../hooks/lore-state.mjs";
 
 const OPEN = "<!-- lore:always-on -->";
 const CLOSE = "<!-- /lore:always-on -->";
@@ -122,4 +122,58 @@ test("session baseline filenames use a SHA-2 digest for the session identifier",
   const created = readdirSync(sessionDir).filter((file) => !before.has(file));
   assert.equal(created.length, 1);
   assert.match(created[0], /^[0-9a-f]{64}\.json$/);
+});
+
+// --- ecualización del Anuncio (2.4.8, en trial) ------------------------------
+//
+// El pool existe para que la orientación no se vuelva ceremonia. Lo que se prueba
+// acá es lo que el pool NO puede hacer tanto como lo que hace: no inventa un
+// recibo, no sobrevive a su propio agotamiento, y el barrido no se lo borra.
+
+const bare = () => tree({
+  "CLAUDE.md": `${OPEN}\n- \`lore/identidad.md\`\n${CLOSE}\n`,
+  "lore/identidad.md": "# Id\n",
+});
+
+function swept() {
+  const dir = bare();
+  writeReceipt(dir);
+  return dir;
+}
+
+test("el pool se agota una vez por árbol y despues no queda presupuesto", () => {
+  const dir = swept();
+  for (let i = 1; i <= ANNOUNCE_POOL; i += 1) {
+    const claim = claimAnnounce(dir);
+    assert.equal(claim.granted, true, `franja ${i} deberia otorgarse`);
+    assert.equal(claim.used, i);
+  }
+  const spent = claimAnnounce(dir);
+  assert.equal(spent.granted, false);
+  assert.equal(spent.reason, "exhausted");
+  assert.equal(spent.used, ANNOUNCE_POOL);
+});
+
+test("sin recibo no se reclama: el Anuncio nunca escribe un digest que nadie aceptó", () => {
+  const dir = bare();
+  const claim = claimAnnounce(dir);
+  assert.equal(claim.granted, false);
+  assert.equal(claim.reason, "no-receipt");
+  assert.equal(existsSync(join(dir, RECEIPT)), false, "no se fabrica evidencia de un barrido que no corrió");
+});
+
+test("el barrido no borra el pool: un recibo nuevo lo lleva adelante", () => {
+  const dir = swept();
+  claimAnnounce(dir);
+  writeFileSync(join(dir, "lore", "identidad.md"), "# Id\n\nOtra cosa.\n");
+  const receipt = writeReceipt(dir, snapshot(dir));
+  assert.equal(receipt.announce.used, 1, "el pool sobrevive al barrido");
+  assert.equal(readReceipt(dir).announce.used, 1);
+  assert.equal(claimAnnounce(dir).used, 2, "sigue contando desde donde iba");
+});
+
+test("un recibo sin Anuncio no lleva la clave: ausente y cero no son el mismo hecho", () => {
+  const dir = swept();
+  assert.equal("announce" in writeReceipt(dir), false);
+  assert.equal("announce" in readReceipt(dir), false);
 });

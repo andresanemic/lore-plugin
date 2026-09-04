@@ -899,7 +899,9 @@ Una estructura típica de Lore, con Área y proyecto, se ve así:
   .lore-mycelium               → recibo v2 del estado aceptado de Lore: digest de contenido
                                  más bytes de los cuerpos de criterio cargados en cada tarea.
                                  Se escribe con `lore-plugin mycelium receipt` y se
-                                 versiona: el mismo estado produce el mismo valor
+                                 versiona: el mismo estado produce el mismo **digest** en
+                                 cualquier máquina. La afirmación es sobre el digest y
+                                 termina ahí — lo demás que lleve el recibo es estado local
 
   proyectos/
     {slug}/
@@ -932,7 +934,7 @@ El comportamiento de Lore está gobernado por un conjunto de invariantes compart
 - **Todo cambio pasa por un umbral** – el criterio debe revisarse antes de escribirse.
 - **Nada hace commit automáticamente** – la revisión humana es obligatoria.
 - **Un humano revisa siempre el diff final** – la IA asiste, pero no modifica Lore en secreto.
-- **Las garantías por host se declaran, no se infieren desde un manifiesto compartido** – Codex captura una base de sesión silenciosa en `SessionStart` y comprueba el contenido después del uso de herramientas. Claude Code no recibe contexto del hook: su adaptador con contexto fue retirado porque el host puede mostrarlo o el agente puede responderle. El chequeo de apertura de `use-lore` sí verifica contrato → piezas núcleo → módulos indexados en todos los hosts; limpio significa silencio y un enlace faltante exige decidir entre conectarlo o declararlo fuera del universo.
+- **Las garantías por host se declaran, no se infieren desde un manifiesto compartido** – Codex captura una base de sesión silenciosa en `SessionStart` y comprueba el contenido después del uso de herramientas. Claude Code no recibe contexto del hook: su adaptador con contexto fue retirado porque el host puede mostrarlo o el agente puede responderle. El chequeo de apertura de `use-lore` sí verifica contrato → piezas núcleo → módulos indexados en todos los hosts; limpio significa silencio y un enlace faltante exige decidir entre conectarlo o declararlo fuera del universo. **Cuando ese chequeo se corre como comando, imprime su propia cobertura** — recorrió contrato → índice → módulo y nada más, nunca preguntó qué paso corre una Pista, y las fronteras de validez jamás estuvieron en su universo. Esa cláusula viaja solo sobre salida que ya se iba a escribir: la pasada automática limpia sigue sin decir una palabra.
 - **Una expansión material del criterio cargado siempre necesita autoridad** – el recibo v2 guarda `alwaysOnBytes`, el tamaño UTF-8 normalizado de los cuerpos Markdown de criterio apuntados directamente por el bloque `<!-- lore:always-on -->`. Los punteros repetidos cuentan una vez; se excluyen rutas que no resuelven, la prosa del bloque, `FASES.md` y `PHASES.md`. Un aumento de 8.192 bytes o más exige `lore-plugin mycelium receipt --accept-always-on`; sin ese flag el recibo no avanza. Es una frontera de autoridad derivada de casos observados, no un diagnóstico de crowding ni de calidad semántica.
 - **El recibo v1 sigue siendo legible** – el digest histórico de 64 caracteres migra en silencio cuando sigue vigente. Si quedó desfasado, el cambio de contenido sigue pendiente y no se inventa una comparación de tamaño porque v1 no conserva el `alwaysOnBytes` anterior.
 - **La infraestructura sana es silenciosa** – los hooks no emiten texto visible cuando todo está bien. Las skills comunican el resultado, la decisión o aprobación necesaria cuando hay un bloqueo, o nada cuando el trabajo automático termina limpio. Los nombres exactos de skills y modos siguen disponibles en documentación y diagnósticos técnicos, y se usan en conversación cuando el usuario menciona uno o pide detalle.

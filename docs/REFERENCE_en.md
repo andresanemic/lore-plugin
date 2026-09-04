@@ -919,7 +919,9 @@ A typical Lore layout, with an Area and a project, looks like this:
   .lore-mycelium               → receipt v2 of the accepted Lore state: content digest
                                  plus UTF-8 bytes of criterion bodies loaded for every
                                  task. Written by `lore-plugin mycelium receipt`, and
-                                 committed: the same tree state produces the same value
+                                 committed: the same tree state produces the same **digest**
+                                 on every machine. The claim is about the digest and stops
+                                 there — anything else the receipt carries is local state
 
   proyectos/
     {slug}/
@@ -954,7 +956,7 @@ Lore’s behavior is governed by a set of shared invariants:
 - **Every change passes through a threshold** – criteria must be reviewed before being written.
 - **Nothing commits automatically** – human review is required.
 - **A human always reviews the final diff** – AI assists, but does not silently change Lore.
-- **Host guarantees are explicit, not inferred from a shared manifest** – Codex captures a silent per-session baseline at `SessionStart` and checks content after tool use. Claude Code does not receive hook context: its context-bearing adapter was removed because the host can surface it or the agent can answer it. The bundled `use-lore` opening check still verifies contract → core pieces → indexed modules on every host; clean means silence, while a missing link requires choosing whether to connect it or declare it outside the universe.
+- **Host guarantees are explicit, not inferred from a shared manifest** – Codex captures a silent per-session baseline at `SessionStart` and checks content after tool use. Claude Code does not receive hook context: its context-bearing adapter was removed because the host can surface it or the agent can answer it. The bundled `use-lore` opening check still verifies contract → core pieces → indexed modules on every host; clean means silence, while a missing link requires choosing whether to connect it or declare it outside the universe. **When that check is run as a command it prints its own coverage** — it walked contract → index → module and nothing else, it never asked what step runs any clue, and validity boundaries were never in its universe. That clause rides only on output already being written: the clean automatic pass still says nothing.
 - **A material expansion of always-loaded criterion needs authority** – receipt v2 stores `alwaysOnBytes`, the normalized UTF-8 size of Markdown criterion bodies pointed to directly by the `<!-- lore:always-on -->` block. Duplicate pointers count once; unresolved paths, block prose, `FASES.md`, and `PHASES.md` are excluded. An increase of 8,192 bytes or more requires `lore-plugin mycelium receipt --accept-always-on`; without that flag the receipt is not advanced. This is an authority boundary derived from observed cases, not a diagnosis of crowding or semantic quality.
 - **Receipt v1 remains readable** – the historical 64-character digest migrates silently when still current. If it is stale, the content change remains pending and no size comparison is invented because v1 has no prior `alwaysOnBytes`.
 - **Healthy infrastructure is silent** – hooks emit no user-facing text when clean. Skills communicate the result, the decision or approval needed when blocked, or nothing for clean automatic work. Exact skill and mode identifiers remain available in documentation and technical diagnostics, and are used conversationally when the user names one or asks for detail.

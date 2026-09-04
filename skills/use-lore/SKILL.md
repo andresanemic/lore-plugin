@@ -32,6 +32,9 @@ invoking any other Lore skill.
 > (`identidad`, `principios`, `index`) and index → thematic modules. A clean check says nothing and
 > work continues. A missing link stops reliance on that body and names only the concrete decision:
 > connect it, or declare it explicitly outside the universe. Never edit either side automatically.
+>
+> **This is also where the process announcement is claimed, when there is one to make — 2.4.8.** Its
+> contract, its pool and the reason it is in trial are in *Move 3*, under **The process announcement**.
 > This is the cheap body-load check, not a full MYCELIUM pass and not a fourth trigger for that mode.
 >
 > **Ordinary communication has only three shapes:** the result when work finished; the decision or
@@ -130,6 +133,43 @@ corrected in one sentence, for the same reason the register is.
 **And it never replaces the artifact.** Move 3 produces something or it produced nothing; a tutorial
 handed over *instead* of a first artifact is the kit explaining itself to somebody who still has
 nothing to show for the conversation. Offer it, then run the route.
+
+### The process announcement — the same orientation, in drip mode, and in trial — 2.4.8
+
+The two-minute picture is offered once, to somebody new. The **process announcement** is that same
+orientation spread thin over a tree already in use: one sentence, **written as prose by you** — never
+a hook, never `additionalContext` — saying what class of work comes next and what the person will
+have to judge. It is decoupled from the moment of execution: no threshold, no confirmation, nothing
+blocked, nothing waited on.
+
+**What it may say is settled by a contrast, not by a paragraph:**
+
+| | Sentence | Why |
+|---|---|---|
+| **Never** | *«MYCELIUM is going to verify how the clues connect…»* | narrates the machinery: it names a mode and a mechanism |
+| **This** | *«I'll look first at what criterion already governs this project, so I don't duplicate it»* | makes **the action that follows** legible, naming no mode, skill or internal part |
+
+**The rule in one line: do not narrate the machinery; make the action that follows legible.** Its
+mechanical test: **an announcement that cannot be written without naming an internal part of the kit
+is an announcement that does not go out.** So this permits nothing the rule above ever forbade —
+selecting an operation still does not announce it, and the names in the routing table stay yours.
+
+**What earns a slot is what class of work comes and what the person will have to judge.** Measured,
+not imagined: reading one long session back for the places an announcement would have helped returned
+three, and the one that earned its place was the one that would have caught a real error — not the
+one that described a process.
+
+**Equalized, and the pool is small on purpose.** Three per tree, claimed against the session-opening
+check that already runs: `lore-plugin mycelium announce --tree <root>` — exit 0 means there was
+budget and it was spent, exit 1 means there is none, and a tree with no recorded sweep has no pool at
+all. **At most one per session, and that half is this instruction and nothing else:** the command
+meters per tree and has no session identifier, so nothing verifies it. **Omitted entirely when the
+person arrives with an urgent instruction** — framing work nobody asked to have framed is ceremony,
+not orientation.
+
+**It is in trial, and one question judges it: does it add orientation, or does it add ceremony?** Its
+observable form is that the announcements start getting read past. If that happens, the feature lost
+and it is withdrawn before publication. **Nothing may be built that depends on it.**
 
 **Boundary:** this gate is for the **first** Lore on the machine. Once one area exists, entry is by
 the routing table below and this section is skipped.
