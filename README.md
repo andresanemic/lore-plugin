@@ -470,9 +470,9 @@ Lore was not designed ahead of time: every decision came from applying it to rea
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/2%2C008-clones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="2,008 clones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/52-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="52 days"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~38-a_day-F94F79?style=for-the-badge&labelColor=0B0B12" alt="38 a day"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/2%2C253-clones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="2,253 clones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/56-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="56 days"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~40-a_day-F94F79?style=for-the-badge&labelColor=0B0B12" alt="40 a day"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-peak-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 peak"></a>
 </p>
 
@@ -1003,9 +1003,9 @@ Lore no se diseñó de antemano: cada decisión salió de aplicarlo a proyectos 
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/2%2C008-clonaciones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="2.008 clonaciones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/52-d%C3%ADas-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="52 días"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~38-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="38 al día"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/2%2C253-clonaciones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="2.253 clonaciones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/56-d%C3%ADas-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="56 días"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~40-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="40 al día"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-pico-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 pico"></a>
 </p>
 
