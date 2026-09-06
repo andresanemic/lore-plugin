@@ -239,7 +239,8 @@ grep -rn '{{[A-Z_]\+}}' "$DEST" && echo "UNRESOLVED TOKENS" || echo "OK no token
   in present tense; no plugin wrap. If the area is `bots`, stop and hand back to `create-bot` —
   that skill owns the bot variant, and the stamped bot declares what it loaded in one short line
   (Spanish canonical form: `Contrato, Lore y FASES cargados`) — only after the opening hook confirms
-  by staying silent; if the hook speaks, repair first. The line goes in the user's language; what is
+  by staying silent; if the hook speaks, repair first. Where no hook runs, open the three bodies
+  yourself, then declare what you opened. The line goes in the user's language; what is
   fixed is the meaning and the three bodies.
 - Verify exactly one of `CLAUDE.md` or `AGENTS.md` exists. For cross-host use, offer Codex's
   `project_doc_fallback_filenames` setting or, only with explicit approval, a minimal adapter.
