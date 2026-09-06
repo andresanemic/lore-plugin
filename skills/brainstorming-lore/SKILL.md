@@ -6,8 +6,8 @@ description: >-
   transmutation, distillation flow, or Lore Plugin skill — also for a deliverable Lore does not own
   but relevant process modules in a routed lore/ GOVERN, such as a batch of posts or a report, where
   the design is deciding how to run criteria already written — also when the user asks in plain
-  language to think through such a design before building ("ayúdame a pensar el diseño", "help me
-  think this through before we build"). Do not trigger for generic brainstorming, ideation, product design,
+  language to think through a Lore-governed design before building ("ayúdame a pensar el diseño de
+  mi bot", "help me think this lore design through before we build"). Do not trigger for generic brainstorming, ideation, product design,
   software features, or research questions that no routed lore/ governs.
 ---
 
