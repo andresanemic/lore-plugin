@@ -389,6 +389,7 @@ things, same 25-line ceiling — `canon/` and the routing table, never the feder
 > Source of truth for AI agents in this bot. Read fully before any task.
 > **{{PROJECT_TITLE}}** — {{PROJECT_DESCRIPTION}}
 > State and plan live in **`FASES.md`**. Inherited standard: the `bots` area Lore.
+> When the bot opens a session it declares what it loaded, in one short line: `Contrato, Lore y FASES cargados`.
 
 <!-- lore:always-on -->
 ## The criteria this bot carries

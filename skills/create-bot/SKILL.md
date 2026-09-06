@@ -750,6 +750,7 @@ With the copy on, everything below applies. With it off, `sync.js` neither copie
   still works differently from the area it borrowed them from. Name the area's actual contract in
   `incluir`; never
   federate an area's whole tree, which would drag in every project it holds.
+- **When the bot opens a session it declares what it loaded, in one short line: `Contrato, Lore y FASES cargados`.** The line names the contract plus `lore/` plus `FASES.md` of every area and project the routing table routes the task to. The routing detail lives in `lore/enrutamiento.md`, never in that line.
 - **The manifest is the single source of the routing table.** Keeping them as two artifacts
   guarantees they drift, and a drifted routing table sends the bot to the wrong Lore without
   warning. Therefore **`enrutamiento.md` is never hand-edited.**

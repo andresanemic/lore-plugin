@@ -92,9 +92,10 @@ noise gets skipped — which costs more than the finding it was going to report.
 0b. **Before the clues: does the body that holds them load at all?** One command, and it is not the
    same question as the rest of this mode:
 
-   ```bash
-   npx lore-plugin mycelium bodies          # or: --tree <dir>
-   ```
+    ```bash
+    npx lore-plugin mycelium bodies          # or: --tree <dir>
+    npx lore-plugin mycelium federated       # or: --tree <bot-dir>
+    ```
 
    It reports two links of one chain — **contract → index → thematic module**. A core piece
    (`identidad`, `principios`, `index`) that the contract's always-on block does not name, and a
@@ -102,13 +103,15 @@ noise gets skipped — which costs more than the finding it was going to report.
    not a defect**: by design it opens per task from the index, and asking for all of them would turn
    this into noise over any healthy tree.
 
-   **Why it is not covered by the sweep below.** This mode asks, clue by clue, what step forces it to
-   run. A `lore/` with no loader produces **no disconnected clue at all** — it is a file the sweep
-   opens to read its clues without noticing the real session never opens it. Nine modules can sit
-   inert at once and every clue looks fine. It was found in the wild on 2026-08-24 exactly that way,
-   by a sweep that reported nothing.
+    **Why it is not covered by the sweep below.** This mode asks, clue by clue, what step forces it to
+    run. A `lore/` with no loader produces **no disconnected clue at all** — it is a file the sweep
+    opens to read its clues without noticing the real session never opens it. Nine modules can sit
+    inert at once and every clue looks fine. It was found in the wild on 2026-08-24 exactly that way,
+    by a sweep that reported nothing.
 
-   **And the repair has two opposite outcomes — the tool reports data and decides nothing.** A body
+    **The federated sibling of this check.** `mycelium bodies` never sees sibling trees, so a bot that routes outward needs one more question: does its always-on block declare the contract plus the routing table plus `FASES.md` (`mycelium federated --tree <bot-dir>`)? A non-bot tree answers nothing to check; a bot whose block names fewer bodies exits non-zero and names what is missing.
+
+    **And the repair has two opposite outcomes — the tool reports data and decides nothing.** A body
    the contract does not name is either **connected** (name it, so it loads) or **declared out of the
    universe in writing, with its reason** — which is the right answer for a source folder, a registry
    that only records, or a body the contract routes by another path. Guessing *connect* by default is

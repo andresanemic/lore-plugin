@@ -237,7 +237,8 @@ grep -rn '{{[A-Z_]\+}}' "$DEST" && echo "UNRESOLVED TOKENS" || echo "OK no token
 - Verify the stamped contract meets the starter **floor**: one always-on block, four things, ≤ 25
   lines; `FASES.md` outside `lore/`; modules inherited by relative path, not copied; no `HARD-GATE`
   in present tense; no plugin wrap. If the area is `bots`, stop and hand back to `create-bot` —
-  that skill owns the bot variant.
+  that skill owns the bot variant, and the stamped bot declares what it loaded in one short line:
+  `Contrato, Lore y FASES cargados`.
 - Verify exactly one of `CLAUDE.md` or `AGENTS.md` exists. For cross-host use, offer Codex's
   `project_doc_fallback_filenames` setting or, only with explicit approval, a minimal adapter.
 - Register the project in the **area's** `FASES.md` (row with path + status + internal phase).

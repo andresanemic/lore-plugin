@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 import { spawnSync } from "node:child_process";
+import { existsSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
-import { dirname, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { claudeCommands, installCodex } from "./installer.mjs";
 import { evaluateState, formatIntervention } from "../hooks/lore-guard.mjs";
@@ -22,10 +23,11 @@ if (command === "crystallize") {
 // Registra que el barrido MYCELIUM corrió sobre este árbol. Es lo que cierra el
 // bracket de salida: un hecho derivado del contenido del Lore, no una frase.
 if (command === "mycelium") {
-  if (!["receipt", "bodies", "announce"].includes(args[1])) {
-    console.log("Usage: lore-plugin mycelium receipt  [--tree <dir>]");
-    console.log("       lore-plugin mycelium bodies   [--tree <dir>]");
-    console.log("       lore-plugin mycelium announce [--tree <dir>]");
+  if (!["receipt", "bodies", "announce", "federated"].includes(args[1])) {
+    console.log("Usage: lore-plugin mycelium receipt   [--tree <dir>]");
+    console.log("       lore-plugin mycelium bodies    [--tree <dir>]");
+    console.log("       lore-plugin mycelium announce  [--tree <dir>]");
+    console.log("       lore-plugin mycelium federated [--tree <dir>]");
     process.exit(2);
   }
   const treeIndex = args.indexOf("--tree");
@@ -57,6 +59,34 @@ if (command === "mycelium") {
     console.log("Coverage: this walked contract -> index -> module and nothing else. It did not");
     console.log("ask what step runs any clue, and validity boundaries were never in its universe.");
     process.exit(0);
+  }
+  // Chequeo federado: el always-on de un bot que federa árboles hermanos nombra
+  // los tres cuerpos (contrato+canon, tabla de enrutamiento, FASES). Reporta datos,
+  // no veredicto: en rojo nombra el cuerpo que falta y sugiere transmute-lore UPGRADE.
+  if (args[1] === "federated") {
+    const contract = ["CLAUDE.md", "AGENTS.md"].map((n) => join(tree, n)).find((p) => existsSync(p)) || null;
+    if (!contract) {
+      console.log(`No CLAUDE.md or AGENTS.md at ${tree} - nothing to check the federated load against.`);
+      process.exit(0);
+    }
+    if (!existsSync(join(tree, "lore", "enrutamiento.md"))) {
+      console.log(`No lore/enrutamiento.md at ${tree} - not a federated bot, nothing to check.`);
+      process.exit(0);
+    }
+    const text = readFileSync(contract, "utf8");
+    const block = (text.match(/<!-- lore:always-on -->([\s\S]*?)<!-- \/lore:always-on -->/) || [])[1] || "";
+    const missing = [];
+    if (!/canon\//.test(block)) missing.push("canon/");
+    if (!/enrutamiento\.md/.test(block)) missing.push("lore/enrutamiento.md");
+    if (!/FASES\.md|PHASES\.md/.test(block)) missing.push("FASES.md");
+    if (missing.length === 0) {
+      console.log(`${contract}: federated load declares contract, routing table and state.`);
+      process.exit(0);
+    }
+    for (const m of missing) console.log(`  not declared in the always-on block: ${m}`);
+    console.log("");
+    console.log("Run the verifier or transmute-lore UPGRADE to repair the declaration.");
+    process.exit(1);
   }
   // Ecualización del Anuncio: reclama una de las tres franjas del árbol. No emite
   // el anuncio —eso es prosa del agente— ni decide su contenido; solo dice si queda
@@ -95,7 +125,7 @@ if (command !== "install" || !["codex", "claude", "all"].includes(target)) {
   console.log("       lore-plugin crystallize pack --bot <dir> --out <file.md>");
   console.log("       lore-plugin crystallize extract --from <file.md> --out <dir>");
   console.log("       lore-plugin mycelium receipt [--tree <dir>]");
-  console.log("       lore-plugin mycelium bodies|announce [--tree <dir>]");
+  console.log("       lore-plugin mycelium bodies|announce|federated [--tree <dir>]");
   process.exit(command ? 2 : 0);
 }
 
