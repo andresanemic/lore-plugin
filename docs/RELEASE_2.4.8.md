@@ -6,7 +6,7 @@ MYCELIUM now declares what it did not look at: the report walks contract → ind
 
 Skill triggers were rebuilt under the kit's own writing-skills discipline: subagent probes caught use-lore claiming creation work that belongs to create-*, plain-language design requests missing brainstorming-lore, and one over-broad clause that fired it on generic design; I re-probed the fixes to green, including a 10/10 discipline battery on declaring-only-after-confirmation under time and authority pressure. I am keeping this probe-and-measure methodology as part of how I ship every version from now on.
 
-I exercised release candidates 1 through 5 on all three of my hosts (Claude Code, Codex CLI, OpenCode), each verified file-by-file by digest against the repo while the repo stayed at 2.4.7. Repository verification is 212/212 and git diff --check is clean. No corpus change, no Lore schema migration, and no scientific claim.
+I exercised release candidates 1 through 6 on all three of my hosts (Claude Code, Codex CLI, OpenCode), each verified file-by-file by digest against the repo while the repo stayed at 2.4.7. Repository verification is 212/212 and git diff --check is clean. No corpus change, no Lore schema migration, and no scientific claim.
 
 # Lore Plugin 2.4.8 — cobertura declarada, triplete federado, disparadores bajo TDD
 
@@ -16,4 +16,4 @@ MYCELIUM ahora declara lo que no miró: el reporte recorre contrato → índice 
 
 Los disparadores se reconstruyeron bajo la disciplina writing-skills del propio kit: sondas con subagentes atraparon a use-lore reclamando creación que es de create-*, pedidos de diseño en idioma llano que no llegaban a brainstorming-lore, y una cláusula demasiado ancha que lo disparaba en diseño genérico; re-sondeé los arreglos en verde, incluida una batería de disciplina 10/10 sobre declarar-solo-tras-confirmar bajo presión de tiempo y autoridad. Dejo esta metodología de sondear-y-medir integrada a cómo saco cada versión de ahora en más.
 
-Ejercí las candidatas 1 a 5 en mis tres hosts (Claude Code, Codex CLI, OpenCode), cada una verificada archivo por archivo por digest contra el repo mientras el repo seguía en 2.4.7. La verificación del repositorio es 212/212 y git diff --check está limpio. Sin cambio de corpus, sin migración del esquema Lore y sin afirmación científica.
+Ejercí las candidatas 1 a 6 en mis tres hosts (Claude Code, Codex CLI, OpenCode), cada una verificada archivo por archivo por digest contra el repo mientras el repo seguía en 2.4.7. La verificación del repositorio es 212/212 y git diff --check está limpio. Sin cambio de corpus, sin migración del esquema Lore y sin afirmación científica.
