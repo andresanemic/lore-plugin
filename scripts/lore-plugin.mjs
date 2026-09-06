@@ -85,7 +85,7 @@ if (command === "mycelium") {
     }
     for (const m of missing) console.log(`  not declared in the always-on block: ${m}`);
     console.log("");
-    console.log("Run the verifier or transmute-lore UPGRADE to repair the declaration.");
+    console.log("Repair the declaration or run transmute-lore UPGRADE.");
     process.exit(1);
   }
   // Ecualización del Anuncio: reclama una de las tres franjas del árbol. No emite

@@ -1,6 +1,6 @@
 ---
 name: use-lore
-description: Use when the user mentions "lore", asks how this kit or its skills work, installs or updates the plugin, is unsure which Lore skill to invoke, starts a new work area, project or bot, wants to migrate an old project to the Lore standard, or keeps loose notes in the same folder tree as their Lore.
+description: Use when the user mentions "lore", asks how this kit or its skills work, installs or updates the plugin, is unsure which Lore skill to invoke, wants to migrate an old project to the Lore standard, or keeps loose notes in the same folder tree as their Lore. Starting a new work area, project or bot is create-area, create-project or create-bot, not this skill.
 ---
 
 # Using Lore

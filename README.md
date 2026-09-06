@@ -246,7 +246,7 @@ codex plugin add lore@personal
 
 Replace `all` with `claude` or `codex` to target only one CLI. The installer configures Claude directly; for Codex it prepares the local `personal` marketplace and prints the final `codex plugin add` command.
 
-Claude Code does not receive hook context: its adapter is deliberately absent because any context delivered to the agent can become visible or alter the reply. Codex keeps the automatic local guard through silent `SessionStart` and `PostToolUse`. In every host, `use-lore` checks body-load integrity at session opening; a clean check says nothing and a missing connection names only the decision needed. `FASES.md` and `PHASES.md` remain state and do not enter the receipt.
+Claude Code does not receive routine hook context: its adapter is deliberately absent because any context delivered to the agent can become visible or alter the reply. Codex keeps the automatic local guard through silent `SessionStart` and `PostToolUse`. One red-only exception, on both hosts since 2.4.8: when the session opens inside a federated bot whose always-on block does not declare its load, `SessionStart` emits exactly one line naming the repair (`lore-plugin mycelium federated`); green stays at zero bytes, and everything fails open. In every host, `use-lore` checks body-load integrity at session opening; a clean check says nothing and a missing connection names only the decision needed. `FASES.md` and `PHASES.md` remain state and do not enter the receipt.
 
 </details>
 
@@ -789,7 +789,7 @@ codex plugin add lore@personal
 
 Reemplaza `all` por `claude` o `codex` para preparar solo una CLI. El instalador configura Claude directamente; para Codex prepara el marketplace local `personal` e imprime el comando final `codex plugin add`.
 
-Claude Code no recibe contexto del hook: su adaptador se retira deliberadamente porque cualquier contexto entregado al agente puede volverse visible o alterar la respuesta. Codex conserva la guardia local automática mediante `SessionStart` y `PostToolUse` silenciosos. En todos los hosts, `use-lore` comprueba al abrir la integridad de carga de los cuerpos; un control limpio no dice nada y una conexión faltante nombra solo la decisión necesaria. `FASES.md` y `PHASES.md` siguen siendo estado y no entran al recibo.
+Claude Code no recibe contexto rutinario del hook: su adaptador se retira deliberadamente porque cualquier contexto entregado al agente puede volverse visible o alterar la respuesta. Codex conserva la guardia local automática mediante `SessionStart` y `PostToolUse` silenciosos. Una sola excepción solo-en-rojo, en ambos hosts desde 2.4.8: cuando la sesión abre dentro de un bot federado cuyo always-on no declara su carga, `SessionStart` emite exactamente una línea nombrando la reparación (`lore-plugin mycelium federated`); el verde queda en cero bytes, y todo falla abierto. En todos los hosts, `use-lore` comprueba al abrir la integridad de carga de los cuerpos; un control limpio no dice nada y una conexión faltante nombra solo la decisión necesaria. `FASES.md` y `PHASES.md` siguen siendo estado y no entran al recibo.
 
 </details>
 

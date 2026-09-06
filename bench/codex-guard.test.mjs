@@ -75,6 +75,24 @@ test("SessionStart is silent even when the receipt was already stale from before
   assert.equal(JSON.parse(readFileSync(join(dir, receipt), "utf8")).digest, "0".repeat(64));
 });
 
+test("SessionStart red path fires once on a federated bot with undeclared load", () => {
+  const dir = tree({
+    "CLAUDE.md": "<!-- lore:always-on -->\n- `canon/`\n<!-- /lore:always-on -->\n",
+    "lore/enrutamiento.md": "# routing\n",
+  });
+  const out = run(dir, "session_start");
+  assert.equal(out.trim().split("\n").length, 1);
+  assert.match(out, /mycelium federated/);
+});
+
+test("SessionStart stays silent on a federated bot with full declaration", () => {
+  const dir = tree({
+    "CLAUDE.md": "<!-- lore:always-on -->\n- `canon/`\n- `lore/enrutamiento.md`\n- `FASES.md`\n<!-- /lore:always-on -->\n",
+    "lore/enrutamiento.md": "# routing\n",
+  });
+  assert.equal(run(dir, "session_start"), "");
+});
+
 test("a receipt stale from before the session stays silent until an in-session change", () => {
   const dir = tree();
   writeFileSync(join(dir, receipt),

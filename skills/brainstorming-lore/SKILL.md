@@ -5,7 +5,9 @@ description: >-
   or module, work area, Lore-governed project scaffold, bot, FASES structure, routing contract,
   transmutation, distillation flow, or Lore Plugin skill — also for a deliverable Lore does not own
   but relevant process modules in a routed lore/ GOVERN, such as a batch of posts or a report, where
-  the design is deciding how to run criteria already written. Do not trigger for generic brainstorming, ideation, product design,
+  the design is deciding how to run criteria already written — also when the user asks in plain
+  language to think through such a design before building ("ayúdame a pensar el diseño", "help me
+  think this through before we build"). Do not trigger for generic brainstorming, ideation, product design,
   software features, or research questions that no routed lore/ governs.
 ---
 

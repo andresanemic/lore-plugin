@@ -389,7 +389,7 @@ things, same 25-line ceiling — `canon/` and the routing table, never the feder
 > Source of truth for AI agents in this bot. Read fully before any task.
 > **{{PROJECT_TITLE}}** — {{PROJECT_DESCRIPTION}}
 > State and plan live in **`FASES.md`**. Inherited standard: the `bots` area Lore.
-> When the bot opens a session it declares what it loaded, in one short line: `Contrato, Lore y FASES cargados`.
+> When the bot opens a session it declares what it loaded, in one short line (Spanish canonical form: `Contrato, Lore y FASES cargados`) — only after the opening hook confirms by staying silent; if the hook speaks, repair first. Where no hook runs, declare only what was actually opened. Render the line in the user's language; the fixed part is the meaning and the three bodies.
 
 <!-- lore:always-on -->
 ## The criteria this bot carries

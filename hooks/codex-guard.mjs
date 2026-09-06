@@ -81,7 +81,7 @@ function federatedRedLine(root) {
   if (!/enrutamiento\.md/.test(block)) missing.push("lore/enrutamiento.md");
   if (!/FASES\.md|PHASES\.md/.test(block)) missing.push("FASES.md");
   if (missing.length === 0) return null;
-  return `Lore: el always-on no declara ${missing.join(", ")} — corre el verificador o transmute-lore UPGRADE.`;
+  return `Lore: el always-on no declara ${missing.join(", ")} — corre lore-plugin mycelium federated en este árbol o transmute-lore UPGRADE.`;
 }
 
 // PostToolUse: deferred arming. Without a baseline the first sight becomes it —
