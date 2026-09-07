@@ -205,7 +205,7 @@ export function writeReceipt(root, state = snapshot(root)) {
   return receipt;
 }
 
-// --- pool del «Anuncio de proceso» (2.4.8, en trial) -------------------------
+// --- pool del «Anuncio de proceso» (2.4.8) ----------------------------------
 //
 // El Anuncio es prosa que el agente emite, y el kit no lo escribe ni lo dispara:
 // lo único que aporta acá es la ECUALIZACIÓN, para que la orientación no se
@@ -221,7 +221,7 @@ export function writeReceipt(root, state = snapshot(root)) {
 //   2. Sin recibo v2 no hay reclamo. Escribir uno desde este camino metería en el
 //      árbol un digest que ningún barrido aceptó: exactamente la evidencia falsa
 //      que esta versión vino a sacar. Un árbol sin barrido registrado no ecualiza.
-//   3. El timestamp se guarda y no se lee. Es dato para juzgar el trial —¿tres
+//   3. El timestamp se guarda y no se lee. Es dato para juzgar su uso —¿tres
 //      anuncios en un día o en un mes?—, no una ventana que caduque sola.
 
 export const ANNOUNCE_POOL = 3;

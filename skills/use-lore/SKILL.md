@@ -34,7 +34,7 @@ invoking any other Lore skill.
 > connect it, or declare it explicitly outside the universe. Never edit either side automatically.
 >
 > **This is also where the process announcement is claimed, when there is one to make — 2.4.8.** Its
-> contract, its pool and the reason it is in trial are in *Move 3*, under **The process announcement**.
+> contract and its pool are in *Move 3*, under **The process announcement**.
 > This is the cheap body-load check, not a full MYCELIUM pass and not a fourth trigger for that mode.
 >
 > **Ordinary communication has only three shapes:** the result when work finished; the decision or
@@ -134,7 +134,7 @@ corrected in one sentence, for the same reason the register is.
 handed over *instead* of a first artifact is the kit explaining itself to somebody who still has
 nothing to show for the conversation. Offer it, then run the route.
 
-### The process announcement — the same orientation, in drip mode, and in trial — 2.4.8
+### The process announcement — the same orientation, in drip mode — 2.4.8
 
 The two-minute picture is offered once, to somebody new. The **process announcement** is that same
 orientation spread thin over a tree already in use: one sentence, **written as prose by you** — never
@@ -167,9 +167,9 @@ meters per tree and has no session identifier, so nothing verifies it. **Omitted
 person arrives with an urgent instruction** — framing work nobody asked to have framed is ceremony,
 not orientation.
 
-**It is in trial, and one question judges it: does it add orientation, or does it add ceremony?** Its
+**It stays universal while it adds orientation, and one question judges it: does it add orientation, or does it add ceremony?** Its
 observable form is that the announcements start getting read past. If that happens, the feature lost
-and it is withdrawn before publication. **Nothing may be built that depends on it.**
+and it is withdrawn. **Nothing may be built that depends on it.**
 
 **Boundary:** this gate is for the **first** Lore on the machine. Once one area exists, entry is by
 the routing table below and this section is skipped.
