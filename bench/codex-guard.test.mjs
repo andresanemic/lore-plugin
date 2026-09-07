@@ -87,7 +87,15 @@ test("SessionStart red path fires once on a federated bot with undeclared load",
 
 test("SessionStart stays silent on a federated bot with full declaration", () => {
   const dir = tree({
-    "CLAUDE.md": "<!-- lore:always-on -->\n- `canon/`\n- `lore/enrutamiento.md`\n- `FASES.md`\n<!-- /lore:always-on -->\n",
+    "CLAUDE.md": "<!-- lore:always-on -->\n- `canon/`\n- `lore/enrutamiento.md`\n- `FASES.md`\n- el triplete de cada árbol hermano entra siempre que la tarea los enrute; son hermanos, no ancestros, el host no lo inyecta.\n<!-- /lore:always-on -->\n",
+    "lore/enrutamiento.md": "# routing\n",
+  });
+  assert.equal(run(dir, "session_start"), "");
+});
+
+test("SessionStart stays silent on a packaged bot with the rule and no canon", () => {
+  const dir = tree({
+    "CLAUDE.md": "<!-- lore:always-on -->\n- `lore/enrutamiento.md`\n- `FASES.md`\n- árboles hermanos: el triplete entra siempre que la tarea los enrute, no son ancestros, el host no los inyecta.\n<!-- /lore:always-on -->\n",
     "lore/enrutamiento.md": "# routing\n",
   });
   assert.equal(run(dir, "session_start"), "");

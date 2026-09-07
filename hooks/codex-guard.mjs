@@ -70,18 +70,19 @@ if (event === "session_start") {
   OK();
 }
 
-/** Una línea cuando un bot federado no declara su carga; null en otro caso. */
+/** Una línea cuando un bot federado no declara la regla del triplete; null en otro caso.
+ *  Mismo predicado que `mycelium federated` y que bots/scripts/verificar-triplete.mjs:
+ *  la regla (palabra + marca de hermano), nunca cuerpos literales —un bot empaquetado
+ *  legítimo no tiene canon/ y no debe sonar el rojo. */
 function federatedRedLine(root) {
   const contract = ["CLAUDE.md", "AGENTS.md"].map((n) => join(root, n)).find((p) => existsSync(p));
   if (!contract || !existsSync(join(root, "lore", "enrutamiento.md"))) return null;
   const text = readFileSync(contract, "utf8");
   const block = (text.match(/<!-- lore:always-on -->([\s\S]*?)<!-- \/lore:always-on -->/) || [])[1] || "";
-  const missing = [];
-  if (!/canon\//.test(block)) missing.push("canon/");
-  if (!/enrutamiento\.md/.test(block)) missing.push("lore/enrutamiento.md");
-  if (!/FASES\.md|PHASES\.md/.test(block)) missing.push("FASES.md");
-  if (missing.length === 0) return null;
-  return `Lore: el always-on no declara ${missing.join(", ")} — corre lore-plugin mycelium federated en este árbol o transmute-lore UPGRADE.`;
+  const hasRule = /triplete/i.test(block)
+    && /(hermano|no ancestro|no los inyecta|no lo inyecta)/i.test(block);
+  if (hasRule) return null;
+  return `Lore: el always-on no declara la regla del triplete — corre lore-plugin mycelium federated en este árbol o transmute-lore UPGRADE.`;
 }
 
 // PostToolUse: deferred arming. Without a baseline the first sight becomes it —

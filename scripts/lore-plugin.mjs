@@ -60,9 +60,11 @@ if (command === "mycelium") {
     console.log("ask what step runs any clue, and validity boundaries were never in its universe.");
     process.exit(0);
   }
-  // Chequeo federado: el always-on de un bot que federa árboles hermanos nombra
-  // los tres cuerpos (contrato+canon, tabla de enrutamiento, FASES). Reporta datos,
-  // no veredicto: en rojo nombra el cuerpo que falta y sugiere transmute-lore UPGRADE.
+  // Chequeo federado: el always-on de un bot que federa árboles hermanos lleva la
+  // regla del triplete (misma que verifica bots/scripts/verificar-triplete.mjs: la
+  // palabra más la marca de hermano/no-inyecta). Reporta datos, no veredicto: en
+  // rojo dice que la regla falta y sugiere transmute-lore UPGRADE. No exige cuerpos
+  // literales —un bot empaquetado legítimo no tiene canon/—.
   if (args[1] === "federated") {
     const contract = ["CLAUDE.md", "AGENTS.md"].map((n) => join(tree, n)).find((p) => existsSync(p)) || null;
     if (!contract) {
@@ -75,17 +77,15 @@ if (command === "mycelium") {
     }
     const text = readFileSync(contract, "utf8");
     const block = (text.match(/<!-- lore:always-on -->([\s\S]*?)<!-- \/lore:always-on -->/) || [])[1] || "";
-    const missing = [];
-    if (!/canon\//.test(block)) missing.push("canon/");
-    if (!/enrutamiento\.md/.test(block)) missing.push("lore/enrutamiento.md");
-    if (!/FASES\.md|PHASES\.md/.test(block)) missing.push("FASES.md");
-    if (missing.length === 0) {
-      console.log(`${contract}: federated load declares contract, routing table and state.`);
+    const hasRule = /triplete/i.test(block)
+      && /(hermano|no ancestro|no los inyecta|no lo inyecta)/i.test(block);
+    if (hasRule) {
+      console.log(`${contract}: federated load declares the triplete rule.`);
       process.exit(0);
     }
-    for (const m of missing) console.log(`  not declared in the always-on block: ${m}`);
+    console.log("  the always-on block does not declare the triplete rule for sibling trees");
     console.log("");
-    console.log("Repair the declaration or run transmute-lore UPGRADE.");
+    console.log("Declare the rule or run transmute-lore UPGRADE.");
     process.exit(1);
   }
   // Ecualización del Anuncio: reclama una de las tres franjas del árbol. No emite

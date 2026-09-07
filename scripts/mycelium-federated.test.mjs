@@ -37,25 +37,24 @@ test.after(() => {
   for (const dir of roots) rmSync(dir, { recursive: true, force: true });
 });
 
-test("bot federado con triplete declarado sale 0", () => {
+test("bot federado con regla del triplete sale 0", () => {
   const dir = tree({
-    "CLAUDE.md": "<!-- lore:always-on -->\n- `canon/`\n- `lore/enrutamiento.md`\n- `FASES.md`\n<!-- /lore:always-on -->\n",
+    "CLAUDE.md": "<!-- lore:always-on -->\n- `canon/`\n- `lore/enrutamiento.md`\n- `FASES.md`\n- el triplete de cada árbol hermano entra siempre que la tarea los enrute; son hermanos, no ancestros, el host no lo inyecta.\n<!-- /lore:always-on -->\n",
     "lore/enrutamiento.md": "# routing\n",
   });
   const r = run(dir);
   assert.equal(r.status, 0);
-  assert.match(r.out, /declares contract, routing table and state/);
+  assert.match(r.out, /declares the triplete rule/);
 });
 
-test("bot federado sin triplete sale distinto de 0 y nombra lo que falta", () => {
+test("bot federado sin la regla sale distinto de 0 y la nombra", () => {
   const dir = tree({
     "CLAUDE.md": "<!-- lore:always-on -->\n- `canon/`\n<!-- /lore:always-on -->\n",
     "lore/enrutamiento.md": "# routing\n",
   });
   const r = run(dir);
   assert.notEqual(r.status, 0);
-  assert.match(r.out, /lore\/enrutamiento\.md/);
-  assert.match(r.out, /FASES\.md/);
+  assert.match(r.out, /does not declare the triplete rule/);
 });
 
 test("árbol que no es bot federado no tiene nada que chequear y sale 0", () => {
@@ -63,4 +62,13 @@ test("árbol que no es bot federado no tiene nada que chequear y sale 0", () => 
   const r = run(dir);
   assert.equal(r.status, 0);
   assert.match(r.out, /nothing to check/);
+});
+
+test("bot empaquetado con regla y sin canon sale 0", () => {
+  const dir = tree({
+    "CLAUDE.md": "<!-- lore:always-on -->\n- `lore/enrutamiento.md`\n- `FASES.md`\n- árboles hermanos: el triplete entra siempre que la tarea los enrute, no son ancestros, el host no los inyecta.\n<!-- /lore:always-on -->\n",
+    "lore/enrutamiento.md": "# routing\n",
+  });
+  const r = run(dir);
+  assert.equal(r.status, 0);
 });

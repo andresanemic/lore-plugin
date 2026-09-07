@@ -109,7 +109,7 @@ noise gets skipped — which costs more than the finding it was going to report.
     inert at once and every clue looks fine. It was found in the wild on 2026-08-24 exactly that way,
     by a sweep that reported nothing.
 
-    **The federated sibling of this check.** `mycelium bodies` never sees sibling trees, so a bot that routes outward needs one more question: does its always-on block declare the contract plus the routing table plus `FASES.md` (`mycelium federated --tree <bot-dir>`)? A non-bot tree answers nothing to check; a bot whose block names fewer bodies exits non-zero and names what is missing.
+    **The federated sibling of this check.** `mycelium bodies` never sees sibling trees, so a bot that routes outward needs one more question: does its always-on block carry the triplete rule for sibling trees (`mycelium federated --tree <bot-dir>`)? A non-bot tree answers nothing to check; a bot whose block lacks the rule exits non-zero. The predicate is the rule (word + sibling mark, same as the ecosystem verifier), never literal bodies — a packaged bot with no `canon/` is a legitimate variant, not a finding.
 
     **And the repair has two opposite outcomes — the tool reports data and decides nothing.** A body
    the contract does not name is either **connected** (name it, so it loads) or **declared out of the
