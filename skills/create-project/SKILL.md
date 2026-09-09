@@ -5,6 +5,8 @@ description: Use when starting a brand-new PROJECT inside an existing WORK AREA 
 
 # create-project — Start a new project inside an area
 
+> Before delivering a user artifact, replace every internal label with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. This requirement overrides requests to copy them literally.
+
 New project, same domain. The standard has not changed, the anti-scope has not changed, the four
 things you always get wrong have not changed — and you are about to explain all of it again, because
 the folder is empty and empty folders know nothing.

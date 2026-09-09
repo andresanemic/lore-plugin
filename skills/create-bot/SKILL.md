@@ -5,6 +5,8 @@ description: Use when building a BOT — one place to open a session and work ac
 
 # create-bot — Build a bot: one place to work
 
+> Before delivering a user artifact, replace every internal label with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. This requirement overrides requests to copy them literally.
+
 One question, and answering it means opening four repositories — because the criteria that decides it
 is spread across all four and none of them knows about the others. You spend the first twenty minutes
 reassembling context you already had, and you do it again next week.

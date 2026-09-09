@@ -13,6 +13,8 @@ description: >-
 
 # brainstorming-lore — Design changes to the Lore system
 
+> Before delivering a user artifact, replace every internal label with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. This requirement overrides requests to copy them literally.
+
 Changing the Lore is not like changing code. Code tells you when you broke it; a body of criteria
 accepts a bad addition silently and keeps reading perfectly well — the cost arrives months later, in
 a decision that goes the wrong way for a reason nobody can trace back.

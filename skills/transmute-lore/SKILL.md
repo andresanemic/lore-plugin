@@ -5,6 +5,8 @@ description: Use when a project's existing body of criteria must be operated as 
 
 # Transmute Lore
 
+> Before delivering a user artifact, replace every internal label with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. This requirement overrides requests to copy them literally.
+
 The criteria is already there. It is in a README nobody finishes, in a `CLAUDE.md` that grew by
 accretion, in a comment that says *don't touch this, it breaks hydration* — written by people who
 paid for it, sitting in shapes nothing can load. Nothing is missing. Nothing is reachable either.

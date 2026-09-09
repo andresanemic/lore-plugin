@@ -5,6 +5,8 @@ description: Use when saving a lesson to the Lore, right after solving a problem
 
 # save-to-lore — Incremental capture and promotion
 
+> Before delivering a user artifact, replace every internal label with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. This requirement overrides requests to copy them literally.
+
 The bug is fixed. The tests pass. You are already reaching for the next thing — and the most
 expensive part of the last two hours is not the patch, it is the sentence you would say if someone
 asked *why it had to be done that way*. That sentence has about a minute left before it is gone.

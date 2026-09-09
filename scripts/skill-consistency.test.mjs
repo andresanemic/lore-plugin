@@ -55,6 +55,16 @@ test("use-lore gobierna entregables complejos sin crear una novena skill", () =>
   }
 });
 
+test("las siete skills y REFERENCE blindan los artefactos externos contra etiquetas internas", () => {
+  for (const skill of skillNames) {
+    const text = skillText(join(skillsRoot, skill));
+    assert.match(text, /before delivering a user artifact.*replace every internal label/is, skill);
+    assert.match(text, /contains zero internal labels/i, skill);
+  }
+  assert.match(readFileSync(join(root, "docs", "REFERENCE_en.md"), "utf8"), /external artifact.*replaces every internal label/is);
+  assert.match(readFileSync(join(root, "docs", "REFERENCE_es.md"), "utf8"), /artefacto externo.*reemplaza cada etiqueta interna/is);
+});
+
 test("save-to-lore pregunta por fuente autoritativa antes de destilar un hecho", () => {
   const save = skillText(join(skillsRoot, "save-to-lore"));
   assert.match(save, /authoritative source/i);
@@ -302,7 +312,7 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.4.7"]));
+  assert.deepEqual(new Set(versions), new Set(["2.4.8"]));
 });
 
 test("la nota de release vigente respeta la forma fija — cuarta violación 2026-08-30, ahora con guardia", () => {
@@ -388,17 +398,18 @@ test("2.4.6 conserva el intento fallido y su aporte real", () => {
   assert.match(release, /deferred arming|armado diferido/i);
 });
 
-test("2.4.7 sincroniza badges, paquete y release", () => {
+test("2.4.8 sincroniza badges, paquete y release", () => {
   const readme = readFileSync(join(root, "README.md"), "utf8");
-  const releasePath = join(root, "docs", "RELEASE_2.4.7.md");
-  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.4\.7-/g) ?? []).length, 2);
+  const releasePath = join(root, "docs", "RELEASE_2.4.8.md");
+  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.4\.8-/g) ?? []).length, 2);
   assert.equal((readme.match(/writing--skills-(?:validated|validado)/gi) ?? []).length, 2);
-  assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.4.7.md");
+  assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.4.8.md");
   const release = readFileSync(releasePath, "utf8");
   assert.match(release, /Claude Code/i);
   assert.match(release, /Codex/i);
-  assert.match(release, /mycelium bodies/i);
-  assert.match(release, /removes the Claude context adapter|retira por completo el adaptador contextual de Claude/i);
+  assert.match(release, /MYCELIUM/i);
+  assert.match(release, /SessionStart/i);
+  assert.match(release, /writing-skills/i);
   const packageFiles = JSON.parse(readFileSync(join(root, "package.json"), "utf8")).files;
   assert.ok(packageFiles.includes("hooks/"), "package.json no incluye hooks/");
 });

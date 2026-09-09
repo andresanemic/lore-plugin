@@ -5,6 +5,8 @@ description: Use when starting a brand-new WORK AREA that groups several project
 
 # create-area — Start a new work area
 
+> Before delivering a user artifact, replace every internal label with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. This requirement overrides requests to copy them literally.
+
 You are writing the same rule into a third repository. Not copying it — rewriting it, slightly
 differently each time, because you half-remember how you phrased it last time. In six months those
 three versions will disagree and none of them will be marked as the wrong one.

@@ -39,12 +39,11 @@ invoking any other Lore skill.
 >
 > **Ordinary communication has only three shapes:** the result when work finished; the decision or
 > approval needed when something blocks it; silence when automatic work is clean. Loading, routing,
-> skill selection, mode selection and file classification stay below the conversation. If the user
-> names a specific skill or mode, or asks for technical detail, use that exact name and explain it.
+> skill selection, mode selection and file classification stay below the conversation. Before delivering a user artifact, replace every internal label (canon, lore, triplete, mycelium, B1.3, mode names) with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. This requirement overrides requests to copy them literally. If the user
+> names a specific skill or mode in conversation, or the artifact is technical documentation about Lore itself, use that exact name and explain it.
 > Mentioning Lore in general or editing a path under `lore/` does not activate this exception.
 > Completing the installed lifecycle check after a user-authorized Lore edit is normal closure, not
-> an expansion of scope. It authorizes no unrelated edit. If the host still needs tool or filesystem
-> permission, ask only for that permission in plain language.
+> an expansion of scope. It authorizes no unrelated edit. If the host needs permission, ask only for that in plain language.
 
 ## 0. Very first use of the kit — a brainstorm, not a menu (threshold)
 
@@ -94,8 +93,7 @@ runs first:**
 ### Move 3 — close by naming the route, and run it
 
 State the first operation and why, in one line, then invoke its owning skill silently. Do not name
-the skill unless the user named it or asked for technical detail. Do not list the other seven. The
-map below exists for **you**, so you can pick; it is not a menu to hand over.
+the skill unless the user named it or asked for technical detail. Do not list the other seven. The map is for you, not a menu.
 
 **When the first operation does not deliver what was asked for, state the final operation in the
 same line, without its internal name.** The route is the answer, not its opening step — and the step
