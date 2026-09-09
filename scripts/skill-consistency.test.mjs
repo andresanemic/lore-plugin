@@ -315,53 +315,45 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
   assert.deepEqual(new Set(versions), new Set(["2.4.8"]));
 });
 
-test("la nota de release vigente respeta la forma fija — cuarta violación 2026-08-30, ahora con guardia", () => {
-  // andamiaje/lore-plugin/lore/principios.md #6-ampliado: dos veces por versión (2.2.2, 2.3.3)
-  // un `docs/RELEASE_X.md` se envolvió a ~90 columnas antes de publicarse, y GitHub no colapsa
-  // un salto de línea suelto dentro de una página de Release —a diferencia de un .md navegado
-  // en el repo—, así que un párrafo envuelto se ve cortado en líneas cortas en la página
-  // pública aunque el markdown crudo "se vea bien" en el editor. Un tercer caso (2.4.2, el
-  // mismo release que este test corrige) fue detectado por Andrés mirando la página real,
-  // otra vez. La Pista pedía guardia estructural a la cuarta — esta lo es.
+// andamiaje/lore-plugin/lore/principios.md #12: la nota sirve al usuario que actualiza el producto.
+test("la nota vigente cumple la vara mínima de un release legible", () => {
   const version = JSON.parse(readFileSync(join(root, "package.json"), "utf8")).version;
   const releasePath = join(root, "docs", `RELEASE_${version}.md`);
   const body = readFileSync(releasePath, "utf8");
-
-  // Señal de envoltorio: un archivo cortado a columna fija tiene su línea más larga muy por
-  // debajo de lo que mide un párrafo real de prosa técnica. Los cinco releases previos sin
-  // envolver (2.3.3, 2.4.0, 2.4.1…) superan los 400 caracteres en su línea más larga.
-  const lines = body.split(/\r?\n/);
-  const maxLine = Math.max(...lines.map((l) => l.length));
-  assert.ok(maxLine > 400,
-    `docs/RELEASE_${version}.md: línea más larga = ${maxLine} — huele a envoltorio a columna fija ` +
-    `(gh release no colapsa un salto de línea suelto; ver principios.md #6-ampliado)`);
-
-  // Forma fija: dos títulos H1 "Lore Plugin X — …", nunca "## English"/"## Español" como
-  // subsección de un único H1 — esa fue la segunda parte del mismo defecto en 2.4.2.
   const h1 = [...body.matchAll(/^# (.+)$/gm)].map((m) => m[1]);
   assert.equal(h1.length, 2, `docs/RELEASE_${version}.md: esperaba 2 títulos H1 (EN + ES), hay ${h1.length}`);
   const escapedVersion = version.split(".").join("\\.");
   for (const title of h1) {
     assert.match(title, new RegExp("^Lore Plugin " + escapedVersion + " — "),
       `título H1 fuera de forma: "${title}"`);
+    assert.match(title.split(" — ")[1] ?? "", /^[A-ZÁÉÍÓÚÑ]/,
+      `la primera palabra del beneficio debe comenzar en mayúscula: "${title}"`);
   }
   assert.ok(!/^## (English|Español)/m.test(body),
     'la forma fija no usa "## English"/"## Español" como subsección — dos H1 separados');
-
-  // El primer H1 es el título en inglés (gh release --title debe copiarlo tal cual).
   assert.doesNotMatch(h1[0], /[áéíóúñ¿¡]/i, `el primer título debe estar en inglés: "${h1[0]}"`);
 
-  // principios.md §12: cada idioma conserva un ancla y exactamente 2 párrafos de clave + 1 de
-  // alcance. El último declara la superficie pública y la frontera científica.
   const sections = body.split(/^# .+$/gm).slice(1);
+  const closingRules = [
+    { tested: /tested (?:on|in)/i, action: /migration|no action|required|needs?/i },
+    { tested: /probado en/i, action: /migración|ninguna acción|requiere|necesita/i },
+  ];
   for (const [index, section] of sections.entries()) {
     const blocks = section.trim().split(/\r?\n\r?\n/);
     assert.ok(blocks[0].startsWith("> [README]"), `sección ${index + 1}: falta el ancla README`);
     assert.equal(blocks.slice(1).length, 3, `sección ${index + 1}: esperaba 3 párrafos, hay ${blocks.slice(1).length}`);
-    assert.match(blocks[3], /scientific claim|afirmación científica/i, `sección ${index + 1}: falta la frontera científica`);
+    for (const paragraph of blocks.slice(1)) {
+      assert.doesNotMatch(paragraph, /\r?\n/, `sección ${index + 1}: los párrafos no llevan hardwrap`);
+    }
+    assert.match(blocks[3], closingRules[index].tested, `sección ${index + 1}: falta la prueba general por hosts`);
+    assert.match(blocks[3], closingRules[index].action, `sección ${index + 1}: falta la migración o acción necesaria`);
   }
-  assert.match(body, /seven-skill surface|superficie (?:pública )?de siete skills/i,
-    "la nota debe declarar la superficie pública real: siete skills");
+  assert.doesNotMatch(sections[0], /\b(?:I|we|my|our|us)\b/i, "el release inglés habla desde el producto, no desde su autor");
+  assert.doesNotMatch(sections[1], /\b(?:yo|nosotros|nosotras|mi|mis|nuestro|nuestra|nuestros|nuestras)\b/i,
+    "el release español habla desde el producto, no desde su autor");
+  assert.doesNotMatch(body, /\b(?:RC\d*|release candidates?|candidatas?|subagents?|subagentes?|TDD|writing-skills|trial)\b/i,
+    "el release cuenta el producto publicado, no el proceso interno que lo produjo");
+  assert.doesNotMatch(body, /\b\d+\/\d+\b/, "la evidencia detallada vive en los tests, no en el release");
 });
 
 test("2.4.2 (histórica) conserva su release y su evidencia de banco", () => {
@@ -408,8 +400,13 @@ test("2.4.8 sincroniza badges, paquete y release", () => {
   assert.match(release, /Claude Code/i);
   assert.match(release, /Codex/i);
   assert.match(release, /MYCELIUM/i);
-  assert.match(release, /SessionStart/i);
-  assert.match(release, /writing-skills/i);
+  assert.match(release, /use-lore/i);
+  assert.match(release, /brainstorming-lore/i);
+  assert.match(release, /create-\*/i);
+  assert.match(release, /tested (?:on|in) Claude Code, Codex, and OpenCode/i);
+  assert.match(release, /probado en Claude Code, Codex y OpenCode/i);
+  assert.match(release, /no public function was removed|no se eliminó ninguna función pública/i);
+  assert.match(release, /existing Lore needs no migration|el Lore existente no necesita migración/i);
   const packageFiles = JSON.parse(readFileSync(join(root, "package.json"), "utf8")).files;
   assert.ok(packageFiles.includes("hooks/"), "package.json no incluye hooks/");
 });
