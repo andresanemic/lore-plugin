@@ -523,8 +523,8 @@ And while a body of criteria you maintain by hand is plainly more work than one 
 
 **Andrés Peña Mellado** — principal researcher of LUS.
 
-Web3 founder of two blockchain projects and community manager at ChatterPay; formerly on the
-editorial teams of **Polkadot Español** and **BeInCrypto**.
+Building in Web3 — General Editor of the community journalism pilot at **Tellus Cooperative**;
+formerly on the editorial teams of **Polkadot Español** and **BeInCrypto**.
 
 He helped establish UTEM's **Design Thinking** course and taught it from 2023 to 2025. **Speaker at
 [KCD El Salvador 2023](https://www.credly.com/badges/ad17002a-16be-474b-ada4-d7ba0df3a0fd)**.
@@ -1056,7 +1056,7 @@ Y si bien un cuerpo de criterio que mantienes a mano es más trabajo que uno que
 
 **Andrés Peña Mellado** — investigador principal de LUS.
 
-Construyendo en Web3: dos proyectos blockchain como founder, y community management en ChatterPay.
+Construyendo en Web3: editor general del piloto de periodismo comunitario en **Tellus Cooperative**.
 Antes, parte del equipo editorial de **Polkadot Español** y editor en **BeInCrypto**.
 
 Docencia e investigación: integró el equipo que estableció las bases bibliográficas y metodológicas
