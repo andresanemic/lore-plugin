@@ -20,7 +20,7 @@ The bibliography can support a claim. The genealogy can say *“this visual deci
 
 A program that studies a relation has a problem the others do not: **whoever observes the relation is part of the history that made it observable in that particular way.** Acknowledging this is not a confession, it is an instrument — it makes it possible to ask, case by case, whether a distinction in the corpus came from the phenomenon or from the repertoire the observer arrived with.
 
-Its concrete use is **a single gate**: when the structure of a finding coincides with a commitment the researcher already held, the coincidence is written down next to the finding and **forces naming the rival explanation** that the coincidence makes more likely. It does not invalidate the observation; it demands a detector other than the one that produced it.
+Its concrete use is **a single gate**: when the structure of a finding coincides with a commitment the researcher already held, the coincidence is written down next to the finding and **forces naming the rival explanation** that the coincidence makes more likely. It does not invalidate the observation; it demands a detector other than the one that produced it. Since 2026-09-11 the gate also watches the repertoire's **relational structure**: a constellation of works can make a shape thinkable even when none does alone.
 
 ## What this registry does NOT authorize
 

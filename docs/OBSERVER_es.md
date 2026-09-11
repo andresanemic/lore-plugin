@@ -20,7 +20,7 @@ La bibliografía puede sostener una afirmación. La genealogía puede decir *«e
 
 Un programa que estudia una relación tiene un problema que no tienen los demás: **quien observa la relación forma parte de la historia que hizo posible observarla de esa manera.** Reconocerlo no es una confesión, es un instrumento — permite preguntar, caso por caso, si una distinción del corpus vino del fenómeno o del repertorio con el que se llegó a mirarlo.
 
-Su uso concreto es **un solo gate**: cuando la estructura de un hallazgo coincide con un compromiso que el investigador ya traía, la coincidencia se escribe junto al hallazgo y **obliga a nombrar la explicación rival** que esa coincidencia vuelve más probable. No invalida la observación; le exige un detector que no sea el mismo que la produjo.
+Su uso concreto es **un solo gate**: cuando la estructura de un hallazgo coincide con un compromiso que el investigador ya traía, la coincidencia se escribe junto al hallazgo y **obliga a nombrar la explicación rival** que esa coincidencia vuelve más probable. No invalida la observación; le exige un detector que no sea el mismo que la produjo. Desde 2026-09-11 el gate mira también la **estructura relacional del repertorio**: una constelación de obras puede volver pensable una forma aunque ninguna lo haga sola.
 
 ## Lo que este registro NO autoriza
 
