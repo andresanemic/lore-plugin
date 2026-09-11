@@ -64,7 +64,7 @@ Each is a source that did **not** enter as criteria, with the exact question tha
 
 - **Heidegger** — how a relation can anticipate an ending that neither of its parts can anticipate on the other's behalf.
 - **Wegner** — what a transactive directory is when one party does not persist.
-- **Maturana and Varela** — how criteria can be transferable if only perturbation passes between structurally determined systems. **The most expensive of the three:** if it is resolved on their terms, the program stops saying that criteria *travels*.
+- **Maturana and Varela** — how criteria can be transferable if only perturbation passes between structurally determined systems. **The most expensive of the three:** if it is resolved on their terms, the program stops saying that criteria *travels*. *(Resolved partially 2026-09-11: the program no longer says criteria travels; it transmits by perturbation. Living-only autopoiesis stands.)*
 
 ## How LUS and Lore Plugin exchange material
 
