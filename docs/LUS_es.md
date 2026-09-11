@@ -64,7 +64,7 @@ Cada uno es una fuente que **no** entró como criterio, con la pregunta exacta q
 
 - **Heidegger** — cómo puede una relación anticipar un final que ninguna de sus partes puede anticipar por la otra.
 - **Wegner** — qué es un directorio transactivo cuando una de las partes no persiste.
-- **Maturana y Varela** — cómo puede un criterio ser transferible si entre sistemas estructuralmente determinados solo hay perturbación. **Es el más caro:** si se resuelve por su lado, el programa deja de decir que el criterio *viaja*.
+- **Maturana y Varela** — cómo puede un criterio ser transferible si entre sistemas estructuralmente determinados solo hay perturbación. **Es el más caro:** si se resuelve por su lado, el programa deja de decir que el criterio *viaja*. *(Resuelto parcialmente el 2026-09-11: el programa ya no dice que el criterio viaja; dice que transmite por perturbación. La autopoiesis solo viva sigue intacta.)*
 
 ## Cómo intercambian material LUS y Lore Plugin
 
