@@ -22,7 +22,7 @@ Time in LUS is read as past, present and future: past experience is distilled or
 
 ## How the research is organized
 
-LUS is currently in **Phase VII — case studies**, corpus version **1.24**. Its records distinguish:
+LUS is currently in **Phase VII — case studies**, corpus version **1.26**. Its records distinguish:
 
 - a **corpus**, where the program's current conceptual claims live;
 - **case studies**, which document situated observations and their limits;
@@ -30,7 +30,7 @@ LUS is currently in **Phase VII — case studies**, corpus version **1.24**. Its
 - a methodological Lore, which governs how evidence is admitted without turning method into theory;
 - a **registry of arbitrated external works**, where a work enters **by being arbitrated, not by being read**, and every entry writes down **where it loses** against the program's purpose.
 
-That last registry was completed on 2026-08-30 with the five dialogues the founding essay had listed since its first version and that had never been carried out. **None entered confirming:** three authors contribute one claim each and three remain as bibliography with their obstacle written down. See the [bibliography](./BIBLIOGRAPHY_en.md).
+That last registry was completed on 2026-08-30 with the five dialogues the founding essay had listed since its first version and that had never been carried out. **No source entered as borrowed confirmation:** some forced bounded claims; Heidegger and Wegner remain bibliography with an open obstacle; and one objection from Maturana and Varela forced a `conjecture` correction in version 1.26 without making them a governing authority. See the [bibliography](./BIBLIOGRAPHY_en.md).
 
 Small samples remain a hard boundary. Most cases come from one researcher, one ecosystem and human–AI work. Repeated appearances inside that environment do not become independent replications by being counted separately.
 
@@ -58,13 +58,14 @@ Using *“the observer participates in what they observe”* as the **explanatio
 
 **For Lore Plugin this is a practical prohibition:** the kit is not justified by saying that the observer participates. Its claims rest on its benchmark and its cases, with the distance to their evidence declared.
 
-## Three open obstacles, and they are a result
+## Two open obstacles and one partial incorporation
 
-Each is a source that did **not** enter as criteria, with the exact question that would have to be resolved:
+Heidegger and Wegner remain sources that did **not** enter as criteria, with the exact question that would have to be resolved:
 
 - **Heidegger** — how a relation can anticipate an ending that neither of its parts can anticipate on the other's behalf.
 - **Wegner** — what a transactive directory is when one party does not persist.
-- **Maturana and Varela** — how criteria can be transferable if only perturbation passes between structurally determined systems. **The most expensive of the three:** if it is resolved on their terms, the program stops saying that criteria *travels*. *(Resolved partially 2026-09-11: the program no longer says criteria travels; it transmits by perturbation. Living-only autopoiesis stands.)*
+
+**Maturana and Varela — partial `conjecture` incorporation, non-governing source.** Since version 1.26, LUS no longer treats criteria as a finished capacity that travels: the text perturbs and the receiver reconstructs; it selects, never instructs. That objection redirected H05 and H10, but it does not lend them authority over the program. The second obstacle remains open: autopoiesis is defined for the living, and LUS has not shown that it describes the human–AI Between.
 
 ## How LUS and Lore Plugin exchange material
 

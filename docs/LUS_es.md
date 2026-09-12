@@ -22,7 +22,7 @@ El tiempo en LUS se lee como pasado, presente y futuro: la experiencia pasada se
 
 ## Cómo se organiza la investigación
 
-LUS está actualmente en la **Fase VII — casos de estudio**, versión de corpus **1.24**. Sus registros distinguen:
+LUS está actualmente en la **Fase VII — casos de estudio**, versión de corpus **1.26**. Sus registros distinguen:
 
 - un **corpus**, donde viven las afirmaciones conceptuales vigentes;
 - **casos de estudio**, que documentan observaciones situadas y sus límites;
@@ -30,7 +30,7 @@ LUS está actualmente en la **Fase VII — casos de estudio**, versión de corpu
 - un Lore metodológico, que gobierna cómo entra la evidencia sin convertir método en teoría;
 - un **registro de obras externas arbitradas**, donde una obra entra **al ser arbitrada, no al ser leída**, y cada entrada escribe **dónde pierde** contra la finalidad del programa.
 
-Ese último registro se completó el 2026-08-30 con los cinco diálogos que el ensayo fundacional enumeraba desde su primera versión y que nunca se habían ejecutado. **Ninguno entró confirmando:** tres autores aportan una afirmación cada uno y tres quedan como bibliografía con su obstáculo escrito. Ver [bibliografía](./BIBLIOGRAPHY_es.md).
+Ese último registro se completó el 2026-08-30 con los cinco diálogos que el ensayo fundacional enumeraba desde su primera versión y que nunca se habían ejecutado. **Ninguna fuente entró como confirmación prestada:** algunas obligaron afirmaciones acotadas; Heidegger y Wegner permanecen como bibliografía con su obstáculo abierto; y una objeción de Maturana y Varela obligó una corrección `conjecture` en la versión 1.26 sin convertirlos en autoridad gobernante. Ver [bibliografía](./BIBLIOGRAPHY_es.md).
 
 El tamaño pequeño de la muestra sigue siendo una frontera dura. La mayoría de los casos proviene de un solo investigador, un mismo ecosistema y trabajo humano–IA. Varias apariciones dentro de ese entorno no se vuelven réplicas independientes por contarlas por separado.
 
@@ -58,13 +58,14 @@ Queda prohibido usar *«el observador participa en lo que observa»* como **expl
 
 **Para Lore Plugin esto es una prohibición práctica:** el kit no se justifica diciendo que el observador participa. Sus afirmaciones se sostienen en su benchmark y en sus casos, con la distancia a su evidencia declarada.
 
-## Tres obstáculos abiertos, y son un resultado
+## Dos obstáculos abiertos y una incorporación parcial
 
-Cada uno es una fuente que **no** entró como criterio, con la pregunta exacta que habría que resolver:
+Heidegger y Wegner siguen como fuentes que **no** entraron como criterio, con la pregunta exacta que habría que resolver:
 
 - **Heidegger** — cómo puede una relación anticipar un final que ninguna de sus partes puede anticipar por la otra.
 - **Wegner** — qué es un directorio transactivo cuando una de las partes no persiste.
-- **Maturana y Varela** — cómo puede un criterio ser transferible si entre sistemas estructuralmente determinados solo hay perturbación. **Es el más caro:** si se resuelve por su lado, el programa deja de decir que el criterio *viaja*. *(Resuelto parcialmente el 2026-09-11: el programa ya no dice que el criterio viaja; dice que transmite por perturbación. La autopoiesis solo viva sigue intacta.)*
+
+**Maturana y Varela — incorporación parcial `conjecture`, fuente no gobernante.** Desde la versión 1.26 LUS ya no trata el criterio como una capacidad terminada que viaja: el texto perturba y el receptor reconstruye; selecciona, nunca instruye. Esa objeción reorientó H05 y H10, pero no les presta autoridad sobre el programa. El segundo obstáculo permanece abierto: la autopoiesis está definida para lo vivo y LUS no ha demostrado que describa al Entre humano–IA.
 
 ## Cómo intercambian material LUS y Lore Plugin
 
