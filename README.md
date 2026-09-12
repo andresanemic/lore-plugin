@@ -168,7 +168,20 @@ So that is the mechanism: not documentation, not a memory dump — a threshold b
 
 ## Installation
 
-Pick the route that matches your setup — just don't mix hosts. Claude Code and Codex install through each host's plugin manager, which verifies the package. OpenCode, Cursor and Antigravity below are manual copies — the install is only as good as the copy, confirmed by hand.
+The clearest provider-neutral route is to clone the repository: the source stays visible, updates remain ordinary Git operations, and the same checkout can prepare Claude Code and Codex. It requires Git and Node.js.
+
+### Recommended — clone the repository
+
+```bash
+git clone https://github.com/andresanemic/lore-plugin.git
+cd lore-plugin
+node scripts/lore-plugin.mjs install --target all
+codex plugin add lore@personal
+```
+
+Replace `all` with `claude` or `codex` to target only one CLI. The installer configures Claude directly; for Codex it prepares the local `personal` marketplace and prints the final `codex plugin add` command.
+
+If you already use a host plugin manager, these shorter routes install the same package without keeping a separate checkout.
 
 ### Claude Code
 
@@ -196,7 +209,7 @@ codex plugin add lore@lore-plugin
 ```
 
 <details>
-<summary><b>Other hosts — manual copy, unverified</b> (OpenCode, Cursor, Antigravity, direct install)</summary>
+<summary><b>Other hosts — copy from the same clone</b> (OpenCode, Cursor, Antigravity)</summary>
 
 <br>
 
@@ -232,19 +245,6 @@ cp -R skills/* ~/.gemini/config/skills/
 ```
 
 Restart Antigravity after copying them.
-
-### Direct install from the repository
-
-Use this provider-neutral route when you prefer a local clone or want to prepare both CLIs. It requires Git and Node.js:
-
-```bash
-git clone https://github.com/andresanemic/lore-plugin.git
-cd lore-plugin
-node scripts/lore-plugin.mjs install --target all
-codex plugin add lore@personal
-```
-
-Replace `all` with `claude` or `codex` to target only one CLI. The installer configures Claude directly; for Codex it prepares the local `personal` marketplace and prints the final `codex plugin add` command.
 
 Claude Code does not receive routine hook context: its adapter is deliberately absent because any context delivered to the agent can become visible or alter the reply. Codex keeps the automatic local guard through silent `SessionStart` and `PostToolUse`. One red-only exception, on both hosts since 2.4.8: when the session opens inside a federated bot whose always-on block does not declare its load, `SessionStart` emits exactly one line naming the repair (`lore-plugin mycelium federated`); green stays at zero bytes, and everything fails open. In every host, `use-lore` checks body-load integrity at session opening; a clean check says nothing and a missing connection names only the decision needed. `FASES.md` and `PHASES.md` remain state and do not enter the receipt.
 
@@ -470,9 +470,9 @@ Lore was not designed ahead of time: every decision came from applying it to rea
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/2%2C253-clones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="2,253 clones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/56-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="56 days"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~40-a_day-F94F79?style=for-the-badge&labelColor=0B0B12" alt="40 a day"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/2%2C837-clones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="2,837 clones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/69-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="69 days"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~41-a_day-F94F79?style=for-the-badge&labelColor=0B0B12" alt="41 a day"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-peak-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 peak"></a>
 </p>
 
@@ -705,7 +705,20 @@ Ese es el mecanismo: no es documentación ni un volcado de memoria, es un umbral
 
 ## Instalación
 
-Elige la ruta que coincida con tu equipo — solo no mezcles hosts. Claude Code y Codex instalan a través del gestor de plugins de cada host, que verifica el paquete. OpenCode, Cursor y Antigravity, más abajo, son copias manuales — la instalación vale lo que valga la copia, confirmada a mano.
+La ruta neutral al proveedor más clara es clonar el repositorio: el código fuente queda visible, las actualizaciones siguen siendo operaciones normales de Git y el mismo checkout puede preparar Claude Code y Codex. Requiere Git y Node.js.
+
+### Recomendado — clona el repositorio
+
+```bash
+git clone https://github.com/andresanemic/lore-plugin.git
+cd lore-plugin
+node scripts/lore-plugin.mjs install --target all
+codex plugin add lore@personal
+```
+
+Reemplaza `all` por `claude` o `codex` para preparar solo una CLI. El instalador configura Claude directamente; para Codex prepara el marketplace local `personal` e imprime el comando final `codex plugin add`.
+
+Si ya usas el gestor de plugins de un host, estas rutas más cortas instalan el mismo paquete sin conservar un checkout separado.
 
 ### Claude Code
 
@@ -733,7 +746,7 @@ codex plugin add lore@lore-plugin
 ```
 
 <details>
-<summary><b>Otros hosts — copia manual, sin verificación</b> (OpenCode, Cursor, Antigravity, instalación directa)</summary>
+<summary><b>Otros hosts — copia desde el mismo clon</b> (OpenCode, Cursor, Antigravity)</summary>
 
 <br>
 
@@ -769,19 +782,6 @@ cp -R skills/* ~/.gemini/config/skills/
 ```
 
 Reinicia Antigravity después de copiarlas.
-
-### Instalación directa desde el repositorio
-
-Usa esta ruta neutral al proveedor si prefieres un clon local o quieres preparar ambas CLI. Requiere Git y Node.js:
-
-```bash
-git clone https://github.com/andresanemic/lore-plugin.git
-cd lore-plugin
-node scripts/lore-plugin.mjs install --target all
-codex plugin add lore@personal
-```
-
-Reemplaza `all` por `claude` o `codex` para preparar solo una CLI. El instalador configura Claude directamente; para Codex prepara el marketplace local `personal` e imprime el comando final `codex plugin add`.
 
 Claude Code no recibe contexto rutinario del hook: su adaptador se retira deliberadamente porque cualquier contexto entregado al agente puede volverse visible o alterar la respuesta. Codex conserva la guardia local automática mediante `SessionStart` y `PostToolUse` silenciosos. Una sola excepción solo-en-rojo, en ambos hosts desde 2.4.8: cuando la sesión abre dentro de un bot federado cuyo always-on no declara su carga, `SessionStart` emite exactamente una línea nombrando la reparación (`lore-plugin mycelium federated`); el verde queda en cero bytes, y todo falla abierto. En todos los hosts, `use-lore` comprueba al abrir la integridad de carga de los cuerpos; un control limpio no dice nada y una conexión faltante nombra solo la decisión necesaria. `FASES.md` y `PHASES.md` siguen siendo estado y no entran al recibo.
 
@@ -997,9 +997,9 @@ Lore no se diseñó de antemano: cada decisión salió de aplicarlo a proyectos 
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/2%2C253-clonaciones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="2.253 clonaciones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/56-d%C3%ADas-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="56 días"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~40-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="40 al día"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/2%2C837-clonaciones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="2.837 clonaciones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/69-d%C3%ADas-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="69 días"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~41-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="41 al día"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-pico-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 pico"></a>
 </p>
 
