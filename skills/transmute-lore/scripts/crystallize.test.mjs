@@ -98,6 +98,37 @@ test("pack + extract reconstruye el enrutamiento de un bot federado", () => {
   assert.match(readFileSync(join(out, "founder", "lore", "principios.md"), "utf8"), /Nunca cruzar cuerpos/);
 });
 
+test("pack + extract conserva un marcador de cierre literal dentro del cuerpo", () => {
+  const { root, bot } = fixture();
+  const body = "# Formato\n\n```markdown\n<!-- /lore:extract -->\n```\n\nDespués del ejemplo.\n";
+  writeFileSync(join(bot, "lore", "formato.md"), body, "utf8");
+
+  const md = compose({ ...collect(bot), generatedAt: "2026-09-12" });
+  const block = parseExtractBlocks(md).find((item) => item.path.endsWith("lore/formato.md"));
+  assert.equal(block?.body, body);
+
+  const out = join(root, "extraido-con-marcador");
+  extractTo(md, out);
+  assert.equal(
+    readFileSync(join(out, "bots", "proyectos", "bot-demo", "lore", "formato.md"), "utf8"),
+    body,
+  );
+});
+
+test("extract no interpreta referencias lore relativas como rutas de la raíz", () => {
+  const { root, bot } = fixture();
+  const routing = join(bot, "lore", "enrutamiento.md");
+  writeFileSync(
+    routing,
+    `${readFileSync(routing, "utf8")}Cada árbol abre \`lore/\`, \`lore/index.md\` y, cuando corresponda, \`lore/mecanica.md\`.\n`,
+    "utf8",
+  );
+
+  const md = compose({ ...collect(bot), generatedAt: "2026-09-12" });
+  const result = extractTo(md, join(root, "extraido-con-rutas-relativas"));
+  assert.deepEqual(result.missing, []);
+});
+
 test("pack omite archivos sensibles y aborta ante marcadores de secreto", () => {
   const { bot } = fixture();
   writeFileSync(join(bot, "canon", "credentials.json"), '{"api_key":"secret"}\n', "utf8");

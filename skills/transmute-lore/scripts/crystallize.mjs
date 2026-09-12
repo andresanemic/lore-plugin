@@ -284,7 +284,8 @@ export function compose({ botName, botRel, files, generatedAt }) {
 
 export function parseExtractBlocks(text) {
   const blocks = [];
-  const re = new RegExp(EXTRACT_OPEN.source + "([\\s\\S]*?)" + EXTRACT_CLOSE.replace("/", "\\/"), "g");
+  const close = "^<!-- /lore:extract -->\\r?$(?=\\r?\\n\\r?\\n(?:### `|## )|\\r?\\n?(?![\\s\\S]))";
+  const re = new RegExp(EXTRACT_OPEN.source + "([\\s\\S]*?)" + close, "gm");
   let m;
   while ((m = re.exec(text))) {
     blocks.push({
@@ -300,6 +301,7 @@ export function parseExtractBlocks(text) {
 function isRoutePath(p) {
   if (!p) return false;
   if (p.startsWith("lore-ecosistema/")) return true;
+  if (p === "lore/" || p.startsWith("lore/")) return false;
   if (p.includes("/")) {
     if (/\.(js|mjs|json|md)$/.test(p) && !p.startsWith("lore/") && !p.includes("/lore/")) {
       if (p.startsWith("scripts/") || p.startsWith("canon/")) return false;
