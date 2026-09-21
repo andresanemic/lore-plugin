@@ -55,12 +55,17 @@ function injected(stdout, event = "PostToolUse") {
   return parsed.hookSpecificOutput.additionalContext;
 }
 
-function preWrite(cwd, target) {
+// PreToolUse sin SessionStart previo: id fresco, sin raíz registrada, la jurisdicción cae al cwd.
+function freshSession() {
+  return `pre-${process.pid}-${Math.random().toString(36).slice(2)}`;
+}
+
+function preWrite(cwd, target, sessionId = freshSession()) {
   return execFileSync("node", [hook, "pre_tool_use"], {
     input: JSON.stringify({
       cwd,
       hook_event_name: "PreToolUse",
-      session_id: "probe-session",
+      session_id: sessionId,
       turn_id: "probe-turn",
       tool_name: "apply_patch",
       tool_input: { command: `*** Begin Patch\n*** Update File: ${target}\n@@\n-old\n+new\n*** End Patch` },
@@ -71,12 +76,12 @@ function preWrite(cwd, target) {
   });
 }
 
-function claudePreWrite(cwd, target) {
+function claudePreWrite(cwd, target, sessionId = freshSession()) {
   return execFileSync("node", [hook, "pre_tool_use"], {
     input: JSON.stringify({
       cwd,
       hook_event_name: "PreToolUse",
-      session_id: "probe-session",
+      session_id: sessionId,
       tool_name: "Edit",
       tool_input: {
         file_path: target,
@@ -90,12 +95,12 @@ function claudePreWrite(cwd, target) {
   });
 }
 
-function preMove(cwd, source, target) {
+function preMove(cwd, source, target, sessionId = freshSession()) {
   return execFileSync("node", [hook, "pre_tool_use"], {
     input: JSON.stringify({
       cwd,
       hook_event_name: "PreToolUse",
-      session_id: "probe-session",
+      session_id: sessionId,
       turn_id: "probe-turn",
       tool_name: "apply_patch",
       tool_input: { command: `*** Begin Patch\n*** Update File: ${source}\n*** Move to: ${target}\n@@\n-old\n+new\n*** End Patch` },
@@ -105,6 +110,50 @@ function preMove(cwd, source, target) {
     encoding: "utf8",
   });
 }
+
+
+test("PreToolUse permite el scratchpad de la sesión aunque esté fuera del árbol", () => {
+  const own = tree();
+  const scratch = join(tmpdir(), "claude", "sesion-probe", "scratchpad", "borrador.md");
+  assert.equal(preWrite(own, scratch), "");
+  assert.equal(claudePreWrite(own, scratch), "");
+});
+
+test("PreToolUse permite los árboles federados que lore/enrutamiento.md declara y sigue bloqueando al hermano no declarado", () => {
+  const hive = mkdtempSync(join(tmpdir(), "lore-hive-"));
+  roots.push(hive);
+  const own = join(hive, "bots", "proyectos", "bot-probe");
+  const federated = join(hive, "investigacion-cientifica");
+  const stranger = join(hive, "otro-arbol");
+  for (const dir of [own, federated, stranger]) mkdirSync(dir, { recursive: true });
+  write(own, "lore/principios.md", "# Propio\n");
+  write(own, "lore/enrutamiento.md",
+    "# Enrutamiento\n\n| Proyecto | Cuándo | Dónde vive su Lore |\n|---|---|---|\n| Investigación Científica | evidencia | `investigacion-cientifica` |\n");
+  write(federated, "lore/metodo.md", "# Método\n");
+  write(stranger, "lore/principios.md", "# Ajeno\n");
+
+  assert.equal(preWrite(own, join(federated, "lore", "metodo.md")), "");
+  assert.equal(claudePreWrite(own, join(federated, "lore", "metodo.md")), "");
+  const blocked = JSON.parse(preWrite(own, join(stranger, "lore", "principios.md")));
+  assert.equal(blocked.hookSpecificOutput.permissionDecision, "deny");
+});
+
+test("la jurisdicción se ancla en la raíz donde abrió la sesión, no en el cwd que deriva", () => {
+  const hive = mkdtempSync(join(tmpdir(), "lore-hive-"));
+  roots.push(hive);
+  const own = join(hive, "agentes", "vendedor");
+  const other = join(hive, "agentes", "cliente");
+  for (const dir of [own, other]) mkdirSync(dir, { recursive: true });
+  write(own, "lore/principios.md", "# Propio\n");
+  write(other, "lore/principios.md", "# Ajeno\n");
+  const sessionId = `drift-${Date.now()}`;
+
+  assert.equal(run(own, "session_start", { session_id: sessionId }), "");
+  // el cwd derivó al árbol ajeno; el propio sigue permitido y el ajeno sigue bloqueado
+  assert.equal(preWrite(other, join(own, "lore", "principios.md"), sessionId), "");
+  const blocked = JSON.parse(preWrite(other, join(other, "lore", "principios.md"), sessionId));
+  assert.equal(blocked.hookSpecificOutput.permissionDecision, "deny");
+});
 
 test.after(() => {
   for (const dir of roots) rmSync(dir, { recursive: true, force: true });

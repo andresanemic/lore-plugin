@@ -18,9 +18,11 @@ import {
   loreDeparted,
   readReceipt,
   readSessionBaseline,
+  readSessionRoot,
   snapshot,
   writeReceipt,
   writeSessionBaseline,
+  writeSessionRoot,
 } from "./lore-state.mjs";
 
 const event = process.argv[2];
@@ -40,8 +42,11 @@ if (event === "post_tool_use" && typeof data.turn_id !== "string") OK();
 const root = typeof data.cwd === "string" && data.cwd ? data.cwd : process.cwd();
 const sessionId = typeof data.session_id === "string" ? data.session_id : null;
 
+if (event === "session_start") writeSessionRoot(sessionId, root);
+
 if (event === "pre_tool_use") {
-  const reason = jurisdictionBlock(root, data.tool_name, data.tool_input);
+  // La jurisdicción es la raíz donde abrió la sesión; el cwd solo si no hay raíz registrada.
+  const reason = jurisdictionBlock(readSessionRoot(sessionId) ?? root, data.tool_name, data.tool_input);
   if (reason) process.stdout.write(JSON.stringify({
     hookSpecificOutput: {
       hookEventName: "PreToolUse",

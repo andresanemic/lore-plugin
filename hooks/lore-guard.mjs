@@ -1,4 +1,5 @@
-import { existsSync, statSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { dirname, isAbsolute, relative, resolve } from "node:path";
 
 export const MATERIAL_GROWTH_BYTES = 8_192;
@@ -20,6 +21,34 @@ function exchangeRoot(root) {
   }
 }
 
+// Árboles hermanos que el enrutamiento del bot declara (celda con acento grave en las
+// filas de tabla de lore/enrutamiento.md). Cada celda es una ruta relativa a algún
+// ancestro de la raíz: se resuelve subiendo y gana el primer directorio que exista.
+export function federatedRoots(root) {
+  const table = resolve(root, "lore", "enrutamiento.md");
+  if (!existsSync(table)) return [];
+  let text;
+  try { text = readFileSync(table, "utf8"); } catch { return []; }
+  const cells = new Set();
+  for (const line of text.split(/\r?\n/)) {
+    if (!line.trimStart().startsWith("|")) continue;
+    for (const m of line.matchAll(/\`([^`]+)\`/g)) cells.add(m[1].trim());
+  }
+  const found = [];
+  for (const cell of cells) {
+    for (let dir = resolve(root);;) {
+      const candidate = resolve(dir, cell);
+      try {
+        if (existsSync(candidate) && statSync(candidate).isDirectory() && candidate !== resolve(root)) { found.push(candidate); break; }
+      } catch {}
+      const parent = dirname(dir);
+      if (parent === dir) break;
+      dir = parent;
+    }
+  }
+  return found;
+}
+
 export function structuredWritePaths(toolName, input = {}) {
   if (["Write", "Edit", "MultiEdit"].includes(toolName) && typeof input.file_path === "string") {
     return [input.file_path];
@@ -39,9 +68,11 @@ export function jurisdictionBlock(root, toolName, input) {
   if (paths.length === 0) return null;
   const own = resolve(root);
   const exchange = exchangeRoot(own);
+  // El scratchpad de la sesión vive bajo <tmp>/claude; el resto de <tmp> no es jurisdicción.
+  const allowed = [own, ...(exchange ? [exchange] : []), resolve(tmpdir(), "claude"), ...federatedRoots(own)];
   const denied = paths
     .map((path) => resolve(own, path))
-    .filter((path) => !inside(own, path) && !(exchange && inside(exchange, path)));
+    .filter((path) => !allowed.some((base) => inside(base, path)));
   return denied.length === 0
     ? null
     : `Escritura fuera de tu jurisdicción: ${denied.join(", ")}. Convierte el cambio en un mensaje dentro de intercambio/.`;

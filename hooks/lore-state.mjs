@@ -303,6 +303,36 @@ export function writeSessionBaseline(sessionId, root, state) {
   }
 }
 
+// Raíz donde abrió la sesión, indexada solo por session_id: la jurisdicción se ancla
+// ahí y no en el cwd, que en Claude Code sigue al `cd` del shell (NC-A-1, 2026-09-20).
+function sessionRootPath(sessionId) {
+  const key = createHash("sha256").update(`root\0${sessionId ?? "no-session"}`).digest("hex");
+  return join(SESSION_DIR, `${key}.root.json`);
+}
+
+export function writeSessionRoot(sessionId, root) {
+  if (!sessionId || !root) return;
+  try {
+    mkdirSync(SESSION_DIR, { recursive: true });
+    const target = sessionRootPath(sessionId);
+    const temporary = `${target}.${process.pid}.tmp`;
+    writeFileSync(temporary, `${JSON.stringify({ root: resolve(root) })}\n`);
+    renameSync(temporary, target);
+  } catch {
+    /* tmp no disponible: la jurisdicción cae al cwd */
+  }
+}
+
+export function readSessionRoot(sessionId) {
+  if (!sessionId) return null;
+  try {
+    const parsed = JSON.parse(readFileSync(sessionRootPath(sessionId), "utf8"));
+    return typeof parsed?.root === "string" && parsed.root ? parsed.root : null;
+  } catch {
+    return null;
+  }
+}
+
 // ¿la firma de Lore de esta sesión se apartó de la base?
 export function loreDeparted(baseline, state) {
   return baseline.digest !== state.digest
