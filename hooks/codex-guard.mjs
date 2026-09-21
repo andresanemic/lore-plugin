@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// SessionStart + PostToolUse hook — Lore Plugin (2.4.6, declaración federada 2.4.8).
+// SessionStart + PreToolUse + PostToolUse hook — Lore Plugin.
 //
 // Codex adapter of the same guard. `SessionStart` records a silent per-session
 // baseline and never evaluates Lore state; since 2.4.8 it adds one static check:
@@ -13,7 +13,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { evaluateState, formatIntervention } from "./lore-guard.mjs";
+import { evaluateState, formatIntervention, jurisdictionBlock } from "./lore-guard.mjs";
 import {
   loreDeparted,
   readReceipt,
@@ -34,11 +34,24 @@ try {
   OK();
 }
 
-if (!["session_start", "post_tool_use"].includes(event)) OK();
+if (!["session_start", "pre_tool_use", "post_tool_use"].includes(event)) OK();
 if (event === "post_tool_use" && typeof data.turn_id !== "string") OK();
 
 const root = typeof data.cwd === "string" && data.cwd ? data.cwd : process.cwd();
 const sessionId = typeof data.session_id === "string" ? data.session_id : null;
+
+if (event === "pre_tool_use") {
+  const reason = jurisdictionBlock(root, data.tool_name, data.tool_input);
+  if (reason) process.stdout.write(JSON.stringify({
+    hookSpecificOutput: {
+      hookEventName: "PreToolUse",
+      permissionDecision: "deny",
+      permissionDecisionReason: reason,
+    },
+  }));
+  OK();
+}
+
 let current;
 
 try {

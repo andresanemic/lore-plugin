@@ -4,7 +4,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { claudeCommands, installCodex } from "./installer.mjs";
+import { claudeCommands, installCodex, installOpenCode } from "./installer.mjs";
 import { evaluateState, formatIntervention } from "../hooks/lore-guard.mjs";
 import { claimAnnounce, unnamedBodies, readReceipt, snapshot, writeReceipt, RECEIPT } from "../hooks/lore-state.mjs";
 
@@ -120,8 +120,8 @@ if (command === "mycelium") {
   process.exit(0);
 }
 
-if (command !== "install" || !["codex", "claude", "all"].includes(target)) {
-  console.log("Usage: lore-plugin install --target codex|claude|all");
+if (command !== "install" || !["codex", "claude", "opencode", "all"].includes(target)) {
+  console.log("Usage: lore-plugin install --target codex|claude|opencode|all");
   console.log("       lore-plugin crystallize pack --bot <dir> --out <file.md>");
   console.log("       lore-plugin crystallize extract --from <file.md> --out <dir>");
   console.log("       lore-plugin mycelium receipt [--tree <dir>]");
@@ -131,8 +131,15 @@ if (command !== "install" || !["codex", "claude", "all"].includes(target)) {
 
 if (target === "codex" || target === "all") {
   const result = installCodex({ home: homedir(), packageRoot });
+  if (!result.verified) throw new Error("Codex installation digest differs from source");
   console.log(`Codex plugin prepared at ${result.pluginRoot}`);
   console.log("Run: codex plugin add lore@personal");
+}
+
+if (target === "opencode" || target === "all") {
+  const result = installOpenCode({ home: homedir(), packageRoot });
+  if (!result.verified) throw new Error("OpenCode installation digest differs from source");
+  console.log(`OpenCode skills installed and verified at ${result.skillsRoot}`);
 }
 
 if (target === "claude" || target === "all") {

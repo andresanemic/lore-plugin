@@ -12,6 +12,19 @@
         ]
       }
     ],
+    "PreToolUse": [
+      {
+        "matcher": "apply_patch|Edit|Write|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/codex-guard.mjs\" pre_tool_use",
+            "shell": "bash",
+            "async": false
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "hooks": [

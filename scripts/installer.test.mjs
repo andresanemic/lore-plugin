@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 
-import { installCodex, claudeCommands } from "./installer.mjs";
+import { installCodex, installOpenCode, claudeCommands, sameTree } from "./installer.mjs";
 
 const makePackage = () => {
   const root = mkdtempSync(join(tmpdir(), "lore-package-"));
@@ -125,4 +125,22 @@ test("Claude usa comandos explícitos y no una copia silenciosa", () => {
     ["claude", "plugin", "marketplace", "add", "andresanemic/lore-plugin"],
     ["claude", "plugin", "install", "lore@lore-plugin"],
   ]);
+});
+
+test("OpenCode reinstala las skills locales y verifica su digest", () => {
+  const home = mkdtempSync(join(tmpdir(), "lore-opencode-"));
+  const packageRoot = makePackage();
+  const result = installOpenCode({ home, packageRoot });
+  assert.equal(result.verified, true);
+  assert.equal(sameTree(join(packageRoot, "skills"), result.skillsRoot), true);
+
+  writeFileSync(join(result.skillsRoot, "use-lore", "SKILL.md"), "alterado\n");
+  assert.equal(sameTree(join(packageRoot, "skills"), result.skillsRoot), false);
+});
+
+test("Codex devuelve digest verificado contra el árbol fuente", () => {
+  const home = mkdtempSync(join(tmpdir(), "lore-digest-"));
+  const packageRoot = makePackage();
+  const result = installCodex({ home, packageRoot });
+  assert.equal(result.verified, true);
 });

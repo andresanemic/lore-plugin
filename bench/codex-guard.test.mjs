@@ -55,6 +55,57 @@ function injected(stdout, event = "PostToolUse") {
   return parsed.hookSpecificOutput.additionalContext;
 }
 
+function preWrite(cwd, target) {
+  return execFileSync("node", [hook, "pre_tool_use"], {
+    input: JSON.stringify({
+      cwd,
+      hook_event_name: "PreToolUse",
+      session_id: "probe-session",
+      turn_id: "probe-turn",
+      tool_name: "apply_patch",
+      tool_input: { command: `*** Begin Patch\n*** Update File: ${target}\n@@\n-old\n+new\n*** End Patch` },
+      tool_use_id: "probe-tool",
+      permission_mode: "never",
+    }),
+    encoding: "utf8",
+  });
+}
+
+function claudePreWrite(cwd, target) {
+  return execFileSync("node", [hook, "pre_tool_use"], {
+    input: JSON.stringify({
+      cwd,
+      hook_event_name: "PreToolUse",
+      session_id: "probe-session",
+      tool_name: "Edit",
+      tool_input: {
+        file_path: target,
+        old_string: "old",
+        new_string: "new",
+      },
+      tool_use_id: "probe-tool",
+      permission_mode: "bypassPermissions",
+    }),
+    encoding: "utf8",
+  });
+}
+
+function preMove(cwd, source, target) {
+  return execFileSync("node", [hook, "pre_tool_use"], {
+    input: JSON.stringify({
+      cwd,
+      hook_event_name: "PreToolUse",
+      session_id: "probe-session",
+      turn_id: "probe-turn",
+      tool_name: "apply_patch",
+      tool_input: { command: `*** Begin Patch\n*** Update File: ${source}\n*** Move to: ${target}\n@@\n-old\n+new\n*** End Patch` },
+      tool_use_id: "probe-tool",
+      permission_mode: "never",
+    }),
+    encoding: "utf8",
+  });
+}
+
 test.after(() => {
   for (const dir of roots) rmSync(dir, { recursive: true, force: true });
 });
@@ -178,4 +229,28 @@ test("invalid input fails open", () => {
   assert.equal(execFileSync("node", [hook, "post_tool_use"], {
     input: "{", encoding: "utf8",
   }), "");
+});
+
+test("PreToolUse permite el árbol propio y el intercambio hermano, pero bloquea el canon ajeno", () => {
+  const hive = mkdtempSync(join(tmpdir(), "lore-hive-"));
+  roots.push(hive);
+  const own = join(hive, "agentes", "vendedor");
+  const other = join(hive, "agentes", "cliente");
+  const exchange = join(hive, "intercambio");
+  for (const dir of [own, other, exchange]) mkdirSync(dir, { recursive: true });
+  write(own, "lore/principios.md", "# Propio\n");
+
+  assert.equal(preWrite(own, join(own, "lore", "principios.md")), "");
+  assert.equal(preWrite(own, join(exchange, "mensaje.md")), "");
+
+  const blocked = JSON.parse(preWrite(own, join(other, "canon", "frontera.md")));
+  assert.equal(blocked.hookSpecificOutput.hookEventName, "PreToolUse");
+  assert.equal(blocked.hookSpecificOutput.permissionDecision, "deny");
+  assert.match(blocked.hookSpecificOutput.permissionDecisionReason, /intercambio|jurisdicci/i);
+
+  const moved = JSON.parse(preMove(own, join(own, "nota.md"), join(other, "nota.md")));
+  assert.equal(moved.hookSpecificOutput.permissionDecision, "deny");
+
+  const claudeBlocked = JSON.parse(claudePreWrite(own, join(other, "canon", "frontera.md")));
+  assert.equal(claudeBlocked.hookSpecificOutput.permissionDecision, "deny");
 });

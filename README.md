@@ -179,7 +179,7 @@ node scripts/lore-plugin.mjs install --target all
 codex plugin add lore@personal
 ```
 
-Replace `all` with `claude` or `codex` to target only one CLI. The installer configures Claude directly; for Codex it prepares the local `personal` marketplace and prints the final `codex plugin add` command.
+Replace `all` with `claude`, `codex`, or `opencode` to target one host. The installer configures Claude directly, prepares Codex's local `personal` marketplace, and replaces only Lore's seven OpenCode skill folders. Codex and OpenCode copies are verified against the source tree after installation.
 
 If you already use a host plugin manager, these shorter routes install the same package without keeping a separate checkout.
 
@@ -215,11 +215,10 @@ codex plugin add lore@lore-plugin
 
 ### OpenCode
 
-From a local clone, copy Lore's seven skill folders into OpenCode's global directory:
+From a local clone, install and verify Lore's seven skill folders in OpenCode's global directory:
 
 ```bash
-mkdir -p ~/.config/opencode/skills
-cp -R skills/* ~/.config/opencode/skills/
+node scripts/lore-plugin.mjs install --target opencode
 ```
 
 Restart OpenCode. For one project, use `.opencode/skills/` instead.
@@ -246,7 +245,7 @@ cp -R skills/* ~/.gemini/config/skills/
 
 Restart Antigravity after copying them.
 
-Claude Code does not receive routine hook context: its adapter is deliberately absent because any context delivered to the agent can become visible or alter the reply. Codex keeps the automatic local guard through silent `SessionStart` and `PostToolUse`. One red-only exception, on both hosts since 2.4.8: when the session opens inside a federated bot whose always-on block does not declare its load, `SessionStart` emits exactly one line naming the repair (`lore-plugin mycelium federated`); green stays at zero bytes, and everything fails open. In every host, `use-lore` checks body-load integrity at session opening; a clean check says nothing and a missing connection names only the decision needed. `FASES.md` and `PHASES.md` remain state and do not enter the receipt.
+Claude Code does not receive routine hook context: its adapter is deliberately absent because any context delivered to the agent can become visible or alter the reply. Claude Code and Codex do share one red-only `PreToolUse` guard for structured file editors: a bot may write in its current tree or an existing shared `intercambio/`, while a direct edit of another tree is denied and must become a message. Shell commands remain outside this guarantee and rely on the host sandbox. Codex also keeps the automatic local guard through silent `SessionStart` and `PostToolUse`. One opening exception, on both hosts since 2.4.8: when the session opens inside a federated bot whose always-on block does not declare its load, `SessionStart` emits exactly one line naming the repair (`lore-plugin mycelium federated`); green stays at zero bytes, and everything fails open. In every host, `use-lore` checks body-load integrity at session opening; a clean check says nothing and a missing connection names only the decision needed. `FASES.md` and `PHASES.md` remain state and do not enter the receipt.
 
 </details>
 
@@ -716,7 +715,7 @@ node scripts/lore-plugin.mjs install --target all
 codex plugin add lore@personal
 ```
 
-Reemplaza `all` por `claude` o `codex` para preparar solo una CLI. El instalador configura Claude directamente; para Codex prepara el marketplace local `personal` e imprime el comando final `codex plugin add`.
+Reemplaza `all` por `claude`, `codex` u `opencode` para preparar un solo host. El instalador configura Claude directamente, prepara el marketplace local `personal` de Codex y reemplaza solo las siete carpetas de Lore en OpenCode. Las copias de Codex y OpenCode se verifican contra el árbol fuente después de instalar.
 
 Si ya usas el gestor de plugins de un host, estas rutas más cortas instalan el mismo paquete sin conservar un checkout separado.
 
@@ -752,11 +751,10 @@ codex plugin add lore@lore-plugin
 
 ### OpenCode
 
-Desde un clon local, copia las siete carpetas de Lore en el directorio global de OpenCode:
+Desde un clon local, instala y verifica las siete carpetas de Lore en el directorio global de OpenCode:
 
 ```bash
-mkdir -p ~/.config/opencode/skills
-cp -R skills/* ~/.config/opencode/skills/
+node scripts/lore-plugin.mjs install --target opencode
 ```
 
 Reinicia OpenCode. Para un solo proyecto usa `.opencode/skills/`.
@@ -783,7 +781,7 @@ cp -R skills/* ~/.gemini/config/skills/
 
 Reinicia Antigravity después de copiarlas.
 
-Claude Code no recibe contexto rutinario del hook: su adaptador se retira deliberadamente porque cualquier contexto entregado al agente puede volverse visible o alterar la respuesta. Codex conserva la guardia local automática mediante `SessionStart` y `PostToolUse` silenciosos. Una sola excepción solo-en-rojo, en ambos hosts desde 2.4.8: cuando la sesión abre dentro de un bot federado cuyo always-on no declara su carga, `SessionStart` emite exactamente una línea nombrando la reparación (`lore-plugin mycelium federated`); el verde queda en cero bytes, y todo falla abierto. En todos los hosts, `use-lore` comprueba al abrir la integridad de carga de los cuerpos; un control limpio no dice nada y una conexión faltante nombra solo la decisión necesaria. `FASES.md` y `PHASES.md` siguen siendo estado y no entran al recibo.
+Claude Code no recibe contexto rutinario del hook: su adaptador se retira deliberadamente porque cualquier contexto entregado al agente puede volverse visible o alterar la respuesta. Claude Code y Codex sí comparten una guardia `PreToolUse` solo-en-rojo para editores estructurados: un bot puede escribir en su árbol actual o en un `intercambio/` compartido que ya exista; una edición directa de otro árbol se deniega y debe convertirse en mensaje. Los comandos de shell quedan fuera de esta garantía y dependen del sandbox del host. Codex conserva además la guardia local automática mediante `SessionStart` y `PostToolUse` silenciosos. Una excepción de apertura, en ambos hosts desde 2.4.8: cuando la sesión abre dentro de un bot federado cuyo always-on no declara su carga, `SessionStart` emite exactamente una línea nombrando la reparación (`lore-plugin mycelium federated`); el verde queda en cero bytes, y todo falla abierto. En todos los hosts, `use-lore` comprueba al abrir la integridad de carga de los cuerpos; un control limpio no dice nada y una conexión faltante nombra solo la decisión necesaria. `FASES.md` y `PHASES.md` siguen siendo estado y no entran al recibo.
 
 </details>
 

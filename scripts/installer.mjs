@@ -1,5 +1,6 @@
-import { cpSync, existsSync, lstatSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { createHash } from "node:crypto";
+import { cpSync, existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { join, relative } from "node:path";
 
 const loreEntry = {
   name: "lore",
@@ -15,6 +16,27 @@ export function claudeCommands() {
     ["claude", "plugin", "marketplace", "add", "andresanemic/lore-plugin"],
     ["claude", "plugin", "install", "lore@lore-plugin"],
   ];
+}
+
+function treeDigest(root) {
+  if (!existsSync(root)) return null;
+  const files = readdirSync(root, { recursive: true, withFileTypes: true })
+    .filter((entry) => entry.isFile())
+    .map((entry) => join(entry.parentPath, entry.name))
+    .sort((a, b) => relative(root, a).localeCompare(relative(root, b)));
+  const hash = createHash("sha256");
+  for (const file of files) {
+    hash.update(relative(root, file).replaceAll("\\", "/"));
+    hash.update("\0");
+    hash.update(readFileSync(file));
+    hash.update("\n");
+  }
+  return hash.digest("hex");
+}
+
+export function sameTree(source, destination) {
+  const sourceDigest = treeDigest(source);
+  return sourceDigest !== null && sourceDigest === treeDigest(destination);
 }
 
 export function installCodex({ home, packageRoot }) {
@@ -53,5 +75,29 @@ export function installCodex({ home, packageRoot }) {
   mkdirSync(marketplaceRoot, { recursive: true });
   writeFileSync(marketplacePath, JSON.stringify(market, null, 2) + "\n");
 
-  return { pluginRoot, marketplacePath };
+  const verified = ["skills", ".codex-plugin", "assets", "hooks", "scripts"]
+    .filter((name) => existsSync(join(packageRoot, name)))
+    .every((name) => sameTree(join(packageRoot, name), join(pluginRoot, name)));
+  return { pluginRoot, marketplacePath, verified };
+}
+
+export function installOpenCode({ home, packageRoot }) {
+  const sourceRoot = join(packageRoot, "skills");
+  const skillsRoot = join(home, ".config", "opencode", "skills");
+  mkdirSync(skillsRoot, { recursive: true });
+  for (const entry of readdirSync(sourceRoot, { withFileTypes: true }).filter((item) => item.isDirectory())) {
+    const source = join(sourceRoot, entry.name);
+    const destination = join(skillsRoot, entry.name);
+    if (existsSync(destination)) {
+      if (lstatSync(destination).isSymbolicLink()) {
+        throw new Error(`Refusing to replace symbolic-link skill directory: ${destination}`);
+      }
+      rmSync(destination, { recursive: true });
+    }
+    cpSync(source, destination, { recursive: true, force: true });
+  }
+  const verified = readdirSync(sourceRoot, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .every((entry) => sameTree(join(sourceRoot, entry.name), join(skillsRoot, entry.name)));
+  return { skillsRoot, verified };
 }

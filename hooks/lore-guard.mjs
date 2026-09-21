@@ -1,4 +1,51 @@
+import { existsSync, statSync } from "node:fs";
+import { dirname, isAbsolute, relative, resolve } from "node:path";
+
 export const MATERIAL_GROWTH_BYTES = 8_192;
+
+function inside(root, target) {
+  const rel = relative(root, target);
+  return rel === "" || (!rel.startsWith("..") && !isAbsolute(rel));
+}
+
+function exchangeRoot(root) {
+  for (let dir = resolve(root);;) {
+    const candidate = resolve(dir, "intercambio");
+    try {
+      if (existsSync(candidate) && statSync(candidate).isDirectory()) return candidate;
+    } catch {}
+    const parent = dirname(dir);
+    if (parent === dir) return null;
+    dir = parent;
+  }
+}
+
+export function structuredWritePaths(toolName, input = {}) {
+  if (["Write", "Edit", "MultiEdit"].includes(toolName) && typeof input.file_path === "string") {
+    return [input.file_path];
+  }
+  if (toolName === "NotebookEdit" && typeof input.notebook_path === "string") {
+    return [input.notebook_path];
+  }
+  if (toolName === "apply_patch" && typeof input.command === "string") {
+    return [...input.command.matchAll(/^\*\*\* (?:(?:Add|Update|Delete) File|Move to): (.+)$/gm)]
+      .map((match) => match[1].trim());
+  }
+  return [];
+}
+
+export function jurisdictionBlock(root, toolName, input) {
+  const paths = structuredWritePaths(toolName, input);
+  if (paths.length === 0) return null;
+  const own = resolve(root);
+  const exchange = exchangeRoot(own);
+  const denied = paths
+    .map((path) => resolve(own, path))
+    .filter((path) => !inside(own, path) && !(exchange && inside(exchange, path)));
+  return denied.length === 0
+    ? null
+    : `Escritura fuera de tu jurisdicción: ${denied.join(", ")}. Convierte el cambio en un mensaje dentro de intercambio/.`;
+}
 
 export function evaluateState(current, recorded) {
   if (recorded === null) {
