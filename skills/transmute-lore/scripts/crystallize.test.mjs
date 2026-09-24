@@ -261,6 +261,7 @@ test("2.0: snapshot pre-2.0 (sin attrs) sigue parseando y verificando", () => {
 });
 
 test("2.0: pack en bot sin ecosistema.json falla con razón", () => {
+
   const { execFileSync } = require("node:child_process");
   const script = join(process.cwd(), "skills", "transmute-lore", "scripts", "crystallize.mjs");
   const { root } = fixture();
@@ -273,4 +274,24 @@ test("2.0: pack en bot sin ecosistema.json falla con razón", () => {
     code = e.status;
   }
   assert.notEqual(code, 0);
+});
+
+test("2.0: verify no reporta deriva falsa en archivos CRLF", () => {
+  const { root, bot } = fixture();
+  const crlf = "# Principios\r\n\r\nLínea dos.\r\n";
+  writeFileSync(join(bot, "lore", "principios-crlf.md"), crlf, "utf8");
+  const collected = collect(bot);
+  assert.ok(collected.files.some((f) => f.path.endsWith("lore/principios-crlf.md")));
+  const md = compose({ ...collected, generatedAt: "2026-09-24" });
+  const v = verifySnapshot(md, bot);
+  assert.ok(!v.drift.some((d) => d.path.endsWith("lore/principios-crlf.md")), "CRLF vivo = snapshot: matched, no drift");
+  assert.ok(v.matched > 0);
+});
+
+test("exam: verify acepta vivo sin salto final (el snapshot siempre lo trae)", () => {
+  const { root, bot } = fixture();
+  writeFileSync(join(bot, "lore", "sintesis.md"), "# Síntesis sin newline final", "utf8");
+  const md = compose({ ...collect(bot), generatedAt: "2026-09-24" });
+  const v = verifySnapshot(md, bot);
+  assert.ok(!v.drift.some((d) => d.path.endsWith("lore/sintesis.md")));
 });

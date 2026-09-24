@@ -468,11 +468,19 @@ export function verifySnapshot(mdText, botDir, raizOverride) {
       missing.push({ path: b.path, owner: b.owner, as_of: b.as_of });
       continue;
     }
-    const liveSha = sha256(liveAbs);
+    // Text identity, not byte identity: CRLF on disk and LF in the snapshot
+    // are the same text. (The manifest keeps the raw byte sha separately.)
+    const liveRaw = readFileSync(liveAbs, "utf8").replace(/\r\n/g, "\n");
+    const liveSha = createHash("sha256").update(liveRaw).digest("hex").toUpperCase();
     const snapBytes = Buffer.from(b.body, "utf8");
-    const snapShaNl = createHash("sha256").update(b.body.endsWith("\n") ? snapBytes : Buffer.concat([snapBytes, Buffer.from("\n")])).digest("hex").toUpperCase();
-    const snapShaRaw = createHash("sha256").update(snapBytes).digest("hex").toUpperCase();
-    if (liveSha === snapShaNl || liveSha === snapShaRaw) matched.push(b.path);
+    // The composed block always ends the body with a newline separator the live
+    // file may not have: accept both, and nothing else.
+    const snapWithNl = b.body.endsWith("\n") ? snapBytes : Buffer.concat([snapBytes, Buffer.from("\n")]);
+    const snapWithoutNl = b.body.endsWith("\n") ? Buffer.from(b.body.slice(0, -1), "utf8") : snapBytes;
+    const same =
+      liveSha === createHash("sha256").update(snapWithNl).digest("hex").toUpperCase() ||
+      liveSha === createHash("sha256").update(snapWithoutNl).digest("hex").toUpperCase();
+    if (same) matched.push(b.path);
     else drift.push({ path: b.path, owner: b.owner, as_of: b.as_of, validity: b.validity });
   }
   return { matched: matched.length, matchedPaths: matched, drift, missing };
