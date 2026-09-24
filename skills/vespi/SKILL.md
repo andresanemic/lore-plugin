@@ -35,6 +35,8 @@ Prepare → authorize → perform → verify/reconcile → receipt → checkpoin
 
 Anything worth keeping leaves as evidence, artifact, proposal, question, refusal, or nothing — handed to `save-to-lore` arbitration with source and provenance. Nothing here auto-becomes Lore.
 
+Project state and operation state stay apart: `FASES.md` owns the project's phase, roadmap, and open work; this operation owns its state under `operations/<id>/`. `FASES.md` carries one pointer line to a live operation, never a copy of its progress.
+
 Before delivering a user artifact, replace every internal label with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. Operation, envelope, validity, and probe stay below the conversation unless the user asks for technical detail.
 
 ## Core provenance

@@ -796,6 +796,22 @@ Se **infiere, no se pregunta**, y se declara en una línea con la corrección of
 - Actualiza este archivo cuando el proyecto avance de fase.
 - Usa descripciones concisas y basadas en hechos.
 
+**Estado de proyecto vs estado de operación.** `FASES.md` es dueño del estado del proyecto: fase, hoja de ruta, registro, trabajo abierto. Una operación viva bajo presión es dueña de su estado en `operations/<id>/` (ver `vespi`): finalidad, autoridad, efectos, verificación, checkpoints. El progreso de la operación nunca se duplica en `FASES.md` — una línea puntero nombra la operación viva y dónde vive su estado. Duplicarlo crea dos gobernantes que divergen en silencio.
+
+**El trabajo abierto es explícito.** Un pendiente lleva dueño, impacto y fecha, en una línea:
+
+```markdown
+- OPEN | dueño: ana | NON_BLOCKING | 2026-09-24 | formato de exportación de resultados
+```
+
+El impacto es `BLOCKING` (se resuelve antes de la próxima frontera), `NON_BLOCKING` (acompaña) o `DEFERRED` (se observa, no se trabaja). Un pendiente sin dueño ni impacto no es trabajo registrado — es un deseo. Las fechas vencidas no se auto-extienden: se re-fechan o se cierran.
+
+**Resistencia a lo desfasado.** Las entradas fechadas son historia inmutable: verdadera sin gobernar. La prosa viva se corrige en su lugar. Cuando la prosa viva contradice una entrada fechada, la corrección cae siempre sobre la prosa viva — la línea superada se tacha con su fecha. Una entrada fechada jamás se edita, ni siquiera cuando la historia misma estaba mal: una NUEVA entrada fechada registra la corrección, y la línea vieja queda tachada a su lado. Nunca se borra historia, nunca se dejan ambas vigentes como si ambas gobernaran.
+
+**Los cierres son cuatro cosas distintas.** Cierre de sesión (esta conversación termina; el estado reanudable apunta hacia adelante) ≠ cierre de corrida (esta ejecución termina; los recibos quedan) ≠ operación cerrada (sus condiciones se cumplen según su propio estado) ≠ cierre de fase (`FASES.md` avanza). Di cuál cerró. Una sesión cerrada jamás cierra su operación en silencio.
+
+**Orientación de sesión fresca.** Abre en este orden: contrato, `FASES.md`, tabla de enrutamiento, y luego los punteros de estado que `FASES.md` nombra. No reconstruyas de memoria lo que un puntero ya resuelve.
+
 ---
 
 ### 4.6 `CLAUDE.md` o `AGENTS.md`

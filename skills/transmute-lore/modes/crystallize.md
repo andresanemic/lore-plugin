@@ -76,6 +76,7 @@ Before writing, present:
 - every excluded category and its count;
 - any source whose visibility is uncertain;
 - any routed body the user asked to drop, listed as a hole;
+- **every manifest row with no live source and no copy, listed as an explicit hole with its reason** — a one-line omission note is not a hole; a smaller export without named holes is a failure of the mode, not a scope;
 - whether an existing derivative would be overwritten;
 - that every inlined file will carry an extract marker, and where the snapshot can be unpacked.
 
@@ -112,6 +113,10 @@ manifest `raiz`, never a machine-absolute path:
   bot's own files (contract, canon, `lore/`, `scripts/ecosistema.json`).
 - `owner` is the row's `proyecto` (or the bot's name). Optional `destino="..."` records the
   copy slot so unpack can rebuild `lore-ecosistema/` when `copia` is on.
+- `source="live|copy"` records where the bytes came from; `as_of="YYYY-MM-DD"` records when;
+  `validity="current|mixed|history"` records what the file is. `FASES.md` always travels as
+  `mixed`: its dated entries are history that stays true without governing, its live prose is
+  current. Do not relabel a dated entry as current to make the snapshot read cleaner.
 - Do not invent a second wrapping format. The bundled script parses this pair and nothing else.
 
 Preserve the source language and substantive content. Normalize heading levels only so the combined
@@ -125,9 +130,18 @@ the live project tree for updates and warn agents not to write changes back into
 ### Phase 5 — Verify and report
 
 - Compare source hashes or byte counts before and after: CRYSTALLIZE **writes no source artifact**.
-- Confirm every manifest entry has one corresponding section or an explicit omission notice.
+- Confirm every manifest entry has one corresponding section, an explicit hole in `## Huecos explícitos`, or an explicit omission notice.
 - **Fail the pass** if `enrutamiento.md` or `ecosistema.json` names a `lore/` that has no inlined
   files in the derivative, unless the user accepted that hole by name in Phase 3.
+- Run readback verification against the live tree — it reports drift, it does not re-decide it:
+
+```text
+node <plugin>/skills/transmute-lore/scripts/crystallize.mjs verify --from <snapshot.md> --bot <bot-dir>
+```
+
+  A file the live tree changed since `as_of` is drift, not wrongness; a file the live tree
+  lost is missing. Report both beside the snapshot. Never present a drifted snapshot as current
+  without saying so.
 - Scan the derivative for excluded filenames and known secret markers before reporting success.
 - Confirm links that only made sense inside the tree are either expanded with source context or
   labeled as non-portable; do not leave silent broken navigation.

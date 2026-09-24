@@ -821,6 +821,22 @@ promoted to the area. Absent the line, assume `equilibrado`.
 - Update as the project progresses through phases.
 - Use concise, factual descriptions.
 
+**Project state vs operation state.** `FASES.md` owns project state: phase, roadmap, registry, open work. A live operation under pressure owns its state in `operations/<id>/` (see `vespi`): goal, authority, effects, verification, checkpoints. Operation progress is never duplicated into `FASES.md` — one pointer line names the live operation and where its state lives. Duplicating it creates two governors that diverge silently.
+
+**Open work is explicit.** A pending item carries owner, impact, and date, in one line:
+
+```markdown
+- OPEN | owner: ana | NON_BLOCKING | 2026-09-24 | export format for results
+```
+
+Impact is `BLOCKING` (resolves before the next boundary), `NON_BLOCKING` (rides along), or `DEFERRED` (watched, not worked). An open item with no owner and no impact is not tracked work — it is a wish. Stale dates do not self-extend: re-date or close.
+
+**Stale resistance.** Dated entries are immutable history: true without governing. Live prose is corrected in place. When live prose contradicts a dated entry, the correction always lands on the live prose — strike the superseded live line with its date. A dated entry is never edited, not even when history itself was wrong: a NEW dated entry records the correction, and the old line stays struck beside it. Never delete history, never leave both standing as if both governed.
+
+**Closures are four different things.** Session close (this conversation ends; resumable state points onward) ≠ run close (this execution ends; receipts stay) ≠ operation closed (its conditions are met per its own state) ≠ phase close (`FASES.md` advances). Say which one closed. A closed session never silently closes its operation.
+
+**Fresh-session orientation.** Open in this order: contract, `FASES.md`, routing table, then the state pointers `FASES.md` names. Do not reconstruct from memory what a pointer already resolves.
+
 ---
 
 ### 4.6 `CLAUDE.md` or `AGENTS.md`
