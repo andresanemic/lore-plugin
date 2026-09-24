@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import test from "node:test";
 
-import { buildCodexArgs, parseCodexStream, removeStagedWorkspace, resolveCodexBin, resolveCodexInvocation, sanitizeCommand, stageCodexWorkspace } from "./providers.mjs";
+import { buildCodexArgs, parseCodexStream, removeStagedWorkspace, resolveCodexBin, resolveCodexInvocation, resolveInstalledLoreRoot, sanitizeCommand, stageCodexWorkspace } from "./providers.mjs";
 
 test("resuelve el codex.cmd global de npm en Windows", () => {
   const seen = [];
@@ -95,4 +95,13 @@ test("monta el release sólo en lore y limpia únicamente su runtime", () => {
   } finally {
     rmSync(sandbox, { recursive: true, force: true });
   }
+});
+
+test("exam: sin USERPROFILE no hay raíz instalada que resolver", () => {
+  assert.throws(() => resolveInstalledLoreRoot("2.4.8", {}), /USERPROFILE/);
+});
+
+test("exam: limpieza fuera del runtime se rechaza, no se ejecuta", () => {
+  assert.throws(() => removeStagedWorkspace("C:\\Windows\\Temp\\x", "C:\\otro\\suite"), /insegura/);
+  assert.throws(() => removeStagedWorkspace("C:\\suite\\otro-dir", "C:\\suite"), /insegura/);
 });

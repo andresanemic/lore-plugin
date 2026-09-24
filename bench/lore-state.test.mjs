@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { existsSync, mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, utimesSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import test from "node:test";
 
-import { ANNOUNCE_POOL, RECEIPT, claimAnnounce, readReceipt, snapshot, writeReceipt, writeSessionBaseline } from "../hooks/lore-state.mjs";
+import { ANNOUNCE_POOL, RECEIPT, claimAnnounce, digest, readReceipt, snapshot, writeReceipt, writeSessionBaseline } from "../hooks/lore-state.mjs";
 
 const OPEN = "<!-- lore:always-on -->";
 const CLOSE = "<!-- /lore:always-on -->";
@@ -172,4 +172,24 @@ test("un recibo sin Anuncio no lleva la clave: ausente y cero no son el mismo he
   const dir = swept();
   assert.equal("announce" in writeReceipt(dir), false);
   assert.equal("announce" in readReceipt(dir), false);
+});
+
+test("exam: digest por contenido — tocar sin cambiar no mueve nada; cambiar sí", () => {
+  const dir = tree({ "lore/criterio.md": "criterio\n" });
+  const before = digest(dir);
+  const file = join(dir, "lore", "criterio.md");
+  const atime = new Date("2020-01-01T00:00:00Z");
+  const mtime = new Date();
+  utimesSync(file, atime, mtime);
+  assert.equal(digest(dir), before);
+  writeFileSync(file, "criterio cambiado\n");
+  assert.notEqual(digest(dir), before);
+});
+
+test("exam: recibo inválido no se escribe — TypeError, no recibo corrupto", () => {
+  const dir = tree({ "lore/criterio.md": "criterio\n" });
+  for (const bad of [null, {}, { digest: "zzz", alwaysOnBytes: 0 }, { digest: "a".repeat(64), alwaysOnBytes: -1 }]) {
+    assert.throws(() => writeReceipt(dir, bad), TypeError);
+  }
+  assert.equal(readReceipt(dir), null);
 });

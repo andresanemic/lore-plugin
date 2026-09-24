@@ -36,7 +36,7 @@ const SECRET_PATTERNS = [
 ];
 
 const EXTRACT_OPEN =
-  /<!-- lore:extract path="([^"]+)" owner="([^"]*)"(?: destino="([^"]*)")? -->\r?\n/;
+  /<!-- lore:extract path="([^"]+)" owner="([^"]*)"(?: destino="([^"]*)")?(?: source="(live|copy)")?(?: as_of="([^"]*)")?(?: validity="(current|mixed|history)")? -->\r?\n/;
 const EXTRACT_CLOSE = "<!-- /lore:extract -->";
 
 export function posix(p) {
@@ -137,7 +137,13 @@ function botRelFrom(raiz, botDir) {
   }
 }
 
-function addFile(files, seen, abs, extractPath, owner, dest) {
+function validityFor(extractPath) {
+  // FASES mixes live prose with dated history entries; everything else
+  // travels as current criterion unless the procedure labels it otherwise.
+  return /(^|\/)FASES\.md$/i.test(extractPath) ? "mixed" : "current";
+}
+
+function addFile(files, seen, abs, extractPath, owner, dest, provenance) {
   if (!existsSync(abs) || !statSync(abs).isFile()) return;
   if (!isTextFile(abs)) return;
   const path = posix(extractPath);
@@ -152,6 +158,8 @@ function addFile(files, seen, abs, extractPath, owner, dest) {
     path,
     owner: owner || "",
     dest: dest || "",
+    source: provenance?.source || "live",
+    validity: validityFor(path),
     abs,
     bytes: Buffer.byteLength(body, "utf8"),
     sha: sha256(abs),
@@ -171,6 +179,7 @@ export function collect(botDir) {
   const botOwner = botName;
   const files = [];
   const seen = new Set();
+  const holes = [];
 
   const botItems = [
     "CLAUDE.md",
@@ -185,11 +194,11 @@ export function collect(botDir) {
     const absItem = join(botDir, ...item.split("/"));
     if (!existsSync(absItem)) continue;
     if (statSync(absItem).isFile()) {
-      addFile(files, seen, absItem, `${botRel}/${item}`, botOwner, "");
+      addFile(files, seen, absItem, `${botRel}/${item}`, botOwner, "", { source: "live" });
     } else {
       for (const f of walkFiles(absItem)) {
         const rel = posix(relative(botDir, f));
-        addFile(files, seen, f, `${botRel}/${rel}`, botOwner, "");
+        addFile(files, seen, f, `${botRel}/${rel}`, botOwner, "", { source: "live" });
       }
     }
   }
@@ -202,7 +211,7 @@ export function collect(botDir) {
         /SKILL\.md$/i.test(rel) ||
         /(^|\/)canon\//.test(rel);
       if (!keep) continue;
-      addFile(files, seen, f, `${botRel}/${rel}`, botOwner, "");
+      addFile(files, seen, f, `${botRel}/${rel}`, botOwner, "", { source: "live" });
     }
   }
 
@@ -213,26 +222,42 @@ export function collect(botDir) {
     const base = existsSync(live) ? live : copy;
     const source = existsSync(live) ? "live" : existsSync(copy) ? "copy" : "missing";
     const owner = row.proyecto || row.destino || row.origen;
-    if (source === "missing") continue;
+    if (source === "missing") {
+      holes.push({
+        origen: String(row.origen),
+        destino: String(row.destino || ""),
+        owner,
+        reason: "sin fuente viva ni copia: el cuerpo nombrado no existe en esta máquina",
+      });
+      continue;
+    }
     for (const item of incluir) {
       const absItem = join(base, ...String(item).split("/"));
-      if (!existsSync(absItem)) continue;
+      if (!existsSync(absItem)) {
+        holes.push({
+          origen: `${row.origen}/${item}`,
+          destino: String(row.destino || ""),
+          owner,
+          reason: `pieza pedida (${item}) ausente en fuente ${source}`,
+        });
+        continue;
+      }
       if (statSync(absItem).isFile()) {
-        addFile(files, seen, absItem, `${row.origen}/${item}`, owner, row.destino || "");
+        addFile(files, seen, absItem, `${row.origen}/${item}`, owner, row.destino || "", { source });
       } else {
         for (const f of walkFiles(absItem)) {
           const rel = posix(relative(base, f));
-          addFile(files, seen, f, `${row.origen}/${rel}`, owner, row.destino || "");
+          addFile(files, seen, f, `${row.origen}/${rel}`, owner, row.destino || "", { source });
         }
       }
     }
   }
 
   files.sort((a, b) => a.path.localeCompare(b.path));
-  return { eco, raiz, botName, botRel, files };
+  return { eco, raiz, botName, botRel, files, holes };
 }
 
-export function compose({ botName, botRel, files, generatedAt }) {
+export function compose({ botName, botRel, files, holes = [], generatedAt }) {
   const lines = [];
   const w = (s = "") => lines.push(s);
   w(`# ${botName} — lore-cristalizado`);
@@ -245,11 +270,12 @@ export function compose({ botName, botRel, files, generatedAt }) {
   w(`- Generado: ${generatedAt}`);
   w(`- Bot: \`${botRel}\``);
   w(`- Archivos: ${files.length}`);
+  w(`- Huecos explícitos: ${holes.length}`);
   w(`- Bytes: ${files.reduce((n, f) => n + f.bytes, 0)}`);
   w("");
   w("## Manifiesto");
   w("");
-  for (const f of files) w(`- \`${f.path}\` · ${f.bytes} bytes · \`${f.sha.slice(0, 12)}\``);
+  for (const f of files) w(`- \`${f.path}\` · ${f.bytes} bytes · \`${f.sha.slice(0, 12)}\` · ${f.source} · ${f.validity} · as_of ${generatedAt}`);
   w("");
   w("## Cuerpos");
   w("");
@@ -261,12 +287,24 @@ export function compose({ botName, botRel, files, generatedAt }) {
       const body = f.body.endsWith("\n") ? f.body : `${f.body}\n`;
       w(`### \`${f.path}\``);
       w("");
-      w(`<!-- lore:extract path="${attrEscape(f.path)}" owner="${attrEscape(f.owner)}"${destAttr} -->`);
+      w(`<!-- lore:extract path="${attrEscape(f.path)}" owner="${attrEscape(f.owner)}"${destAttr} source="${f.source}" as_of="${generatedAt}" validity="${f.validity}" -->`);
       w(body.replace(/\n$/, ""));
       w(EXTRACT_CLOSE);
       w("");
     }
   }
+  w("## Huecos explícitos");
+  w("");
+  if (holes.length === 0) {
+    w("Sin huecos: todo cuerpo nombrado por el manifiesto viaja en este archivo.");
+  } else {
+    for (const h of holes) {
+      w(`- \`${h.origen}\` (dueño: ${h.owner || "—"}) — ${h.reason}.`);
+    }
+    w("");
+    w("Un hueco aprobado por nombre en la fase de vista previa sigue siendo un hueco: no gobierna nada.");
+  }
+  w("");
   w("## Omisiones");
   w("");
   w("Quedan fuera por defecto: `notas/`, `notes/`, scripts que no sean `ecosistema.json`,");
@@ -292,7 +330,10 @@ export function parseExtractBlocks(text) {
       path: m[1],
       owner: m[2] || "",
       dest: m[3] || "",
-      body: m[4].replace(/\r\n/g, "\n"),
+      source: m[4] || "unknown",
+      as_of: m[5] || "",
+      validity: m[6] || "unknown",
+      body: m[7].replace(/\r\n/g, "\n"),
     });
   }
   return blocks;
@@ -312,6 +353,7 @@ function isRoutePath(p) {
 }
 
 export function extractTo(mdText, outDir) {
+
   const blocks = parseExtractBlocks(mdText);
   if (!blocks.length) throw new Error("no extract markers in snapshot");
   const outAbs = resolve(outDir);
@@ -395,15 +437,57 @@ export function extractTo(mdText, outDir) {
   return { written, missing: [...new Set(missing)], checked: [...new Set(checked)], outAbs };
 }
 
+// verifySnapshot: readback verification stronger than pointer-existence.
+// Re-hashes every extract block against the live tree and reports:
+// matched (same bytes), drift (live changed since as_of), missing (live gone).
+// A snapshot whose live moved is stale, not wrong — drift is information,
+// not failure, unless the caller treats the snapshot as current.
+export function verifySnapshot(mdText, botDir, raizOverride) {
+  const blocks = parseExtractBlocks(mdText);
+  if (!blocks.length) throw new Error("no extract markers in snapshot");
+  const botAbs = resolve(botDir);
+  const botName = botAbs.replace(/[\\/]+$/, "").split(/[\\/]/).pop();
+  let raiz = raizOverride ? resolve(raizOverride) : null;
+  if (!raiz) {
+    const ecoBlock = blocks.find((b) => b.path.endsWith("scripts/ecosistema.json"));
+    try {
+      const eco = JSON.parse(ecoBlock?.body ?? "");
+      if (eco?.raiz) raiz = resolve(eco.raiz);
+    } catch {}
+  }
+  if (!raiz) raiz = resolve(botAbs, "..", "..", "..");
+  const matched = [];
+  const drift = [];
+  const missing = [];
+  for (const b of blocks) {
+    const underBot = b.path === `bots/proyectos/${botName}` || b.path.startsWith(`bots/proyectos/${botName}/`);
+    const liveAbs = underBot
+      ? resolve(botAbs, ...b.path.split("/").slice(3))
+      : resolve(raiz, ...b.path.split("/"));
+    if (!existsSync(liveAbs) || !statSync(liveAbs).isFile()) {
+      missing.push({ path: b.path, owner: b.owner, as_of: b.as_of });
+      continue;
+    }
+    const liveSha = sha256(liveAbs);
+    const snapBytes = Buffer.from(b.body, "utf8");
+    const snapShaNl = createHash("sha256").update(b.body.endsWith("\n") ? snapBytes : Buffer.concat([snapBytes, Buffer.from("\n")])).digest("hex").toUpperCase();
+    const snapShaRaw = createHash("sha256").update(snapBytes).digest("hex").toUpperCase();
+    if (liveSha === snapShaNl || liveSha === snapShaRaw) matched.push(b.path);
+    else drift.push({ path: b.path, owner: b.owner, as_of: b.as_of, validity: b.validity });
+  }
+  return { matched: matched.length, matchedPaths: matched, drift, missing };
+}
+
 function usage() {
   console.log(`Usage:
   node crystallize.mjs pack    --bot <dir> --out <snapshot.md>
-  node crystallize.mjs extract --from <snapshot.md> --out <folder>`);
+  node crystallize.mjs extract --from <snapshot.md> --out <folder>
+  node crystallize.mjs verify  --from <snapshot.md> --bot <live-dir>`);
 }
 
 function main(argv) {
   const args = parseArgs(argv);
-  const verb = args._[0];
+    const verb = args._[0];
   if (verb === "pack") {
     if (!args.bot || !args.out) {
       usage();
@@ -445,6 +529,24 @@ function main(argv) {
     };
     console.log(JSON.stringify(payload, null, 2));
     if (result.missing.length) process.exit(1);
+    return;
+  }
+  if (verb === "verify") {
+    if (!args.from || !args.bot) {
+      usage();
+      process.exit(2);
+    }
+    const md = readFileSync(resolve(args.from), "utf8");
+    const result = verifySnapshot(md, resolve(args.bot));
+    const payload = {
+      ok: result.drift.length === 0 && result.missing.length === 0,
+      verb: "verify",
+      matched: result.matched,
+      drift: result.drift,
+      missing: result.missing,
+    };
+    console.log(JSON.stringify(payload, null, 2));
+    if (!payload.ok) process.exit(1);
     return;
   }
   usage();

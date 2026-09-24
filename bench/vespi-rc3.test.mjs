@@ -259,6 +259,41 @@ test("battle-b: no-finding leaves the decision space unchanged", async () => {
   assert.equal(probe.evidence, null);
 });
 
+// EXAM: small uncovered branches — real guardrails, not decoration.
+test("exam: probe without recipient is insufficient context", async () => {
+  const { runProbe } = await import(P);
+  const out = await runProbe({ question: "q" });
+  assert.equal(out.result, "INSUFFICIENT_CONTEXT");
+});
+
+test("exam: switch without preauthorization requires gate", async () => {
+  const { decideSwitch } = await import(R);
+  assert.equal(decideSwitch({ from: "NEAR_MARGIN", to: "B", preauthorized: false, materialChange: false }), "requires_gate");
+});
+
+test("exam: invalid grants cover nothing", async () => {
+  const { grantsCover } = await import(E);
+  assert.equal(grantsCover(null, [{ asset: "A", amount: "1", to: "T" }]), false);
+});
+
+test("exam: unreadable effective terms abort without perform", async () => {
+  const { runBoundedOperation } = await import(V);
+  let performed = 0;
+  const capability = {
+    id: "x",
+    required: () => ({ spend: [{ asset: "A", amount: "1", to: "T" }] }),
+    effectiveTerms: () => { throw new Error("broken sensor"); },
+    perform: async () => { performed++; return { ok: true, evidence: { s: 1 } }; },
+  };
+  const out = await runBoundedOperation(
+    { goal: "g", authority: { spend: [{ asset: "A", maxAmount: "1", to: "T" }] } },
+    capability,
+    { declaredEffect: { asset: "A", amount: "1", to: "T" } },
+  );
+  assert.equal(performed, 0);
+  assert.equal(out.receipt.status, "failed");
+});
+
 // GUARD-1: foreign structured write stays denied (rc.2 boundary preserved).
 test("guard: foreign structured write denied with proposal path", async () => {
   const { jurisdictionBlock } = await import("../hooks/lore-guard.mjs");

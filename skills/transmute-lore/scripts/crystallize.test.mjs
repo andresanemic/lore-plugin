@@ -3,7 +3,10 @@ import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, existsSync } from 
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { collect, compose, extractTo, isSafeExtractPath, parseExtractBlocks, posix } from "./crystallize.mjs";
+import { createRequire } from "node:module";
+import { collect, compose, extractTo, isSafeExtractPath, parseExtractBlocks, posix, verifySnapshot } from "./crystallize.mjs";
+
+const require = createRequire(import.meta.url);
 
 function fixture() {
   const root = mkdtempSync(join(tmpdir(), "lore-crystallize-"));
@@ -152,4 +155,122 @@ test("pack omite *.test.* — código de prueba, no criterio — aunque lleve fi
   );
   const collected = collect(bot);
   assert.ok(!collected.files.some((f) => f.path.endsWith("helper.test.mjs")));
+});
+
+// CRYSTALLIZE 2.0 — validity-aware, provenance-aware, explicit holes, readback verify.
+
+test("2.0: filas sin fuente viva ni copia se registran como huecos explícitos", () => {
+  const { root, bot } = fixture();
+  const ecoPath = join(bot, "scripts", "ecosistema.json");
+  const eco = JSON.parse(readFileSync(ecoPath, "utf8"));
+  eco.fuentes.push({ destino: "fantasma", origen: "ausente/del-todo", incluir: ["lore"], proyecto: "Fantasma" });
+  writeFileSync(ecoPath, `${JSON.stringify(eco, null, 2)}\n`, "utf8");
+  const collected = collect(bot);
+  assert.ok(collected.holes.some((h) => h.origen === "ausente/del-todo"), "el hueco debe existir");
+  assert.match(collected.holes[0].reason ?? "", /missing|ausente|sin fuente/i);
+  const md = compose({ ...collected, generatedAt: "2026-09-24" });
+  assert.match(md, /## Huecos expl.citos/);
+  assert.match(md, /ausente\/del-todo/);
+});
+
+test("2.0: cada extract lleva provenance (source, as_of) y validity", () => {
+  const { bot } = fixture();
+  const collected = collect(bot);
+  const md = compose({ ...collected, generatedAt: "2026-09-24" });
+  assert.match(md, /<!-- lore:extract path="[^"]+" owner="[^"]*" source="(live|copy)" as_of="2026-09-24"/);
+  const blocks = parseExtractBlocks(md);
+  const fases = blocks.find((b) => b.path.endsWith("FASES.md"));
+  assert.equal(fases?.validity, "mixed");
+  const lore = blocks.find((b) => b.path.endsWith("lore/principios.md"));
+  assert.equal(lore?.validity, "current");
+  assert.equal(lore?.source, "live");
+  assert.match(lore?.as_of ?? "", /^\d{4}-\d{2}-\d{2}$/);
+});
+
+test("2.0: verify compara el snapshot contra el árbol vivo", () => {
+  const { root, bot } = fixture();
+  const collected = collect(bot);
+  const md = compose({ ...collected, generatedAt: "2026-09-24" });
+  const v = verifySnapshot(md, bot);
+  assert.equal(v.drift.length, 0);
+  assert.equal(v.missing.length, 0);
+  assert.ok(v.matched > 0);
+  // Deriva real: cambia un vivo y el verify lo detecta.
+  writeFileSync(join(bot, "canon", "frontera.md"), "# Frontera\nCambio posterior.\n", "utf8");
+  const v2 = verifySnapshot(md, bot);
+  assert.ok(v2.drift.some((d) => d.path.endsWith("canon/frontera.md")));
+});
+
+test("exam: extract rechaza path que escapa y reporta punteros rotos", () => {
+  const { root, bot } = fixture();
+  const collected = collect(bot);
+  let md = compose({ ...collected, generatedAt: "2026-09-24" });
+  // Snapshot hostil: un bloque con path de escape.
+  md += '\n### `evil`\n\n<!-- lore:extract path="../evil.md" owner="x" -->\nmal\n<!-- /lore:extract -->\n';
+  assert.throws(() => extractTo(md, join(root, "hostil")), /unsafe|escaped/);
+});
+
+test("exam: extract con copia reconstruye lore-ecosistema y no deja rotos", () => {
+  const { root, bot } = fixture();
+  const ecoPath = join(bot, "scripts", "ecosistema.json");
+  const eco = JSON.parse(readFileSync(ecoPath, "utf8"));
+  eco.copia = true;
+  writeFileSync(ecoPath, `${JSON.stringify(eco, null, 2)}\n`, "utf8");
+  const md = compose({ ...collect(bot), generatedAt: "2026-09-24" });
+  const out = join(root, "extraido-copia");
+  const result = extractTo(md, out);
+  assert.deepEqual(result.missing, []);
+  assert.equal(existsSync(join(out, "bots", "proyectos", "bot-demo", "lore-ecosistema", "producto", "lore", "identidad.md")), true);
+});
+
+test("2.0: CLI verify sale 0 en snapshot fiel y 1 con deriva", () => {
+  const { execFileSync } = require("node:child_process");
+  const script = join(process.cwd(), "skills", "transmute-lore", "scripts", "crystallize.mjs");
+  const { root, bot } = fixture();
+  const snap = join(root, "snap.md");
+  const run = (args) => {
+    try {
+      const out = execFileSync(process.execPath, [script, ...args], { encoding: "utf8" });
+      return { code: 0, out };
+    } catch (e) {
+      return { code: e.status, out: String(e.stdout ?? "") };
+    }
+  };
+  run(["pack", "--bot", bot, "--out", snap]);
+  const clean = run(["verify", "--from", snap, "--bot", bot]);
+  assert.equal(clean.code, 0);
+  assert.match(clean.out, /"drift": \[\]/);
+  writeFileSync(join(bot, "canon", "frontera.md"), "# Frontera\nCambio posterior.\n", "utf8");
+  const dirty = run(["verify", "--from", snap, "--bot", bot]);
+  assert.equal(dirty.code, 1);
+  assert.match(dirty.out, /canon\/frontera\.md/);
+});
+
+test("2.0: snapshot pre-2.0 (sin attrs) sigue parseando y verificando", () => {
+  const { bot } = fixture();
+  const collected = collect(bot);
+  let md = compose({ ...collected, generatedAt: "2026-09-24" });
+  // Degrada a formato 1.0: quita los attrs nuevos de cada marcador.
+  md = md.replaceAll(/ source="(live|copy)" as_of="[^"]*" validity="(current|mixed|history)"/g, "");
+  const blocks = parseExtractBlocks(md);
+  assert.equal(blocks.length, collected.files.length);
+  assert.equal(blocks[0].source, "unknown");
+  const v = verifySnapshot(md, bot);
+  assert.equal(v.drift.length, 0);
+  assert.ok(v.matched > 0);
+});
+
+test("2.0: pack en bot sin ecosistema.json falla con razón", () => {
+  const { execFileSync } = require("node:child_process");
+  const script = join(process.cwd(), "skills", "transmute-lore", "scripts", "crystallize.mjs");
+  const { root } = fixture();
+  const empty = join(root, "vacio");
+  mkdirSync(empty, { recursive: true });
+  let code = -1;
+  try {
+    execFileSync(process.execPath, [script, "pack", "--bot", empty, "--out", join(root, "x.md")], { encoding: "utf8" });
+  } catch (e) {
+    code = e.status;
+  }
+  assert.notEqual(code, 0);
 });

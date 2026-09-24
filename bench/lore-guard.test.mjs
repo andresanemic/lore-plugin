@@ -10,6 +10,8 @@ import {
   MATERIAL_GROWTH_BYTES,
   evaluateState,
   formatIntervention,
+  jurisdictionBlock,
+  structuredWritePaths,
 } from "../hooks/lore-guard.mjs";
 import { RECEIPT, readReceipt, snapshot, writeReceipt } from "../hooks/lore-state.mjs";
 
@@ -141,4 +143,16 @@ test("CLI migrates a current v1 receipt without expansion authority", () => {
   assert.deepEqual(readReceipt(dir), {
     version: 2, digest: current.digest, alwaysOnBytes: 0,
   });
+});
+
+test("exam: NotebookEdit fuera de jurisdicción se bloquea; herramienta desconocida no acusa", () => {
+  const dir = tree({ "lore/criterio.md": "criterio\n" });
+  const blocked = jurisdictionBlock(dir, "NotebookEdit", { notebook_path: "/otra/parte/nb.ipynb" });
+  assert.match(blocked ?? "", /jurisdicci/i);
+  assert.equal(jurisdictionBlock(dir, "Bash", { command: "rm -rf /" }), null);
+  assert.deepEqual(structuredWritePaths("Bash", { command: "x" }), []);
+});
+
+test("exam: sin recibo registrado no hay expansión que aprobar", () => {
+  assert.deepEqual(evaluateState(state(100), null), { pendingLore: false, expansion: null, requiresApproval: false });
 });

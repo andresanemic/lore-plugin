@@ -280,6 +280,17 @@ test("invalid input fails open", () => {
   }), "");
 });
 
+test("session_start en árbol vacío abre en silencio (fail open)", () => {
+  const dir = mkdtempSync(join(tmpdir(), "codex-lore-empty-"));
+  roots.push(dir);
+  assert.equal(run(dir, "session_start"), "");
+});
+
+test("post_tool_use sin baseline la fija sin intervenir (fail open)", () => {
+  const dir = tree();
+  assert.equal(run(dir, "post_tool_use"), "");
+});
+
 test("PreToolUse permite el árbol propio y el intercambio hermano, pero bloquea el canon ajeno", () => {
   const hive = mkdtempSync(join(tmpdir(), "lore-hive-"));
   roots.push(hive);
