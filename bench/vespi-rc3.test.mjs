@@ -212,6 +212,14 @@ test("handoff: proposal carries evidence, never a write", async () => {
   assert.throws(() => proposeHandoff({ kind: "truth", source: "x" }), /kind/);
 });
 
+// HANDOFF-2 (RED 15 trace): save-to-lore already arbitrates proposals due.
+test("handoff: save-to-lore contract accepts proposal-shaped outcomes", async () => {
+  const { readFileSync } = await import("node:fs");
+  const text = readFileSync(new URL("../skills/save-to-lore/SKILL.md", import.meta.url), "utf8");
+  assert.match(text, /proposal/i);
+  assert.match(text, /arbitrat/i);
+});
+
 // BATTLE-B-1: dominant route insufficient -> probe -> evidence changes decision.
 test("battle-b: probe evidence legitimately changes the decision space", async () => {
   const { runProbe, crossGarden } = await import(P);
