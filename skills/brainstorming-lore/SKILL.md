@@ -242,6 +242,10 @@ software headings such as components, data flow, or error handling.
 
 Then state the threshold plainly and wait for explicit approval.
 
+Work with partial goals honestly: PARTIAL → DISCOVERY → RATIFIED WORKING GOAL. Ask the minimum
+that buys a first victory; never turn a first answer into doctrine. A usable goal is specific enough
+to guide choice without pre-deciding the solution.
+
 ## 6. Handoff after approval
 
 After approval:
@@ -249,7 +253,10 @@ After approval:
 1. record the approved design in the active task state when the environment supports it;
 2. hand execution to the **native Plan Mode** or planning mechanism available in the current agent;
 3. invoke the artifact's owner skill at the point it becomes responsible;
-4. keep any later owner-specific threshold intact.
+4. keep any later owner-specific threshold intact;
+5. if during design the current shape stops sufficing — the problem is no longer design inside the
+   form — hand the ratified partial goal to the bounded-operation skill instead of forcing the
+   design; never become that operation yourself.
 
 This skill **does not require `writing-plans`** or any other third-party planning skill. It also
 **does not create a spec file or commit by default**. Create a design document only when the user,

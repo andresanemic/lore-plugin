@@ -50,7 +50,7 @@ invoking any other Lore skill.
 **If this machine has no Lore yet** — no area with a `lore/`, no project carrying the six pieces —
 this runs **before anything else**, and before offering any skill by name. The kit **brainstorms to
 build** every artifact it makes; it would be incoherent for the kit itself to greet its first user
-with a list of seven skills.
+with a list of eight skills.
 
 > **Invoke Lore Plugin's own `brainstorming-lore` skill** (`lore:brainstorming-lore` where skills are
 > namespaced) and run this through it. If the runtime failed to expose an installed Lore skill,
@@ -93,12 +93,17 @@ runs first:**
 ### Move 3 — close by naming the route, and run it
 
 State the first operation and why, in one line, then invoke its owning skill silently. Do not name
-the skill unless the user named it or asked for technical detail. Do not list the other seven. The map is for you, not a menu.
+the skill unless the user named it or asked for technical detail. Do not list the other eight. The map is for you, not a menu.
 
 **When the first operation does not deliver what was asked for, state the final operation in the
 same line, without its internal name.** The route is the answer, not its opening step — and the step
 that gets forgotten is always the one that was still pending when the first artifact came out
 looking finished.
+
+**When the work is a live operation under pressure** — it must survive sessions, its effects carry
+authority, or resuming silently would pretend nothing changed — the route is the bounded-operation
+skill, invoked silently like any other route and never named unless asked. Ordinary work never pays
+that toll: if plain criterion, an owner, and a gate suffice, that is the whole route.
 
 > **What this move must never do is end in a recommendation.** The first use of the kit produces a
 > first artifact, or it produced nothing.
@@ -114,7 +119,7 @@ spent on register buys nothing, and this move exists to produce an artifact.
 
 **And offer a short orientation in the same breath, inferred like the register — one shape, never a
 menu — 2.3.0.** Somebody meeting this kit for the first time has no picture of what it is, and a list
-of seven skills is not that picture. Pick **one** shape from what the person already wrote: they
+of eight skills is not that picture. Pick **one** shape from what the person already wrote: they
 asked what it does or how it works → a short text; they described their work as a structure or a set
 of relations → a concept map; they write in fragments and want to be shown rather than told → a
 worked example over the artifact they are about to get; they answered tersely and moved fast → skip
@@ -323,7 +328,7 @@ full-line match after trimming whitespace.
 **Contents — exactly four things, in this order.** What Lore governs here; where it lives (relative
 paths that resolve from the root); **where the state lives** (`FASES.md`, one line, path only); and
 the signal that writing criteria by hand feels like competence and is the moment to invoke the skill.
-Nothing else. Reproducing a clue, listing the seven skills or explaining what Lore is belongs
+Nothing else. Reproducing a clue, listing the eight skills or explaining what Lore is belongs
 elsewhere and already has an owner.
 
 > **Why state earns a line in a block that is otherwise about criteria.** Criteria and state are two

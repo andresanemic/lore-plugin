@@ -35,6 +35,8 @@ Prepare → authorize → perform → verify/reconcile → receipt → checkpoin
 
 Anything worth keeping leaves as evidence, artifact, proposal, question, refusal, or nothing — handed to `save-to-lore` arbitration with source and provenance. Nothing here auto-becomes Lore.
 
+Before delivering a user artifact, replace every internal label with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. Operation, envelope, validity, and probe stay below the conversation unless the user asks for technical detail.
+
 ## Core provenance
 
 `core/kernel/` is byte-identical to the Vespi SOURCE BASE recorded for this RC (commit, files, digests in the release notes). It is executed and verified, never edited in place. RC3 behavior around it (`vespi.mjs`, `operation-state.mjs`, `probe.mjs`, `resource.mjs`, `envelope.mjs`) is the experimental surface RUN07–RUN09 may confirm, reduce, or kill.

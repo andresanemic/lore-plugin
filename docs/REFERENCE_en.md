@@ -81,7 +81,7 @@ and Morin's wager are declared hypothesis and ethical north, not benchmark resul
 
 ## 2. Skills Overview
 
-The Lore plugin exposes seven main skills through compatible AI agents:
+The Lore plugin exposes eight main skills through compatible AI agents:
 
 | Skill            | Purpose                                     | Typical trigger phrase                                |
 |------------------|---------------------------------------------|------------------------------------------------------|
@@ -617,6 +617,14 @@ unpacking the snapshot rebuilds the folder, including `lore-ecosistema/` — tha
 travels to someone who does not have your tree.
 
 Use `create-bot` when you want one session that works across several projects — with or without existing Lore: none, it orchestrates the chain above; some, it federates it. It never substitutes for building that Lore in the Area that owns it.
+
+### 3.9 `vespi`
+
+**Role (experimental, RC3):** run a **live bounded operation** under authority across time — continue across sessions, move laterally when the route is insufficient, revalidate before continuing as the same operation. The unit is the operation, not the agent.
+
+**Reach for it only when the work is an operation under pressure:** effects carry authority, resuming silently would pretend nothing changed, or the current route may not suffice. Ordinary work stays with `use-lore`; design clarification stays with `brainstorming-lore`.
+
+**Never:** write Lore (only `save-to-lore` arbitrates that path), route universally, learn, schedule, persist universally, migrate hosts, or mutate foreign Lore — probe and propose with evidence and provenance instead. Optional pressure surfaces (resource margin, open items, lateral probes, certification) appear only when material; a simple operation stays simple. Full contract: `skills/vespi/SKILL.md`; executable core: `skills/vespi/core/`.
 
 ---
 

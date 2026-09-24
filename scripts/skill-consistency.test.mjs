@@ -14,14 +14,14 @@ const docs = rootDocs.map((name) => name).concat(
   readdirSync(join(root, "docs")).filter((name) => name.endsWith(".md")).map((name) => join("docs", name)),
 );
 
-test("las siete skills declaran un nombre único y neutral al proveedor", () => {
-  assert.equal(skills.length, 7);
+test("las ocho skills declaran un nombre único y neutral al proveedor", () => {
+  assert.equal(skills.length, 8);
   const names = skills.map((entry) => {
     const text = skillText(join(skillsRoot, entry.name));
     assert.doesNotMatch(text, /Source of truth for Claude Code/i);
     return text.match(/^name:\s*(.+)$/m)?.[1]?.trim();
   });
-  assert.deepEqual(new Set(names).size, 7);
+  assert.deepEqual(new Set(names).size, 8);
   assert.deepEqual(names.sort(), skills.map((entry) => entry.name).sort());
 });
 
@@ -47,7 +47,7 @@ test("use-lore gobierna entregables complejos sin crear una novena skill", () =>
   assert.match(text, /available tools, connectors or MCPs/);
   assert.match(text, /batch/i);
   assert.match(text, /human review/);
-  assert.equal(skills.length, 7);
+  assert.equal(skills.length, 8);
   // 2026-08-28 (poda 2.3.x): el mecanismo vive una vez, en REFERENCE. README y USAGE apuntan.
   for (const file of ["docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
     const doc = readFileSync(join(root, file), "utf8");
@@ -55,7 +55,7 @@ test("use-lore gobierna entregables complejos sin crear una novena skill", () =>
   }
 });
 
-test("las siete skills y REFERENCE blindan los artefactos externos contra etiquetas internas", () => {
+test("las ocho skills y REFERENCE blindan los artefactos externos contra etiquetas internas", () => {
   for (const skill of skillNames) {
     const text = skillText(join(skillsRoot, skill));
     assert.match(text, /before delivering a user artifact.*replace every internal label/is, skill);
@@ -201,7 +201,7 @@ test("el Entre fértil no se confunde con complacencia", () => {
 // 2026-08-28 (poda 2.3.x): USAGE_* y MIGRATION_* se plegaron dentro de REFERENCE_*, que es
 // ahora el único documento técnico (empezar + uso + spec + migración). El guard que vale
 // —ninguna skill desaparece en silencio de la spec, principios.md #15— se mantiene sobre él.
-test("REFERENCE documenta las siete skills con sección propia", () => {
+test("REFERENCE documenta las ocho skills con sección propia", () => {
   for (const file of ["docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
     const text = readFileSync(join(root, file), "utf8");
     for (const name of skillNames) {
@@ -238,12 +238,12 @@ test("el README funciona como portada y no duplica las guías", () => {
   for (const required of [
     "## Installation",
     "## Architecture",
-    "## The seven skills",
+    "## The eight skills",
     "## Benchmark",
     "## Documentation",
     "## Instalación",
     "## Arquitectura",
-    "## Las siete skills",
+    "## Las ocho skills",
     "## El benchmark",
     "## Documentación",
   ]) assert.match(readme, new RegExp(required.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
@@ -566,7 +566,7 @@ test("los enlaces Markdown locales de la documentación resuelven", () => {
 // Verificar que el ancla EXISTE no basta, y este es el caso que lo probo: `#use-lore` existe
 // —es el encabezado ingles— asi que la tabla espanola apuntaba a el y saltaba al otro idioma.
 // Un ancla duplicada entre los dos bloques solo se distingue por el lado del que cae.
-// La tabla de las siete skills ya no enlaza a ningun lado (su destino vivia dentro de un <details>
+// La tabla de las ocho skills ya no enlaza a ningun lado (su destino vivia dentro de un <details>
 // cerrado, que el navegador no despliega); esto cuida los indices de navegacion, que si enlazan.
 test("el README bilingüe no enlaza de un idioma al ancla del otro", () => {
   const text = readFileSync(join(root, "README.md"), "utf8");
