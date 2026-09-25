@@ -8,7 +8,7 @@
 <p align="center">
   <a href="#installation"><img src="https://img.shields.io/badge/version-2.4.8-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/AI_provider-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="AI provider: neutral"></a>
-  <a href="#the-seven-skills"><img src="https://img.shields.io/badge/writing--skills-validated-63C49B?style=for-the-badge&labelColor=0B0B12" alt="Validated against writing-skills"></a>
+  <a href="#the-eight-skills"><img src="https://img.shields.io/badge/writing--skills-validated-63C49B?style=for-the-badge&labelColor=0B0B12" alt="Validated against writing-skills"></a>
   <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
   <a href="#origin"><img src="https://img.shields.io/badge/research-active-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Status"></a>
@@ -179,7 +179,7 @@ node scripts/lore-plugin.mjs install --target all
 codex plugin add lore@personal
 ```
 
-Replace `all` with `claude`, `codex`, or `opencode` to target one host. The installer configures Claude directly, prepares Codex's local `personal` marketplace, and replaces only Lore's seven OpenCode skill folders. Codex and OpenCode copies are verified against the source tree after installation.
+Replace `all` with `claude`, `codex`, or `opencode` to target one host. The installer configures Claude directly, prepares Codex's local `personal` marketplace, and replaces only Lore's eight OpenCode skill folders. Codex and OpenCode copies are verified against the source tree after installation.
 
 If you already use a host plugin manager, these shorter routes install the same package without keeping a separate checkout.
 
@@ -215,7 +215,7 @@ codex plugin add lore@lore-plugin
 
 ### OpenCode
 
-From a local clone, install and verify Lore's seven skill folders in OpenCode's global directory:
+From a local clone, install and verify Lore's eight skill folders in OpenCode's global directory:
 
 ```bash
 node scripts/lore-plugin.mjs install --target opencode
@@ -550,7 +550,7 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 <p align="center">
   <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.4.8-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/proveedor_IA-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Proveedor IA: neutral"></a>
-  <a href="#las-siete-skills"><img src="https://img.shields.io/badge/writing--skills-validado-63C49B?style=for-the-badge&labelColor=0B0B12" alt="Validado contra writing-skills"></a>
+  <a href="#las-ocho-skills"><img src="https://img.shields.io/badge/writing--skills-validado-63C49B?style=for-the-badge&labelColor=0B0B12" alt="Validado contra writing-skills"></a>
   <a href="./docs/SPEC_KIT_es.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
   <a href="#origen"><img src="https://img.shields.io/badge/investigaci%C3%B3n-activa-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Estado"></a>
@@ -634,7 +634,7 @@ Un fine-tune deja de pedirte cosas el día que está listo. Lore no para nunca: 
 Tres cosas:
 
 - una convención sencilla para organizar el criterio de un proyecto;
-- siete *skills* que operan esa convención;
+- ocho *skills* que operan esa convención;
 - y un ciclo continuo para destilar experiencia en criterio reutilizable.
 
 Lo de *spec-driven* no es una etiqueta: un contrato por proyecto (`CLAUDE.md` o `AGENTS.md`, el que lea tu host), `FASES.md` para dónde está el trabajo, `lore/` para lo que restringe cómo se construye.
