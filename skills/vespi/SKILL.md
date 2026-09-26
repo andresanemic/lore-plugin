@@ -41,4 +41,4 @@ Before delivering a user artifact, replace every internal label with the audienc
 
 ## Core provenance
 
-`core/kernel/` is byte-identical to the Vespi SOURCE BASE recorded for this RC (commit, files, digests in the release notes). It is executed and verified, never edited in place. RC3 behavior around it (`vespi.mjs`, `operation-state.mjs`, `probe.mjs`, `resource.mjs`, `envelope.mjs`) is the experimental surface RUN07–RUN09 may confirm, reduce, or kill.
+Each file in `core/kernel/` is a three-line provenance header followed by the exact bytes of the Vespi SOURCE BASE recorded for this RC (commit, files, digests in the release notes); strip the header to verify. It is executed and verified, never edited in place. RC3 behavior around it (`vespi.mjs`, `operation-state.mjs`, `probe.mjs`, `resource.mjs`, `envelope.mjs`) is the experimental surface RUN07–RUN09 may confirm, reduce, or kill.

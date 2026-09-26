@@ -1,6 +1,7 @@
 // vespi core facade — RC3 experimental.
-// Ported kernel (operation/authority/receipt .cjs, byte-identical to Vespi
-// SOURCE BASE 85c6f3f — see bot-lus-lore/specs/011-.../source-audit-RC3.md)
+// Ported kernel (operation/authority/receipt .cjs: a 3-line provenance header,
+// then the exact bytes of Vespi SOURCE BASE 85c6f3f — see
+// bot-lus-lore/specs/011-.../source-audit-RC3.md)
 // plus RC3 truthfulness wrappers. No scheduler, no router, no managers.
 import { createRequire } from "node:module";
 
