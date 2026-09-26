@@ -42,7 +42,9 @@ if (event === "post_tool_use" && typeof data.turn_id !== "string") OK();
 const root = typeof data.cwd === "string" && data.cwd ? data.cwd : process.cwd();
 const sessionId = typeof data.session_id === "string" ? data.session_id : null;
 
-if (event === "session_start") writeSessionRoot(sessionId, root);
+// Solo la primera vez: Claude Code re-dispara SessionStart al compactar/reanudar con el cwd ya
+// derivado, y sobrescribir ahí re-anclaba la jurisdicción en ese cwd (bot-lus-lore, 2026-09-25).
+if (event === "session_start" && !readSessionRoot(sessionId)) writeSessionRoot(sessionId, root);
 
 if (event === "pre_tool_use") {
   // La jurisdicción es la raíz donde abrió la sesión; el cwd solo si no hay raíz registrada.

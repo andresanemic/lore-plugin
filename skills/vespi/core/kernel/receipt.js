@@ -1,3 +1,6 @@
+// Vendored copy — canonical source is founder/proyectos/vespi/kernel/src/receipt.js
+// (moved there from C:\Vespi on 2026-09-26). Edit the canonical source, then re-copy here;
+// this file is not the source of truth.
 'use strict';
 
 const SAFE_EVIDENCE_KEYS = new Set([

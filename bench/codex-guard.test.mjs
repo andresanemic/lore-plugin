@@ -155,6 +155,34 @@ test("la jurisdicción se ancla en la raíz donde abrió la sesión, no en el cw
   assert.equal(blocked.hookSpecificOutput.permissionDecision, "deny");
 });
 
+// 2026-09-25, bot-lus-lore: Claude Code re-dispara SessionStart al compactar (source "compact")
+// con el cwd ya derivado; la raíz registrada no puede sobrescribirse con ese cwd.
+test("una compactación con el cwd derivado no re-ancla la jurisdicción", () => {
+  const hive = mkdtempSync(join(tmpdir(), "lore-hive-"));
+  roots.push(hive);
+  const own = join(hive, "bots", "bot-probe");
+  const drifted = join(hive, "plugins", "kit", "skills", "una-skill");
+  for (const dir of [own, drifted]) mkdirSync(dir, { recursive: true });
+  write(own, "lore/principios.md", "# Propio\n");
+  write(drifted, "lore/principios.md", "# Ajeno\n");
+  const sessionId = `compact-${Date.now()}`;
+
+  assert.equal(run(own, "session_start", { session_id: sessionId, source: "startup" }), "");
+  run(drifted, "session_start", { session_id: sessionId, source: "compact" });
+  assert.equal(claudePreWrite(drifted, join(own, "lore", "principios.md"), sessionId), "");
+  const blocked = JSON.parse(claudePreWrite(own, join(drifted, "lore", "principios.md"), sessionId));
+  assert.equal(blocked.hookSpecificOutput.permissionDecision, "deny");
+});
+
+test("sin intercambio/ la denegación no manda a un lugar inexistente y nombra la raíz", () => {
+  const own = tree();
+  const outside = join(mkdtempSync(join(tmpdir(), "lore-fuera-")), "x.md");
+  roots.push(dirname(outside));
+  const reason = JSON.parse(claudePreWrite(own, outside)).hookSpecificOutput.permissionDecisionReason;
+  assert.doesNotMatch(reason, /intercambio/);
+  assert.match(reason, new RegExp(own.replace(/\\/g, "\\\\")));
+});
+
 test.after(() => {
   for (const dir of roots) rmSync(dir, { recursive: true, force: true });
 });

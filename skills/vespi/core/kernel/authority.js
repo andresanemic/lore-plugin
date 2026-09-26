@@ -1,3 +1,6 @@
+// Vendored copy — canonical source is founder/proyectos/vespi/kernel/src/authority.js
+// (moved there from C:\Vespi on 2026-09-26). Edit the canonical source, then re-copy here;
+// this file is not the source of truth.
 'use strict';
 
 // Authority: pure data + one predicate. No I/O, no host, no capabilities.

@@ -1,6 +1,6 @@
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, isAbsolute, relative, resolve } from "node:path";
+import { basename, dirname, isAbsolute, relative, resolve } from "node:path";
 
 export const MATERIAL_GROWTH_BYTES = 8_192;
 
@@ -19,6 +19,27 @@ function exchangeRoot(root) {
     if (parent === dir) return null;
     dir = parent;
   }
+}
+
+// Un proyecto vive en <área>/proyectos/<nombre>/ y hereda de <área>/lore/ — convención
+// documentada en bot-desarrollo-web/CLAUDE.md y en la skill save-to-lore ("A project lives
+// in {area}/proyectos/{name}/ and inherits from {area}/lore/"), no algo local a un bot.
+// Si la sesión abrió dentro de un proyecto con esa forma, el área es jurisdicción propia
+// -escribir criterio confirmado y genérico ahí arriba es la operación que la skill nombra
+// como CAPTURE con promoción-, no un árbol hermano que necesite intercambio/.
+// NC-A-2 (2026-09-21): la sesión abrió en desarrollo-web/proyectos/numerologia y el bloqueo
+// cayó sobre desarrollo-web/lore/mecanica.md -- federatedRoots no alcanza este caso porque
+// lee <root>/lore/enrutamiento.md, y un proyecto de sitio no tiene esa tabla (vive en el
+// bot que federa el área, un árbol primo, no un ancestro).
+function areaRoot(root) {
+  const own = resolve(root);
+  const parent = dirname(own);
+  if (basename(parent) !== "proyectos") return null;
+  const area = dirname(parent);
+  try {
+    if (existsSync(resolve(area, "lore")) && statSync(resolve(area, "lore")).isDirectory()) return area;
+  } catch {}
+  return null;
 }
 
 // Árboles hermanos que el enrutamiento del bot declara (celda con acento grave en las
@@ -68,14 +89,17 @@ export function jurisdictionBlock(root, toolName, input) {
   if (paths.length === 0) return null;
   const own = resolve(root);
   const exchange = exchangeRoot(own);
+  const area = areaRoot(own);
   // El scratchpad de la sesión vive bajo <tmp>/claude; el resto de <tmp> no es jurisdicción.
-  const allowed = [own, ...(exchange ? [exchange] : []), resolve(tmpdir(), "claude"), ...federatedRoots(own)];
+  const allowed = [own, ...(exchange ? [exchange] : []), resolve(tmpdir(), "claude"), ...federatedRoots(own), ...(area ? [area] : [])];
   const denied = paths
     .map((path) => resolve(own, path))
     .filter((path) => !allowed.some((base) => inside(base, path)));
   return denied.length === 0
     ? null
-    : `Escritura fuera de tu jurisdicción: ${denied.join(", ")}. Convierte el cambio en un mensaje dentro de intercambio/.`;
+    : `Escritura fuera de tu jurisdicción: ${denied.join(", ")}. ` + (exchange
+      ? "Convierte el cambio en un mensaje dentro de intercambio/."
+      : `Tu jurisdicción es ${own}; propón el cambio al dueño de ese árbol.`);
 }
 
 export function evaluateState(current, recorded) {
