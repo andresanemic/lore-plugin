@@ -967,7 +967,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 **El primer día necesitas dos de estas:** `use-lore` te enruta hacia lo que sigue, y `save-to-lore` es la que vas a escribir de verdad — *"guarda en lore"*, después de resolver algo que te costó. **Cómo empezar, el uso cotidiano y el mecanismo completo de cada skill y modo** viven en un solo lugar: [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
 
-El cifrado del Lore sigue experimental y apagado por defecto; consulta [`ENCRYPTION.md`](./docs/ENCRYPTION.md).
+El cifrado salió en 2.4.9. Si lo usabas, tu Lore sigue siendo tuyo y el kit te muestra una vez cómo seguir sin él; para compartir criterio con otra persona, usa un repositorio compartido.
 
 ---
 
@@ -1012,7 +1012,6 @@ El benchmark fue diseñado y prerregistrado con **GPT-5.6 Sol medium**, y despu�
 |---|---|
 | [`90_SECONDS_es.md`](./docs/90_SECONDS_es.md) | **Empieza acá.** El mecanismo completo, corto como para leerlo antes de decidir si instalas algo. |
 | [`REFERENCE_es.md`](./docs/REFERENCE_es.md) | **El documento técnico.** Cómo empezar, uso cotidiano, conceptos, la especificación exacta de cada *skill*, modo y artefacto, y cómo migrar un proyecto existente. |
-| [`ENCRYPTION.md`](./docs/ENCRYPTION.md) | El cifrado opcional y experimental del criterio de un bot: qué protege y qué no. |
 | [`CASES_es.md`](./docs/CASES_es.md) | Los diecinueve casos de estudio, cada uno con su frontera declarada. |
 | [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md) | Lore junto a spec-kit de GitHub: quién gobierna qué. Opcional — Lore no depende de él. |
 | [`LUS_es.md`](./docs/LUS_es.md) | El programa de investigación detrás de Lore, sus hipótesis vigentes y fronteras de evidencia. |
