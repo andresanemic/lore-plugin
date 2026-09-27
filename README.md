@@ -792,7 +792,51 @@ Preguntar de a una cosa por vez no es cortesía, y un formulario sería más rá
 
 ## Así se ve en la práctica
 
-Acabas de publicar una landing y el feedback es: "No sabía qué hacer en la página". El CTA quedaba abajo y el titular hablaba del producto, no del resultado. Lo corregiste. En vez de cerrar la pestaña:
+Quieres hacer la web de tu taller de cerámica y nunca has hecho una. Lo dices tal cual:
+
+```text
+› quiero hacer la web de mi taller y no sé cómo
+```
+
+Antes de escribir una sola línea, Lore Plugin te propone ponerse de acuerdo:
+
+```text
+  Antes de empezar, pongámonos de acuerdo. Es corto y lo
+  puedes cambiar cuando quieras.
+
+  Para qué es ·················· que la gente vea tus piezas
+                                 y te escriba para encargar
+  No lo muevo sin tu palabra ··· tus fotos y tus precios
+  Aquí tengo margen ············ el diseño y el orden
+  Lo que probamos ·············· una galería por colección;
+                                 si no te gusta, se cambia
+  Para sorprenderte ············ cómo se presenta cada pieza
+  Cómo te hablo ················ cercano, a ritmo normal
+  Te vuelvo a preguntar ········ antes de publicar
+
+  ¿Así está bien?
+```
+
+Dices que sí y queda escrito. Desde ahí trabajas con calma: lo acordado se sostiene sin que tengas que vigilarlo, y si algo nuevo no cabe en el acuerdo, te lo preguntan antes de hacerlo.
+
+Dos semanas después la web tiene tienda, carrito y envíos, y te sorprendes escribiendo:
+
+```text
+› esto me está complicando demasiado
+```
+
+Esta vez responde Vespi, la parte del kit que cuida que lo acordado siga en pie:
+
+```text
+  Según las notas, llevamos tres sesiones con la tienda, y el
+  acuerdo decía encargos por mensaje. Supongo que la tienda
+  se sumó en el camino.
+
+  ¿La sumamos al acuerdo, o volvemos a lo acordado y la
+  dejamos para después?
+```
+
+Tú eliges. Y cuando algo sale mal y lo arreglas, lo que aprendiste también se guarda. Acabas de publicar una landing y el feedback es: "No sabía qué hacer en la página". El CTA quedaba abajo y el titular hablaba del producto, no del resultado. Lo corregiste. En vez de cerrar la pestaña:
 
 ```text
 › guarda en lore
