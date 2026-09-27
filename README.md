@@ -985,6 +985,8 @@ El cifrado salió en 2.4.9. Si lo usabas, tu Lore sigue siendo tuyo y el kit te 
 
 Vespi es la parte del kit que cuida que lo acordado siga en pie cuando el trabajo se alarga, se complica o se interrumpe. No escribe tu Lore ni decide por ti: te dice lo que ve, dice sus suposiciones como suposiciones, y la elección es tuya.
 
+Cuando el trabajo se alarga, te cuida el ritmo. Cada cierto rato, el que tú elegiste en tu acuerdo, te ofrecen en una línea guardar lo aprendido, tomar un descanso o cerrar; si no respondes, no insiste. Cuando la sesión ya está muy cargada, Vespi te sugiere abrir una nueva con un traspaso que se entiende solo, o pasar a un modelo más liviano. Nunca elige por defecto el modelo más caro, y antes de poner a varios agentes a trabajar te dice qué compra cada uno y cuánto cuesta.
+
 Nació como un experimento propio y sigue creciendo aparte, en su repositorio. Si quieres ver cómo funciona por dentro, o probar solo su kernel —el núcleo pequeño que ejecuta cada operación y deja constancia de lo que hizo—, sin el resto del kit, está en [github.com/andresanemic/vespi](https://github.com/andresanemic/vespi).
 
 ---
