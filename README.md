@@ -792,7 +792,9 @@ Claude Code no recibe contexto rutinario del hook: su adaptador se retira delibe
 
 </details>
 
-Después abre una sesión nueva en la CLI. **Si es tu primera vez, no necesitas saber ningún comando** — escribe *«quiero comenzar a usar Lore Plugin, ayúdame»* y el kit abre un **brainstorming, no un menú**: primero mira tu árbol, después pregunta de a una cosa por vez, y termina con **tu primer artefacto creado**, nunca con una recomendación. Si ya sabes qué quieres, `use-lore` te enruta.
+Después abre una sesión nueva en la CLI. **Si es tu primera vez, no necesitas saber ningún comando** — escribe *«quiero comenzar a usar Lore Plugin, ayúdame»* y el kit abre un **brainstorming, no un menú**: primero mira tu árbol, después pregunta de a una cosa por vez, y termina con **tu primer artefacto creado**, nunca con una recomendación. En esa primera vez también te ofrece el acuerdo, y ahí eliges cómo quieres que te hablen —más sobrio o más cercano; despacio, normal o rápido; si no eliges, cercano y a ritmo normal— y tus límites de uso: qué modelos, o qué niveles de un modelo, no quieres que se usen nunca. Se nombran por familia y no por número de versión, para que una actualización del proveedor no te deje atado a un modelo viejo. Si ya sabes qué quieres, `use-lore` te enruta.
+
+Si ya usabas una versión anterior, al actualizar recibes una sola vez un mensaje corto: llegó Vespi, qué puede hacer por ti y la invitación a fijar tus límites.
 
 Preguntar de a una cosa por vez no es cortesía, y un formulario sería más rápido. Las preguntas son lo que te mantiene a ti y al modelo siendo dos cosas y no una —sin fusión y sin ahorrarse la fricción—, el rato suficiente para que aparezca una respuesta que ninguno tenía por separado.
 
