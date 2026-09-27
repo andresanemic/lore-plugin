@@ -971,6 +971,18 @@ El cifrado salió en 2.4.9. Si lo usabas, tu Lore sigue siendo tuyo y el kit te 
 
 ---
 
+## Vespi
+
+<p align="center">
+  <img src="./assets/vespi-B.png" alt="Vespi" width="100%">
+</p>
+
+Vespi es la parte del kit que cuida que lo acordado siga en pie cuando el trabajo se alarga, se complica o se interrumpe. No escribe tu Lore ni decide por ti: te dice lo que ve, dice sus suposiciones como suposiciones, y la elección es tuya.
+
+Nació como un experimento propio y sigue creciendo aparte, en su repositorio. Si quieres ver cómo funciona por dentro, o probar solo su kernel —el núcleo pequeño que ejecuta cada operación y deja constancia de lo que hizo—, sin el resto del kit, está en [github.com/andresanemic/vespi](https://github.com/andresanemic/vespi).
+
+---
+
 ## Notas sueltas
 
 Agrega una carpeta `notas/`, `notes/` o `apuntes/` dentro del proyecto, Área o bot donde estés trabajando. Puedes escribirla con cualquier editor; Obsidian es opcional. Cuando quieras que la IA la lea, pide:
