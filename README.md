@@ -663,12 +663,15 @@ Gregory Bateson, en *Pasos hacia una ecología de la mente* (1972), definió la 
 
 ## ¿Quién puede usar Lore Plugin?
 
-- Si recién empiezas a trabajar con IA y quieres que lo aprendido se acumule en vez de evaporarse, empieza por acá: una memory card profesional que sobrevive a cualquier proyecto o modelo, donde tu **criterio profesional** afina el uso real con cada decisión.
-- **Quienes leen el benchmark antes que cualquier otra cosa**, dispuestos a probar algo que todavía no es mainstream si los números se sostienen.
-- **Investigadores curiosos por LUS en sí** — menos por el kit que por la pregunta detrás: qué cambia cuando una persona y una IA acumulan criterio juntas a lo largo del tiempo. Lore es donde esa pregunta se responde una decisión a la vez.
-- **Equipos que ya corren spec-kit, pipelines SDD u otro framework de automatización.** Esos gestionan *proceso* — constitución, plan, tareas, puertas de calidad — y ninguno pregunta si el conocimiento detrás de esas puertas sigue vivo. Ese hueco es el que cierran `MYCELIUM` y `PRUNE`, y Lore corre junto a spec-kit en vez de reemplazarlo (ver [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md)).
+Quien sabe y quien no sabe.
 
-Lore Plugin vuelve operable una parte acotada de las preguntas que estudia LUS. Su benchmark prueba comportamiento de producto bajo un protocolo congelado; no prueba la riqueza ni la estabilidad de un **Entre** humano–IA. [Lee la frontera vigente de la investigación →](./docs/LUS_es.md)
+- **Si recién empiezas**, o nunca has trabajado con IA y no sabes qué es un test o un token, puedes empezar igual: tú dices qué quieres hacer, con tus palabras, eliges y dices sí o no; lo demás lo vas aprendiendo mientras lo usas. Lo que aprendes queda guardado y te sirve en el próximo proyecto, aunque cambies de modelo.
+- **Si ya trabajas con IA** y te cansaste de explicarle lo mismo en cada sesión: Lore guarda por qué decidiste lo que decidiste y lo carga antes de empezar.
+- **Si quieres ver números antes de probar:** el kit se midió haciendo las mismas tareas con y sin Lore, corregidas por alguien que no sabía cuál era cuál. Los resultados, y todo lo necesario para revisarlos, están en [El benchmark](#el-benchmark).
+- **Si te interesa la pregunta de investigación que hay detrás** (LUS): qué cambia cuando una persona y una IA acumulan criterio juntas a lo largo del tiempo. Lore es donde esa pregunta se responde una decisión a la vez.
+- **Si tu equipo ya usa spec-kit, SDD u otra herramienta que ordena el trabajo** —plan, tareas, controles de calidad—: esas herramientas cuidan el proceso, y ninguna revisa si el conocimiento detrás de cada control sigue vigente. Eso es lo que hacen `MYCELIUM` y `PRUNE`, y Lore corre al lado de spec-kit sin reemplazarlo (ver [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md)).
+
+Lore Plugin lleva a la práctica una parte acotada de lo que estudia LUS. El benchmark mide cómo se comporta el kit en tareas fijas; no mide la relación entre una persona y una IA, que es lo que LUS llama el **Entre**. [Lee hasta dónde llega hoy la investigación →](./docs/LUS_es.md)
 
 > Martin Buber, en *Yo y Tú* (1923): lo que importa no vive dentro de ninguna de las dos partes sino en la relación entre ellas. Este kit toma la estructura, no la teología — lo que se acumula acá no es tuyo ni del modelo: es el criterio que construyeron los dos.
 
