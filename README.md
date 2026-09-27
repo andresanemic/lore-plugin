@@ -997,6 +997,8 @@ Agrega una carpeta `notas/`, `notes/` o `apuntes/` dentro del proyecto, Área o 
 
 `save-to-lore` carga condicionalmente su procedimiento de notas, hace el barrido completo, separa criterio de tareas y ruido, propone el Lore dueño y espera tu aprobación. Marca cada nota minada con fecha y destino y nunca la borra. Un bot enruta mejor porque ya conoce la finalidad de cada proyecto. **Una nota es fuente, nunca criterio**: nada cruza sin destilación explícita y un diff aprobado.
 
+El kit también deja notas. Cuando te ofrece guardar lo aprendido, primero anota lo que pasó, fuera de tu Lore; después, lo que ya pesa se te ofrece para `save-to-lore`, que sigue siendo la única puerta al Lore, y cada Pista que entra apunta a la nota que la ganó. Vespi deja notas del mismo modo cuando ve un método que le serviría a tu forma de trabajar; si lo que sugiere es técnico —un hook, un cron, un traspaso—, primero te pregunta si sabes qué es y, si no, te lo explica en llano. Ninguna nota se borra antes de que la hayas mirado.
+
 ---
 
 ## Invariantes compartidas
