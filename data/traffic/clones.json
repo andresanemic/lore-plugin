@@ -383,5 +383,25 @@
     "timestamp": "2026-09-19T00:00:00Z",
     "count": 26,
     "uniques": 26
+  },
+  {
+    "timestamp": "2026-09-20T00:00:00Z",
+    "count": 37,
+    "uniques": 30
+  },
+  {
+    "timestamp": "2026-09-21T00:00:00Z",
+    "count": 33,
+    "uniques": 27
+  },
+  {
+    "timestamp": "2026-09-22T00:00:00Z",
+    "count": 25,
+    "uniques": 25
+  },
+  {
+    "timestamp": "2026-09-23T00:00:00Z",
+    "count": 25,
+    "uniques": 25
   }
 ]
