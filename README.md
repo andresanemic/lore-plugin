@@ -676,6 +676,8 @@ Lore Plugin vuelve operable una parte acotada de las preguntas que estudia LUS. 
 
 ## Comienza a construir tu Lore
 
+Lo primero no es guardar nada: es ponerse de acuerdo. Cuando lo que vas a hacer va a durar más de una sesión, Lore Plugin te ofrece un acuerdo corto —para qué es, qué no se mueve sin tu palabra, dónde hay margen— y trabaja dentro de él. Si no lo quieres, no pasa nada: el kit trabaja igual. Después, mientras trabajas, empieza lo que le da nombre al kit.
+
 Todo problema resuelto contiene dos cosas: la solución, y la razón por la que esa solución existe. La documentación conserva la primera. **Lore conserva la segunda.**
 
 En lugar de registrar lo que pasó, lo destila en una **Pista Invariante**: una restricción pequeña que sigue sirviendo mucho después de que el contexto original desapareció.
@@ -693,7 +695,7 @@ El acontecimiento se olvida. El criterio sigue trabajando.
   <img src="https://i.imgur.com/I7odxus.png" alt="Lore" width="100%">
 </p>
 
-Cada paso del ciclo avanza igual: se propone, apruebas, y recién entonces se escribe. **Esa puerta es el umbral**, y es la razón de que nada llegue a tu Lore sin que lo hayas leído antes.
+Cada paso del ciclo avanza igual: se propone, apruebas, y recién entonces se escribe. **Esa puerta es el umbral**, y es la razón de que nada llegue a tu Lore sin que lo hayas leído antes. El acuerdo pasa por la misma puerta: te lo muestran completo, dices que sí, y recién entonces queda escrito.
 
 La forma detrás de esa puerta tiene nombre. Andy Clark y David Chalmers la llamaron **mente extendida** («The Extended Mind», 1998): un almacén externo deja de ser un archivador y empieza a participar del pensamiento cuando el sistema lo consulta por defecto y confía en lo que encuentra. La documentación queda al lado del trabajo; el Lore se carga antes de empezarlo — alcanzarlo no es un paso que recuerdas dar, es la forma en que el trabajo empieza.
 
