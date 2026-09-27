@@ -576,7 +576,8 @@ Es un bucle de reexplicaciones y soluciones mediocres que ya habías descartado.
 <h3 align="center"><strong>+9,4 puntos de cumplimiento multidominio al primer intento</strong>.</h3>
 
 <p align="center">
-  <i>Un kit SDD que te permite hacer fine-tuning local de tus tareas — y el que entrena eres tú.</i>
+  <i>Lo que aprendes trabajando con IA, guardado para que no vuelvas a empezar de cero.</i><br>
+  <i>Para quien sabe: un kit SDD que te permite hacer fine-tuning local de tus tareas — y el que entrena eres tú.</i>
 </p>
 
 ---
@@ -621,7 +622,7 @@ Es un bucle de reexplicaciones y soluciones mediocres que ya habías descartado.
 
 ## ¿Qué es Lore?
 
-Un kit ligero y neutral al proveedor de **Spec-Driven Development** para agentes de IA. O, en una línea: **fine-tuning local de tus tareas, y el que entrena eres tú.**
+Un lugar donde queda escrito lo que aprendes trabajando con la IA, para que la próxima sesión empiece desde ahí y no desde cero. Dicho en técnico: un kit ligero y neutral al proveedor de **Spec-Driven Development** para agentes de IA. O, en una línea: **fine-tuning local de tus tareas, y el que entrena eres tú.**
 
 #### El mismo destino que un fine-tune, por el otro camino
 
