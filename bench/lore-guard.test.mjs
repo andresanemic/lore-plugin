@@ -145,10 +145,13 @@ test("CLI migrates a current v1 receipt without expansion authority", () => {
   });
 });
 
-test("exam: NotebookEdit fuera de jurisdicción se bloquea; herramienta desconocida no acusa", () => {
+test("exam: NotebookEdit en un árbol ajeno se bloquea; ruta suelta pasa (R16); herramienta desconocida no acusa", () => {
   const dir = tree({ "lore/criterio.md": "criterio\n" });
-  const blocked = jurisdictionBlock(dir, "NotebookEdit", { notebook_path: "/otra/parte/nb.ipynb" });
+  const other = tree({ "lore/ajeno.md": "ajeno\n" });
+  const blocked = jurisdictionBlock(dir, "NotebookEdit", { notebook_path: join(other, "nb.ipynb") });
   assert.match(blocked ?? "", /jurisdicci/i);
+  // R16: una ruta fuera de todo árbol con Lore es desconocida: pasa con aviso y constancia, no se bloquea.
+  assert.equal(jurisdictionBlock(dir, "NotebookEdit", { notebook_path: "/otra/parte/nb.ipynb" }), null);
   assert.equal(jurisdictionBlock(dir, "Bash", { command: "rm -rf /" }), null);
   assert.deepEqual(structuredWritePaths("Bash", { command: "x" }), []);
 });

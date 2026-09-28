@@ -176,8 +176,11 @@ test("una compactación con el cwd derivado no re-ancla la jurisdicción", () =>
 
 test("sin intercambio/ la denegación no manda a un lugar inexistente y nombra la raíz", () => {
   const own = tree();
-  const outside = join(mkdtempSync(join(tmpdir(), "lore-fuera-")), "x.md");
-  roots.push(dirname(outside));
+  // R16: la denegación es para un árbol ajeno con Lore; una ruta suelta pasaría con aviso.
+  const otherTree = mkdtempSync(join(tmpdir(), "lore-fuera-"));
+  roots.push(otherTree);
+  mkdirSync(join(otherTree, "lore"), { recursive: true });
+  const outside = join(otherTree, "x.md");
   const reason = JSON.parse(claudePreWrite(own, outside)).hookSpecificOutput.permissionDecisionReason;
   assert.doesNotMatch(reason, /intercambio/);
   assert.match(reason, new RegExp(own.replace(/\\/g, "\\\\")));

@@ -1,6 +1,6 @@
 import { existsSync, readFileSync, statSync } from "node:fs";
-import { tmpdir } from "node:os";
-import { basename, dirname, isAbsolute, relative, resolve } from "node:path";
+import { homedir, tmpdir } from "node:os";
+import { basename, dirname, isAbsolute, relative, resolve, sep } from "node:path";
 
 export const MATERIAL_GROWTH_BYTES = 8_192;
 
@@ -84,17 +84,63 @@ export function structuredWritePaths(toolName, input = {}) {
   return [];
 }
 
+// R16 (RC4): la guardia deja de decidir por una lista de permitidos. Cada destino es propio (pasa),
+// ajeno (se bloquea: criterio de otro dueño) o desconocido (pasa con aviso y constancia).
+// Diseño: bots/proyectos/bot-lus-lore/specs/012-rc4/diseno-guardia-r16.md
+
+// La memoria de la sesión de Claude Code: ~/.claude/projects/<proyecto>/memory/ (regresión NC-B-2).
+function sessionMemory(path) {
+  const projects = resolve(homedir(), ".claude", "projects");
+  if (!inside(projects, path)) return false;
+  return relative(projects, path).split(sep)[1] === "memory";
+}
+
+function ownRoots(own) {
+  const exchange = exchangeRoot(own);
+  const area = areaRoot(own);
+  // El scratchpad de la sesión vive bajo <tmp>/claude.
+  return [own, ...(exchange ? [exchange] : []), resolve(tmpdir(), "claude"), ...federatedRoots(own), ...(area ? [area] : [])];
+}
+
+// El árbol gobernado por Lore más cercano que contiene la ruta: un ancestro con un directorio lore/.
+function governedTree(path) {
+  for (let dir = dirname(path);;) {
+    try {
+      const lore = resolve(dir, "lore");
+      if (existsSync(lore) && statSync(lore).isDirectory()) return dir;
+    } catch {}
+    const parent = dirname(dir);
+    if (parent === dir) return null;
+    dir = parent;
+  }
+}
+
+export function classifyWrite(root, target) {
+  const own = resolve(root);
+  const path = resolve(own, target);
+  if (sessionMemory(path)) return "own";
+  if (ownRoots(own).some((base) => inside(base, path))) return "own";
+  // Colmena: donde hay intercambio/, todo lo que cuelga de su padre y no es propio es de otro agente.
+  const exchange = exchangeRoot(own);
+  if (exchange && inside(dirname(exchange), path)) return "foreign";
+  return governedTree(path) ? "foreign" : "unknown";
+}
+
+export function unknownWrites(root, toolName, input) {
+  const own = resolve(root);
+  return structuredWritePaths(toolName, input)
+    .map((path) => resolve(own, path))
+    .filter((path) => classifyWrite(own, path) === "unknown");
+}
+
 export function jurisdictionBlock(root, toolName, input) {
   const paths = structuredWritePaths(toolName, input);
   if (paths.length === 0) return null;
   const own = resolve(root);
   const exchange = exchangeRoot(own);
-  const area = areaRoot(own);
-  // El scratchpad de la sesión vive bajo <tmp>/claude; el resto de <tmp> no es jurisdicción.
-  const allowed = [own, ...(exchange ? [exchange] : []), resolve(tmpdir(), "claude"), ...federatedRoots(own), ...(area ? [area] : [])];
   const denied = paths
     .map((path) => resolve(own, path))
-    .filter((path) => !allowed.some((base) => inside(base, path)));
+    .filter((path) => classifyWrite(own, path) === "foreign");
   return denied.length === 0
     ? null
     : `Escritura fuera de tu jurisdicción: ${denied.join(", ")}. ` + (exchange

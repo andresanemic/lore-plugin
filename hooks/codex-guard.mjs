@@ -10,10 +10,11 @@
 // session opened stays silent until the first in-session Lore edit.
 // Fails open on any error.
 
-import { existsSync, readFileSync } from "node:fs";
+import { appendFileSync, existsSync, mkdirSync, readFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-import { evaluateState, formatIntervention, jurisdictionBlock } from "./lore-guard.mjs";
+import { evaluateState, formatIntervention, jurisdictionBlock, unknownWrites } from "./lore-guard.mjs";
 import {
   loreDeparted,
   readReceipt,
@@ -48,14 +49,33 @@ if (event === "session_start" && !readSessionRoot(sessionId)) writeSessionRoot(s
 
 if (event === "pre_tool_use") {
   // La jurisdicción es la raíz donde abrió la sesión; el cwd solo si no hay raíz registrada.
-  const reason = jurisdictionBlock(readSessionRoot(sessionId) ?? root, data.tool_name, data.tool_input);
-  if (reason) process.stdout.write(JSON.stringify({
-    hookSpecificOutput: {
-      hookEventName: "PreToolUse",
-      permissionDecision: "deny",
-      permissionDecisionReason: reason,
-    },
-  }));
+  const jurisdiction = readSessionRoot(sessionId) ?? root;
+  const reason = jurisdictionBlock(jurisdiction, data.tool_name, data.tool_input);
+  if (reason) {
+    process.stdout.write(JSON.stringify({
+      hookSpecificOutput: {
+        hookEventName: "PreToolUse",
+        permissionDecision: "deny",
+        permissionDecisionReason: reason,
+      },
+    }));
+    OK();
+  }
+  // R16: lo desconocido pasa con aviso y constancia; nunca se bloquea.
+  const unknown = unknownWrites(jurisdiction, data.tool_name, data.tool_input);
+  if (unknown.length > 0) {
+    try {
+      const dir = process.env.LORE_GUARD_LOG_DIR || join(tmpdir(), "lore-guard");
+      mkdirSync(dir, { recursive: true });
+      const at = new Date().toISOString();
+      const TAB = String.fromCharCode(9);
+      const NL = String.fromCharCode(10);
+      appendFileSync(join(dir, "desconocidos.log"), unknown.map((path) => [at, jurisdiction, data.tool_name, path].join(TAB) + NL).join(""));
+    } catch {}
+    process.stdout.write(JSON.stringify({
+      systemMessage: `Lore Plugin: escritura fuera de un árbol con Lore, permitida y anotada: ${unknown.join(", ")}`,
+    }));
+  }
   OK();
 }
 

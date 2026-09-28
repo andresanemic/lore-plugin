@@ -2,6 +2,7 @@ import { readFileSync, readdirSync } from "node:fs";
 import { join, relative } from "node:path";
 
 const DESTINATIONS = new Map([
+  ["hooks/codex-guard.mjs", "session-temp-log"],
   ["hooks/lore-state.mjs", "tree-or-session-temp"],
   ["scripts/installer.mjs", "explicit-host-install"],
   ["skills/create-bot/plantillas/canon.js", "created-bot-tree"],

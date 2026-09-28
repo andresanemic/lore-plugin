@@ -298,6 +298,17 @@ test("exam: unreadable effective terms abort without perform", async () => {
 test("guard: foreign structured write denied with proposal path", async () => {
   const { jurisdictionBlock } = await import("../hooks/lore-guard.mjs");
   const root = new URL("../skills/use-lore/", import.meta.url).pathname;
-  const msg = jurisdictionBlock(root, "Write", { file_path: "/definitely-elsewhere/canon.md" });
-  assert.match(msg ?? "", /jurisdicci|intercambio/i);
+  // R16: el borde se conserva para el criterio de otro dueño (un árbol con lore/); una ruta suelta ya no se bloquea.
+  const { mkdtempSync, mkdirSync, rmSync } = await import("node:fs");
+  const { tmpdir } = await import("node:os");
+  const { join } = await import("node:path");
+  const other = mkdtempSync(join(tmpdir(), "rc3-ajeno-"));
+  mkdirSync(join(other, "lore"), { recursive: true });
+  try {
+    const msg = jurisdictionBlock(root, "Write", { file_path: join(other, "canon.md") });
+    assert.match(msg ?? "", /jurisdicci|intercambio/i);
+  } finally {
+    rmSync(other, { recursive: true, force: true });
+  }
+  assert.equal(jurisdictionBlock(root, "Write", { file_path: "/definitely-elsewhere/canon.md" }), null);
 });
