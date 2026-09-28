@@ -383,7 +383,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** An Area 
 
 **Day one needs two of these:** `use-lore` routes you to whatever comes next, and `save-to-lore` is the one you will actually type — *"save to lore"*, after solving something that cost you. **Getting started, day-to-day use and the full mechanism for every skill and mode** live in one place: [`REFERENCE_en.md`](./docs/REFERENCE_en.md).
 
-Optional Lore encryption left the kit in 2.4.9. If you used it, your Lore is still yours and the kit shows you once how to carry on without it; to share criteria with someone else, use a shared repository.
+Lore encryption leaves in 2.4.9, not published yet: until then it stays in the kit, off by default and unaudited. If you used it, your Lore is yours; to share criteria, use a shared repository.
 
 ---
 
@@ -974,7 +974,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 **El primer día necesitas dos de estas:** `use-lore` te enruta hacia lo que sigue, y `save-to-lore` es la que vas a escribir de verdad — *"guarda en lore"*, después de resolver algo que te costó. **Cómo empezar, el uso cotidiano y el mecanismo completo de cada skill y modo** viven en un solo lugar: [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
 
-El cifrado salió en 2.4.9. Si lo usabas, tu Lore sigue siendo tuyo y el kit te muestra una vez cómo seguir sin él; para compartir criterio con otra persona, usa un repositorio compartido.
+El cifrado del Lore sale en 2.4.9, aún sin publicar: hasta entonces sigue en el kit, apagado por defecto y sin auditar. Si lo usabas, tu Lore es tuyo; para compartir criterio, usa un repositorio compartido.
 
 ---
 
