@@ -1,5 +1,5 @@
 // Vendored copy — canonical source is founder/proyectos/vespi/kernel/src/operation.js
-// (moved there from C:\Vespi on 2026-09-26). Edit the canonical source, then re-copy here;
+// (kernel 0.1.3 candidate, rc4 branch, commit cdf0fce). Edit the canonical source, then re-copy here;
 // this file is not the source of truth.
 'use strict';
 
@@ -23,7 +23,11 @@ const STATES = {
   SUCCEEDED: 'verified',
   FAILED: 'failed',
   NOT_VERIFIED: 'not_verified',
+  BLOCKED: 'blocked',
+  PAUSED: 'paused',
 };
+
+const DEFAULT_EXIT = 'return to the person: change the agreement or cancel';
 
 function errorText(error) {
   try {
@@ -69,6 +73,48 @@ function withTimeout(value, timeoutMs, label, onTimeout) {
   return Promise.race([Promise.resolve(value), timeout]).finally(() => clearTimeout(timer));
 }
 
+function readDecideThreshold(io) {
+  try {
+    const value = io?.decideThreshold;
+    return Number.isFinite(value) ? value : 0.9;
+  } catch {
+    return 0.9;
+  }
+}
+
+function readDecideTimeoutMs(io) {
+  try {
+    if (Number.isFinite(io?.decideTimeoutMs) && io.decideTimeoutMs > 0) return io.decideTimeoutMs;
+  } catch {
+  }
+  return readTimeout(io, 'askTimeoutMs');
+}
+
+// Jev, Paper2Agent or any decision model: an optional connection (decision 20 of Vespi). It ADVISES:
+// a confident suggestion is shown to the person on the ask payload, and it never consents for them
+// (decisions 16 and 19; orchestrator review R42 of the 0.1.3 build).
+async function consultDecisionModel(io, question) {
+  try {
+    const decideFn = io && typeof io.decide === 'function' ? io.decide : null;
+    if (!decideFn) return null;
+    const threshold = readDecideThreshold(io);
+    let result;
+    try {
+      result = await withTimeout(Promise.resolve().then(() => decideFn.call(io, question)), readDecideTimeoutMs(io), 'decision model');
+    } catch {
+      return null;
+    }
+    if (!result || typeof result !== 'object' || Array.isArray(result)) return null;
+    const probability = result.probability;
+    if (!Number.isFinite(probability) || probability < threshold) return null;
+    const choice = result.choice;
+    if (typeof choice !== 'boolean' && typeof choice !== 'string') return null;
+    return { choice, probability, by: 'decision-model' };
+  } catch {
+    return null;
+  }
+}
+
 function hasEvidence(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
@@ -76,22 +122,50 @@ function hasEvidence(value) {
 function readCapabilityResult(result) {
   try {
     const error = result?.error;
+    const reason = result?.reason;
+    const exit = result?.exit;
     return {
       settlementUnknown: result?.settlementUnknown === true,
+      impossible: result?.impossible === true,
       ok: result?.ok === true,
       error: typeof error === 'string' ? error : (error == null ? null : 'capability returned an invalid error'),
+      reason: typeof reason === 'string' && reason.length > 0 ? reason : null,
+      exit: typeof exit === 'string' && exit.length > 0 ? exit : null,
       evidence: result?.evidence ?? null,
       output: result?.output,
     };
   } catch (error) {
     return {
       settlementUnknown: true,
+      impossible: false,
       ok: false,
       error: `capability result invalid: ${errorText(error)}`,
+      reason: null,
+      exit: null,
       evidence: null,
       output: undefined,
     };
   }
+}
+
+function readImpossibleDeclaration(declared) {
+  try {
+    if (!declared || typeof declared !== 'object') return null;
+    if (declared.impossible !== true) return null;
+    const reason = typeof declared.reason === 'string' && declared.reason.length > 0 ? declared.reason : 'impossible';
+    const exit = typeof declared.exit === 'string' && declared.exit.length > 0 ? declared.exit : null;
+    return { reason, exit };
+  } catch {
+    return null;
+  }
+}
+
+function operationExit(op) {
+  try {
+    if (typeof op?.exit === 'string' && op.exit.length > 0) return op.exit;
+  } catch {
+  }
+  return DEFAULT_EXIT;
 }
 
 let seq = 0;
@@ -108,12 +182,46 @@ function snapshotAuthority(authority) {
   try {
     if (!authority || typeof authority !== 'object') return { spend: [] };
     const rawSpend = authority.spend;
-    if (!Array.isArray(rawSpend)) return { spend: [], invalid: true };
+    if (!Array.isArray(rawSpend)) {
+      const snapshot = { spend: [], invalid: true };
+      const rawPausers = authority.pausers;
+      if (Array.isArray(rawPausers)) snapshot.pausers = rawPausers.filter((p) => typeof p === 'string' && p.length > 0);
+      try {
+        const rawSigners = authority.signers;
+        if (rawSigners && typeof rawSigners === 'object' && !Array.isArray(rawSigners)) {
+          const snapSigners = {};
+          if (rawSigners.required !== undefined) snapSigners.required = rawSigners.required;
+          if (Array.isArray(rawSigners.allowed)) snapSigners.allowed = rawSigners.allowed.filter((s) => typeof s === 'string' && s.length > 0);
+          snapshot.signers = snapSigners;
+        }
+      } catch {
+      }
+      if (authority.approval) snapshot.approval = authority.approval;
+      return snapshot;
+    }
     const spend = rawSpend.map((grant) => {
       if (!grant || typeof grant !== 'object') return grant;
-      return { asset: grant.asset, maxAmount: grant.maxAmount, to: grant.to };
+      const copy = { asset: grant.asset, maxAmount: grant.maxAmount, to: grant.to };
+      if (typeof grant.expiresAt === 'string' && grant.expiresAt.length > 0) copy.expiresAt = grant.expiresAt;
+      return copy;
     });
     const snapshot = { spend };
+    try {
+      const rawPausers = authority.pausers;
+      if (Array.isArray(rawPausers)) snapshot.pausers = rawPausers.filter((p) => typeof p === 'string' && p.length > 0);
+    } catch {
+    }
+    try {
+      const rawSigners = authority.signers;
+      if (rawSigners && typeof rawSigners === 'object' && !Array.isArray(rawSigners)) {
+        const snapSigners = {};
+        if (rawSigners.required !== undefined) snapSigners.required = rawSigners.required;
+        if (Array.isArray(rawSigners.allowed)) snapSigners.allowed = rawSigners.allowed.filter((s) => typeof s === 'string' && s.length > 0);
+        if (Array.isArray(rawSigners.approvals)) snapSigners.approvals = rawSigners.approvals.slice(0, 64);
+        snapshot.signers = snapSigners;
+      }
+    } catch {
+    }
     if (authority.approval) snapshot.approval = authority.approval;
     return snapshot;
   } catch {
@@ -143,7 +251,7 @@ function safeBuildReceipt(spec) {
   } catch {
     let status = 'failed';
     try {
-      if (spec?.outcome?.status === 'not_verified' || spec?.outcome?.status === 'needs_human_decision' || spec?.outcome?.status === 'failed') status = spec.outcome.status;
+      if (spec?.outcome?.status === 'not_verified' || spec?.outcome?.status === 'needs_human_decision' || spec?.outcome?.status === 'failed' || spec?.outcome?.status === 'blocked') status = spec.outcome.status;
       if (spec?.outcome?.status === 'verified') status = 'not_verified';
     } catch {
       status = 'failed';
@@ -162,17 +270,138 @@ function safeBuildReceipt(spec) {
   }
 }
 
-function createOperation({ goal, authority }) {
+function createOperation({ goal, authority, agent, exit }) {
+  let agentId = null;
+  try {
+    if (typeof agent === 'string' && agent.length > 0) agentId = agent;
+  } catch {
+    agentId = null;
+  }
+  let exitText = DEFAULT_EXIT;
+  try {
+    if (typeof exit === 'string' && exit.length > 0) exitText = exit;
+  } catch {
+  }
   return {
     id: `op-${Date.now().toString(36)}-${seq++}`,
     goal: snapshotGoal(goal),
     authority: snapshotAuthority(authority),
+    agent: agentId,
+    exit: exitText,
     state: 'created',
     history: [],
     receipt: null,
     output: null,
     inFlight: false,
   };
+}
+
+function readPausers(op) {
+  try {
+    const pausers = op?.authority?.pausers;
+    return Array.isArray(pausers) ? pausers.filter((p) => typeof p === 'string') : [];
+  } catch {
+    return [];
+  }
+}
+
+const TERMINAL_STATES = new Set(['verified', 'failed', 'not_verified', 'blocked']);
+
+function readSignersConfig(authority) {
+  try {
+    const signers = authority && authority.signers;
+    if (signers === undefined || signers === null) return null;
+    if (!signers || typeof signers !== 'object' || Array.isArray(signers)) {
+      return { present: true, valid: false };
+    }
+    const required = signers.required;
+    const allowed = signers.allowed;
+    if (!Number.isInteger(required) || required < 1) return { present: true, valid: false };
+    if (!Array.isArray(allowed) || allowed.length === 0) return { present: true, valid: false };
+    const clean = allowed.filter((s) => typeof s === 'string' && s.length > 0);
+    if (clean.length === 0) return { present: true, valid: false };
+    if (required > clean.length) return { present: true, valid: false };
+    return { present: true, valid: true, required, allowed: [...new Set(clean)] };
+  } catch {
+    return { present: true, valid: false };
+  }
+}
+
+function readAgentId(op) {
+  try {
+    return typeof op?.agent === 'string' && op.agent.length > 0 ? op.agent : null;
+  } catch {
+    return null;
+  }
+}
+
+function pushSignerIds(value, out) {
+  try {
+    if (value === null || value === undefined) return;
+    if (typeof value === 'string') {
+      if (value.length > 0) out.push(value);
+      return;
+    }
+    if (Array.isArray(value)) {
+      for (const item of value) pushSignerIds(item, out);
+      return;
+    }
+    if (typeof value === 'object') {
+      if (typeof value.by === 'string' && value.by.length > 0) out.push(value.by);
+    }
+  } catch {
+  }
+}
+
+function collectSignerIds(sources, agentId, allowedSet) {
+  const raw = [];
+  try {
+    for (const source of sources) pushSignerIds(source, raw);
+  } catch {
+  }
+  const seen = new Set();
+  for (const id of raw) {
+    if (typeof id !== 'string' || id.length === 0) continue;
+    if (agentId && id === agentId) continue;
+    if (!allowedSet.has(id)) continue;
+    seen.add(id);
+  }
+  return [...seen];
+}
+
+function missingSignersDetail(required, have) {
+  const missing = required - have;
+  return `missing ${missing} approval${missing === 1 ? '' : 's'} (${have} of ${required})`;
+}
+
+function pauseOperation(op, who) {
+  const pausers = readPausers(op);
+  if (!pausers.includes(who)) {
+    throw new Error(`not authorized to pause: pausers are [${pausers.join(', ')}]`);
+  }
+  if (op.inFlight || op.state === STATES.RUNNING) throw new Error('operation is already running');
+  if (TERMINAL_STATES.has(op.state)) throw new Error('cannot pause a terminal operation');
+  if (op.state === STATES.PAUSED) return op;
+  op.state = STATES.PAUSED;
+  try {
+    op.history.push({ state: STATES.PAUSED, by: who, at: new Date().toISOString() });
+  } catch {
+  }
+  return op;
+}
+
+function resumeOperation(op, who) {
+  const pausers = readPausers(op);
+  if (!pausers.includes(who)) {
+    throw new Error(`not authorized to resume: pausers are [${pausers.join(', ')}]`);
+  }
+  if (op.state !== STATES.PAUSED) throw new Error('operation is not paused');
+  op.state = 'created';
+  try {
+    op.history.push({ state: 'created', by: who, at: new Date().toISOString() });
+  } catch {
+  }
+  return op;
 }
 
 function finish(op, receipt, output) {
@@ -184,6 +413,7 @@ function finish(op, receipt, output) {
 }
 
 async function runOperation(op, capability, io) {
+  if (op.state === STATES.PAUSED) return { status: STATES.PAUSED, receipt: op.receipt, output: op.output };
   if (op.inFlight || op.state === STATES.RUNNING) throw new Error('operation is already running');
   op.inFlight = true;
   try {
@@ -195,12 +425,27 @@ async function runOperation(op, capability, io) {
 
 async function runOperationOnce(op, capability, io) {
   const capabilityId = safeCapabilityId(capability);
+  if (op.state === STATES.PAUSED) return { status: STATES.PAUSED, receipt: op.receipt, output: op.output };
   if (op.state === STATES.RUNNING) throw new Error('operation is already running');
   if (op.receipt && op.state !== STATES.NEEDS_DECISION) return { status: op.state, receipt: op.receipt, output: op.output };
 
   let requirements;
   try {
     const declared = capability.required(op);
+    const impossible = readImpossibleDeclaration(declared);
+    if (impossible) {
+      const exit = impossible.exit || operationExit(op);
+      op.state = STATES.BLOCKED;
+      const receipt = safeBuildReceipt({
+        operation: op,
+        capabilityId: capabilityId,
+        authority: op.authority,
+        outcome: { status: 'blocked', exercised: [], detail: impossible.reason, reason: impossible.reason, exit },
+        evidence: null,
+        verification: null,
+      });
+      return finish(op, receipt);
+    }
     if (!declared || typeof declared.then === 'function' || !Array.isArray(declared.spend)) {
       throw new Error('capability required must return a spend array');
     }
@@ -246,31 +491,215 @@ async function runOperationOnce(op, capability, io) {
   }
 
   let approval = 'preauthorized';
-  if (!check.ok) {
+  let decidedBy = null;
+  const signersCfg = readSignersConfig(op.authority);
+  if (signersCfg && signersCfg.present && !signersCfg.valid) {
+    const gateExit = operationExit(op);
+    op.state = STATES.NEEDS_DECISION;
+    const receipt = safeBuildReceipt({
+      operation: op,
+      capabilityId: capabilityId,
+      authority: { ...op.authority, approval: 'human_gate_no_decision' },
+      outcome: { status: 'needs_human_decision', exercised: [], detail: 'invalid signers config: required must be an integer >= 1 within allowed', exit: gateExit },
+      evidence: null,
+      verification: null,
+    });
+    return finish(op, receipt);
+  }
+  if (signersCfg && signersCfg.valid) {
+    const gateExit = operationExit(op);
+    const agentId = readAgentId(op);
+    const allowedSet = new Set(signersCfg.allowed);
+    // Only approvals that arrive through the human gate count (R42 review: pre-loaded approvals would bypass it).
+    const registeredHave = 0;
+    let gate = null;
+    let gateError = null;
+    let gateRejected = false;
+    if (registeredHave < signersCfg.required) {
+      try {
+        const askFn = io && typeof io.ask === 'function' ? io.ask : null;
+        const suggestion = await consultDecisionModel(io, { requirements: requirements.map((r) => ({ ...r })), goal: op.goal });
+      const askPayload = Object.assign(requirements.map((r) => ({ ...r })), {
+          requirements: requirements.map((r) => ({ ...r })),
+          cost: requirements.map((r) => ({ ...r })),
+          publicByDefault: false,
+          ...(suggestion ? { suggestion } : {}),
+          exit: gateExit,
+          signers: { required: signersCfg.required, allowed: [...signersCfg.allowed] },
+        });
+        gate = askFn
+          ? await withTimeout(Promise.resolve().then(() => askFn.call(io, askPayload)), readTimeout(io, 'askTimeoutMs'), 'human gate')
+          : null;
+      } catch (err) {
+        gateError = `human gate error: ${errorText(err)}`;
+      }
+    }
+    let explicitReject = false;
+    try {
+      if (gate !== null && gate !== undefined && !Array.isArray(gate) && typeof gate === 'object' && gate.approved === false) explicitReject = true;
+    } catch {
+    }
+    gateRejected = explicitReject;
+    const gateSources = [];
+    if (gate !== null && gate !== undefined) {
+      if (Array.isArray(gate)) gateSources.push(gate);
+      else if (typeof gate === 'object') {
+        if (Array.isArray(gate.approvals)) gateSources.push(gate.approvals);
+        if (Array.isArray(gate.signers)) gateSources.push(gate.signers);
+        if (gate.approved === true && typeof gate.by === 'string') gateSources.push([gate.by]);
+        else if (gate.approved === true && gate.by === undefined && !Array.isArray(gate.approvals) && !Array.isArray(gate.signers)) {
+          // approved without identities: counts as zero distinct signers
+        }
+      }
+    }
+    const haveIds = collectSignerIds(gateSources, agentId, allowedSet);
+    const have = haveIds.length;
+    const modelApproves = decidedBy && gate && typeof gate === 'object' && gate.approved === true;
+    if (gateError || explicitReject || (!modelApproves && have < signersCfg.required)) {
+      op.state = STATES.NEEDS_DECISION;
+      let detail;
+      if (gateError) {
+        detail = `${gateError}; ${missingSignersDetail(signersCfg.required, have)}`;
+      } else {
+        detail = missingSignersDetail(signersCfg.required, have);
+      }
+      const receipt = safeBuildReceipt({
+        operation: op,
+        capabilityId: capabilityId,
+        authority: { ...op.authority, approval: gateRejected ? 'human_gate_rejected' : 'human_gate_no_decision' },
+        outcome: { status: 'needs_human_decision', exercised: [], detail, exit: gateExit },
+        evidence: null,
+        verification: null,
+        ...(decidedBy ? { decidedBy } : {}),
+      });
+      return finish(op, receipt);
+    }
+    if (!check.ok) {
+      let approvedGrants;
+      try {
+        approvedGrants = requirements.map((requirement) => {
+          if (!requirement || typeof requirement !== 'object') throw new Error('invalid spend requirement');
+          return { asset: requirement.asset, maxAmount: requirement.amount, to: requirement.to };
+        });
+      } catch (err) {
+        op.state = STATES.FAILED;
+        const receipt = safeBuildReceipt({
+          operation: op,
+          capabilityId: capabilityId,
+          authority: { ...op.authority, approval: 'human_gate_approved' },
+          outcome: { status: 'failed', exercised: [], detail: errorText(err) },
+          evidence: null,
+          verification: null,
+          ...(decidedBy ? { decidedBy } : {}),
+        });
+        return finish(op, receipt);
+      }
+      op.authority = { spend: approvedGrants, signers: { required: signersCfg.required, allowed: [...signersCfg.allowed] } };
+      check = sufficient(requirements, op.authority);
+      if (!check.ok) {
+        op.state = STATES.FAILED;
+        const receipt = safeBuildReceipt({
+          operation: op,
+          capabilityId: capabilityId,
+          authority: { ...op.authority, approval: 'human_gate_approved' },
+          outcome: { status: 'failed', exercised: [], detail: check.reason },
+          evidence: null,
+          verification: null,
+          ...(decidedBy ? { decidedBy } : {}),
+        });
+        return finish(op, receipt);
+      }
+    }
+    approval = 'human_gate_approved';
+  } else if (!check.ok) {
+    const gateExit = operationExit(op);
     let gateApproved = false;
     let gateRejected = false;
     let gateError = null;
+    let gateBy = undefined;
+    let selfApproval = false;
+    let missingDecider = false;
     try {
       const askFn = io && typeof io.ask === 'function' ? io.ask : null;
+      // Legacy callers (demo/x402) receive an array; the four gate gestures ride on it as properties.
+      const suggestion = await consultDecisionModel(io, { requirements: requirements.map((r) => ({ ...r })), goal: op.goal });
+      const askPayload = Object.assign(requirements.map((r) => ({ ...r })), {
+        requirements: requirements.map((r) => ({ ...r })),
+        cost: requirements.map((r) => ({ ...r })),
+        publicByDefault: false,
+        ...(suggestion ? { suggestion } : {}),
+        exit: gateExit,
+      });
       const gate = askFn
-        ? await withTimeout(Promise.resolve().then(() => askFn.call(io, requirements)), readTimeout(io, 'askTimeoutMs'), 'human gate')
+        ? await withTimeout(Promise.resolve().then(() => askFn.call(io, askPayload)), readTimeout(io, 'askTimeoutMs'), 'human gate')
         : null;
       if (gate !== null && gate !== undefined) {
-        gateApproved = gate.approved === true;
-        gateRejected = gate.approved === false;
+        let approvedFlag = false;
+        let rejectedFlag = false;
+        try {
+          approvedFlag = gate.approved === true;
+          rejectedFlag = gate.approved === false;
+        } catch (readErr) {
+          throw readErr;
+        }
+        let byValue;
+        try {
+          byValue = gate.by;
+        } catch (readErr) {
+          throw readErr;
+        }
+        gateApproved = approvedFlag;
+        gateRejected = rejectedFlag;
+        gateBy = byValue;
+        let agentId = null;
+        try {
+          agentId = typeof op?.agent === 'string' && op.agent.length > 0 ? op.agent : null;
+        } catch {
+          agentId = null;
+        }
+        if (approvedFlag && agentId) {
+          if (byValue === agentId) {
+            selfApproval = true;
+            gateApproved = false;
+            gateRejected = true;
+          } else if (typeof byValue !== 'string' || byValue.length === 0) {
+            missingDecider = true;
+            gateApproved = false;
+            gateRejected = true;
+          }
+        }
       }
     } catch (err) {
       gateError = `human gate error: ${errorText(err)}`;
     }
     if (gateError || !gateApproved) {
       op.state = STATES.NEEDS_DECISION;
+      let detail;
+      if (gateError) {
+        detail = gateError;
+      } else if (selfApproval) {
+        let agentLabel = '?';
+        try {
+          agentLabel = typeof op?.agent === 'string' ? op.agent : '?';
+        } catch {
+        }
+        detail = `agent cannot consent for the person: by (${String(gateBy)}) must differ from agent (${agentLabel})`;
+      } else if (missingDecider) {
+        let agentLabel = '?';
+        try {
+          agentLabel = typeof op?.agent === 'string' ? op.agent : '?';
+        } catch {
+        }
+        detail = `approval requires a human decider: by must differ from agent (${agentLabel})`;
+      }
       const receipt = safeBuildReceipt({
         operation: op,
         capabilityId: capabilityId,
         authority: { ...op.authority, approval: gateRejected ? 'human_gate_rejected' : 'human_gate_no_decision' },
-        outcome: { status: 'needs_human_decision', exercised: [], ...(gateError ? { detail: gateError } : {}) },
+        outcome: { status: 'needs_human_decision', exercised: [], ...(detail ? { detail } : {}), exit: gateExit },
         evidence: null,
         verification: null,
+        ...(decidedBy ? { decidedBy } : {}),
       });
       return finish(op, receipt);
     }
@@ -289,6 +718,7 @@ async function runOperationOnce(op, capability, io) {
         outcome: { status: 'failed', exercised: [], detail: errorText(err) },
         evidence: null,
         verification: null,
+        ...(decidedBy ? { decidedBy } : {}),
       });
       return finish(op, receipt);
     }
@@ -304,6 +734,7 @@ async function runOperationOnce(op, capability, io) {
         outcome: { status: 'failed', exercised: [], detail: check.reason },
         evidence: null,
         verification: null,
+        ...(decidedBy ? { decidedBy } : {}),
       });
       return finish(op, receipt);
     }
@@ -325,6 +756,7 @@ async function runOperationOnce(op, capability, io) {
         outcome: { status: 'not_verified', exercised: requirements.map((r) => ({ ...r })), detail: errorText(err) },
         evidence: null,
         verification: { verified: false, checks: {}, reason: 'capability outcome unknown after timeout' },
+        ...(decidedBy ? { decidedBy } : {}),
       });
       return finish(op, receipt);
     }
@@ -336,11 +768,27 @@ async function runOperationOnce(op, capability, io) {
       outcome: { status: 'failed', exercised: [], detail: errorText(err) },
       evidence: null,
       verification: null,
+      ...(decidedBy ? { decidedBy } : {}),
     });
     return finish(op, receipt);
   }
 
   const capabilityResult = readCapabilityResult(result);
+  if (capabilityResult.impossible) {
+    const reason = capabilityResult.reason || capabilityResult.error || 'impossible';
+    const exit = capabilityResult.exit || operationExit(op);
+    op.state = STATES.BLOCKED;
+    const receipt = safeBuildReceipt({
+      operation: op,
+      capabilityId: capabilityId,
+      authority: { ...op.authority, approval },
+      outcome: { status: 'blocked', exercised: [], detail: reason, reason, exit },
+      evidence: capabilityResult.evidence,
+      verification: null,
+      ...(decidedBy ? { decidedBy } : {}),
+    });
+    return finish(op, receipt);
+  }
   if (capabilityResult.settlementUnknown) {
     op.state = STATES.NOT_VERIFIED;
     const receipt = safeBuildReceipt({
@@ -354,6 +802,7 @@ async function runOperationOnce(op, capability, io) {
       },
       evidence: capabilityResult.evidence,
       verification: { verified: false, checks: {}, reason: 'settlement outcome unknown' },
+      ...(decidedBy ? { decidedBy } : {}),
     });
     return finish(op, receipt);
   }
@@ -367,6 +816,7 @@ async function runOperationOnce(op, capability, io) {
       outcome: { status: 'failed', exercised: [], detail: capabilityResult.error || 'capability failed' },
       evidence: capabilityResult.evidence,
       verification: null,
+      ...(decidedBy ? { decidedBy } : {}),
     });
     return finish(op, receipt);
   }
@@ -380,6 +830,7 @@ async function runOperationOnce(op, capability, io) {
       outcome: { status: 'not_verified', exercised: requirements.map((r) => ({ ...r })), detail: 'capability evidence is missing' },
       evidence: null,
       verification: { verified: false, checks: {}, reason: 'capability evidence is missing' },
+      ...(decidedBy ? { decidedBy } : {}),
     });
     return finish(op, receipt);
   }
@@ -434,8 +885,9 @@ async function runOperationOnce(op, capability, io) {
     outcome: { status: verified ? 'verified' : 'not_verified', exercised },
     evidence: capabilityResult.evidence,
     verification: normalizedVerification,
+    ...(decidedBy ? { decidedBy } : {}),
   });
   return finish(op, receipt, verified ? capabilityResult.output : undefined);
 }
 
-module.exports = { createOperation, runOperation, STATES };
+module.exports = { createOperation, runOperation, pauseOperation, resumeOperation, STATES, DEFAULT_EXIT };

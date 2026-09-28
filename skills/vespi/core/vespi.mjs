@@ -1,7 +1,7 @@
 // vespi core facade — RC3 experimental.
-// Ported kernel (operation/authority/receipt .cjs: a 3-line provenance header,
-// then the exact bytes of Vespi SOURCE BASE 85c6f3f — see
-// bot-lus-lore/specs/011-.../source-audit-RC3.md)
+// Ported kernel (operation/authority/receipt/continuity: a 3-line provenance header,
+// then the exact bytes of the Vespi kernel 0.1.3 candidate, commit cdf0fce —
+// digests in ./kernel/SOURCE.md)
 // plus RC3 truthfulness wrappers. No scheduler, no router, no managers.
 import { createRequire } from "node:module";
 
@@ -9,6 +9,7 @@ const require = createRequire(import.meta.url);
 const kernel = require("./kernel/operation.js");
 require("./kernel/authority.js");
 require("./kernel/receipt.js");
+require("./kernel/continuity.js");
 
 export const { createOperation, runOperation, STATES } = kernel;
 
