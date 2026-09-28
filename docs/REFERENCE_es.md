@@ -450,7 +450,8 @@ Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decision
 
 **Proceso — modo `crystallize` (conceptual):** resolver el **árbol enrutado entero** — contrato,
 canon, identidad, principios y cada `lore/` que nombren `enrutamiento.md` o
-`scripts/ecosistema.json`, incluido `lore-ecosistema/` cuando la fuente viva no está. Una
+`scripts/ecosistema.json`, incluida una copia `lore-ecosistema/` que haya dejado una versión anterior
+cuando la fuente viva no está — se lee, nunca se crea. Una
 fotografía que solo *apunta* a criterio que no trae ha fallado el modo. El resto se clasifica
 como privado, ruido (notas, scripts que no sean el manifiesto, lockfiles) o no enrutado; se
 muestra el manifiesto; se espera aprobación; se escribe un solo archivo fuera de `lore/`. Cada
@@ -550,13 +551,11 @@ invisible y no avisa). El reporte va con el brainstorm.
 El test que los separa: **¿sería descartable la fuente?** Destilar produce algo más chico que puede
 reemplazar a su origen; copiar produce algo idéntico que no puede.
 
-**La copia (`lore-ecosistema/`) es opcional y está apagada por defecto** (`"copia": true` en el
-manifiesto). Responde a una sola pregunta: *¿los que van a usar el bot tienen tus carpetas, o solo el
-bot?* Sin el árbol, el puntero no apunta a nada y la copia es lo único que hace existir ese criterio
-en su máquina. Con la copia encendida, `sync.js` nunca resume —un resumen que vive junto al índice de
-consulta compite con el original y gana por estar más cerca— y **la precedencia se comprueba por fila
-al momento de leer**: si la fuente viva resuelve en esa máquina, se lee ahí y la copia no se abre.
-Así la copia **se desactiva sola**, fila por fila, a medida que alguien va teniendo las carpetas.
+**La copia `lore-ecosistema/` salió del kit en 2.4.9.** Duplicaba el criterio prestado de un bot para
+que alguien que clonó el repositorio sin tu árbol igualmente tuviera criterio; **ahora el camino con
+otras personas es un repositorio compartido**, que deja un dueño y una sola versión. Una carpeta
+`lore-ecosistema/` que ya exista se deja intacta: `transmute-lore` CRYSTALLIZE la sigue leyendo
+cuando falta la fuente viva, y la sigue llevando, así que no se pierde nada de lo ya construido.
 
 **Responsabilidades:**
 
@@ -587,15 +586,22 @@ rutas rotas, así que pasarla no prueba nada sobre si el bot funciona. El bot se
 **estreno**: una instrucción que no nombra el criterio, anotada **textual** en el `FASES.md` del
 Área — una parafraseada ya no permite juzgar si era corta.
 
-Opcional y apagado por defecto:
+Salió en 2.4.9, y qué usar en su lugar:
 
-- **Cifrado** (*experimental*, ver [`ENCRYPTION.md`](./ENCRYPTION.md)): se cifra en distribución,
-  nunca en consulta. Con cifrado el texto plano queda fuera de git; sin cifrado el criterio **debe**
-  commitearse, o el repositorio viaja sin criterio. La passphrase se pide por *stdin* y nunca entra al chat.
+- **El cifrado** sellaba el criterio de un bot para que viajara cifrado — apagado por defecto, sin
+  auditar, sin rotación de claves y sin respuesta para una passphrase que se filtra. **Ahora lo hace
+  un repositorio privado**, y sin una passphrase que perder: `canon/` y `lore/` se commitean como
+  Markdown plano y nunca salen del repositorio en claro. Un `canon.enc` que ya tengas es tuyo:
+  descifralo una vez y commitea el Markdown.
+- **La copia `lore-ecosistema/`** duplicaba el criterio prestado para un compañero sin tu árbol.
+  **El camino con otras personas es un repositorio compartido.** Una carpeta que ya exista nunca se
+  escribe, nunca se poda, y sigue viajando cuando cristalizas.
+- **El launcher local** ofrecía un menú chico para abrir carpetas gobernadas por Lore en Claude Code
+  CLI o Codex CLI. **Abrir la carpeta es todo**: un bot es una carpeta y su contrato carga al abrir
+  una sesión ahí. Un launcher tuyo, fuera del kit, no se toca.
 
-Un bot sin él está completo. **Empaquetar es cristalizar**, no envolver el bot como plugin:
-extraer la fotografía reconstruye la carpeta, incluido `lore-ecosistema/` — así viaja el trabajo
-a quien no tiene tu árbol.
+Un bot sin nada de eso está completo. **Empaquetar es cristalizar**, no envolver el bot como plugin:
+extraer la fotografía reconstruye la carpeta, y así viaja el trabajo a quien no tiene tu árbol.
 
 Usa `create-bot` cuando quieras una sola sesión que trabaje sobre varios proyectos — con o sin Lore previo: sin él, orquesta la cadena de arriba; con él, lo federa. Nunca sustituye construir ese Lore en el Área que lo posee.
 
@@ -975,8 +981,7 @@ el objetivo es mantener un cuerpo de criterio confiable, curado por humanos, del
 Este documento es el técnico completo: cómo empezar, uso cotidiano, conceptos, la especificación de
 cada skill/modo/artefacto y la migración. El [`README.md`](../README.md) lleva historia, motivación,
 arquitectura de un vistazo y el índice de todo lo demás; [`90_SECONDS_es.md`](./90_SECONDS_es.md) es
-la versión de 90 segundos; [`ENCRYPTION.md`](./ENCRYPTION.md), el cifrado opcional del criterio de un
-bot; [`CASES_es.md`](./CASES_es.md), los casos de estudio. Un solo documento técnico —en vez de una
+la versión de 90 segundos; [`CASES_es.md`](./CASES_es.md), los casos de estudio. Un solo documento técnico —en vez de una
 guía de uso y una referencia por separado que repetían el mismo modelo con otra voz— mantiene la
 especificación en un lugar y sin derivas entre copias.
 

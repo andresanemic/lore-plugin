@@ -383,7 +383,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** An Area 
 
 **Day one needs two of these:** `use-lore` routes you to whatever comes next, and `save-to-lore` is the one you will actually type — *"save to lore"*, after solving something that cost you. **Getting started, day-to-day use and the full mechanism for every skill and mode** live in one place: [`REFERENCE_en.md`](./docs/REFERENCE_en.md).
 
-Lore encryption leaves in 2.4.9, not published yet: until then it stays in the kit, off by default and unaudited. If you used it, your Lore is yours; to share criteria, use a shared repository.
+Four things left in 2.4.9: encryption, the `lore-ecosistema/` copy, `create-bot`'s local launcher, and the Professor with its Notebook. A shared repository takes their place, and nothing already built breaks. Detail in [`REFERENCE_en.md`](./docs/REFERENCE_en.md).
 
 ---
 
@@ -974,7 +974,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 **El primer día necesitas dos de estas:** `use-lore` te enruta hacia lo que sigue, y `save-to-lore` es la que vas a escribir de verdad — *"guarda en lore"*, después de resolver algo que te costó. **Cómo empezar, el uso cotidiano y el mecanismo completo de cada skill y modo** viven en un solo lugar: [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
 
-El cifrado del Lore sale en 2.4.9, aún sin publicar: hasta entonces sigue en el kit, apagado por defecto y sin auditar. Si lo usabas, tu Lore es tuyo; para compartir criterio, usa un repositorio compartido.
+Cuatro cosas salieron en 2.4.9: el cifrado, la copia `lore-ecosistema/`, el launcher local de `create-bot` y el Professor con su Cuaderno. En su lugar, un repositorio compartido, y nada de lo construido se rompe. Detalle en [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
 
 ---
 

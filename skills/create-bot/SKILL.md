@@ -15,8 +15,8 @@ A bot is one place to open that session. This skill creates it: a Lore **project
 work session is opened in**. A bot does
 not answer questions about the projects — it **works in them**. The instruction goes in, the bot
 executes it against real files, the result comes back. **Packaging is crystallization**, not a
-plugin wrap: `transmute-lore` CRYSTALLIZE writes one Markdown; unpacking it rebuilds the folder,
-including `lore-ecosistema/`. That is how the work travels to someone who does not have your tree.
+plugin wrap: `transmute-lore` CRYSTALLIZE writes one Markdown, and unpacking it rebuilds a folder
+whose routing table resolves on its own.
 
 > **The north, and the only test that matters:** *a short instruction is enough.* If the project
 > had to be explained to the bot to get the result, criteria were missing from the load.
@@ -63,7 +63,7 @@ bot is a lens you carry into them.
 > (`CLAUDE.md` for Claude Code or `AGENTS.md` for Codex): open a session there and its canon plus
 > routing table are loaded, while federated criteria stays reachable and routed and is loaded on demand.
 > Nothing is installed. Do not wrap it in a skill, a marketplace or its own
-> plugin repository. To package it, crystallize it: unpacking rebuilds `lore-ecosistema/`.
+> plugin repository. To package it, crystallize it: unpacking rebuilds the folder.
 
 > **Why it must not be an area.** An area is a container of projects and owns the criteria of its
 > domain. A bot owns none of the criteria it routes to — it borrows it. Building it as an area
@@ -85,11 +85,11 @@ bot is a lens you carry into them.
 | Mode | When | What it produces |
 |---|---|---|
 | **`nuevo`** | From zero. There is no prior Lore to gather. | Provisional canon born from the human's initial declaration, then contrasted through work and review. |
-| **`federar`** | The criteria already exists, dissolved across several areas. | Canon plus a routing table and live access to those Lore bodies; the synchronized copy is optional. |
+| **`federar`** | The criteria already exists, dissolved across several areas. | Canon plus a routing table and live access to those Lore bodies, by pointer. |
 
 Both produce the same artifact. `federar` adds `scripts/ecosistema.json`, `scripts/sync.js`, and
 two generated files: `lore/enrutamiento.md` (the routing table) and `.claude/settings.local.json`
-(the access to the live trees). It copies nothing unless the copy is turned on (§7).
+(the access to the live trees). It copies nothing.
 
 ### When the bot already exists
 
@@ -101,8 +101,8 @@ the audit below **instead of** the creation procedure, then rejoin at §7 (sync)
 |---|---|---|
 | **Scope** | Contrast every entry of the manifest against the institution's registry | A source is routed that the registry does not list |
 | **Borders** | Read the canon's out-of-scope declaration | A borderline project is missing, or is listed with no reason for the confusion |
-| **Orphans** | `ls` the sync destination against the manifest — only if the copy is on | A folder survives whose source is no longer in the manifest |
-| **Copy** | Ask who uses the bot and whether they have the tree | `lore-ecosistema/` is on for people who all share the folder tree — it is duplication with no reader |
+| **Orphans** | Only for a bot carrying an old `lore-ecosistema/`: a folder survives whose source left the manifest | Say it once; the kit no longer prunes a folder it does not create |
+| **Copy** | Ask who uses the bot and whether they have the tree | a `lore-ecosistema/` folder survives from an earlier kit but the kit no longer makes one — say so once and name the shared repository |
 | **README** | If one exists, read it as the audience, not as the author | It argues the method, or its examples are about projects the bot no longer serves |
 
 The audit is not a lighter procedure. It finds what a fresh build cannot: **the drift between what
@@ -239,8 +239,8 @@ Three names because three owners. The test that keeps them apart:
 **Borrowed criteria is reached by pointer, not by copy.** The routing table gives the address, the
 generated access opens it, and that Lore keeps one owner and one version — the same DRY rule the
 rest of the kit runs on, where a project references its area's modules instead of duplicating them.
-`lore-ecosistema/` (§7) turns those pointers into a copy for one situation only, and is off by
-default.
+The one deliberate copy the kit used to carry, `lore-ecosistema/`, left the kit in 2.4.9; working with
+other people is a shared repository now.
 
 And the law that makes routing work:
 
@@ -383,9 +383,10 @@ only what is needed to produce it, then let later questions unlock decisions or 
   checked against — never each draft re-read against itself. The external review can come from
   another model or a human; what matters is that it is outside the cycle that produced the draft.
 - **`federar`:** the routing map — task type → which Lore governs.
-- **Optional and OFF by default:** encryption (§8) and a minimal local launcher (§9). Ask both;
-  assume neither. Do not offer packaging as a plugin. **Packaging is crystallization:** the
-  snapshot's extract is what writes `lore-ecosistema/` for someone who does not have your folders.
+- **Offered nothing optional and on by default.** Encryption, the `lore-ecosistema/` copy and a
+  minimal local launcher all left the kit in 2.4.9; §7, §8 and §9 say once what each was and what to
+  use instead. Do not offer packaging as a plugin. **Packaging is crystallization:** one snapshot
+  carries the work, and unpacking it rebuilds the folder.
 
 ### 4. Create the structure
 
@@ -404,10 +405,8 @@ mkdir -p "$DEST/canon" "$DEST/lore"
   scripts/
     ecosistema.json      → federar only
     sync.js              → federar only
-    canon.js             → encryption only
   .claude/
     settings.local.json  → federar only; GENERATED; local, never committed
-  lore-ecosistema/       → ONLY if the copy is on (§7); the synchronized copy
   FASES.md · {{CONTRACT_FILE}} · .gitignore
 ```
 
@@ -419,7 +418,7 @@ adapter; never maintain two full contracts.
 
 **Do not wrap the bot as a plugin.** No `.claude-plugin/`, no `.codex-plugin/`, no
 `skills/{{BOT_SLUG}}/`, no `scripts/validar.js`. Packaging is crystallization: unpacking the
-snapshot rebuilds `lore-ecosistema/`.
+snapshot rebuilds the folder.
 
 **`README.md` is not in the base shape.** Everything a README would say is already said — to the
 agent that opens the session — by the selected contract sitting next to it. If the user wants one
@@ -605,25 +604,20 @@ decision, evidence or learning changes the path.
 
 A table of file → what it governs → when. Always before the first decision.
 
-If `canon/` is missing but `canon.enc` exists, the canon is encrypted and not yet unlocked: **say
-so and stop.** Never suggest the passphrase be pasted into the chat.
-
-A pointer that does not resolve — the tree is not on this machine, or the copy is absent — does
-**not** stop the work: the bot works with the canon and **declares it is working without that
-project's criteria**. Missing canon does stop it.
+A pointer that does not resolve — the tree is not on this machine — does **not** stop the work: the
+bot works with the canon and **declares it is working without that project's criteria**. Missing
+canon does stop it.
 
 #### 6.2 Route before executing
 
 Point at `lore/enrutamiento.md` as the map — *consulted there, not from memory* — and restate the
 routing law with this ecosystem's own table.
 
-**With the copy on, precedence is checked per row, at the moment of reading:** if the live source
-resolves on **this** machine, read it there and **do not open the copy** — reading both is the
-duplication the table exists to prevent, and the copy is the one that is out of date. The copy opens
-only when that check fails, and the bot then says it is reading a photograph, with its date. Never
-decide this from memory or from what the table looked like elsewhere: it was generated on the
-machine that ran `sync.js`. As a teammate acquires the real folders, their rows stop reading from the
-copy on their own — the copy deactivates itself, row by row, without anyone editing anything.
+**The live source is the only place a row is read.** Each row is an address, and it is checked on
+**this** machine at the moment of reading — never from memory, and never from what the table looked
+like elsewhere: it was generated on the machine that ran `sync.js`. A bot built under a kit that
+carried the `lore-ecosistema/` copy may still find one on disk; that folder is a dated photograph,
+it is never authoritative, and reading it is declared as such.
 
 #### 6.3 Execute
 
@@ -666,13 +660,13 @@ reviewed exemplar, not re-read against itself.
 written and can be cited. And it does not apply to a bot that **measures** instead of checking: a
 measurement has its own margin of error, which is a different problem and is declared differently.
 
-Before closing any operation, run the six operational gates inherited from the `bots` area: passphrases
-enter only through stdin; a negative report states its coverage in the same sentence; an already-edited
-`.docx` is read back into its `.md` source before regeneration; a law that depends on another repeats
-that law's validity boundary; a corrected fact is swept across every appearance before publication;
-and a binary that already has a transcription is compared against the corpus, with the binary →
-transcription correspondence recorded. These are checks that produce an observable artifact or
-decision, not reminders to consult Lore.
+Before closing any operation, run the operational gates inherited from the `bots` area: a negative
+report states its coverage in the same sentence; an already-edited `.docx` is read back into its
+`.md` source before regeneration; a law that depends on another repeats that law's validity
+boundary; a corrected fact is swept across every appearance before publication; and a binary that
+already has a transcription is compared against the corpus, with the binary → transcription
+correspondence recorded. These are checks that produce an observable artifact or decision, not
+reminders to consult Lore.
 
 #### 6.4 Close: always propose criteria
 
@@ -683,9 +677,8 @@ it is half the bot's job.
    **reported as discarded**, not dropped in silence.
 2. **Destination**, by the same routing table: the bot's own friction → this project's `lore/`; a
    project's friction → that project's Lore, in the area matching the **task type**; confirmed
-   cross-cutting criteria → the **area** that owns it. **The write lands on the live source, never
-   on `lore-ecosistema/`** — the copy is regenerated and pruned by the next `sync.js`, so criteria
-   written there disappears with no error at all. If the live tree is not reachable from where the
+   cross-cutting criteria → the **area** that owns it. **The write lands on the live source**, which
+   is the only place a criterion has an owner. If the live tree is not reachable from where the
    bot runs, hand over the text and name its destination instead of writing it where it will be lost.
 3. **Form:** Invariant Clue — Context → Root cause → Clue, with its boundary of validity.
 4. **Delegate the writing** to `save-to-lore` when the Lore plugin is installed. The bot
@@ -711,33 +704,14 @@ node scripts/sync.js              # generates lore/enrutamiento.md + .claude/set
 > new project created from the bot is born in the area that owns it, inheriting that area's Lore by
 > relative path, exactly as `create-project` does. Nothing is duplicated into the bot.
 
-#### The ecosystem copy — written by crystallization, not sold as a create-bot extra
+#### Working with other people — a shared repository
 
-**Packaging is crystallization.** `transmute-lore` CRYSTALLIZE packs the routed tree; extract
-rebuilds `lore-ecosistema/` so the unpacked routing table resolves for someone who does not have
-your folders. Do not wrap the bot as a plugin to get that copy.
-
-`"copia": true` in the manifest is the flag extract already reads — it answers **one** question,
-which is about people rather than tooling: *«¿los que van a usar el bot tienen tus carpetas, o solo
-el bot?»*
-
-| They have the tree | They only have the bot |
-|---|---|
-| Pointers resolve. **No copy.** The bot reads each Lore at its own address and can work on the files. | Pointers resolve to nothing. The copy is the only way that criteria exists on their machine. |
-
-Leave it off when in doubt. A bot for one person, or for a team that shares the folder tree, is
-complete without it — and turning it on buys two silent failure modes (orphans, and duplicates when
-`incluir` changes) plus three guardrails to maintain forever. Turning it on for a teammate who
-cannot reach the tree buys them a bot that carries criteria but cannot edit their files: it can
-write **new** text with the right criteria, which is real work, and not much more.
-
-With the copy on, everything below applies. With it off, `sync.js` neither copies nor prunes.
-
-> **Turning the copy off is two steps** — `"copia": false` **and** deleting `lore-ecosistema/`.
-> Doing only the first leaves a frozen photograph nobody updates and the bot keeps reading, now
-> without even a fresh timestamp to give away its age. It is the same silent pair as the encryption
-> `.gitignore` and as removing a source. `sync.js` warns instead of deleting: that folder is
-> criteria, and deleting criteria unasked is worse than the orphan.
+**The `lore-ecosistema/` copy left the kit in 2.4.9.** It duplicated a bot's borrowed Lore so that
+someone who cloned the repository without your folder tree still had criteria to read; **a shared
+repository is the way to work with other people now**, and it keeps one owner and one version where
+the copy could not. A `lore-ecosistema/` folder that already exists is left exactly where it is:
+`transmute-lore` CRYSTALLIZE still travels it and still reads it when a live source is absent, so
+nobody loses the criteria they already had.
 
 - **Before adding an area, run the two checks from §2:** does the institution have a project inside
   it (if not, it does not enter), and does it carry a module distilling a source the canon already
@@ -779,89 +753,36 @@ With the copy on, everything below applies. With it off, `sync.js` neither copie
   > shorthand for the condition, and nobody remembers that it was one. A rule named after the
   > category fails precisely in the rare case — which is the case the boundary of validity had
   > already named.
-- **Sync runs one way only:** local tree → `lore-ecosistema/`. Never back. The live source of each
-  Lore is its own project; the repo copy is a photograph with a visible date.
-- Run `--revisar` first and report missing sources instead of silently producing a partial copy.
-- **The manifest is also the single source of what gets deleted.** Removing a source used to be two
-  steps that nothing tied together — delete it from `ecosistema.json`, and delete its folder — and
-  doing only the first left an orphan copy the bot kept reading, now with no routing row to explain
-  it. `sync.js` closes the second step itself. Because that path deletes, its classifier ships with
-  `--self-test`; run it after touching the script.
+- Run `--revisar` first and report missing sources instead of silently producing a partial table.
+- **The manifest is the single source of the routing table and the working access.**
+  `enrutamiento.md` and `.claude/settings.local.json` are generated from it and never hand-edited,
+  because two artifacts of the same fact guarantee that one of them drifts.
 
-### 8. Encryption — OPTIONAL, off by default, **EXPERIMENTAL**
+### 8. Encryption — removed in 2.4.9
 
-Ask. If declined, **skip this entire section**: the bot is fully functional without it, and this is
-the expected state for a bot that already lives in a private repository.
+**Lore encryption left the kit in 2.4.9.** It used to seal a bot's criteria so they travelled
+encrypted — off by default, never audited, no key rotation and no answer for a passphrase that
+leaked. **A private repository does that job now**, and it does it without a passphrase to lose: the
+criteria simply never leave it in the clear. Nothing about the bot changes; commit `canon/` as plain
+Markdown, which is what every other project in the kit already does. If you already carry a sealed
+`canon.enc` from an earlier kit, decrypt it once with your own passphrase and commit the Markdown —
+the file is yours either way, and `sync.js` never needed to know.
 
-> **When offering it, state plainly that it is experimental.** The template passes its self-test
-> (round-trip, wrong passphrase, GCM tampering, no plaintext leak), but it has **not** been audited,
-> has no key rotation, no revocation, and no answer for a passphrase that leaks. It is a seal for a
-> repository shared among people who already trust each other — not a security control to put
-> between an adversary and something that matters. Offer it as what it is.
+### 9. Local launcher — removed in 2.4.9
 
-If accepted, copy `plantillas/canon.js` and resolve `{{BOT_SLUG}}`. In `nuevo` mode delete the
-`ecosistema` entry from `CARGAS` — the usage text derives from those keys and adjusts itself.
-
-```bash
-node scripts/canon.js --self-test   # round-trip, wrong passphrase, tampering, plaintext leak
-```
-
-> **The law: encrypt in distribution, never at consultation.** Payloads travel encrypted and are
-> decrypted **once** on clone; at rest they are plain Markdown. Encrypting at the point of
-> consultation does not forbid reading — it makes reading **expensive**, and what is expensive
-> stops being consulted. That is the artifact dying of access cost.
-
-**The `.gitignore` follows from the choice, and getting it backwards is silent and severe:**
-
-| Encryption | `.gitignore` | Why |
-|---|---|---|
-| **on** | ignore `canon/`, `lore-ecosistema/` (if the copy is on), `.{{BOT_SLUG}}.json` | only the `.enc` files travel |
-| **off** | ignore only `.{{BOT_SLUG}}.json` | the criteria **must** be committed, or the repo carries no criteria and the bot is useless to the team |
-
-`.claude/settings.local.json` is gitignored either way: it holds absolute paths of one machine.
-
-If encryption is off, say plainly that the repository must be private — that is now the only thing
-protecting the criteria.
-
-Two things the README must state, whichever way it goes:
-
-- It protects the repository and the transport. It does **not** protect against someone who holds
-  the passphrase — a shared passphrase defends against a leak, not against a teammate.
-- It does **not** cover what an AI tool does with the text once loaded into its context. This is a
-  declared boundary, not a solved problem, and it is never papered over with language suggesting
-  otherwise.
-
-> **Credit, and status.** The question — *what protects a Lore that has to be shared?* — was opened
-> by **Mantra**, by LonelyAchemist, which encrypted the Lore **at rest**. This template is the
-> inverted answer, for the reason above. The idea is theirs; the decision is not, and neither is the
-> code: Mantra's own SDK is not used here. **The whole line is experimental** — it is offered,
-> labelled, and never presented as a hardened guarantee.
-
-### 9. Local launcher — OPTIONAL, off by default
-
-Ask whether the user wants a small local menu that opens this bot and other Lore-governed folders
-in Claude Code CLI or Codex CLI. If declined, skip. If accepted, create the **minimum launcher
-locally**: an editable JSON registry plus a script that selects folder, provider and a model
-belonging to that provider, and passes `--model` to the selected native CLI. Test every configured
-path and both CLI commands. Do not create a second memory store: the launched folder's Lore remains
-the source of criterion.
-
-When the selected folder is a federated bot, derive every Codex `--add-dir` argument from the same
-`scripts/ecosistema.json` entries marked `"trabajo": true`. Loading the contract is not enough if
-the routed repositories are outside the primary workspace; the agent must be able to write where
-the manifest says it works. Never maintain a second path list in the launcher.
-
-The launcher is provider-neutral. Do not use a Claude-, Codex- or other provider mascot as its
-identity. Any theme is optional and needs separate approval for every target environment.
+**The local launcher left the kit in 2.4.9.** `create-bot` used to offer a small local menu that
+opened this bot and other Lore-governed folders in Claude Code CLI or Codex CLI, with a registry and
+a `--model` for each provider. **Opening the folder is the whole of it:** a bot is a folder, and its
+contract is what loads when you open a session there — no menu, no registry, nothing to keep in sync.
+A launcher of your own that lives outside this kit is untouched by this, and the kit never asked for
+one to be handed over.
 
 ### 10. Verify and report
 
 ```bash
 grep -rn '{{[A-Z_]\+}}' "$DEST" && echo "UNRESOLVED TOKENS" || echo "OK no tokens"
-node scripts/canon.js --self-test        # if encryption is on
-node scripts/sync.js --self-test         # if federar
 node scripts/sync.js --revisar           # if federar
-git -C "$DEST" status --short            # confirm .gitignore matches the encryption choice
+git -C "$DEST" status --short            # confirm canon/ and lore/ are committed as plain Markdown
 ```
 
 Then check the two things a script cannot:
@@ -923,18 +844,15 @@ say the configuration is superfluous: it says the configuration is not evidence 
   maintains it anyway.
 - **Federating is pointing, not copying.** Lore is DRY everywhere in this kit — a project references
   its area's modules by relative path instead of duplicating them — and a bot is no exception: the
-  routing table holds addresses and the generated access reaches them. `lore-ecosistema/` is the one
-  deliberate copy, **off by default**, and it exists for a single situation: a teammate whose machine
-  has no source tree, where a pointer resolves to nothing. When it is on, the price is three
-  guardrails, and removing any one turns the copy into a second source of truth: **one direction
-  only**, **a visible timestamp**, and **never summarize**.
+  routing table holds addresses and the generated access reaches them. The kit makes no copy of
+  anyone else's Lore; people who work together share a repository, which keeps one owner and one
+  version. A `lore-ecosistema/` folder from an earlier kit is read, never written, and never pruned.
 - **The bot never distills into itself.** A source with no Lore gets its Lore in the area that owns
   it (`create-area` → `transmute-lore` add) and is federated afterwards — never absorbed directly.
 - **The bot lives at `bots/proyectos/{slug}/` by default.** `lore/` at its root; `FASES.md`
   **outside** `lore/`. Another area only when the user says so.
 - **Three bodies, three owners, never merged.** `canon/` is distilled; `lore/` maintains the bot;
-  borrowed criteria is reached by pointer and is never authoritative — nor is `lore-ecosistema/`,
-  when the copy is on.
+  borrowed criteria is reached by pointer and is never authoritative.
 - **The canon is distilled from the source**, never from another distillation or from the model's
   own knowledge. Each module names its origin and its boundary of validity.
 - **The canon is for what the routing does not reach.** If a pointer gets there, the pointer goes.
@@ -982,15 +900,15 @@ say the configuration is superfluous: it says the configuration is not evidence 
   summaries of the same original inside one bot is worse than none: the one that wins is the one
   nearest the lookup index.
 - **Every task closes with a distillation proposal**, and discarded noise is reported.
-- **The manifest is the single source** of the copy, the routing table, the pruning and the working
-  access; `enrutamiento.md` and `.claude/settings.local.json` are generated, never hand-edited. Sync
-  goes one way only.
+- **The manifest is the single source** of the routing table and the working access;
+  `enrutamiento.md` and `.claude/settings.local.json` are generated, never hand-edited.
 - **A bot is a folder, not a plugin.** Do not wrap it as a shareable plugin. **Packaging is
-  crystallization:** unpacking the snapshot rebuilds `lore-ecosistema/`. Encryption and a minimal
-  local launcher are optional and off by default. The `.gitignore` follows the encryption choice;
-  getting it backwards ships either a leak or an empty repo.
-- **The passphrase never enters the chat.** stdin only — never an argument, never pasted. What
-  enters a model's context does not come back out.
+  crystallization:** unpacking the snapshot rebuilds the folder. `canon/` and `lore/` are committed
+  as plain Markdown; whether the repository is private or shared is a decision the user makes, and
+  the kit states which one the criteria needs.
+- **A secret never enters the chat**, whatever it is and whatever carries it: not a passphrase, not a
+  token, not a key. stdin or a settings file, never an argument and never pasted — what enters a
+  model's context does not come back out.
 - **A paragraph is a paragraph** (kit invariant in `use-lore`). Canon, `lore/`, contract and
   `FASES.md` are not hard-wrapped at column 80. This covers every artifact this skill writes.
 - The bot **proposes** criteria; the human writes it. Nothing is auto-committed.

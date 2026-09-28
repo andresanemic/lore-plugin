@@ -473,7 +473,8 @@ actually ships before reading a single module — without it, `prune` has no den
 
 **Process — `crystallize` mode (conceptually):** resolve the **whole routed tree** — the target's
 contract, canon, identity, principles, and every `lore/` named by `enrutamiento.md` or
-`scripts/ecosistema.json`, including `lore-ecosistema/` when the live origin is absent. A snapshot
+`scripts/ecosistema.json`, including a `lore-ecosistema/` copy left by an earlier kit when the live
+origin is absent — read, never created. A snapshot
 that only *points* at criterion it does not contain has failed the mode. Classify the rest as
 private, noise (notes, scripts other than the manifest, lockfiles) or unrouted; show the full
 manifest; wait for approval; write one snapshot outside `lore/`. Each inlined file is wrapped in
@@ -574,7 +575,11 @@ invisible and unwarned). Reported as part of the brainstorm.
 The test that keeps them apart: **would the source be discardable?** Distilling produces something
 smaller that can replace its origin; copying produces something identical that cannot.
 
-**The copy (`lore-ecosistema/`) is optional and off by default** (`"copia": true`). It answers one question: *do the people who will use this bot have your folders, or only the bot?* Without the tree the pointer resolves to nothing and the copy is the only way that criteria exists on their machine. With it on, `sync.js` never summarizes — a summary next to the consultation index competes with the original and wins by being closer — and **precedence is checked per row at read time**: if the live source resolves, it is read there and the copy is not opened, so the copy **deactivates itself**, row by row, as someone acquires the folders.
+**The `lore-ecosistema/` copy left the kit in 2.4.9.** It duplicated a bot's borrowed Lore so that
+someone who cloned the repository without your folder tree still had criteria; **a shared repository
+is the way to work with other people now**, and it keeps one owner and one version. A
+`lore-ecosistema/` folder that already exists is left alone: `transmute-lore` CRYSTALLIZE still
+reads it when a live source is absent, and still travels it, so nothing already built is lost.
 
 **Responsibilities:**
 
@@ -605,16 +610,23 @@ canon and broken paths, so passing it proves nothing about whether the bot works
 **premiere**: an instruction that does not name the criteria, recorded **verbatim** in the Area's
 `FASES.md` — a paraphrase can no longer be judged for whether it was short.
 
-Optional, off by default:
+Removed in 2.4.9, and what to use instead:
 
-- **Encryption** (*experimental*, see [`ENCRYPTION.md`](./ENCRYPTION.md)): encrypt in distribution,
-  never at consultation. With encryption the plaintext stays out of git; without it the criteria
-  **must** be committed, or the repository travels with no criteria. The passphrase comes from *stdin*
-  and never enters the chat.
+- **Encryption** used to seal a bot's criteria so they travelled encrypted — off by default, never
+  audited, no key rotation and no answer for a passphrase that leaked. **A private repository does
+  that job now**, without a passphrase to lose: `canon/` and `lore/` are committed as plain
+  Markdown and never leave the repository in the clear. A `canon.enc` you already carry is yours —
+  decrypt it once and commit the Markdown.
+- **The `lore-ecosistema/` copy** duplicated borrowed Lore for a teammate without your tree. **A
+  shared repository is the way to work with other people now.** A folder that already exists is
+  never written, never pruned, and still travels when you crystallize.
+- **The local launcher** offered a small menu to open Lore-governed folders in Claude Code CLI or
+  Codex CLI. **Opening the folder is the whole of it** — a bot is a folder and its contract loads
+  when you open a session there. A launcher of your own outside the kit is untouched.
 
-A bot without it is complete. **Packaging is crystallization**, not wrapping the bot as a plugin:
-unpacking the snapshot rebuilds the folder, including `lore-ecosistema/` — that is how the work
-travels to someone who does not have your tree.
+A bot without any of them is complete. **Packaging is crystallization**, not wrapping the bot as a
+plugin: unpacking the snapshot rebuilds the folder, and that is how the work travels to someone who
+does not have your tree.
 
 Use `create-bot` when you want one session that works across several projects — with or without existing Lore: none, it orchestrates the chain above; some, it federates it. It never substitutes for building that Lore in the Area that owns it.
 
@@ -996,8 +1008,7 @@ These invariants are what separate Lore from generic note‑taking or logging to
 This is the complete technical document: getting started, day-to-day use, concepts, the spec for
 every skill/mode/artifact, and migration. The [`README.md`](../README.md) carries story, motivation,
 architecture at a glance and the index of everything else; [`90_SECONDS_en.md`](./90_SECONDS_en.md)
-is the 90-second version; [`ENCRYPTION.md`](./ENCRYPTION.md), the optional bot-criteria encryption;
-[`CASES_en.md`](./CASES_en.md), the case studies. One technical document — instead of a separate
+is the 90-second version; [`CASES_en.md`](./CASES_en.md), the case studies. One technical document — instead of a separate
 usage guide and reference that restated the same model in a friendlier voice — keeps the spec in one
 place with no drift between copies.
 

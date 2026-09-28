@@ -413,7 +413,7 @@ things, same 25-line ceiling — `canon/` and the routing table, never the feder
 
 ## Base rules
 - A bot is a folder you open. Do not wrap it as a plugin. Packaging is crystallization: unpacking
-  rebuilds `lore-ecosistema/`.
+  rebuilds the folder.
 - The bot **proposes** criteria; it never writes them without approval.
 - `git push` only when the user asks.
 ```
@@ -430,7 +430,7 @@ things, same 25-line ceiling — `canon/` and the routing table, never the feder
 2. Canon — what the bot always loads, with its boundary written. Lives in `canon/`, next to the contract.
 3. Routing — which Lore answers which kind of task.
 4. Contract — the bot's behaviour and first-use configuration.
-5. Crystallize if it must travel — do not wrap it as a plugin. Unpacking rebuilds `lore-ecosistema/`.
+5. Crystallize if it must travel — do not wrap it as a plugin. Unpacking rebuilds the folder.
 6. Premiere — a short instruction produces a deliverable; recorded verbatim.
 
 ## Log

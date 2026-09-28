@@ -10,6 +10,16 @@ When a session writes, the guard asks where the destination sits. Own passes: th
 
 The guard's behaviour and the kernel's fingerprints were tested in the kit's own suite, which runs the guard the way a host calls it; installing this version in a working host has not been done yet, so the visible notice is verified in code and not yet seen in a session. No migration is required: existing Lore, existing bots and existing federated routing keep working, and the only visible addition is the notice and its record for destinations that belong to no governed tree.
 
+## What left in 2.4.9
+
+Four things left the kit: **Lore encryption**, the **`lore-ecosistema/` copy** for teammates without your folder tree, the **minimal local launcher** of `create-bot`, and the **Professor with its Notebook** — the last of which was never a kit component but a working notebook living in one bot's tree, discarded outright. Working with other people is now a **shared repository**, which keeps one owner and one version where the copy could not.
+
+A bot is unchanged by their absence. `canon/` and `lore/` are committed as plain Markdown, and a private repository is what keeps them from travelling in the clear; a bot is a folder, and opening it is the whole of what the launcher did. Nobody who used any of them is broken, and each is told once, in plain language, what it did and what to use instead: an existing `canon.enc` is yours to decrypt, an existing `lore-ecosistema/` is left untouched — never written, never pruned — and **`transmute-lore` CRYSTALLIZE still reads it and still travels it**, so a bot built under the old kit still crystallizes, for NotebookLM or any Markdown-only reader.
+
+## Still pending in this RC
+
+The version agreement also brings a working agreement offered on first use that binds only if the person accepts it, with its dials for how the skills speak to them and their limits of use by model family; the split of everyday phrases between `use-lore`, `brainstorming-lore` and `vespi`; the per-turn reminder and the light load of bodies at open; the kit's hooks in OpenCode; and the ultrareview gestures at the kit's gates. None of that is built yet: as each thing is built it enters the note as a public function in its own paragraph, and what does not arrive leaves the list instead of staying in the draft.
+
 # Lore Plugin 2.4.9 — Una guardia que conoce tu propio árbol y una licencia que nombra a su autor
 
 > [README](https://github.com/andresanemic/lore-plugin/blob/main/README.md#español)
@@ -20,4 +30,12 @@ Cuando una sesión escribe, la guardia pregunta dónde está el destino. Lo prop
 
 La guardia y las huellas del kernel se han probado en la suite del propio kit, que la ejecuta como la invoca un host; instalar esta versión en un host de trabajo todavía no se ha hecho, así que el aviso visible está verificado en código y todavía no se ha visto en una sesión. Ninguna migración es necesaria: tu Lore, tus bots y tu enrutamiento federado siguen funcionando, y lo único visible que se agrega es el aviso y su constancia para los destinos que no pertenecen a ningún árbol gobernado.
 
-**Pendiente de esta RC, todavía sin construir y por lo tanto fuera de la nota publicada.** El acuerdo de versión trae un acuerdo de trabajo que se ofrece en el primer uso y solo obliga si la persona lo acepta, con sus perillas de cómo le hablan las skills y sus límites de uso por familia de modelo; el reparto de las frases cotidianas entre `use-lore`, `brainstorming-lore` y `vespi`; el recordatorio por turno y la carga liviana de los cuerpos al abrir; los hooks del kit en OpenCode; los gestos de ultrareview en las puertas del kit; y la salida del cifrado, de la copia `lore-ecosistema/`, del launcher local de `create-bot` y del Professor con su Cuaderno. Nada de eso está construido todavía, y el README de la rama ya anuncia la salida del cifrado como si lo estuviera: cuando cada cosa se construya entra en la nota como función pública y en su propio párrafo, y lo que no llegue sale de la lista en vez de quedarse en el borrador.
+## Lo que salió en 2.4.9
+
+Cuatro cosas salieron del kit: **el cifrado del Lore**, la **copia `lore-ecosistema/`** para compañeros sin tu árbol, el **launcher local mínimo** de `create-bot` y el **Professor con su Cuaderno** — este último nunca fue componente del kit sino un cuaderno de trabajo que vivía en el árbol de un bot, descartado por completo. Con otras personas se trabaja ahora en un **repositorio compartido**, que deja un dueño y una versión donde la copia no podía.
+
+La ausencia de las cuatro no cambia un bot. `canon/` y `lore/` se commitean como Markdown plano, y lo que evita que viajen en claro es un repositorio privado; un bot es una carpeta, y abrirla es todo lo que hacía el launcher. Nadie que usara alguna queda roto, y a cada uno se le dice una vez, en llano, qué hacía y qué usar ahora: un `canon.enc` existente es tuyo para descifrar, una copia `lore-ecosistema/` existente se deja intacta — nunca se escribe, nunca se poda— y **`transmute-lore` CRYSTALLIZE la sigue leyendo y la sigue llevando**, así que un bot hecho con el kit viejo sigue cristalizando, para NotebookLM o para cualquier lector que solo entienda Markdown.
+
+## Pendiente de esta RC
+
+El acuerdo de versión trae además un acuerdo de trabajo que se ofrece en el primer uso y solo obliga si la persona lo acepta, con sus perillas de cómo le hablan las skills y sus límites de uso por familia de modelo; el reparto de las frases cotidianas entre `use-lore`, `brainstorming-lore` y `vespi`; el recordatorio por turno y la carga liviana de los cuerpos al abrir; los hooks del kit en OpenCode; y los gestos de ultrareview en las puertas del kit. Nada de eso está construido todavía: cuando cada cosa se construya entra en la nota como función pública y en su propio párrafo, y lo que no llegue sale de la lista en vez de quedarse en el borrador.

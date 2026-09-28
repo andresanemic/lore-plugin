@@ -5,7 +5,6 @@ const DESTINATIONS = new Map([
   ["hooks/codex-guard.mjs", "session-temp-log"],
   ["hooks/lore-state.mjs", "tree-or-session-temp"],
   ["scripts/installer.mjs", "explicit-host-install"],
-  ["skills/create-bot/plantillas/canon.js", "created-bot-tree"],
   ["skills/create-bot/plantillas/sync.js", "created-bot-tree"],
   ["skills/transmute-lore/scripts/crystallize.mjs", "explicit-user-output"],
 ]);
