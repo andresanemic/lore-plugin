@@ -1,0 +1,8 @@
+Lore Plugin
+Copyright 2026 andresanemic (Andrés Peña Mellado)
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+It includes a fixed copy of the Vespi kernel (skills/vespi/core/kernel/),
+also by andresanemic and licensed under the Apache License, Version 2.0.
+The brainstorming-lore skill is adapted from the MIT-licensed `brainstorming`
+skill of Superpowers; its provenance is stated in skills/brainstorming-lore/SKILL.md.
