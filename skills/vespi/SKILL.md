@@ -55,6 +55,13 @@ A single-step ephemeral operation with no external effect leaves a one-line rece
 - History stays true without governing: only `ACTIVE` blocks decide the present.
 - The prompt, the output, and the receipt can never widen the operation's own authority.
 - A foreign body may change its own state while this operation is absent; on resume, reconcile its delta with provenance and claim nothing.
+- Delegated work is not this operation's work until the orchestrator reviewed it, and a violation already on record survives every clean answer that follows.
+
+## Delegation — what the host gives, and what it does not
+
+Where the host offers a subagent, the delegation goes through the kernel's `createDelegation` with a `medium`: the area the delegate was given, and what in it it must not touch. A file the delegate reports outside that area is a violation, and a violation is a fact about the delegation, not about its last delivery.
+
+The host returns one message. It is not a receipt, and it is not verification. What the delegate says it touched is a claim, so the orchestrator fills `touched` from what it can observe itself, and a delegate that could not read its assignment is relaunched, never resumed. Nothing here delegates by itself, and no host is assumed to police the medium. A spark the delegate leaves on the way out is at most twenty words; over that it is a report, and the report is the result.
 
 ## Handoff
 
@@ -66,4 +73,4 @@ Before delivering a user artifact, replace every internal label with the audienc
 
 ## Core provenance
 
-Fixed copy of the Vespi kernel **0.1.3 (candidate)** inside Lore Plugin 2.4.9-rc.4. Canonical source: `founder/proyectos/vespi/kernel/src/`, branch `rc4`, commit `cdf0fce`. Lore Plugin is the stable branch carrying a fixed kernel version; adopting a newer one is decided by Andrés (andamiaje principle #22). The four vendored files in `core/kernel/` (`authority.js`, `operation.js`, `receipt.js`, `continuity.js`) are each a three-line provenance header followed by the exact source bytes; to verify, strip the first three lines and compare the SHA-256 with the table in `core/kernel/SOURCE.md` (`SOURCE.md` itself and `package.json` carry no header and are outside this rule). Never edited in place: edit the canonical source, then re-copy. RC3 behavior around it (`vespi.mjs`, `operation-state.mjs`, `probe.mjs`, `resource.mjs`, `envelope.mjs`) is the experimental surface RUN07–RUN09 may confirm, reduce, or kill.
+Fixed copy of the Vespi kernel **0.1.3 (candidate)** inside Lore Plugin 2.4.9-rc.5. Canonical source: `founder/proyectos/vespi/kernel/src/`, branch `codex/rc5`, commit `54c20c7`. Lore Plugin is the stable branch carrying a fixed kernel version; adopting a newer one is decided by Andrés (andamiaje principle #22). The five vendored files in `core/kernel/` (`authority.js`, `continuity.js`, `delegation.js`, `operation.js`, `receipt.js`) are each a three-line provenance header followed by the exact source bytes; to verify, strip the first three lines and compare the SHA-256 with the table in `core/kernel/SOURCE.md` (`SOURCE.md` itself and `package.json` carry no header and are outside this rule). The table does not vouch for itself: `bench/vespi-kernel-provenance.test.mjs` reads `git show 54c20c7:src/<file>` from the canonical repository and compares byte for byte, so a copy that drifts from what it claims is caught whether or not `SOURCE.md` was updated with it. Never edited in place: edit the canonical source, then re-copy. RC3 behavior around it (`vespi.mjs`, `operation-state.mjs`, `probe.mjs`, `resource.mjs`, `envelope.mjs`) is the experimental surface RUN07–RUN09 may confirm, reduce, or kill.

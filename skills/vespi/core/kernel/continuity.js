@@ -1,11 +1,9 @@
 // Vendored copy — canonical source is founder/proyectos/vespi/kernel/src/continuity.js
-// (kernel 0.1.3 candidate, rc4 branch, commit cdf0fce). Edit the canonical source, then re-copy here;
+// (kernel 0.1.3 candidate, codex/rc5 branch, commit 54c20c7). Edit the canonical source, then re-copy here;
 // this file is not the source of truth.
 'use strict';
 
 const { verifyReceipt } = require('./receipt.js');
-
-const REVALIDATION_KEYS = ['scope', 'amount', 'ceiling', 'status'];
 
 function receiptAction(receipt) {
   try {
@@ -19,13 +17,32 @@ function receiptAction(receipt) {
   return null;
 }
 
+// Any key the agreement puts under `changes` is a change to what was agreed, whatever it is named.
+// The gate used to watch a fixed list (scope, amount, ceiling, status), which meant renaming a key
+// or adding a new one opened a hole: `changes: { to: 'OTRO' }` passed straight through and an agent
+// resumed an action the person had altered. A fixed list can only ever be as complete as the last
+// person who thought of a key; the shape of the change is the signal, not its name (T1-X3).
 function hasRevalidationChanges(entry) {
   try {
     const changes = entry && entry.changes;
     if (!changes || typeof changes !== 'object' || Array.isArray(changes)) return false;
-    return REVALIDATION_KEYS.some((key) => changes[key] !== undefined);
+    return Object.keys(changes).some((key) => changes[key] !== undefined);
   } catch {
     return false;
+  }
+}
+
+// A receipt whose own verification does not say `verified: true` is not a finished step, whatever
+// its `status` field says. Continuity used to read `status` alone, so a receipt could claim
+// `verified` while the verification recorded inside it — the one the digest covers — said false, and
+// the agent resumed it. The verdict recorded in the receipt is the one that decides (T1-X4). It is
+// the same object the digest seals, so it cannot be rewritten after the fact without breaking the seal.
+function claimsVerifiedWithoutProof(receipt) {
+  try {
+    const verification = receipt?.verification;
+    return !verification || verification.verified !== true;
+  } catch {
+    return true;
   }
 }
 
@@ -37,6 +54,7 @@ function resumeFromReceipts(receipts, agreement) {
   let discarded = 0;
   const verifiedByAction = new Map();
   const waitingByAction = new Map();
+  const unprovenByAction = new Map();
   const verifiedReceipts = [];
 
   for (const receipt of list) {
@@ -59,6 +77,10 @@ function resumeFromReceipts(receipts, agreement) {
     }
     const action = receiptAction(receipt);
     if (!action) continue;
+    if (claimsVerifiedWithoutProof(receipt)) {
+      if (!unprovenByAction.has(action)) unprovenByAction.set(action, receipt);
+      continue;
+    }
     if (!verifiedByAction.has(action)) verifiedByAction.set(action, receipt);
     verifiedReceipts.push(receipt);
   }
@@ -85,6 +107,21 @@ function resumeFromReceipts(receipts, agreement) {
         workingMode,
       };
     }
+  }
+
+  // An action whose last receipt claims `verified` while the verification sealed inside it says
+  // false is not a finished step either. It is not discarded — its seal is intact — it simply does
+  // not carry the proof, so it cannot be resumed by an agent: the person decides (T1-X4).
+  for (const [action, unproven] of unprovenByAction) {
+    if (!approvedByAction.has(action)) continue;
+    return {
+      lastState: unproven.status ?? 'verified',
+      nextAction: null,
+      needsPerson: true,
+      reason: `the receipt claims verified without a verification and returns to the person: ${action}; discarded ${discarded}`,
+      discarded,
+      workingMode,
+    };
   }
 
   let lastState = null;
@@ -142,7 +179,7 @@ function resumeFromReceipts(receipts, agreement) {
     lastState,
     nextAction,
     needsPerson: false,
-    reason: `retoma ${nextAction.action}; descartados ${discarded}`,
+    reason: `resumes ${nextAction.action}; discarded ${discarded}`,
     discarded,
     workingMode,
   };

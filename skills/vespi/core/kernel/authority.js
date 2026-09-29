@@ -1,5 +1,5 @@
 // Vendored copy — canonical source is founder/proyectos/vespi/kernel/src/authority.js
-// (kernel 0.1.3 candidate, rc4 branch, commit cdf0fce). Edit the canonical source, then re-copy here;
+// (kernel 0.1.3 candidate, codex/rc5 branch, commit 54c20c7). Edit the canonical source, then re-copy here;
 // this file is not the source of truth.
 'use strict';
 

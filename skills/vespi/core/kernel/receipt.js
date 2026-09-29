@@ -1,5 +1,5 @@
 // Vendored copy — canonical source is founder/proyectos/vespi/kernel/src/receipt.js
-// (kernel 0.1.3 candidate, rc4 branch, commit cdf0fce). Edit the canonical source, then re-copy here;
+// (kernel 0.1.3 candidate, codex/rc5 branch, commit 54c20c7). Edit the canonical source, then re-copy here;
 // this file is not the source of truth.
 'use strict';
 
@@ -14,7 +14,12 @@ const RECEIPT_STATUSES = new Set([
   'needs_human_decision',
 ]);
 
-const PENDING_ANCHOR = { status: 'pending', network: 'stellar-testnet' };
+// The network is named the way Stellar names it (CAIP-2): `stellar:testnet` or `stellar:pubnet`.
+// Anything else is not a network this kernel can anchor on, so nothing leaves pending.
+const DEFAULT_NETWORK = 'stellar:testnet';
+const ANCHOR_NETWORKS = new Set([DEFAULT_NETWORK, 'stellar:pubnet']);
+
+const PENDING_ANCHOR = { status: 'pending', network: DEFAULT_NETWORK };
 
 function canonicalize(value) {
   if (Array.isArray(value)) return value.map(canonicalize);
@@ -56,6 +61,38 @@ function withExternalAnchor(list, anchored) {
   return arr;
 }
 
+// The body digest deliberately leaves `anchor` out: the digest is what gets written on the network,
+// so it cannot depend on the answer the network gave. That exclusion used to leave the anchor
+// free-floating — anyone could paste `anchored` and a made-up txHash onto an untouched receipt and
+// it still verified. The anchor therefore travels bound to the body digest it was written for, and
+// verification refuses an anchor that is not bound to the body it sits in (T1-X1).
+// What this does not buy is authenticity: whoever can rewrite the receipts file can recompute the
+// digest and the binding together. That limit is R1 finding M5 and it belongs to whoever stores and
+// hands over the receipts.
+function verifyAnchorBinding(receipt, expected) {
+  try {
+    const anchor = receipt.anchor;
+    if (anchor === undefined || anchor === null) return { ok: true };
+    if (typeof anchor !== 'object' || Array.isArray(anchor)) {
+      return { ok: false, reason: 'anchor must be an object' };
+    }
+    if (anchor.status === 'pending') return { ok: true };
+    if (typeof anchor.digest !== 'string' || anchor.digest.length === 0) {
+      return { ok: false, reason: 'anchor is not bound to a receipt digest' };
+    }
+    if (anchor.digest !== expected) return { ok: false, reason: 'anchor is bound to another receipt' };
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, reason: `anchor verify error: ${err && err.message ? err.message : String(err)}` };
+  }
+}
+
+// What this proves, and what it does not: the digest is an unkeyed SHA-256 over the receipt, so
+// `ok: true` means the receipt arrived intact — it was not edited after it was written, and any
+// anchor it carries is bound to the body it travels with. It says nothing about **who** wrote it.
+// Anyone able to rewrite the receipts file can recompute the digest and this returns `ok: true`;
+// authenticity is a property the receipt does not carry, and it belongs to whoever stores and hands
+// over the receipts (R1 finding M5).
 function verifyReceipt(receipt) {
   try {
     if (!receipt || typeof receipt !== 'object' || Array.isArray(receipt)) {
@@ -66,6 +103,8 @@ function verifyReceipt(receipt) {
     }
     const expected = computeDigest(receipt);
     if (receipt.digest !== expected) return { ok: false, reason: 'digest mismatch' };
+    const bound = verifyAnchorBinding(receipt, expected);
+    if (bound.ok !== true) return bound;
     return { ok: true, reason: 'digest matches' };
   } catch (err) {
     return { ok: false, reason: `verify error: ${err && err.message ? err.message : String(err)}` };
@@ -75,7 +114,11 @@ function verifyReceipt(receipt) {
 function readAnchorResult(result) {
   try {
     const txHash = result && typeof result.txHash === 'string' && result.txHash.length > 0 ? result.txHash : null;
-    const network = result && typeof result.network === 'string' && result.network.length > 0 ? result.network : 'stellar-testnet';
+    const declared = result ? result.network : undefined;
+    // An adapter that says nothing is taken to mean the default network; an adapter that names
+    // one has to name a real Stellar network, and a blank name is not one.
+    const network = declared === undefined || declared === null ? DEFAULT_NETWORK : declared;
+    if (typeof network !== 'string' || !ANCHOR_NETWORKS.has(network)) return null;
     return txHash ? { txHash, network } : null;
   } catch {
     return null;
@@ -83,9 +126,12 @@ function readAnchorResult(result) {
 }
 
 // Status ladder, honest by construction (principle 7 of Vespi):
-//   pending   -> nothing reached the network (no adapter, it threw, or it returned no txHash)
+//   pending   -> nothing reached the network (no adapter, it threw, it named a network this
+//                kernel cannot anchor on, or it returned no txHash)
 //   submitted -> the adapter returned a txHash, but nobody confirmed the digest on-chain
-//   anchored  -> verifyAnchor(txHash, digest) confirmed it (e.g. MEMO_HASH of that Stellar transaction)
+//   anchored  -> verifyAnchor(txHash, digest, network) confirmed it (e.g. MEMO_HASH of that
+//                Stellar transaction). The network passphrase is part of what Stellar signs, so
+//                the verifier is told which network the anchor claims to be on.
 function finishAnchor(base, prevNotCovered, submitted, confirmed) {
   if (submitted && confirmed) {
     base.anchor = { status: 'anchored', network: submitted.network, txHash: submitted.txHash };
@@ -99,6 +145,14 @@ function finishAnchor(base, prevNotCovered, submitted, confirmed) {
   }
   try {
     base.digest = computeDigest(base);
+  } catch {
+  }
+  // The binding is written last, over the digest the finished body actually has. `anchor` is not
+  // part of the digest, so this cannot move it.
+  try {
+    if (base.anchor && typeof base.anchor === 'object' && base.anchor.status !== 'pending') {
+      base.anchor = { ...base.anchor, digest: base.digest };
+    }
   } catch {
   }
   return base;
@@ -129,7 +183,7 @@ function anchorReceipt(receipt, anchor, verifyAnchor) {
   let confirmed = false;
   if (submitted && typeof verifyAnchor === 'function') {
     try {
-      confirmed = verifyAnchor(submitted.txHash, base.digest) === true;
+      confirmed = verifyAnchor(submitted.txHash, base.digest, submitted.network) === true;
     } catch {
       confirmed = false;
     }
@@ -150,7 +204,7 @@ async function anchorReceiptAsync(receipt, anchor, verifyAnchor) {
   let confirmed = false;
   if (submitted && typeof verifyAnchor === 'function') {
     try {
-      confirmed = (await verifyAnchor(submitted.txHash, base.digest)) === true;
+      confirmed = (await verifyAnchor(submitted.txHash, base.digest, submitted.network)) === true;
     } catch {
       confirmed = false;
     }
@@ -188,12 +242,39 @@ function sanitizeEvidence(evidence) {
   return safe;
 }
 
+// `verification` travels as evidence too, so it gets the same treatment: three named fields and
+// nothing else. A verifier is still free to return whatever it likes, but only the verdict, the
+// per-check results and the reason reach the receipt — a key it invented does not (T1-X2).
+function sanitizeVerification(verification) {
+  if (!verification || typeof verification !== 'object' || Array.isArray(verification)) return null;
+  const safe = {};
+  try {
+    if (verification.verified === true || verification.verified === false) safe.verified = verification.verified;
+    const checks = verification.checks;
+    if (checks !== null && typeof checks === 'object' && !Array.isArray(checks)) {
+      const safeChecks = {};
+      for (const key of Object.keys(checks)) {
+        const value = safeScalar(checks[key]);
+        if (value !== null) safeChecks[key] = value;
+      }
+      safe.checks = safeChecks;
+    }
+    const reason = safeScalar(verification.reason);
+    if (typeof reason === 'string' && reason.length > 0) safe.reason = reason;
+  } catch {
+    return null;
+  }
+  return safe;
+}
+
+// A grant names its ceiling `maxAmount`; a requirement names what it spends `amount`. The receipt
+// keeps one shape, and the exercised amount must not be lost on the way (R1 finding A1).
 function sanitizeSpend(items) {
   if (!Array.isArray(items)) return [];
   return items.filter((item) => item && typeof item === 'object').map((item) => {
     const out = {
       asset: safeScalar(item.asset),
-      maxAmount: safeScalar(item.maxAmount),
+      maxAmount: safeScalar(item.maxAmount) ?? safeScalar(item.amount),
       to: safeScalar(item.to),
     };
     const expiresAt = safeScalar(item.expiresAt);
@@ -205,20 +286,25 @@ function sanitizeSpend(items) {
 function buildReceipt({ operation, capabilityId, authority, outcome, evidence, verification, decidedBy }) {
   const grants = Array.isArray(authority && authority.spend) ? authority.spend : [];
   const exercised = Array.isArray(outcome && outcome.exercised) ? outcome.exercised : [];
+  const safeVerification = sanitizeVerification(verification);
   const rawStatus = safeText(outcome && outcome.status) || 'failed';
   const status = RECEIPT_STATUSES.has(rawStatus) ? rawStatus : 'failed';
   const operationId = safeText(operation && operation.id) || 'unknown';
   const goal = safeText(operation && operation.goal) || '';
+  const action = safeText(operation && operation.action);
   const receiptCapability = safeText(capabilityId) || 'unknown';
   const approval = safeText(authority && authority.approval);
   const detail = safeText(outcome && outcome.detail) ?? safeText(outcome && outcome.reason);
   const reason = safeText(outcome && outcome.reason);
   const exit = safeText(outcome && outcome.exit);
-  const { covered: coverage, failed: failedChecks } = readChecks(verification);
+  // Coverage is read off the sanitized verification, so a key the sanitizer dropped can never be
+  // counted as a check that passed.
+  const { covered: coverage, failed: failedChecks } = readChecks(safeVerification);
   const decided = safeText(decidedBy) ?? safeText(outcome && outcome.decidedBy);
   const receipt = {
     status,
     operation: { id: operationId, goal },
+    ...(action ? { action } : {}),
     capability: receiptCapability,
     authority: {
       grants: sanitizeSpend(grants),
@@ -227,7 +313,7 @@ function buildReceipt({ operation, capabilityId, authority, outcome, evidence, v
     },
     outcome: status,
     evidence: sanitizeEvidence(evidence),
-    verification: verification || null,
+    verification: safeVerification,
     coverage,
     notCovered: [...failedChecks, 'external anchor'],
     anchor: { ...PENDING_ANCHOR },

@@ -1,7 +1,7 @@
 // vespi core facade — RC3 experimental.
-// Ported kernel (operation/authority/receipt/continuity: a 3-line provenance header,
-// then the exact bytes of the Vespi kernel 0.1.3 candidate as of commit cdf0fce,
-// branch rc4, canonical source founder/proyectos/vespi/kernel/src/ —
+// Ported kernel (operation/authority/receipt/continuity/delegation: a 3-line provenance header,
+// then the exact bytes of the Vespi kernel 0.1.3 candidate as of commit 54c20c7,
+// branch codex/rc5, canonical source founder/proyectos/vespi/kernel/src/ —
 // digests in ./kernel/SOURCE.md; pinned snapshot, never edited in place)
 // plus RC3 truthfulness wrappers. No scheduler, no router, no managers.
 import { createRequire } from "node:module";
@@ -11,8 +11,29 @@ const kernel = require("./kernel/operation.js");
 require("./kernel/authority.js");
 require("./kernel/receipt.js");
 require("./kernel/continuity.js");
+const delegationKernel = require("./kernel/delegation.js");
 
 export const { createOperation, runOperation, STATES } = kernel;
+
+// K7 re-exported whole: the orchestrator's review gate lives in the kernel and this facade does
+// not re-decide it. What the host hands back from a delegated run is a message, not a result, so
+// the orchestrator fills these in from what it observed itself — nothing here infers a delegate's
+// touched files, verified anything, or failed to start.
+//
+// The receipt comes back sealed and untouched. The kernel's `delegationReceipt` seals the digest
+// over every field it builds, so stamping a persistence owner on it afterwards would break the
+// seal the same `verifyReceipt` in this kit is there to check; where a delegation receipt lives is
+// the caller's to say out loud, as the kernel says itself: the receipt is not durable by itself.
+export const {
+  createDelegation,
+  recordStart,
+  recordResult,
+  reviewDelegation,
+  recordCard,
+  delegationReceipt,
+  integrateDelegation,
+  personView,
+} = delegationKernel;
 
 function sameTerms(declared, effective) {
   if (!declared || !effective) return false;
