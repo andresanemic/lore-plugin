@@ -82,6 +82,31 @@ becomes criteria until it is distilled.
 
 Present the design and **wait for explicit approval** before step 2.
 
+**Then, at this same threshold, run the agreement — it is available here, never in the way.** The
+person asking to create something directly gets the work built *with the agreement offered*, not
+instead of it and not before the artifact:
+
+```bash
+node <ruta-del-kit>/skills/use-lore/scripts/acuerdo.mjs aviso --raiz "{{PATH}}" --desde <kit-version-anterior>
+node <ruta-del-kit>/skills/use-lore/scripts/acuerdo.mjs primera-vez --raiz "{{PATH}}" --sesiones <n>
+```
+
+Say the `aviso` message once, in plain language, only when the command returns one — it names
+Vespi, what it can do, and the invitation to set limits. **Showing it approves nothing:** on a tree
+where nobody agreed to anything, the answer to "is there an agreement here" stays *no*.
+
+Both commands run here, **before `{{PATH}}` exists** (step 2 creates it), and neither needs
+anything on disk: the message and the offer are computed and returned either way. `rastro: false`
+in the `aviso` output means there was nowhere yet to note the notice was shown, so it may show
+again — the message still arrives, and nothing creates the folder for you.
+
+When `primera-vez` returns `ofrece: true`, offer the agreement and **start with the why** — what
+this area is for, in the person's own words and yours — before the dials (`intensidad`
+`sobria`/`cercana`, `ritmo` `despacio`/`normal`/`rapido`) and their limits of use by model family
+and level. It binds only if the person accepts, and **this skill continues without it**, on the
+defaults, whether they accept, decline, or say nothing. `motivo: "trabajo-corto"` means do not
+offer; `motivo: "ya-hay-acuerdo"` means do not offer it again. `use-lore` owns the agreement itself.
+
 During this structural brainstorm, apply `brainstorming-lore`'s **recognizable continuity** contract:
 carry each approved decision into the accumulated area design and recap it at contextual milestones.
 

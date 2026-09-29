@@ -129,6 +129,32 @@ Estos skills **no son comandos de una CLI**: son *skills* del agente que se disp
   Lore, quien pide bots ya nombró el entregable: las Áreas son **pasos**, `create-bot` corre al
   final, y la cadena se dice completa con su costo — un `create-area` más un `transmute-lore` por
   cada fuente antes de que el bot pueda enrutar a algo.
+- **Ofrecer el acuerdo en el primer uso**, empezando por el porqué. El acuerdo se ofrece cuando el
+  trabajo tiene que durar más de una sesión y **obliga solo si la persona lo acepta**; el kit nunca
+  se niega a operar sin él. Existe solo si pasó tres puertas juntas: la IA lo recapitula completo,
+  la persona lo aprueba explícitamente y queda escrito antes de construir. En ese primer acuerdo la
+  persona elige la intensidad (`sobria`/`cercada`, por defecto `cercana`), el ritmo
+  (`despacio`/`normal`/`rapido`, por defecto `normal`) y sus límites de uso **por familia de modelo
+  y nivel, nunca por número de versión**. `create-area`, `create-project` y `create-bot` lo
+  ofrecen en su propio umbral, no como un paso aparte.
+- **Avisar una sola vez a quien actualiza desde una versión anterior**, en llano: llegó Vespi, qué
+  puede hacer y la invitación a fijar límites. Mostrar ese aviso **no aprueba un acuerdo** ni crea
+  ninguno.
+
+**Artefactos que escribe el acuerdo:**
+
+| Artefacto | Qué es | Dónde |
+|---|---|---|
+| `acuerdo.md` | El documento del acuerdo. **Empieza por el porqué**, luego la recapitulación completa, las perillas, los límites y las cuatro apuestas. Las enmiendas **se agregan al final**: nunca se sobrescribe. | raíz del árbol, junto a `FASES.md` y **fuera de `lore/`** |
+| `.lore-acuerdo` | El estado legible por máquina. Es reescrito, y su campo `aprobado` es lo único que hace que exista un acuerdo: un recibo con esa forma pero sin ese campo —el estado que deja el aviso— **no cuenta**. | raíz del árbol, junto a `acuerdo.md` |
+
+Las cuatro apuestas del acuerdo, y solo cuatro, son sobre el aparato: que las frases cotidianas
+alcancen para repartir el trabajo entre las tres skills; que el recordatorio por hook sostenga el
+registro turno a turno; que OpenCode permita avisar sin bloquear; y que cada host deje leer el uso
+de la sesión, donde no, usando las señales contables y declarándolo por escrito. **Si cae una, se
+sigue.** «El acuerdo nunca se impone» no es una apuesta: es una regla dura, y por eso no degrada
+nunca. La guardia sigue bloqueando el criterio de otro dueño es la sexta frase de la misma lista
+del acuerdo, pero con el signo contrario: no es una parada, es una regla que sigue vigente.
 
 **Interacciones típicas:**
 

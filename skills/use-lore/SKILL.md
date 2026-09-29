@@ -177,6 +177,170 @@ and it is withdrawn. **Nothing may be built that depends on it.**
 **Boundary:** this gate is for the **first** Lore on the machine. Once one area exists, entry is by
 the routing table below and this section is skipped.
 
+## The agreement — offered on first use, binding only if you accept it
+
+### Why — why the agreement starts here, and not with the what or the how
+
+The agreement is how you and the kit work together on something that has to last more than one
+session. It is offered on **first use**, and it **binds only if you accept it**.
+**The kit never refuses to work without it.** Someone who arrives asking to create something
+directly gets the work built *with the agreement available* — offered at the threshold that already
+exists, never in the way.
+
+**Say the why first, in your own words and mine: what are you doing this for, and what do you want
+back at the end.** Only then the what and the how. That order is not rhetoric: a list of dials
+without a reason is a settings screen, and nobody agrees to a settings screen. The why is also the
+first section of the written document, because that is the part a reader six months from now cannot
+reconstruct.
+
+Then the three doors, because an agreement exists only if it passed all three: **the person was
+given the full recap, the person approved it explicitly, and it was written down before any
+building started.** Two doors is zero doors, and nothing reaches disk until all three are through.
+A tree with no approved agreement is a tree working exactly as it should.
+
+**Say it in second person, with no jargon**, and cover these five things, because nobody can agree
+to what they were not told: what does not move without your word; where there is margin; what we
+are trying that may fall; what stays open to surprise you; and when I come back to ask. Every
+*still don't know* carries the step that would settle it.
+
+**Ask the threshold, then run it — the check is real, not a sentence to recite:**
+
+```bash
+node <ruta-del-kit>/skills/use-lore/scripts/acuerdo.mjs primera-vez --raiz "<root>" --sesiones <n>
+```
+
+`ofrece: true` means there is no approved agreement here and the work is longer than one sitting:
+offer it. `motivo: "trabajo-corto"` means it is not, and offering anyway is ceremony. `motivo:
+"ya-hay-acuerdo"` means do not offer it again. The `porQue` it returns is the slot to fill first.
+
+### What you choose in that first agreement
+
+Two dials, a closed vocabulary, and a default each so nobody is asked twice:
+
+| Dial | Values | Default |
+|---|---|---|
+| How close the skills speak — `intensidad` | `sobria` \| `cercana` | `cercana` |
+| How fast — `ritmo` | `despacio` \| `normal` \| `rapido` | `normal` |
+
+And your **limits of use**, which name a **model family** and a **level** — not version numbers,
+so a provider's bump does not leave anyone pinned to a model nobody maintains. Each limit says
+what is never used, and a limit resting on anything temporary carries the date it expires. Apply
+a limit by family and level; never write a version number into it.
+
+**The family is an identifier, and it is a closed vocabulary** — the third one, after the two
+dials. `acuerdo.mjs` exports it as `FAMILIAS`, and it is checked, not assumed:
+
+- **No version, not even glued on.** `4.5.1` and `opus-4.5.1` are both rejected, and so is
+  `gpt-4.1-turbo`. A number *with a dot* is a pin to a version; a plain integer is part of the
+  family's own name, so `gpt-5` and `o3` are families and go in.
+- **A family this kit does not recognize is a visible error, not a record.** A limit on an
+  invented family protects nothing, and three months on nobody can tell what was meant.
+- **A date is a calendar date, not four digits and two hyphens.** `vence` is checked against the
+  real calendar — month 01–12, a day that exists in that month, and 29 February only in a leap
+  year. `2026-99-99` is rejected, and so is an amendment dated `2026-02-30`.
+
+### The silent check, before each new piece of work
+
+Before taking on a new piece of work, ask yourself — **silently, without saying it** — whether the
+agreement in force already covers it. Covered: get on with it and say nothing. Not covered: that
+is the only case that goes to the person, as one line, in their language. An amendment that takes a
+piece out of the agreement sends that piece back to the question.
+
+**With no agreement in force, nothing is covered — and nothing is asked either.** The offer was
+already made once, at the threshold. Asking again about every new piece would turn the agreement
+into a toll, and *the agreement is never imposed* is a hard rule, not a bet.
+
+### What changes afterwards is an amendment
+
+Nothing in the agreement is rewritten. What changes later **enters as a dated amendment**,
+appended below what came before and authorized by the person, so a reader a month from now sees
+what was agreed first and what moved after it, in that order. Without the person's word there is
+no amendment, and the agreement stays as it was. An amendment without a date is refused, and so is
+registering a second agreement over the first one: what exists is amended, never replaced.
+
+### The four bets — and what happens when one falls
+
+The agreement declares exactly four bets, all of them about the apparatus and never about you:
+
+> 1. Que las frases cotidianas alcancen para repartir el trabajo entre las tres skills.
+> 2. Que el recordatorio por hook sostenga el registro turno a turno.
+> 3. Que OpenCode permita avisar sin bloquear.
+> 4. Que cada host deje leer el uso de la sesión; donde no, se usan las señales contables y se declara por escrito.
+
+**When a bet falls, work continues.** Without the everyday phrases, ask; without the hook
+reminder, keep the turn's record in `FASES.md`; without notifying without blocking, the notice is
+still made but rides along with the next thing you were already going to hear. And where the host
+does not expose session usage, the countable signals stand in — **and that they are standing in is
+said out loud**, because counting them as if they were the usage would tell the person something the
+kit does not know. Each fails toward asking, toward talking and toward not blocking — never toward
+going quiet.
+
+**And the one thing that is not a bet:** the work
+**stops when something that did not need your word is about to move without it** — freezing or
+publishing a version, writing criteria outside the skill that governs them, **imposing this
+agreement**, or reaching for the most expensive model by default. That list is a hard rule, never
+a bet: no bet falling touches it, and the kit never crosses it on its own.
+
+**And the one hard rule that is not a stop:** the agreement also lists that **the guard keeps
+blocking another owner's criterion**. That has the opposite sign to the five above. It does not
+say "this stops without your word" — it says this keeps happening. The guard blocking someone
+else's code is the guard working, never a reason to stop, and never something to ask about. It
+stays written in `acuerdo.md` under its own heading so nobody has to remember which half it is.
+
+### Who updates hears about it once
+
+Whoever updates from an earlier version gets one short plain message, **once**: Vespi arrived, what
+it can do, and the invitation to set their limits.
+
+```bash
+node <ruta-del-kit>/skills/use-lore/scripts/acuerdo.mjs aviso --raiz "<root>" --desde <version-anterior>
+```
+
+**Showing that message never approves an agreement.** It writes its own record, and `leer()` /
+`hayAcuerdo()` answer *no* on a tree where the notice has been shown and nobody approved anything.
+The offer is still standing, and the first use still offers it.
+
+`skills/use-lore/scripts/acuerdo.mjs` holds all of this as executable law rather than prose: which
+dials exist and what they default to, which limits are legal, whether all three doors were through,
+whether a piece is covered, how an amendment appends, and the fallback for each fallen bet. Reach
+for it when you need a decision instead of a paragraph. **The document is `acuerdo.md` at the tree
+root, beside `FASES.md` and never inside `lore/`; the machine-readable state is `.lore-acuerdo`**
+beside it — the document is appended to, the receipt is rewritten.
+
+### Who appears, and when — the everyday phrases
+
+Three skills answer the three ways a person says something ordinary. Which one answers is decided
+by **which of two states the work is in**, not by which skill sounds most apt.
+
+**Still no shape of work.** *«Quiero hacer esto y no sé cómo»* — todavía no hay forma de trabajo.
+That is this skill: what is missing is the shape itself, and the shape is what the agreement
+offers. When what has to be settled first is the design of a Lore-owned artifact, the same sentence
+narrowed, it belongs to `brainstorming-lore`.
+
+**The shape exists and está en riesgo.** *«Esto me está complicando»*, *«se está perdiendo lo que
+decidimos»*, *«sigamos mañana»*. That is `vespi`. Nothing is missing here; the way of working is
+under strain. **Under strain is not the same as absent**, and confusing the two is the mistake this
+paragraph exists to prevent: an absent shape is not a broken operation, and re-opening the
+agreement over a strained one is the second failure in the same place.
+
+**Under the agreement, all three go quiet.** A vigente agreement that already covers the piece
+silences every one of them, including when the piece is under strain. That is the silent check
+above, and it is silent on purpose — and the check is the same one `brainstorming-lore` and
+`vespi` apply, because a skill that answers a phrase the agreement already covers is the person
+being asked about the same thing twice.
+
+**Under the phrases, the five conditions — the internal test.** The phrases are what a person
+says. These five are what the agent can count, and they are what `vespi` checks before it fires on
+anything that did not arrive with a phrase: **no hay acuerdo para** that kind of work; the
+agreement that exists **ya no cubre** the case; the owner says the shape **dejó de servir**;
+**falla una condición concreta** of the agreement; or **fricción que se repite**. Never because
+some other way of doing it is imaginable, and never because a model arrived.
+
+**And each one stays silent when the phrase belongs to another.** This skill hands the design to
+`brainstorming-lore`, and both hand the strain to `vespi`. A skill that answers a phrase owned by
+another is not being helpful: it takes the work away from the skill that will carry it, and the
+person ends up holding two answers to one sentence.
+
 ## The standard: the skill runs, and it is the current one
 
 Three rules that hold for **every** new Lore configuration the user builds, forever, not only the

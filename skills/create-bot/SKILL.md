@@ -387,6 +387,28 @@ only what is needed to produce it, then let later questions unlock decisions or 
   minimal local launcher all left the kit in 2.4.9; §7, §8 and §9 say once what each was and what to
   use instead. Do not offer packaging as a plugin. **Packaging is crystallization:** one snapshot
   carries the work, and unpacking it rebuilds the folder.
+- **The agreement, offered here and binding only if accepted.** A bot is the one artifact that
+  spans several trees, so the way of working is decided at canon time and nowhere else:
+
+  ```bash
+  node <ruta-del-kit>/skills/use-lore/scripts/acuerdo.mjs aviso --raiz "{{DEST}}" --desde <kit-version-anterior>
+  node <ruta-del-kit>/skills/use-lore/scripts/acuerdo.mjs primera-vez --raiz "{{DEST}}" --sesiones <n>
+  ```
+
+    Say the `aviso` message once, in plain language, only when the command returns one — it names
+  Vespi, what it can do, and the invitation to set limits. **Showing it approves nothing.** Both
+  commands run here, **before `{{DEST}}` exists** (step 4 creates it), and neither needs anything
+  on disk: the message and the offer are computed and returned either way. `rastro: false` in the
+  `aviso` output means there was nowhere yet to note the notice was shown, so it may show again —
+  the message still arrives, and nothing creates the folder for you.
+ When
+  `primera-vez` returns `ofrece: true`, offer the agreement and **start with the why** — what this
+  bot is for, in the person's own words and yours — before the dials (`intensidad`
+  `sobria`/`cercana`, `ritmo` `despacio`/`normal`/`rapido`) and their limits of use by model family
+  and level. It binds only if the person accepts, and **this skill continues without it**: the canon
+  is written either way, on the defaults. `motivo: "ya-hay-acuerdo"` means do not offer it again.
+  `use-lore` owns the agreement itself; the bot's own operating mode (`vespi`) is a separate thing
+  and is not offered in its place.
 
 ### 4. Create the structure
 

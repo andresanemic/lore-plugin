@@ -106,6 +106,26 @@ the accumulated project design and recap it at contextual milestones.
 
 **Create no file before the design is approved.**
 
+**Then, at this same threshold, run the agreement — available here, never in the way.** The person
+asking to create a project directly gets it built *with the agreement offered*:
+
+```bash
+node <ruta-del-kit>/skills/use-lore/scripts/acuerdo.mjs aviso --raiz "{{AREA_PATH}}" --desde <kit-version-anterior>
+node <ruta-del-kit>/skills/use-lore/scripts/acuerdo.mjs primera-vez --raiz "{{AREA_PATH}}" --sesiones <n>
+```
+
+Say the `aviso` message once, in plain language, only when the command returns one — it names
+Vespi, what it can do, and the invitation to set limits. **Showing it approves nothing.** The
+commands need nothing on disk to answer: `rastro: false` in the `aviso` output means there was
+nowhere yet to note the notice was shown, so it may show again — the message still arrives.
+
+When `primera-vez` returns `ofrece: true`, offer the agreement and **start with the why** — what
+this project is for, in the person's own words and yours — before the dials (`intensidad`
+`sobria`/`cercana`, `ritmo` `despacio`/`normal`/`rapido`) and their limits of use by model family
+and level. It binds only if the person accepts, and **this skill continues without it**, on the
+defaults. An area that already carries an approved agreement answers
+`motivo: "ya-hay-acuerdo"` and is not offered again. `use-lore` owns the agreement itself.
+
 ### 4. Create the structure
 
 ```bash

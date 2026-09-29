@@ -7,6 +7,7 @@ const DESTINATIONS = new Map([
   ["scripts/installer.mjs", "explicit-host-install"],
   ["skills/create-bot/plantillas/sync.js", "created-bot-tree"],
   ["skills/transmute-lore/scripts/crystallize.mjs", "explicit-user-output"],
+  ["skills/use-lore/scripts/acuerdo.mjs", "approved-agreement-at-tree-root"],
 ]);
 const WRITE = /\b(?:writeFileSync|appendFileSync|renameSync|copyFileSync|cpSync|mkdirSync|rmSync|unlinkSync)\s*\(/;
 
