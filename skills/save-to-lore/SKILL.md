@@ -50,6 +50,7 @@ possible editor, never a prerequisite.
 
 Do not load `notas.md` for an ordinary CAPTURE or GRAFT whose source is not a loose-note folder.
 The separation is deliberate: users who never keep notes should not pay for the mining procedure.
+That separation exempts the mining procedure, not the brief source note Step 1 requires before any write under `lore/`.
 
 ## Before anything: the mode is decided here, not before you arrived
 
@@ -313,7 +314,9 @@ promotion to the area. Never write the area silently.
    - Generic domain → project `lore/<domain>.md`.
    - Project-specific → project `lore/proyecto.md` (create if absent). **Not** promotable.
    - A law/standard → the project layer of `principios.md` / `identidad.md` (see routing table).
-3. Write the full entry in that file, and one line in the project's `lore/index.md` with the index
+3. Show the preview — destination, wording, and why it is worth saving now — and get the person's approval. This single approval covers the source note, the entry, and the batch's writes and commits below; never a second approval per step, never push.
+4. Write a brief source note outside `lore/` (e.g. `notas/YYYY-MM-DD_<slug>.md`) with what happened; it lands before writing anything under `lore/`. No second approval: the preview approval above already covers it. The clue's `evidencia:` line will point at that note, relative to the file holding the clue (e.g. `../notas/YYYY-MM-DD_<slug>.md` from `lore/`). This is not the `notas.md` mining procedure above: that procedure stays unloaded for an ordinary CAPTURE, but the brief source note is still required.
+5. Write the full entry in that file, and one line in the project's `lore/index.md` with the index
    format: `` `domain` · symptom · confidence · [file](file) ``.
    **A paragraph is a paragraph** (kit invariant in `use-lore`): the clue's prose runs to the
    period, not to column 80. Do not hard-wrap mid-sentence.
@@ -328,6 +331,11 @@ promotion to the area. Never write the area silently.
       claim has** leaves a settled finding sitting in `conjecture`, and lets one lucky run pass for
       `confirmed`.
     - **REQUIRED slots when the entry declares a destination:** `destino:` (module + step) and **landing verification** — `grep` the declared term in the declared file and report `arrived / written, never exercised (conjecture)`. **A landing condition is not an ascent condition:** a clause that depends on the criterion being applied is landing, not ascent.
+6. Verify the new clue's own section with `node skills/save-to-lore/scripts/save-to-lore.mjs --pista <pista.md> --seccion "<the new clue's exact heading>"` (`--lineas <A-B>` selects the new lines instead): `--seccion` matches the heading text exactly (only case and outer spaces ignored); a duplicate exact heading fails as ambiguous and asks for `--lineas`. The `evidencia:` line must start at column 0-3 with spaces, no `>`, no leading tab — 4+ spaces is indented code and never counts — and must sit outside fenced examples (```/~~~, including fences nested in blockquotes); `--lineas` is read against the whole file, so a range starting inside a fenced example fails as selection, not as the new clue. The command exits nonzero when the new clue's evidence is missing, and a clue with no resolving evidence does not enter. The bare `--pista <pista.md>` without selection checks the whole file and serves only as diagnostics, never as the gate for the new clue. The checker is a limited fence-aware scan, not a general Markdown parser.
+
+#### Source note first — ordinary CAPTURE too (detail of steps 3–4 above)
+
+Steps 3–4 are the executable order: after the person approves the destination and wording (step 3, the single approval), the brief source note lands before anything is written under `lore/` (step 4). No second approval: the preview approval already covers it. The clue's `evidencia:` line points at that note, relative to the file holding the clue (e.g. `../notas/YYYY-MM-DD_<slug>.md` from `lore/`), and must verify with the CLI in step 6.
 
 #### The junction is written on both sides — 2.3.0
 
@@ -352,6 +360,10 @@ that does not exist.
 #### Landing check (when destino is declared) — 2.3.0
 
 If the entry declares a destination, run `grep -r "term" <file>` on the declared file **before closing the threshold**. If the term is absent, keep the clue as `conjecture` with note `escrito, nunca ejercido` and report it. Promotion of that clue is blocked until the destination is written. A check that is fulfilled by reading (`IF reading THEN considered done`) is not a point of application — it has no verificable artifact within the threshold.
+
+#### Evidence pointer — every new clue names what earned it
+
+Every new Invariant Clue carries one line `evidencia: <ruta relativa>` naming the report, case or note that earned it, relative to the file holding the clue (a sibling such as `../notas/caso.md` from `lore/` resolves). The line must start at column 0-3 with spaces, no `>`, no leading tab — 4+ spaces is indented code and never counts — and must sit outside fenced examples (```/~~~, including fences nested in blockquotes). Before closing, verify the new clue's own section with `node skills/save-to-lore/scripts/save-to-lore.mjs --pista <pista.md> --seccion "<the new clue's exact heading>"` (`verificaEvidencia` on the selected section; `--seccion` matches the heading text exactly, only case and outer spaces ignored; `--lineas <A-B>` selects by line interval instead — read against the whole file, so a range starting inside a fenced example fails as selection — and a duplicate exact heading fails as ambiguous asking for `--lineas`): the line must exist inside the new clue and its pointer must resolve to a file that exists — the command exits nonzero when the new clue's evidence is missing. A clue with no resolving evidence does not enter. Without `--seccion`/`--lineas` the command checks the whole file; that whole-file pass is diagnostics only, never the gate for the new clue. The checker is a limited fence-aware scan, not a general Markdown parser. Migration: an `evidencia:` indented 4+ spaces or with a leading tab used to count and no longer does — move it to column 0; a `--lineas` range starting inside a fenced example used to pass with the example's pointer and now fails as selection.
 
 #### Writing a law into a body that already has laws
 
@@ -399,6 +411,10 @@ If no captured line is `confirmed`, report "nothing to promote" in one line and 
 4. Show the user a summary (what was captured, what would be promoted, what was deduped, what is
    pending). If the preview threshold already approved the batch, write and make its corresponding
    commits without a second authorization per clue or commit. Never `git push`.
+
+#### Level question — the kit or the person's garden root
+
+A generic learning that would travel beyond the area asks one explicit question before it moves (`preguntaNivel` in `skills/save-to-lore/scripts/save-to-lore.mjs`): does it say how Lore and agents work **for anyone**, or how **this person** works? For anyone → the kit, as a PR or proposal, never auto-committed to the kit repository. For this person → the root of their garden, outside the kit. No answer, no move.
 
 ### Step 3 — Inbox debt (one line, only if an inbox exists)
 
@@ -471,6 +487,7 @@ does not happen. Two rules govern it:
   corpus struck through and dated if it is not edited.
 - **A declared junction is written on both sides.** The clue carries `destino:`; the step carries one line naming the clue. A pointer written in only one direction cannot be verified from the other tree, and the two often live in different repositories.
 - **Honest confidence:** `confirmed` only after real validation; never inflated to force promotion.
+- **Notes are never deleted to make room for criteria.** A note leaves the inbox only by `destilado:` plus archive (`notas.md`); `autorizaBorrado` in `skills/save-to-lore/scripts/save-to-lore.mjs` blocks any delete — first when the note is still unarbitrated.
 - **Discarded noise is reported**, not silently dropped.
 - **A paragraph is a paragraph.** Continuous prose in the clue, the index line's surrounding file
   and any law written here runs to the period, not to column 80. Full statement in `use-lore`.
