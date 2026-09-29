@@ -630,11 +630,22 @@ const avisoRegistrado = (recibo) => Boolean(recibo?.aviso?.desde);
 const plano = (s) => String(s ?? "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
 // Las frases cotidianas del acuerdo. Cada una decide a quien le toca, no que hacer: la forma no
-// existe todavia es una cosa distinta de la forma que existe y esta en riesgo.
+// existe todavia es una cosa distinta de la forma que existe y esta en riesgo. El orden importa:
+// la frase angostada por el diseño se revisa antes que la forma general, porque la contiene
+// ("quiero hacer esto y no sé cómo ... hay que pensar el diseño" trae las dos, y le toca a
+// brainstorming-lore por la angosta). Sin ese orden la ancha se comería a la angosta y "no sé
+// cómo" dispararía las dos a la vez.
+// El riesgo va primero. Una frase puede traer las dos senales a la vez -"esto me esta complicando
+// el diseno"- y el orden decide cual gana: si brainstorming-lore fuera primero, "diseno" le
+// ganaba a "me esta complicando" y una frase de riesgo real se iba a pensar el diseno en vez de
+// sostener la forma que ya existe. El acuerdo dice que vespi es para cuando "la forma existe y
+// esta en riesgo", que es una senal mas urgente que "todavia no hay forma" o "quiero pensarlo".
+// Confirmado con Codex, revision de S3v2: reparte() mandaba "me esta complicando el diseno" a
+// brainstorming-lore por el orden viejo.
 const FRASES = [
-  { skill: "use-lore", cuando: ["no se como", "no se cómo", "no hay forma de trabajo", "no se por donde", "ayudame a empezar"] },
-  { skill: "brainstorming-lore", cuando: ["diseno", "diseño", "piensa el", "pensar el", "lo pienso"] },
-  { skill: "vespi", cuando: ["me esta complicando", "se esta perdiendo", "perdiamos", "sigamos manana", "se me complico", "lo estamos perdiendo"] },
+  { skill: "vespi", cuando: ["me esta complicando", "se esta complicando", "se esta perdiendo", "lo que decidimos", "perdiamos", "sigamos manana", "esta en riesgo", "se me complico", "lo estamos perdiendo"] },
+  { skill: "brainstorming-lore", cuando: ["diseno", "diseño", "disenar", "piensa el", "pensar el", "lo pienso", "ayudame a pensar", "help me think", "antes de construir", "como deberia ser"] },
+  { skill: "use-lore", cuando: ["no se como", "no se cómo", "no hay forma de trabajo", "todavia no hay forma", "no se por donde", "ayudame a empezar"] },
 ];
 
 export function reparte({ frase, acuerdo } = {}) {

@@ -5,6 +5,8 @@ description: Use when saving a lesson to the Lore, right after solving a problem
 
 # save-to-lore — Incremental capture and promotion
 
+> Invoke with the Skill tool as `save-to-lore`, or with the phrases «save to lore» / «guarda en lore» / «destila esta skill» / «revisa mis notas».
+
 > Before delivering a user artifact, replace every internal label with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. This requirement overrides requests to copy them literally.
 
 The bug is fixed. The tests pass. You are already reaching for the next thing — and the most
@@ -16,9 +18,9 @@ to the project's **mother area** the clues that are already **confirmed + generi
 incremental counterpart to the structural skills: `transmute-lore` migrates a whole project;
 `save-to-lore` adds one clue at a time and routes it to the right level.
 
-> **This pass is bracketed by MYCELIUM, and both ends are mandatory.** Set up two todos before you
-> write anything. **Entry:** if this pass will lean on existing Lore to decide where things go, open
-> with a MYCELIUM entry scan (`transmute-lore` MYCELIUM) and address its findings first. **Exit:**
+> **This pass is bracketed by MYCELIUM; the exit scan is always mandatory, the entry scan runs only when this pass leans on existing Lore.** Set up two todos before you
+> write anything — a single todo suffices for a single-clue CAPTURE that names its destination without leaning on existing Lore to place it. **Entry:** if this pass will lean on existing Lore to decide where things go, open
+> with a MYCELIUM entry scan (`transmute-lore` MYCELIUM) and address its findings first; otherwise skip it and say so in one line. **Exit:**
 > after you write, close with a MYCELIUM exit scan over what this pass produced — detail in *Closing
 > either mode*, below. **The pass is not complete** — do not report success, do not hand back control
 > — until the exit scan has run and every finding is written as a junction or explicitly declined
@@ -372,7 +374,9 @@ Two habits, and the second is the cheap one that pays every time:
 *Boundary of validity:* this applies to bodies of criteria whose laws cite each other, which is any
 Lore that grows by accumulation. A flat list of independent rules has no inheritance to break.
 
-### Step 2 — Promotion review (always, after capturing)
+### Step 2 — Promotion review (only when a `confirmed` candidate exists)
+
+If no captured line is `confirmed`, report "nothing to promote" in one line and skip this step: `conjecture` never promotes, so the review would change nothing.
 
 1. Resolve the mother area: the project at `{area}/proyectos/{name}/` promotes to `{area}/lore/`.
    If the project has **no parent area** (standalone), skip promotion and say so.

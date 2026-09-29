@@ -5,6 +5,8 @@ description: Use when starting a brand-new PROJECT inside an existing WORK AREA 
 
 # create-project — Start a new project inside an area
 
+> Invoke with the Skill tool as `create-project`, or with the phrases «create project X in area Y» / «start project X inside an area».
+
 > Before delivering a user artifact, replace every internal label with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. This requirement overrides requests to copy them literally.
 
 New project, same domain. The standard has not changed, the anti-scope has not changed, the four
@@ -78,7 +80,7 @@ does not exist, **stop** and propose `create-area` first.
    `principios.md` (+ `index.md` and any
    thematic modules that carry reusable criteria).
 2. Read the area `FASES.md` (project registry) and prior projects' Lore/docs if they offer reusable
-   criteria.
+   criteria — skip the prior-projects sweep when a starter scaffold is present (the starter wins) or when the new project shares no stack or phase with them.
 3. Check whether the area carries a **starter scaffold**: `{{AREA_PATH}}/_starter/`. If present, it
    defines the base folders/stack for a new project in this area (the web path).
 4. **Read the source documents** (`{{SOURCE_DOCS}}`). If a PDF, extract text (`pdftotext -layout`)

@@ -5,6 +5,8 @@ description: Use when starting a brand-new WORK AREA that groups several project
 
 # create-area — Start a new work area
 
+> Invoke with the Skill tool as `create-area`, or with the phrases «create a work area for X» / «quiero trabajar un dominio con Lore».
+
 > Before delivering a user artifact, replace every internal label with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. This requirement overrides requests to copy them literally.
 
 You are writing the same rule into a third repository. Not copying it — rewriting it, slightly
@@ -108,7 +110,7 @@ defaults, whether they accept, decline, or say nothing. `motivo: "trabajo-corto"
 offer; `motivo: "ya-hay-acuerdo"` means do not offer it again. `use-lore` owns the agreement itself.
 
 During this structural brainstorm, apply `brainstorming-lore`'s **recognizable continuity** contract:
-carry each approved decision into the accumulated area design and recap it at contextual milestones.
+carry each approved decision into the accumulated area design and recap it at contextual milestones — only when the artifact changed since the last milestone; a milestone with no change gets one line, not a re-recap.
 
 ### 2. Create the structure
 

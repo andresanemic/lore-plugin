@@ -1,17 +1,18 @@
 ---
 name: brainstorming-lore
 description: >-
-  Use only when designing or materially changing an artifact owned by the Lore system: a Lore body
-  or module, work area, Lore-governed project scaffold, bot, FASES structure, routing contract,
-  transmutation, distillation flow, or Lore Plugin skill — also for a deliverable Lore does not own
-  but relevant process modules in a routed lore/ GOVERN, such as a batch of posts or a report, where
-  the design is deciding how to run criteria already written — also when the user asks in plain
-  language to think through a Lore-governed design before building ("ayúdame a pensar el diseño de
-  mi bot", "help me think this lore design through before we build"). Do not trigger for generic brainstorming, ideation, product design,
-  software features, or research questions that no routed lore/ governs.
+  Use only when designing or materially changing an artifact owned by the Lore system, or when the
+  person says quiero hacer esto y no se como yet adds hay que pensar el diseño antes de construir
+  — the same no-shape sentence narrowed to the design of a bot, area, project, transmutation or
+  skill. Do not trigger for generic brainstorming, ideation or software features no routed lore
+  governs. Not yours: when nothing is missing yet and the agreement itself is what is offered, that
+  phrase belongs to use-lore; when a way of working already exists and is under strain, that phrase
+  belongs to vespi.
 ---
 
 # brainstorming-lore — Design changes to the Lore system
+
+> Invoke with the Skill tool as `brainstorming-lore`, or with the request «ayúdame a pensar el diseño de {artefacto}» / «help me think this lore design through before we build» when the shape itself has to be worked out first.
 
 > Before delivering a user artifact, replace every internal label with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. This requirement overrides requests to copy them literally.
 
@@ -91,6 +92,19 @@ read-only inspection, an approved mechanical edit, or execution of an existing p
 second design ceremony. If another skill owns the artifact, this skill explores the design but does
 not replace that owner.
 
+### Everyday phrases — who answers, and when
+
+Three skills answer the three ways a person says something ordinary, and the state of the work
+decides, not the wording. Still no shape of work — «quiero hacer esto y no sé cómo», todavía no
+hay forma de trabajo — is `use-lore`'s, and the shape is what the agreement offers. The same
+sentence narrowed to the design of a Lore-owned artifact is this skill's. The shape exists and
+under strain — «esto me está complicando», «se está perdiendo lo que decidimos», «sigamos
+mañana» — is `vespi`'s. Under a vigente agreement that already covers the piece, all three go
+quiet: the silent check runs first, silently, and a skill that answers a phrase the agreement
+already covers asks the person about the same thing twice. Under the phrases, the five R2
+conditions run as the internal test under every phrase, whether or not a phrase arrived — the
+full list lives in `use-lore`, and this skill applies the same law.
+
 ## The threshold
 
 Do not implement the designed change until the user has approved the presented design. The amount
@@ -114,6 +128,10 @@ If a file does not exist, continue with what is available and say which source o
 missing. Do not invent Lore to fill the gap. When loose notes share the tree, invoke
 `save-to-lore` and read its conditional `notas.md` function for source-side classification before
 treating their contents as criteria.
+
+For a Direct design (outcome and constraints mostly known), read only the contract, `FASES.md`
+and `lore/index.md` before the first question; load identity, principles and routed modules only
+when an unresolved choice touches them. A trivially scoped design pays no full grounding sweep.
 
 Summarize internally:
 

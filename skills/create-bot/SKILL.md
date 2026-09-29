@@ -5,6 +5,8 @@ description: Use when building a BOT — one place to open a session and work ac
 
 # create-bot — Build a bot: one place to work
 
+> Invoke with the Skill tool as `create-bot`, or with the phrases «create a bot for X» / «federate these areas» / «audit my bot».
+
 > Before delivering a user artifact, replace every internal label with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. This requirement overrides requests to copy them literally.
 
 One question, and answering it means opening four repositories — because the criteria that decides it
@@ -338,7 +340,7 @@ answer 3 into the inventory of step 2. Never ask the user to classify their own 
 2. The area `FASES.md`, and any sibling bot already registered there.
 3. **The source documents.** For a PDF, extract text (`pdftotext -layout`). The canon is distilled
    from these — never from the model's own knowledge of the topic.
-4. **`federar` only — inventory the sources first** (see the table above). Classify every intended
+4. **`federar` only — inventory the sources first** (see the table above). In `nuevo` mode there is nothing to inventory: the human's declaration is the primary source, so skip steps 4–5. Classify every intended
    source by whether it already has Lore, and surface the ones that need `create-area` /
    `transmute-lore` before the bot can federate them. Do this **before** the brainstorm: it changes
    what the bot can route to on day one.

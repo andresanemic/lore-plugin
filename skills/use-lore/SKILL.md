@@ -1,9 +1,19 @@
 ---
 name: use-lore
-description: Use when the user mentions "lore", asks how this kit or its skills work, installs or updates the plugin, is unsure which Lore skill to invoke, wants to migrate an old project to the Lore standard, or keeps loose notes in the same folder tree as their Lore. Starting a new work area, project or bot is create-area, create-project or create-bot, not this skill.
+description: >-
+  Use when the person says quiero hacer esto y no se como or todavia no hay forma de trabajo —
+  no hay forma de trabajo yet, so what is missing is the shape itself and the agreement is what
+  is offered. Also when the user mentions lore, installs or updates the plugin, is unsure which
+  Lore skill to invoke, or keeps loose notes in the same folder tree as their Lore. Not yours:
+  if the same sentence narrows to thinking the design of a Lore-owned artifact, that phrase
+  belongs to brainstorming-lore; if a way of working already exists and is under strain, that
+  phrase belongs to vespi. Starting a new work area, project or bot is create-area,
+  create-project or create-bot, not this skill.
 ---
 
 # Using Lore
+
+> Invoke with the Skill tool as `use-lore`, or with the person's sentence «quiero hacer esto y no sé cómo» / «todavía no hay forma de trabajo» when no shape of working exists yet.
 
 Yesterday you and an agent solved something hard. You argued about the edges, you threw away two
 approaches, and the thing finally worked. Today, new session, you are explaining it again from the
@@ -26,15 +36,16 @@ invoking any other Lore skill.
 > not an exemption: continuing is deciding.* Criterion that waits to be remembered is criterion
 > that does not run.
 >
-> **Every session opening checks that those bodies can load.** In a tree with `lore/`, run the
-> bundled `lore-plugin mycelium bodies --tree <root>` check against the governed root just resolved above before relying on its criterion. When a territory change resolves another root, repeat the check. If the
+> **Every session opening checks that those bodies can load — only when the work will rely on them.** In a tree with `lore/`, run the
+> bundled `lore-plugin mycelium bodies --tree <root>` check against the governed root just resolved above before relying on its criterion. Skip it for a trivial single-step task that relies on no body's criterion (a one-file mechanical edit outside `lore/`); run it before the first reliance instead. When a territory change resolves another root, repeat the check. If the
 > bundled command is unavailable, inspect the same two links directly: contract → core pieces
 > (`identidad`, `principios`, `index`) and index → thematic modules. A clean check says nothing and
 > work continues. A missing link stops reliance on that body and names only the concrete decision:
 > connect it, or declare it explicitly outside the universe. Never edit either side automatically.
 >
 > **This is also where the process announcement is claimed, when there is one to make — 2.4.8.** Its
-> contract and its pool are in *Move 3*, under **The process announcement**.
+> contract and its pool are in *Move 3*, under **The process announcement**. A trivial single-step
+> task (one file, no design, no threshold) never earns one: there is no coming judgment to orient.
 > This is the cheap body-load check, not a full MYCELIUM pass and not a fourth trigger for that mode.
 >
 > **Ordinary communication has only three shapes:** the result when work finished; the decision or
@@ -167,7 +178,7 @@ check that already runs: `lore-plugin mycelium announce --tree <root>` — exit 
 budget and it was spent, exit 1 means there is none, and a tree with no recorded sweep has no pool at
 all. **At most one per session, and that half is this instruction and nothing else:** the command
 meters per tree and has no session identifier, so nothing verifies it. **Omitted entirely when the
-person arrives with an urgent instruction** — framing work nobody asked to have framed is ceremony,
+person arrives with an urgent instruction, and when the operation is a trivial single step** — framing work nobody asked to have framed is ceremony,
 not orientation.
 
 **It stays universal while it adds orientation, and one question judges it: does it add orientation, or does it add ceremony?** Its
@@ -329,9 +340,9 @@ above, and it is silent on purpose — and the check is the same one `brainstorm
 `vespi` apply, because a skill that answers a phrase the agreement already covers is the person
 being asked about the same thing twice.
 
-**Under the phrases, the five conditions — the internal test.** The phrases are what a person
-says. These five are what the agent can count, and they are what `vespi` checks before it fires on
-anything that did not arrive with a phrase: **no hay acuerdo para** that kind of work; the
+**Under the phrases, the five conditions — the R2 internal test.** The phrases are what a person
+says. These five are what the agent can count, and they run under every phrase, whether or not a
+phrase arrived: **no hay acuerdo para** that kind of work; the
 agreement that exists **ya no cubre** the case; the owner says the shape **dejó de servir**;
 **falla una condición concreta** of the agreement; or **fricción que se repite**. Never because
 some other way of doing it is imaginable, and never because a model arrived.

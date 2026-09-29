@@ -5,6 +5,8 @@ description: Use when a project's existing body of criteria must be operated as 
 
 # Transmute Lore
 
+> Invoke with the Skill tool as `transmute-lore`, or with the phrases «transmute the lore of {proyecto}» / «poda en lore» / «corre el micelio» / «¿está conectado el lore?».
+
 > Before delivering a user artifact, replace every internal label with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. This requirement overrides requests to copy them literally.
 
 The criteria is already there. It is in a README nobody finishes, in a `CLAUDE.md` that grew by
@@ -159,9 +161,8 @@ kind of apparatus `PRUNE` exists to catch — so this skill does not preload the
   junction that is missing) and a rate, never a score; a disconnected clue is proposed a junction,
   never pruned; and the next operation does not start until every finding is written or explicitly
   declined. Its premise (`H14`) is an open hypothesis with `Crowding` as declared rival.
-- **Every writing mode is bracketed by MYCELIUM, and the exit scan is the line between written and
-  done.** ADD, CLEAN, TRANSLATE, UPGRADE, PRUNE and LEAVE run an entry scan when they lean on
-  existing Lore and an exit scan over what they changed; the mode is not complete, and no work leans
+- **Every writing mode is bracketed by MYCELIUM — one bracket, stated once above.** The entry scan runs when the mode leans on
+  existing Lore and the exit scan runs over what it changed; the mode is not complete, and no work leans
   on the result, until that exit scan ran and every finding is a two-sided junction or a written
   decline. A finding deferred "to a later pass" leaves the mode not done.
 - **Threshold**: present the mapping with content in view and wait for approval before writing.
