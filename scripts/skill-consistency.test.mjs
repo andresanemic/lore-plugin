@@ -305,6 +305,27 @@ test("los creadores generan un solo contrato según el host principal", () => {
   assert.match(sync, /AGENTS\.md/);
 });
 
+// RC6, revision adversarial simulada: `.claude-plugin/marketplace.json` —la descripcion que se lee
+// al navegar y al instalar— enumeraba siete skills y omitia `vespi`, que si se instala y si la nombra
+// `.claude-plugin/plugin.json`. La suite solo contrastaba el frontmatter de las skills contra si
+// mismo, nunca contra los manifiestos, asi que la deriva no podia verse.
+test("los dos manifiestos nombran todas las skills que se instalan", () => {
+  const instaladas = readdirSync(join(root, "skills"), { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort();
+  assert.ok(instaladas.length > 0, "hay skills que instalar");
+
+  const plugin = JSON.parse(readFileSync(join(root, ".claude-plugin", "plugin.json"), "utf8"));
+  const marketplace = JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8"));
+  const descripcion = marketplace.plugins[0].description;
+
+  for (const skill of instaladas) {
+    assert.match(plugin.description, new RegExp(`\\b${skill}\\b`), `plugin.json no nombra ${skill}`);
+    assert.match(descripcion, new RegExp(`\\b${skill}\\b`), `marketplace.json no nombra ${skill}`);
+  }
+});
+
 test("las cuatro fuentes de versión publicable coinciden", () => {
   const versions = [
     JSON.parse(readFileSync(join(root, "package.json"), "utf8")).version,

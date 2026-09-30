@@ -19,7 +19,7 @@ const kit = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const kernelDir = join(kit, "skills", "vespi", "core", "kernel");
 
 // El corte que RC5 adopta. No se lee de SOURCE.md: SOURCE.md es parte de lo que se verifica.
-const PINNED_COMMIT = "54c20c770c69aa5e4b037655a8e763c68177e714";
+const PINNED_COMMIT = "892bd9104ab0a83376b8dbc33d56737c5888a1d3";
 const PINNED_MODULES = ["authority.js", "continuity.js", "delegation.js", "operation.js", "receipt.js"];
 const short = PINNED_COMMIT.slice(0, 7);
 

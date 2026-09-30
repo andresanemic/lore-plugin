@@ -1,0 +1,13 @@
+{
+  "primera_linea_a_la_persona": "Fermina: lo que falló las dos veces no fue la caída del sistema, fue que no hay una regla escrita de qué hacer mientras está caído. Ahí es donde se pierde el evento.\n\nEl arreglo es chico: un registro paralelo que se abre apenas se cae el sistema, y alguien que lo reconcilia al día siguiente. Como los turnos rotan, tiene que quedar escrito, no depender de quien estaba.\n\nUna sola cosa para poder armarlo: ¿quién está autorizada a declarar la caída, y ese registro vive en una planilla compartida o en papel?",
+  "skills_invocadas": [],
+  "lecturas_de_archivo": 1,
+  "preguntas_de_aclaracion_antes_de_producir": 1,
+  "turnos_extra_hasta_el_primer_resultado_util": 0,
+  "que_produjiste": "Diagnóstico de por qué se repitió (no es la caída, es la improvisación sin regla) más la única pregunta que bloquea el plan de contingencia; ningún archivo.",
+  "donde_quedo_eso": "en la conversacion",
+  "archivos_que_escribiste": [
+    "C:\\Claude\\plugins\\proyectos\\lore-plugin\\bench\\usuarios-ficticios\\resultados\\brutos\\u4-t08.json"
+  ],
+  "notas": "Pide 'que no se repita' como si el problema fuera técnico, y el archivo que tiene en su carpeta no lo confirma: es la política de proveedores del reclamo REQ-2026-0417, con comité de riesgo y auditoría Q3 el 2026-10-15, nada de incidentes ni de registro. Su carpeta no tiene ningún procedimiento de contingencia, o sea que hoy el plan vive en la cabeza del que estaba en turno. El único cruce real con su problema es la rotación de turnos (aparece en la política como causal de sustituciones), y de ahí sale el único consejo técnico que le doy: si el registro depende de una persona, la rotación lo borra igual que la caída. Lo que frena el avance no es falta de información sino tres decisiones que son suyas y no mías: quién declara la caída, dónde vive el registro y quién reconcilia al día siguiente. No le propuse herramienta, canal ni plantilla porque elegir el soporte (planilla, papel, WhatsApp) es parte de esas decisiones, y proponerlo sería adelanto de decisiones suyas. Fricción real: habla de un incidente técnico y el pedido de fondo es de trazabilidad y responsabilidad, no de sistemas."
+}

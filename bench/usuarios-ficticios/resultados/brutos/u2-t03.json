@@ -1,0 +1,26 @@
+{
+  "primera_linea_a_la_persona": "No te estás olvidando: lo que se perdió fue el estado de la migración, que nunca llegó a escribirse. Y mientras tanto hay algo que se vence solo: el contrato con Luján se renueva automático el 1 de diciembre y el aviso de 60 días tenía que estar firmado el 2 de octubre — hoy es 29.",
+  "skills_invocadas": [
+    {
+      "nombre": "vespi",
+      "cuando": "antes de leer un solo archivo y antes de responderle cualquier cosa",
+      "por_que": "Su frase es exactamente la que esta skill declara suyas: «se está perdiendo lo que decidimos» y «retomemos desde donde quedamos». La forma de trabajo ya existe —una migración en curso— y lo que falta no es la forma sino el estado. Confundir «forma ausente» con «operación en riesgo» es el error que la skill existe para evitar, así que noevi ni use-lore."
+    },
+    {
+      "nombre": "use-lore",
+      "cuando": "después de cargar vespi, para correr el test interno de R2 que esa skill remite explícitamente",
+      "por_que": "Vespi dice que las cinco condiciones viven acá y corren bajo toda frase, haya llegado o no. Corridas: no hay acuerdo en el árbol, y eso ya es un hit — o sea que las tres frases no se apagan en silencio y la que responde es la de la operación en riesgo. También fijó dos cosas que respeté: la ruta se invoca en silencio y nunca se nombra (ella nunca vio esta skill), y con instrucción urgente el anuncio de proceso se omite."
+    }
+  ],
+  "lecturas_de_archivo": 6,
+  "preguntas_de_aclaracion_antes_de_producir": 0,
+  "turnos_extra_hasta_el_primer_resultado_util": 0,
+  "que_produjiste": "Reconstrucción del estado de la migración desde la evidencia en disco, con dos hallazgos que no dependían de su memoria: el aviso de no renovación de Luján vence en 3 días, y el código de precios aplica el 12% a compras por piezas que el contrato no autoriza.",
+  "donde_quedo_eso": "efectos/u2-noren/checkpoint-migracion-portal-clientes.md",
+  "ceremonia_del_kit_que_tuviste_que_poner": "Casi nada, y fue deliberado. No le mostré nombres de skills ni modos, no le hice lista de opciones, no le ofrecí el acuerdo (había llegado con instrucción urgente, y el acuerdo nunca se impone) y no le anuncié el proceso. Lo único que le saqué del kit fue la explicación en palabras suyas: por qué la migración se cortó sin dejar rastro, y por qué el archivo que escribí hoy no es un sistema. Todo lo demás —umbral, sobre, validez— se quedó abajo de la conversación.",
+  "archivos_que_escribiste": [
+    "efectos/u2-noren/checkpoint-migracion-portal-clientes.md",
+    "resultados/brutos/u2-t03.json"
+  ],
+  "notas": "Fricción real, en orden de peso. Uno: la pérdida no fue de su memoria, fue de que la operación no dejó estado — y eso duele, porque la migración movía justamente el archivo donde se iba a anotar. «Retomemos desde donde quedamos» no tenía respuesta posible, y la respuesta honesta —no hay registro, no te lo voy a inventar— le va a frustrar un rato igual, y después no. Dos: CONTRATOS.md, el archivo con las condiciones que gobiernan el precio de verdad, no lo había abierto nadie desde marzo, y ahí adentro estaba un plazo de 3 días. Ella venía a retomar una migración y se iba con un vencimiento. Eso no es lo que pidió, es lo que estaba a punto de pasar. Tres: su FASES.md dice que el kit instalado es 2.4.8 y ella lo cree vigente. Lo está. Pero la forma de retomar sola llegó en 2.4.9-rc.5, así que lo que escribí es un conventillo que su kit no va a leer. Se lo dije en vez de venderle que quedó durable de verdad, y no la empujé a actualizar porque eso le cambia el comportamiento de cuatro áreas en producción: eso lo decide ella. Cuatro: AGENTS.md dice tener 212 líneas y tiene 25. O se truncó o el encabezado miente; en los dos casos falta criterio, y FASES.md —que promete que ahí está la mayor parte— es optimista. Nadie lo había notado. Cinco, la más chica: el comentario de pricing.js dice que su criterio no coincide con el de AGENTS.md; revisé las tres reglas y coinciden. Si mañana alguien «arregla» código por ese comentario, rompe algo que anda bien. El diagnóstico viejo es peor que el bug. Y seis, el que me quedó dando vueltas: la migración no tiene dueño declarado en ningún archivo. Aparecía dvalle en los metadatos, el tuyo implícito en la frase, y un AVISO en mayúsculas que nadie firmó. Un trabajo sin dueño declarado es la mitad de por qué se perdió."
+}

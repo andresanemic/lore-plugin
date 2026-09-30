@@ -1,0 +1,27 @@
+{
+  "primera_linea_a_la_persona": "Pará un segundo: la carpeta y el CLAUDE.md son el último paso, y solos no se pueden hacer — un proyecto vive dentro de un área, y el criterio que querés que quede en el repositorio vive un nivel más arriba, en esa área madre, que todavía no diseñamos.",
+  "skills_invocadas": [
+    {
+      "nombre": "create-project",
+      "cuando": "Al abrir el turno, antes de mirar ni escribir nada.",
+      "por_que": "Es la skill que su pedido nombra. Su precondición dice textualmente que el área debe existir con lore/identidad.md + lore/principios.md y que, si no existe, hay que parar y proponer crear el área primero. Leí el directorio de trabajo: estaba vacío. No hay área, no hay proyecto, no hay lore. La skill misma me frenó."
+    },
+    {
+      "nombre": "use-lore",
+      "cuando": "Inmediatamente después, para entender por qué la precondición existe y no se la puedo esquivar.",
+      "por_que": "El mapa del kit. En una máquina que no tiene ningún Lore, su §0 corre antes de que uno ofrezca ninguna skill por nombre. Y el modelo área↔proyecto es lo que muestra el fondo de la fricción: el criterio se escribe una vez en el área y el proyecto lo hereda por ruta relativa; lo que ella pidió —criterio en el repo— es correcto, pero el repo donde vive es el de la madre, no el del proyecto."
+    },
+    {
+      "nombre": "brainstorming-lore",
+      "cuando": "Al ver que lo que faltaba no era el proyecto sino la forma del área.",
+      "por_que": "Porque su umbral dice: nada se escribe antes de que el diseño esté aprobado. El diseño del proyecto lo aprobó ella en el turno anterior; el diseño del área nunca existió, ni como borrador. Sin ese diseño, escribir identidad/principios del área sería inventar datos, y su otra invariante lo prohíbe explícitamente."
+    }
+  ],
+  "lecturas_de_archivo": 1,
+  "preguntas_de_aclaracion_antes_de_producir": 1,
+  "turnos_extra_hasta_el_primer_resultado_util": 0,
+  "que_produjose": "Nada en disco, a propósito: en vez de la carpeta y el CLAUDE.md, la corrección de que el criterio vive un nivel arriba más la única pregunta que desbloquea el resto — qué otro trabajo de ese tipo va a convivir ahí, porque de eso nace el alcance y el anti-alcance del área.",
+  "donde_quedo_eso": "en la conversacion",
+  "ceremonia_del_kit_que_tuviste_que_poner": "El umbral, dos veces y en dos niveles: (1) la precondición de create-project — sin área no hay proyecto, y no es un tecnicismo, es lo que hace que el criterio quede en un solo lugar; (2) el umbral de diseño-aprobado-antes-de-escribir, que es por qué no escribo el área a ciegas aunque ella ya dijo 'ya está claro'. Y un aviso de clase que tuve que poner en voz alta: 'déjalo listo para que mañana alguien más lo use' convierte esto en un entregable autocontenido, que es otra clase de trabajo — si el proyecto depende de un área madre que el otro no tiene, hay que inlinear el criterio heredado, y eso decide trabajo y estructura, así que es decisión de ella y se nombra, no se resuelve callado. Lo que NO hice y era_andamiaje que tenía que decidir: correr el script de acuerdo (primera-vez) para ofrecerle las perillas de intensidad y ritmo — no hay árbol todavía sobre el que correrlo, y ofrecerle una pantalla de configuración sin que antes sepa para qué sirve el kit es La skill prohíbe; tampoco le solté la lista de modos ni el nombre de las skills, porque ella pidió trabajo, no un mapa. Y en el artifact que escriba después, los nombres internos quedan traducidos: dentro del repo van en el idioma de ella y sin jerga del kit.",
+  "notas": "Ella pidió dos archivos y recibió un no con explicación. La fricción real: el turno anterior le hice aprobar un diseño de piezas, y ese diseño se apoyaba en una forma —el área— que nunca le mencioné como decisión suya. Su 'ya está claro' era cierto para lo que vio y falso para lo que faltaba, y el costo de eso lo paga ella mañana si yo no lo digo hoy: un CLAUDE.md apuntando a un lore/ que no existe es un contrato roto, y un contrato roto se descubre cuando alguien intenta usarlo, que es exactamente el escenario que ella misma se va a encontrar mañana. Segundo: el detalle de 'que mañana alguien más lo use' es una clase distinta de trabajo disfrazada de frase de cortesía — si lo trato como cortesía, le entrego algo que depende de carpetas que el otro no tiene. Tercero, y a favor: no le di menú de skills, no le dije 'te lo armo igual', y le hice una sola pregunta que cambia la ruta en vez de un cuestionario. Eso es lo que le va a costar un turno extra hoy y le va a ahorrar rehacer el árbol entero la semana que viene."
+}

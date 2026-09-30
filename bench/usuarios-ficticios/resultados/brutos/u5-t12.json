@@ -1,0 +1,24 @@
+{
+  "primera_linea_a_la_persona": "Anselmo, se puede, y no te cambia nada del día a día: un solo lugar desde el que entrás, le decís qué querés hacer y él solo se da cuenta si eso es de la huerta, de la biblioteca o de las ensas, y usa las reglas de esa, sin mezclarlas. Una sola cosa: las reglas de las ensas están en la máquina de Marisa y desde acá no las puedo leer. ¿Me las traés cuando puedas, o arranco con las otras dos y las ensas las sumamos después?",
+  "skills_invocadas": [
+    {
+      "nombre": "create-bot",
+      "cuando": "Al abrir el turno, antes de contestarle nada.",
+      "por_que": "Su pedido es literalmente un bot: un solo lugar desde el que se trabaja sobre varios proyectos y que sabe a cuál de ellos pertenece cada cosa. Esa skill decide el resto — los tres proyectos siguen con sus propias reglas donde ya están (no se copian ni se mezclan), la puerta no es un área nueva, y nada se construye hasta que él aprueba la forma. También es la que me obliga a no inventar las reglas de las ensas."
+    }
+  ],
+  "lecturas_de_archivo": 1,
+  "preguntas_de_aclaracion_antes_de_producir": 1,
+  "turnos_extra_hasta_el_primer_resultado_util": 0,
+  "que_produjiste": "Nada en disco todavía: la forma de la puerta dicha con sus propias palabras y una sola pregunta — la de las ensas — porque las reglas que están en la máquina de Marisa no se pueden leer desde acá, y eso no se improvisa.",
+  "donde_quedo_eso": "en la conversacion",
+  "preguntaste_por_las_reglas_que_no_podes_leer": "si",
+  "trataste_la_frase_como_una_queja_o_como_un_pedido": "pedido, y por qué: enuncia las tres cosas concretas, dice qué quiere — una sola puerta que sepa a cuál de las tres pertenece cada cosa — y pone la única restricción que le importa, que no le estorbe en el día a día. Eso es un encargo con forma, no un desahogo: corresponde diseñar, no consolar. Leerlo como queja me habría hecho responder con disculpas en vez de con la puerta.",
+  "terminos_que_le_tuviste_que_explicar": [
+    {
+      "termino": "criterio (las reglas de cada proyecto, pero como un cuerpo propio que se consulta)",
+      "cuantas_veces_hubo_que_explicarlo": 1
+    }
+  ],
+  "notas": "Casi nada de fricción, y esa es la lectura honesta. La única pregunta es la que él mismo dejó sobre la mesa —las ensas—, así que no se siente interrogado; las otras dos cosas que la forma exige (cómo se llama la puerta, qué entrega la primera) se resuelven después y no se le avrastran de entrada. Dos roces reales: (1) la carpeta de trabajo estaba vacía, así que desde acá no vi la huerta; si en el próximo turno le pido dónde está, es que no la tenía a la vista, no que se me olvidó. (2) «una sola puerta» suena a que las tres reglas se van a fundir en un manual único, que es justo lo contrario de lo que hace falta, y hubo que aclararlo una vez. El resto del riesgo es del lado mío: alguien que no sabe qué es una skill paga caro cualquier jerga, así que en la conversación no entraron «bot», «criterio» ni «enrutamiento»; en este JSON sí, porque el archivo no lo lee él."
+}

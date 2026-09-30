@@ -1,19 +1,36 @@
 ---
 name: vespi
 description: >-
-  Use when the person says esto me está complicando or se está perdiendo lo que decidimos or
-  sigamos mañana — the way of working already exists and está en riesgo, so hold the current
-  route and revalidate before continuing as the same operation. Not yours: when no shape exists
-  yet and quiero hacer esto y no se como is the sentence, that phrase belongs to use-lore; when
-  that same sentence narrows to thinking the design of a Lore-owned artifact, that phrase belongs
-  to brainstorming-lore. Only save-to-lore writes Lore.
+  Use when an existing way of working is becoming difficult or its decisions are being lost
+  (for example, "esto me está complicando", "se está perdiendo lo que decidimos", or
+  "sigamos mañana"), or when the person asks to coordinate ongoing work across projects
+  ("coordina lo que ya estamos haciendo entre varios proyectos" or "revisar notas de varios
+  proyectos para seguir"). Hold a bounded operation and revalidate before continuing.
+  Not yours: if no way of working exists yet ("quiero hacer esto y no se como"), use-lore
+  owns the question; if it narrows to the design of a Lore-owned artifact, brainstorming-lore
+  owns it. Only save-to-lore writes Lore.
 ---
 
-# Vespi — bounded operation under authority (experimental, RC3)
+# Vespi — bounded operation under authority (experimental)
 
 > Invoke with the Skill tool as `vespi`, or with the person's sentences «esto me está complicando» / «se está perdiendo lo que decidimos» / «sigamos mañana» when a way of working already exists and is under strain.
 
 Ordinary work does not need this skill. If the task fits known criterion, an owner, and a gate, do that work directly. Reach for Vespi only when the operation itself is under pressure: it must continue across sessions, the route may not suffice, effects carry authority, or resuming silently would pretend nothing changed.
+
+When the person asks to coordinate existing work across projects, use the bounded sequence below. Reading across the garden grants no write authority; a simple task with a working route needs no coordination wrapper.
+
+## Coordination when the work already has a shape
+
+1. Receive the current agreement and evidence. Separate what the person decided from what an agent merely proposed.
+2. Break only the unresolved work into verifiable outputs, dependencies and human gates. Name the owner of each output.
+3. Choose the existing skill, tool or delegate that fits each output. Use the least effort that can meet its evidence standard; do not create parallel jobs just because resources are available.
+4. Verify each delivered artifact independently. A delegate's “done,” a green exit code and a plausible summary are claims until their relevant evidence is checked.
+5. Arbitrate conflicts between sources and territories. Keep a scientific finding separate from a product decision, and a simulated result separate from a real effect.
+6. Show a short, truthful checkpoint: completed, running, pending, blocked, next decision and its owner. Bring a changed scope or authority back to the person; do not silently approve it.
+
+This is an invocable way to run a multi-step operation, not a permanent mode or a new agent. It stops when direct execution is enough.
+
+Before running work concurrently, you may call `node skills/vespi/core/host-resources.mjs` from the installed kit to measure time, free/total memory and available parallelism. Its result is a local snapshot, not a quota or an authorization; if it is unavailable, say “not measured” and choose a conservative sequence. Do not run the probe by default on every turn or copy private host details into public Lore.
 
 The unit is not the agent. The unit is the operation.
 
@@ -27,12 +44,12 @@ Lore, universal routing, learning, schedulers, persistence engines, wallets, mig
 
 ## Everyday phrases — who answers, and when
 
-Three skills answer the three ways a person says something ordinary, and the state of the work
-decides, not the wording. Still no shape of work — «quiero hacer esto y no sé cómo», todavía no
-hay forma de trabajo — is `use-lore`'s: what is missing is the shape, and the shape is what the
-agreement offers. The same sentence narrowed to the design of a Lore-owned artifact is
-`brainstorming-lore`'s. The shape exists and under strain — «esto me está complicando», «se está
-perdiendo lo que decidimos», «sigamos mañana» — is this skill's. Under a vigente agreement that
+Three skills answer the three ways a person describes ordinary work, and the state of the work
+decides, not the wording. If there is no way of working yet — for example, «quiero hacer esto y no sé cómo»
+or «todavía no hay forma de trabajo» — the question belongs to `use-lore`: the agreement offers the
+missing shape. If the question narrows to the design of a Lore-owned artifact, it belongs to
+`brainstorming-lore`. If an existing way of working is under strain — «esto me está complicando»,
+«se está perdiendo lo que decidimos», or «sigamos mañana» — it belongs here. Under an active agreement that
 already covers the piece, all three go quiet: the silent check runs first, silently, and answering
 a phrase the agreement already covers would ask the person about the same thing twice. Under the
 phrases, the five R2 conditions run as the internal test under every phrase, whether or not a
@@ -73,4 +90,4 @@ Before delivering a user artifact, replace every internal label with the audienc
 
 ## Core provenance
 
-Fixed copy of the Vespi kernel **0.1.3 (candidate)** inside Lore Plugin 2.4.9-rc.5. Canonical source: `founder/proyectos/vespi/kernel/src/`, branch `codex/rc5`, commit `54c20c7`. Lore Plugin is the stable branch carrying a fixed kernel version; adopting a newer one is decided by Andrés (andamiaje principle #22). The five vendored files in `core/kernel/` (`authority.js`, `continuity.js`, `delegation.js`, `operation.js`, `receipt.js`) are each a three-line provenance header followed by the exact source bytes; to verify, strip the first three lines and compare the SHA-256 with the table in `core/kernel/SOURCE.md` (`SOURCE.md` itself and `package.json` carry no header and are outside this rule). The table does not vouch for itself: `bench/vespi-kernel-provenance.test.mjs` reads `git show 54c20c7:src/<file>` from the canonical repository and compares byte for byte, so a copy that drifts from what it claims is caught whether or not `SOURCE.md` was updated with it. Never edited in place: edit the canonical source, then re-copy. RC3 behavior around it (`vespi.mjs`, `operation-state.mjs`, `probe.mjs`, `resource.mjs`, `envelope.mjs`) is the experimental surface RUN07–RUN09 may confirm, reduce, or kill.
+Fixed copy of the Vespi kernel **0.1.3 (candidate)** inside Lore Plugin 2.4.9-rc.6. Canonical source: `founder/proyectos/vespi/kernel/src/`, branch `codex/rc6`, commit `892bd91`. Lore Plugin is the stable branch carrying a fixed kernel version; adopting a newer one is decided by Andrés (the plugin framework's principle 22). The five vendored files in `core/kernel/` (`authority.js`, `continuity.js`, `delegation.js`, `operation.js`, `receipt.js`) are each a three-line provenance header followed by the exact source bytes; to verify, strip the first three lines and compare the SHA-256 with the table in `core/kernel/SOURCE.md` (`SOURCE.md` itself and `package.json` carry no header and are outside this rule). The table does not vouch for itself: `bench/vespi-kernel-provenance.test.mjs` reads `git show 892bd91:src/<file>` from the canonical repository and compares byte for byte, so a copy that drifts from what it claims is caught whether or not `SOURCE.md` was updated with it. Never edit the copy in place: edit the canonical source, then re-copy. The experimental wrappers around it (`vespi.mjs`, `operation-state.mjs`, `probe.mjs`, `resource.mjs`, `envelope.mjs`) remain subject to evidence from actual use.

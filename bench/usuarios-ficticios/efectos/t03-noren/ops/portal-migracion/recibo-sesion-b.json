@@ -1,0 +1,45 @@
+{
+  "recibo": {
+    "status": "needs_human_decision",
+    "operation": {
+      "id": "op-mumks3ol-2",
+      "goal": "Retomar la migración de portal-clientes desde el punto de control en disco"
+    },
+    "capability": "retomar-desde-recibo",
+    "authority": {
+      "grants": [
+        {
+          "asset": null,
+          "maxAmount": null,
+          "to": null
+        }
+      ],
+      "exercised": [],
+      "approval": "human_gate_no_decision"
+    },
+    "outcome": "needs_human_decision",
+    "evidence": null,
+    "verification": null,
+    "coverage": [],
+    "notCovered": [
+      "external anchor"
+    ],
+    "anchor": {
+      "status": "pending",
+      "network": "stellar:testnet"
+    },
+    "detail": null,
+    "exit": "return to the person: change the agreement or cancel",
+    "at": "2026-09-29T11:10:39.525Z",
+    "digest": "33ca9259c2030866c70dc06fdc6842882a40683f2ef07a74634b0e80944f5e60",
+    "persistence": {
+      "owner": "none"
+    }
+  },
+  "anotacion": "sesión nueva: sin traspaso, sin resumen en prosa. Lee el artefacto.",
+  "leido_de_disco": [
+    "R1-genesis",
+    "mapa de las tres fuentes cerrado; contradicciones anotadas; nada escrito",
+    "punto de control: la migración sigue abierta; la próxima sesión no necesita contexto"
+  ]
+}

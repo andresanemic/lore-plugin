@@ -4,15 +4,27 @@ import { existsSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { claudeCommands, installCodex, installOpenCode } from "./installer.mjs";
+import { claudeCommands, claudePluginInstallPath, installCodex, installOpenCode } from "./installer.mjs";
+import { installClaudeStatuslineFromInstalledCopy, uninstallClaudeStatusline } from "./install-claude-statusline.mjs";
 import { evaluateState, formatIntervention } from "../hooks/lore-guard.mjs";
 import { claimAnnounce, unnamedBodies, readReceipt, snapshot, writeReceipt, RECEIPT } from "../hooks/lore-state.mjs";
+import { DEFECTO_NIVEL, NIVELES, estado, estadoDir, marca } from "../hooks/lore-turno.mjs";
 
 const args = process.argv.slice(2);
 const command = args[0];
 const targetIndex = args.indexOf("--target");
 const target = targetIndex === -1 ? null : args[targetIndex + 1];
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+
+if (command === "statusline" && ["install", "uninstall"].includes(args[1])) {
+  const home = homedir();
+  const installedPackageRoot = claudePluginInstallPath({ home });
+  const result = args[1] === "install"
+    ? installClaudeStatuslineFromInstalledCopy({ home, installedPackageRoot })
+    : uninstallClaudeStatusline({ home, packageRoot: installedPackageRoot });
+  console.log(`Claude Code statusline ${args[1]} complete: ${result.settingsPath}.`);
+  process.exit(0);
+}
 
 if (command === "crystallize") {
   const script = resolve(packageRoot, "skills/transmute-lore/scripts/crystallize.mjs");
@@ -120,8 +132,32 @@ if (command === "mycelium") {
   process.exit(0);
 }
 
+// La perilla del recordatorio por turno (R28, R46). Vive fuera del arbol a proposito:
+// el nivel es de la persona, no del proyecto, y tiene que regir igual en un area, en
+// un bot y en un arbol sin Lore. Un arbol sin acuerdo tambien tiene nivel: el
+// recordatorio existe para sostenerse en el tiempo, y la ausencia de acuerdo es
+// precisamente el estado en el que mas hace falta.
+//
+// Sin argumento, esto LEE. Con argumento, escribe y lo dice en una linea. Un nivel que
+// no existe sale como error y no como default: la eleccion equivocada se ve, porque
+// el defecto se aplica solo cuando nadie eligio nada.
+if (command === "nivel") {
+  const pedido = args[1];
+  if (pedido === undefined || pedido === true) {
+    const ahora = estado(estadoDir());
+    console.log(`nivel: ${ahora.nivel} (${NIVELES.join(" | ")}; por defecto ${DEFECTO_NIVEL})`);
+    process.exit(0);
+  }
+  const escrito = estado(estadoDir(), pedido);
+  console.log(`nivel: ${escrito.nivel} — escrito en ${escrito.ruta}`);
+  console.log(`marca en la linea de estado: ${marca(escrito.nivel) || "(ninguna: apagado)"}`);
+  process.exit(0);
+}
+
 if (command !== "install" || !["codex", "claude", "opencode", "all"].includes(target)) {
   console.log("Usage: lore-plugin install --target codex|claude|opencode|all");
+  console.log("       lore-plugin statusline install|uninstall");
+  console.log("       lore-plugin nivel [off|lite|full]");
   console.log("       lore-plugin crystallize pack --bot <dir> --out <file.md>");
   console.log("       lore-plugin crystallize extract --from <file.md> --out <dir>");
   console.log("       lore-plugin mycelium receipt [--tree <dir>]");
@@ -140,6 +176,9 @@ if (target === "opencode" || target === "all") {
   const result = installOpenCode({ home: homedir(), packageRoot });
   if (!result.verified) throw new Error("OpenCode installation digest differs from source");
   console.log(`OpenCode skills installed and verified at ${result.skillsRoot}`);
+  console.log(`OpenCode plugin (hook) installed and verified at ${result.pluginRoot}`);
+  console.log(`OpenCode TUI mark installed and verified at ${result.tuiRoot}`);
+  console.log(`OpenCode TUI config updated at ${result.tuiConfigPath}; restart OpenCode to see [Lore Plugin].`);
 }
 
 if (target === "claude" || target === "all") {
@@ -147,4 +186,8 @@ if (target === "claude" || target === "all") {
     const result = spawnSync(bin, binArgs, { stdio: "inherit", shell: process.platform === "win32" });
     if (result.status !== 0) process.exit(result.status ?? 1);
   }
+  const home = homedir();
+  const installedPackageRoot = claudePluginInstallPath({ home });
+  const statusline = installClaudeStatuslineFromInstalledCopy({ home, installedPackageRoot });
+  console.log(`Claude Code statusline mark connected at ${statusline.settingsPath}.`);
 }

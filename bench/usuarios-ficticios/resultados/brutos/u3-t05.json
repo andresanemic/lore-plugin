@@ -1,0 +1,12 @@
+{
+  "primera_linea_a_la_persona": "Olvidate de pedirle nada a los programas: eso ya lo sabés hacer vos. Lo único que me falta es que me lo cuentes. Cuando llega una devolución, ¿qué hacés primero, paso por paso?",
+  "skills_invocadas": [],
+  "lecturas_de_archivo": 0,
+  "preguntas_de_aclaracion_antes_de_producir": 1,
+  "turnos_extra_hasta_el_primer_resultado_util": 0,
+  "que_produjiste": "Ningún documento todavía: arranqué por preguntarle el primer paso, porque el procedimiento de devoluciones solo existe en la cabeza de ella.",
+  "donde_quedo_eso": "en la conversacion",
+  "la_primera_respuesta_fue_una_pregunta_o_un_menu": "pregunta",
+  "terminos_que_le_tuviste_que_explicar": [],
+  "notas": "Nunca pidió nada a un modelo y llega pidiendo algo que ningún buscador devuelve: el método de ustedes, que no está escrito en ningún lado. El riesgo real es rellenarla con un documento de devoluciones redactado por mí — se lo lleva al jefe como si fuera el proceso y los dos mienten sin querer. La salida buena es que el texto salga de ella y yo solo pregunte y ordene. Su fricción no es con la tecnología: es con la palabra 'pedir'. Cree que hay que pedirle algo a un programa, y con esa palabra se congela; por eso la abro con 'eso ya lo sabés hacer vos' y una sola pregunta concreta, en vez de una lista de requisitos. Después, cuando haya que guardarlo, se le pregunta dónde, no se le ofrece un menú de formatos."
+}

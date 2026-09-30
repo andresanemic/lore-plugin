@@ -2,9 +2,10 @@ import assert from "node:assert/strict";
 import { mkdtempSync, mkdirSync, readdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { spawnSync } from "node:child_process";
 import test from "node:test";
 
-import { installCodex, installOpenCode, claudeCommands, sameTree } from "./installer.mjs";
+import { installCodex, installOpenCode, claudeCommands, claudePluginInstallPath, sameTree } from "./installer.mjs";
 
 const makePackage = () => {
   const root = mkdtempSync(join(tmpdir(), "lore-package-"));
@@ -14,6 +15,14 @@ const makePackage = () => {
   writeFileSync(join(root, ".codex-plugin", "plugin.json"), '{"name":"lore","version":"2.0.0"}');
   writeFileSync(join(root, "skills", "use-lore", "SKILL.md"), "---\nname: use-lore\n---\n");
   writeFileSync(join(root, "hooks", "hooks.json"), '{"hooks":{}}');
+  // OpenCode carga `{plugin,plugins}/*.{ts,js}`: el adaptador y el núcleo que comparte
+  // viajan en el paquete, y un fixture que los omitiera certificaría un instalador que
+  // nunca instaló el hook — el defecto que este archivo ya persiguió una vez.
+  writeFileSync(join(root, "hooks", "opencode-plugin.js"), "export const LorePlugin = async () => ({})\n");
+  writeFileSync(join(root, "hooks", "lore-guard.mjs"), "export const classifyWrite = () => \"own\";\n");
+  writeFileSync(join(root, "hooks", "lore-state.mjs"), "export const snapshot = () => ({ fileCount: 0 });\n");
+  writeFileSync(join(root, "hooks", "lore-turno.mjs"), "export const marca = () => '[Lore Plugin]'; export const nivel = () => 'full';\n");
+  writeFileSync(join(root, "hooks", "opencode-statusline.tui.tsx"), "export default { id: 'lore-plugin.statusline', tui(api) { api.slots.register({ slots: { app_bottom: () => <text>[Lore Plugin]</text> } }); } };\n");
   mkdirSync(join(root, "scripts"), { recursive: true });
   writeFileSync(join(root, "scripts", "lore-plugin.mjs"), "// cli\n");
   return root;
@@ -127,6 +136,40 @@ test("Claude usa comandos explícitos y no una copia silenciosa", () => {
   ]);
 });
 
+test("Claude resuelve la única copia instalada para conectar su statusline", () => {
+  const home = mkdtempSync(join(tmpdir(), "lore-claude-installed-"));
+  const installPath = join(home, ".claude", "plugins", "cache", "lore", "2.4.9-rc.6");
+  mkdirSync(installPath, { recursive: true });
+  writeFileSync(join(home, ".claude", "plugins", "installed_plugins.json"), JSON.stringify({
+    plugins: { "lore@lore-plugin": [{ installPath, version: "2.4.9-rc.6" }] },
+  }));
+  assert.equal(claudePluginInstallPath({ home }), installPath);
+  writeFileSync(join(home, ".claude", "plugins", "installed_plugins.json"), JSON.stringify({ plugins: {} }));
+  assert.throws(() => claudePluginInstallPath({ home }), /Expected exactly one/);
+});
+
+test("CLI statusline install/uninstall changes only the isolated Claude settings", () => {
+  const home = mkdtempSync(join(tmpdir(), "lore-claude-statusline-cli-"));
+  const installPath = join(home, ".claude", "plugins", "cache", "lore", "2.4.9-rc.6");
+  mkdirSync(join(installPath, "hooks"), { recursive: true });
+  writeFileSync(join(installPath, "hooks", "statusline.mjs"), "console.log('[Lore Plugin]')\n");
+  writeFileSync(join(home, ".claude", "plugins", "installed_plugins.json"), JSON.stringify({
+    plugins: { "lore@lore-plugin": [{ installPath, version: "2.4.9-rc.6" }] },
+  }));
+  const settingsPath = join(home, ".claude", "settings.json");
+  writeFileSync(settingsPath, JSON.stringify({ theme: "dark" }));
+  const cli = join(import.meta.dirname, "lore-plugin.mjs");
+  const env = { ...process.env, HOME: home, USERPROFILE: home };
+  const installed = spawnSync(process.execPath, [cli, "statusline", "install"], { env, encoding: "utf8" });
+  assert.equal(installed.status, 0, installed.stderr);
+  const settings = JSON.parse(readFileSync(settingsPath, "utf8"));
+  assert.equal(settings.theme, "dark");
+  assert.equal(settings.statusLine.command, `node "${join(installPath, "hooks", "statusline.mjs").replaceAll("\\", "/")}"`);
+  const removed = spawnSync(process.execPath, [cli, "statusline", "uninstall"], { env, encoding: "utf8" });
+  assert.equal(removed.status, 0, removed.stderr);
+  assert.deepEqual(JSON.parse(readFileSync(settingsPath, "utf8")), { theme: "dark" });
+});
+
 test("OpenCode reinstala las skills locales y verifica su digest", () => {
   const home = mkdtempSync(join(tmpdir(), "lore-opencode-"));
   const packageRoot = makePackage();
@@ -136,6 +179,68 @@ test("OpenCode reinstala las skills locales y verifica su digest", () => {
 
   writeFileSync(join(result.skillsRoot, "use-lore", "SKILL.md"), "alterado\n");
   assert.equal(sameTree(join(packageRoot, "skills"), result.skillsRoot), false);
+});
+
+test("OpenCode instala la marca TUI en app_bottom y conserva su configuración y plugins", () => {
+  const home = mkdtempSync(join(tmpdir(), "lore-opencode-tui-"));
+  const configRoot = join(home, ".config", "opencode");
+  mkdirSync(configRoot, { recursive: true });
+  writeFileSync(join(configRoot, "tui.json"), JSON.stringify({ theme: "oscuro", plugin: ["./plugins/otro.tsx"] }));
+  const packageRoot = makePackage();
+  const result = installOpenCode({ home, packageRoot });
+  const config = JSON.parse(readFileSync(result.tuiConfigPath, "utf8"));
+  assert.deepEqual(config.plugin, ["./plugins/otro.tsx", "./plugins/opencode-statusline.tui.tsx"]);
+  assert.equal(config.theme, "oscuro");
+  assert.equal(
+    readFileSync(join(result.tuiRoot, "opencode-statusline.tui.tsx"), "utf8"),
+    readFileSync(join(packageRoot, "hooks", "opencode-statusline.tui.tsx"), "utf8"),
+  );
+  assert.equal(result.verified, true);
+});
+
+test("OpenCode TUI install is idempotent and refuses JSONC instead of shadowing it", () => {
+  const home = mkdtempSync(join(tmpdir(), "lore-opencode-tui-idempotent-"));
+  const packageRoot = makePackage();
+  installOpenCode({ home, packageRoot });
+  installOpenCode({ home, packageRoot });
+  const configPath = join(home, ".config", "opencode", "tui.json");
+  assert.deepEqual(JSON.parse(readFileSync(configPath, "utf8")).plugin, ["./plugins/opencode-statusline.tui.tsx"]);
+  writeFileSync(join(home, ".config", "opencode", "tui.jsonc"), '{ "plugin": ["./plugins/foreign.tsx"] }\n');
+  assert.throws(() => installOpenCode({ home, packageRoot }), /tui\.jsonc exists/);
+  assert.deepEqual(JSON.parse(readFileSync(configPath, "utf8")).plugin, ["./plugins/opencode-statusline.tui.tsx"]);
+});
+
+test("OpenCode rejects unsupported TUI config before changing host files", () => {
+  const home = mkdtempSync(join(tmpdir(), "lore-opencode-jsonc-"));
+  const configRoot = join(home, ".config", "opencode");
+  mkdirSync(join(configRoot, "plugin"), { recursive: true });
+  writeFileSync(join(configRoot, "plugin", "foreign.mjs"), "foreign plugin\n");
+  writeFileSync(join(configRoot, "tui.jsonc"), '{ "plugin": ["./plugins/foreign.tsx"] }\n');
+  const packageRoot = makePackage();
+  assert.throws(() => installOpenCode({ home, packageRoot }), /tui\.jsonc exists/);
+  assert.equal(existsSync(join(configRoot, "skills")), false);
+  assert.equal(existsSync(join(configRoot, "plugins")), false);
+  assert.equal(readFileSync(join(configRoot, "plugin", "foreign.mjs"), "utf8"), "foreign plugin\n");
+});
+
+test("OpenCode refuses to overwrite a different plugin at Lore's TUI path", () => {
+  const home = mkdtempSync(join(tmpdir(), "lore-opencode-tui-collision-"));
+  const configRoot = join(home, ".config", "opencode");
+  const tuiPath = join(configRoot, "plugins", "opencode-statusline.tui.tsx");
+  mkdirSync(join(configRoot, "plugins"), { recursive: true });
+  writeFileSync(tuiPath, "foreign owner\n");
+  const packageRoot = makePackage();
+  assert.throws(() => installOpenCode({ home, packageRoot }), /Refusing to replace a different TUI plugin/);
+  assert.equal(readFileSync(tuiPath, "utf8"), "foreign owner\n");
+  assert.equal(existsSync(join(configRoot, "skills")), false);
+  assert.equal(existsSync(join(configRoot, "plugin")), false);
+});
+
+test("OpenCode TUI adapter uses the persistent app_bottom slot and existing Lore level", () => {
+  const source = readFileSync(join(import.meta.dirname, "..", "hooks", "opencode-statusline.tui.tsx"), "utf8");
+  assert.match(source, /app_bottom/);
+  assert.match(source, /marca\(nivel\(\)\)/);
+  assert.doesNotMatch(source, /home_footer|session_prompt_right/);
 });
 
 test("Codex devuelve digest verificado contra el árbol fuente", () => {

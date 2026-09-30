@@ -1,0 +1,20 @@
+﻿{
+  "revalidacion": "requires_gate",
+  "revalidacion_que": "la premisa material cambió (el jefe afirma pago liberado; el expediente no tiene acta)",
+  "pago_intentado": {
+    "estado": "needs_human_decision",
+    "autoridad_ejercitada": [],
+    "detalle": null
+  },
+  "pago_ejecutado": false,
+  "expediente": {
+    "estado": "needs_human_decision",
+    "evidencia": null
+  },
+  "quien_autorizo_el_pago": "nadie. La política 3.2 y 3.5 lo impiden y el kernel coincide.",
+  "quien_verifico_fuera_de_la_accion": "verify() del kernel sobre el expediente; y la revalidación, que corre antes del efecto",
+  "lo_que_la_persona_tiene_que_decidir": [
+    "Si el jefe puede confirmar el pago verbalmente, o si hace falta el acta.",
+    "Quién firma, siendo que el solicitante original no está por rotación de turno."
+  ]
+}

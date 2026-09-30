@@ -1,5 +1,5 @@
 // Vendored copy — canonical source is founder/proyectos/vespi/kernel/src/continuity.js
-// (kernel 0.1.3 candidate, codex/rc5 branch, commit 54c20c7). Edit the canonical source, then re-copy here;
+// (kernel 0.1.3 candidate, codex/rc6 branch, commit 892bd91). Edit the canonical source, then re-copy here;
 // this file is not the source of truth.
 'use strict';
 
@@ -46,15 +46,25 @@ function claimsVerifiedWithoutProof(receipt) {
   }
 }
 
-function resumeFromReceipts(receipts, agreement) {
+function resumeFromReceipts(receipts, agreement, { verifyExternal, verifyLocal } = {}) {
   const list = Array.isArray(receipts) ? receipts : [];
   const approved = Array.isArray(agreement?.approved) ? agreement.approved : [];
   const workingMode = agreement?.workingMode;
+
+  const approvedByAction = new Map();
+  for (const entry of approved) {
+    try {
+      if (entry && typeof entry.action === 'string' && !approvedByAction.has(entry.action)) {
+        approvedByAction.set(entry.action, entry);
+      }
+    } catch {}
+  }
 
   let discarded = 0;
   const verifiedByAction = new Map();
   const waitingByAction = new Map();
   const unprovenByAction = new Map();
+  const seenVerifiedActions = new Set();
   const verifiedReceipts = [];
 
   for (const receipt of list) {
@@ -77,7 +87,27 @@ function resumeFromReceipts(receipts, agreement) {
     }
     const action = receiptAction(receipt);
     if (!action) continue;
+    seenVerifiedActions.add(action);
     if (claimsVerifiedWithoutProof(receipt)) {
+      if (!unprovenByAction.has(action)) unprovenByAction.set(action, receipt);
+      continue;
+    }
+    // A local digest can be re-sealed. Only a trusted host verifier can establish an
+    // external effect; an explicitly local, reversible action may use the local receipt.
+    const local = approvedByAction.get(action)?.localReversible === true;
+    let locallyProven = false;
+    if (local && typeof verifyLocal === 'function') {
+      try {
+        locallyProven = verifyLocal(action, receipt.digest) === true;
+      } catch {}
+    }
+    let externallyProven = false;
+    if (!local && receipt?.anchor?.status === 'anchored' && typeof verifyExternal === 'function') {
+      try {
+        externallyProven = verifyExternal(receipt.anchor.txHash, receipt.digest, receipt.anchor.network) === true;
+      } catch {}
+    }
+    if (!locallyProven && !externallyProven) {
       if (!unprovenByAction.has(action)) unprovenByAction.set(action, receipt);
       continue;
     }
@@ -85,18 +115,8 @@ function resumeFromReceipts(receipts, agreement) {
     verifiedReceipts.push(receipt);
   }
 
-  const approvedByAction = new Map();
-  for (const entry of approved) {
-    try {
-      if (entry && typeof entry.action === 'string' && !approvedByAction.has(entry.action)) {
-        approvedByAction.set(entry.action, entry);
-      }
-    } catch {
-    }
-  }
-
   // A verified receipt for an action outside the agreement: revalidate.
-  for (const action of verifiedByAction.keys()) {
+  for (const action of seenVerifiedActions) {
     if (!approvedByAction.has(action)) {
       return {
         lastState: verifiedReceipts.length > 0 ? verifiedReceipts[0].status : null,

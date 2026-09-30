@@ -643,7 +643,7 @@ const plano = (s) => String(s ?? "").toLowerCase().normalize("NFD").replace(/[\u
 // Confirmado con Codex, revision de S3v2: reparte() mandaba "me esta complicando el diseno" a
 // brainstorming-lore por el orden viejo.
 const FRASES = [
-  { skill: "vespi", cuando: ["me esta complicando", "se esta complicando", "se esta perdiendo", "lo que decidimos", "perdiamos", "sigamos manana", "esta en riesgo", "se me complico", "lo estamos perdiendo"] },
+  { skill: "vespi", cuando: ["me esta complicando", "se esta complicando", "se esta perdiendo", "lo que decidimos", "perdiamos", "sigamos manana", "esta en riesgo", "se me complico", "lo estamos perdiendo", "notas de varios proyectos", "coordina lo que ya estamos haciendo entre varios proyectos"] },
   { skill: "brainstorming-lore", cuando: ["diseno", "diseño", "disenar", "piensa el", "pensar el", "lo pienso", "ayudame a pensar", "help me think", "antes de construir", "como deberia ser"] },
   { skill: "use-lore", cuando: ["no se como", "no se cómo", "no hay forma de trabajo", "todavia no hay forma", "no se por donde", "ayudame a empezar"] },
 ];
@@ -667,7 +667,11 @@ export function reparte({ frase, acuerdo } = {}) {
 // El recordatorio por turno que la persona nunca ve. Al caer la apuesta del hook no hay
 // recordatorio: el modulo dice donde se guarda el registro en su lugar, en vez de devolver un
 // texto vacio que el agente tendria que inventar.
-export function recordatorio({ acuerdo, turno } = {}) {
+//
+// `turno: null` es la apertura de la sesion: el texto es el mismo y no lleva numero, porque
+// un "turno 0" al abrir seria un numero falso, y un "turno 1" gastaria el primer turno
+// contandolo.
+export function recordatorio({ acuerdo, turno = null } = {}) {
   if (caida(acuerdo, "recordatorio-por-hook")) {
     return { texto: null, visible: false, por: "sin-hook", en: "FASES.md", turno };
   }
@@ -677,7 +681,13 @@ export function recordatorio({ acuerdo, turno } = {}) {
     `hay ${(acuerdo?.limites ?? []).length} limites`,
     `acuerdo ${acuerdo ? "vigente" : "sin acuerdo, por los defectos"}`,
   ];
-  return { texto: `Turno ${turno}: ${diales.join("; ")}.`, visible: false, por: "acuerdo", turno };
+  const cuerpo = diales.join("; ");
+  return {
+    texto: turno === null || turno === undefined ? cuerpo : `Turno ${turno}: ${cuerpo}.`,
+    visible: false,
+    por: "acuerdo",
+    turno,
+  };
 }
 
 // --- 6. la apuesta que cae -----------------------------------------------------

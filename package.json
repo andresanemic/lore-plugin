@@ -17,13 +17,16 @@
     ".claude-plugin/",
     ".codex-plugin/",
     "assets/",
+    "commands/nivel.md",
     "docs/",
     "hooks/",
     "skills/",
+    "scripts/install-claude-statusline.mjs",
     "scripts/installer.mjs",
     "scripts/lore-plugin.mjs",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "NOTICE"
   ],
   "scripts": {
     "test": "node --test bench/*.test.mjs bench/upgrade/*.test.mjs bench/effect-2.3.2/*.test.mjs scripts/*.test.mjs skills/transmute-lore/scripts/*.test.mjs"

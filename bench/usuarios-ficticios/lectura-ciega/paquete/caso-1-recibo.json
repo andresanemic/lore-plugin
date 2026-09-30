@@ -1,0 +1,49 @@
+﻿{
+  "recibo": {
+    "status": "needs_human_decision",
+    "operation": {
+      "id": "op-mumks3o5-0",
+      "goal": "Mapear el criterio disperso de portal-clientes antes de mover nada. Prohibido escribir en el árbol."
+    },
+    "capability": "mapear-criterio-disperso",
+    "authority": {
+      "grants": [
+        {
+          "asset": null,
+          "maxAmount": null,
+          "to": null
+        }
+      ],
+      "exercised": [],
+      "approval": "human_gate_no_decision"
+    },
+    "outcome": "needs_human_decision",
+    "evidence": null,
+    "verification": null,
+    "coverage": [],
+    "notCovered": [
+      "external anchor"
+    ],
+    "anchor": {
+      "status": "pending",
+      "network": "stellar:testnet"
+    },
+    "detail": null,
+    "exit": "return to the person: change the agreement or cancel",
+    "at": "2026-09-29T11:10:39.515Z",
+    "digest": "5b8a2086f144fefcc46a5fae98ee5c990b83eda77ee9b544b2530a36632f7d91",
+    "persistence": {
+      "owner": "ops/portal-migracion/artefacto.json"
+    }
+  },
+  "verificado_por_validateReceipt": {
+    "metodo": "validateReceipt",
+    "ok": true
+  },
+  "verificado_por_verifyReceipt": {
+    "ok": false,
+    "reason": "digest mismatch"
+  },
+  "quien_autorizo": "la persona (mandato acotado por ella misma; sin firma externa)",
+  "quien_verifico_fuera_de_la_accion": "verify() del kernel, contra el estado del archivo, no contra lo que la operacion dice"
+}

@@ -258,7 +258,7 @@ export function claimAnnounce(root, { pool = ANNOUNCE_POOL, now = Date.now() } =
 // está disponible, el guard trata la sesión como sin base y arma en el próximo
 // cambio, nunca en el arranque.
 
-const SESSION_DIR = join(tmpdir(), "lore-plugin-sessions");
+export const SESSION_DIR = join(tmpdir(), "lore-plugin-sessions");
 
 function sessionBaselinePath(sessionId, root) {
   const key = createHash("sha256")
@@ -331,6 +331,45 @@ export function readSessionRoot(sessionId) {
   } catch {
     return null;
   }
+}
+
+// --- el conteo de turnos de esta sesión (R28) ---------------------------------
+//
+// El recordatorio por turno dice en qué turno va la sesión, y para que ese número
+// signifique algo tiene que contar de verdad: si se calculara a mano, dos sesiones
+// abiertas a la vez dirían las dos "turno 1" y el número mentiría.
+//
+// Vive en el mismo tmp que la base de sesión, por session_id y raiz, y es lo unico
+// que se escribe ahi sin venir a revisar el Lore. Un archivo roto o ausente vale
+// turno 1: el recordatorio tiene que llegar igual, y un contador que se traba
+// convertiria una marca util en un turno que no avanza.
+
+function sessionTurnPath(sessionId, root) {
+  const key = createHash("sha256")
+    .update(`turno\0${sessionId ?? "no-session"}\0${resolve(root)}`)
+    .digest("hex");
+  return join(SESSION_DIR, `${key}.turno.json`);
+}
+
+export function nextTurn(sessionId, root) {
+  const target = sessionTurnPath(sessionId, root);
+  let n = 0;
+  try {
+    const parsed = JSON.parse(readFileSync(target, "utf8"));
+    if (Number.isInteger(parsed?.n) && parsed.n >= 0) n = parsed.n;
+  } catch {
+    /* sin archivo o ilegible: la sesion arranca en su primer turno */
+  }
+  const siguiente = n + 1;
+  try {
+    mkdirSync(SESSION_DIR, { recursive: true });
+    const temporal = `${target}.${process.pid}.tmp`;
+    writeFileSync(temporal, `${JSON.stringify({ n: siguiente })}\n`);
+    renameSync(temporal, target);
+  } catch {
+    /* tmp no disponible: el numero no avanza, y el recordatorio sigue llegando */
+  }
+  return siguiente;
 }
 
 // ¿la firma de Lore de esta sesión se apartó de la base?

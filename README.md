@@ -177,7 +177,7 @@ node scripts/lore-plugin.mjs install --target all
 codex plugin add lore@personal
 ```
 
-Replace `all` with `claude`, `codex`, or `opencode` to target one host. The installer configures Claude directly, prepares Codex's local `personal` marketplace, and replaces only Lore's eight OpenCode skill folders. Codex and OpenCode copies are verified against the source tree after installation.
+To target one host, replace `all`. OpenCode receives Lore's skills, hooks and TUI mark.
 
 If you already use a host plugin manager, these shorter routes install the same package without keeping a separate checkout.
 
@@ -197,6 +197,12 @@ claude plugin marketplace add andresanemic/lore-plugin
 claude plugin install lore@lore-plugin
 ```
 
+To connect the visible status mark after installing through Claude's plugin manager, run from the repository clone:
+
+```bash
+node scripts/lore-plugin.mjs statusline install
+```
+
 ### Codex CLI
 
 Run these commands in your terminal:
@@ -213,13 +219,13 @@ codex plugin add lore@lore-plugin
 
 ### OpenCode
 
-From a local clone, install and verify Lore's eight skill folders in OpenCode's global directory:
+Install Lore's skills, hooks and TUI mark globally:
 
 ```bash
 node scripts/lore-plugin.mjs install --target opencode
 ```
 
-Restart OpenCode. For one project, use `.opencode/skills/` instead.
+Restart OpenCode. Existing `tui.json` entries are preserved; `tui.jsonc` is left untouched. For one project, use `.opencode/skills/` instead.
 
 ### Cursor
 
@@ -467,7 +473,7 @@ This README covers motivation and architecture. Everything else lives in its own
 
 Lore was not designed ahead of time: every decision came from applying it to real projects and watching what broke — documented as **nineteen case studies**, each with its declared boundary. **Case 12 is the first install run by someone who is not the author.**
 
-> **Status:** cases, not proofs — small n, and **seventeen of the eighteen come from the same researcher**. The measured claim belongs to [Case 08 and its benchmark](#benchmark); the rest are qualitative evidence.
+> **Status:** cases, not proofs — small n, and **eighteen of the nineteen come from the same researcher**. The measured claim belongs to [Case 08 and its benchmark](#benchmark); the rest are qualitative evidence.
 
 **[Read the nineteen case studies →](./docs/CASES_en.md)**
 
@@ -480,13 +486,13 @@ Lore was not designed ahead of time: every decision came from applying it to rea
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/2%2C837-clones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="2,837 clones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/69-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="69 days"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~41-a_day-F94F79?style=for-the-badge&labelColor=0B0B12" alt="41 a day"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/3%2C232-clones_through_2026-09-23-FF557A?style=for-the-badge&labelColor=0B0B12" alt="3,232 clones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/81-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="81 days"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~40-a_day-F94F79?style=for-the-badge&labelColor=0B0B12" alt="40 a day"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-peak-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 peak"></a>
 </p>
 
-GitHub traffic windows preserved in [`data/traffic/clones.json`](./data/traffic/clones.json).
+GitHub traffic windows preserved in [`data/traffic/clones.json`](./data/traffic/clones.json). A **minimum, cut at 2026-09-23**.
 
 Lore Plugin is the technical arm of LUS, not a productivity system with philosophy attached. The benchmark tests a narrow product claim; it does not validate LUS as a whole. [The research boundary is explicit here.](./docs/LUS_en.md)
 
@@ -728,7 +734,7 @@ node scripts/lore-plugin.mjs install --target all
 codex plugin add lore@personal
 ```
 
-Reemplaza `all` por `claude`, `codex` u `opencode` para preparar un solo host. El instalador configura Claude directamente, prepara el marketplace local `personal` de Codex y reemplaza solo las ocho carpetas de Lore en OpenCode. Las copias de Codex y OpenCode se verifican contra el árbol fuente después de instalar.
+Para un host, reemplaza `all`. OpenCode recibe las skills, hooks y marca TUI de Lore.
 
 Si ya usas el gestor de plugins de un host, estas rutas más cortas instalan el mismo paquete sin conservar un checkout separado.
 
@@ -748,6 +754,12 @@ claude plugin marketplace add andresanemic/lore-plugin
 claude plugin install lore@lore-plugin
 ```
 
+Para conectar la marca visible después de instalar desde el gestor de Claude, ejecútalo desde el clon del repositorio:
+
+```bash
+node scripts/lore-plugin.mjs statusline install
+```
+
 ### Codex CLI
 
 Ejecuta estos comandos en tu terminal:
@@ -764,13 +776,13 @@ codex plugin add lore@lore-plugin
 
 ### OpenCode
 
-Desde un clon local, instala y verifica las ocho carpetas de Lore en el directorio global de OpenCode:
+Instala las skills, hooks y marca TUI de Lore en OpenCode:
 
 ```bash
 node scripts/lore-plugin.mjs install --target opencode
 ```
 
-Reinicia OpenCode. Para un solo proyecto usa `.opencode/skills/`.
+Reinicia OpenCode. Conserva otras entradas de `tui.json`; `tui.jsonc` queda intacto. Para un solo proyecto usa `.opencode/skills/`.
 
 ### Cursor
 
@@ -1056,7 +1068,7 @@ El benchmark fue diseñado y prerregistrado con **GPT-5.6 Sol medium**, y despu�
 
 Lore no se diseñó de antemano: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía — **diecinueve casos de estudio**, cada uno con su frontera declarada. El **Caso 12 es la primera instalación hecha por alguien que no es el autor**.
 
-> **Estatus:** casos, no demostraciones — n pequeño, y **diecisiete de los dieciocho vienen del mismo investigador**. La afirmación medida pertenece al [Caso 08 y su benchmark](#el-benchmark); los demás aportan evidencia cualitativa.
+> **Estatus:** casos, no demostraciones — n pequeño, y **dieciocho de los diecinueve vienen del mismo investigador**. La afirmación medida pertenece al [Caso 08 y su benchmark](#el-benchmark); los demás aportan evidencia cualitativa.
 
 **[Leer los diecinueve casos de estudio →](./docs/CASES_es.md)**
 
@@ -1069,13 +1081,13 @@ Lore no se diseñó de antemano: cada decisión salió de aplicarlo a proyectos 
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/2%2C837-clonaciones-FF557A?style=for-the-badge&labelColor=0B0B12" alt="2.837 clonaciones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/69-d%C3%ADas-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="69 días"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~41-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="41 al día"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/3%2C232-clonaciones_hasta_2026-09-23-FF557A?style=for-the-badge&labelColor=0B0B12" alt="3.232 clonaciones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/81-d%C3%ADas-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="81 días"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~40-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="40 al día"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-pico-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 pico"></a>
 </p>
 
-Ventanas GitHub preservadas en [`data/traffic/clones.json`](./data/traffic/clones.json).
+Ventanas GitHub preservadas en [`data/traffic/clones.json`](./data/traffic/clones.json). Un **mínimo, con corte al 2026-09-23**.
 
 Lore Plugin es el brazo técnico de LUS, no un sistema de productividad con filosofía agregada. El benchmark prueba una afirmación acotada de producto; no valida LUS como conjunto. [La frontera de investigación está explícita acá.](./docs/LUS_es.md)
 

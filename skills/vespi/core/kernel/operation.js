@@ -1,5 +1,5 @@
 // Vendored copy — canonical source is founder/proyectos/vespi/kernel/src/operation.js
-// (kernel 0.1.3 candidate, codex/rc5 branch, commit 54c20c7). Edit the canonical source, then re-copy here;
+// (kernel 0.1.3 candidate, codex/rc6 branch, commit 892bd91). Edit the canonical source, then re-copy here;
 // this file is not the source of truth.
 'use strict';
 
@@ -720,6 +720,11 @@ async function runOperationOnce(op, capability, io) {
         } catch {
         }
         detail = `approval requires a human decider: by must differ from agent (${agentLabel})`;
+      } else if (!check.ok && typeof check.reason === 'string' && check.reason.length > 0) {
+        // The authority check already named why the declared effect is not covered. Losing that
+        // sentence left three different refusals — nobody at the gate, an explicit no, and a grant
+        // that does not reach the declared scope — indistinguishable in the receipt (T2-R1).
+        detail = check.reason;
       }
       const receipt = safeBuildReceipt({
         operation: op,

@@ -119,7 +119,7 @@ test("PreToolUse permite el scratchpad de la sesión aunque esté fuera del árb
   assert.equal(claudePreWrite(own, scratch), "");
 });
 
-test("PreToolUse permite los árboles federados que lore/enrutamiento.md declara y sigue bloqueando al hermano no declarado", () => {
+test("PreToolUse lee el enrutamiento sin conceder escritura sobre árboles federados", () => {
   const hive = mkdtempSync(join(tmpdir(), "lore-hive-"));
   roots.push(hive);
   const own = join(hive, "bots", "proyectos", "bot-probe");
@@ -132,8 +132,8 @@ test("PreToolUse permite los árboles federados que lore/enrutamiento.md declara
   write(federated, "lore/metodo.md", "# Método\n");
   write(stranger, "lore/principios.md", "# Ajeno\n");
 
-  assert.equal(preWrite(own, join(federated, "lore", "metodo.md")), "");
-  assert.equal(claudePreWrite(own, join(federated, "lore", "metodo.md")), "");
+  assert.equal(JSON.parse(preWrite(own, join(federated, "lore", "metodo.md"))).hookSpecificOutput.permissionDecision, "deny");
+  assert.equal(JSON.parse(claudePreWrite(own, join(federated, "lore", "metodo.md"))).hookSpecificOutput.permissionDecision, "deny");
   const blocked = JSON.parse(preWrite(own, join(stranger, "lore", "principios.md")));
   assert.equal(blocked.hookSpecificOutput.permissionDecision, "deny");
 });

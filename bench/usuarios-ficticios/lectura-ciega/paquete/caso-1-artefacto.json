@@ -1,0 +1,42 @@
+﻿{
+  "artifact_schema_version": "1.0.0",
+  "created_by_vespi_version": "2.4.9-rc.3",
+  "id": "op-mumks3ok-0",
+  "working_goal": "Mapear el criterio disperso de portal-clientes antes de mover nada",
+  "owner": "la persona",
+  "state": "prepared",
+  "authority": {
+    "spend": []
+  },
+  "loaded": [],
+  "latest_authorized_delta": null,
+  "effects": [],
+  "verification": null,
+  "freshness": [],
+  "validity": {},
+  "uncertainty": [],
+  "next_legitimate_action": "authorize",
+  "provenance": {},
+  "checkpoints": [
+    {
+      "id": "R1-genesis",
+      "at": "2026-09-29T11:10:39.524Z",
+      "note": "R1-genesis",
+      "validity": {}
+    },
+    {
+      "id": "R2",
+      "at": "2026-09-29T11:10:39.524Z",
+      "note": "mapa de las tres fuentes cerrado; contradicciones anotadas; nada escrito",
+      "validity": {},
+      "delta": null
+    },
+    {
+      "id": "R3",
+      "at": "2026-09-29T11:10:39.524Z",
+      "note": "punto de control: la migración sigue abierta; la próxima sesión no necesita contexto",
+      "validity": {},
+      "delta": null
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "recibo": {
+    "status": "verified",
+    "operation": {
+      "id": "op-mumks3og-1",
+      "goal": "Mapear el criterio disperso de portal-clientes antes de mover nada"
+    },
+    "capability": "mapear-criterio-disperso",
+    "authority": {
+      "grants": [
+        {
+          "asset": "lectura",
+          "maxAmount": "1",
+          "to": "portal-clientes"
+        }
+      ],
+      "exercised": [
+        {
+          "asset": "lectura",
+          "maxAmount": "1",
+          "to": "portal-clientes"
+        }
+      ],
+      "approval": "preauthorized"
+    },
+    "outcome": "verified",
+    "evidence": {
+      "status": "ok"
+    },
+    "verification": {
+      "verified": true,
+      "checks": {
+        "leido": true
+      },
+      "reason": "tres fuentes leidas"
+    },
+    "coverage": [
+      "leido"
+    ],
+    "notCovered": [
+      "external anchor"
+    ],
+    "anchor": {
+      "status": "pending",
+      "network": "stellar:testnet"
+    },
+    "detail": null,
+    "at": "2026-09-29T11:10:39.522Z",
+    "digest": "aaa00ad5923e3d8be8b02eee9141ca662c4e24b0d8a63bae72e97c2802887e2f",
+    "persistence": {
+      "owner": "none"
+    }
+  },
+  "que_costo": "el recibo dice que se autorizó 'lectura de 1 a portal-clientes'. Nadie autorizó eso: es una traducción de un mandato de filesystem al vocabulario financiero del núcleo.",
+  "verificado_por_validateReceipt": {
+    "ok": true
+  }
+}

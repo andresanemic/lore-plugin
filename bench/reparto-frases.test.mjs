@@ -276,6 +276,25 @@ test("1c: las tres frases de riesgo le tocan a vespi, y ninguna es «no sé cóm
   }
 });
 
+test("RC6: coordinar una operación existente entre proyectos activa Vespi; lo simple no", async () => {
+  const M = await MODULO();
+  const positivos = [
+    "barre las notas de varios proyectos, arbitra lo pendiente y deja el jardín conectado para seguir mañana",
+    "coordina lo que ya estamos haciendo entre varios proyectos y revisa qué falta antes de seguir",
+  ];
+  for (const frase of positivos) {
+    assert.equal(M.reparte({ frase }).skill, "vespi", `«${frase}» no activó Vespi`);
+  }
+  for (const frase of [
+    "escribe una noticia con el workflow de BlockVoz que ya funciona",
+    "ayúdame a empezar un proyecto nuevo; todavía no hay forma de trabajo",
+  ]) {
+    assert.notEqual(M.reparte({ frase }).skill, "vespi", `«${frase}» activó Vespi sin necesidad`);
+  }
+  const disparador = disparadorDe("vespi");
+  assert.match(disparador, /coordina|varios proyectos|notas de varios proyectos/i);
+});
+
 test("1d: cada description reclama su familia, que es lo único que el host lee antes de decidir", () => {
   for (const [familia, duena] of Object.entries(REPARTO)) {
     assert.ok(
