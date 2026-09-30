@@ -1,6 +1,7 @@
 import { execFileSync } from "node:child_process";
 import {
   copyFileSync,
+  existsSync,
   mkdirSync,
   mkdtempSync,
   readFileSync,
@@ -15,6 +16,19 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 const template = join(import.meta.dirname, "..", "skills", "create-bot", "plantillas", "sync.js");
+
+test("sync rechaza --self-test sin escribir tabla ni acceso", (t) => {
+  const root = mkdtempSync(join(tmpdir(), "lore-bot-sync-unknown-"));
+  t.after(() => rmSync(root, { recursive: true, force: true }));
+  const scripts = join(root, "scripts");
+  mkdirSync(scripts, { recursive: true });
+  copyFileSync(template, join(scripts, "sync.js"));
+  writeFileSync(join(scripts, "ecosistema.json"), JSON.stringify({ raiz: root, nota: "", fuentes: [] }));
+
+  assert.throws(() => execFileSync(process.execPath, [join(scripts, "sync.js"), "--self-test"]));
+  assert.equal(existsSync(join(root, "lore", "enrutamiento.md")), false);
+  assert.equal(existsSync(join(root, ".claude", "settings.local.json")), false);
+});
 
 test("sync solo reescribe enrutamiento.md cuando cambia el manifiesto", (t) => {
   const root = mkdtempSync(join(tmpdir(), "lore-bot-sync-"));

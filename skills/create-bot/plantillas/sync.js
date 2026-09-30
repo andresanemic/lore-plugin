@@ -27,7 +27,12 @@ const RAIZ       = path.join(__dirname, '..');
 const MANIFIESTO = path.join(__dirname, 'ecosistema.json');
 const TABLA      = path.join(RAIZ, 'lore', 'enrutamiento.md');
 
-const revisar = process.argv.includes('--revisar');
+const args = process.argv.slice(2);
+if (args.some(arg => arg !== '--revisar')) {
+  console.error('Opción desconocida. Uso: node scripts/sync.js [--revisar]');
+  process.exit(2);
+}
+const revisar = args.includes('--revisar');
 
 const { raiz, nota, fuentes } = JSON.parse(fs.readFileSync(MANIFIESTO, 'utf8'));
 

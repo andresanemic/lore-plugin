@@ -367,7 +367,7 @@ These are **project** templates the area stamps — they carry `{{PROJECT_TOKENS
 <!-- lore:always-on -->
 ## The Lore — where the criteria lives
 - `lore/index.md` — map; thematic modules are **inherited from the area** by relative path
-  (`../../../lore/<module>.md`).
+  (`../../lore/<module>.md` from the stamped project contract).
 - `lore/identidad.md` — this project's identity + pointer to the area standard.
 - `lore/principios.md` — this project's laws + pointer to the area laws.
 - if the area profile is enabled, its index carries the `perfil-profesional.md` pointer; do not copy it here.

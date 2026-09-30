@@ -14,6 +14,18 @@ const docs = rootDocs.map((name) => name).concat(
   readdirSync(join(root, "docs")).filter((name) => name.endsWith(".md")).map((name) => join("docs", name)),
 );
 
+test("el contrato de proyecto de create-area alcanza el Lore del área", () => {
+  const skill = skillText(join(skillsRoot, "create-area"));
+  const section = skill.split("### `_starter/{{CONTRACT_FILE}}.template.md` (project contract)")[1]?.split("### `_starter/FASES.md`")[0];
+  assert.ok(section, "falta la plantilla de contrato del proyecto");
+  const pointer = section.match(/`((?:\.\.\/)+lore\/<module>\.md)`/)?.[1];
+  assert.ok(pointer, "falta el puntero al Lore del área");
+
+  const area = join(root, "fixture", "areas", "huerto-comun");
+  const project = join(area, "proyectos", "turnos-de-riego");
+  assert.equal(resolve(project, pointer.replace("<module>", "identidad")), join(area, "lore", "identidad.md"));
+});
+
 test("las ocho skills declaran un nombre único y neutral al proveedor", () => {
   assert.equal(skills.length, 8);
   const names = skills.map((entry) => {

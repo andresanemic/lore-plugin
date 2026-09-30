@@ -9,8 +9,8 @@
 Lore Plugin, you keep every one of its seven skills and everything you have already distilled.
 What is new is an eighth skill that answers one sentence you have probably typed before — *«esto me
 está complicando»*, *«se está perdiendo lo que decidimos»*, *«sigamos mañana»* — and hands you back
-what was agreed, without restarting from a summary. It is experimental, it says what it sees as
-what it sees, and the decision stays yours.
+what was agreed, without restarting from a summary. It is experimental: it reports what it could verify, flags what remains
+uncertain, and leaves the decision to you.
 
 Here is all of it, on your first morning. Open a session and, once, a short message tells you that
 Vespi arrived, what it can do for you, and offers to fix your limits — how the skills speak to you,
@@ -107,10 +107,10 @@ Two fields, not one. What ran, with its number, its scope and its cut — and wh
 
 | Claim | Result | Cut and scope |
 |---|---|---|
-| Kit suite, `npm test` | **522 tests, 521 pass, 0 fail, 1 skipped, 0 TODO** | RC6 working source on 2026-09-30, including both status mark installers. The previous jurisdiction TODOs now run as passing tests. This is not an installed or released build. |
+| Kit suite, `npm test` | **524 tests, 523 pass, 0 fail, 1 skipped, 0 TODO** | RC6 working source on 2026-09-30, including both status mark installers and the creation skill regressions. The previous jurisdiction TODOs now run as passing tests. This is not an installed or released build. |
 | Vespi kernel at RC5, `node --test test/*.test.js` at `54c20c7` | **181/181**, exit 0 | The historical RC5 figure, reproduced in a clean detached checkout of that commit. It is no longer what `skills/vespi/core/kernel/SOURCE.md` vendors: that file now points at the RC6 commit `892bd91`. Dependency-free, so the figure does not need the demo. |
 | Vespi kernel RC6 source, `node --test` at `892bd91` | **249/249**, 0 fail, 0 skipped, 0 TODO | The full upstream kernel suite, run and confirmed by the coordinator. These bytes are **already vendored in source** — `skills/vespi/core/kernel/SOURCE.md` points at `892bd91` — and **not installed**: the hosts still run RC5. An independent verifier is now required before a local receipt can advance continuity. |
-| `NOTICE` of the kernel | **Corrected.** It said the commits are signed; `git log --format='%G?'` returns `N` for all 47, so there is no verifiable signature and none is claimed. | Authenticity of a receipt is not claimed from its SHA-256 either: the digest carries no key and proves integrity, not who wrote it. |
+| `NOTICE` of the kernel | **Corrected.** It said the commits are signed; `git log --format='%G?'` returns `N` for all 48 commits at `892bd91`, so there is no verifiable signature and none is claimed. | Authenticity of a receipt is not claimed from its SHA-256 either: the digest carries no key and proves integrity, not who wrote it. |
 | Benchmark for this version | **Not run.** The published benchmark is [`2.3.2`](../bench/effect-2.3.2/) and measures that version, not this one. No number here describes RC6. | — |
 | External review | **Pending.** An Anthropic superreview and a security review with Andrés have not run. No review is credited here without its run attached. | — |
 | Installation | **RC5 on three hosts, copies compared by fingerprint.** It does not contain the reminder or the OpenCode hooks, and it is not evidence that a model receives either of them. | — |
@@ -144,7 +144,7 @@ and no public skill was removed.
 Plugin, conservas sus siete skills y todo lo que ya destilaste. Lo nuevo es una octava skill que
 contesta una frase que probablemente ya escribiste — *«esto me está complicando»*, *«se está
 perdiendo lo que decidimos»*, *«sigamos mañana»* — y te devuelve lo acordado, sin reiniciar desde
-un resumen. Es experimental, dice lo que ve como lo que ve, y la decisión sigue siendo tuya.
+un resumen. Es experimental: te muestra qué pudo comprobar, señala qué sigue incierto y deja la decisión en tus manos.
 
 Esto es todo, en tu primera mañana. Abre una sesión y, una sola vez, un mensaje corto te dice que
 llegó Vespi, qué puede hacer por ti, y te ofrece fijar tus límites: cómo te hablan las skills y qué
@@ -242,10 +242,10 @@ corrido.
 
 | Afirmación | Resultado | Corte y alcance |
 |---|---|---|
-| Suite del kit, `npm test` | **522 tests, 521 pass, 0 fail, 1 skip, 0 TODO** | Fuente de trabajo RC6 del 30/09/2026, incluidas ambas marcas de estado. Los TODO anteriores de jurisdicción ya corren como pruebas verdes. Aún no es un paquete instalado ni publicado. |
+| Suite del kit, `npm test` | **524 tests, 523 pass, 0 fail, 1 skip, 0 TODO** | Fuente de trabajo RC6 del 30/09/2026, incluidas ambas marcas de estado y las regresiones de las skills de creación. Los TODO anteriores de jurisdicción ya corren como pruebas verdes. Aún no es un paquete instalado ni publicado. |
 | Kernel de Vespi en RC5, `node --test test/*.test.js` en `54c20c7` | **181/181**, exit 0 | La cifra histórica de RC5, reproducida en un checkout limpio y detached de ese commit. Ya no es lo que vendoriza `skills/vespi/core/kernel/SOURCE.md`: ese archivo ahora apunta al commit RC6 `892bd91`. Sin dependencias, así que la cifra no necesita la demo. |
 | Kernel de Vespi, fuente RC6, `node --test` en `892bd91` | **249/249**, 0 fallos, 0 skip, 0 TODO | La suite completa del kernel upstream, corrida y confirmada por el coordinador. Esos bytes ya están **vendorizados en la fuente** — `skills/vespi/core/kernel/SOURCE.md` apunta a `892bd91` — y **no están instalados**: los hosts siguen en RC5. La continuidad exige un verificador independiente antes de avanzar desde un recibo local. |
-| `NOTICE` del kernel | **Corregido.** Decía que los commits están firmados; `git log --format='%G?'` devuelve `N` en los 47, así que no hay firma verificable y no se reclama ninguna. | La autenticidad de un recibo tampoco se reclama desde su SHA-256: el digest no lleva clave y prueba integridad, no quién lo escribió. |
+| `NOTICE` del kernel | **Corregido.** Decía que los commits están firmados; `git log --format='%G?'` devuelve `N` en los 48 commits de `892bd91`, así que no hay firma verificable y no se reclama ninguna. | La autenticidad de un recibo tampoco se reclama desde su SHA-256: el digest no lleva clave y prueba integridad, no quién lo escribió. |
 | Benchmark de esta versión | **No corrido.** El benchmark publicado es el [`2.3.2`](../bench/effect-2.3.2/) y mide esa versión, no esta. Ninguna cifra de aquí describe la RC6. | — |
 | Revisión externa | **Pendiente.** Una superreview de Anthropic y una revisión de seguridad con Andrés no se han corrido. Aquí no se acredita ninguna revisión sin su corrida adjunta. | — |
 | Instalación | **RC5 en tres hosts, copias cotejadas por huella.** No contiene el recordatorio ni los hooks de OpenCode, y no es evidencia de que un modelo reciba alguno de los dos. | — |

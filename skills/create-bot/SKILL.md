@@ -717,7 +717,6 @@ Copy `plantillas/ecosistema.json` and fill it from the brainstorm; copy `plantil
 unchanged. Then:
 
 ```bash
-node scripts/sync.js --self-test  # verifies the prune classifier; touches no files
 node scripts/sync.js --revisar    # dry run: reports what is missing and what would change
 node scripts/sync.js              # generates lore/enrutamiento.md + .claude/settings.local.json
 ```

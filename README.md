@@ -389,11 +389,13 @@ Areas and projects are places; **a bot is a lens you carry into them.** An Area 
 
 **Day one needs two of these:** `use-lore` routes you to whatever comes next, and `save-to-lore` is the one you will actually type — *"save to lore"*, after solving something that cost you. **Getting started, day-to-day use and the full mechanism for every skill and mode** live in one place: [`REFERENCE_en.md`](./docs/REFERENCE_en.md).
 
-Four things left in 2.4.9: encryption, the `lore-ecosistema/` copy, `create-bot`'s local launcher, and the Professor with its Notebook. A shared repository takes their place, and nothing already built breaks. Detail in [`REFERENCE_en.md`](./docs/REFERENCE_en.md).
+The 2.4.9 candidate retires four things: encryption, the `lore-ecosistema/` copy, `create-bot`'s local launcher, and the Professor with its Notebook. A shared repository takes their place. Detail in [`REFERENCE_en.md`](./docs/REFERENCE_en.md).
 
 ---
 
 ## Vespi
+
+**Vespi is experimental in the unpublished 2.4.9 candidate; published 2.4.8 does not include it.**
 
 <p align="center">
   <img src="./assets/vespi-B.png" alt="Vespi" width="100%">
@@ -403,11 +405,11 @@ Vespi is the part of the kit that keeps what you agreed standing when the work s
 
 When the work stretches, it keeps the pace: at the interval you chose in your agreement it offers you, in one line, to save what you learned, to take a break or to close, and if you do not answer it does not insist. When the session is already loaded, Vespi suggests opening a new one with a handoff that explains itself, or moving to a lighter model — it never defaults to the most expensive one, and before it puts several agents to work it tells you what each one buys and what that costs.
 
-Behind that sits a kernel of its own, and this is what it does today. An operation is resumed from loose receipts, with no handoff, by any agent on any host. Authority is granted bounded, with three things at once — until when, how much, and to whom — and once it expires the operation does not pass; when it requires the approval of several people, the gate collects the distinct signatures it asks for and does not count the agent's. Every step leaves a receipt with a fingerprint that changes with any change, naming what was actually verified and what was left uncovered instead of declaring an all-green. Anchoring on Stellar is an interface, not a certificate: the receipt tells apart what was only submitted, what was confirmed by reading the chain, and what never arrived. The impossible task is never retried blindly — it comes back blocked, with the exit named and the agreement saying who may pause it.
+Behind that sits a kernel of its own, and this is what the candidate implements. An operation is resumed from loose receipts, with no handoff, by an agent on a supported host. Authority is granted bounded, with three things at once — until when, how much, and to whom — and once it expires the operation does not pass; when it requires the approval of several people, the gate counts the distinct named identities it asks for and does not count the agent's. Every step leaves a receipt with a fingerprint over its covered fields, naming what was actually verified and what was left uncovered instead of declaring an all-green. Anchoring on Stellar is an interface, not a certificate: the receipt tells apart what was only submitted, what a supplied verifier confirmed, and what never arrived. The impossible task is never retried blindly — it comes back blocked, with the exit named and the agreement saying who may pause it.
 
 The human gate, when it is needed, opens like this: it shows you the cost before asking for anything; the agent never signs on your behalf, and if it tries, the operation comes back to you; what is public arrives off; and every rejection names the exit.
 
-It was born as an experiment of its own and keeps growing separately, in its repository. To see how it works from the inside, or to try the kernel alone —the small core that runs each operation and leaves its receipt— without the rest of the kit: [github.com/andresanemic/vespi](https://github.com/andresanemic/vespi).
+The kernel is developed separately: [github.com/andresanemic/vespi](https://github.com/andresanemic/vespi).
 
 ---
 
@@ -986,11 +988,13 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 **El primer día necesitas dos de estas:** `use-lore` te enruta hacia lo que sigue, y `save-to-lore` es la que vas a escribir de verdad — *"guarda en lore"*, después de resolver algo que te costó. **Cómo empezar, el uso cotidiano y el mecanismo completo de cada skill y modo** viven en un solo lugar: [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
 
-Cuatro cosas salieron en 2.4.9: el cifrado, la copia `lore-ecosistema/`, el launcher local de `create-bot` y el Professor con su Cuaderno. En su lugar, un repositorio compartido, y nada de lo construido se rompe. Detalle en [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
+La candidata 2.4.9 retira cuatro cosas: el cifrado, la copia `lore-ecosistema/`, el launcher local de `create-bot` y el Professor con su Cuaderno. En su lugar queda un repositorio compartido. Detalle en [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
 
 ---
 
 ## Vespi
+
+**Vespi es experimental en la candidata 2.4.9 aún inédita; 2.4.8 no la incluye.**
 
 <p align="center">
   <img src="./assets/vespi-B.png" alt="Vespi" width="100%">
@@ -1000,11 +1004,11 @@ Vespi es la parte del kit que cuida que lo acordado siga en pie cuando el trabaj
 
 Cuando el trabajo se alarga, te cuida el ritmo: cada cierto rato, el que tú elegiste en tu acuerdo, te ofrecen en una línea guardar lo aprendido, tomar un descanso o cerrar, y si no respondes no insiste. Cuando la sesión ya está cargada, Vespi te sugiere abrir una nueva con un traspaso que se entiende solo, o pasar a un modelo más liviano — nunca elige por defecto el modelo más caro, y antes de poner a varios agentes a trabajar te dice qué compra cada uno y cuánto cuesta.
 
-Detrás de eso hay un núcleo propio, y esto es lo que hace hoy. Una operación se retoma desde recibos sueltos, sin traspaso, y la continúa cualquier agente de cualquier host. La autoridad se otorga acotada con tres cosas a la vez —hasta cuándo, cuánto y a quién—; vencida, la operación no pasa, y cuando exige la aprobación de varias personas la puerta reúne las firmas distintas que pide y no cuenta la del agente. Cada paso deja un recibo con huella que cambia con cualquier cambio, y nombra qué se verificó de verdad y qué quedó sin cubrir en vez de declarar un verde entero. Anclar en Stellar es una interfaz, no un certificado: el recibo distingue lo que solo se envió, lo que se confirmó leyendo la cadena y lo que no llegó. La tarea imposible no se reintenta a ciegas: vuelve bloqueada, con la salida nombrada y con el acuerdo diciendo quién puede pausar.
+Detrás de eso hay un núcleo propio, y esto es lo que implementa la candidata. Una operación se retoma desde recibos sueltos, sin traspaso, y la continúa un agente en un host compatible. La autoridad se otorga acotada con tres cosas a la vez —hasta cuándo, cuánto y a quién—; vencida, la operación no pasa, y cuando exige la aprobación de varias personas la puerta cuenta las identidades nominales distintas que pide y no cuenta la del agente. Cada paso deja un recibo con huella sobre los campos que cubre, y nombra qué se verificó de verdad y qué quedó sin cubrir en vez de declarar un verde entero. Anclar en Stellar es una interfaz, no un certificado: el recibo distingue lo que solo se envió, lo que confirmó un verificador aportado por quien integra el kernel y lo que no llegó. La tarea imposible no se reintenta a ciegas: vuelve bloqueada, con la salida nombrada y con el acuerdo diciendo quién puede pausar.
 
 La puerta humana, cuando hace falta, se abre así: te muestra el costo antes de pedir nada; el agente nunca firma en tu nombre, y si lo intenta la operación vuelve a ti; lo público llega apagado; y todo rechazo nombra la salida.
 
-Nació como un experimento propio y sigue creciendo aparte, en su repositorio. Para ver cómo funciona por dentro, o probar solo su kernel —el núcleo pequeño que ejecuta cada operación y deja su recibo— sin el resto del kit: [github.com/andresanemic/vespi](https://github.com/andresanemic/vespi).
+El kernel se desarrolla aparte: [github.com/andresanemic/vespi](https://github.com/andresanemic/vespi).
 
 ---
 
