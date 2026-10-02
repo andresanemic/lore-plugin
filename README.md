@@ -16,7 +16,7 @@
 
 <p align="center">
   <b>Stop explaining your project to the AI every morning.</b><br>
-  Lore keeps the criteria behind your decisions and loads it into the next session.
+  Lore is the operating system for working with AI: it keeps your criterion, runs the method silently, and executes with Vespi.
 </p>
 
 ---
@@ -574,7 +574,7 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 
 <p align="center">
   <b>Deja de explicarle tu proyecto a la IA todas las mañanas.</b><br>
-  Lore guarda el criterio detrás de tus decisiones y lo carga en la siguiente sesión.
+  Lore es el sistema operativo del trabajo con IA: guarda tu criterio, corre el método en silencio y ejecuta con Vespi.
 </p>
 
 ---
