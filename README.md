@@ -411,6 +411,10 @@ The human gate, when it is needed, opens like this: it shows you the cost before
 
 The kernel is developed separately: [github.com/andresanemic/vespi](https://github.com/andresanemic/vespi).
 
+### Vespi standalone
+
+You can use Vespi alone, without Lore Plugin, SDD or distilling pistas: a minimal coordinator-facing operation protocol plus a pinned kernel with provenance. It coordinates bounded operations with receipts and gates; it does not store criterion or memory. If you want memory/criterion, add Lore Plugin. Do not bundle it as a ninth Lore Plugin skill without a versioned change and tests.
+
 ---
 
 ## Loose notes
@@ -1009,6 +1013,10 @@ Detrás de eso hay un núcleo propio, y esto es lo que implementa la candidata. 
 La puerta humana, cuando hace falta, se abre así: te muestra el costo antes de pedir nada; el agente nunca firma en tu nombre, y si lo intenta la operación vuelve a ti; lo público llega apagado; y todo rechazo nombra la salida.
 
 El kernel se desarrolla aparte: [github.com/andresanemic/vespi](https://github.com/andresanemic/vespi).
+
+### Vespi suelto
+
+Puedes usar Vespi solo, sin Lore Plugin, SDD ni destilar pistas: un protocolo mínimo de operación para el coordinador más un kernel fijado con procedencia. Coordina operaciones acotadas con recibos y puertas; no guarda criterio ni memoria. Si quieres memoria/criterio, suma Lore Plugin. No lo empaquetes como novena skill de Lore Plugin sin cambio versionado y tests.
 
 ---
 
