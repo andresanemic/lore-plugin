@@ -25,6 +25,7 @@
     "scripts/installer.mjs",
     "scripts/lore-cli.mjs",
     "scripts/lore-plugin.mjs",
+    "scripts/operation-cli.mjs",
     "README.md",
     "LICENSE",
     "NOTICE"
