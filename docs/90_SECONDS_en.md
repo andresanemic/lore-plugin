@@ -57,6 +57,10 @@ Not a README, not a changelog, not a design doc. Those describe. Lore constrains
 And most of what happens does not survive it. That is the design: a Lore is worth what it changes in
 future decisions, never what it holds.
 
+## And now it also executes
+
+Lore Plugin is the operating system for working with AI: it keeps your criterion, runs the method silently, and executes with Vespi. You do not need to know what TDD, a spec, or a master plan is: you work and the kit applies the discipline without being asked. (Identity arbitrated 2026-10-02.)
+
 ## Start
 
 Install the plugin and write **"I want to start using Lore Plugin, help me"**. The kit brainstorms to build — it will not hand you a menu of
