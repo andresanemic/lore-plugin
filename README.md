@@ -484,7 +484,7 @@ Lore was not designed ahead of time: every decision came from applying it to rea
 ## Reach
 
 <p align="center">
-  <img src="./assets/reach-en.png" alt="2,000+ clones and counting" width="100%">
+  <img src="./assets/reach-en.png" alt="3,000+ clones and counting" width="100%">
 </p>
 
 <p align="center">
@@ -1081,7 +1081,7 @@ Lore no se diseñó de antemano: cada decisión salió de aplicarlo a proyectos 
 ## Alcance
 
 <p align="center">
-  <img src="./assets/reach-es.png" alt="2.000+ clonaciones y sumando" width="100%">
+  <img src="./assets/reach-es.png" alt="3.000+ clonaciones y sumando" width="100%">
 </p>
 
 <p align="center">

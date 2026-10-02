@@ -32,6 +32,10 @@ creates the area.
 
 ## Area model (federated + hybrid)
 
+Ya viviste la escena: un dominio nuevo te pide casa propia y terminas copiando el contrato del
+proyecto anterior, con el nombre viejo sin cambiar y las fases pensadas para otro tipo de trabajo.
+El área nace para que eso no vuelva a pasar.
+
 - The area is a **light** folder: one instruction contract + `FASES.md` + `lore/` + `proyectos/` + `_starter/`.
 - The area carries its own **project scaffold** in `_starter/` — the templates (`{{CONTRACT_FILE}}.template.md`,
   `FASES.md`, and `golden-paths.template.md` when the domain warrants it) **tuned to this area's
@@ -48,7 +52,14 @@ creates the area.
 
 ## Procedure (step by step)
 
+Llegas con el dominio en la cabeza pero sin identidad escrita. Este es el orden que lo sostiene:
+primero se piensa, después se escribe, al final se verifica. Saltarse el umbral es la vía más
+rápida hacia un área de la que en seis meses nadie se acuerda.
+
 ### 1. Identity brainstorm (threshold)
+
+Te piden un área y ya traes las carpetas creadas en la cabeza. Aquí se invierten los tiempos:
+primero la forma, después los archivos.
 
 **Create no file or folder before the design is approved.** Invoke Lore Plugin's own
 `brainstorming-lore` skill (`lore:brainstorming-lore` where skills are namespaced). Ask
@@ -114,6 +125,8 @@ carry each approved decision into the accumulated area design and recap it at co
 
 ### 2. Create the structure
 
+La identidad ya tiene tu sí. Ahora sí se toca disco: la carpeta madre, sus subcarpetas y nada más.
+
 ```bash
 PATH_AREA="{{PATH}}"
 mkdir -p "$PATH_AREA/lore" "$PATH_AREA/proyectos" "$PATH_AREA/_starter"
@@ -142,6 +155,9 @@ Resulting structure:
 
 ### 3. Write the files with **Write** (resolved content, no `{{TOKENS}}`)
 
+Los archivos salen del brainstorm, no de la plantilla copiada. Cada `{{TOKEN}}` se resuelve con lo
+que ya quedó dicho.
+
 Do not copy templates blind: write each file resolving the tokens with what was discussed in the
 brainstorm. Reference templates below (§Templates).
 
@@ -149,6 +165,9 @@ Order: `lore/identidad.md` → `lore/principios.md` → optional `lore/perfil-pr
 (+ any thematic module agreed in the brainstorm).
 
 ### 3b. Generate the area's project scaffold (`_starter/`)
+
+Cada nuevo proyecto nacerá con la cara de esta área o nacerá mal. Por eso `_starter/` se afina
+aquí, una vez, y no en cada proyecto.
 
 Write the project templates **tuned to this area's domain** into `_starter/`. These are what
 `create-project` stamps for every new project — so they must reflect this area's stack, phases and
@@ -189,25 +208,30 @@ another person's Notion bases, house style or corpus into the kit. Every `_start
 
 ### 4. Verify and report
 
+Antes de decir "listo", se recorre lo escrito con ojos de extraño: ¿tiene sentido lo que un
+usuario nuevo encontraría aquí?
+
 - Verify the area and starter each contain exactly one contract file. Do not generate both names by
   default. If the user needs both hosts, offer Codex's `project_doc_fallback_filenames` setting or,
   only with explicit approval, a minimal pointer adapter.
 - Verify the **floor** on both contracts (area + `_starter/`): one `<!-- lore:always-on -->` block,
   four things, ≤ 25 lines; `FASES.md` named outside `lore/`; no `HARD-GATE` in present tense; no
   plugin wrap. A project starter points at `../../../lore/`. A `bots` starter points at `canon/`
-  and `lore/enrutamiento.md`.
+  and `lore/enrutamiento.md`. (The floor itself is defined in §3b.)
 - Verify no unresolved `{{TOKEN}}` remains in any file.
 - Verify every `index.md` link resolves to a present file.
 - Report the created structure and the **next step** (create a project with `create-project`, or
   adopt an existing one by registering it by hand in `FASES.md`).
 - **If another skill sent you here, the next step is to go back to it** — not `create-project`.
-  `create-bot` needs its host area before the bot can exist, and `create-project` needs the area it
-  was pointed at. Resume the owning operation silently in the same session; name it only if the user
+  Resume the owning operation silently in the same session; name it only if the user
   named it or asked for technical detail. The user
   asked for a bot or a project; an area reported as the finished deliverable answers a request nobody
   made, and the request that is still open is the one they will not restate.
 
 ## Invariants
+
+Hay cosas que no se negocian una vez creada el área. Si dudas sobre una decisión concreta,
+vuelve a esta lista antes de actuar.
 
 - `lore/` ALWAYS at the area root. `FASES.md` ALWAYS **outside** `lore/` (Lore is criteria that
   persists; FASES is state that advances — never mix them).
@@ -216,10 +240,10 @@ another person's Notion bases, house style or corpus into the kit. Every `_start
   selected contract name (`CLAUDE.md` or `AGENTS.md`) / `lore/` / `index.md` / `golden-paths.md` / `_starter/` and general technical
   English terms excluded). Never default to English/Spanish because the skill or the templates are.
 - The area carries a **domain-tuned `_starter/`** (project templates + optional code scaffold);
-  `create-project` stamps from it, never from a global/hardcoded starter. This is what keeps the kit
-  path-agnostic. The starter always meets the **structural floor** in §3b — that is how a stranger
-  using this kit gets the same quality of `_starter/` as a mature area, without inheriting someone
-  else's domain. When the area is `bots`, the starter is the bot variant.
+  `create-project` stamps from it, never from a global/hardcoded starter. The starter always meets the
+  **structural floor** in §3b — that is how a stranger using this kit gets the same quality of
+  `_starter/` as a mature area, without inheriting someone else's domain. When the area is `bots`,
+  the starter is the bot variant.
 - **A paragraph is a paragraph** (kit invariant in `use-lore`): generated `lore/`, contract and
   `FASES.md` are not hard-wrapped at column 80.
 - The area is NOT auto-committed. The user decides.
@@ -227,11 +251,16 @@ another person's Notion bases, house style or corpus into the kit. Every `_start
 - **A derived area returns to its caller.** This skill is a **step** inside `create-bot` and
   `create-project` as often as it is a destination, and ending at its own report is how a request for
   three bots becomes three areas: what names the deliverable is the caller's request, which is still
-  open. When called by `create-bot`, the area is `bots` — one of them, holding every bot as a project.
+  open. When called by `create-bot`, the area is `bots` — one of them, holding every bot as a project
+  (see the `bots` note in §1).
 
 ---
 
 ## Templates (reference)
+
+Los templates son forma, no texto literal. Copiarlos a ciegas es el error que esta sección
+existe para evitar: cada heading, frase y filename localizable se renderiza en el idioma del
+usuario.
 
 > These templates are **shape, not literal text**: render every heading, sentence AND localizable
 > filename in the user's language (per the language rule above), keeping structure and the fixed
@@ -255,8 +284,7 @@ registro: {{REGISTRO}}
 ```
 
 > `registro:` sits above the sections because it is **not** one of them: it is a declared preference
-> about how the kit speaks here, not a claim about what this area is. It carries no confidence marker
-> and is never promoted.
+> about how the kit speaks here, defined in §1 (`{{REGISTRO}}`) — carries no confidence marker, never promoted.
 
 ### `lore/principios.md`
 
@@ -351,6 +379,9 @@ if a fact does not constrain a future decision, it does not enter. Packaging a t
 ---
 
 ## Project-scaffold templates (`_starter/`, reference)
+
+Los templates de proyecto llevan `{{PROJECT_TOKENS}}` que `create-project` resuelve por
+proyecto. No son una copia global: cada área los afina a su dominio.
 
 These are **project** templates the area stamps — they carry `{{PROJECT_TOKENS}}` that
 `create-project` resolves per project. Tune them to the area's domain.
