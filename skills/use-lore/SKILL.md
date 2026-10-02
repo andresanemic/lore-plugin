@@ -684,6 +684,18 @@ survives to CAPTURE or GRAFT. Obsidian is one possible editor, never a prerequis
 > happens, and the criterion stays inert inside it. Separating notes from Lore does not fix that;
 > only sweeping the inbox does.
 
+### Three ordinary phrases, three owners (canonical routing — lives only here)
+
+The state of the work decides, not the wording. Under an active agreement that already covers the piece, all three go quiet: the silent check runs first, silently.
+
+| The person says | It belongs to | Because |
+|---|---|---|
+| "quiero hacer esto y no se como" / "todavía no hay forma de trabajo" | `use-lore` | no shape of work yet; the agreement offers it |
+| same sentence + "hay que pensar el diseño antes de construir" (a Lore-owned artifact) | `brainstorming-lore` | the shape itself has to be worked out first |
+| "esto me está complicando" / "se está perdiendo lo que decidimos" / "sigamos mañana" | the **coordinator**, which invokes the `vespi` operation | an existing way of working under strain; a human phrase never invokes Vespi directly |
+
+Under the phrases, the five R2 conditions run as the internal test under every phrase, whether or not a phrase arrived.
+
 ## Language of the Lore
 
 **Lore speaks the user's language.** These skills are written in English, but the Lore they

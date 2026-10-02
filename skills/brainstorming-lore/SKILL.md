@@ -92,18 +92,9 @@ read-only inspection, an approved mechanical edit, or execution of an existing p
 second design ceremony. If another skill owns the artifact, this skill explores the design but does
 not replace that owner.
 
-### Everyday phrases — who answers, and when
+### ### Routing — one home
 
-Three skills answer the three ways a person says something ordinary, and the state of the work
-decides, not the wording. Still no shape of work — «quiero hacer esto y no sé cómo», todavía no
-hay forma de trabajo — is `use-lore`'s, and the shape is what the agreement offers. The same
-sentence narrowed to the design of a Lore-owned artifact is this skill's. The shape exists and
-under strain — «esto me está complicando», «se está perdiendo lo que decidimos», «sigamos
-mañana» — is `vespi`'s. Under a vigente agreement that already covers the piece, all three go
-quiet: the silent check runs first, silently, and a skill that answers a phrase the agreement
-already covers asks the person about the same thing twice. Under the phrases, the five R2
-conditions run as the internal test under every phrase, whether or not a phrase arrived — the
-full list lives in `use-lore`, and this skill applies the same law.
+The three-way routing of ordinary phrases lives once in use-lore ("Three ordinary phrases, three owners"). This skill answers the narrowed case: "quiero hacer esto y no se como" plus "hay que pensar el diseño antes de construir", where the shape itself — of a bot, area, project, transmutation or skill — has to be worked out first. Under an active agreement that already covers the piece, this skill stays quiet.
 
 ## The threshold
 

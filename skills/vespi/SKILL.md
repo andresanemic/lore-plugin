@@ -1,14 +1,12 @@
 ---
 name: vespi
 description: >-
-  Use when an existing way of working is becoming difficult or its decisions are being lost
-  (for example, "esto me está complicando", "se está perdiendo lo que decidimos", or
-  "sigamos mañana"), or when the person asks to coordinate ongoing work across projects
-  ("coordina lo que ya estamos haciendo entre varios proyectos" or "revisar notas de varios
-  proyectos para seguir"). Hold a bounded operation and revalidate before continuing.
-  Not yours: if no way of working exists yet ("quiero hacer esto y no se como"), use-lore
-  owns the question; if it narrows to the design of a Lore-owned artifact, brainstorming-lore
-  owns it. Only save-to-lore writes Lore.
+  Invoke to run a bounded operation under authority: declare its effect, prove authority
+  before the border, perform once, verify separately, return a truthful receipt, checkpoint
+  durable state, and revalidate when a material premise falls. Called by the coordinator
+  in role, never by parsing human phrases — strain phrases route through use-lore's
+  canonical table. Not yours: no way of working yet belongs to use-lore; designing a
+  Lore-owned artifact belongs to brainstorming-lore. Only save-to-lore writes Lore.
 ---
 
 # Vespi — bounded operation under authority (experimental)
@@ -42,18 +40,9 @@ A live bounded operation: declare its effect, prove authority before the border,
 
 Lore, universal routing, learning, schedulers, persistence engines, wallets, migration, or any foreign Lore. Vespi proposes with evidence and provenance; only `save-to-lore` arbitrates the path to Lore, and only the owning governance writes it. Vespi never writes Lore directly — not foreign Lore, not its own.
 
-## Everyday phrases — who answers, and when
+## ## Invocation — who calls, and what arrives
 
-Three skills answer the three ways a person describes ordinary work, and the state of the work
-decides, not the wording. If there is no way of working yet — for example, «quiero hacer esto y no sé cómo»
-or «todavía no hay forma de trabajo» — the question belongs to `use-lore`: the agreement offers the
-missing shape. If the question narrows to the design of a Lore-owned artifact, it belongs to
-`brainstorming-lore`. If an existing way of working is under strain — «esto me está complicando»,
-«se está perdiendo lo que decidimos», or «sigamos mañana» — it belongs here. Under an active agreement that
-already covers the piece, all three go quiet: the silent check runs first, silently, and answering
-a phrase the agreement already covers would ask the person about the same thing twice. Under the
-phrases, the five R2 conditions run as the internal test under every phrase, whether or not a
-phrase arrived — the full list lives in `use-lore`, and this skill applies the same law.
+The coordinator in role calls this protocol with a strained or continuing operation: its mandate, authority, state, and what changed. Human phrases never invoke it directly — they route through use-lore’s canonical table ("Three ordinary phrases, three owners"). Under an active agreement that already covers the piece, this protocol stays quiet: the silent check runs first, silently. Under every invocation, the five R2 conditions run as the internal test — the full list lives in `use-lore`, and this skill applies the same law.
 
 ## Lifecycle (pressure map, not a state machine)
 
