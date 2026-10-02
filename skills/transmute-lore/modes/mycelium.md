@@ -93,9 +93,35 @@ noise gets skipped — which costs more than the finding it was going to report.
    same question as the rest of this mode:
 
     ```bash
-    npx lore-plugin mycelium bodies          # or: --tree <dir>
-    npx lore-plugin mycelium federated       # or: --tree <bot-dir>
+    node "$LORE_CLI" mycelium bodies          # or: --tree <dir>
+    node "$LORE_CLI" mycelium federated       # or: --tree <bot-dir>
     ```
+
+    ```powershell
+    node "$env:LORE_CLI" mycelium bodies       # or: --tree <dir>
+    node "$env:LORE_CLI" mycelium federated    # or: --tree <bot-dir>
+    ```
+
+   **`$LORE_CLI` is the installed local entry for the host running this session.** Resolve that
+   host once; never search for the first entry belonging to some other installed host:
+
+   ```bash
+   # Replace <current-host> with claude, codex or opencode for this session.
+   LORE_HOST='<current-host>'
+   LORE_CLI="$HOME/.lore-plugin/entry/$LORE_HOST/scripts/lore-cli.mjs"
+   ```
+
+   ```powershell
+   # Replace <current-host> with claude, codex or opencode for this session.
+   $loreHost = '<current-host>'
+   $env:LORE_CLI = Join-Path $HOME ".lore-plugin/entry/$loreHost/scripts/lore-cli.mjs"
+   ```
+
+   **Without the executable there is no closure.** If this host's entry is missing, inspect the
+   bodies directly using the manual procedure below, but **the bracket is not closed and you must say so in your
+   answer**. Do not fall back to the npm registry: the package is not published, the command
+   resolves nowhere, and the round trip to discover that is the failure this paragraph exists to
+   remove. Do not describe the sweep as recorded when no receipt was written.
 
    It reports two links of one chain — **contract → index → thematic module**. A core piece
    (`identidad`, `principios`, `index`) that the contract's always-on block does not name, and a
@@ -233,8 +259,19 @@ and if the same finding is really isolation, pruning destroys the junction nobod
 written as a two-sided junction or declined in writing with its reason — record it:
 
 ```bash
-npx lore-plugin mycelium receipt          # or: lore-plugin mycelium receipt --tree <dir>
+node "$LORE_CLI" mycelium receipt          # Bash/Zsh; or: --tree <dir>
 ```
+
+```powershell
+node "$env:LORE_CLI" mycelium receipt       # or: --tree <dir>
+```
+
+**Two conditions, not one.** The connection review performed and the receipt written are
+separate facts, and only the second one is a file. The receipt is what makes the bracket persist
+for the next cut; it is **not** evidence that the review happened well, and it never stands in for
+the connection review that precedes it. When the review was performed and the receipt could not be
+written, say exactly that — both halves, in one sentence. When the receipt was written, say the
+digest, not "reviewed".
 
 It writes receipt v2 to `.lore-mycelium` at the tree root: a digest of the **content** of every Lore
 file the tree holds plus `alwaysOnBytes`, the normalized size of criterion bodies loaded for every
@@ -244,6 +281,8 @@ against the tree and intervene when Lore changed and no sweep was recorded since
 If the loaded bodies grew by 8 KiB or more, the command leaves the receipt untouched and asks for
 authority in plain language. After approval, record it with `--accept-always-on`. The flag accepts
 the expansion only; it does not replace the connection review.
+
+**Only the full pass closes it.** `mycelium bodies` and `mycelium federated` are structural scans: they check that the index reaches each module and that a bot's always-on block carries the triplete rule, and they say so in their own output; neither asks what step runs each clue. The receipt records the state of the tree, not the quality of the review. Reporting the sweep as closed after running only the structural scans is the defect the 2.4.9 candidate corrects (agreement 019, amendment d): the closing sentence names which scans ran, and «MYCELIUM passed» is said only after the full pass.
 
 **Why a fact and not a sentence, and this is the correction that 2.4.2 exists for.** Until then the
 hook accepted the word *MYCELIUM* appearing anywhere in the agent's prose as evidence that the sweep

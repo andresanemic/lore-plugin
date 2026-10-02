@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
-import { mkdtempSync, mkdirSync, readdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
+import { mkdtempSync, mkdirSync, readdirSync, readFileSync, writeFileSync, existsSync, renameSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 import test from "node:test";
 
-import { installCodex, installOpenCode, claudeCommands, claudePluginInstallPath, sameTree } from "./installer.mjs";
+import { installCodex, installOpenCode, claudeCommands, claudePluginInstallPath, sameTree, replaceLocalEntry, recoverLocalEntry, replaceManagedPath } from "./installer.mjs";
 
 const makePackage = () => {
   const root = mkdtempSync(join(tmpdir(), "lore-package-"));
@@ -19,12 +19,20 @@ const makePackage = () => {
   // viajan en el paquete, y un fixture que los omitiera certificaría un instalador que
   // nunca instaló el hook — el defecto que este archivo ya persiguió una vez.
   writeFileSync(join(root, "hooks", "opencode-plugin.js"), "export const LorePlugin = async () => ({})\n");
+  writeFileSync(join(root, "hooks", "opencode-input.mjs"), "export const input = true;\n");
   writeFileSync(join(root, "hooks", "lore-guard.mjs"), "export const classifyWrite = () => \"own\";\n");
   writeFileSync(join(root, "hooks", "lore-state.mjs"), "export const snapshot = () => ({ fileCount: 0 });\n");
   writeFileSync(join(root, "hooks", "lore-turno.mjs"), "export const marca = () => '[Lore Plugin]'; export const nivel = () => 'full';\n");
   writeFileSync(join(root, "hooks", "opencode-statusline.tui.tsx"), "export default { id: 'lore-plugin.statusline', tui(api) { api.slots.register({ slots: { app_bottom: () => <text>[Lore Plugin]</text> } }); } };\n");
   mkdirSync(join(root, "scripts"), { recursive: true });
   writeFileSync(join(root, "scripts", "lore-plugin.mjs"), "// cli\n");
+  // La entrada local y su cadena son obligatorias desde RC7: sin ellas la instalación no
+  // procede, y un fixture que las omitiera certificaría un instalador que deja a la prosa
+  // mandando correr un comando que el host no tiene — el defecto que esta prueba persiguió.
+  writeFileSync(join(root, "scripts", "lore-cli.mjs"), "// local entry\n");
+  writeFileSync(join(root, "scripts", "installer.mjs"), "// installer\n");
+  mkdirSync(join(root, "skills", "use-lore", "scripts"), { recursive: true });
+  writeFileSync(join(root, "skills", "use-lore", "scripts", "acuerdo.mjs"), "export const acuerdo = {};\n");
   return root;
 };
 
@@ -104,7 +112,10 @@ function invocacionesDelCLI(root) {
     const name = String(entry);
     if (!name.endsWith(".md")) continue;
     const prosa = readFileSync(join(skills, name), "utf8");
-    for (const [, comando, sub] of prosa.matchAll(/lore-plugin\s+([a-z][a-z-]*)(?:\s+([a-z][a-z-]*))?/g)) {
+    // `lore-plugin` es la entrada de la vía npm/marketplace; `lore-cli` es la entrada local que
+    // instala cada host. La prosa puede ordenar cualquiera de las dos, y lo que esta prueba
+    // afirma es que el comando ordenado exista en lo instalado, no cuál de los dos nombres usa.
+    for (const [, comando, sub] of prosa.matchAll(/(?:lore-plugin|lore-cli)\s+([a-z][a-z-]*)(?:\s+([a-z][a-z-]*))?/g)) {
       tokens.add(comando);
       if (sub) tokens.add(sub);
     }
@@ -122,6 +133,10 @@ test("Codex recibe todo comando que la prosa de una skill ordena correr", () => 
 
   const cliPath = join(home, ".agents", "plugins", "plugins", "lore", "scripts", "lore-plugin.mjs");
   assert.equal(existsSync(cliPath), true, "la prosa invoca `lore-plugin` y Codex no recibió el CLI");
+
+  // Y la entrada local, que es la que la prosa de MYCELIUM nombra por ruta.
+  const localPath = join(home, ".lore-plugin", "entry", "codex", "scripts", "lore-cli.mjs");
+  assert.equal(existsSync(localPath), true, "Codex no recibió la entrada local que la prosa nombra por ruta");
 
   const cli = readFileSync(cliPath, "utf8");
   for (const token of invocados) {
@@ -248,4 +263,91 @@ test("Codex devuelve digest verificado contra el árbol fuente", () => {
   const packageRoot = makePackage();
   const result = installCodex({ home, packageRoot });
   assert.equal(result.verified, true);
+});
+
+test("un fallo al publicar el recibo restaura la entrada y el recibo anteriores", () => {
+  const root = mkdtempSync(join(tmpdir(), "lore-entry-rollback-"));
+  const entryRoot = join(root, "entry", "codex");
+  const receiptPath = join(root, "entry", "codex.receipt.json");
+  const stagedEntry = join(root, "staging", "entry");
+  const stagedReceipt = join(root, "staging", "receipt.json");
+  const transactionRoot = join(root, "staging", "codex-entry-transaction");
+  mkdirSync(entryRoot, { recursive: true });
+  mkdirSync(stagedEntry, { recursive: true });
+  mkdirSync(join(root, "staging"), { recursive: true });
+  writeFileSync(join(entryRoot, "old.mjs"), "old entry\n");
+  writeFileSync(receiptPath, "old receipt\n");
+  writeFileSync(join(stagedEntry, "new.mjs"), "new entry\n");
+  writeFileSync(stagedReceipt, "new receipt\n");
+
+  let renames = 0;
+  assert.throws(() => replaceLocalEntry({
+    transactionRoot, stagedEntry, entryRoot, stagedReceipt, receiptPath, digest: "new-digest",
+    rename(from, to) {
+      renames += 1;
+      if (renames === 4) throw new Error("injected receipt publish failure");
+      renameSync(from, to);
+    },
+  }), /previous entry and receipt were restored/);
+
+  assert.equal(readFileSync(join(entryRoot, "old.mjs"), "utf8"), "old entry\n");
+  assert.equal(readFileSync(receiptPath, "utf8"), "old receipt\n");
+  assert.equal(existsSync(join(entryRoot, "new.mjs")), false);
+});
+
+test("la siguiente ejecución recupera una transacción interrumpida", () => {
+  const root = mkdtempSync(join(tmpdir(), "lore-entry-resume-"));
+  const transactionRoot = join(root, "staging", "codex-entry-transaction");
+  const entryRoot = join(root, "entry", "codex");
+  const receiptPath = join(root, "entry", "codex.receipt.json");
+  const backupEntry = join(transactionRoot, "previous-entry");
+  const backupReceipt = join(transactionRoot, "previous-receipt.json");
+  mkdirSync(backupEntry, { recursive: true });
+  mkdirSync(entryRoot, { recursive: true });
+  writeFileSync(join(backupEntry, "old.mjs"), "old entry\n");
+  writeFileSync(backupReceipt, "old receipt\n");
+  writeFileSync(join(entryRoot, "new.mjs"), "partially published entry\n");
+  writeFileSync(join(transactionRoot, "transaction.json"), JSON.stringify({
+    digest: "new-digest", hadEntry: true, hadReceipt: true,
+  }));
+
+  assert.equal(recoverLocalEntry({ transactionRoot, entryRoot, receiptPath }), "restored-previous-entry");
+  assert.equal(readFileSync(join(entryRoot, "old.mjs"), "utf8"), "old entry\n");
+  assert.equal(readFileSync(receiptPath, "utf8"), "old receipt\n");
+  assert.equal(existsSync(transactionRoot), false);
+});
+
+test("el reemplazo staged de un componente de host restaura lo anterior ante fallo de rename", () => {
+  const home = mkdtempSync(join(tmpdir(), "lore-managed-rollback-home-"));
+  const root = mkdtempSync(join(tmpdir(), "lore-managed-rollback-"));
+  const source = join(root, "skills", "use-lore");
+  const destination = join(home, ".config", "opencode", "skills", "use-lore");
+  mkdirSync(source, { recursive: true });
+  mkdirSync(destination, { recursive: true });
+  writeFileSync(join(source, "SKILL.md"), "new skill\n");
+  writeFileSync(join(destination, "SKILL.md"), "old skill\n");
+  let renames = 0;
+
+  assert.throws(() => replaceManagedPath({
+    home, host: "opencode", source, destination, label: "OpenCode skill",
+    rename(from, to) {
+      renames += 1;
+      if (renames === 2) throw new Error("injected publish failure");
+      renameSync(from, to);
+    },
+  }), /previous path was restored/);
+
+  assert.equal(readFileSync(join(destination, "SKILL.md"), "utf8"), "old skill\n");
+});
+
+test("preflight de la entrada local falla antes de mutar Codex u OpenCode", () => {
+  for (const [host, install, changedPath] of [
+    ["codex", installCodex, ".agents"],
+    ["opencode", installOpenCode, ".config"],
+  ]) {
+    const home = mkdtempSync(join(tmpdir(), `lore-local-preflight-${host}-`));
+    writeFileSync(join(home, ".lore-plugin"), "blocking file\n");
+    assert.throws(() => install({ home, packageRoot: makePackage() }), /non-directory|not a directory/);
+    assert.equal(existsSync(join(home, changedPath)), false, `${host} changed before local-entry preflight`);
+  }
 });

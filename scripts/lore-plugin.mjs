@@ -4,7 +4,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { claudeCommands, claudePluginInstallPath, installCodex, installOpenCode } from "./installer.mjs";
+import { claudeCommands, claudePluginInstallPath, installClaude, installCodex, installOpenCode } from "./installer.mjs";
 import { installClaudeStatuslineFromInstalledCopy, uninstallClaudeStatusline } from "./install-claude-statusline.mjs";
 import { evaluateState, formatIntervention } from "../hooks/lore-guard.mjs";
 import { claimAnnounce, unnamedBodies, readReceipt, snapshot, writeReceipt, RECEIPT } from "../hooks/lore-state.mjs";
@@ -30,6 +30,13 @@ if (command === "crystallize") {
   const script = resolve(packageRoot, "skills/transmute-lore/scripts/crystallize.mjs");
   const result = spawnSync(process.execPath, [script, ...args.slice(1)], { stdio: "inherit" });
   process.exit(result.status ?? 1);
+}
+
+// La CLI de la operación: una línea JSON por comando y nada simulado. Se carga
+// por demanda para que el kernel de vespi solo se cargue cuando se lo pide.
+if (command === "operation") {
+  const { runOperationCli } = await import("./operation-cli.mjs");
+  process.exit(await runOperationCli(args.slice(1), { stdout: process.stdout, stderr: process.stderr }));
 }
 
 // Registra que el barrido MYCELIUM corrió sobre este árbol. Es lo que cierra el
@@ -70,6 +77,8 @@ if (command === "mycelium") {
     console.log("");
     console.log("Coverage: this walked contract -> index -> module and nothing else. It did not");
     console.log("ask what step runs any clue, and validity boundaries were never in its universe.");
+    console.log("");
+    console.log("This scan does not close the sweep: closing needs the full MYCELIUM pass (every clue gets a step, a junction written or declined with its reason) and then `mycelium receipt`.");
     process.exit(0);
   }
   // Chequeo federado: el always-on de un bot que federa árboles hermanos lleva la
@@ -93,11 +102,13 @@ if (command === "mycelium") {
       && /(hermano|no ancestro|no los inyecta|no lo inyecta)/i.test(block);
     if (hasRule) {
       console.log(`${contract}: federated load declares the triplete rule.`);
+      console.log("This scan does not close the sweep: it checked one rule, not what step runs each clue. Closing needs the full MYCELIUM pass and then `mycelium receipt`.");
       process.exit(0);
     }
     console.log("  the always-on block does not declare the triplete rule for sibling trees");
     console.log("");
     console.log("Declare the rule or run transmute-lore UPGRADE.");
+    console.log("This scan does not close the sweep: it checked one rule, not what step runs each clue. Closing needs the full MYCELIUM pass and then `mycelium receipt`.");
     process.exit(1);
   }
   // Ecualización del Anuncio: reclama una de las tres franjas del árbol. No emite
@@ -127,7 +138,8 @@ if (command === "mycelium") {
     process.exit(2);
   }
   const value = writeReceipt(tree, current);
-  console.log(`MYCELIUM sweep recorded for ${current.fileCount} Lore file(s) in ${tree}`);
+  console.log(`MYCELIUM state recorded for ${current.fileCount} Lore file(s) in ${tree}`);
+  console.log("This records the state of the tree; it does not certify that the sweep ran (every clue getting a step, a junction written or declined with its reason).");
   console.log(`${RECEIPT}: ${value.digest.slice(0, 12)}...`);
   process.exit(0);
 }
@@ -187,6 +199,9 @@ if (target === "claude" || target === "all") {
     if (result.status !== 0) process.exit(result.status ?? 1);
   }
   const home = homedir();
+  const local = installClaude({ home, packageRoot });
+  if (!local.cli.verified) throw new Error("Claude local entry digest differs from source");
+  console.log(`Claude local Lore CLI installed and verified at ${local.cli.cliRoot}.`);
   const installedPackageRoot = claudePluginInstallPath({ home });
   const statusline = installClaudeStatuslineFromInstalledCopy({ home, installedPackageRoot });
   console.log(`Claude Code statusline mark connected at ${statusline.settingsPath}.`);

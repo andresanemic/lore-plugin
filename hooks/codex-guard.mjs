@@ -20,8 +20,8 @@ import { join } from "node:path";
 import {
   anotarDesconocidos,
   evaluateState,
+  foreignWrites,
   formatIntervention,
-  jurisdictionBlock,
   unknownWrites,
 } from "./lore-guard.mjs";
 import { inyeccion, nivel as nivelActivo, estadoDir } from "./lore-turno.mjs";
@@ -115,14 +115,15 @@ if (event === "session_start" && !readSessionRoot(sessionId)) writeSessionRoot(s
 if (event === "pre_tool_use") {
   // La jurisdicción es la raíz donde abrió la sesión; el cwd solo si no hay raíz registrada.
   const jurisdiction = readSessionRoot(sessionId) ?? root;
-  const reason = jurisdictionBlock(jurisdiction, data.tool_name, data.tool_input);
-  if (reason) {
+  // RC7: una escritura en otro árbol con Lore se anota y se avisa, y la decide el permiso
+  // nativo del host (allow, ask o deny), que ya recoge lo que la persona concedió. Ni deny ni
+  // ask: un segundo veto de Lore sobre una ruta que la persona ya concedió obligaba a un humano
+  // a hacer de mensajero o paraba una operación legítima (NC del 2026-10-02).
+  const foreign = foreignWrites(jurisdiction, data.tool_name, data.tool_input);
+  if (foreign.length > 0) {
+    anotarDesconocidos(jurisdiction, data.tool_name, foreign);
     process.stdout.write(JSON.stringify({
-      hookSpecificOutput: {
-        hookEventName: "PreToolUse",
-        permissionDecision: "deny",
-        permissionDecisionReason: reason,
-      },
+      systemMessage: `Lore Plugin: escritura en otro árbol con Lore, la decide el permiso de tu host y queda anotada: ${foreign.join(", ")}`,
     }));
     OK();
   }

@@ -36,8 +36,8 @@ invoking any other Lore skill.
 > not an exemption: continuing is deciding.* Criterion that waits to be remembered is criterion
 > that does not run.
 >
-> **Every session opening checks that those bodies can load — only when the work will rely on them.** In a tree with `lore/`, run the
-> bundled `lore-plugin mycelium bodies --tree <root>` check against the governed root just resolved above before relying on its criterion. Skip it for a trivial single-step task that relies on no body's criterion (a one-file mechanical edit outside `lore/`); run it before the first reliance instead. When a territory change resolves another root, repeat the check. If the
+> **Every session opening checks that those bodies can load — only when the work will rely on them.** In a tree with `lore/`, run
+> the installed local CLI's `mycelium bodies --tree <root>` against the governed root just resolved above before relying on its criterion. Set its path to this host's entry under `~/.lore-plugin/entry/<host>/scripts/lore-cli.mjs`; use only the current host's `claude`, `codex` or `opencode` entry. Never select whichever host entry happens to exist first. In Bash/Zsh, set `LORE_CLI` to that path and invoke `node "$LORE_CLI" mycelium bodies --tree <root>`; in PowerShell, set `$env:LORE_CLI` to that path and invoke `node "$env:LORE_CLI" mycelium bodies --tree <root>`. Skip the check for a trivial single-step task that relies on no body's criterion (a one-file mechanical edit outside `lore/`); run it before the first reliance instead. When a territory change resolves another root, repeat the check. If the
 > bundled command is unavailable, inspect the same two links directly: contract → core pieces
 > (`identidad`, `principios`, `index`) and index → thematic modules. A clean check says nothing and
 > work continues. A missing link stops reliance on that body and names only the concrete decision:
@@ -174,9 +174,11 @@ three, and the one that earned its place was the one that would have caught a re
 one that described a process.
 
 **Equalized, and the pool is small on purpose.** Three per tree, claimed against the session-opening
-check that already runs: `lore-plugin mycelium announce --tree <root>` — exit 0 means there was
+check that already runs: on Bash/Zsh, `node "$LORE_CLI" mycelium announce --tree <root>`; on
+PowerShell, `node "$env:LORE_CLI" mycelium announce --tree <root>`. Exit 0 means there was
 budget and it was spent, exit 1 means there is none, and a tree with no recorded sweep has no pool at
-all. **At most one per session, and that half is this instruction and nothing else:** the command
+all. Resolve the CLI to the installed entry for the current host only. If that entry is missing,
+omit the announcement and do not claim or reclaim budget through another host's entry. **At most one per session, and that half is this instruction and nothing else:** the command
 meters per tree and has no session identifier, so nothing verifies it. **Omitted entirely when the
 person arrives with an urgent instruction, and when the operation is a trivial single step** — framing work nobody asked to have framed is ceremony,
 not orientation.
@@ -604,7 +606,7 @@ never paid for will start receiving promotions that belong somewhere else.
 | Leave Lore without losing the project — remove governance, keep `lore/` and routing as plain `enrutamiento.md` | `transmute-lore` (**LEAVE**): one-pass structural removal of the `<!-- lore:always-on -->` block, conversion of `FASES.md` to host init, project stays buildable; a kit you cannot leave makes `H13` unmeasurable |
 | Export a project, Area or bot's **live routed Lore as one Markdown** for a chat, AI project or notebook — and **extract** that file back into a folder whose routing table resolves | `transmute-lore` (**CRYSTALLIZE**): inlines every routed `lore/` (including `lore-ecosistema/`) into one snapshot marked so the bundled script can unpack it; a file that only points at missing bodies has failed the mode |
 | Capture or **mine loose notes** (`notas/`, `notes/`, `apuntes/`, `.md`, `.txt`, `.docx`) and route what deserves to become criteria | `save-to-lore` — read its conditional `notas.md` function |
-| Continue a **live operation under pressure** across sessions — effects carry authority, resuming silently would pretend nothing changed, the route may not suffice | `vespi`, silently like any route: operation state lives in `operations/<id>/`, never duplicated into `FASES.md` (one pointer line); close states which closure closed — session, run, operation, or phase |
+| Continue a **live operation under pressure** across sessions — effects carry authority, resuming silently would pretend nothing changed, the route may not suffice | `vespi`, silently like any route: operation state lives as one block of the project's own `FASES.md` (`## Operaciones`), a single checkpoint with no second copy; close states which closure closed — session, run, operation, or phase |
 | Work in a repository that **also** has GitHub's spec-kit (`.specify/` is present) | Nothing new to invoke. Read [`docs/SPEC_KIT_en.md`](../../docs/SPEC_KIT_en.md) and copy `assets/constitucion-puntero.md` over the constitution `specify init` generated. **Lore never depends on spec-kit** — this row is recognition, not a dependency |
 | **Decide whether to add spec-kit** to a repository that has Lore | Answer by level before installing anything: an **area** does not take it — its unit of work is a clue, not a feature; a **project** takes the whole cycle; a **bot** takes `specify → plan → tasks` only, and `implement` runs in the destination repository its spec names. Table and the closing clause for the bot case: [`docs/SPEC_KIT_en.md`](../../docs/SPEC_KIT_en.md) |
 

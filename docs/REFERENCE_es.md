@@ -830,7 +830,7 @@ Se **infiere, no se pregunta**, y se declara en una línea con la corrección of
 - Actualiza este archivo cuando el proyecto avance de fase.
 - Usa descripciones concisas y basadas en hechos.
 
-**Estado de proyecto vs estado de operación.** `FASES.md` es dueño del estado del proyecto: fase, hoja de ruta, registro, trabajo abierto. Una operación viva bajo presión es dueña de su estado en `operations/<id>/` (ver `vespi`): finalidad, autoridad, efectos, verificación, checkpoints. El progreso de la operación nunca se duplica en `FASES.md` — una línea puntero nombra la operación viva y dónde vive su estado. Duplicarlo crea dos gobernantes que divergen en silencio.
+**Estado de proyecto vs estado de operación.** `FASES.md` es dueño del estado del proyecto: fase, hoja de ruta, registro, trabajo abierto. Una operación viva bajo presión guarda su estado como un bloque en la sección `## Operaciones` de ese mismo `FASES.md` (ver `vespi`): finalidad, autoridad, efectos, tareas, verificación, checkpoints. Hay un único checkpoint y no se copia en otro lado: un segundo archivo para la misma operación serían dos gobernantes que divergen en silencio.
 
 **El trabajo abierto es explícito.** Un pendiente lleva dueño, impacto y fecha, en una línea:
 

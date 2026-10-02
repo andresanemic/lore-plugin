@@ -862,7 +862,7 @@ promoted to the area. Absent the line, assume `equilibrado`.
 - Update as the project progresses through phases.
 - Use concise, factual descriptions.
 
-**Project state vs operation state.** `FASES.md` owns project state: phase, roadmap, registry, open work. A live operation under pressure owns its state in `operations/<id>/` (see `vespi`): goal, authority, effects, verification, checkpoints. Operation progress is never duplicated into `FASES.md` — one pointer line names the live operation and where its state lives. Duplicating it creates two governors that diverge silently.
+**Project state vs operation state.** `FASES.md` owns project state: phase, roadmap, registry, open work. A live operation under pressure keeps its state as one block in the `## Operaciones` section of that same `FASES.md` (see `vespi`): goal, authority, effects, tasks, verification, checkpoints. There is a single checkpoint and it is not copied anywhere else: a second file for the same operation would be two governors that diverge silently.
 
 **Open work is explicit.** A pending item carries owner, impact, and date, in one line:
 

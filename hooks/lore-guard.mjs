@@ -199,14 +199,21 @@ export function anotarDesconocidos(
   }
 }
 
+// Las rutas que esta escritura estructurada toca en un árbol con Lore que no es el propio. La
+// guardia las identifica y las anota; no decide sobre ellas: eso es del permiso nativo del host.
+export function foreignWrites(root, toolName, input) {
+  const own = resolve(root);
+  return structuredWritePaths(toolName, input)
+    .map((path) => resolve(own, path))
+    .filter((path) => classifyWrite(own, path) === "foreign");
+}
+
 export function jurisdictionBlock(root, toolName, input) {
   const paths = structuredWritePaths(toolName, input);
   if (paths.length === 0) return null;
   const own = resolve(root);
   const exchange = exchangeRoot(own);
-  const denied = paths
-    .map((path) => resolve(own, path))
-    .filter((path) => classifyWrite(own, path) === "foreign");
+  const denied = foreignWrites(own, toolName, input);
   return denied.length === 0
     ? null
     : `Escritura fuera de tu jurisdicción: ${denied.join(", ")}. ` + (exchange

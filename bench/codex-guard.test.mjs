@@ -112,6 +112,15 @@ function preMove(cwd, source, target, sessionId = freshSession()) {
 }
 
 
+// RC7: la guardia identifica y anota una escritura en otro árbol, pero no decide. La decisión
+// es del permiso nativo del host (allow, ask o deny), que ya recoge lo que la persona concedió.
+function delega(salida, ruta) {
+  const r = JSON.parse(salida);
+  assert.equal(r.hookSpecificOutput, undefined, "la guardia no decide: delega en el permiso del host");
+  assert.match(r.systemMessage, /la decide el permiso de tu host/);
+  if (ruta) assert.ok(r.systemMessage.includes(ruta), "nombra la ruta escrita");
+}
+
 test("PreToolUse permite el scratchpad de la sesión aunque esté fuera del árbol", () => {
   const own = tree();
   const scratch = join(tmpdir(), "claude", "sesion-probe", "scratchpad", "borrador.md");
@@ -119,7 +128,7 @@ test("PreToolUse permite el scratchpad de la sesión aunque esté fuera del árb
   assert.equal(claudePreWrite(own, scratch), "");
 });
 
-test("PreToolUse lee el enrutamiento sin conceder escritura sobre árboles federados", () => {
+test("PreToolUse delega en el permiso del host las escrituras sobre árboles federados y las anota", () => {
   const hive = mkdtempSync(join(tmpdir(), "lore-hive-"));
   roots.push(hive);
   const own = join(hive, "bots", "proyectos", "bot-probe");
@@ -132,10 +141,9 @@ test("PreToolUse lee el enrutamiento sin conceder escritura sobre árboles feder
   write(federated, "lore/metodo.md", "# Método\n");
   write(stranger, "lore/principios.md", "# Ajeno\n");
 
-  assert.equal(JSON.parse(preWrite(own, join(federated, "lore", "metodo.md"))).hookSpecificOutput.permissionDecision, "deny");
-  assert.equal(JSON.parse(claudePreWrite(own, join(federated, "lore", "metodo.md"))).hookSpecificOutput.permissionDecision, "deny");
-  const blocked = JSON.parse(preWrite(own, join(stranger, "lore", "principios.md")));
-  assert.equal(blocked.hookSpecificOutput.permissionDecision, "deny");
+  delega(preWrite(own, join(federated, "lore", "metodo.md")), join(federated, "lore", "metodo.md"));
+  delega(claudePreWrite(own, join(federated, "lore", "metodo.md")), join(federated, "lore", "metodo.md"));
+  delega(preWrite(own, join(stranger, "lore", "principios.md")), join(stranger, "lore", "principios.md"));
 });
 
 test("la jurisdicción se ancla en la raíz donde abrió la sesión, no en el cwd que deriva", () => {
@@ -149,10 +157,9 @@ test("la jurisdicción se ancla en la raíz donde abrió la sesión, no en el cw
   const sessionId = `drift-${Date.now()}`;
 
   assert.equal(run(own, "session_start", { session_id: sessionId }), "");
-  // el cwd derivó al árbol ajeno; el propio sigue permitido y el ajeno sigue bloqueado
+  // el cwd derivó al árbol ajeno; el propio sigue permitido y el ajeno se delega al host (nunca deny ni ask)
   assert.equal(preWrite(other, join(own, "lore", "principios.md"), sessionId), "");
-  const blocked = JSON.parse(preWrite(other, join(other, "lore", "principios.md"), sessionId));
-  assert.equal(blocked.hookSpecificOutput.permissionDecision, "deny");
+  delega(preWrite(other, join(other, "lore", "principios.md"), sessionId), join(other, "lore", "principios.md"));
 });
 
 // 2026-09-25, bot-lus-lore: Claude Code re-dispara SessionStart al compactar (source "compact")
@@ -170,20 +177,19 @@ test("una compactación con el cwd derivado no re-ancla la jurisdicción", () =>
   assert.equal(run(own, "session_start", { session_id: sessionId, source: "startup" }), "");
   run(drifted, "session_start", { session_id: sessionId, source: "compact" });
   assert.equal(claudePreWrite(drifted, join(own, "lore", "principios.md"), sessionId), "");
-  const blocked = JSON.parse(claudePreWrite(own, join(drifted, "lore", "principios.md"), sessionId));
-  assert.equal(blocked.hookSpecificOutput.permissionDecision, "deny");
+  delega(claudePreWrite(own, join(drifted, "lore", "principios.md"), sessionId), join(drifted, "lore", "principios.md"));
 });
 
-test("sin intercambio/ la denegación no manda a un lugar inexistente y nombra la raíz", () => {
+test("el aviso de una escritura en otro árbol no manda a un lugar inexistente ni pide abstenerse", () => {
   const own = tree();
-  // R16: la denegación es para un árbol ajeno con Lore; una ruta suelta pasaría con aviso.
+  // R16: el aviso nombra la ruta escrita; no manda a intercambio/ ni dice «propón el cambio al dueño».
   const otherTree = mkdtempSync(join(tmpdir(), "lore-fuera-"));
   roots.push(otherTree);
   mkdirSync(join(otherTree, "lore"), { recursive: true });
   const outside = join(otherTree, "x.md");
-  const reason = JSON.parse(claudePreWrite(own, outside)).hookSpecificOutput.permissionDecisionReason;
-  assert.doesNotMatch(reason, /intercambio/);
-  assert.match(reason, new RegExp(own.replace(/\\/g, "\\\\")));
+  delega(claudePreWrite(own, outside), outside);
+  const aviso = JSON.parse(claudePreWrite(own, outside)).systemMessage;
+  assert.doesNotMatch(aviso, /intercambio|propón el cambio/i);
 });
 
 test.after(() => {
@@ -322,7 +328,7 @@ test("post_tool_use sin baseline la fija sin intervenir (fail open)", () => {
   assert.equal(run(dir, "post_tool_use"), "");
 });
 
-test("PreToolUse permite el árbol propio y el intercambio hermano, pero bloquea el canon ajeno", () => {
+test("PreToolUse permite el árbol propio y el intercambio hermano, y delega al host el canon ajeno", () => {
   const hive = mkdtempSync(join(tmpdir(), "lore-hive-"));
   roots.push(hive);
   const own = join(hive, "agentes", "vendedor");
@@ -334,14 +340,7 @@ test("PreToolUse permite el árbol propio y el intercambio hermano, pero bloquea
   assert.equal(preWrite(own, join(own, "lore", "principios.md")), "");
   assert.equal(preWrite(own, join(exchange, "mensaje.md")), "");
 
-  const blocked = JSON.parse(preWrite(own, join(other, "canon", "frontera.md")));
-  assert.equal(blocked.hookSpecificOutput.hookEventName, "PreToolUse");
-  assert.equal(blocked.hookSpecificOutput.permissionDecision, "deny");
-  assert.match(blocked.hookSpecificOutput.permissionDecisionReason, /intercambio|jurisdicci/i);
-
-  const moved = JSON.parse(preMove(own, join(own, "nota.md"), join(other, "nota.md")));
-  assert.equal(moved.hookSpecificOutput.permissionDecision, "deny");
-
-  const claudeBlocked = JSON.parse(claudePreWrite(own, join(other, "canon", "frontera.md")));
-  assert.equal(claudeBlocked.hookSpecificOutput.permissionDecision, "deny");
+  delega(preWrite(own, join(other, "canon", "frontera.md")), join(other, "canon", "frontera.md"));
+  delega(preMove(own, join(own, "nota.md"), join(other, "nota.md")), join(other, "nota.md"));
+  delega(claudePreWrite(own, join(other, "canon", "frontera.md")), join(other, "canon", "frontera.md"));
 });

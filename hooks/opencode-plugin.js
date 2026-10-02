@@ -9,9 +9,9 @@
 //   session_start                el cuerpo de la fábrica del plugin: corre una vez
 //                                al cargar, que es lo más cerca que hay de una apertura.
 //                                No existe hook `session.start` en la v1.
-//   pre_tool_use                 `tool.execute.before`; el bloqueo es `throw`: el cuerpo
-//                                de la herramienta no llega a ejecutarse y la parte queda
-//                                en estado error con ese mensaje. Equivale al
+//   pre_tool_use                 `tool.execute.before`; ante una escritura estructurada
+//                                ajena no lanza error: deja que las puertas nativas
+//                                `external_directory` y `edit` decidan. No equivale a
 //                                `permissionDecision: "deny"` de Claude.
 //   post_tool_use                `tool.execute.after` para decidir, y
 //                                `experimental.chat.system.transform` para que el texto
@@ -58,28 +58,7 @@ import {
   writeSessionRoot,
 } from "./lore-state.mjs";
 import { inyeccion, nivel } from "./lore-turno.mjs";
-
-// Vocabulario de OpenCode v1 -> el que `hooks/lore-guard.mjs` ya sabe. `de` lista los campos
-// que el host puede usar para el destino: v1 dice `filePath`, y la pila v2 del mismo binario
-// dice `path`. Aceptar los dos evita que un cambio de generación abra un agujero silencioso.
-const HERRAMIENTAS = {
-  write: { nombre: "Write", campo: "file_path", de: ["filePath", "path"] },
-  edit: { nombre: "Edit", campo: "file_path", de: ["filePath", "path"] },
-  apply_patch: { nombre: "apply_patch", campo: "command", de: ["patchText"] },
-};
-
-function alVocabularioDelKit(tool, args) {
-  const regla = HERRAMIENTAS[tool];
-  if (!regla || !args || typeof args !== "object") return null;
-  for (const campo of regla.de) {
-    const valor = args[campo];
-    if (typeof valor === "string" && valor !== "") {
-      return { tool: regla.nombre, input: { [regla.campo]: valor } };
-    }
-  }
-  return null;
-}
-
+import { alVocabularioDelKit } from "./opencode-input.mjs";
 
 export const LorePlugin = async ({ directory, worktree } = {}) => {
   const raiz = typeof directory === "string" && directory ? directory : process.cwd();
@@ -191,7 +170,11 @@ export const LorePlugin = async ({ directory, worktree } = {}) => {
         return;
       }
 
-      if (bloquea) throw new Error(bloquea);
+      // La V1 del plugin no puede abrir el prompt nativo desde este hook. Deja pasar
+      // únicamente la escritura estructurada para que la herramienta de archivo aplique
+      // sus puertas `external_directory` y `edit` antes de mutar. Una regla host `deny`
+      // sigue bloqueando; no escribimos una concesión ni aprobamos comandos de shell aquí.
+      if (bloquea) return;
       if (desconocidos.length === 0) return;
       anotarDesconocidos(jurisdiccion, carga.tool, desconocidos);
       encolar(`Lore Plugin: escritura fuera de un árbol con Lore, permitida y anotada: ${desconocidos.join(", ")}`);

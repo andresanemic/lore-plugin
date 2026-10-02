@@ -2,6 +2,17 @@
 // inspectable, sparse. No transcript dump, no event log, no ledger.
 export const ARTIFACT_SCHEMA_VERSION = "1.0.0";
 
+// Where an operation's own state lives: ONE block per operation inside the project's FASES.md, at
+// the root the caller passes (Spec 014: a single checkpoint, no operations/<id>/estado.md copy, no
+// queue, no second view of the same progress). The root stays the caller's: where a project keeps
+// its folders is the user's policy and the host's permission to decide, and this module only names
+// a file inside the root it is handed.
+export const FASES_FILE = "FASES.md";
+export const OPERATIONS_HEADING = "## Operaciones";
+
+import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
+import { dirname, join, resolve } from "node:path";
+
 let seq = 0;
 
 export function createArtifact({ goal, owner, authority = { spend: [] } }) {
@@ -36,6 +47,216 @@ export function appendCheckpoint(artifact, { note, validity = {}, delta = null }
     delta,
   };
   return { ...artifact, checkpoints: [...artifact.checkpoints, cp] };
+}
+
+const TRANSITIONS = {
+  prepared: new Set(["authorized", "blocked", "waiting", "requires_decision", "cancelled"]),
+  authorized: new Set(["queued", "running", "blocked", "waiting", "requires_decision", "paused", "cancelled"]),
+  queued: new Set(["running", "blocked", "waiting", "requires_decision", "paused", "cancelled"]),
+  running: new Set(["received", "blocked", "waiting", "unknown", "requires_decision", "paused", "cancelled"]),
+  received: new Set(["reviewed", "blocked", "waiting", "requires_decision", "paused"]),
+  reviewed: new Set(["verified", "blocked", "waiting", "requires_decision", "paused"]),
+  verified: new Set(["integrated", "closed", "blocked", "requires_decision"]),
+  integrated: new Set(["closed", "blocked", "requires_decision"]),
+  blocked: new Set(["authorized", "queued", "running", "received", "reviewed", "verified", "integrated", "waiting", "deferred", "unknown", "requires_decision", "paused", "cancelled"]),
+  waiting: new Set(["authorized", "queued", "running", "blocked", "deferred", "unknown", "requires_decision", "paused", "cancelled"]),
+  deferred: new Set(["authorized", "queued", "blocked", "waiting", "requires_decision", "paused", "cancelled"]),
+  unknown: new Set(["blocked", "waiting", "requires_decision", "paused"]),
+  requires_decision: new Set(["authorized", "queued", "running", "blocked", "waiting", "paused", "cancelled"]),
+  paused: new Set(["authorized", "queued", "running", "blocked", "waiting", "deferred", "requires_decision", "cancelled"]),
+  cancelled: new Set(),
+  closed: new Set(),
+};
+
+const VALID_STATES = new Set(Object.keys(TRANSITIONS));
+const OPERATION_ID = /^op-[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+function assertOperationId(id) {
+  if (typeof id !== "string" || !OPERATION_ID.test(id)) {
+    throw new Error("invalid operation id");
+  }
+}
+
+// Transition evidence is appended rather than replacing the preceding state.
+// A terminal success requires an explicit observed verification record.
+export function transitionArtifact(artifact, { state, note, validity = {}, delta = null }) {
+  if (!VALID_STATES.has(state)) throw new Error(`invalid operation state: ${state}`);
+  if (!TRANSITIONS[artifact.state]?.has(state)) {
+    const reason = state === "closed" ? "verified state required" : `transition ${artifact.state} -> ${state} not allowed`;
+    throw new Error(reason);
+  }
+  if (state === "closed" && (artifact.state !== "verified" || artifact.verification?.verified !== true)) {
+    throw new Error("verified state required before closure");
+  }
+  const next = appendCheckpoint(artifact, { note, validity, delta });
+  return { ...next, state };
+}
+
+export function resumeArtifact(artifact) {
+  if (!artifact || !VALID_STATES.has(artifact.state)) {
+    return { allowed: false, reason: "invalid_state" };
+  }
+  if (["closed", "cancelled"].includes(artifact.state)) {
+    return { allowed: false, reason: "terminal_state" };
+  }
+  if (!resumeAllowed(artifact.freshness)) {
+    return { allowed: false, reason: "stale_premise" };
+  }
+  if (artifact.authority?.valid === false || artifact.authority?.revoked === true) {
+    return { allowed: false, reason: "authority_invalid" };
+  }
+  return { allowed: true, reason: "fresh" };
+}
+
+// operationStatePath: both spellings of one place, so a receipt (which travels, and therefore
+// carries a path relative to the root) and the writer (which needs an absolute one) cannot drift
+// into naming two different directories. It delegates the id check to operationFile rather than
+// repeating it: the id is interpolated into a path, and that is the only reason it is constrained.
+export function operationStatePath(root, id) {
+  // `root` is the project root and it is also what saveOperationState and loadOperationState take,
+  // so a receipt naming FASES.md#<id> and the writer writing somewhere else is not a shape this
+  // module can produce. The id is checked because it is interpolated into a marker.
+  assertOperationId(id);
+  const directory = resolve(root);
+  return {
+    directory,
+    file: join(directory, FASES_FILE),
+    // POSIX separators on purpose: this string travels in a receipt, and a Windows path is not what
+    // the person who reads it can click.
+    relative: `${FASES_FILE}#${id}`,
+  };
+}
+
+// statePath: the shortest legal walk from one state to another, or null when there is none.
+// TRANSITIONS is the only authority on what may follow what; this only reports a route inside it,
+// which is why a run can record what happened without this module second-guessing the graph.
+// Terminal states have no outgoing edge, so a closed or cancelled operation cannot be re-entered.
+export function statePath(from, to) {
+  if (!VALID_STATES.has(to)) throw new Error(`invalid operation state: ${to}`);
+  if (!VALID_STATES.has(from)) throw new Error(`invalid operation state: ${from}`);
+  if (from === to) return [];
+  const queue = [[from]];
+  const seen = new Set([from]);
+  while (queue.length > 0) {
+    const route = queue.shift();
+    const head = route[route.length - 1];
+    for (const next of TRANSITIONS[head]) {
+      if (seen.has(next)) continue;
+      const extended = [...route, next];
+      if (next === to) return extended.slice(1);
+      seen.add(next);
+      queue.push(extended);
+    }
+  }
+  return null;
+}
+
+const openMarker = (id) => `<!-- vespi:operacion ${id} -->`;
+const closeMarker = (id) => `<!-- /vespi:operacion ${id} -->`;
+
+// What survives a closure: who, what, how it ended and which receipt. Not the checkpoints, not the
+// tasks, not the freshness: once verified and closed, a second copy of the progress is exactly the
+// duplicate the single checkpoint exists to avoid.
+function closureOf(artifact) {
+  return {
+    artifact_schema_version: artifact.artifact_schema_version,
+    id: artifact.id,
+    working_goal: artifact.working_goal,
+    owner: artifact.owner,
+    state: artifact.state,
+    closed_at: artifact.checkpoints?.at(-1)?.at ?? null,
+    verification: artifact.verification ?? null,
+    last_receipt: artifact.last_receipt ?? null,
+  };
+}
+
+function renderBlock(artifact, eol) {
+  const terminal = ["closed", "cancelled"].includes(artifact.state);
+  const payload = terminal ? closureOf(artifact) : artifact;
+  const lines = terminal
+    ? [
+        `### Operación ${artifact.id} — ${artifact.state === "closed" ? "cerrada" : "cancelada"}`,
+        "",
+        `- Objetivo: ${artifact.working_goal || "(sin especificar)"}`,
+        `- Responsable: ${artifact.owner || "(sin asignar)"}`,
+        `- Verificación: ${artifact.verification?.verified === true ? "observada" : "no registrada"}${artifact.last_receipt?.digest ? ` · recibo ${String(artifact.last_receipt.digest).slice(0, 12)}…` : ""}`,
+      ]
+    : [
+        `### Operación ${artifact.id} — ${artifact.working_goal || "(sin objetivo)"}`,
+        "",
+        `- Estado: ${artifact.state} · Responsable: ${artifact.owner || "(sin asignar)"}`,
+        `- Próxima acción legítima: ${artifact.next_legitimate_action ?? "(sin definir)"}`,
+        `- Último checkpoint: ${artifact.checkpoints?.at(-1)?.at ?? "desconocido"}`,
+      ];
+  return [
+    openMarker(artifact.id),
+    ...lines,
+    "",
+    "```json",
+    JSON.stringify(payload, null, 2).replace(/\n/g, eol),
+    "```",
+    closeMarker(artifact.id),
+  ].join(eol);
+}
+
+function locateBlock(text, id) {
+  const start = text.indexOf(openMarker(id));
+  if (start === -1) return null;
+  const end = text.indexOf(closeMarker(id), start);
+  if (end === -1) throw new Error(`operation block damaged in FASES.md: ${id} opens and never closes`);
+  return { start, end: end + closeMarker(id).length };
+}
+
+export async function saveOperationState(root, artifact) {
+  const { file } = operationStatePath(root, artifact?.id);
+  let text = "";
+  try { text = await readFile(file, "utf8"); } catch (error) {
+    if (error?.code !== "ENOENT") throw error;
+  }
+  const eol = text.includes("\r\n") ? "\r\n" : "\n";
+  const block = renderBlock(artifact, eol);
+  const found = locateBlock(text, artifact.id);
+  let next;
+  if (found) {
+    next = text.slice(0, found.start) + block + text.slice(found.end);
+  } else if (text.length === 0) {
+    next = `# FASES${eol}${eol}${OPERATIONS_HEADING}${eol}${eol}${block}${eol}`;
+  } else if (text.includes(`${eol}${OPERATIONS_HEADING}${eol}`) || text.startsWith(`${OPERATIONS_HEADING}${eol}`)) {
+    const at = text.indexOf(OPERATIONS_HEADING) + OPERATIONS_HEADING.length;
+    next = text.slice(0, at) + eol + eol + block + text.slice(at);
+  } else {
+    next = text.replace(/\s*$/, "") + `${eol}${eol}${OPERATIONS_HEADING}${eol}${eol}${block}${eol}`;
+  }
+  await mkdir(dirname(file), { recursive: true });
+  const temporary = `${file}.${process.pid}.${Date.now()}.tmp`;
+  try {
+    await writeFile(temporary, next, { encoding: "utf8", flag: "wx" });
+    await rename(temporary, file);
+  } catch (error) {
+    // A failed atomic replacement must not leave a misleading temporary file next to FASES.md.
+    const { rm } = await import("node:fs/promises");
+    await rm(temporary, { force: true }).catch(() => {});
+    throw error;
+  }
+  return file;
+}
+
+export async function loadOperationState(root, id) {
+  const { file } = operationStatePath(root, id);
+  let text = "";
+  try { text = await readFile(file, "utf8"); } catch (error) {
+    if (error?.code !== "ENOENT") throw error;
+  }
+  const found = locateBlock(text, id);
+  if (!found) throw new Error(`operation not found in FASES.md: ${id}`);
+  const block = text.slice(found.start, found.end);
+  const match = block.match(/```json\s*([\s\S]*?)\s*```/);
+  if (!match) throw new Error(`operation state missing embedded JSON: ${id}`);
+  const artifact = JSON.parse(match[1]);
+  if (artifact.id !== id || !VALID_STATES.has(artifact.state)) {
+    throw new Error(`invalid persisted operation state: ${id}`);
+  }
+  return artifact;
 }
 
 // governable: only ACTIVE blocks govern the present. HISTORY is true without

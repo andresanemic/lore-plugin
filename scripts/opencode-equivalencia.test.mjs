@@ -25,6 +25,7 @@ import { pathToFileURL } from "node:url";
 
 import { installOpenCode, sameTree } from "./installer.mjs";
 import { classifyWrite, structuredWritePaths } from "../hooks/lore-guard.mjs";
+import { alVocabularioDelKit } from "../hooks/opencode-input.mjs";
 import { readSessionRoot } from "../hooks/lore-state.mjs";
 
 const RAIZ_KIT = resolve(new URL("..", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1"));
@@ -221,37 +222,29 @@ test("propio pasa en silencio", async (t) => {
   assert.equal(avisoEnCola(hooks), "", "lo propio no genera aviso ni aviso de contexto");
 });
 
-test("ajeno se bloquea: el error que ve el modelo es el motivo de jurisdicción", async (t) => {
+test("ajeno se delega al permiso nativo de OpenCode; el hook no rechaza la escritura", async (t) => {
   const montaje = montar();
   t.after(() => rmSync(montaje.base, { recursive: true, force: true }));
   const hooks = await abrir(montaje);
   const destino = join(montaje.ajeno, "lore", "principios.md");
 
-  // En Claude y Codex esto es `permissionDecision: "deny"`; en OpenCode el cuerpo de la
-  // herramienta no llega a correr y la parte queda en estado error con este mensaje. El
-  // thunk es async porque el host hace `await hook(input, output)`: un throw síncrono llega
-  // al modelo como el mismo rechazo.
-  await assert.rejects(
-    async () => hooks["tool.execute.before"](...antes("write", { filePath: destino, content: "x" })),
-    (error) => {
-      assert.match(error.message, /jurisdicci/);
-      assert.ok(error.message.includes(destino), "el motivo nombra la ruta rechazada");
-      return true;
-    },
+  assert.doesNotThrow(
+    () => hooks["tool.execute.before"](...antes("write", { filePath: destino, content: "x" })),
   );
+  assert.equal(avisoEnCola(hooks), "", "el hook no sustituye el permiso nativo por un aviso de aprobación");
 });
 
-test("apply_patch de OpenCode bloquea igual que el apply_patch de Claude", async (t) => {
+test("apply_patch ajeno se entrega al permiso nativo sin rechazo del hook", async (t) => {
   const montaje = montar();
   t.after(() => rmSync(montaje.base, { recursive: true, force: true }));
   const hooks = await abrir(montaje);
 
-  await assert.rejects(
-    async () => hooks["tool.execute.before"](...antes("apply_patch", {
+  assert.doesNotThrow(
+    () => hooks["tool.execute.before"](...antes("apply_patch", {
       patchText: `*** Begin Patch\n*** Update File: ${join(montaje.ajeno, "lore", "principios.md")}\n@@\n-a\n+b\n*** End Patch`,
     })),
-    /jurisdicci/,
   );
+  assert.equal(avisoEnCola(hooks), "", "el hook deja decidir al gate `edit` de OpenCode");
 });
 
 test("apply_patch con destino propio pasa", async (t) => {
@@ -327,13 +320,23 @@ test("el fallo cerrado que sí exige el acuerdo es el del instalador: digest dis
   mkdirSync(join(packageRoot, "hooks"), { recursive: true });
   writeFileSync(join(packageRoot, "skills", "use-lore", "SKILL.md"), "---\nname: use-lore\n---\n");
   writeFileSync(join(packageRoot, "hooks", "opencode-plugin.js"), "export const P = async () => ({})\n");
+  writeFileSync(join(packageRoot, "hooks", "opencode-input.mjs"), "export const input = true;\n");
   writeFileSync(join(packageRoot, "hooks", "lore-guard.mjs"), "export const x = 1;\n");
   writeFileSync(join(packageRoot, "hooks", "lore-state.mjs"), "export const y = 1;\n");
   writeFileSync(join(packageRoot, "hooks", "lore-turno.mjs"), "export const marca = () => '[Lore Plugin]'; export const nivel = () => 'full';\n");
   writeFileSync(join(packageRoot, "hooks", "opencode-statusline.tui.tsx"), "export default { id: 'lore-plugin.statusline', tui(api) { api.slots.register({ slots: { app_bottom: () => <text>[Lore Plugin]</text> } }); } };\n");
+  // La entrada local y su cadena son obligatorias desde RC7. Este paquete mínimo las declara:
+  // un fixture que las omitiera no mediría el instalador que se instala, sino otro.
+  mkdirSync(join(packageRoot, "scripts"), { recursive: true });
+  mkdirSync(join(packageRoot, "skills", "use-lore", "scripts"), { recursive: true });
+  writeFileSync(join(packageRoot, "scripts", "lore-cli.mjs"), "// local entry\n");
+  writeFileSync(join(packageRoot, "scripts", "installer.mjs"), "// installer\n");
+  writeFileSync(join(packageRoot, "skills", "use-lore", "scripts", "acuerdo.mjs"), "export const acuerdo = {};\n");
 
   const resultado = installOpenCode({ home, packageRoot });
   assert.equal(resultado.verified, true);
+  // Y la entrada local queda verificada con su propio digest, no de palabra.
+  assert.equal(resultado.cli.verified, true);
 
   // C1: el instalador verifica por digest la copia que cada host ejecuta. Si alguien altera
   // lo instalado, la verificación tiene que delatarlo — no dar por buena una copia distinta.
@@ -537,14 +540,31 @@ test("el código que el instalador pone en la máquina de cualquiera no nombra e
     `el jardín de Andrés viaja dentro del código que se instala: ${fugas.join(" | ")}`);
 });
 
-test("v2 nombra el destino `path`: el adaptador lo acepta sin abrir un agujero si aparece", async (t) => {
+test("la ruta estructurada reconoce el destino `path` de OpenCode v2", async (t) => {
   const montaje = montar();
   t.after(() => rmSync(montaje.base, { recursive: true, force: true }));
   const hooks = await abrir(montaje);
   const destino = join(montaje.ajeno, "lore", "principios.md");
 
-  await assert.rejects(
-    async () => hooks["tool.execute.before"](...antes("write", { path: destino, content: "x" })),
-    /jurisdicci/,
+  assert.deepEqual(alVocabularioDelKit("write", { path: destino }), {
+    tool: "Write", input: { file_path: destino },
+  });
+  assert.doesNotThrow(
+    () => hooks["tool.execute.before"](...antes("write", { path: destino, content: "x" })),
   );
+  assert.equal(avisoEnCola(hooks), "", "la traducción no convierte el hook en un deny");
+});
+
+test("el normalizador cubre los payloads write/edit y apply_patch de OpenCode", () => {
+  const destino = "C:/otro-arbol/lore/principios.md";
+  assert.deepEqual(alVocabularioDelKit("write", { filePath: destino }), {
+    tool: "Write", input: { file_path: destino },
+  });
+  assert.deepEqual(alVocabularioDelKit("edit", { path: destino }), {
+    tool: "Edit", input: { file_path: destino },
+  });
+  const patch = "*** Begin Patch\\n*** Update File: C:/otro-arbol/lore/principios.md\\n*** End Patch";
+  assert.deepEqual(alVocabularioDelKit("apply_patch", { patchText: patch }), {
+    tool: "apply_patch", input: { command: patch },
+  });
 });
