@@ -9,6 +9,7 @@ import { tmpdir } from "node:os";
 import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
+import { observeTask } from "../skills/vespi/core/coordinator.mjs";
 
 const CLI = resolve(dirname(fileURLToPath(import.meta.url)), "lore-plugin.mjs");
 
@@ -177,6 +178,24 @@ test("status resume el estado en una linea por tarea y marca la tarea vencida", 
   assert.deepEqual(Object.keys(s.json.tasks[0]).sort(), ["by", "id", "nextCheckAt", "overdue", "role", "state"]);
 });
 
+test("status expone el muro y stop_and_search tras tres fallos iguales", async (t) => {
+  const { root, id } = await conOperacion(t);
+  run(["plan", "--root", root, "--id", id, "--json", j(encargoDaimon(root))]);
+  run(["dispatch", "--root", root, "--id", id, "--task", "t1", "--tools", "execute", "--json", j({ hostName: "opencode", model: "m" })]);
+  for (let n = 1; n <= 3; n++) {
+    const observed = run(["observe", "--root", root, "--id", id, "--task", "t1", "--json", j({ signature: "same failure 42", text: `intenté el paso ${n}`, at: new Date().toISOString() })]);
+    assert.equal(observed.json.ok, true);
+    if (n === 3) {
+      assert.equal(observed.json.wall.instruction, "stop_and_search");
+      assert.match(observed.json.wall.attempted[2], /intenté el paso 3/);
+    }
+  }
+  const status = run(["status", "--root", root, "--id", id]);
+  assert.equal(status.json.wall.instruction, "stop_and_search");
+  assert.equal(status.json.wall.attempted.length, 3);
+  assert.match(status.json.wall.attempted[0], /intenté el paso 1/);
+});
+
 test("--file lee el JSON de un archivo y un JSON invalido falla sin tocar FASES.md", async (t) => {
   const root = await proyecto(t);
   const f = join(root, "payload.json");
@@ -202,4 +221,44 @@ test("un subcomando desconocido sale con 2 y la lista de comandos", () => {
   assert.equal(r.code, 2);
   assert.match(r.out + r.err, /hold/);
   assert.match(r.out + r.err, /dispatch/);
+});
+
+test("observe rechaza firmas no textuales antes de persistir y status sigue legible", async (t) => {
+  const { root, id } = await conOperacion(t);
+  run(["plan", "--root", root, "--id", id, "--json", j(encargoDaimon(root))]);
+  run(["dispatch", "--root", root, "--id", id, "--task", "t1", "--tools", "execute", "--json", j({ hostName: "opencode", model: "m" })]);
+  const before = await readFile(join(root, "FASES.md"), "utf8");
+  for (const signature of [{}, { toString: null }, 17, ["failure"]]) {
+    const rejected = run(["observe", "--root", root, "--id", id, "--task", "t1", "--json", j({ signature, text: "bad" })]);
+    assert.equal(rejected.code, 1);
+    assert.match(rejected.json.error, /signature.*string/i);
+    assert.equal(await readFile(join(root, "FASES.md"), "utf8"), before);
+    const status = run(["status", "--root", root, "--id", id]);
+    assert.equal(status.code, 0);
+    assert.equal(status.json.ok, true);
+  }
+});
+
+test("observe rechaza at inválido por API y CLI sin alterar el estado", async (t) => {
+  const running = { tasks: [{ id: "t1", state: "running", observations: [], deadline: "2020-01-01T00:00:00.000Z", overdue: true }] };
+  for (const at of ["", "not-a-date", 17.5, [], {}, NaN]) {
+    assert.throws(() => observeTask(running, "t1", { at, signature: "E" }), /at.*(ISO|fecha|tiempo|inválid)/i);
+  }
+  assert.equal(observeTask(running, "t1", { at: Date.parse("2025-01-01T00:00:00Z") }).tasks[0].overdue, true);
+  assert.match(observeTask(running, "t1", { signature: "E" }).tasks[0].observations[0].at, /^\d{4}-\d\d-/);
+
+  const { root, id } = await conOperacion(t);
+  run(["plan", "--root", root, "--id", id, "--json", j(encargoDaimon(root))]);
+  run(["dispatch", "--root", root, "--id", id, "--task", "t1", "--tools", "execute", "--json", j({ hostName: "opencode", model: "m" })]);
+  const file = join(root, "FASES.md");
+  const before = await readFile(file);
+  for (const at of ["", "not-a-date", 17.5, [], {}]) {
+    const rejected = run(["observe", "--root", root, "--id", id, "--task", "t1", "--json", j({ at, signature: "E" })]);
+    assert.notEqual(rejected.code, 0);
+    assert.match(rejected.json.error, /at.*(ISO|fecha|tiempo|inválid)/i);
+    assert.deepEqual(await readFile(file), before);
+  }
+  const notJsonNumber = run(["observe", "--root", root, "--id", id, "--task", "t1", "--json", '{"at":NaN,"signature":"E"}']);
+  assert.notEqual(notJsonNumber.code, 0);
+  assert.deepEqual(await readFile(file), before);
 });

@@ -23,6 +23,7 @@
     "skills/",
     "scripts/install-claude-statusline.mjs",
     "scripts/installer.mjs",
+    "scripts/hygiene.mjs",
     "scripts/lore-cli.mjs",
     "scripts/lore-plugin.mjs",
     "scripts/operation-cli.mjs",

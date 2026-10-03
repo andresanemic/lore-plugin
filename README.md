@@ -409,6 +409,8 @@ What 2.4.9 adds:
 - **Work split into tasks with a role** (read the sources, advise, do a scoped piece). Each task moves through received, reviewed, verified and integrated as separate facts, and whoever verifies is never whoever executed. If the host lacks a tool, the task comes back blocked with its exit; nothing is simulated.
 - **Authority with three limits at once** (until when, how much, to whom). The agent never signs for you, every receipt says what was verified and what was not, and an external effect of uncertain result is never retried blindly.
 - **A written method for the coordinator** ([`skills/vespi/method.md`](./skills/vespi/method.md), [also in the kernel](https://github.com/andresanemic/vespi/blob/master/docs/METHOD.md)) that depends on no installed skill, and `lore-plugin operation …` to drive a whole operation from the command line.
+- **A read-only hygiene scan** – `lore-plugin hygiene [path]` reports selected cleanup candidates and its coverage; it proposes review but changes and deletes nothing.
+- **A stop-and-search wall** – after the same failure repeats three times without a success, `operation status` reports the attempts and says to stop and search with the host's tools; the CLI does not search.
 
 The kernel is developed separately: [github.com/andresanemic/vespi](https://github.com/andresanemic/vespi).
 
@@ -1007,6 +1009,8 @@ Lo que agrega el 2.4.9:
 - **El trabajo se reparte en tareas con un rol** (leer las fuentes, asesorar, hacer una pieza acotada). Cada tarea pasa por recibida, revisada, verificada e integrada como hechos distintos, y quien verifica nunca es quien ejecutó. Si el host no tiene la herramienta, la tarea vuelve bloqueada con su salida; nada se simula.
 - **Autoridad con tres límites a la vez** (hasta cuándo, cuánto y a quién). El agente nunca firma por ti, cada recibo dice qué se verificó y qué no, y un efecto externo de resultado incierto no se reintenta a ciegas.
 - **Un método escrito para el coordinador** ([`skills/vespi/method.md`](./skills/vespi/method.md), [también en el kernel](https://github.com/andresanemic/vespi/blob/master/docs/METHOD.md)) que no depende de ninguna skill instalada, y `lore-plugin operation …` para llevar una operación completa desde la línea de comandos.
+- **Un escaneo de higiene de solo lectura** – `lore-plugin hygiene [ruta]` informa candidatos de limpieza seleccionados y su cobertura; propone revisarlos, pero no modifica ni borra nada.
+- **Un muro para detenerse y buscar** – si el mismo fallo se repite tres veces sin un éxito, `operation status` informa los intentos e indica detenerse y buscar con las herramientas del host; la CLI no busca.
 
 El kernel se desarrolla aparte: [github.com/andresanemic/vespi](https://github.com/andresanemic/vespi).
 

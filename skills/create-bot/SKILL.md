@@ -1,6 +1,7 @@
 ---
 name: create-bot
-description: Use when building a BOT — one place to open a session and work across several Areas or projects at once, with their criteria reachable and routed, then loaded on demand, instead of answering questions about them — including federating existing Areas under one bot, or auditing a bot that already exists (its scope, README or sources). Trigger on "create a bot for X", "a bot that works on several projects", "federate these areas", "audit my bot", or "fix my bot's scope".
+description: >-
+  Use when building a BOT — one place to open a session and work across several Areas or projects at once, with their criteria reachable and routed, then loaded on demand, instead of answering questions about them — including federating existing Areas under one bot, or auditing a bot that already exists (its scope, README or sources). Trigger on "create a bot for X", "a bot that works on several projects", "federate these areas", "audit my bot", or "fix my bot's scope". Not yours: a new area or project belongs to create-area/create-project; a one-off task does not need a bot.
 ---
 
 # create-bot — Build a bot: one place to work

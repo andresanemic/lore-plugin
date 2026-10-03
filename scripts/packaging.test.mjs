@@ -13,6 +13,7 @@ const EXPECTED = [
   "NOTICE",
   "commands/nivel.md",
   "scripts/install-claude-statusline.mjs",
+  "scripts/hygiene.mjs",
 ];
 
 function packedPaths(root) {
@@ -32,7 +33,7 @@ function packedPaths(root) {
   }
 }
 
-test("el tarball npm incluye NOTICE, commands/nivel.md e install-claude-statusline.mjs", () => {
+test("el tarball npm incluye NOTICE, commands/nivel.md, hygiene e install-claude-statusline.mjs", () => {
   const root = join(import.meta.dirname, "..");
   const paths = packedPaths(root);
   assert.ok(paths.length > 0, "npm pack --dry-run no listó archivos");

@@ -1,6 +1,7 @@
 ---
 name: create-area
-description: Use when starting a brand-new WORK AREA that groups several projects of the same kind (web, research, blog, video, apps…) — before it has any Lore, contract or project registry of its own. Trigger on "create a work area for X", "I want to start working on a domain with Lore", or a shared mold, starter or scaffold for future projects ("un molde común", "mother folder whose method every future project inherits"). Operating scattered criteria in place, without a new container, is transmute-lore, not this skill.
+description: >-
+  Use when starting a brand-new WORK AREA that groups several projects of the same kind (web, research, blog, video, apps…) — before it has any Lore, contract or project registry of its own. Trigger on "create a work area for X", "I want to start working on a domain with Lore", or a shared mold or starter for future projects. Not yours: operating existing criteria in place belongs to transmute-lore.
 ---
 
 # create-area — Start a new work area

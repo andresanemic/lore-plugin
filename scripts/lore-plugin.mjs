@@ -9,6 +9,7 @@ import { installClaudeStatuslineFromInstalledCopy, uninstallClaudeStatusline } f
 import { evaluateState, formatIntervention } from "../hooks/lore-guard.mjs";
 import { claimAnnounce, unnamedBodies, readReceipt, snapshot, writeReceipt, RECEIPT } from "../hooks/lore-state.mjs";
 import { DEFECTO_NIVEL, NIVELES, estado, estadoDir, marca } from "../hooks/lore-turno.mjs";
+import { scanHygiene } from "./hygiene.mjs";
 
 const args = process.argv.slice(2);
 const command = args[0];
@@ -30,6 +31,20 @@ if (command === "crystallize") {
   const script = resolve(packageRoot, "skills/transmute-lore/scripts/crystallize.mjs");
   const result = spawnSync(process.execPath, [script, ...args.slice(1)], { stdio: "inherit" });
   process.exit(result.status ?? 1);
+}
+
+if (command === "hygiene") {
+  const targetPath = args.slice(1).find((arg) => arg !== "--json") ?? process.cwd();
+  const result = scanHygiene(resolve(targetPath));
+  if (args.includes("--json")) {
+    console.log(JSON.stringify(result, null, 2));
+  } else {
+    const omittedLinks = result.notCovered.some((item) => item.why === "enlace no seguido");
+    console.log(`${result.findings.length} hallazgos; cubiertas${omittedLinks ? " con omisiones" : ""}: ${result.coverage.join(", ")}; no cubiertas: ${result.notCovered.map((item) => `${item.class}${item.path ? ` ${item.path}` : ""} (${item.why})`).join("; ") || "ninguna"}.`);
+    for (const finding of result.findings) console.log(`  ${finding.class}: ${finding.path} - ${finding.why}`);
+    console.log("La higiene detecta y propone; no modifica archivos.");
+  }
+  process.exit(0);
 }
 
 // La CLI de la operación: una línea JSON por comando y nada simulado. Se carga
@@ -172,6 +187,7 @@ if (command !== "install" || !["codex", "claude", "opencode", "all"].includes(ta
   console.log("       lore-plugin nivel [off|lite|full]");
   console.log("       lore-plugin crystallize pack --bot <dir> --out <file.md>");
   console.log("       lore-plugin crystallize extract --from <file.md> --out <dir>");
+  console.log("       lore-plugin hygiene [ruta] [--json]");
   console.log("       lore-plugin mycelium receipt [--tree <dir>]");
   console.log("       lore-plugin mycelium bodies|announce|federated [--tree <dir>]");
   process.exit(command ? 2 : 0);

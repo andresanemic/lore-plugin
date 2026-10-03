@@ -1,6 +1,7 @@
 ---
 name: create-project
-description: Use when starting a brand-new PROJECT inside an existing WORK AREA (created with create-area) — before it has its own identidad.md, principios.md or index.md. Replaces the old web-only nuevo-sitio. Trigger on "create project X in area Y" or "start project X inside an area".
+description: >-
+  Use when starting a brand-new PROJECT inside an existing WORK AREA (created with create-area) — before it has its own identidad.md, principios.md or index.md. Replaces the old web-only nuevo-sitio. Trigger on "create project X in area Y" or "start project X inside an area". Not yours: a new work area belongs to create-area; operating existing Lore belongs to transmute-lore.
 ---
 
 # create-project — Start a new project inside an area

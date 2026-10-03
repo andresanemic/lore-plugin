@@ -71,6 +71,106 @@ const TRANSITIONS = {
 const VALID_STATES = new Set(Object.keys(TRANSITIONS));
 const OPERATION_ID = /^op-[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
+function normalizedFailureSignature(signature) {
+  if (typeof signature !== "string") return null;
+  const statusCodes = [];
+  const errorCodes = [];
+  let normalized = signature.slice(0, 500).toLowerCase()
+    .replace(/\b(http|https|status|code|error|exit|errno)\s*[:=]?\s*(\d{3})\b/gi, (_match, label, code) => {
+      const marker = `\u0000status${statusCodes.length}x\u0000`;
+      statusCodes.push(`${label} ${code}`);
+      return marker;
+    })
+    .replace(/\bhttp\/\d(?:\.\d)?\s+\d{3}\b/gi, (match) => {
+      const marker = `\u0000status${statusCodes.length}x\u0000`;
+      statusCodes.push(match);
+      return marker;
+    })
+    .replace(/\b[a-z]:[\\/][^\r\n'"<>]*/gi, (path) => {
+      const extensions = [...path.matchAll(/[\\/][^\\/\s'"<>]*\.[a-z0-9]{1,10}(?=$|[\s,;)]|[\\/])/gi)];
+      const fileEnd = extensions.at(-1)?.index + extensions.at(-1)?.[0].length;
+      const end = Number.isFinite(fileEnd) ? fileEnd : (path.search(/[\s'"<>]/) < 0 ? path.length : path.search(/[\s'"<>]/));
+      return `<path>${path.slice(end)}`;
+    })
+    .replace(/(^|\s)(?:\.\/|\.\.\/|~\/|\/)(?:[^\s/]+\/)*[^\s/]+/g, "$1<path>")
+    .replace(/\b([a-z]+-\d+)\b/gi, (match) => {
+      const marker = `\u0000error${errorCodes.length}x\u0000`;
+      errorCodes.push(match);
+      return marker;
+    })
+    .replace(/\b[0-9a-f]{32,}\b|\b[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}\b/gi, "<id>")
+    .replace(/\b\d+\b/g, "#")
+    .replace(/\b\d{1,2}:\d{1,2}(?::\d{1,2})?(?:\.\d+)?\b/g, "<time>")
+    .replace(/\b\d+(?:\.\d+)?\s*(?:ms|msec|milliseconds?|s|sec|seconds?|minutes?|mins?)\b/gi, "<duration>")
+    .replace(/\b\d+:\d+\b/g, "<line:column>")
+    .replace(/\s+/g, " ")
+    .trim();
+  normalized = normalized.replace(/\u0000status(\d+)x\u0000/g, (_match, index) => statusCodes[Number(index)] ?? "");
+  normalized = normalized.replace(/\u0000error(\d+)x\u0000/g, (_match, index) => errorCodes[Number(index)] ?? "");
+  return normalized;
+}
+
+// A repeated identical failure is a wall, not a retry invitation. A success starts a new streak.
+export function attemptWall(artifact, { threshold = 3 } = {}) {
+  const limit = Math.max(1, Math.floor(Number(threshold) || 3));
+  const orderedObservations = [
+    ...(Array.isArray(artifact?.observations) ? artifact.observations.map((observation) => ({ observation, taskIndex: "artifact" })) : []),
+    ...(Array.isArray(artifact?.tasks) ? artifact.tasks.flatMap((task, taskIndex) => Array.isArray(task?.observations)
+      ? task.observations.map((observation) => ({ observation, taskIndex })) : []) : []),
+  ].map(({ observation, taskIndex }, insertion) => ({ observation, taskIndex, insertion, at: sortableTime(observation?.at) }));
+  const allTimesKnown = orderedObservations.every((item) => Number.isFinite(item.at));
+  const sortable = allTimesKnown
+    ? [...orderedObservations].sort((a, b) => a.at - b.at || a.insertion - b.insertion)
+    : orderedObservations;
+  const observations = sortable.map((item) => item.observation);
+  const streak = [];
+  let signature = null;
+  for (const observation of observations) {
+    if (observation?.outcome === "success" || observation?.success === true) {
+      streak.length = 0;
+      signature = null;
+      continue;
+    }
+    if (typeof observation?.signature !== "string" || !observation.signature) continue;
+    const current = normalizedFailureSignature(observation.signature);
+    if (signature !== current) streak.length = 0;
+    signature = current;
+    streak.push({ signature: current, text: observation.text ?? "", at: observation.at ?? null });
+  }
+  const stop = streak.length >= limit;
+  const taskIndexes = new Set(orderedObservations.map((item) => item.taskIndex));
+  const tiedAcrossTasks = new Map();
+  for (const item of orderedObservations) {
+    if (!Number.isFinite(item.at)) continue;
+    if (!tiedAcrossTasks.has(item.at)) tiedAcrossTasks.set(item.at, new Set());
+    tiedAcrossTasks.get(item.at).add(item.taskIndex);
+  }
+  const ambiguousCrossTaskOrder = (taskIndexes.size > 1 && !allTimesKnown)
+    || [...tiedAcrossTasks.values()].some((tasks) => tasks.size > 1);
+  const conservativeStop = stop && !ambiguousCrossTaskOrder;
+  return {
+    stop: conservativeStop,
+    signature: conservativeStop ? signature : null,
+    attempts: conservativeStop ? streak : [],
+    reason: conservativeStop
+      ? `same failure repeated ${streak.length} consecutive times; stop and search before retrying`
+      : ambiguousCrossTaskOrder
+        ? "consecutive order is not verifiable: observations across tasks include missing or invalid times"
+      : `no same-signature failure streak reached threshold ${limit}`,
+  };
+}
+
+function sortableTime(at) {
+  if (typeof at === "number" && Number.isInteger(at) && Number.isFinite(at) && Number.isFinite(new Date(at).getTime())) return at;
+  if (typeof at === "string" && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/i.test(at)) {
+    const parsed = Date.parse(at);
+    const [, year, month, day] = at.match(/^(\d{4})-(\d{2})-(\d{2})T/);
+    if (Number.isFinite(parsed) && Number(month) >= 1 && Number(month) <= 12
+      && Number(day) >= 1 && Number(day) <= new Date(Date.UTC(Number(year), Number(month), 0)).getUTCDate()) return parsed;
+  }
+  return Number.NaN;
+}
+
 function assertOperationId(id) {
   if (typeof id !== "string" || !OPERATION_ID.test(id)) {
     throw new Error("invalid operation id");

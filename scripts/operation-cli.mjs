@@ -13,7 +13,7 @@ import {
   taskSummary,
   verifyTask,
 } from "../skills/vespi/core/vespi.mjs";
-import { operationStatePath, saveOperationState, transitionArtifact } from "../skills/vespi/core/operation-state.mjs";
+import { attemptWall, operationStatePath, saveOperationState, transitionArtifact } from "../skills/vespi/core/operation-state.mjs";
 
 const COMMANDS = [
   "hold",
@@ -214,7 +214,8 @@ async function execute(sub, flags, stdout) {
     const taskId = requiredTask(flags);
     const artifact = observeTask(context.artifact, taskId, payload);
     await persist(context, artifact);
-    return emit(stdout, { ok: true, task: recordOf(artifact, taskId) });
+    const wall = attemptWall(artifact);
+    return emit(stdout, { ok: true, task: recordOf(artifact, taskId), ...(wall.stop ? { wall: wallReceipt(wall) } : {}) });
   }
 
   if (sub === "receive") {
@@ -254,7 +255,8 @@ async function execute(sub, flags, stdout) {
   if (sub === "status") {
     const overdue = new Map((context.artifact.tasks ?? []).map((task) => [task.id, task.overdue === true]));
     const tasks = taskSummary(context.artifact).map((task) => ({ ...task, overdue: overdue.get(task.id) === true }));
-    return emit(stdout, { ok: true, id: context.id, state: context.artifact.state, tasks });
+    const wall = attemptWall(context.artifact);
+    return emit(stdout, { ok: true, id: context.id, state: context.artifact.state, tasks, ...(wall.stop ? { wall: wallReceipt(wall) } : {}) });
   }
 
   const verdict = await resumeOperation({ root: context.root, id: context.id });
@@ -265,6 +267,14 @@ async function execute(sub, flags, stdout) {
     reason: verdict.reason,
     state: verdict.artifact.state,
   });
+}
+
+function wallReceipt(wall) {
+  return {
+    ...wall,
+    instruction: "stop_and_search",
+    attempted: wall.attempts.map((attempt) => attempt.text),
+  };
 }
 
 export async function runOperationCli(argv = [], { stdout = process.stdout, stderr = process.stderr } = {}) {

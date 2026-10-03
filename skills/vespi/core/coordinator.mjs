@@ -194,16 +194,39 @@ export function dispatchTask(artifact, taskId, { host = {}, hostName = null, mod
 
 // observeTask: deja escrito que se vio, cuando, y si seguia viva. Una hora posterior al deadline
 // con esa observacion nueva deja la tarea vencida: no se marca viva por no mirar.
-export function observeTask(artifact, taskId, { text = null, alive = null, at = null } = {}) {
+export function observeTask(artifact, taskId, { text = null, alive = null, at, signature = null, outcome = null } = {}) {
   const task = taskById(artifact, taskId);
   if (task.state !== "running") throw new Error(`observeTask needs a running task: ${taskId} is ${task.state}`);
-  const when = at ?? new Date().toISOString();
-  const overdue = present(task.deadline) ? Date.parse(when) > Date.parse(task.deadline) : task.overdue === true;
+  if (signature !== null && signature !== undefined && typeof signature !== "string") {
+    throw new Error("observe signature must be a string");
+  }
+  if (at !== undefined && !validObservationTime(at)) {
+    throw new Error("observe at must be ISO 8601 with an explicit time zone or a representable integer millisecond timestamp");
+  }
+  const when = at === undefined ? new Date().toISOString() : at;
+  const observedAt = typeof when === "number" ? when : Date.parse(when);
+  const overdue = present(task.deadline) ? observedAt > Date.parse(task.deadline) : task.overdue === true;
   return replaceTask(artifact, {
     ...task,
-    observations: [...task.observations, { at: when, text: text ?? "", alive: alive ?? null }],
+    observations: [...task.observations, {
+      at: when,
+      text: text ?? "",
+      alive: alive ?? null,
+      ...(signature ? { signature: signature.slice(0, 500), outcome: outcome ?? "failure" } : {}),
+      ...(outcome === "success" ? { outcome } : {}),
+    }],
     overdue,
   });
+}
+
+function validObservationTime(at) {
+  if (typeof at === "number") return Number.isInteger(at) && Number.isFinite(at) && Number.isFinite(new Date(at).getTime());
+  if (typeof at !== "string" || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/i.test(at)) return false;
+  const timestamp = Date.parse(at);
+  if (!Number.isFinite(timestamp)) return false;
+  const [, year, month, day] = at.match(/^(\d{4})-(\d{2})-(\d{2})T/);
+  return Number(month) >= 1 && Number(month) <= 12
+    && Number(day) >= 1 && Number(day) <= new Date(Date.UTC(Number(year), Number(month), 0)).getUTCDate();
 }
 
 // receiveTask: recibida significa que el archivo existe de verdad, con su huella real. Sin archivo,

@@ -1,6 +1,7 @@
 ---
 name: save-to-lore
-description: Use when saving a lesson to the Lore, right after solving a problem worth keeping, when distilling Lore from an external body of criteria (a skill, a style guide, a third-party playbook), or when reviewing a folder of loose notes to decide what becomes criteria or state. Trigger on "save to lore", "distill this to the lore", "guarda en lore", "distill this skill", "destila esta skill", "guárdalo como formato base", "esto es el estándar de ahora en más", "revisa mis notas", "mina la bandeja", or proactively after resolving a friction that passes the Lore bar (constraint + signal + executability + genericity).
+description: >-
+  Use when saving a lesson to the Lore after a worthwhile fix, distilling an external body of criteria, or reviewing loose notes. Trigger on "save to lore", "distill this skill", "destila esta skill", "revisa mis notas", or after a friction passes the Lore bar (constraint + signal + executability + genericity). Not yours: designing a new shape for the work belongs to brainstorming-lore or use-lore; operating an existing Lore method belongs to transmute-lore.
 ---
 
 # save-to-lore — Incremental capture and promotion
@@ -172,6 +173,8 @@ move to the work that was going to lean on this Lore, until the exit scan has ru
 it returns is either written as a junction on both sides or declined in writing with its reason. A
 finding parked as "connect it in a later transmute-lore pass" leaves the pass **not done**, and the
 next deliverable runs against a clue nothing invokes.
+
+After the MYCELIUM exit scan, run `lore-plugin hygiene <area-or-project-path>` on the area or project touched. Report findings and propose cleanup; never execute it. This check does not prune by size.
 
 ## Before either mode — is this a fact, or is it criteria?
 

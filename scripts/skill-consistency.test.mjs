@@ -4,6 +4,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
 import { skillFiles, skillText } from "./skill-text.mjs";
+import { parseFrontmatter } from "./yaml-frontmatter.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const skillsRoot = join(root, "skills");
@@ -13,6 +14,22 @@ const rootDocs = readdirSync(root).filter((name) => name.endsWith(".md"));
 const docs = rootDocs.map((name) => name).concat(
   readdirSync(join(root, "docs")).filter((name) => name.endsWith(".md")).map((name) => join("docs", name)),
 );
+
+test("cada descripción de skill declara su frontera Not yours y cabe en 700 caracteres", () => {
+  for (const name of skillNames) {
+    const frontmatter = parseFrontmatter(readFileSync(join(skillsRoot, name, "SKILL.md"), "utf8"));
+    const description = frontmatter.data.description;
+    assert.match(description, /Not yours:/, `${name}: falta la frontera de responsabilidad`);
+    assert.ok(description.length <= 700, `${name}: descripción de ${description.length} caracteres`);
+  }
+});
+
+test("save-to-lore corre higiene de salida y propone limpieza sin podar por tamaño", () => {
+  const save = skillText(join(skillsRoot, "save-to-lore"));
+  assert.match(save, /lore-plugin hygiene/i);
+  assert.match(save, /propose.*cleanup.*never execute|proponer.*limpieza.*nunca ejecutar/i);
+  assert.match(save, /does not prune by size|no poda por tamaño/i);
+});
 
 test("el contrato de proyecto de create-area alcanza el Lore del área", () => {
   const skill = skillText(join(skillsRoot, "create-area"));
