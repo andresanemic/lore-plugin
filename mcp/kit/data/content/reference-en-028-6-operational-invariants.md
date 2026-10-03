@@ -1,0 +1,27 @@
+## 6. Operational Invariants
+
+Lore’s behavior is governed by a set of shared invariants:
+
+- **Lore is written in the user's language** – content and artifact filenames; only the selected
+  contract name, `lore/`, `index.md`, `golden-paths.md`, and English terms of general technical use stay fixed.
+- **Criteria are never invented** – all rules come from actual experience.
+- **Everything comes from real work** – experiments, incidents, decisions.
+- **Discarded noise is reported** – nothing is silently removed.
+- **Every change passes through a threshold** – criteria must be reviewed before being written.
+- **Nothing commits automatically** – human review is required.
+- **A human always reviews the final diff** – AI assists, but does not silently change Lore.
+- **Host guarantees are explicit, not inferred from a shared manifest** – Codex captures a silent per-session baseline at `SessionStart` and checks content after tool use. Claude Code does not receive routine hook context: its context-bearing adapter was removed because the host can surface it or the agent can answer it. One red-only exception since 2.4.8: a federated bot whose always-on block does not declare its load gets exactly one repair line at `SessionStart`, on both hosts; green stays silent. The bundled `use-lore` opening check still verifies contract → core pieces → indexed modules on every host; clean means silence, while a missing link requires choosing whether to connect it or declare it outside the universe. **When that check is run as a command it prints its own coverage** — it walked contract → index → module and nothing else, it never asked what step runs any clue, and validity boundaries were never in its universe. That clause rides only on output already being written: the clean automatic pass still says nothing.
+- **Read-only tree checks ship as commands** – `lore-plugin mycelium bodies` walks contract → index → module inside one tree; `mycelium federated` checks a federated bot's always-on carries the triplete rule for sibling trees (word + sibling mark, never literal bodies); `mycelium announce` claims one of three per-tree announcement slots. All print their own coverage and change nothing.
+- **The process announcement is one sentence per tree** – agent-written prose saying what class of work comes next and what the person judges; never a hook, never blocking. Three slots per tree, claimed with the bundled opening check; exit 1 means the pool is spent.
+- **A material expansion of always-loaded criterion needs authority** – receipt v2 stores `alwaysOnBytes`, the normalized UTF-8 size of Markdown criterion bodies pointed to directly by the `<!-- lore:always-on -->` block. Duplicate pointers count once; unresolved paths, block prose, `FASES.md`, and `PHASES.md` are excluded. An increase of 8,192 bytes or more requires `lore-plugin mycelium receipt --accept-always-on`; without that flag the receipt is not advanced. This is an authority boundary derived from observed cases, not a diagnosis of crowding or semantic quality.
+- **Receipt v1 remains readable** – the historical 64-character digest migrates silently when still current. If it is stale, the content change remains pending and no size comparison is invented because v1 has no prior `alwaysOnBytes`.
+- **Healthy infrastructure is silent** – hooks emit no user-facing text when clean. Skills communicate the result, the decision or approval needed when blocked, or nothing for clean automatic work. Exact skill and mode identifiers remain available in documentation and technical diagnostics, and are used conversationally when the user names one or asks for detail. Before delivering an external artifact, the agent preserves the meaning but replaces every internal label with the audience's language; the final site, document or deck contains none of the workshop vocabulary, even when literal fidelity was requested.
+
+- **Operation state is data, never structure** – the text of a goal, an owner or a note can never open, close or duplicate an operation block in `FASES.md`: title lines are a single line free of block markers, the embedded JSON escapes `<` and the code fence, markers count only at the start of a line, and a repeated marker is refused instead of guessed. Found by the security review of 2.4.9 and fixed with the test written first.
+- **The operation gates record words; they do not prove who said them** – `authorize` stores who authorized and their own words, the verifier differs from the executor by name, `close` takes the certifier's declaration, and `--tools` declares the tools the operator observed. These are honor-system records by design: only the person's own words open an outward gate, and an agent's claim never stands in for them.
+- **A write into another tree is decided by the host, not by the plugin** – the guard classifies the destination and notes it; whether a foreign write is asked, allowed or denied belongs to the host's permission system (Claude Code's permissions, the Codex sandbox, OpenCode's `external_directory` and `edit`). On a setup that adds sibling trees as working directories or runs without prompts, a cross-tree write goes through.
+
+These invariants are what separate Lore from generic note‑taking or logging tools: a trusted, human‑curated body of criteria that AI can rely on.
+
+---
+

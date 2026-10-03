@@ -1,0 +1,263 @@
+[
+  {
+    "id": "readme",
+    "source": "README.md",
+    "type": "readme",
+    "lang": "en",
+    "title": "Lore Plugin public overview",
+    "path": "README.md",
+    "sha256": "d5779c9dd4bb26dbc5c0e6680a1336bfcecd90a43752ee7d26f84f56916eedea"
+  },
+  {
+    "id": "skill-use-lore",
+    "source": "skills/use-lore/SKILL.md",
+    "type": "skill",
+    "lang": "en",
+    "title": "use-lore skill",
+    "path": "skills/use-lore/SKILL.md",
+    "sha256": "03483b7b6b3dd47c71155f91540e71347831919b64c68260dc82a84ded7ed0a6"
+  },
+  {
+    "id": "skill-brainstorming-lore",
+    "source": "skills/brainstorming-lore/SKILL.md",
+    "type": "skill",
+    "lang": "en",
+    "title": "brainstorming-lore skill",
+    "path": "skills/brainstorming-lore/SKILL.md",
+    "sha256": "d5ed6d39041b8bf268aa259237b0b4e0055fecab7adcf058bff57ac327788a81"
+  },
+  {
+    "id": "skill-create-area",
+    "source": "skills/create-area/SKILL.md",
+    "type": "skill",
+    "lang": "en",
+    "title": "create-area skill",
+    "path": "skills/create-area/SKILL.md",
+    "sha256": "9711384acff9692122fe3aef28499c42b7ad72e156f9a55c29f8a33e98ac77fb"
+  },
+  {
+    "id": "skill-create-project",
+    "source": "skills/create-project/SKILL.md",
+    "type": "skill",
+    "lang": "en",
+    "title": "create-project skill",
+    "path": "skills/create-project/SKILL.md",
+    "sha256": "10995a52bade2905a3100475029887e856d4ed4632688c1ea2dd1ba6a9f48eea"
+  },
+  {
+    "id": "skill-create-bot",
+    "source": "skills/create-bot/SKILL.md",
+    "type": "skill",
+    "lang": "en",
+    "title": "create-bot skill",
+    "path": "skills/create-bot/SKILL.md",
+    "sha256": "bb8048e154fafe8286b96a2857419b36ed35a2ceb9f515482399f9b03ca05cca"
+  },
+  {
+    "id": "skill-save-to-lore",
+    "source": "skills/save-to-lore/SKILL.md",
+    "type": "skill",
+    "lang": "en",
+    "title": "save-to-lore skill",
+    "path": "skills/save-to-lore/SKILL.md",
+    "sha256": "fefc56252ad326b20e19be14f689fbb648256e5be71ae0153d399c4a597fae9c"
+  },
+  {
+    "id": "skill-transmute-lore",
+    "source": "skills/transmute-lore/SKILL.md",
+    "type": "skill",
+    "lang": "en",
+    "title": "transmute-lore skill",
+    "path": "skills/transmute-lore/SKILL.md",
+    "sha256": "f65e66a1d1293d5110b224d98038e0387b008d5c2dbd6ed963101f90e339a2bf"
+  },
+  {
+    "id": "skill-vespi",
+    "source": "skills/vespi/SKILL.md",
+    "type": "skill",
+    "lang": "en",
+    "title": "vespi skill",
+    "path": "skills/vespi/SKILL.md",
+    "sha256": "1e0c5557b4345f0a83dd4630f52d6f48b032021528079528884b87faffc9980b"
+  },
+  {
+    "id": "vespi-method",
+    "source": "skills/vespi/method.md",
+    "type": "vespi-method",
+    "lang": "en",
+    "title": "Vespi coordinator method",
+    "path": "skills/vespi/method.md",
+    "sha256": "f02d9583cd682c396936fde87ba61bc66e3baf13968d8b8020c96b2e14526ad7"
+  },
+  {
+    "id": "reference-en",
+    "source": "docs/REFERENCE_en.md",
+    "type": "reference",
+    "lang": "en",
+    "title": "Lore Plugin reference EN",
+    "path": "docs/REFERENCE_en.md",
+    "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143"
+  },
+  {
+    "id": "reference-es",
+    "source": "docs/REFERENCE_es.md",
+    "type": "reference",
+    "lang": "es",
+    "title": "Lore Plugin reference ES",
+    "path": "docs/REFERENCE_es.md",
+    "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d"
+  },
+  {
+    "id": "90_seconds-en",
+    "source": "docs/90_SECONDS_en.md",
+    "type": "90_seconds",
+    "lang": "en",
+    "title": "90 SECONDS EN",
+    "path": "docs/90_SECONDS_en.md",
+    "sha256": "6c56b9046aa90733f89ad4c345daed741f10c9be5264fb359a9af706c899bcd7"
+  },
+  {
+    "id": "90_seconds-es",
+    "source": "docs/90_SECONDS_es.md",
+    "type": "90_seconds",
+    "lang": "es",
+    "title": "90 SECONDS ES",
+    "path": "docs/90_SECONDS_es.md",
+    "sha256": "560f0f64ad91666eb10a6d4dfd60eb1a3980bec4e2ca5e78518aec9663570b22"
+  },
+  {
+    "id": "cases-en",
+    "source": "docs/CASES_en.md",
+    "type": "cases",
+    "lang": "en",
+    "title": "CASES EN",
+    "path": "docs/CASES_en.md",
+    "sha256": "ae78f5f2bc3b4fd0ee5fa9616a16a1dcba43d32e5f150ad6c4503f2d12e5c8d1"
+  },
+  {
+    "id": "cases-es",
+    "source": "docs/CASES_es.md",
+    "type": "cases",
+    "lang": "es",
+    "title": "CASES ES",
+    "path": "docs/CASES_es.md",
+    "sha256": "d083f2e45ed8a1fc4509230365ad45752b717bcacdf3f80020f549865e9db238"
+  },
+  {
+    "id": "bibliography-en",
+    "source": "docs/BIBLIOGRAPHY_en.md",
+    "type": "bibliography",
+    "lang": "en",
+    "title": "BIBLIOGRAPHY EN",
+    "path": "docs/BIBLIOGRAPHY_en.md",
+    "sha256": "69378d70d2de31213629497aafb58e7c3da91dcaa981527e4f39628f04b67942"
+  },
+  {
+    "id": "bibliography-es",
+    "source": "docs/BIBLIOGRAPHY_es.md",
+    "type": "bibliography",
+    "lang": "es",
+    "title": "BIBLIOGRAPHY ES",
+    "path": "docs/BIBLIOGRAPHY_es.md",
+    "sha256": "319531779fb4c5de36aaf1a8f06787f675b900701fc1c91852114c56da604723"
+  },
+  {
+    "id": "genealogy-en",
+    "source": "docs/GENEALOGY_en.md",
+    "type": "genealogy",
+    "lang": "en",
+    "title": "GENEALOGY EN",
+    "path": "docs/GENEALOGY_en.md",
+    "sha256": "27dbf29e864ff8733ef34aeb798e7f5f0b76b8a4532f813be5dcc280e24dbc78"
+  },
+  {
+    "id": "genealogy-es",
+    "source": "docs/GENEALOGY_es.md",
+    "type": "genealogy",
+    "lang": "es",
+    "title": "GENEALOGY ES",
+    "path": "docs/GENEALOGY_es.md",
+    "sha256": "b209ccb8bc80978ba841102559641fecb94ec4e27cc46621a7bad66597f8aa90"
+  },
+  {
+    "id": "lus-en",
+    "source": "docs/LUS_en.md",
+    "type": "lus",
+    "lang": "en",
+    "title": "LUS EN",
+    "path": "docs/LUS_en.md",
+    "sha256": "f30d07cb810c9236e58ae1cd93e5bf711e530e56f872c32ff012f22880370a2b"
+  },
+  {
+    "id": "lus-es",
+    "source": "docs/LUS_es.md",
+    "type": "lus",
+    "lang": "es",
+    "title": "LUS ES",
+    "path": "docs/LUS_es.md",
+    "sha256": "348081bb7b2d264f41316fae65b693f354b07ca86b4253f661d3ca6b54c3eedb"
+  },
+  {
+    "id": "observer-en",
+    "source": "docs/OBSERVER_en.md",
+    "type": "observer",
+    "lang": "en",
+    "title": "OBSERVER EN",
+    "path": "docs/OBSERVER_en.md",
+    "sha256": "35646175568487dd98c558f2de0f21193f29c40fe76396a7650c97e5743c9c62"
+  },
+  {
+    "id": "observer-es",
+    "source": "docs/OBSERVER_es.md",
+    "type": "observer",
+    "lang": "es",
+    "title": "OBSERVER ES",
+    "path": "docs/OBSERVER_es.md",
+    "sha256": "7f79c15d1923cd6c838b89a8e16c5598cea11d78c21c089af5e980ff70d18094"
+  },
+  {
+    "id": "release-2-4-9",
+    "source": "docs/RELEASE_2.4.9.md",
+    "type": "release",
+    "lang": "en",
+    "title": "Lore Plugin 2.4.9 release notes",
+    "path": "docs/RELEASE_2.4.9.md",
+    "sha256": "2e9b58d3747cf49b42c937e4614c7914f5741c8c213ce4e7ee10a47cb6ada51d"
+  },
+  {
+    "id": "vespi-kernel-readme",
+    "source": "mcp/kit/_vespi-staging/README.md",
+    "type": "vespi-kernel",
+    "lang": "en",
+    "title": "Vespi kernel README",
+    "path": "vespi-kernel/README.md",
+    "sha256": "0c0a539e1c5a5a98be09262ccbbca9461db17f98217e691f17575fcc1668afbb"
+  },
+  {
+    "id": "vespi-kernel-method",
+    "source": "mcp/kit/_vespi-staging/METHOD.md",
+    "type": "vespi-kernel",
+    "lang": "en",
+    "title": "Vespi kernel method",
+    "path": "vespi-kernel/METHOD.md",
+    "sha256": "b0fff07e1e75f8c8a64e81a601b813ae145f0d518e48b5446a1f5b166ae25620"
+  },
+  {
+    "id": "vespi-kernel-prior-art",
+    "source": "mcp/kit/_vespi-staging/PRIOR_ART.md",
+    "type": "vespi-kernel",
+    "lang": "en",
+    "title": "Vespi kernel prior art",
+    "path": "vespi-kernel/PRIOR_ART.md",
+    "sha256": "cbedc21c29d36d770c32dbb4760838820958410c27b390db3d53dcec9ab5991b"
+  },
+  {
+    "id": "vespi-kernel-changelog",
+    "source": "mcp/kit/_vespi-staging/CHANGELOG.md",
+    "type": "vespi-kernel",
+    "lang": "en",
+    "title": "Vespi kernel changelog",
+    "path": "vespi-kernel/CHANGELOG.md",
+    "sha256": "2dfa7399a4497d454522d5e61db60ce3716617f50675a759aa325d64962ee09d"
+  }
+]

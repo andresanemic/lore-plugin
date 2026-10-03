@@ -1,0 +1,9 @@
+{
+  "name": "@andresanemic/lore-kit-mcp",
+  "version": "0.1.0",
+  "type": "module",
+  "license": "Apache-2.0",
+  "bin": { "lore-kit-mcp": "./bin/lore-kit-mcp.mjs" },
+  "files": ["bin/", "src/", "api/", "vendor/", "data/", "README.md", "SECURITY.md", "LICENSE"],
+  "scripts": { "build:data": "node scripts/build-data.mjs", "test": "node --test test/*.test.mjs" }
+}

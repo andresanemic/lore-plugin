@@ -1,0 +1,936 @@
+{
+  "packageVersion": "0.1.0",
+  "builtAt": "2026-10-03T14:58:17.801Z",
+  "documents": [
+    {
+      "id": "readme",
+      "type": "readme",
+      "lang": "en",
+      "title": "Lore Plugin public overview",
+      "path": "README.md",
+      "sha256": "d5779c9dd4bb26dbc5c0e6680a1336bfcecd90a43752ee7d26f84f56916eedea",
+      "contentSha256": "7c081aee031c744fb15b14e275d2e461f3169761dbec1cff3e3a9ef566506567",
+      "file": "content/readme.md"
+    },
+    {
+      "id": "skill-use-lore",
+      "type": "skill",
+      "lang": "en",
+      "title": "use-lore skill",
+      "path": "skills/use-lore/SKILL.md",
+      "sha256": "03483b7b6b3dd47c71155f91540e71347831919b64c68260dc82a84ded7ed0a6",
+      "contentSha256": "03483b7b6b3dd47c71155f91540e71347831919b64c68260dc82a84ded7ed0a6",
+      "file": "content/skill-use-lore.md"
+    },
+    {
+      "id": "skill-brainstorming-lore",
+      "type": "skill",
+      "lang": "en",
+      "title": "brainstorming-lore skill",
+      "path": "skills/brainstorming-lore/SKILL.md",
+      "sha256": "d5ed6d39041b8bf268aa259237b0b4e0055fecab7adcf058bff57ac327788a81",
+      "contentSha256": "d5ed6d39041b8bf268aa259237b0b4e0055fecab7adcf058bff57ac327788a81",
+      "file": "content/skill-brainstorming-lore.md"
+    },
+    {
+      "id": "skill-create-area",
+      "type": "skill",
+      "lang": "en",
+      "title": "create-area skill",
+      "path": "skills/create-area/SKILL.md",
+      "sha256": "9711384acff9692122fe3aef28499c42b7ad72e156f9a55c29f8a33e98ac77fb",
+      "contentSha256": "9711384acff9692122fe3aef28499c42b7ad72e156f9a55c29f8a33e98ac77fb",
+      "file": "content/skill-create-area.md"
+    },
+    {
+      "id": "skill-create-project",
+      "type": "skill",
+      "lang": "en",
+      "title": "create-project skill",
+      "path": "skills/create-project/SKILL.md",
+      "sha256": "10995a52bade2905a3100475029887e856d4ed4632688c1ea2dd1ba6a9f48eea",
+      "contentSha256": "10995a52bade2905a3100475029887e856d4ed4632688c1ea2dd1ba6a9f48eea",
+      "file": "content/skill-create-project.md"
+    },
+    {
+      "id": "skill-create-bot",
+      "type": "skill",
+      "lang": "en",
+      "title": "create-bot skill",
+      "path": "skills/create-bot/SKILL.md",
+      "sha256": "bb8048e154fafe8286b96a2857419b36ed35a2ceb9f515482399f9b03ca05cca",
+      "contentSha256": "bb8048e154fafe8286b96a2857419b36ed35a2ceb9f515482399f9b03ca05cca",
+      "file": "content/skill-create-bot.md"
+    },
+    {
+      "id": "skill-save-to-lore",
+      "type": "skill",
+      "lang": "en",
+      "title": "save-to-lore skill",
+      "path": "skills/save-to-lore/SKILL.md",
+      "sha256": "fefc56252ad326b20e19be14f689fbb648256e5be71ae0153d399c4a597fae9c",
+      "contentSha256": "fefc56252ad326b20e19be14f689fbb648256e5be71ae0153d399c4a597fae9c",
+      "file": "content/skill-save-to-lore.md"
+    },
+    {
+      "id": "skill-transmute-lore",
+      "type": "skill",
+      "lang": "en",
+      "title": "transmute-lore skill",
+      "path": "skills/transmute-lore/SKILL.md",
+      "sha256": "f65e66a1d1293d5110b224d98038e0387b008d5c2dbd6ed963101f90e339a2bf",
+      "contentSha256": "f65e66a1d1293d5110b224d98038e0387b008d5c2dbd6ed963101f90e339a2bf",
+      "file": "content/skill-transmute-lore.md"
+    },
+    {
+      "id": "skill-vespi",
+      "type": "skill",
+      "lang": "en",
+      "title": "vespi skill",
+      "path": "skills/vespi/SKILL.md",
+      "sha256": "1e0c5557b4345f0a83dd4630f52d6f48b032021528079528884b87faffc9980b",
+      "contentSha256": "1e0c5557b4345f0a83dd4630f52d6f48b032021528079528884b87faffc9980b",
+      "file": "content/skill-vespi.md"
+    },
+    {
+      "id": "vespi-method",
+      "type": "vespi-method",
+      "lang": "en",
+      "title": "Vespi coordinator method",
+      "path": "skills/vespi/method.md",
+      "sha256": "f02d9583cd682c396936fde87ba61bc66e3baf13968d8b8020c96b2e14526ad7",
+      "contentSha256": "f02d9583cd682c396936fde87ba61bc66e3baf13968d8b8020c96b2e14526ad7",
+      "file": "content/vespi-method.md"
+    },
+    {
+      "id": "reference-en-001-lore-plugin-reference",
+      "type": "reference",
+      "lang": "en",
+      "title": "Lore Plugin – Reference",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "48f9526245a1fed1ac67a169af25ab397bec22699177ee23d435523d99b56516",
+      "file": "content/reference-en-001-lore-plugin-reference.md"
+    },
+    {
+      "id": "reference-en-002-getting-started",
+      "type": "reference",
+      "lang": "en",
+      "title": "Getting started",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "60cad58e9c8f6f3879cefdaef2d3dc1a66ad1382a3d48b6ddc23fc4ee194e636",
+      "file": "content/reference-en-002-getting-started.md"
+    },
+    {
+      "id": "reference-en-003-the-daily-loop",
+      "type": "reference",
+      "lang": "en",
+      "title": "The daily loop",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "686c5f9fb0bea7d3075e8a04e354eba8da04a56734379375a581fb8ae7e17a39",
+      "file": "content/reference-en-003-the-daily-loop.md"
+    },
+    {
+      "id": "reference-en-004-your-first-area-and-project",
+      "type": "reference",
+      "lang": "en",
+      "title": "Your first Area and project",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "fa4e374d4c42fe2d581f4692c6de71691b2a75749e22a064d70731b2ebc4a8d7",
+      "file": "content/reference-en-004-your-first-area-and-project.md"
+    },
+    {
+      "id": "reference-en-005-best-practices",
+      "type": "reference",
+      "lang": "en",
+      "title": "Best practices",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "c12e6a529c661099af0ca777bdb338fdd3cd035fd9e4bf5778ad3502eb78cb0c",
+      "file": "content/reference-en-005-best-practices.md"
+    },
+    {
+      "id": "reference-en-006-1-core-concepts",
+      "type": "reference",
+      "lang": "en",
+      "title": "1. Core Concepts",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "6eb5a9fbdb46677ffd2700c5594e150237b0ec37dc58d4fde020ee41bdcc1779",
+      "file": "content/reference-en-006-1-core-concepts.md"
+    },
+    {
+      "id": "reference-en-007-2-skills-overview",
+      "type": "reference",
+      "lang": "en",
+      "title": "2. Skills Overview",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "c6b1b6a349c0d57cecff28d9397c4021a2afcf7c221e9034b709ec3ffd5c3b6f",
+      "file": "content/reference-en-007-2-skills-overview.md"
+    },
+    {
+      "id": "reference-en-008-3-skill-details",
+      "type": "reference",
+      "lang": "en",
+      "title": "3. Skill Details",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "ffce77b44e3be63a07410e00639f0193b803fd82c789b67c0bb8557592b2aa14",
+      "file": "content/reference-en-008-3-skill-details.md"
+    },
+    {
+      "id": "reference-en-009-3-1-use-lore",
+      "type": "reference",
+      "lang": "en",
+      "title": "3.1 `use-lore`",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "a65539d97c97d836d3280c3e3fec1ba2a9f604f163a54ea6760a5068e86119d5",
+      "file": "content/reference-en-009-3-1-use-lore.md"
+    },
+    {
+      "id": "reference-en-010-3-2-brainstorming-lore",
+      "type": "reference",
+      "lang": "en",
+      "title": "3.2 `brainstorming-lore`",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "4cec71b56264864794fc758c15da737d958ffc961fbee4517d155d9c3e8a55e9",
+      "file": "content/reference-en-010-3-2-brainstorming-lore.md"
+    },
+    {
+      "id": "reference-en-011-3-3-create-area",
+      "type": "reference",
+      "lang": "en",
+      "title": "3.3 `create-area`",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "3dc8dc697bc3cf650c5ac66fc6c2c0807f7b7aa8e6446b82ba27900156410f47",
+      "file": "content/reference-en-011-3-3-create-area.md"
+    },
+    {
+      "id": "reference-en-012-3-4-create-project",
+      "type": "reference",
+      "lang": "en",
+      "title": "3.4 `create-project`",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "644534249c2010041c38dd700e36306d2c1401f5f81887ba190a0fcb33e4e9e4",
+      "file": "content/reference-en-012-3-4-create-project.md"
+    },
+    {
+      "id": "reference-en-013-3-5-save-to-lore",
+      "type": "reference",
+      "lang": "en",
+      "title": "3.5 `save-to-lore`",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "25bd86c6c09ff973f29faff77df19d6cf6e894b32f39ea3b9e34e810945406b5",
+      "file": "content/reference-en-013-3-5-save-to-lore.md"
+    },
+    {
+      "id": "reference-en-014-3-6-transmute-lore",
+      "type": "reference",
+      "lang": "en",
+      "title": "3.6 `transmute-lore`",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "e5a9fd10df8d3c68b674d896c766648cd11496c39f45349f20a04acfadce5ed9",
+      "file": "content/reference-en-014-3-6-transmute-lore.md"
+    },
+    {
+      "id": "reference-en-015-3-7-create-bot",
+      "type": "reference",
+      "lang": "en",
+      "title": "3.7 `create-bot`",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "7956667c73408a187a0b4411615a56918e839cc3c279dd3bc780ecfe958367cb",
+      "file": "content/reference-en-015-3-7-create-bot.md"
+    },
+    {
+      "id": "reference-en-016-3-9-vespi",
+      "type": "reference",
+      "lang": "en",
+      "title": "3.9 `vespi`",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "ebadc8d2466add892852ce8f0982d61ee7877c2e69409c160f36136a417ca0b8",
+      "file": "content/reference-en-016-3-9-vespi.md"
+    },
+    {
+      "id": "reference-en-017-3-8-note-function-loaded-by-save-to-lore",
+      "type": "reference",
+      "lang": "en",
+      "title": "3.8 Note function loaded by `save-to-lore`",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "1d7b6e122abf7722424af4bcff89905ced4fed3360a0b0901b4005b0902dec2a",
+      "file": "content/reference-en-017-3-8-note-function-loaded-by-save-to-lore.md"
+    },
+    {
+      "id": "reference-en-018-4-artifacts-specification",
+      "type": "reference",
+      "lang": "en",
+      "title": "4. Artifacts Specification",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "b82b86450e0ac19fd87583325ef0040f4854d97d07f1757ce542ab5e4aab48dd",
+      "file": "content/reference-en-018-4-artifacts-specification.md"
+    },
+    {
+      "id": "reference-en-019-4-1-lore-identidad-md",
+      "type": "reference",
+      "lang": "en",
+      "title": "4.1 `lore/identidad.md`",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "9fbed08a751708429a5cfc0ecdb1c6759e2850ff9b7c30d0f5184fcfb468fad1",
+      "file": "content/reference-en-019-4-1-lore-identidad-md.md"
+    },
+    {
+      "id": "reference-en-020-4-2-lore-principios-md",
+      "type": "reference",
+      "lang": "en",
+      "title": "4.2 `lore/principios.md`",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "1c4e790337696e00cc37009d3e8f841dfc9e77aebc2cc9c5d9d6b4b529f2cb6a",
+      "file": "content/reference-en-020-4-2-lore-principios-md.md"
+    },
+    {
+      "id": "reference-en-021-4-3-thematic-modules-under-lore",
+      "type": "reference",
+      "lang": "en",
+      "title": "4.3 Thematic Modules under `lore/`",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "f5f777cb7a619228673cd07aa92f0b0465702c672b8d156cc89d45c3e3be08f6",
+      "file": "content/reference-en-021-4-3-thematic-modules-under-lore.md"
+    },
+    {
+      "id": "reference-en-022-4-4-lore-index-md",
+      "type": "reference",
+      "lang": "en",
+      "title": "4.4 `lore/index.md`",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "2138e19739e80ed43089b9dd9789982ae09e7ef376b5e79a8e5ddfe8901adf52",
+      "file": "content/reference-en-022-4-4-lore-index-md.md"
+    },
+    {
+      "id": "reference-en-023-4-5-fases-md",
+      "type": "reference",
+      "lang": "en",
+      "title": "4.5 `FASES.md`",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "28ff0d3ee5f814a52b36923c8ccfa21f9e978ea32a720bad1345d46ebbfebeab",
+      "file": "content/reference-en-023-4-5-fases-md.md"
+    },
+    {
+      "id": "reference-en-024-4-6-claude-md-or-agents-md",
+      "type": "reference",
+      "lang": "en",
+      "title": "4.6 `CLAUDE.md` or `AGENTS.md`",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "91d5d84ff0d737e30ed44e59b8e79abdbe240ec97a21a0610f2c615d5681f286",
+      "file": "content/reference-en-024-4-6-claude-md-or-agents-md.md"
+    },
+    {
+      "id": "reference-en-025-4-7-golden-paths-md-optional",
+      "type": "reference",
+      "lang": "en",
+      "title": "4.7 `golden-paths.md` (optional)",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "904f2a8c8fcc97727d7b29cef1c4c12d0c6c892b3a8048560547c0d14cb8c33e",
+      "file": "content/reference-en-025-4-7-golden-paths-md-optional.md"
+    },
+    {
+      "id": "reference-en-026-4-8-assets-constitucion-puntero-md-the-pointer-constitution-2-1-0",
+      "type": "reference",
+      "lang": "en",
+      "title": "4.8 `assets/constitucion-puntero.md` — the pointer constitution (2.1.0)",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "80be4968de1d44f42420da5fba68063c236472fae767b7227180a2879e45fc3a",
+      "file": "content/reference-en-026-4-8-assets-constitucion-puntero-md-the-pointer-constitution-2-1-0.md"
+    },
+    {
+      "id": "reference-en-027-5-filesystem-layout",
+      "type": "reference",
+      "lang": "en",
+      "title": "5. Filesystem Layout",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "812b2015b5ea4cb9bd5d1a41ea9e5c45b6a4ddbe487ebb02ef2bb8acec9de642",
+      "file": "content/reference-en-027-5-filesystem-layout.md"
+    },
+    {
+      "id": "reference-en-028-6-operational-invariants",
+      "type": "reference",
+      "lang": "en",
+      "title": "6. Operational Invariants",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "5d0fc56fa394d3bc69698f71e60fbe0175daab2f74cb7a69b515e146f04ddc75",
+      "file": "content/reference-en-028-6-operational-invariants.md"
+    },
+    {
+      "id": "reference-en-029-7-relationship-to-the-other-documents",
+      "type": "reference",
+      "lang": "en",
+      "title": "7. Relationship to the other documents",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "c5a5c281a3b9fed7bc4fb1e29be17d9f779b87381f5e56992e4cc41812a5545a",
+      "file": "content/reference-en-029-7-relationship-to-the-other-documents.md"
+    },
+    {
+      "id": "reference-en-030-8-migrating-an-existing-project",
+      "type": "reference",
+      "lang": "en",
+      "title": "8. Migrating an existing project",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "7eb3da78aa478e345c3400baf71eddd683440246dc8652400c6108a52c3e3508",
+      "file": "content/reference-en-030-8-migrating-an-existing-project.md"
+    },
+    {
+      "id": "reference-en-031-8-1-strategy",
+      "type": "reference",
+      "lang": "en",
+      "title": "8.1 Strategy",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "5ef0db96efeef9c0cdb90ddb827ebf80da5fc74b6cd61cadc4c863bbebd7c96f",
+      "file": "content/reference-en-031-8-1-strategy.md"
+    },
+    {
+      "id": "reference-en-032-8-2-mapping-old-documentation-to-artifacts",
+      "type": "reference",
+      "lang": "en",
+      "title": "8.2 Mapping old documentation to artifacts",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "0b15f6e3a1e71fded0839a767e4d350d27468332a44d74e96200cd1710eddec1",
+      "file": "content/reference-en-032-8-2-mapping-old-documentation-to-artifacts.md"
+    },
+    {
+      "id": "reference-en-033-8-3-post-migration-checklist",
+      "type": "reference",
+      "lang": "en",
+      "title": "8.3 Post-migration checklist",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "915f392b222566b2fb3f8eaf3fc110e21b5e47a06205c0e882a4b6f1ad8d7143",
+      "contentSha256": "238a7176d438954ca0a17fefe295fa3d90c1f82d387c031a7ddde6d3e54e3f7e",
+      "file": "content/reference-en-033-8-3-post-migration-checklist.md"
+    },
+    {
+      "id": "reference-es-001-plugin-lore-referencia",
+      "type": "reference",
+      "lang": "es",
+      "title": "Plugin Lore – Referencia",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "7281122e354f3f185ba41be70ea0a619ac472996f079c088cbafb378866e3a2a",
+      "file": "content/reference-es-001-plugin-lore-referencia.md"
+    },
+    {
+      "id": "reference-es-002-empezar",
+      "type": "reference",
+      "lang": "es",
+      "title": "Empezar",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "f0a0da2298e404d3cb7b308d5d9f6574c0097dce1d8ad1da332abe2ca923bd8c",
+      "file": "content/reference-es-002-empezar.md"
+    },
+    {
+      "id": "reference-es-003-el-ciclo-cotidiano",
+      "type": "reference",
+      "lang": "es",
+      "title": "El ciclo cotidiano",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "c706d4b74c3fa33102348dfb9002f3dea6b9a207a80faaa3e99746e4d21da867",
+      "file": "content/reference-es-003-el-ciclo-cotidiano.md"
+    },
+    {
+      "id": "reference-es-004-tu-primera-area-y-proyecto",
+      "type": "reference",
+      "lang": "es",
+      "title": "Tu primera Área y proyecto",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "5f2b73c1b5b63b7f5b4a9162041b4feb1c83e5440bd6826ef2776797ddcc9971",
+      "file": "content/reference-es-004-tu-primera-area-y-proyecto.md"
+    },
+    {
+      "id": "reference-es-005-buenas-practicas",
+      "type": "reference",
+      "lang": "es",
+      "title": "Buenas prácticas",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "6d4e2135643e9b03041abb3c85d3138068298c4217eb73578773c626636eaf1e",
+      "file": "content/reference-es-005-buenas-practicas.md"
+    },
+    {
+      "id": "reference-es-006-1-conceptos-centrales",
+      "type": "reference",
+      "lang": "es",
+      "title": "1. Conceptos centrales",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "875a3d372cba3685ad89d60684700fbe0dd8e089fd127bc27e744ad191fcb3d9",
+      "file": "content/reference-es-006-1-conceptos-centrales.md"
+    },
+    {
+      "id": "reference-es-007-2-resumen-de-skills",
+      "type": "reference",
+      "lang": "es",
+      "title": "2. Resumen de skills",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "f833f627cf959cd5e836dd0ef25a83b343e465685dc19f985548596da93bd915",
+      "file": "content/reference-es-007-2-resumen-de-skills.md"
+    },
+    {
+      "id": "reference-es-008-3-detalle-de-skills",
+      "type": "reference",
+      "lang": "es",
+      "title": "3. Detalle de skills",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "6a822e7802f38475b2f37fb6f9525cdadfca2405cef7665fb5bc2b8bf7e378e6",
+      "file": "content/reference-es-008-3-detalle-de-skills.md"
+    },
+    {
+      "id": "reference-es-009-3-1-use-lore",
+      "type": "reference",
+      "lang": "es",
+      "title": "3.1 `use-lore`",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "94a78f83897bf3f43c14672464d7c3902397c40f07ba3fcd812d1a90dcfecb52",
+      "file": "content/reference-es-009-3-1-use-lore.md"
+    },
+    {
+      "id": "reference-es-010-3-2-brainstorming-lore",
+      "type": "reference",
+      "lang": "es",
+      "title": "3.2 `brainstorming-lore`",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "d5f3d54a6b431dae709e599e65a89c1871968a6f603f2bbf0e281fb5237c0ff0",
+      "file": "content/reference-es-010-3-2-brainstorming-lore.md"
+    },
+    {
+      "id": "reference-es-011-3-3-create-area",
+      "type": "reference",
+      "lang": "es",
+      "title": "3.3 `create-area`",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "a5d95c42e85caa45112cfb6a85cbe81d6f90e19155f1a2e11f31d6b7e8caea18",
+      "file": "content/reference-es-011-3-3-create-area.md"
+    },
+    {
+      "id": "reference-es-012-3-4-create-project",
+      "type": "reference",
+      "lang": "es",
+      "title": "3.4 `create-project`",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "ee2457eb447ebcee376e1b6a0c84bee60c1074c94186ce905c4f35fb9083b605",
+      "file": "content/reference-es-012-3-4-create-project.md"
+    },
+    {
+      "id": "reference-es-013-3-5-save-to-lore",
+      "type": "reference",
+      "lang": "es",
+      "title": "3.5 `save-to-lore`",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "6f5033982966e767bff73338a9c9f3fdb96ff36ee3f3020f77a674b6bf32d11b",
+      "file": "content/reference-es-013-3-5-save-to-lore.md"
+    },
+    {
+      "id": "reference-es-014-3-6-transmute-lore",
+      "type": "reference",
+      "lang": "es",
+      "title": "3.6 `transmute-lore`",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "1dce84b097837f2baa6944d2d8bae4ba4d8b91b7aab87fa3aa6fb89668f518a3",
+      "file": "content/reference-es-014-3-6-transmute-lore.md"
+    },
+    {
+      "id": "reference-es-015-3-7-create-bot",
+      "type": "reference",
+      "lang": "es",
+      "title": "3.7 `create-bot`",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "eeacba81ef59cbe30bc6679e2a655aba9f6d3fe7a699576c566b171fa40b239b",
+      "file": "content/reference-es-015-3-7-create-bot.md"
+    },
+    {
+      "id": "reference-es-016-3-9-vespi",
+      "type": "reference",
+      "lang": "es",
+      "title": "3.9 `vespi`",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "636374e1b20564e22902b2fcc79a3a21f9742fc83506afce1d636a5931e62899",
+      "file": "content/reference-es-016-3-9-vespi.md"
+    },
+    {
+      "id": "reference-es-017-3-8-funcion-de-notas-que-carga-save-to-lore",
+      "type": "reference",
+      "lang": "es",
+      "title": "3.8 Función de notas que carga `save-to-lore`",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "edecb693a255a869d4ed184661161e00948309abaf55f32e183471602722d404",
+      "file": "content/reference-es-017-3-8-funcion-de-notas-que-carga-save-to-lore.md"
+    },
+    {
+      "id": "reference-es-018-4-especificacion-de-artefactos",
+      "type": "reference",
+      "lang": "es",
+      "title": "4. Especificación de artefactos",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "1d5bc97f2b3282686fec74e6c2788045b0b3dfd9534c6fcabb2e2cf130b81ee6",
+      "file": "content/reference-es-018-4-especificacion-de-artefactos.md"
+    },
+    {
+      "id": "reference-es-019-4-1-lore-identidad-md",
+      "type": "reference",
+      "lang": "es",
+      "title": "4.1 `lore/identidad.md`",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "e7e385d30ecf75bcfeb42947adfaddbaa4bd858a31b95deb4b575ab20c4b6f28",
+      "file": "content/reference-es-019-4-1-lore-identidad-md.md"
+    },
+    {
+      "id": "reference-es-020-4-2-lore-principios-md",
+      "type": "reference",
+      "lang": "es",
+      "title": "4.2 `lore/principios.md`",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "5149514d129ea7d839357a051fd98cc0cceb6959d5b61fc3197472a2337a782d",
+      "file": "content/reference-es-020-4-2-lore-principios-md.md"
+    },
+    {
+      "id": "reference-es-021-4-3-modulos-tematicos-bajo-lore",
+      "type": "reference",
+      "lang": "es",
+      "title": "4.3 Módulos temáticos bajo `lore/`",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "0a81fb59645bec449959b4fd082d777b6c210645ea493e286f189d5a5e6acec1",
+      "file": "content/reference-es-021-4-3-modulos-tematicos-bajo-lore.md"
+    },
+    {
+      "id": "reference-es-022-4-4-lore-index-md",
+      "type": "reference",
+      "lang": "es",
+      "title": "4.4 `lore/index.md`",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "6626cf0cdf237fcbf57a22934139c87009379df9a7c91ead9001d98105d15b30",
+      "file": "content/reference-es-022-4-4-lore-index-md.md"
+    },
+    {
+      "id": "reference-es-023-4-5-fases-md",
+      "type": "reference",
+      "lang": "es",
+      "title": "4.5 `FASES.md`",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "3a8302ba76abafcc031a9d47d776d6614e32ade16c2201485b581091e163c0e0",
+      "file": "content/reference-es-023-4-5-fases-md.md"
+    },
+    {
+      "id": "reference-es-024-4-6-claude-md-o-agents-md",
+      "type": "reference",
+      "lang": "es",
+      "title": "4.6 `CLAUDE.md` o `AGENTS.md`",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "a2a4edc8ca66a5a88bda80151cffeae45221c36a39096967e99c1180ec74dfc1",
+      "file": "content/reference-es-024-4-6-claude-md-o-agents-md.md"
+    },
+    {
+      "id": "reference-es-025-4-7-golden-paths-md-opcional",
+      "type": "reference",
+      "lang": "es",
+      "title": "4.7 `golden-paths.md` (opcional)",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "1e348924c89418c87bc184419d177f625b77ac88b0f6ee2ad5b1db21d7df17ba",
+      "file": "content/reference-es-025-4-7-golden-paths-md-opcional.md"
+    },
+    {
+      "id": "reference-es-026-4-8-assets-constitucion-puntero-md-la-constitucion-puntero-2-1-0",
+      "type": "reference",
+      "lang": "es",
+      "title": "4.8 `assets/constitucion-puntero.md` — la constitución-puntero (2.1.0)",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "fef3608ecd241adb0c636ca37235169a7ffca1c3a14ca0592249b68646b357b9",
+      "file": "content/reference-es-026-4-8-assets-constitucion-puntero-md-la-constitucion-puntero-2-1-0.md"
+    },
+    {
+      "id": "reference-es-027-5-estructura-de-archivos",
+      "type": "reference",
+      "lang": "es",
+      "title": "5. Estructura de archivos",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "2a59edefccdf772cbb002c6138700cf2d6402927e6597ddbed02fbad133e0b3d",
+      "file": "content/reference-es-027-5-estructura-de-archivos.md"
+    },
+    {
+      "id": "reference-es-028-6-invariantes-operativas",
+      "type": "reference",
+      "lang": "es",
+      "title": "6. Invariantes operativas",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "208acdab43f3660d0f0ac03e9476a88b19be20d48d5aa2748469f1bf6154eefe",
+      "file": "content/reference-es-028-6-invariantes-operativas.md"
+    },
+    {
+      "id": "reference-es-029-7-relacion-con-los-otros-documentos",
+      "type": "reference",
+      "lang": "es",
+      "title": "7. Relación con los otros documentos",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "a8918ba4597c71d82c6522cac43dd4f058036f0d72224587144a8f08742aab47",
+      "file": "content/reference-es-029-7-relacion-con-los-otros-documentos.md"
+    },
+    {
+      "id": "reference-es-030-8-migracion-de-un-proyecto-existente",
+      "type": "reference",
+      "lang": "es",
+      "title": "8. Migración de un proyecto existente",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "9bff54ac16cfb99983ba3887962b8e6275202bba201792c14ee343a22db8c566",
+      "file": "content/reference-es-030-8-migracion-de-un-proyecto-existente.md"
+    },
+    {
+      "id": "reference-es-031-8-1-estrategia",
+      "type": "reference",
+      "lang": "es",
+      "title": "8.1 Estrategia",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "51ee8f556dae3ac4abba5fb746ca867422d3498b33ba9b5cbe544601996a09ee",
+      "file": "content/reference-es-031-8-1-estrategia.md"
+    },
+    {
+      "id": "reference-es-032-8-2-mapear-documentacion-antigua-a-artefactos",
+      "type": "reference",
+      "lang": "es",
+      "title": "8.2 Mapear documentación antigua a artefactos",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "9ed503e544a3f7eb8f8d98d3372f021233c81cb6177c491024e97a37376670f1",
+      "file": "content/reference-es-032-8-2-mapear-documentacion-antigua-a-artefactos.md"
+    },
+    {
+      "id": "reference-es-033-8-3-checklist-posterior",
+      "type": "reference",
+      "lang": "es",
+      "title": "8.3 Checklist posterior",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "f6221b699dfa149c1dda88c3dab89b1ff35b9d298d521995677628cb6bcdf22d",
+      "contentSha256": "84df9ece98c873105fdc386b2984763c4a4067eab0845a0768d1843a2de9c828",
+      "file": "content/reference-es-033-8-3-checklist-posterior.md"
+    },
+    {
+      "id": "90_seconds-en",
+      "type": "90_seconds",
+      "lang": "en",
+      "title": "90 SECONDS EN",
+      "path": "docs/90_SECONDS_en.md",
+      "sha256": "6c56b9046aa90733f89ad4c345daed741f10c9be5264fb359a9af706c899bcd7",
+      "contentSha256": "6c56b9046aa90733f89ad4c345daed741f10c9be5264fb359a9af706c899bcd7",
+      "file": "content/90_seconds-en.md"
+    },
+    {
+      "id": "90_seconds-es",
+      "type": "90_seconds",
+      "lang": "es",
+      "title": "90 SECONDS ES",
+      "path": "docs/90_SECONDS_es.md",
+      "sha256": "560f0f64ad91666eb10a6d4dfd60eb1a3980bec4e2ca5e78518aec9663570b22",
+      "contentSha256": "560f0f64ad91666eb10a6d4dfd60eb1a3980bec4e2ca5e78518aec9663570b22",
+      "file": "content/90_seconds-es.md"
+    },
+    {
+      "id": "cases-en",
+      "type": "cases",
+      "lang": "en",
+      "title": "CASES EN",
+      "path": "docs/CASES_en.md",
+      "sha256": "ae78f5f2bc3b4fd0ee5fa9616a16a1dcba43d32e5f150ad6c4503f2d12e5c8d1",
+      "contentSha256": "ae78f5f2bc3b4fd0ee5fa9616a16a1dcba43d32e5f150ad6c4503f2d12e5c8d1",
+      "file": "content/cases-en.md"
+    },
+    {
+      "id": "cases-es",
+      "type": "cases",
+      "lang": "es",
+      "title": "CASES ES",
+      "path": "docs/CASES_es.md",
+      "sha256": "d083f2e45ed8a1fc4509230365ad45752b717bcacdf3f80020f549865e9db238",
+      "contentSha256": "d083f2e45ed8a1fc4509230365ad45752b717bcacdf3f80020f549865e9db238",
+      "file": "content/cases-es.md"
+    },
+    {
+      "id": "bibliography-en",
+      "type": "bibliography",
+      "lang": "en",
+      "title": "BIBLIOGRAPHY EN",
+      "path": "docs/BIBLIOGRAPHY_en.md",
+      "sha256": "69378d70d2de31213629497aafb58e7c3da91dcaa981527e4f39628f04b67942",
+      "contentSha256": "69378d70d2de31213629497aafb58e7c3da91dcaa981527e4f39628f04b67942",
+      "file": "content/bibliography-en.md"
+    },
+    {
+      "id": "bibliography-es",
+      "type": "bibliography",
+      "lang": "es",
+      "title": "BIBLIOGRAPHY ES",
+      "path": "docs/BIBLIOGRAPHY_es.md",
+      "sha256": "319531779fb4c5de36aaf1a8f06787f675b900701fc1c91852114c56da604723",
+      "contentSha256": "319531779fb4c5de36aaf1a8f06787f675b900701fc1c91852114c56da604723",
+      "file": "content/bibliography-es.md"
+    },
+    {
+      "id": "genealogy-en",
+      "type": "genealogy",
+      "lang": "en",
+      "title": "GENEALOGY EN",
+      "path": "docs/GENEALOGY_en.md",
+      "sha256": "27dbf29e864ff8733ef34aeb798e7f5f0b76b8a4532f813be5dcc280e24dbc78",
+      "contentSha256": "27dbf29e864ff8733ef34aeb798e7f5f0b76b8a4532f813be5dcc280e24dbc78",
+      "file": "content/genealogy-en.md"
+    },
+    {
+      "id": "genealogy-es",
+      "type": "genealogy",
+      "lang": "es",
+      "title": "GENEALOGY ES",
+      "path": "docs/GENEALOGY_es.md",
+      "sha256": "b209ccb8bc80978ba841102559641fecb94ec4e27cc46621a7bad66597f8aa90",
+      "contentSha256": "b209ccb8bc80978ba841102559641fecb94ec4e27cc46621a7bad66597f8aa90",
+      "file": "content/genealogy-es.md"
+    },
+    {
+      "id": "lus-en",
+      "type": "lus",
+      "lang": "en",
+      "title": "LUS EN",
+      "path": "docs/LUS_en.md",
+      "sha256": "f30d07cb810c9236e58ae1cd93e5bf711e530e56f872c32ff012f22880370a2b",
+      "contentSha256": "f30d07cb810c9236e58ae1cd93e5bf711e530e56f872c32ff012f22880370a2b",
+      "file": "content/lus-en.md"
+    },
+    {
+      "id": "lus-es",
+      "type": "lus",
+      "lang": "es",
+      "title": "LUS ES",
+      "path": "docs/LUS_es.md",
+      "sha256": "348081bb7b2d264f41316fae65b693f354b07ca86b4253f661d3ca6b54c3eedb",
+      "contentSha256": "348081bb7b2d264f41316fae65b693f354b07ca86b4253f661d3ca6b54c3eedb",
+      "file": "content/lus-es.md"
+    },
+    {
+      "id": "observer-en",
+      "type": "observer",
+      "lang": "en",
+      "title": "OBSERVER EN",
+      "path": "docs/OBSERVER_en.md",
+      "sha256": "35646175568487dd98c558f2de0f21193f29c40fe76396a7650c97e5743c9c62",
+      "contentSha256": "35646175568487dd98c558f2de0f21193f29c40fe76396a7650c97e5743c9c62",
+      "file": "content/observer-en.md"
+    },
+    {
+      "id": "observer-es",
+      "type": "observer",
+      "lang": "es",
+      "title": "OBSERVER ES",
+      "path": "docs/OBSERVER_es.md",
+      "sha256": "7f79c15d1923cd6c838b89a8e16c5598cea11d78c21c089af5e980ff70d18094",
+      "contentSha256": "7f79c15d1923cd6c838b89a8e16c5598cea11d78c21c089af5e980ff70d18094",
+      "file": "content/observer-es.md"
+    },
+    {
+      "id": "release-2-4-9",
+      "type": "release",
+      "lang": "en",
+      "title": "Lore Plugin 2.4.9 release notes",
+      "path": "docs/RELEASE_2.4.9.md",
+      "sha256": "2e9b58d3747cf49b42c937e4614c7914f5741c8c213ce4e7ee10a47cb6ada51d",
+      "contentSha256": "2e9b58d3747cf49b42c937e4614c7914f5741c8c213ce4e7ee10a47cb6ada51d",
+      "file": "content/release-2-4-9.md"
+    },
+    {
+      "id": "vespi-kernel-readme",
+      "type": "vespi-kernel",
+      "lang": "en",
+      "title": "Vespi kernel README",
+      "path": "vespi-kernel/README.md",
+      "sha256": "0c0a539e1c5a5a98be09262ccbbca9461db17f98217e691f17575fcc1668afbb",
+      "contentSha256": "0c0a539e1c5a5a98be09262ccbbca9461db17f98217e691f17575fcc1668afbb",
+      "file": "content/vespi-kernel-readme.md"
+    },
+    {
+      "id": "vespi-kernel-method",
+      "type": "vespi-kernel",
+      "lang": "en",
+      "title": "Vespi kernel method",
+      "path": "vespi-kernel/METHOD.md",
+      "sha256": "b0fff07e1e75f8c8a64e81a601b813ae145f0d518e48b5446a1f5b166ae25620",
+      "contentSha256": "b0fff07e1e75f8c8a64e81a601b813ae145f0d518e48b5446a1f5b166ae25620",
+      "file": "content/vespi-kernel-method.md"
+    },
+    {
+      "id": "vespi-kernel-prior-art",
+      "type": "vespi-kernel",
+      "lang": "en",
+      "title": "Vespi kernel prior art",
+      "path": "vespi-kernel/PRIOR_ART.md",
+      "sha256": "cbedc21c29d36d770c32dbb4760838820958410c27b390db3d53dcec9ab5991b",
+      "contentSha256": "cbedc21c29d36d770c32dbb4760838820958410c27b390db3d53dcec9ab5991b",
+      "file": "content/vespi-kernel-prior-art.md"
+    },
+    {
+      "id": "vespi-kernel-changelog",
+      "type": "vespi-kernel",
+      "lang": "en",
+      "title": "Vespi kernel changelog",
+      "path": "vespi-kernel/CHANGELOG.md",
+      "sha256": "2dfa7399a4497d454522d5e61db60ce3716617f50675a759aa325d64962ee09d",
+      "contentSha256": "2dfa7399a4497d454522d5e61db60ce3716617f50675a759aa325d64962ee09d",
+      "file": "content/vespi-kernel-changelog.md"
+    }
+  ]
+}
