@@ -227,6 +227,8 @@ node scripts/lore-plugin.mjs install --target opencode
 
 Restart OpenCode. Existing `tui.json` entries are preserved; `tui.jsonc` is left untouched. For one project, use `.opencode/skills/` instead.
 
+- For non-interactive delegates, configure routed access with `lore-plugin opencode-permissions --project <dir> --from-routing [--write]`, or prepare a confined profile with `lore-plugin opencode-sandbox <dir>`. The reference explains stdin, `-f` ordering and temporary-directory requirements.
+
 ### Cursor
 
 Cursor already discovers skills installed under `~/.codex/skills/` or `~/.agents/skills/`. To keep
@@ -786,6 +788,8 @@ node scripts/lore-plugin.mjs install --target opencode
 ```
 
 Reinicia OpenCode. Conserva otras entradas de `tui.json`; `tui.jsonc` queda intacto. Para un solo proyecto usa `.opencode/skills/`.
+
+- Para delegados sin interacción, configura el acceso enrutado con `lore-plugin opencode-permissions --project <dir> --from-routing [--write]` o prepara un perfil confinado con `lore-plugin opencode-sandbox <dir>`. La referencia explica el cierre de stdin, el orden de `-f` y la carpeta de temporales.
 
 ### Cursor
 

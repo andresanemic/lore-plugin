@@ -26,6 +26,7 @@
     "scripts/hygiene.mjs",
     "scripts/lore-cli.mjs",
     "scripts/lore-plugin.mjs",
+    "scripts/opencode-permissions.mjs",
     "scripts/operation-cli.mjs",
     "README.md",
     "LICENSE",

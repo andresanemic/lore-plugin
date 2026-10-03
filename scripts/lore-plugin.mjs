@@ -47,6 +47,41 @@ if (command === "hygiene") {
   process.exit(0);
 }
 
+if (command === "opencode-permissions") {
+  const { opencodePermissions, writePermissions } = await import("./opencode-permissions.mjs");
+  const projectIndex = args.indexOf("--project");
+  const project = projectIndex === -1 ? process.cwd() : args[projectIndex + 1];
+  const allow = [];
+  for (let i = 1; i < args.length; i++) if (args[i] === "--allow" && args[i + 1]) allow.push(args[++i]);
+  try {
+    const options = { project, fromRouting: args.includes("--from-routing"), allow };
+    const result = args.includes("--write") ? writePermissions(options) : opencodePermissions(options);
+    console.log(JSON.stringify(result.proposed, null, 2));
+    console.log(args.includes("--write") ? (result.written ? `Wrote ${result.configPath}.` : `Already up to date: ${result.configPath}.`) : `Would write ${result.configPath} with --write.`);
+    process.exit(0);
+  } catch (error) {
+    const proposed = error.message.match(/Proposed JSON follows:\n([\s\S]*)$/)?.[1];
+    if (proposed) console.log(`Proposed JSON:\n${proposed}`);
+    console.error(error.message);
+    process.exit(1);
+  }
+}
+
+if (command === "opencode-sandbox") {
+  const { writeSandbox } = await import("./opencode-permissions.mjs");
+  if (!args[1]) { console.error("Usage: lore-plugin opencode-sandbox <dir> [--json]"); process.exit(2); }
+  try {
+    const result = writeSandbox(args[1]);
+    if (args.includes("--json")) console.log(JSON.stringify(result, null, 2));
+    else {
+      console.log(`Wrote ${result.path} and created ${result.env.TMP}.`);
+      console.log(`Environment: ${JSON.stringify(result.env)}`);
+      console.log(`Recommended command (message before -f, stdin closed): ${result.command}`);
+    }
+    process.exit(0);
+  } catch (error) { console.error(error.message); process.exit(1); }
+}
+
 // La CLI de la operación: una línea JSON por comando y nada simulado. Se carga
 // por demanda para que el kernel de vespi solo se cargue cuando se lo pide.
 if (command === "operation") {
@@ -188,6 +223,8 @@ if (command !== "install" || !["codex", "claude", "opencode", "all"].includes(ta
   console.log("       lore-plugin crystallize pack --bot <dir> --out <file.md>");
   console.log("       lore-plugin crystallize extract --from <file.md> --out <dir>");
   console.log("       lore-plugin hygiene [ruta] [--json]");
+  console.log("       lore-plugin opencode-permissions [--project <dir>] [--from-routing] [--allow <path>...] [--write]");
+  console.log("       lore-plugin opencode-sandbox <dir> [--json]");
   console.log("       lore-plugin mycelium receipt [--tree <dir>]");
   console.log("       lore-plugin mycelium bodies|announce|federated [--tree <dir>]");
   process.exit(command ? 2 : 0);
