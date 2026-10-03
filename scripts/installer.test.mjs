@@ -351,3 +351,36 @@ test("preflight de la entrada local falla antes de mutar Codex u OpenCode", () =
     assert.equal(existsSync(join(home, changedPath)), false, `${host} changed before local-entry preflight`);
   }
 });
+
+test("Codex instala el paquete entero y no deja archivos de la versión anterior", () => {
+  const home = mkdtempSync(join(tmpdir(), "lore-codex-todo-"));
+  const packageRoot = makePackage();
+  // Lo que el instalador antes ignoraba: la etiqueta de versión, el recibo y la documentación viajan con el paquete.
+  mkdirSync(join(packageRoot, "docs"), { recursive: true });
+  mkdirSync(join(packageRoot, ".claude-plugin"), { recursive: true });
+  mkdirSync(join(packageRoot, "commands"), { recursive: true });
+  writeFileSync(join(packageRoot, "docs", "REFERENCE_en.md"), "new reference\n");
+  writeFileSync(join(packageRoot, ".claude-plugin", "plugin.json"), '{"version":"2.4.9-rc.7"}');
+  writeFileSync(join(packageRoot, "commands", "nivel.md"), "new nivel\n");
+  for (const name of ["README.md", "LICENSE", "NOTICE", "package.json", "RECIBO-LOCAL.json"]) writeFileSync(join(packageRoot, name), `new ${name}\n`);
+  // Lo que un árbol fuente trae y no es parte de lo que se instala.
+  mkdirSync(join(packageRoot, "bench"), { recursive: true });
+  mkdirSync(join(packageRoot, "node_modules", "x"), { recursive: true });
+  writeFileSync(join(packageRoot, "bench", "huge.test.mjs"), "// bench\n");
+  writeFileSync(join(packageRoot, "node_modules", "x", "index.js"), "// dep\n");
+  writeFileSync(join(packageRoot, "CLAUDE.md"), "// instrucciones del repositorio\n");
+
+  const pluginRoot = join(home, ".agents", "plugins", "plugins", "lore");
+  mkdirSync(join(pluginRoot, "docs"), { recursive: true });
+  writeFileSync(join(pluginRoot, "docs", "REFERENCE_en.md"), "old reference\n");
+  writeFileSync(join(pluginRoot, "docs", "SOLO_EN_LA_ANTERIOR.md"), "old\n");
+  for (const name of ["README.md", "LICENSE", "package.json", "RECIBO-LOCAL.json"]) writeFileSync(join(pluginRoot, name), `old ${name}\n`);
+
+  const result = installCodex({ home, packageRoot });
+  assert.equal(result.verified, true);
+  for (const name of ["docs", ".claude-plugin", "commands", "README.md", "LICENSE", "NOTICE", "package.json", "RECIBO-LOCAL.json", "skills", "scripts", "hooks", ".codex-plugin"]) {
+    assert.equal(sameTree(join(packageRoot, name), join(pluginRoot, name)), true, `${name} debe quedar idéntico al paquete`);
+  }
+  assert.equal(existsSync(join(pluginRoot, "docs", "SOLO_EN_LA_ANTERIOR.md")), false, "un archivo de la versión anterior no sobrevive");
+  for (const name of ["bench", "node_modules", "CLAUDE.md"]) assert.equal(existsSync(join(pluginRoot, name)), false, `${name} no se instala`);
+});

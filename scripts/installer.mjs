@@ -486,6 +486,18 @@ export function installClaude({ home, packageRoot }) {
   };
 }
 
+// Lo que un árbol fuente trae y no es parte de lo que se instala: repositorio, dependencias, banco de pruebas, datos y
+// estado del proyecto. Todo lo demás del primer nivel del paquete viaja: el paquete es lo que se instala, y una lista
+// de piezas escrita aparte es la que dejó la versión y la documentación de la rc.6 en la carpeta de Codex.
+const CODEX_NOT_INSTALLED = new Set([".git", ".github", ".gitignore", ".gitattributes", ".specify", ".claude", "node_modules", "bench", "data", "specs", "CLAUDE.md", "AGENTS.md", "FASES.md"]);
+
+export function codexComponents(packageRoot) {
+  return readdirSync(packageRoot, { withFileTypes: true })
+    .map((entry) => entry.name)
+    .filter((name) => !CODEX_NOT_INSTALLED.has(name))
+    .sort();
+}
+
 export function installCodex({ home, packageRoot }) {
   // Preflight antes de mutar: el bundle primero. Antes se modificaban componentes y
   // marketplace y solo después se descubría que el conjunto no estaba.
@@ -507,7 +519,8 @@ export function installCodex({ home, packageRoot }) {
   // Todos los destinos, comprobados antes de crear o borrar ninguno. El origen no va por
   // aquí: el repositorio vive fuera de HOME por definición, y `validateLocalBundle` ya
   // comprobó que cada miembro existe, es un archivo regular y resuelve dentro del paquete.
-  for (const name of ["skills", ".codex-plugin", "assets", "hooks", "scripts"]) {
+  const components = codexComponents(packageRoot);
+  for (const name of components) {
     assertInsidePerimeter({ home, target: join(pluginRoot, name), label: `Codex destination ${name}` });
   }
   assertInsidePerimeter({ home, target: pluginRoot, label: "Codex plugin root" });
@@ -523,7 +536,7 @@ export function installCodex({ home, packageRoot }) {
   // `scripts/` viaja porque el kit lo invoca por nombre: la apertura de sesion corre
   // `lore-plugin mycelium bodies` y el Anuncio reclama su franja con `mycelium announce`.
   // Sin el, Codex recibe la prosa que manda correr un comando que ese host no tiene.
-  for (const name of ["skills", ".codex-plugin", "assets", "hooks", "scripts"]) {
+  for (const name of components) {
     const source = join(packageRoot, name);
     const destination = join(pluginRoot, name);
     if (existsSync(source)) replaceManagedPath({ home, host: "codex", source, destination, label: `Codex component ${name}` });
@@ -536,8 +549,7 @@ export function installCodex({ home, packageRoot }) {
   mkdirSync(marketplaceRoot, { recursive: true });
   writeFileSync(marketplacePath, JSON.stringify(market, null, 2) + "\n");
 
-  const verified = ["skills", ".codex-plugin", "assets", "hooks", "scripts"]
-    .filter((name) => existsSync(join(packageRoot, name)))
+  const verified = components
     .every((name) => sameTree(join(packageRoot, name), join(pluginRoot, name)));
 
   const cli = installLocalEntry({ home, packageRoot, host: "codex" });
