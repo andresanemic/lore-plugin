@@ -378,6 +378,18 @@ test("después de que la sesión toca el Lore, la intervención llega al modelo"
   assert.equal(avisoEnCola(hooks), "", "y se dice una vez: el mensaje no se acumula en cada turno");
 });
 
+test("recibo ausente tras abrir conserva la comparación contra el baseline", async (t) => {
+  const montaje = montar();
+  t.after(() => rmSync(montaje.base, { recursive: true, force: true }));
+  const hooks = await abrir(montaje);
+  await armarSesion(hooks, montaje);
+  rmSync(join(montaje.propio, ".lore-mycelium"));
+  writeFileSync(join(montaje.propio, "lore", "principios.md"), "# criterio cambiado\n");
+  await hooks["tool.execute.after"]({ tool: "write", sessionID: SESION, callID: "l1" }, {});
+
+  assert.match(avisoEnCola(hooks), /cambios de criterio.*trabajo que deben guiar/i);
+});
+
 test("coste de contexto: con nada que decir, el plugin no añade un solo byte al prompt", async (t) => {
   const montaje = montar();
   t.after(() => rmSync(montaje.base, { recursive: true, force: true }));

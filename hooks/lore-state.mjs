@@ -292,11 +292,12 @@ export function writeSessionBaseline(sessionId, root, state) {
     || !Number.isInteger(state.alwaysOnBytes)
     || state.alwaysOnBytes < 0) return;
   try {
-    mkdirSync(SESSION_DIR, { recursive: true });
+    mkdirSync(SESSION_DIR, { recursive: true, mode: 0o700 });
     const target = sessionBaselinePath(sessionId, root);
     const temporary = `${target}.${process.pid}.tmp`;
     writeFileSync(temporary,
-      `${JSON.stringify({ digest: state.digest, alwaysOnBytes: state.alwaysOnBytes })}\n`);
+      `${JSON.stringify({ digest: state.digest, alwaysOnBytes: state.alwaysOnBytes })}\n`,
+      { mode: 0o600 });
     renameSync(temporary, target);
   } catch {
     /* tmp no disponible: el guard arma en el próximo cambio, no en el arranque */
@@ -313,10 +314,10 @@ function sessionRootPath(sessionId) {
 export function writeSessionRoot(sessionId, root) {
   if (!sessionId || !root) return;
   try {
-    mkdirSync(SESSION_DIR, { recursive: true });
+    mkdirSync(SESSION_DIR, { recursive: true, mode: 0o700 });
     const target = sessionRootPath(sessionId);
     const temporary = `${target}.${process.pid}.tmp`;
-    writeFileSync(temporary, `${JSON.stringify({ root: resolve(root) })}\n`);
+    writeFileSync(temporary, `${JSON.stringify({ root: resolve(root) })}\n`, { mode: 0o600 });
     renameSync(temporary, target);
   } catch {
     /* tmp no disponible: la jurisdicción cae al cwd */
@@ -362,9 +363,9 @@ export function nextTurn(sessionId, root) {
   }
   const siguiente = n + 1;
   try {
-    mkdirSync(SESSION_DIR, { recursive: true });
+    mkdirSync(SESSION_DIR, { recursive: true, mode: 0o700 });
     const temporal = `${target}.${process.pid}.tmp`;
-    writeFileSync(temporal, `${JSON.stringify({ n: siguiente })}\n`);
+    writeFileSync(temporal, `${JSON.stringify({ n: siguiente })}\n`, { mode: 0o600 });
     renameSync(temporal, target);
   } catch {
     /* tmp no disponible: el numero no avanza, y el recordatorio sigue llegando */

@@ -10,9 +10,11 @@ import { createHash } from "node:crypto";
 import {
   copyFileSync,
   existsSync,
+  lstatSync,
   mkdirSync,
   readdirSync,
   readFileSync,
+  realpathSync,
   statSync,
   writeFileSync,
 } from "node:fs";
@@ -74,14 +76,34 @@ function skipRel(rel) {
 function walkFiles(absDir) {
   const out = [];
   if (!existsSync(absDir)) return out;
-  const st = statSync(absDir);
+  const st = lstatSync(absDir);
+  if (st.isSymbolicLink()) throw new Error(`symbolic link skipped while packing: ${absDir}`);
   if (st.isFile()) return [absDir];
-  for (const name of readdirSync(absDir)) {
-    const p = join(absDir, name);
-    if (statSync(p).isDirectory()) out.push(...walkFiles(p));
+  for (const entry of readdirSync(absDir, { withFileTypes: true })) {
+    const p = join(absDir, entry.name);
+    const child = lstatSync(p);
+    if (child.isSymbolicLink()) throw new Error(`symbolic link skipped while packing: ${p}`);
+    if (child.isDirectory()) out.push(...walkFiles(p));
     else out.push(p);
   }
   return out;
+}
+
+function resolvedPhysicalPath(path) {
+  let cursor = resolve(path);
+  const tail = [];
+  while (!existsSync(cursor)) {
+    const parent = dirname(cursor);
+    if (parent === cursor) return resolve(path);
+    tail.unshift(cursor.slice(parent.length + 1));
+    cursor = parent;
+  }
+  return resolve(realpathSync.native(cursor), ...tail);
+}
+
+function isInside(root, target) {
+  const rel = relative(root, target);
+  return rel === "" || (!rel.startsWith("..") && !/^[a-zA-Z]:/.test(rel));
 }
 
 function sha256(abs) {
@@ -92,17 +114,23 @@ function mkdirp(dir) {
   mkdirSync(dir, { recursive: true });
 }
 
-function copyTree(src, dest) {
+function copyTree(src, dest, outAbs, outPhysical) {
   if (!existsSync(src)) return 0;
-  const st = statSync(src);
+  const st = lstatSync(src);
+  if (st.isSymbolicLink()) throw new Error(`symbolic link skipped while extracting: ${src}`);
+  if (!isInside(outAbs, dest) || !isInside(outPhysical, resolvedPhysicalPath(dest))) {
+    throw new Error(`path escaped out dir: ${dest}`);
+  }
   if (st.isFile()) {
     mkdirp(dirname(dest));
     copyFileSync(src, dest);
     return 1;
   }
   let n = 0;
-  for (const name of readdirSync(src)) {
-    n += copyTree(join(src, name), join(dest, name));
+  for (const entry of readdirSync(src, { withFileTypes: true })) {
+    const source = join(src, entry.name);
+    if (lstatSync(source).isSymbolicLink()) throw new Error(`symbolic link skipped while extracting: ${source}`);
+    n += copyTree(source, join(dest, entry.name), outAbs, outPhysical);
   }
   return n;
 }
@@ -144,7 +172,10 @@ function validityFor(extractPath) {
 }
 
 function addFile(files, seen, abs, extractPath, owner, dest, provenance) {
-  if (!existsSync(abs) || !statSync(abs).isFile()) return;
+  if (!existsSync(abs)) return;
+  const st = lstatSync(abs);
+  if (st.isSymbolicLink()) throw new Error(`symbolic link skipped while packing: ${abs}`);
+  if (!st.isFile()) return;
   if (!isTextFile(abs)) return;
   const path = posix(extractPath);
   if (!isSafeExtractPath(path)) return;
@@ -193,7 +224,7 @@ export function collect(botDir) {
   for (const item of botItems) {
     const absItem = join(botDir, ...item.split("/"));
     if (!existsSync(absItem)) continue;
-    if (statSync(absItem).isFile()) {
+    if (lstatSync(absItem).isFile()) {
       addFile(files, seen, absItem, `${botRel}/${item}`, botOwner, "", { source: "live" });
     } else {
       for (const f of walkFiles(absItem)) {
@@ -242,7 +273,7 @@ export function collect(botDir) {
         });
         continue;
       }
-      if (statSync(absItem).isFile()) {
+      if (lstatSync(absItem).isFile()) {
         addFile(files, seen, absItem, `${row.origen}/${item}`, owner, row.destino || "", { source });
       } else {
         for (const f of walkFiles(absItem)) {
@@ -357,14 +388,40 @@ export function extractTo(mdText, outDir) {
   const blocks = parseExtractBlocks(mdText);
   if (!blocks.length) throw new Error("no extract markers in snapshot");
   const outAbs = resolve(outDir);
+  const outPhysical = resolvedPhysicalPath(outAbs);
+  const destinations = [];
+  for (const b of blocks) {
+    if (!isSafeExtractPath(b.path)) throw new Error(`unsafe extract path: ${b.path}`);
+    const secret = SECRET_PATTERNS.find(([, pattern]) => pattern.test(b.body));
+    if (secret) throw new Error(`possible secret (${secret[0]}) in ${b.path}`);
+    const dest = resolve(outAbs, ...b.path.split("/"));
+    if (!isInside(outAbs, dest) || !isInside(outPhysical, resolvedPhysicalPath(dest))) {
+      throw new Error(`path escaped out dir: ${b.path}`);
+    }
+    destinations.push(dest);
+    if (b.path.endsWith("scripts/ecosistema.json")) {
+      const eco = JSON.parse(b.body);
+      if (eco.copia) {
+        const botRel = posix(dirname(dirname(b.path)));
+        for (const row of eco.fuentes || []) {
+          for (const item of [row.origen, row.destino]) {
+            if (!isSafeExtractPath(item)) throw new Error(`unsafe ecosystem copy path: ${item}`);
+          }
+          const src = resolve(outAbs, ...String(row.origen).split("/"));
+          const copyDest = resolve(outAbs, ...botRel.split("/"), "lore-ecosistema", ...String(row.destino).split("/"));
+          if (!isInside(outAbs, src) || !isInside(outAbs, copyDest)
+            || !isInside(outPhysical, resolvedPhysicalPath(src))
+            || !isInside(outPhysical, resolvedPhysicalPath(copyDest))) {
+            throw new Error(`ecosystem copy path escaped out dir: ${row.origen} -> ${row.destino}`);
+          }
+        }
+      }
+    }
+  }
   mkdirp(outAbs);
   const written = [];
-  for (const b of blocks) {
-    if (!isSafeExtractPath(b.path)) {
-      throw new Error(`unsafe extract path: ${b.path}`);
-    }
-    const dest = resolve(outAbs, ...b.path.split("/"));
-    if (!dest.startsWith(outAbs)) throw new Error(`path escaped out dir: ${b.path}`);
+  for (const [index, b] of blocks.entries()) {
+    const dest = destinations[index];
     mkdirp(dirname(dest));
     const body = b.body.endsWith("\n") ? b.body : `${b.body}\n`;
     writeFileSync(dest, body, "utf8");
@@ -387,7 +444,7 @@ export function extractTo(mdText, outDir) {
           "lore-ecosistema",
           ...String(row.destino).split("/"),
         );
-        if (existsSync(src)) copyTree(src, copyDest);
+        if (existsSync(src)) copyTree(src, copyDest, outAbs, outPhysical);
       }
     }
   }

@@ -14,7 +14,7 @@
 // (R28). Pone delante, en cada turno y sin que la persona lo vea, el registro que esta
 // en vigor y donde vive el estado. No evalua nada del Lore y no bloquea nunca.
 
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readSync } from "node:fs";
 import { join } from "node:path";
 
 import {
@@ -42,7 +42,18 @@ const OK = () => process.exit(0);
 let data;
 
 try {
-  const raw = readFileSync(0, "utf8");
+  const maxInputBytes = 1_048_576;
+  const chunks = [];
+  let totalBytes = 0;
+  while (totalBytes <= maxInputBytes) {
+    const chunk = Buffer.alloc(Math.min(65_536, maxInputBytes - totalBytes + 1));
+    const bytesRead = readSync(0, chunk, 0, chunk.length, null);
+    if (bytesRead === 0) break;
+    totalBytes += bytesRead;
+    if (totalBytes > maxInputBytes) OK();
+    chunks.push(chunk.subarray(0, bytesRead));
+  }
+  const raw = Buffer.concat(chunks).toString("utf8");
   data = JSON.parse(raw || "{}");
 } catch {
   OK();
@@ -200,12 +211,17 @@ try {
   OK();
 }
 if (recorded === null) {
-  try {
-    writeReceipt(root, current);
-  } catch {
-    /* read-only tree: fail open */
+  const missingReceiptBaseline = baseline ?? null;
+  if (!missingReceiptBaseline) {
+    try {
+      writeReceipt(root, current);
+    } catch {
+      /* read-only tree: fail open */
+    }
+    OK();
   }
-  OK();
+  try { recorded = writeReceipt(root, missingReceiptBaseline); }
+  catch { recorded = { version: 2, ...missingReceiptBaseline }; }
 }
 
 const result = evaluateState(current, recorded);

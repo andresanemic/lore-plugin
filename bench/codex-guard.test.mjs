@@ -328,6 +328,38 @@ test("post_tool_use sin baseline la fija sin intervenir (fail open)", () => {
   assert.equal(run(dir, "post_tool_use"), "");
 });
 
+test("recibo ausente tras abrir la sesión conserva la comparación contra el baseline", () => {
+  const clean = tree();
+  run(clean, "session_start");
+  rmSync(join(clean, receipt));
+  assert.equal(run(clean, "post_tool_use"), "", "una sesión limpia sigue en silencio");
+
+  const changed = tree();
+  run(changed, "session_start");
+  rmSync(join(changed, receipt));
+  write(changed, "lore/principios.md", "# Principios\n\nCambio posterior a la apertura.\n");
+  assert.match(injected(run(changed, "post_tool_use")), /cambios de criterio.*trabajo que deben guiar/i);
+});
+
+test("payload de más de 1 MiB falla abierto sin salida ruidosa", () => {
+  const dir = tree();
+  run(dir, "session_start");
+  write(dir, "lore/principios.md", "# Principios\n\nCambio posterior.\n");
+  const payload = JSON.stringify({
+    cwd: dir,
+    session_id: "probe-session",
+    turn_id: "probe-turn",
+    tool_name: "exec_command",
+    tool_input: {},
+    tool_response: {},
+    tool_use_id: "probe-tool",
+    padding: "x".repeat(1_048_577),
+  });
+
+  assert.ok(Buffer.byteLength(payload) > 1_048_576);
+  assert.equal(execFileSync("node", [hook, "post_tool_use"], { input: payload, encoding: "utf8" }), "");
+});
+
 test("PreToolUse permite el árbol propio y el intercambio hermano, y delega al host el canon ajeno", () => {
   const hive = mkdtempSync(join(tmpdir(), "lore-hive-"));
   roots.push(hive);

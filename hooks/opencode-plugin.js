@@ -196,10 +196,15 @@ export const LorePlugin = async ({ directory, worktree } = {}) => {
         }
         if (!loreDeparted(base, actual)) return;
 
-        const registrado = readReceipt(jurisdiccion);
+        let registrado = readReceipt(jurisdiccion);
         if (registrado === null) {
-          writeReceipt(jurisdiccion, actual);
-          return;
+          const baseRecibo = base ?? (apertura?.root === jurisdiccion ? apertura.estado : null);
+          if (!baseRecibo) {
+            writeReceipt(jurisdiccion, actual);
+            return;
+          }
+          try { registrado = writeReceipt(jurisdiccion, baseRecibo); }
+          catch { registrado = { version: 2, ...baseRecibo }; }
         }
         const resultado = evaluateState(actual, registrado);
         if (!resultado.pendingLore && !resultado.requiresApproval) {

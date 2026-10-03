@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { existsSync, mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, utimesSync, writeFileSync } from "node:fs";
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, utimesSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import test from "node:test";
@@ -118,6 +118,23 @@ test("session baseline filenames use a SHA-2 digest for the session identifier",
 
   assert.equal(existsSync(join(sessionDir, expected)), true);
   assert.match(expected, /^[0-9a-f]{64}\.json$/);
+});
+
+test("session directory and baseline files have private Unix permissions", (t) => {
+  if (process.platform === "win32") {
+    t.skip("Windows ignora los bits mode de chmod y open");
+    return;
+  }
+  const dir = tree({});
+  const sessionId = `permissions-${process.pid}-${Date.now()}`;
+  const key = createHash("sha256").update(`${sessionId}\0${resolve(dir)}`).digest("hex");
+  const target = join(tmpdir(), "lore-plugin-sessions", `${key}.json`);
+  t.after(() => rmSync(target, { force: true }));
+
+  writeSessionBaseline(sessionId, dir, { digest: "e".repeat(64), alwaysOnBytes: 0 });
+
+  assert.equal(statSync(join(tmpdir(), "lore-plugin-sessions")).mode & 0o777, 0o700);
+  assert.equal(statSync(target).mode & 0o777, 0o600);
 });
 
 // --- ecualización del Anuncio (2.4.8, en trial) ------------------------------

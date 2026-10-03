@@ -1016,6 +1016,8 @@ Key points of this hierarchy:
 
 ## 6. Operational Invariants
 
+The receipt's SHA-256 digest proves integrity, not authorship: anyone who can write the receipt file can forge it. The operation state JSON in `FASES.md` is also unsigned; anyone who can write there can forge it. Persisted state is not a security boundary against someone who already has write access to the repository.
+
 Lore’s behavior is governed by a set of shared invariants:
 
 - **Lore is written in the user's language** – content and artifact filenames; only the selected
