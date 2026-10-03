@@ -71,6 +71,10 @@ Where the host offers a subagent, the delegation goes through the kernel's `crea
 
 The host returns one message. It is not a receipt, and it is not verification. What the delegate says it touched is a claim, so the orchestrator fills `touched` from what it can observe itself, and a delegate that could not read its assignment is relaunched, never resumed. Nothing here delegates by itself, and no host is assumed to police the medium. A spark the delegate leaves on the way out is at most twenty words; over that it is a report, and the report is the result.
 
+### Launching a delegate on OpenCode
+
+For a non-interactive OpenCode delegate, prepare its directory with `lore-plugin opencode-sandbox <dir>`, or configure routed sibling access with `lore-plugin opencode-permissions --project <dir> --from-routing [--write]`. A run that ends because OpenCode rejected a permission request is blocked by that permission cause, not failed work; record the cause in the existing operation task or receipt when that surface is in use. Keep the existing operation contract unchanged.
+
 ## Holding an operation that outlives the session
 
 `operation-state.mjs` writes and reloads an operation artifact; `vespi.mjs` is the module an agent imports, and it carries that surface too, so a declared persistence owner is either a file that exists or the explicit `none`. Four calls, all through the facade:

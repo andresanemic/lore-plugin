@@ -16,6 +16,9 @@ const sensitive = [
   /genealogia-afectiva/gi,
   /\b(?:\+?\d[ .()-]?){9,}\d\b/g
 ];
+// --refresh: after you REVIEW a change to an allowlisted source, re-pin its hash and rebuild (new sources are never added by this flag).
+const refresh = process.argv.includes('--refresh');
+const changed = [];
 const docs = [];
 const content = [];
 const safe = (value) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 70);
@@ -24,7 +27,11 @@ for (const item of allowlist) {
   if (!source.startsWith(`${WORKTREE}${process.platform === 'win32' ? '\\' : '/'}`)) throw new Error(`source escapes worktree: ${item.source}`);
   const original = await readFile(source, 'utf8');
   const sha256 = createHash('sha256').update(original).digest('hex');
-  if (sha256 !== item.sha256) throw new Error(`SHA-256 changed for ${item.source}; review and regenerate public-allowlist.json`);
+  if (sha256 !== item.sha256) {
+    if (!refresh) throw new Error(`SHA-256 changed for ${item.source}; review the change, then run: node mcp/kit/scripts/build-data.mjs --refresh`);
+    item.sha256 = sha256;
+    changed.push(item.source);
+  }
   const text = original.replace(sensitive[0], '[public contact omitted]').replace(sensitive[1], '[secret-like string omitted]').replace(sensitive[2], '[secret-like assignment omitted]').replace(sensitive[3], '[local path omitted]').replace(sensitive[4], '[private folder name omitted]').replace(sensitive[5], '[phone-like string omitted]');
   const sections = item.type === 'reference' ? splitSections(text) : [{ title: item.title, text }];
   for (let i = 0; i < sections.length; i += 1) {
@@ -34,6 +41,11 @@ for (const item of allowlist) {
     const data = { id, type: item.type, lang: item.lang, title: section.title, path: item.path, sha256, contentSha256: createHash('sha256').update(section.text, 'utf8').digest('hex'), file };
     docs.push(data); content.push([file, section.text]);
   }
+}
+if (changed.length) {
+  await writeFile(ALLOWLIST, `${JSON.stringify(allowlist, null, 2)}
+`, 'utf8');
+  console.log(`Re-pinned ${changed.length} reviewed source(s): ${changed.join(', ')}`);
 }
 const all = content.map(([, text]) => text).join('\n');
 for (const pattern of sensitive) { pattern.lastIndex = 0; if (pattern.test(all)) throw new Error(`privacy scan found a sensitive pattern (${pattern})`); }
