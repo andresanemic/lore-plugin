@@ -268,6 +268,16 @@ test("el detector de hooks no informa hooks reales de la raiz", () => {
   assert.deepEqual(result.findings.filter((finding) => finding.class === "hook-sin-recepcion"), []);
 });
 
+test("sin carpeta bench/ los hooks quedan no cubiertos, no como hallazgos", (t) => {
+  const root = fixture(t);
+  write(root, "hooks/hooks.json", JSON.stringify({ hooks: { Stop: [{ hooks: [{ command: "node x.mjs" }] }] } }));
+  const result = scanHygiene(root);
+  assert.ok(!result.findings.some((item) => item.class === "hook-sin-recepcion"), "sin bench/ no hay con qué comparar");
+  assert.ok(!result.coverage.includes("hook-sin-recepcion"));
+  const gap = result.notCovered.find((item) => item.class === "hook-sin-recepcion");
+  assert.ok(gap && gap.why.includes("bench/"), "la razón nombra bench/");
+});
+
 test("hygiene declara hook-sin-recepcion no cubierta si hooks.json no se puede leer", (t) => {
   const root = fixture(t);
   write(root, "hooks/hooks.json", "no es json\n");

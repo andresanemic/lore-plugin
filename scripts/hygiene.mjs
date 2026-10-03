@@ -124,12 +124,12 @@ export function scanHygiene(root, { fs = DEFAULT_FS } = {}) {
     }
     if (hookReadFailure || invalidHookStructure) {
       notCovered.push({ class: "hook-sin-recepcion", why: hookReadFailure ?? invalidHookStructure });
+    } else if (!fs.existsSync(join(absoluteRoot, "bench"))) {
+      notCovered.push({ class: "hook-sin-recepcion", why: "la raíz tiene hooks pero no una carpeta bench/ con la que comparar sus pruebas" });
     } else {
       coverage.push("hook-sin-recepcion");
       const bench = join(absoluteRoot, "bench");
-      const testFiles = fs.existsSync(bench)
-        ? readdirTree(fs, bench).filter((file) => /\.(?:test|spec)\.[cm]?js$/i.test(file)).map((file) => fs.readFileSync(file, "utf8"))
-        : [];
+      const testFiles = readdirTree(fs, bench).filter((file) => /\.(?:test|spec)\.[cm]?js$/i.test(file)).map((file) => fs.readFileSync(file, "utf8"));
       for (const [event, groups] of Object.entries(hookData.hooks)) {
         for (const group of groups) {
           for (const hook of group.hooks) {
