@@ -417,14 +417,24 @@ export function registrar(acuerdo, { raiz, aprobado, recapitulacion, ahora } = {
   // acuerdo -> el aviso volvia a salir, porque el registro habia borrado la prueba de que ya
   // habia salido. Un campo que no le pertenece a este registro no es de este registro para
   // borrarlo: `aviso` vive en este archivo y lo escribe otra puerta.
-  escribirRecibo(raiz, {
-    ...(leerRecibo(raiz) ?? {}),
-    ...acuerdo,
-    version: 1,
-    aprobado: true,
-    aprobadoEn: ahora ?? null,
-    resumen: recapitulacion,
-  });
+  try {
+    escribirRecibo(raiz, {
+      ...(leerRecibo(raiz) ?? {}),
+      ...acuerdo,
+      version: 1,
+      aprobado: true,
+      aprobadoEn: ahora ?? null,
+      resumen: recapitulacion,
+    });
+  } catch (error) {
+    try {
+      unlinkSync(ruta);
+    } catch {
+      // Preserva el error original: si tampoco se puede limpiar, al menos el fallo de registro
+      // sigue visible para quien lo invoco.
+    }
+    throw error;
+  }
   return { escrito: true, falta: null, ruta: ACUERDO };
 }
 

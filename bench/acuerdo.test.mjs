@@ -903,6 +903,24 @@ test("13b-bis: sobre un acuerdo ya registrado, enmendar sigue funcionando", asyn
   }
 });
 
+test("registrar removes the agreement document when receipt persistence fails", async () => {
+  const { elegir, registrar } = await MODULO();
+  const root = tree();
+  try {
+    mkdirSync(join(root, ".lore-acuerdo"));
+    assert.throws(() => registrar(elegir(ELECCION), {
+      raiz: root,
+      aprobado: true,
+      recapitulacion: RECAPITULACION,
+      ahora: HOY,
+    }));
+    assert.equal(existsSync(join(root, "acuerdo.md")), false,
+      "a failed receipt must not leave a document that claims human approval");
+  } finally {
+    limpiar(root);
+  }
+});
+
 // 13c. `registrar` reemplazaba el recibo entero sin conservar el campo `aviso` que ya estaba
 // escrito. La secuencia aviso -> se registra el acuerdo -> el aviso se podia volver a mostrar,
 // porque el registro habia borrado el rastro de que ya se habia mostrado.
