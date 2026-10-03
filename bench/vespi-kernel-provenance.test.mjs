@@ -8,12 +8,12 @@
 // esperado vive aquí, escrito desde fuera, y SOURCE.md es disposable: es una de las cosas que se
 // comprueba, no la fuente de la comprobación.
 import assert from "node:assert/strict";
-import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
+import { readGitSource } from "./git-source.mjs";
 
 const kit = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const kernelDir = join(kit, "skills", "vespi", "core", "kernel");
@@ -58,7 +58,7 @@ function header(name) {
 }
 
 function fromSourceCommit(commit, name) {
-  return execFileSync("git", ["show", `${commit}:src/${name}`], { cwd: kernelRoot });
+  return readGitSource({ root: kernelRoot, commit, name });
 }
 
 test("SOURCE.md inventaría los módulos del corte fijado, y solo esos", () => {

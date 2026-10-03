@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 import test from "node:test";
 
-import { installCodex, installOpenCode, claudeCommands, claudePluginInstallPath, sameTree, replaceLocalEntry, recoverLocalEntry, replaceManagedPath } from "./installer.mjs";
+import { installClaude, installCodex, installOpenCode, claudeCommands, claudePluginInstallPath, sameTree, replaceLocalEntry, recoverLocalEntry, replaceManagedPath } from "./installer.mjs";
 
 const makePackage = () => {
   const root = mkdtempSync(join(tmpdir(), "lore-package-"));
@@ -383,4 +383,16 @@ test("Codex instala el paquete entero y no deja archivos de la versión anterior
   }
   assert.equal(existsSync(join(pluginRoot, "docs", "SOLO_EN_LA_ANTERIOR.md")), false, "un archivo de la versión anterior no sobrevive");
   for (const name of ["bench", "node_modules", "CLAUDE.md"]) assert.equal(existsSync(join(pluginRoot, name)), false, `${name} no se instala`);
+});
+
+test("la entrada local de Claude se instala dos veces en un HOME vacío sin salir de él", () => {
+  const home = mkdtempSync(join(tmpdir(), "lore-claude-fresh-home-"));
+  const packageRoot = makePackage();
+  const first = installClaude({ home, packageRoot });
+  const second = installClaude({ home, packageRoot });
+  assert.equal(first.cli.verified, true);
+  assert.equal(second.cli.verified, true);
+  assert.equal(existsSync(join(home, ".lore-plugin", "entry", "claude", "scripts", "lore-cli.mjs")), true);
+  assert.equal(first.cli.cliRoot.startsWith(home), true);
+  assert.equal(second.cli.cliRoot.startsWith(home), true);
 });

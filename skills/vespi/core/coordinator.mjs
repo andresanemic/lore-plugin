@@ -5,6 +5,7 @@
 // el archivo que el ejecutor dejo de verdad: recibida es un hecho del disco, no una declaracion.
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
+import { classifyDelegateOutput } from "./host-resources.mjs";
 import { appendCheckpoint, statePath, transitionArtifact } from "./operation-state.mjs";
 import { routeOperation } from "./vespi.mjs";
 
@@ -231,7 +232,7 @@ function validObservationTime(at) {
 
 // receiveTask: recibida significa que el archivo existe de verdad, con su huella real. Sin archivo,
 // la tarea sigue corriendo y el llamador se lleva el motivo.
-export async function receiveTask(artifact, taskId, { path = null } = {}) {
+export async function receiveTask(artifact, taskId, { path = null, exitCode = null, text = "" } = {}) {
   const task = taskById(artifact, taskId);
   const file = path ?? task.output?.path ?? null;
   if (!present(file)) throw new Error(`receiveTask needs a path for ${taskId}`);
@@ -244,6 +245,19 @@ export async function receiveTask(artifact, taskId, { path = null } = {}) {
   } catch (error) {
     if (error?.code === "ENOENT") throw new Error(`the declared output does not exist: ${file}`);
     throw new Error(`the declared output could not be read: ${file} (${error?.code ?? "unreadable"})`);
+  }
+  const delivery = classifyDelegateOutput({
+    exitCode,
+    text,
+    expectedArtifacts: [task.output?.path ?? file],
+    artifactsPresent: [file],
+  });
+  if (!delivery.delivered) {
+    return replaceTask(artifact, {
+      ...task,
+      state: "blocked",
+      blocked: { cause: delivery.cause, next_action: delivery.nextStep, owner: "coordinador" },
+    });
   }
   return replaceTask(artifact, {
     ...task,

@@ -695,3 +695,26 @@ test("la documentación viva separa silencio de Claude y enforcement de Codex", 
   assert.match(release, /known defect|defecto conocido/i);
   assert.match(release, /2\.4\.7/);
 });
+
+test("Vespi documenta delegación segura en Windows y checkpoint en FASES.md", () => {
+  const en = readFileSync(join(root, "docs", "REFERENCE_en.md"), "utf8");
+  const es = readFileSync(join(root, "docs", "REFERENCE_es.md"), "utf8");
+  const skill = readFileSync(join(skillsRoot, "vespi", "SKILL.md"), "utf8");
+  assert.match(en, /Delegating to Codex and OpenCode on Windows/);
+  assert.match(es, /Delegar a Codex y a OpenCode en Windows/);
+  assert.match(en, /LORE_RELEASE_GATE|test:release/);
+  assert.match(es, /LORE_RELEASE_GATE|test:release/);
+  for (const text of [en, es, skill]) {
+    assert.match(text, /FASES\.md/);
+    assert.doesNotMatch(text, /operations\/<id>\/estado\.md/);
+  }
+  assert.match(skill, /one block in the `## Operaciones` section of `FASES\.md`/);
+  assert.match(en, /one block in the `## Operaciones` section of that same `FASES\.md`/);
+  assert.match(es, /un bloque en la sección `## Operaciones` de ese mismo `FASES\.md`/);
+});
+
+test("gitattributes declara normalización LF y exclusiones binarias", () => {
+  const attributes = readFileSync(join(root, ".gitattributes"), "utf8");
+  assert.match(attributes, /^\* text=auto eol=lf$/m);
+  for (const ext of ["png", "jpg", "pdf", "zip", "tgz", "pptx", "docx"]) assert.match(attributes, new RegExp(`\\*.${ext} binary`));
+});

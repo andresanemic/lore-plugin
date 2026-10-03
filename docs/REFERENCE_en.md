@@ -1103,3 +1103,8 @@ Focus on rules that still constrain decisions today; ignore obsolete detail.
 
 `transmute-lore` does not commit: the diff is yours to review as a human editor. With one or two
 pilots migrated, reuse the same patterns across the Area's other repositories.
+
+## Delegating to Codex and OpenCode on Windows
+
+With Codex `-s workspace-write`, it can write only to directories it creates or directories granted with `--add-dir`; it cannot edit existing files in a directory that already existed under other Windows permissions, so use a new Git worktree or folder and copy the files it must edit there. Codex cannot read outside its working directory, so copy reference files and images inside it. Put a long prompt in a file and pass it through stdin or a file tool, never in a shell heredoc or quoted inline. Under PowerShell, `npm test` can be blocked by execution policy; run `npm.cmd test`. Git Bash paths such as `/c/Users/...` and `/tmp/...` are not native paths for Node or PowerShell: convert them with `cygpath -w` or use forward-slash paths such as `C:/work/file`. Git's “LF will be replaced by CRLF” notices on Windows are normalization noise; `.gitattributes` prevents them. A worker exiting with code 0 does not prove delivery: check the expected artifact and verify it separately.
+The release gate runs the complete suite with `LORE_RELEASE_GATE=1` and requires method provenance against the external Vespi kernel; point it at a checkout with `VESPI_KERNEL_DIR=/path/to/kernel` or `VESPI_KERNEL_DIR=file:///C:/path/to/kernel`, then run `npm run test:release`.

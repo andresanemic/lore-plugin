@@ -1075,3 +1075,8 @@ Enfócate en reglas que aún restringen decisiones hoy; ignora los detalles obso
 
 `transmute-lore` no hace commit: el diff es tuyo para revisar como editor humano. Con uno o dos
 pilotos migrados, reutiliza los mismos patrones en los demás repositorios del Área.
+
+## Delegar a Codex y a OpenCode en Windows
+
+Con Codex `-s workspace-write`, solo puede escribir en directorios que crea o que le concedes con `--add-dir`; no puede editar archivos existentes en un directorio que ya existía con otros permisos de Windows, así que usa un worktree de Git nuevo o una carpeta nueva y copia allí los archivos que debe editar. Codex no puede leer fuera de su directorio de trabajo, así que copia dentro las referencias y las imágenes. Pon el prompt largo en un archivo y pásalo por stdin o una herramienta de archivos, nunca en un heredoc de shell ni entre comillas. En PowerShell, `npm test` puede bloquearse por la política de ejecución; usa `npm.cmd test`. Las rutas de Git Bash como `/c/Users/...` y `/tmp/...` no son rutas nativas para Node ni PowerShell: conviértelas con `cygpath -w` o usa rutas con barras normales como `C:/work/file`. Los avisos de Git «LF will be replaced by CRLF» en Windows son ruido de normalización; `.gitattributes` los evita. Que un trabajador salga con código 0 no demuestra una entrega: comprueba el artefacto esperado y verifícalo aparte.
+La puerta de liberación ejecuta toda la suite con `LORE_RELEASE_GATE=1` y exige cotejar la procedencia del método con el kernel externo de Vespi; apúntala a un checkout con `VESPI_KERNEL_DIR=C:/ruta/al/kernel` o `VESPI_KERNEL_DIR=file:///C:/ruta/al/kernel` y ejecuta `npm run test:release`.

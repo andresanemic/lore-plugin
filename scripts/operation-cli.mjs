@@ -64,8 +64,9 @@ function emit(stdout, value) {
   return 0;
 }
 
-function fail(stdout, error) {
+function fail(stdout, error, stderr) {
   emit(stdout, { ok: false, error: message(error) });
+  stderr?.write(`${message(error)}\n`);
   return 1;
 }
 
@@ -120,12 +121,12 @@ async function readPayload(flags) {
 }
 
 function requiredRoot(flags) {
-  if (!present(flags.root)) throw new Error("operation needs --root <dir>: state written nowhere is not durable");
+  if (!present(flags.root)) throw new Error(`operation root is missing (root: <missing>; id: ${flags.id ?? "<missing>"}). Next step: pass --root <ruta> and retry the operation command`);
   return flags.root;
 }
 
 function requiredId(flags, sub) {
-  if (!present(flags.id)) throw new Error(`operation ${sub} needs --id <op>: which operation`);
+  if (!present(flags.id)) throw new Error(`operation id is missing (root: ${flags.root}; id: <missing>). Next step: list operations in ${flags.root}/FASES.md and retry with --id <id>`);
   return flags.id;
 }
 
@@ -148,7 +149,15 @@ function observedHost(names) {
 async function load(sub, flags) {
   const root = requiredRoot(flags);
   const id = requiredId(flags, sub);
-  const artifact = await readOperation({ root, id });
+  let artifact;
+  try {
+    artifact = await readOperation({ root, id });
+  } catch (error) {
+    if (/not found|does not exist|no existe/i.test(message(error))) {
+      throw new Error(`operation ${id} was not found under root ${root} (FASES.md). Next step: list operations in ${root}/FASES.md, then run lore-plugin operation status --root <ruta> --id <id>`);
+    }
+    throw error;
+  }
   return { root, id, artifact, directory: operationStatePath(root, id).directory };
 }
 
@@ -289,6 +298,6 @@ export async function runOperationCli(argv = [], { stdout = process.stdout, stde
     const flags = parseFlags(list.slice(1));
     return await execute(sub, flags, stdout);
   } catch (error) {
-    return fail(stdout, error);
+    return fail(stdout, error, stderr);
   }
 }

@@ -1,2 +1,11 @@
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.pdf binary
+*.zip binary
+*.tgz binary
+*.pptx binary
+*.docx binary
 # The vendored Vespi kernel is verified byte for byte (core/kernel/SOURCE.md): never convert its line endings.
 skills/vespi/core/kernel/*.js -text

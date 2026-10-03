@@ -167,6 +167,17 @@ test("receive de un archivo que no existe dice does not exist y no marca recibid
   assert.equal(run(["status", "--root", root, "--id", id]).json.tasks[0].state, "running");
 });
 
+test("receive registra blocked si el delegado reporta un proveedor rechazado aunque haya archivo", async (t) => {
+  const { root, id } = await conOperacion(t);
+  const spec = encargoDaimon(root);
+  run(["plan", "--root", root, "--id", id, "--json", j(spec)]);
+  run(["dispatch", "--root", root, "--id", id, "--task", "t1", "--tools", "execute", "--json", j({ hostName: "opencode", model: "m" })]);
+  await writeFile(spec.output.path, "partial");
+  const rc = run(["receive", "--root", root, "--id", id, "--task", "t1", "--json", j({ text: "Upstream request failed", exitCode: 0 })]);
+  assert.equal(rc.json.task.state, "blocked");
+  assert.equal(rc.json.task.blocked.cause, "proveedor-gratuito");
+});
+
 test("status resume el estado en una linea por tarea y marca la tarea vencida", async (t) => {
   const { root, id } = await conOperacion(t);
   run(["plan", "--root", root, "--id", id, "--json", j({ ...encargoDaimon(root), timeoutMs: 1 })]);
@@ -261,4 +272,26 @@ test("observe rechaza at inválido por API y CLI sin alterar el estado", async (
   const notJsonNumber = run(["observe", "--root", root, "--id", id, "--task", "t1", "--json", '{"at":NaN,"signature":"E"}']);
   assert.notEqual(notJsonNumber.code, 0);
   assert.deepEqual(await readFile(file), before);
+});
+
+test("status inexistente indica raíz, id y comando de recuperación sin crear archivos", async (t) => {
+  const root = await proyecto(t);
+  const rc = run(["status", "--root", root, "--id", "op-inexistente"]);
+  assert.notEqual(rc.code, 0);
+  assert.match(rc.json.error, new RegExp(root.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  assert.match(rc.json.error, /op-inexistente/);
+  assert.match(rc.json.error, /lore-plugin operation status --root <ruta> --id <id>|lista las operaciones/);
+  assert.match(rc.err, /root|FASES\.md|lore-plugin operation status/i);
+  assert.deepEqual(await import("node:fs/promises").then(({ readdir }) => readdir(root)), []);
+});
+
+test("status sin raíz nombra el id, cómo completar la raíz y no crea archivos", async (t) => {
+  const root = await proyecto(t);
+  const rc = run(["status", "--id", "op-sin-raiz"]);
+  assert.notEqual(rc.code, 0);
+  assert.match(rc.json.error, /root: <missing>/);
+  assert.match(rc.json.error, /op-sin-raiz/);
+  assert.match(rc.json.error, /--root <ruta>/);
+  assert.match(rc.err, /root: <missing>/);
+  assert.deepEqual(await import("node:fs/promises").then(({ readdir }) => readdir(root)), []);
 });
