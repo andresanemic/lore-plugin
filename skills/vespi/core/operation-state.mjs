@@ -170,6 +170,22 @@ function closureOf(artifact) {
   };
 }
 
+// Texto libre dentro de una linea de titulo: una sola linea, sin marcadores de bloque ni vallas de codigo. El dato original
+// vive intacto en el JSON embebido; esto es solo lo que se ve.
+function inline(value) {
+  return String(value ?? "")
+    .replace(/[\r\n\u2028\u2029]+/g, " ")
+    .replace(/</g, "&lt;")
+    .replace(/`/g, "'")
+    .trim();
+}
+
+// El JSON embebido nunca lleva «<» ni la valla de codigo en crudo: ningun marcador ni cierre de bloque puede aparecer dentro
+// de un dato, y JSON.parse devuelve el texto tal como se guardo.
+function embeddedJson(payload) {
+  return JSON.stringify(payload, null, 2).replace(/</g, "\\u003c").replace(/`/g, "\\u0060");
+}
+
 function renderBlock(artifact, eol) {
   const terminal = ["closed", "cancelled"].includes(artifact.state);
   const payload = terminal ? closureOf(artifact) : artifact;
@@ -177,34 +193,49 @@ function renderBlock(artifact, eol) {
     ? [
         `### Operación ${artifact.id} — ${artifact.state === "closed" ? "cerrada" : "cancelada"}`,
         "",
-        `- Objetivo: ${artifact.working_goal || "(sin especificar)"}`,
-        `- Responsable: ${artifact.owner || "(sin asignar)"}`,
+        `- Objetivo: ${inline(artifact.working_goal) || "(sin especificar)"}`,
+        `- Responsable: ${inline(artifact.owner) || "(sin asignar)"}`,
         `- Verificación: ${artifact.verification?.verified === true ? "observada" : "no registrada"}${artifact.last_receipt?.digest ? ` · recibo ${String(artifact.last_receipt.digest).slice(0, 12)}…` : ""}`,
       ]
     : [
-        `### Operación ${artifact.id} — ${artifact.working_goal || "(sin objetivo)"}`,
+        `### Operación ${artifact.id} — ${inline(artifact.working_goal) || "(sin objetivo)"}`,
         "",
-        `- Estado: ${artifact.state} · Responsable: ${artifact.owner || "(sin asignar)"}`,
-        `- Próxima acción legítima: ${artifact.next_legitimate_action ?? "(sin definir)"}`,
-        `- Último checkpoint: ${artifact.checkpoints?.at(-1)?.at ?? "desconocido"}`,
+        `- Estado: ${artifact.state} · Responsable: ${inline(artifact.owner) || "(sin asignar)"}`,
+        `- Próxima acción legítima: ${inline(artifact.next_legitimate_action) || "(sin definir)"}`,
+        `- Último checkpoint: ${inline(artifact.checkpoints?.at(-1)?.at) || "desconocido"}`,
       ];
   return [
     openMarker(artifact.id),
     ...lines,
     "",
     "```json",
-    JSON.stringify(payload, null, 2).replace(/\n/g, eol),
+    embeddedJson(payload).replace(/\n/g, eol),
     "```",
     closeMarker(artifact.id),
   ].join(eol);
 }
 
+// Un marcador cuenta solo al comienzo de una linea, y cada uno aparece una vez: un marcador repetido es un archivo que alguien
+// edito o falsifico, y no se adivina cual es el verdadero.
+function positionsOf(text, marker) {
+  const found = [];
+  const escaped = marker.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  for (const match of text.matchAll(new RegExp("^" + escaped + "[ \\t]*$", "gm"))) {
+    found.push({ start: match.index, end: match.index + marker.length });
+  }
+  return found;
+}
+
 function locateBlock(text, id) {
-  const start = text.indexOf(openMarker(id));
-  if (start === -1) return null;
-  const end = text.indexOf(closeMarker(id), start);
-  if (end === -1) throw new Error(`operation block damaged in FASES.md: ${id} opens and never closes`);
-  return { start, end: end + closeMarker(id).length };
+  const opens = positionsOf(text, openMarker(id));
+  const closes = positionsOf(text, closeMarker(id));
+  if (opens.length === 0 && closes.length === 0) return null;
+  if (opens.length > 1 || closes.length > 1) {
+    throw new Error("operation block duplicated in FASES.md: " + id + " has " + opens.length + " openings and " + closes.length + " closings");
+  }
+  if (opens.length === 0) throw new Error("operation block damaged in FASES.md: " + id + " closes and never opens");
+  if (closes.length === 0 || closes[0].start < opens[0].start) throw new Error("operation block damaged in FASES.md: " + id + " opens and never closes");
+  return { start: opens[0].start, end: closes[0].end };
 }
 
 export async function saveOperationState(root, artifact) {
