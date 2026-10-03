@@ -103,7 +103,13 @@ const duennoDe = (familia, de = LAS_TRES) => {
 };
 
 // El reparto acordado, escrito una vez para que las pruebas no lo repitan de tres maneras.
-const REPARTO = { "sin-forma": "use-lore", diseno: "brainstorming-lore", "en-riesgo": "vespi" };
+// La tercera familia ya no se reparte por description. El reparto arbitrado el 2026-10-02 dice que las frases humanas las
+// responde el coordinador y que la tabla de tres frases vive UNA vez, en el cuerpo de use-lore; vespi es el protocolo que el
+// coordinador invoca en rol y su description lo dice. El host no ofrece vespi ante «esto me está complicando», a proposito.
+const REPARTO = { "sin-forma": "use-lore", diseno: "brainstorming-lore", "en-riesgo": "use-lore" };
+const POR_TABLA = new Set(["en-riesgo"]);
+const FRASES_DE_RIESGO = ["esto me está complicando", "se está perdiendo lo que decidimos", "sigamos mañana"];
+const ENCARGADA_DE_LA_TABLA = "use-lore";
 
 function familiaDe(frase) {
   const t = sin(frase);
@@ -119,6 +125,8 @@ function familiaDe(frase) {
 function ofreceElHost(frase, de = LAS_TRES) {
   const familia = familiaDe(frase);
   if (familia === null) return { ofrece: null, familia: null };
+  // Por la tabla: el host no ofrece ninguna description, el coordinador ya en rol lee la tabla de la encargada.
+  if (POR_TABLA.has(familia)) return { ofrece: ENCARGADA_DE_LA_TABLA, familia };
   const duenas = duennoDe(familia, de);
   return { ofrece: duenas.length === 1 ? duenas[0] : null, familia };
 }
@@ -145,7 +153,7 @@ function agente({ raiz: arbol, frase, pieza, cargadas, cuerpos = null, M }) {
     return decision;
   }
   decision.skill = ofrece;
-  decision.por = "frase";
+  decision.por = POR_TABLA.has(familia) ? "tabla" : "frase";
   // El chequeo silencioso del acuerdo vive escrito en el cuerpo de la skill que responde. Es lo
   // primero que esa skill hace, y por eso decide antes que la frase. Sin la ley escrita la skill
   // cargada no tiene con qué saber que hay un acuerdo vigente: contesta lo mismo que sin skill.
@@ -159,6 +167,8 @@ function agente({ raiz: arbol, frase, pieza, cargadas, cuerpos = null, M }) {
       return { ...decision, skill: null, preguntas: [], silencio: true, por: "acuerdo" };
     }
     decision.preguntas = [`¿metemos «${pieza}» al acuerdo o lo dejamos fuera?`];
+  // La pieza no cubierta de una frase de riesgo la toma el coordinador, que invoca el protocolo de vespi.
+  if (POR_TABLA.has(familia)) decision.skill = "vespi";
   return decision;
 }
 
@@ -297,6 +307,19 @@ test("RC6: coordinar una operación existente entre proyectos activa Vespi; lo s
 
 test("1d: cada description reclama su familia, que es lo único que el host lee antes de decidir", () => {
   for (const [familia, duena] of Object.entries(REPARTO)) {
+    if (POR_TABLA.has(familia)) {
+      // Ninguna description la reclama (vespi dice que no se invoca por frases) y la tabla vive en el cuerpo de la encargada.
+      for (const nombre of LAS_TRES) {
+        assert.equal(reclama(nombre, familia), false, `la description de ${nombre} reclama «${familia}», que se responde por la tabla de ${duena}`);
+      }
+      const tabla = aplanar(cuerpo(duena));
+      for (const frase of FRASES_DE_RIESGO) {
+        assert.ok(tabla.includes(sin(frase)), `la tabla canónica de ${duena} no trae la frase «${frase}»`);
+      }
+      assert.match(tabla, /coordinator/, `la tabla de ${duena} no dice que esas frases las responde el coordinador`);
+      assert.match(tabla, /invokes the \`?vespi\`? operation|invokes the vespi operation/, `la tabla de ${duena} no dice que el coordinador invoca vespi`);
+      continue;
+    }
     assert.ok(
       reclama(duena, familia),
       `el description de ${duena} no nombra la familia «${familia}», así que el host nunca lo ofrece para ella`,
@@ -306,6 +329,12 @@ test("1d: cada description reclama su familia, que es lo único que el host lee 
 
 test("1e: cada familia tiene una sola dueña, y la angosta le gana a la ancha", () => {
   for (const [familia, duena] of Object.entries(REPARTO)) {
+    if (POR_TABLA.has(familia)) {
+      // Una sola dueña en el cuerpo: la tabla no se copia en las otras dos skills.
+      const conLaTabla = LAS_TRES.filter((n) => FRASES_DE_RIESGO.every((fr) => aplanar(cuerpo(n)).includes(sin(fr))));
+      assert.deepEqual(conLaTabla, [duena], `«${familia}»: las frases viven en ${conLaTabla.join(", ") || "ninguna skill"} y deben vivir solo en ${duena}`);
+      continue;
+    }
     const duenas = duennoDe(familia);
     assert.equal(
       duenas.length,
@@ -323,7 +352,9 @@ test("1e: cada familia tiene una sola dueña, y la angosta le gana a la ancha", 
 test("2a: cada description arranca como disparador y no resume el procedimiento", () => {
   for (const nombre of LAS_TRES) {
     const d = aplanar(descripcion(nombre));
-    assert.match(d, /^use (?:only )?when\b/, `${nombre}: la description no arranca como disparador`);
+    // vespi es un protocolo que el coordinador invoca en rol: su description arranca diciendo cuándo se invoca, no por una frase.
+    const patron = nombre === "vespi" ? /^invoke to run a bounded operation\b/ : /^use (?:only )?when\b/;
+    assert.match(d, patron, `${nombre}: la description no arranca como disparador`);
     // El techo de la especificacion de skills: `name` + `description` no pasan de 1024 caracteres.
     // El `description` es lo que entra en el prompt de cada sesion, y ahi cada caracter se paga.
     assert.ok(
@@ -457,6 +488,7 @@ test("3d: cada skill calla en la frase de otra, y su cuerpo dice a quién le toc
     }
     for (const familia of Object.keys(FAMILIAS)) {
       if (REPARTO[familia] === nombre) continue;
+      // La dueña de una familia por tabla es la encargada de la tabla: las otras dos la nombran y apuntan a ella.
       assert.ok(
         cuerpo(nombre).includes(REPARTO[familia]),
         `${nombre} no nombra a ${REPARTO[familia]} en su cuerpo, así que no puede saber que esa frase no es suya`,
@@ -479,12 +511,15 @@ test("4a: las cinco condiciones están escritas, completas, en la skill que las 
   for (const condicion of LAS_CINCO) {
     assert.ok(use.includes(sin(condicion)), `use-lore no escribe la condición de R2 «${condicion}»`);
   }
-  for (const nombre of LAS_TRES) {
+  // Las cinco viven una vez, en use-lore. vespi las aplica y lo dice; brainstorming-lore no las repite: apunta a la tabla donde
+  // están (puntero a use-lore), y por eso su cuerpo tiene que nombrar a quien las tiene.
+  for (const nombre of ["use-lore", "vespi"]) {
     assert.ok(
       aplanar(cuerpo(nombre)).includes("r2"),
       `${nombre}: no nombra R2, así que no sabe que tiene una prueba interna debajo de las frases`,
     );
   }
+  assert.ok(aplanar(cuerpo("brainstorming-lore")).includes("use-lore"), "brainstorming-lore no apunta a use-lore, donde viven las cinco condiciones y la tabla");
 });
 
 test("4b: las cinco corren bajo toda frase y cuando no llega ninguna — sin excepción", () => {
@@ -499,9 +534,11 @@ test("4b: las cinco corren bajo toda frase y cuando no llega ninguna — sin exc
       /before it fires on anything that did not arrive with a phrase|no llego una frase|anything that did not arrive with a phrase/,
       `${nombre}: volvio la excepción que restringe R2 al caso sin frase`,
     );
+    // La ley de «con o sin frase» la escribe una vez la encargada de la tabla; vespi dice que corren bajo toda invocación.
+    if (nombre === "brainstorming-lore") continue;
     assert.match(
       c,
-      /under every phrase|whether or not a phrase arrived|bajo toda frase|con o sin frase/,
+      /under every phrase|under every invocation|whether or not a phrase arrived|bajo toda frase|con o sin frase/,
       `${nombre}: no dice que las cinco corren con y sin frase`,
     );
   }
@@ -565,10 +602,11 @@ test("5b: la huella la causa el texto, no el muestreo — sin la ley cargada el 
   try {
     const pieza = enCurso(root);
     const frase = "esto me está complicando";
-    const sinLey = cuerpo("vespi").replace(/silent check/gi, "the check that is not written");
+    // La ley que callla la frase de riesgo con acuerdo vigente vive en la tabla de use-lore: ese es el cuerpo que se borra.
+    const sinLey = cuerpo("use-lore").replace(/silent check/gi, "the check that is not written");
     assert.ok(
-      sinLey !== cuerpo("vespi"),
-      "el control no se puede correr: el cuerpo de vespi ya no dice «silent check» y el texto real hay que revisarlo",
+      sinLey !== cuerpo("use-lore"),
+      "el control no se puede correr: el cuerpo de use-lore ya no dice «silent check» y el texto real hay que revisarlo",
     );
     const conLey = agente({ raiz: root, frase, pieza, cargadas: LAS_TRES, M });
     const borrada = agente({
@@ -576,7 +614,7 @@ test("5b: la huella la causa el texto, no el muestreo — sin la ley cargada el 
       frase,
       pieza,
       cargadas: LAS_TRES,
-      cuerpos: { vespi: sinLey }, M,
+      cuerpos: { "use-lore": sinLey }, M,
     });
     const sinSkill = agente({ raiz: root, frase, pieza, cargadas: [], M });
 
@@ -589,7 +627,7 @@ test("5b: la huella la causa el texto, no el muestreo — sin la ley cargada el 
 });
 
 test("5c: la ley que produce la huella está escrita en el archivo, no inventada por la prueba", () => {
-  for (const nombre of LAS_TRES) {
+  for (const nombre of ["use-lore", "vespi"]) {
     assert.match(
       aplanar(cuerpo(nombre)),
       /silent check|chequeo silencioso/i,
@@ -632,10 +670,17 @@ test("6c: el description de vespi sobrevive al round-trip, con la forma que S3 r
   // `scripts/yaml-frontmatter.test.mjs`; acá se comprueba que el archivo vivo sigue siendo
   // parseable y que su description no se truncó.
   const { data } = skill("vespi");
-  assert.match(data.description, /^use when/i, "la description de vespi no arranca como disparador");
-  assert.ok(
-    !/:\s/.test(data.description.split(" Not yours:")[0]),
-    "la parte de disparador de vespi tiene dos puntos sin comillas: es la forma que S3 rompió",
-  );
-  assert.ok(data.description.includes("sigamos mañana"), "la frase del acuerdo se perdió al parsear");
+  assert.match(data.description, /^invoke to run a bounded operation/i, "la description de vespi no arranca como disparador");
+  // La forma que S3 rompió es un escalar PLANO con «: » dentro. Un escalar de bloque (>-, >, |) o entre comillas es YAML válido
+  // con dos puntos; el parser de arriba ya lo parseó, así que lo que se comprueba es que, si los tiene, no sea un escalar plano.
+  const crudo = readFileSync(join(raiz, "skills", "vespi", "SKILL.md"), "utf8").replace(/\r\n/g, "\n");
+  const lineaDescription = crudo.split("\n").find((l) => l.startsWith("description:")) ?? "";
+  const valor = lineaDescription.slice("description:".length).trim();
+  const esBloqueOComillas = /^(?:[>|][+-]?|["'])/.test(valor);
+  if (/:\s/.test(data.description.split(" Not yours:")[0])) {
+    assert.ok(esBloqueOComillas, "la parte de disparador de vespi tiene dos puntos y la description es un escalar plano: es la forma que S3 rompió");
+  }
+  // vespi ya no se dispara por frases humanas: lo que no se puede perder al parsear es el traspaso a la tabla canónica de use-lore.
+  assert.ok(data.description.includes("canonical table"), "el puntero a la tabla canónica se perdió al parsear");
+  assert.ok(!data.description.includes("sigamos mañana"), "vespi volvió a reclamar una frase humana");
 });

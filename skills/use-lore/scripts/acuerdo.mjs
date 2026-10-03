@@ -39,8 +39,8 @@ import { fileURLToPath } from "node:url";
 export const ACUERDO = "acuerdo.md";
 export const RECIBO = ".lore-acuerdo";
 
-// La version que trae el acuerdo. No es `package.json`: esa sigue en 2.4.8 hasta que 2.4.9
-// se publica, y el aviso a quien actualiza es sobre la pieza, no sobre el bump.
+// La version que trae el acuerdo. Coincide con `package.json` desde que 2.4.9 se publica; el aviso a quien actualiza
+// sigue siendo sobre la pieza, no sobre el bump.
 export const ACTUAL = "2.4.9";
 
 // Vocabulario cerrado. Un valor fuera de estas listas no es una eleccion: es un error visible,

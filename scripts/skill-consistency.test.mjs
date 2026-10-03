@@ -345,7 +345,7 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.4.8"]));
+  assert.deepEqual(new Set(versions), new Set(["2.4.9"]));
 });
 
 // andamiaje/lore-plugin/lore/principios.md #12: la nota sirve al usuario que actualiza el producto.
@@ -423,21 +423,22 @@ test("2.4.6 conserva el intento fallido y su aporte real", () => {
   assert.match(release, /deferred arming|armado diferido/i);
 });
 
-test("2.4.8 sincroniza badges, paquete y release", () => {
+test("2.4.9 sincroniza badges, paquete y release", () => {
   const readme = readFileSync(join(root, "README.md"), "utf8");
-  const releasePath = join(root, "docs", "RELEASE_2.4.8.md");
-  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.4\.8-/g) ?? []).length, 2);
+  const releasePath = join(root, "docs", "RELEASE_2.4.9.md");
+  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.4\.9-/g) ?? []).length, 2);
+  assert.ok(existsSync(join(root, "docs", "RELEASE_2.4.8.md")), "la nota de 2.4.8 se conserva como historia");
   // Decisión 34 de Vespi / checkpoint de RC4: el badge dice lo que pasó (rojo → verde), no «validated».
   assert.equal((readme.match(/writing--skills-(?:RED%E2%86%92GREEN|ROJO%E2%86%92VERDE)_2\.3\.3_%C2%B7_2\.4\.0-/g) ?? []).length, 2);
   assert.doesNotMatch(readme, /writing--skills-(?:validated|validado)/i);
-  assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.4.8.md");
+  assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.4.9.md");
   const release = readFileSync(releasePath, "utf8");
   assert.match(release, /Claude Code/i);
   assert.match(release, /Codex/i);
   assert.match(release, /MYCELIUM/i);
   assert.match(release, /use-lore/i);
-  assert.match(release, /brainstorming-lore/i);
-  assert.match(release, /create-\*/i);
+  assert.match(release, /Vespi/i);
+  assert.match(release, /lore-plugin operation/i);
   assert.match(release, /tested (?:on|in) Claude Code, Codex, and OpenCode/i);
   assert.match(release, /probado en Claude Code, Codex y OpenCode/i);
   assert.match(release, /no public function was removed|no se eliminó ninguna función pública/i);

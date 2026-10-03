@@ -11,7 +11,7 @@ description: >-
 
 # Vespi — bounded operation under authority (experimental)
 
-> Invoke with the Skill tool as `vespi`, or with the person's sentences «esto me está complicando» / «se está perdiendo lo que decidimos» / «sigamos mañana» when a way of working already exists and is under strain.
+> Invoke with the Skill tool as `vespi` when the coordinator, in role, takes on a strained or continuing operation. A person's sentence never invokes it directly: those sentences route through the canonical table in `use-lore`.
 
 Ordinary work does not need this skill. If the task fits known criterion, an owner, and a gate, do that work directly. Reach for Vespi only when the operation itself is under pressure: it must continue across sessions, the route may not suffice, effects carry authority, or resuming silently would pretend nothing changed.
 
@@ -44,7 +44,7 @@ Lore, universal routing, learning, schedulers, persistence engines, wallets, mig
 
 ## ## Invocation — who calls, and what arrives
 
-The coordinator in role calls this protocol with a strained or continuing operation: its mandate, authority, state, and what changed. Human phrases never invoke it directly — they route through use-lore’s canonical table ("Three ordinary phrases, three owners"). Under an active agreement that already covers the piece, this protocol stays quiet: the silent check runs first, silently. Under every invocation, the five R2 conditions run as the internal test — the full list lives in `use-lore`, and this skill applies the same law.
+The coordinator in role calls this protocol with a strained or continuing operation: its mandate, authority, state, and what changed. Human phrases never invoke it directly — they route through use-lore’s canonical table ("Three ordinary phrases, three owners"): no way of working yet is `use-lore`’s, and designing a Lore-owned artifact is `brainstorming-lore`’s. Under an active agreement that already covers the piece, this protocol stays quiet: the silent check runs first, silently. Under every invocation, the five R2 conditions run as the internal test — the full list lives in `use-lore`, and this skill applies the same law.
 
 ## Lifecycle (pressure map, not a state machine)
 

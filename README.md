@@ -6,7 +6,7 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.4.8-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.4.9-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/AI_provider-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="AI provider: neutral"></a>
   <a href="#the-eight-skills"><img src="https://img.shields.io/badge/writing--skills-RED%E2%86%92GREEN_2.3.3_%C2%B7_2.4.0-63C49B?style=for-the-badge&labelColor=0B0B12" alt="writing-skills: RED to GREEN in 2.3.3 and 2.4.0"></a>
   <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
@@ -395,27 +395,22 @@ The 2.4.9 candidate retires four things: encryption, the `lore-ecosistema/` copy
 
 ## Vespi
 
-**Vespi is experimental in the unpublished 2.4.9 candidate; published 2.4.8 does not include it.**
+**Vespi is the kernel that runs under Lore Plugin: [kernel 0.1.3](https://github.com/andresanemic/vespi/releases/tag/v0.1.3-kernel) is published, and 2.4.9 brings its operation layer into the kit.**
 
 <p align="center">
   <img src="./assets/vespi-B.png" alt="Vespi" width="100%">
 </p>
 
-Vespi is the part of the kit that keeps what you agreed standing when the work stretches, gets complicated or gets interrupted. It does not write your Lore and it does not decide for you: it tells you what it sees, it says its assumptions as assumptions, and the choice is yours.
+Lore Plugin is the ground: your criterion, written once, and the routing that opens the right one for each task. Vespi is what runs on that ground: an operation under an authority you grant, checked apart from whoever carries it out, that leaves a receipt anyone can verify. It does not write your Lore and it does not decide for you: it says what it sees, states its assumptions as assumptions, and the choice is yours.
 
-When the work stretches, it keeps the pace: at the interval you chose in your agreement it offers you, in one line, to save what you learned, to take a break or to close, and if you do not answer it does not insist. When the session is already loaded, Vespi suggests opening a new one with a handoff that explains itself, or moving to a lighter model — it never defaults to the most expensive one, and before it puts several agents to work it tells you what each one buys and what that costs.
+What 2.4.9 adds:
 
-Behind that sits a kernel of its own, and this is what the candidate implements. An operation is resumed from loose receipts, with no handoff, by an agent on a supported host. Authority is granted bounded, with three things at once — until when, how much, and to whom — and once it expires the operation does not pass; when it requires the approval of several people, the gate counts the distinct named identities it asks for and does not count the agent's. Every step leaves a receipt with a fingerprint over its covered fields, naming what was actually verified and what was left uncovered instead of declaring an all-green. Anchoring on Stellar is an interface, not a certificate: the receipt tells apart what was only submitted, what a supplied verifier confirmed, and what never arrived. The impossible task is never retried blindly — it comes back blocked, with the exit named and the agreement saying who may pause it.
-
-The human gate, when it is needed, opens like this: it shows you the cost before asking for anything; the agent never signs on your behalf, and if it tries, the operation comes back to you; what is public arrives off; and every rejection names the exit.
+- **An operation survives the session.** Its state is one block in your project's `FASES.md`, not a second file, and resuming asks the operation, not you.
+- **Work split into tasks with a role** (read the sources, advise, do a scoped piece). Each task moves through received, reviewed, verified and integrated as separate facts, and whoever verifies is never whoever executed. If the host lacks a tool, the task comes back blocked with its exit; nothing is simulated.
+- **Authority with three limits at once** (until when, how much, to whom). The agent never signs for you, every receipt says what was verified and what was not, and an external effect of uncertain result is never retried blindly.
+- **A written method for the coordinator** ([`skills/vespi/method.md`](./skills/vespi/method.md), [also in the kernel](https://github.com/andresanemic/vespi/blob/master/docs/METHOD.md)) that depends on no installed skill, and `lore-plugin operation …` to drive a whole operation from the command line.
 
 The kernel is developed separately: [github.com/andresanemic/vespi](https://github.com/andresanemic/vespi).
-
-### Vespi standalone
-
-You can use Vespi alone, without Lore Plugin, SDD or distilling pistas: a minimal coordinator-facing operation protocol plus a pinned kernel with provenance. It coordinates bounded operations with receipts and gates; it does not store criterion or memory. If you want memory/criterion, add Lore Plugin. Do not bundle it as a ninth Lore Plugin skill without a versioned change and tests.
-
----
 
 ## Loose notes
 
@@ -568,7 +563,7 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.4.8-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.4.9-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/proveedor_IA-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Proveedor IA: neutral"></a>
   <a href="#las-ocho-skills"><img src="https://img.shields.io/badge/writing--skills-ROJO%E2%86%92VERDE_2.3.3_%C2%B7_2.4.0-63C49B?style=for-the-badge&labelColor=0B0B12" alt="writing-skills: de rojo a verde en 2.3.3 y 2.4.0"></a>
   <a href="./docs/SPEC_KIT_es.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
@@ -998,27 +993,22 @@ La candidata 2.4.9 retira cuatro cosas: el cifrado, la copia `lore-ecosistema/`,
 
 ## Vespi
 
-**Vespi es experimental en la candidata 2.4.9 aún inédita; 2.4.8 no la incluye.**
+**Vespi es el kernel que corre bajo Lore Plugin: el [kernel 0.1.3](https://github.com/andresanemic/vespi/releases/tag/v0.1.3-kernel) está publicado y el 2.4.9 trae su capa de operación al kit.**
 
 <p align="center">
   <img src="./assets/vespi-B.png" alt="Vespi" width="100%">
 </p>
 
-Vespi es la parte del kit que cuida que lo acordado siga en pie cuando el trabajo se alarga, se complica o se interrumpe. No escribe tu Lore ni decide por ti: te dice lo que ve, dice sus suposiciones como suposiciones, y la elección es tuya.
+Lore Plugin es el terreno: tu criterio escrito una vez y el enrutamiento que abre el correcto para cada tarea. Vespi es lo que corre sobre ese terreno: una operación bajo una autoridad que tú otorgas, verificada aparte de quien la ejecuta, que deja un recibo que cualquiera puede comprobar. No escribe tu Lore ni decide por ti: te dice lo que ve, dice sus suposiciones como suposiciones, y la elección es tuya.
 
-Cuando el trabajo se alarga, te cuida el ritmo: cada cierto rato, el que tú elegiste en tu acuerdo, te ofrecen en una línea guardar lo aprendido, tomar un descanso o cerrar, y si no respondes no insiste. Cuando la sesión ya está cargada, Vespi te sugiere abrir una nueva con un traspaso que se entiende solo, o pasar a un modelo más liviano — nunca elige por defecto el modelo más caro, y antes de poner a varios agentes a trabajar te dice qué compra cada uno y cuánto cuesta.
+Lo que agrega el 2.4.9:
 
-Detrás de eso hay un núcleo propio, y esto es lo que implementa la candidata. Una operación se retoma desde recibos sueltos, sin traspaso, y la continúa un agente en un host compatible. La autoridad se otorga acotada con tres cosas a la vez —hasta cuándo, cuánto y a quién—; vencida, la operación no pasa, y cuando exige la aprobación de varias personas la puerta cuenta las identidades nominales distintas que pide y no cuenta la del agente. Cada paso deja un recibo con huella sobre los campos que cubre, y nombra qué se verificó de verdad y qué quedó sin cubrir en vez de declarar un verde entero. Anclar en Stellar es una interfaz, no un certificado: el recibo distingue lo que solo se envió, lo que confirmó un verificador aportado por quien integra el kernel y lo que no llegó. La tarea imposible no se reintenta a ciegas: vuelve bloqueada, con la salida nombrada y con el acuerdo diciendo quién puede pausar.
-
-La puerta humana, cuando hace falta, se abre así: te muestra el costo antes de pedir nada; el agente nunca firma en tu nombre, y si lo intenta la operación vuelve a ti; lo público llega apagado; y todo rechazo nombra la salida.
+- **Una operación sobrevive a la sesión.** Su estado es un bloque del `FASES.md` de tu proyecto, no un segundo archivo, y retomarla se le pregunta a la operación, no a ti.
+- **El trabajo se reparte en tareas con un rol** (leer las fuentes, asesorar, hacer una pieza acotada). Cada tarea pasa por recibida, revisada, verificada e integrada como hechos distintos, y quien verifica nunca es quien ejecutó. Si el host no tiene la herramienta, la tarea vuelve bloqueada con su salida; nada se simula.
+- **Autoridad con tres límites a la vez** (hasta cuándo, cuánto y a quién). El agente nunca firma por ti, cada recibo dice qué se verificó y qué no, y un efecto externo de resultado incierto no se reintenta a ciegas.
+- **Un método escrito para el coordinador** ([`skills/vespi/method.md`](./skills/vespi/method.md), [también en el kernel](https://github.com/andresanemic/vespi/blob/master/docs/METHOD.md)) que no depende de ninguna skill instalada, y `lore-plugin operation …` para llevar una operación completa desde la línea de comandos.
 
 El kernel se desarrolla aparte: [github.com/andresanemic/vespi](https://github.com/andresanemic/vespi).
-
-### Vespi suelto
-
-Puedes usar Vespi solo, sin Lore Plugin, SDD ni destilar pistas: un protocolo mínimo de operación para el coordinador más un kernel fijado con procedencia. Coordina operaciones acotadas con recibos y puertas; no guarda criterio ni memoria. Si quieres memoria/criterio, suma Lore Plugin. No lo empaquetes como novena skill de Lore Plugin sin cambio versionado y tests.
-
----
 
 ## Notas sueltas
 
