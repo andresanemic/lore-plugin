@@ -1397,7 +1397,9 @@ test("15a: una enmienda en prosa, fechada, se agrega al final y actualiza el rec
     assert.match(despues.slice(antes.length), /^## Amendment 2026-10-09/m);
     assert.match(despues.slice(antes.length), /los playgrounds nuevos/);
     // Y no tuvo que entrar en ninguna categoría: ni perilla, ni límite, ni pieza cubierta.
-    assert.deepEqual(leer(root).enmiendas.map((e) => e.fecha), [HOY, "2026-10-09"]);
+    // El registro NO es una enmienda: la fecha de apertura vive en `aprobadoEn`, y la lista
+    // de enmiendas empieza vacía. Meter la apertura ahí sería llamar enmienda a lo que no lo es.
+    assert.deepEqual(leer(root).enmiendas.map((e) => e.fecha), ["2026-10-09"]);
     assert.equal(leer(root).enmiendas.at(-1).que, "prosa");
     assert.equal(leer(root).documentoDigest, huella(root), "el recibo sigue describiendo el documento");
   } finally { limpiar(root); }
@@ -1460,7 +1462,7 @@ test("15e: las enmiendas en prosa se acumulan sin borrarse", async () => {
     for (const [fecha, texto] of [["2026-10-01", "Uno."], ["2026-10-02", "Dos."], ["2026-10-03", "Tres."]]) {
       assert.equal(enmendarEnProsa({ raiz: root, texto, ahora: fecha, autorizado: true }).enmendada, true);
     }
-    assert.deepEqual(leer(root).enmiendas.map((e) => e.fecha), [HOY, "2026-10-01", "2026-10-02", "2026-10-03"]);
+    assert.deepEqual(leer(root).enmiendas.map((e) => e.fecha), ["2026-10-01", "2026-10-02", "2026-10-03"]);
     const doc = readFileSync(join(root, "acuerdo.md"), "utf8");
     assert.equal(["Uno.", "Dos.", "Tres."].every((t) => doc.includes(t)), true);
     assert.equal(leer(root).documentoDigest, huella(root));
@@ -1475,7 +1477,7 @@ test("15f: los dos comandos nuevos se ejecutan de verdad desde la línea de órd
     assert.equal(registrado.escrito, true, `el comando no registró: ${JSON.stringify(registrado)}`);
     assert.equal(registrado.falta, null);
 
-    const enmienda = JSON.parse(CLI(root, "enmendar-prosa", "--raiz", "{raiz}", "--ahora", "2026-10-09", "--texto", "Se prueban los dos playgrounds."));
+    const enmienda = JSON.parse(CLI(root, "enmendar-prosa", "--raiz", "{raiz}", "--ahora", "2026-10-09", "--autorizado", "true", "--texto", "Se prueban los dos playgrounds."));
     assert.equal(enmienda.enmendada, true);
     assert.match(readFileSync(join(root, "acuerdo.md"), "utf8"), /Se prueban los dos playgrounds\./);
     assert.equal(JSON.parse(readFileSync(join(root, ".lore-acuerdo"), "utf8")).documentoDigest, huella(root));
@@ -1487,7 +1489,7 @@ test("15g: la línea de órdenes rechaza un texto vacío y un subcomando descono
   try {
     writeFileSync(join(root, "acuerdo.md"), PROSA, "utf8");
     assert.equal(JSON.parse(CLI(root, "registrar-escrito", "--raiz", "{raiz}", "--ahora", HOY)).escrito, true);
-    const vacio = JSON.parse(CLI(root, "enmendar-prosa", "--raiz", "{raiz}", "--ahora", "2026-10-09", "--texto", "   "));
+    const vacio = JSON.parse(CLI(root, "enmendar-prosa", "--raiz", "{raiz}", "--ahora", "2026-10-09", "--autorizado", "true", "--texto", "   "));
     assert.equal(vacio.enmendada, false, "una enmienda sin texto no es una enmienda");
     assert.equal(vacio.razon, "sin-texto");
   } finally { limpiar(root); }
