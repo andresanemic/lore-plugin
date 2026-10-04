@@ -82,15 +82,19 @@ test("los bloques de dominio del ritual de origen no viajan con la guía", () =>
   }
 });
 
-test("la sección nueva cabe en su techo y el archivo no crece", () => {
+test("el archivo no crece respecto de su tamaño inicial", () => {
+  // Se mide antes de mirar la sección: si el peso se pasara, tiene que decirse solo, sin que el
+  // fallo de la sección nueva lo tape.
   const texto = leer();
-  const s = seccion(texto);
-  const bytes = Buffer.byteLength(s, "utf8");
-  assert.ok(bytes <= TECHO_SECCION, `la sección ocupa ${bytes} B y el techo son ${TECHO_SECCION}`);
   const total = Buffer.byteLength(texto, "utf8");
   const lineas = texto.split("\n").length - 1;
   assert.ok(total <= BYTES_ANTES, `el archivo creció: ${total} B contra ${BYTES_ANTES} B antes`);
   assert.ok(lineas <= LINEAS_ANTES, `el archivo creció: ${lineas} líneas contra ${LINEAS_ANTES} antes`);
+});
+
+test("la sección nueva cabe en su techo", () => {
+  const bytes = Buffer.byteLength(seccion(leer()), "utf8");
+  assert.ok(bytes <= TECHO_SECCION, `la sección ocupa ${bytes} B y el techo son ${TECHO_SECCION}`);
 });
 
 test("el frontmatter de brainstorming-lore sigue siendo el de antes de la guía", () => {
