@@ -30,12 +30,23 @@ const args = process.argv.slice(2);
 const command = args[0];
 const tree = args.includes("--tree") ? resolve(args[args.indexOf("--tree") + 1]) : process.cwd();
 
-function usage() {
-  console.error("Usage: lore-cli mycelium receipt   [--tree <dir>] [--accept-always-on]");
-  console.error("       lore-cli mycelium bodies    [--tree <dir>]");
-  console.error("       lore-cli mycelium federated [--tree <dir>]");
-  console.error("       lore-cli mycelium announce  [--tree <dir>]");
-  console.error("       lore-cli nivel [off|lite|full]");
+function usage(stream = process.stderr) {
+  stream.write([
+    "Usage: lore-cli mycelium receipt   [--tree <dir>] [--accept-always-on]",
+    "       lore-cli mycelium bodies    [--tree <dir>]",
+    "       lore-cli mycelium federated [--tree <dir>]",
+    "       lore-cli mycelium announce  [--tree <dir>]",
+    "       lore-cli nivel [off|lite|full]",
+    "       lore-cli --help",
+    "",
+  ].join("\n"));
+}
+
+// Preguntar la guía sale con 0, también aquí: esta entrada es la misma CLI reducida, y la prosa
+// la invoca por ruta. Un 2 donde solo se preguntaba delata a quien no conoce el 2.
+if (command === undefined || args.includes("--help") || args.includes("-h")) {
+  usage(process.stdout);
+  process.exit(0);
 }
 
 // Records that the MYCELIUM sweep ran over this tree. The receipt is a fact derived from the
@@ -152,4 +163,4 @@ if (command === "nivel") {
 }
 
 usage();
-process.exit(command ? 2 : 0);
+process.exit(2);

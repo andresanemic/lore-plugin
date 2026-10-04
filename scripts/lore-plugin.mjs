@@ -17,6 +17,33 @@ const targetIndex = args.indexOf("--target");
 const target = targetIndex === -1 ? null : args[targetIndex + 1];
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
+function usage(stream = process.stdout) {
+  stream.write([
+    "Usage: lore-plugin install --target codex|claude|opencode|all",
+    "       lore-plugin statusline install|uninstall",
+    "       lore-plugin nivel [off|lite|full]",
+    "       lore-plugin crystallize pack --bot <dir> --out <file.md>",
+    "       lore-plugin crystallize extract --from <file.md> --out <dir>",
+    "       lore-plugin hygiene [ruta] [--json]",
+    "       lore-plugin opencode-permissions [--project <dir>] [--from-routing] [--allow <path>...] [--write]",
+    "       lore-plugin opencode-sandbox <dir> [--json]",
+    "       lore-plugin mycelium receipt [--tree <dir>]",
+    "       lore-plugin mycelium bodies|announce|federated [--tree <dir>]",
+    "       lore-plugin --help",
+    "",
+  ].join("\n"));
+}
+
+// Preguntar la guía no es equivocarse: se imprime y se sale con 0. Antes `--help` caia en el mismo
+// `process.exit(command ? 2 : 0)` que un comando desconocido, así que quien solo quería leer las
+// órdenes tenía que leer un 2 antes que el texto. La bandera manda donde aparezca: pedir la guía
+// es inequívoco, y el bloque de abajo es el mismo que siempre-printaba, no una segunda verdad.
+// Lo que no existe todavía es ayuda por comando, y eso es otro trabajo.
+if (command === undefined || args.includes("--help") || args.includes("-h")) {
+  usage();
+  process.exit(0);
+}
+
 if (command === "statusline" && ["install", "uninstall"].includes(args[1])) {
   const home = homedir();
   const installedPackageRoot = claudePluginInstallPath({ home });
@@ -217,17 +244,8 @@ if (command === "nivel") {
 }
 
 if (command !== "install" || !["codex", "claude", "opencode", "all"].includes(target)) {
-  console.log("Usage: lore-plugin install --target codex|claude|opencode|all");
-  console.log("       lore-plugin statusline install|uninstall");
-  console.log("       lore-plugin nivel [off|lite|full]");
-  console.log("       lore-plugin crystallize pack --bot <dir> --out <file.md>");
-  console.log("       lore-plugin crystallize extract --from <file.md> --out <dir>");
-  console.log("       lore-plugin hygiene [ruta] [--json]");
-  console.log("       lore-plugin opencode-permissions [--project <dir>] [--from-routing] [--allow <path>...] [--write]");
-  console.log("       lore-plugin opencode-sandbox <dir> [--json]");
-  console.log("       lore-plugin mycelium receipt [--tree <dir>]");
-  console.log("       lore-plugin mycelium bodies|announce|federated [--tree <dir>]");
-  process.exit(command ? 2 : 0);
+  usage(process.stderr);
+  process.exit(2);
 }
 
 if (target === "codex" || target === "all") {
