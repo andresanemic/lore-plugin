@@ -380,6 +380,7 @@ test("el instalador copia el módulo nuevo y su comparación de árbol lo ve, si
   put(join(kitDirectory, "skills", "use-lore", "scripts", "acuerdo.mjs"), "export const acuerdo = {};\n");
   put(join(kitDirectory, "scripts", "lore-plugin.mjs"), "// cli\n");
   put(join(kitDirectory, "scripts", "lore-cli.mjs"), "// local entry\n");
+  put(join(kitDirectory, "scripts", "hygiene.mjs"), "export const scanHygiene = () => ({ findings: [], coverage: [], notCovered: [] });\nexport const salidaHygiene = () => [];\n");
   put(join(kitDirectory, "scripts", "installer.mjs"), "// installer\n");
 
   const home = mkdtempSync(join(tmpdir(), "lore-home-install-"));

@@ -3,7 +3,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
-import { skillFiles, skillText, comandosOrdenados, NO_VIAJA_EN_LA_ENTRADA_LOCAL } from "./skill-text.mjs";
+import { skillFiles, skillText, comandosOrdenados, ayudaDe, NO_VIAJA_EN_LA_ENTRADA_LOCAL } from "./skill-text.mjs";
 import { parseFrontmatter } from "./yaml-frontmatter.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -42,21 +42,32 @@ test("save-to-lore corre higiene de salida y propone limpieza sin podar por tama
 // que el comando esté, la otra que llegue al host. Las dos leen el mismo extractor.
 test("todo comando que la prosa ordena correr existe en las dos entradas del kit", () => {
   const ordenados = comandosOrdenados(root);
-  assert.ok(ordenados.length > 0, "la prosa de las skills debe ordenar correr algún comando");
+  assert.ok(ordenados.size > 0, "la prosa de las skills debe ordenar correr algún comando");
 
-  const entradas = ["scripts/lore-plugin.mjs", "scripts/lore-cli.mjs"]
-    .map((file) => [file, readFileSync(join(root, file), "utf8")]);
-  const local = entradas.find(([file]) => file.endsWith("lore-cli.mjs"))[1];
+  const ayuda = {
+    "scripts/lore-plugin.mjs": ayudaDe(join(root, "scripts", "lore-plugin.mjs")),
+    "scripts/lore-cli.mjs": ayudaDe(join(root, "scripts", "lore-cli.mjs")),
+  };
 
-  for (const token of ordenados) {
-    for (const [archivo, texto] of entradas) {
-      assert.ok(texto.includes(token), `la prosa ordena "${token}" y ${archivo} no lo implementa`);
+  for (const [comando, subs] of ordenados) {
+    for (const sub of [comando, ...subs]) {
+      assert.match(ayuda["scripts/lore-plugin.mjs"], new RegExp(`\\b${sub}\\b`),
+        `la prosa ordena "${sub}" y la entrada completa no lo anuncia en su ayuda`);
     }
     // Una exención sin razón escrita es el defecto con otra forma, y una exención que ya no
     // hace falta es ruido que esconde el siguiente comando. Las dos se comprueban.
-    if (!NO_VIAJA_EN_LA_ENTRADA_LOCAL.has(token)) continue;
-    assert.match(NO_VIAJA_EN_LA_ENTRADA_LOCAL.get(token), /\S{12,}/, `${token}: la exención dice por qué`);
-    assert.equal(local.includes(token), false, `${token}: la exención está vieja, la entrada local ya lo ofrece`);
+    if (NO_VIAJA_EN_LA_ENTRADA_LOCAL.has(comando)) {
+      const razon = NO_VIAJA_EN_LA_ENTRADA_LOCAL.get(comando);
+      assert.ok(razon.length >= 40 && razon.split(/\s+/).length >= 6,
+        `${comando}: la exención dice por qué, con una razón y no con una palabra`);
+      assert.doesNotMatch(ayuda["scripts/lore-cli.mjs"], new RegExp(`\\b${comando}\\b`),
+        `${comando}: la exención está vieja, la entrada local ya lo anuncia`);
+      continue;
+    }
+    for (const sub of [comando, ...subs]) {
+      assert.match(ayuda["scripts/lore-cli.mjs"], new RegExp(`\\b${sub}\\b`),
+        `la prosa ordena "${sub}" y la entrada local no lo anuncia en su ayuda`);
+    }
   }
 });
 

@@ -6,7 +6,7 @@ import { spawnSync } from "node:child_process";
 import test from "node:test";
 
 import { installClaude, installCodex, installOpenCode, claudeCommands, claudePluginInstallPath, sameTree, replaceLocalEntry, recoverLocalEntry, replaceManagedPath } from "./installer.mjs";
-import { comandosOrdenados, NO_VIAJA_EN_LA_ENTRADA_LOCAL } from "./skill-text.mjs";
+import { comandosOrdenados, ayudaDe, NO_VIAJA_EN_LA_ENTRADA_LOCAL } from "./skill-text.mjs";
 
 const makePackage = () => {
   const root = mkdtempSync(join(tmpdir(), "lore-package-"));
@@ -34,6 +34,10 @@ const makePackage = () => {
   // procede, y un fixture que las omitiera certificaría un instalador que deja a la prosa
   // mandando correr un comando que el host no tiene — el defecto que esta prueba persiguió.
   writeFileSync(join(root, "scripts", "lore-cli.mjs"), "// local entry\n");
+  // La cadena local es «la entrada y todo lo que importa», y desde R4 la entrada importa la
+  // higiene de salida. Un fixture que la omitiera certificaria un instalador que copia una
+  // entrada con un import roto: el mismo defecto que esta lista de fixtures ya persiguió.
+  writeFileSync(join(root, "scripts", "hygiene.mjs"), "export const scanHygiene = () => ({ findings: [], coverage: [], notCovered: [] });\nexport const salidaHygiene = () => [];\n");
   writeFileSync(join(root, "scripts", "installer.mjs"), "// installer\n");
   mkdirSync(join(root, "skills", "use-lore", "scripts"), { recursive: true });
   writeFileSync(join(root, "skills", "use-lore", "scripts", "acuerdo.mjs"), "export const acuerdo = {};\n");
@@ -117,7 +121,7 @@ const invocacionesDelCLI = (root) => comandosOrdenados(root);
 test("Codex recibe todo comando que la prosa de una skill ordena correr", () => {
   const root = join(import.meta.dirname, "..");
   const invocados = invocacionesDelCLI(root);
-  assert.ok(invocados.length > 0, "la prosa de las skills debe invocar el CLI del kit");
+  assert.ok(invocados.size > 0, "la prosa de las skills debe invocar el CLI del kit");
 
   const home = mkdtempSync(join(tmpdir(), "lore-home-"));
   installCodex({ home, packageRoot: root });
@@ -129,17 +133,25 @@ test("Codex recibe todo comando que la prosa de una skill ordena correr", () => 
   const localPath = join(home, ".lore-plugin", "entry", "codex", "scripts", "lore-cli.mjs");
   assert.equal(existsSync(localPath), true, "Codex no recibió la entrada local que la prosa nombra por ruta");
 
-  const cli = readFileSync(cliPath, "utf8");
-  const local = readFileSync(localPath, "utf8");
-  for (const token of invocados) {
-    assert.ok(cli.includes(token), `la prosa ordena "${token}" y el CLI instalado no lo implementa`);
+  // Se mira la ayuda que ANUNCIA lo instalado, no el texto del archivo: la fricción se
+  // encontró leyendo la ayuda, y una guarda que busca la palabra en el código no distingue
+  // un comando de la frase que lo explica.
+  const ayuda = { completa: ayudaDe(cliPath), local: ayudaDe(localPath) };
+  for (const [comando, subs] of invocados) {
+    for (const sub of [comando, ...subs]) {
+      assert.match(ayuda.completa, new RegExp(`\\b${sub}\\b`),
+        `la prosa ordena "${sub}" y el CLI instalado no lo anuncia`);
+    }
     // R4 (fricción 6): la entrada local ES la que la persona tiene a mano en Claude Code,
     // porque `use-lore` y `transmute-lore` la nombran por ruta. Un comando que la prosa
     // ordena y que solo vive en la entrada de la vía npm es una promesa: no se resuelve
     // donde se la pide correr, y no escribe recibo. Verificado el 2026-10-04 con el bot de
     // Desarrollo Web —`save-to-lore` pedía `lore-plugin hygiene` y `lore-cli` no lo ofrecía.
-    if (NO_VIAJA_EN_LA_ENTRADA_LOCAL.has(token)) continue;
-    assert.ok(local.includes(token), `la prosa ordena "${token}" y la entrada local instalada no lo ofrece`);
+    if (NO_VIAJA_EN_LA_ENTRADA_LOCAL.has(comando)) continue;
+    for (const sub of [comando, ...subs]) {
+      assert.match(ayuda.local, new RegExp(`\\b${sub}\\b`),
+        `la prosa ordena "${sub}" y la entrada local instalada no lo anuncia`);
+    }
   }
 });
 

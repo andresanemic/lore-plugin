@@ -8,10 +8,11 @@
 // install, statusline, crystallize — and `crystallize` shells out to
 // `skills/transmute-lore/scripts/crystallize.mjs`, which does not travel in a short chain.
 // Copying the whole entry and promising one part leaves an executable that advertises
-// capabilities it lacks. This entry advertises exactly what it ships: MYCELIUM, plus the level
-// knob a skill may also reach through the same launcher. Everything else stays on the
-// npm/marketplace path, where the full package is present.
-//
+// capabilities it lacks. This entry advertises exactly what it ships: MYCELIUM, the level
+// knob a skill may also reach through the same launcher, and the read-only hygiene scan
+// `save-to-lore` orders at the close of every pass. Everything else stays on the
+// npm/marketplace path, where the full package is present — and what stays out is declared,
+// with its reason, where the prosa is checked against it (`NO_VIAJA_EN_LA_ENTRADA_LOCAL`).
 // The behaviour below is the installed `lore-plugin.mjs` behaviour, reduced to this subset.
 // It is not a re-implementation: a receipt computed two ways would be a second truth.
 
@@ -22,6 +23,7 @@ import { fileURLToPath } from "node:url";
 import { evaluateState, formatIntervention } from "../hooks/lore-guard.mjs";
 import { claimAnnounce, readReceipt, snapshot, unnamedBodies, writeReceipt, RECEIPT } from "../hooks/lore-state.mjs";
 import { DEFECTO_NIVEL, NIVELES, estado, estadoDir, marca } from "../hooks/lore-turno.mjs";
+import { scanHygiene, salidaHygiene } from "./hygiene.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const packageRoot = resolve(here, "..", "..");
@@ -36,6 +38,7 @@ function usage(stream = process.stderr) {
     "       lore-cli mycelium bodies    [--tree <dir>]",
     "       lore-cli mycelium federated [--tree <dir>]",
     "       lore-cli mycelium announce  [--tree <dir>]",
+    "       lore-cli hygiene [ruta] [--json]",
     "       lore-cli nivel [off|lite|full]",
     "       lore-cli --help",
     "",
@@ -145,6 +148,20 @@ if (command === "mycelium") {
   console.log(`MYCELIUM state recorded for ${current.fileCount} Lore file(s) in ${tree}`);
   console.log("This records the state of the tree; it does not certify that the sweep ran (every clue getting a step, a junction written or declined with its reason).");
   console.log(`${RECEIPT}: ${value.digest.slice(0, 12)}...`);
+  process.exit(0);
+}
+
+// El escaneo de higiene de salida. `save-to-lore` lo ordena al cerrar cada pase y lo nombra
+// `lore-plugin hygiene`, que es la entrada de la via npm: en un host donde esa via no resuelve,
+// la orden no se puede correr donde se la pide (friccion 6, recibo de Desarrollo Web
+// 2026-10-04). Aqui se ofrece la MISMA escaneo, delegando en `hygiene.mjs` y con la misma
+// redaccion — no una copia: el escaneo y su salida son de solo lectura y no propongan nada
+// que no fuera a proponer la otra entrada.
+if (command === "hygiene") {
+  const targetPath = args.slice(1).find((arg) => arg !== "--json") ?? process.cwd();
+  for (const linea of salidaHygiene(scanHygiene(resolve(targetPath)), { json: args.includes("--json") })) {
+    console.log(linea);
+  }
   process.exit(0);
 }
 

@@ -9,7 +9,7 @@ import { installClaudeStatuslineFromInstalledCopy, uninstallClaudeStatusline } f
 import { evaluateState, formatIntervention } from "../hooks/lore-guard.mjs";
 import { claimAnnounce, unnamedBodies, readReceipt, snapshot, writeReceipt, RECEIPT } from "../hooks/lore-state.mjs";
 import { DEFECTO_NIVEL, NIVELES, estado, estadoDir, marca } from "../hooks/lore-turno.mjs";
-import { scanHygiene } from "./hygiene.mjs";
+import { scanHygiene, salidaHygiene } from "./hygiene.mjs";
 
 const args = process.argv.slice(2);
 const command = args[0];
@@ -63,14 +63,9 @@ if (command === "crystallize") {
 if (command === "hygiene") {
   const targetPath = args.slice(1).find((arg) => arg !== "--json") ?? process.cwd();
   const result = scanHygiene(resolve(targetPath));
-  if (args.includes("--json")) {
-    console.log(JSON.stringify(result, null, 2));
-  } else {
-    const omittedLinks = result.notCovered.some((item) => item.why === "enlace no seguido");
-    console.log(`${result.findings.length} hallazgos; cubiertas${omittedLinks ? " con omisiones" : ""}: ${result.coverage.join(", ")}; no cubiertas: ${result.notCovered.map((item) => `${item.class}${item.path ? ` ${item.path}` : ""} (${item.why})`).join("; ") || "ninguna"}.`);
-    for (const finding of result.findings) console.log(`  ${finding.class}: ${finding.path} - ${finding.why}`);
-    console.log("La higiene detecta y propone; no modifica archivos.");
-  }
+  // La redaccion vive en `hygiene.mjs` y no aca: la entrada local imprime el mismo escaneo
+  // con la misma forma, y dos redacciones del mismo hecho son dos verdades.
+  for (const linea of salidaHygiene(result, { json: args.includes("--json") })) console.log(linea);
   process.exit(0);
 }
 

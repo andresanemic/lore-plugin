@@ -205,6 +205,12 @@ export const LOCAL_HOME_DIR = ".lore-plugin";
 // ejecutable que no arranca es el mismo fallo que prometer la ruta y no cumplirla.
 export const LOCAL_CHAIN = [
   "scripts/lore-cli.mjs",
+  // La higiene de salida, que `save-to-lore` ordena al cerrar cada pase. La prosa la nombra
+  // `lore-plugin hygiene`, que es la entrada de la vía npm; la entrada local es la que cada
+  // host instala y la que `use-lore` nombra POR RUTA, así que sin este archivo la orden no
+  // se resuelve donde se la pide correr (fricción 6, 2026-10-04). `hygiene.mjs` no importa
+  // nada del kit —solo `node:fs` y `node:path`—, que es justo por lo que puede viajar.
+  "scripts/hygiene.mjs",
   "scripts/installer.mjs",
   "hooks/lore-guard.mjs",
   "hooks/lore-state.mjs",

@@ -1,4 +1,5 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
 import { join } from "node:path";
 
 // A skill with a `modes/` directory keeps SKILL.md as a lean dispatcher and moves each mode's
@@ -59,23 +60,44 @@ export function skillFiles(root, name) {
 // instala cada host. La prosa puede nombrar cualquiera de las dos, y lo que se afirma es que
 // el comando ordenado exista en lo INSTALADO, no cuál de los dos nombres usa la frase.
 //
+// Vuelve como mapa `comando -> [subcomandos]`, y no como una lista plana de palabras, porque
+// la exención se declara por comando y arrastra a sus subcomandos: `crystallize` no viaja y
+// entonces `pack` y `extract` tampoco, que es lo que pasa. Aplanar la lista obligaría a
+// exentar cada subcomando por su cuenta, y una lista de exenciones larga es una lista que
+// nadie lee.
+//
 // Vive acá y no en una prueba porque hay dos guardas que lo necesitan —la que mira las
 // entradas instaladas y la que mira las del repo— y dos extractores serían dos verdades
 // sobre la misma prosa: el segundo se queda viejo y no lo dice.
 export function comandosOrdenados(root) {
-  const tokens = new Set();
+  const pares = new Map();
+  const agregar = (comando, sub) => {
+    const subs = pares.get(comando) ?? [];
+    if (sub && !subs.includes(sub)) subs.push(sub);
+    pares.set(comando, subs);
+  };
   const skills = join(root, "skills");
   for (const entry of readdirSync(skills, { recursive: true })) {
     const name = String(entry);
     if (!name.endsWith(".md")) continue;
     const prosa = read(join(skills, name));
     for (const [, comando, sub] of prosa.matchAll(/(?:lore-plugin|lore-cli)\s+([a-z][a-z-]*)(?:\s+([a-z][a-z-]*))?/g)) {
-      tokens.add(comando);
-      if (sub) tokens.add(sub);
+      agregar(comando, sub);
     }
   }
-  return [...tokens].sort();
+  return pares;
 }
+
+// Lo que una entrada ANUNCIA: su `--help`. No se lee el archivo buscando el token, porque en
+// el archivo la palabra aparece también en los comentarios —`crystallize` está en el encabezado
+// de `lore-cli.mjs` justamente para explicar por qué NO viaja— y una guarda que busca
+// substrings no distingue código de explicación. La fricción se encontró leyendo la ayuda, así
+// que la guarda mira la ayuda: es la superficie que la persona ve antes de correr nada.
+export function ayudaDe(entrada) {
+  const r = spawnSync(process.execPath, [entrada, "--help"], { encoding: "utf8" });
+  return String(r.stdout ?? "") + String(r.stderr ?? "");
+}
+
 
 // Los que la entrada local NO ofrece, cada uno con su razón. Una lista sin razón es una
 // exención silenciosa, y una exención silenciosa es el defecto con otra forma: por eso la
