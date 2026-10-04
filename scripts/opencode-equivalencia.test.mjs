@@ -318,6 +318,12 @@ test("el fallo cerrado que sí exige el acuerdo es el del instalador: digest dis
   const packageRoot = join(base, "paquete");
   mkdirSync(join(packageRoot, "skills", "use-lore"), { recursive: true });
   mkdirSync(join(packageRoot, "hooks"), { recursive: true });
+  // El recibo de versión que OpenCode escribe al lado de sus skills se lee del paquete: sin la
+  // versión y sin la procedencia del kernel el instalador se niega, y un fixture que las omitiera
+  // estaria midiendo otro instalador. Esto lo dejo rojo el commit 7b58d1a al añadir el recibo.
+  writeFileSync(join(packageRoot, "package.json"), '{"name":"@andresanemic/lore-plugin","version":"2.0.0"}\n');
+  mkdirSync(join(packageRoot, "skills", "vespi", "core", "kernel"), { recursive: true });
+  writeFileSync(join(packageRoot, "skills", "vespi", "core", "kernel", "SOURCE.md"), "Fixed copy of the Vespi kernel **0.1.4** inside Lore Plugin **2.0.0**.\n");
   writeFileSync(join(packageRoot, "skills", "use-lore", "SKILL.md"), "---\nname: use-lore\n---\n");
   writeFileSync(join(packageRoot, "hooks", "opencode-plugin.js"), "export const P = async () => ({})\n");
   writeFileSync(join(packageRoot, "hooks", "opencode-input.mjs"), "export const input = true;\n");
