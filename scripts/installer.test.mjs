@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtempSync, mkdirSync, readdirSync, readFileSync, writeFileSync, existsSync, renameSync } from "node:fs";
+import { mkdtempSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync, existsSync, renameSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
@@ -202,6 +202,51 @@ test("OpenCode reinstala las skills locales y verifica su digest", () => {
 
   writeFileSync(join(result.skillsRoot, "use-lore", "SKILL.md"), "alterado\n");
   assert.equal(sameTree(join(packageRoot, "skills"), result.skillsRoot), false);
+});
+
+test("OpenCode reinstala cuando el checkout paso de LF a CRLF y la copia instalada quedo en LF", (t) => {
+  // El 2026-10-04, instalando de verdad: el arbol de trabajo en Windows quedo en CRLF y la copia
+  // instalada en LF. `sameTree` comparaba bytes y el instalador se negaba a actualizar
+  // `opencode-statusline.tui.tsx` con "Refusing to replace a different TUI plugin". La primera
+  // instalacion deja la copia en LF; la segunda ve el mismo paquete en CRLF y tiene que pasar.
+  const home = mkdtempSync(join(tmpdir(), "lore-opencode-crlf-"));
+  t.after(() => rmSync(home, { recursive: true, force: true }));
+  const packageRoot = makePackage();
+  const first = installOpenCode({ home, packageRoot });
+
+  const toCrlf = (root) => {
+    for (const file of readdirSync(root, { recursive: true, withFileTypes: true }).filter((entry) => entry.isFile())) {
+      const path = join(entry.parentPath, entry.name);
+      const text = readFileSync(path, "utf8");
+      if (text.includes("\n")) writeFileSync(path, text.replaceAll("\n", "\r\n"));
+    }
+  };
+  toCrlf(packageRoot);
+  assert.equal(readFileSync(join(packageRoot, "hooks", "opencode-statusline.tui.tsx"), "utf8").includes("\r\n"), true);
+
+  const second = installOpenCode({ home, packageRoot });
+  assert.equal(second.verified, true);
+  assert.equal(second.skillsRoot, first.skillsRoot);
+  assert.deepEqual(JSON.parse(readFileSync(second.tuiConfigPath, "utf8")).plugin, ["./plugins/opencode-statusline.tui.tsx"]);
+  // Y la copia instalada queda con los bytes del origen: la comparación se relaja, la escritura no.
+  assert.equal(
+    readFileSync(join(second.tuiRoot, "opencode-statusline.tui.tsx"), "utf8"),
+    readFileSync(join(packageRoot, "hooks", "opencode-statusline.tui.tsx"), "utf8"),
+  );
+});
+
+test("OpenCode sigue negandose a reemplazar un TUI ajeno que cambio de verdad", (t) => {
+  // El relax de CR+LF no puede volver permisiva la comparacion: un TUI de otro que cambio de
+  // verdad sigue siendo un TUI de otro, y la negativa tiene que seguir siendo la misma.
+  const home = mkdtempSync(join(tmpdir(), "lore-opencode-tui-ajeno-"));
+  t.after(() => rmSync(home, { recursive: true, force: true }));
+  const configRoot = join(home, ".config", "opencode");
+  mkdirSync(join(configRoot, "plugins"), { recursive: true });
+  const ajeno = readFileSync(join(makePackage(), "hooks", "opencode-statusline.tui.tsx"), "utf8")
+    .replace("app_bottom", "app_top");
+  writeFileSync(join(configRoot, "plugins", "opencode-statusline.tui.tsx"), ajeno.replaceAll("\n", "\r\n"));
+  assert.throws(() => installOpenCode({ home, packageRoot: makePackage() }), /Refusing to replace a different TUI plugin/);
+  assert.equal(readFileSync(join(configRoot, "plugins", "opencode-statusline.tui.tsx"), "utf8"), ajeno.replaceAll("\n", "\r\n"));
 });
 
 test("OpenCode instala la marca TUI en app_bottom y conserva su configuración y plugins", () => {
