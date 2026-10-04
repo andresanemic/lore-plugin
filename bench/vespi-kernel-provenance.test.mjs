@@ -19,8 +19,8 @@ const kit = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const kernelDir = join(kit, "skills", "vespi", "core", "kernel");
 
 // El corte que RC5 adopta. No se lee de SOURCE.md: SOURCE.md es parte de lo que se verifica.
-const PINNED_COMMIT = "892bd9104ab0a83376b8dbc33d56737c5888a1d3";
-const PINNED_MODULES = ["authority.js", "continuity.js", "delegation.js", "operation.js", "receipt.js"];
+const PINNED_COMMIT = "fde2ee08789e3d30517148e224310faace7e488c";
+const PINNED_MODULES = ["authority.js", "continuity.js", "delegation.js", "operation.js", "receipt.js", "time.js"];
 const short = PINNED_COMMIT.slice(0, 7);
 
 // Dónde vive la fuente canónica, para leer los bytes EN el commit fijado y no desde el directorio
