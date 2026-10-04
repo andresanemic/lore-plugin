@@ -126,3 +126,31 @@ test("reversible: no toca un statusLine ajeno al desinstalar", () => {
   assert.throws(() => uninstallClaudeStatusline({ home, packageRoot }), /foreign|ajeno|Refusing/i);
   assert.equal(readFileSync(settingsPath, "utf8"), antes);
 });
+
+test("actualiza la marca nuestra de una versión anterior de la caché (RC previa) a la nueva", () => {
+  const home = homeTmp();
+  const claudeDir = join(home, ".claude");
+  mkdirSync(claudeDir, { recursive: true });
+  const previo = `node "${home.replaceAll("\\", "/")}/.claude/plugins/cache/lore-plugin/lore/2.4.9-rc.6/hooks/statusline.mjs"`;
+  writeFileSync(join(claudeDir, "settings.json"), JSON.stringify({ model: "x", statusLine: { type: "command", command: previo } }));
+  const nueva = join(home, ".claude", "plugins", "cache", "lore-plugin", "lore", "2.4.9");
+  mkdirSync(join(nueva, "hooks"), { recursive: true });
+  writeFileSync(join(nueva, "hooks", "statusline.mjs"), "// hook de prueba");
+  const result = installClaudeStatusline({ home, packageRoot: nueva });
+  const settings = JSON.parse(readFileSync(join(claudeDir, "settings.json"), "utf8"));
+  assert.equal(settings.model, "x");
+  assert.equal(settings.statusLine.command, statuslineCommandFor({ packageRoot: nueva }));
+  assert.equal(result.upgraded, true);
+});
+
+test("sigue rehusando un statusline.mjs de otra ubicación aunque tenga el mismo nombre de archivo", () => {
+  const home = homeTmp();
+  const claudeDir = join(home, ".claude");
+  mkdirSync(claudeDir, { recursive: true });
+  const ajeno = 'node "C:/otro/lore/9.9.9/hooks/statusline.mjs"';
+  writeFileSync(join(claudeDir, "settings.json"), JSON.stringify({ statusLine: { type: "command", command: ajeno } }));
+  const nueva = join(home, ".claude", "plugins", "cache", "lore-plugin", "lore", "2.4.9");
+  mkdirSync(join(nueva, "hooks"), { recursive: true });
+  writeFileSync(join(nueva, "hooks", "statusline.mjs"), "// hook de prueba");
+  assert.throws(() => installClaudeStatusline({ home, packageRoot: nueva }), /foreign|ajeno|Refusing/i);
+});

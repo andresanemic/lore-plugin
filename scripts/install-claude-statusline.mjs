@@ -38,6 +38,16 @@ function esNuestra(entry, expectedCommand) {
   );
 }
 
+// Una marca nuestra de una versión anterior vive en la caché del propio usuario, con la forma
+// node "<home>/.claude/plugins/cache/lore-plugin/lore/<version>/hooks/statusline.mjs". Se actualiza a la
+// nueva; cualquier otra ruta, aunque termine en statusline.mjs, sigue siendo ajena.
+function esVersionAnteriorNuestra(entry, home) {
+  if (entry === null || typeof entry !== "object" || entry.type !== "command" || typeof entry.command !== "string") return false;
+  const base = String(home).replaceAll("\\", "/").replace(/\/+$/, "");
+  const m = /^node "(.+)\/\.claude\/plugins\/cache\/lore-plugin\/lore\/[^/"]+\/hooks\/statusline\.mjs"$/.exec(entry.command.replaceAll("\\", "/"));
+  return m !== null && m[1].toLowerCase() === base.toLowerCase();
+}
+
 function leerSettings(path) {
   return JSON.parse(readFileSync(path, "utf8"));
 }
@@ -74,6 +84,10 @@ export function installClaudeStatusline({ home, packageRoot }) {
   }
   if (esNuestra(actual, command)) {
     return { settingsPath, command, created: false, reused: true };
+  }
+  if (esVersionAnteriorNuestra(actual, home)) {
+    escribirSettings(settingsPath, { ...settings, statusLine: { type: "command", command } });
+    return { settingsPath, command, created: false, reused: false, upgraded: true };
   }
   throw new Error(
     `Refusing to overwrite foreign statusLine at ${settingsPath}: instalación explícita requerida (--force no implementado)`,
