@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, mkdirSync, writeFileSync } from "node:fs";
+import { mkdtempSync, mkdirSync, readdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -120,4 +120,45 @@ test("la entrada local lore-cli con comando desconocido sale distinto de cero", 
   const r = runScript(entry, ["no-existe"], repo);
   assert.notEqual(r.code, 0);
   assert.match(r.out, /Usage: lore-cli/);
+});
+
+// --- R4, fricción 6: la higiene que la prosa ordena, en la entrada que se nombra por ruta ---
+//
+// `save-to-lore` pide `lore-plugin hygiene <ruta>` al cerrar cada pase. La entrada que cada
+// host instala y que `use-lore`/`transmute-lore` nombran por ruta no lo ofrecía. Estas
+// pruebas no comprueban que el token esté en el archivo —eso lo hace la guarda de prosa—:
+// comprueban que el comando CORRA, que no escriba nada y que diga lo mismo que la otra
+// entrada. La última es la que importa: si las dos entradas imprimieran el mismo escaneo
+// con dos redacciones, habría dos verdades y la segunda mentiría sin querer.
+test("la entrada local ofrece hygiene, no escribe nada y dice lo mismo que la entrada completa", () => {
+  const entry = join(repo, "scripts", "lore-cli.mjs");
+  const { root, bot } = makeBot();
+  // Algo que la higiene tiene que ver: un `.tmp-*` en la raíz del área.
+  mkdirSync(join(root, ".tmp-scratch"), { recursive: true });
+
+  const antes = readdirSync(root).sort();
+  const completo = run(["hygiene", root], repo);
+  const local = runScript(entry, ["hygiene", root], repo);
+
+  assert.equal(local.code, 0, `la entrada local no ofrece hygiene: ${local.out}`);
+  assert.deepEqual(readdirSync(root).sort(), antes, "la higiene propone; no crea ni borra nada");
+  assert.equal(local.out, completo.out, "las dos entradas dicen lo mismo: una salida, no dos verdades");
+  assert.match(local.out, /\.tmp-scratch/, "y el hallazgo que la otra entrada encuentra, también");
+  assert.match(local.out, /no modifica archivos/i);
+});
+
+test("la entrada local hygiene acepta --json y devuelve el mismo escaneo", () => {
+  const entry = join(repo, "scripts", "lore-cli.mjs");
+  const { root } = makeBot();
+  mkdirSync(join(root, ".tmp-scratch"), { recursive: true });
+  const completo = run(["hygiene", root, "--json"], repo);
+  const local = runScript(entry, ["hygiene", root, "--json"], repo);
+  assert.equal(local.code, 0, local.out);
+  assert.deepEqual(JSON.parse(local.out), JSON.parse(completo.out));
+});
+
+test("la guía de la entrada local nombra hygiene", () => {
+  const entry = join(repo, "scripts", "lore-cli.mjs");
+  const r = runScript(entry, ["--help"], repo);
+  assert.match(r.out, /lore-cli hygiene \[ruta\]/);
 });

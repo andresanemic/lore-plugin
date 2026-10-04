@@ -320,6 +320,37 @@ for it when you need a decision instead of a paragraph. **The document is `acuer
 root, beside `FASES.md` and never inside `lore/`; the machine-readable state is `.lore-acuerdo`**
 beside it — the document is appended to, the receipt is rewritten.
 
+### An agreement they already wrote, in their own language
+
+Someone may hand you an `acuerdo.md` they wrote themselves, in their language, with their own
+headings. **Do not rewrite it, do not translate it, and do not ask them to adopt ours.** Record it
+as it is:
+
+```bash
+node <ruta-del-kit>/skills/use-lore/scripts/acuerdo.mjs registrar-escrito --raiz "<root>" --ahora <YYYY-MM-DD>
+```
+
+That checks the document exists, is not empty and is text, computes its digest, and writes the
+`.lore-acuerdo` receipt the kit already reads — so `hayAcuerdo()` answers yes and the first use
+stops offering. **It records no dial, no limit and no recap, because they did not write any**, and
+the kit keeps operating with its defaults; inventing a value the person never chose would be worse
+than having no receipt. Refused, each with its reason: a missing, empty or non-text file, a path
+that leaves the tree, and a receipt whose digest no longer matches the document — that last one
+means the text changed outside an amendment, and the door for it is the amendment, not a new record.
+
+**And a change in prose.** What follows does not fit the closed vocabularies — not a dial, not a
+limit, not a covered piece — and that is not a mistake on their part:
+
+```bash
+node <ruta-del-kit>/skills/use-lore/scripts/acuerdo.mjs enmendar-prosa --raiz "<root>" --ahora <YYYY-MM-DD> --autorizado true --texto "<their words>"
+```
+
+It appends their sentence, dated, under a heading, at the end, and updates the receipt's digest.
+Everything above stays byte for byte. Same three doors as any amendment: a registered agreement,
+**their word** (`--autorizado`), and a real date — without one of them nothing is written and the
+answer says which. Both paths are offered, never taken on your own: the file being there is not
+approval, and `hayAcuerdo()` keeps answering no until someone runs the record.
+
 ### Who appears, and when — the everyday phrases
 
 Three skills answer the three ways a person says something ordinary. Which one answers is decided

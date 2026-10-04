@@ -158,3 +158,18 @@ function readdirTree(fs, root) {
   }
   return files;
 }
+
+// La REDACCIÓN vive acá y no en cada entrada. Hay dos: la de la vía npm/marketplace
+// (`lore-plugin.mjs`) y la local que instala cada host (`lore-cli.mjs`). Dos entradas que
+// imprimen el mismo escaneo con dos redacciones son dos verdades sobre el mismo hecho, y la
+// segunda se queda vieja sin que nada lo diga — que es como un escaneo de higiene termina
+// mintiendo sobre lo que cubre. Una lista de líneas, y las dos la recorren igual.
+export function salidaHygiene(result, { json = false } = {}) {
+  if (json) return [JSON.stringify(result, null, 2)];
+  const omittedLinks = result.notCovered.some((item) => item.why === "enlace no seguido");
+  return [
+    `${result.findings.length} hallazgos; cubiertas${omittedLinks ? " con omisiones" : ""}: ${result.coverage.join(", ")}; no cubiertas: ${result.notCovered.map((item) => `${item.class}${item.path ? ` ${item.path}` : ""} (${item.why})`).join("; ") || "ninguna"}.`,
+    ...result.findings.map((finding) => `  ${finding.class}: ${finding.path} - ${finding.why}`),
+    "La higiene detecta y propone; no modifica archivos.",
+  ];
+}

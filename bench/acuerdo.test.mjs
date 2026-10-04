@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import {
   existsSync,
   mkdirSync,
@@ -7,6 +8,7 @@ import {
   readFileSync,
   readdirSync,
   rmSync,
+  symlinkSync,
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
@@ -1198,4 +1200,297 @@ test("12: sin las tres puertas no se toca un arbol que no tiene acuerdo aprobado
   } finally {
     limpiar(root);
   }
+});
+
+// --- 14. el acuerdo que la persona YA escribió (fricción 1, R4) ---------------------
+//
+// Recibo de la sesión de Desarrollo Web (2026-10-04): `registrar` se niega si `acuerdo.md`
+// existe, y su plantilla trae encabezados en inglés. El bot tuvo que generar el recibo con su
+// propio código en un directorio temporal y copiarlo, porque no había camino. Y `enmendar` solo
+// entiende perillas, límites y piezas cubiertas, así que una enmienda en prosa no tenía puerta.
+//
+// Lo que se añade NO reescribe ni traduce a la persona: verifica, calcula una huella y escribe
+// el recibo que el kit ya reconoce. Y no se activa solo: el documento puede estar ahí desde antes
+// y el kit sigue sin acuerdo hasta que alguien registre.
+
+const PROSA = [
+  "# Acuerdo de trabajo — Desarrollo Web con IA",
+  "",
+  "Este acuerdo lo escribió Andrés, en su idioma y con sus palabras. El kit no lo tradujo,",
+  "no lo reescribió y no le puso encabezados en inglés.",
+  "",
+  "Por qué: queremos que el sitio salga sin que nadie lo vigile, y que las decisiones queden",
+  "escritas antes de construirlas.",
+  "",
+  "Cómo trabajamos: una idea por respuesta, tú a tú, sin tablas largas. El registro se escribe",
+  "en `notas/` y en `FASES.md`, no en la conversación.",
+  "",
+  "Lo que no se mueve sin tu palabra: congelar o publicar una versión, escribir criterio fuera",
+  "de la skill, e imponer este acuerdo.",
+  "",
+].join("\n");
+
+const huella = (root) => {
+  return createHash("sha256")
+    .update(readFileSync(join(root, "acuerdo.md"), "utf8").replace(/\r\n/g, "\n"))
+    .digest("hex");
+};
+
+test("14a: un acuerdo que la persona ya escribió se registra sin reescribirlo ni traducirlo", async () => {
+  const { registrarEscrito, leer, hayAcuerdo, primeraVez, sinAcuerdo, puedeOperar } = await MODULO();
+  const root = tree();
+  try {
+    writeFileSync(join(root, "acuerdo.md"), PROSA, "utf8");
+    const antes = readFileSync(join(root, "acuerdo.md"), "utf8");
+
+    const r = registrarEscrito({ raiz: root, ahora: HOY });
+    assert.equal(r.escrito, true, `el registro debería escribirse: ${r.falta}`);
+    assert.equal(readFileSync(join(root, "acuerdo.md"), "utf8"), antes,
+      "el texto de la persona queda byte a byte: ni reescrito ni traducido");
+
+    // Y el recibo es el que el kit ya reconoce: el acuerdo existe para todo lo demás.
+    assert.equal(hayAcuerdo(root), true, "el kit reconoce el acuerdo registrado");
+    const recibo = leer(root);
+    assert.equal(recibo.aprobado, true);
+    assert.equal(recibo.aprobadoEn, HOY);
+    assert.equal(recibo.documentoDigest, huella(root), "el recibo guarda la huella del texto de la persona");
+    assert.equal(primeraVez({ raiz: root, trabajo: { sesiones: 9 } }).motivo, "ya-hay-acuerdo");
+
+    // Y NO inventa lo que la persona no escribió: no hay perillas, no hay límites, no hay recap.
+    for (const campo of ["intensidad", "ritmo", "cubre", "limites", "resumen"]) {
+      assert.equal(recibo[campo], undefined, `el recibo inventó «${campo}» de un acuerdo en prosa`);
+    }
+    assert.equal(sinAcuerdo(recibo).intensidad, "cercana", "sin perillas declaradas, el valor por defecto");
+    assert.equal(sinAcuerdo(recibo).limites.length, 0);
+    assert.equal(puedeOperar(recibo), true, "un acuerdo que no declara perillas no es un acuerdo ilegible");
+  } finally {
+    limpiar(root);
+  }
+});
+
+test("14b: no se registra lo que no existe, ni lo que está vacío", async () => {
+  const { registrarEscrito, hayAcuerdo } = await MODULO();
+  try {
+    const vacio = tree();
+    try {
+      const r = registrarEscrito({ raiz: vacio, ahora: HOY });
+      assert.equal(r.escrito, false);
+      assert.equal(r.falta, "no-existe", "un acuerdo que no existe no se registra: se dice cuál falta");
+      assert.equal(hayAcuerdo(vacio), false);
+      assert.equal(existsSync(join(vacio, ".lore-acuerdo")), false, "ni recibo: no hay nada que registrar");
+    } finally { limpiar(vacio); }
+
+    for (const [nombre, cuerpo] of [["vacío", ""], ["solo espacios", "   \n\n\t\n"]]) {
+      const root = tree();
+      try {
+        writeFileSync(join(root, "acuerdo.md"), cuerpo, "utf8");
+        const r = registrarEscrito({ raiz: root, ahora: HOY });
+        assert.equal(r.escrito, false, `un acuerdo ${nombre} no es un acuerdo`);
+        assert.equal(r.falta, "vacio");
+        assert.equal(existsSync(join(root, ".lore-acuerdo")), false);
+      } finally { limpiar(root); }
+    }
+  } finally { /* los temporales de cada rama se limpian arriba */ }
+});
+
+test("14c: una ruta que sale del árbol no se registra, y una raíz que no es directorio tampoco", async () => {
+  const { registrarEscrito } = await MODULO();
+  const base = tree();
+  try {
+    const root = join(base, "arbol");
+    mkdirSync(root, { recursive: true });
+    const fuera = join(base, "fuera");
+    mkdirSync(fuera, { recursive: true });
+    writeFileSync(join(fuera, "acuerdo.md"), PROSA, "utf8");
+    // Un enlace de directorio —junction— que apunta afuera. Es la forma en que una ruta sale
+    // del árbol en Windows sin privilegios, y por eso la guarda mira el enlace, no el destino.
+    symlinkSync(fuera, join(root, "acuerdo.md"), "junction");
+
+    const r = registrarEscrito({ raiz: root, ahora: HOY });
+    assert.equal(r.escrito, false);
+    assert.equal(r.falta, "no-regular", "un enlace no es el archivo de este árbol");
+    assert.equal(existsSync(join(root, ".lore-acuerdo")), false);
+    assert.equal(existsSync(join(fuera, ".lore-acuerdo")), false, "y no se escribe nada en el árbol de afuera");
+
+    const noRaiz = join(base, "esto-es-un-archivo");
+    writeFileSync(noRaiz, "x", "utf8");
+    const r2 = registrarEscrito({ raiz: noRaiz, ahora: HOY });
+    assert.equal(r2.escrito, false);
+    assert.equal(r2.falta, "raiz", "una raíz que no es directorio no es un árbol");
+  } finally { limpiar(base); }
+});
+
+test("14d: un archivo ajeno a un acuerdo no se registra como acuerdo", async () => {
+  const { registrarEscrito } = await MODULO();
+  const root = tree();
+  try {
+    // Nulos dentro: es lo que distingue un texto de un binario sin inventar una lista de
+    // extensiones, y funciona igual para un .png renombrado que para un volcado de memoria.
+    writeFileSync(join(root, "acuerdo.md"), Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x00, 0x1a, 0x0a, 0x00]));
+    const r = registrarEscrito({ raiz: root, ahora: HOY });
+    assert.equal(r.escrito, false);
+    assert.equal(r.falta, "no-texto", "un binario no es un acuerdo, por mucho que se llame acuerdo.md");
+    assert.equal(existsSync(join(root, ".lore-acuerdo")), false);
+  } finally { limpiar(root); }
+});
+
+test("14e: un recibo que no coincide con el texto actual no se pisa, y uno que sí es idempotente", async () => {
+  const { registrarEscrito, enmendarEnProsa, leer } = await MODULO();
+  const root = tree();
+  try {
+    writeFileSync(join(root, "acuerdo.md"), PROSA, "utf8");
+    assert.equal(registrarEscrito({ raiz: root, ahora: HOY }).escrito, true);
+
+    // Registrar de nuevo sin que nada cambie: se dice que ya existe y se manda a enmendar.
+    const repetido = registrarEscrito({ raiz: root, ahora: "2026-10-09" });
+    assert.equal(repetido.escrito, false);
+    assert.equal(repetido.falta, "ya-existe");
+    assert.equal(repetido.redirige, "enmendar");
+
+    // Y si el texto cambió SIN pasar por una enmienda, el recibo viejo ya no describe el
+    // documento: se dice en voz alta en vez de registrar una huella que no es la de nada.
+    writeFileSync(join(root, "acuerdo.md"), `${PROSA}\nUna línea que nadie pasó por enmienda.\n`, "utf8");
+    const desfasado = registrarEscrito({ raiz: root, ahora: "2026-10-09" });
+    assert.equal(desfasado.escrito, false);
+    assert.equal(desfasado.falta, "recibo-desfasado");
+    assert.equal(leer(root).documentoDigest !== huella(root), true, "el recibo viejo sigue diciendo la verdad que decía");
+    // La puerta correcta: enmendar, que actualiza la huella.
+    enmendarEnProsa({ raiz: root, texto: "El registro se escribe en `notas/` y en `FASES.md`.", ahora: "2026-10-09", autorizado: true });
+    assert.equal(leer(root).documentoDigest, huella(root), "tras la enmienda, la huella vuelve a ser la del texto");
+    assert.equal(registrarEscrito({ raiz: root, ahora: "2026-10-09" }).falta, "ya-existe");
+  } finally { limpiar(root); }
+});
+
+test("14f: el acuerdo se ofrece, no se impone — el documento solo no registra nada", async () => {
+  const { hayAcuerdo, leer, primeraVez } = await MODULO();
+  const root = tree();
+  try {
+    writeFileSync(join(root, "acuerdo.md"), PROSA, "utf8");
+    assert.equal(hayAcuerdo(root), false, "tener el documento no es tener un acuerdo aprobado");
+    assert.equal(leer(root), null);
+    assert.equal(existsSync(join(root, ".lore-acuerdo")), false, "y no se escribe nada solo por estar el archivo");
+    // El umbral sigue ofreciendo, porque el registro es un acto y el acto no pasó.
+    assert.equal(primeraVez({ raiz: root, trabajo: { sesiones: 4 } }).ofrece, true);
+  } finally { limpiar(root); }
+});
+
+// --- 15. la enmienda en prosa (fricción 1, R4) ---------------------------------------
+
+test("15a: una enmienda en prosa, fechada, se agrega al final y actualiza el recibo", async () => {
+  const { registrarEscrito, enmendarEnProsa, leer } = await MODULO();
+  const root = tree();
+  try {
+    writeFileSync(join(root, "acuerdo.md"), PROSA, "utf8");
+    registrarEscrito({ raiz: root, ahora: HOY });
+    const antes = readFileSync(join(root, "acuerdo.md"), "utf8");
+
+    const r = enmendarEnProsa({
+      raiz: root,
+      texto: "Añadido: los playgrounds nuevos también se prueban antes de entregar.",
+      ahora: "2026-10-09",
+      autorizado: true,
+    });
+    assert.equal(r.enmendada, true, "una enmienda en prosa es una enmienda");
+
+    const despues = readFileSync(join(root, "acuerdo.md"), "utf8");
+    assert.ok(despues.startsWith(antes), "lo de arriba queda byte a byte: la enmienda se AGREGA");
+    assert.match(despues.slice(antes.length), /^## Amendment 2026-10-09/m);
+    assert.match(despues.slice(antes.length), /los playgrounds nuevos/);
+    // Y no tuvo que entrar en ninguna categoría: ni perilla, ni límite, ni pieza cubierta.
+    // El registro NO es una enmienda: la fecha de apertura vive en `aprobadoEn`, y la lista
+    // de enmiendas empieza vacía. Meter la apertura ahí sería llamar enmienda a lo que no lo es.
+    assert.deepEqual(leer(root).enmiendas.map((e) => e.fecha), ["2026-10-09"]);
+    assert.equal(leer(root).enmiendas.at(-1).que, "prosa");
+    assert.equal(leer(root).documentoDigest, huella(root), "el recibo sigue describiendo el documento");
+  } finally { limpiar(root); }
+});
+
+test("15b: sin la palabra de la persona no hay enmienda, ni de prosa", async () => {
+  const { registrarEscrito, enmendarEnProsa, leer } = await MODULO();
+  const root = tree();
+  try {
+    writeFileSync(join(root, "acuerdo.md"), PROSA, "utf8");
+    registrarEscrito({ raiz: root, ahora: HOY });
+    const antes = readFileSync(join(root, "acuerdo.md"), "utf8");
+
+    const r = enmendarEnProsa({ raiz: root, texto: "Cambio sin permiso.", ahora: "2026-10-09", autorizado: false });
+    assert.equal(r.enmendada, false);
+    assert.equal(readFileSync(join(root, "acuerdo.md"), "utf8"), antes, "y el documento no se toca");
+    assert.equal(leer(root).enmiendas, undefined, "ni el recibo se toca");
+  } finally { limpiar(root); }
+});
+
+test("15c: una enmienda en prosa sin fecha, o con una fecha que no existe, se rechaza", async () => {
+  const { registrarEscrito, enmendarEnProsa } = await MODULO();
+  const root = tree();
+  try {
+    writeFileSync(join(root, "acuerdo.md"), PROSA, "utf8");
+    registrarEscrito({ raiz: root, ahora: HOY });
+    const antes = readFileSync(join(root, "acuerdo.md"), "utf8");
+
+    for (const ahora of [null, undefined, "", "ayer", "2026-13-01", "2026-02-30", "09-10-2026", 20261009]) {
+      assert.throws(
+        () => enmendarEnProsa({ raiz: root, texto: "Lo que sea.", ahora, autorizado: true }),
+        /fecha/i,
+        `una enmienda con «${String(ahora)}» no es una enmienda fechada`,
+      );
+    }
+    assert.equal(readFileSync(join(root, "acuerdo.md"), "utf8"), antes, "ninguna entró");
+  } finally { limpiar(root); }
+});
+
+test("15d: no hay enmienda en prosa donde no hay acuerdo registrado", async () => {
+  const { enmendarEnProsa, hayAcuerdo } = await MODULO();
+  const root = tree();
+  try {
+    // El archivo existe y está lleno, pero nadie lo registró: esto no es un acuerdo todavía.
+    writeFileSync(join(root, "acuerdo.md"), PROSA, "utf8");
+    const r = enmendarEnProsa({ raiz: root, texto: "Lo que sea.", ahora: "2026-10-09", autorizado: true });
+    assert.equal(r.enmendada, false);
+    assert.equal(r.razon, "sin-acuerdo-registrado");
+    assert.equal(hayAcuerdo(root), false);
+    assert.match(readFileSync(join(root, "acuerdo.md"), "utf8"), /^# Acuerdo de trabajo/, "el documento sigue sin tocarse");
+  } finally { limpiar(root); }
+});
+
+test("15e: las enmiendas en prosa se acumulan sin borrarse", async () => {
+  const { registrarEscrito, enmendarEnProsa, leer } = await MODULO();
+  const root = tree();
+  try {
+    writeFileSync(join(root, "acuerdo.md"), PROSA, "utf8");
+    registrarEscrito({ raiz: root, ahora: HOY });
+    for (const [fecha, texto] of [["2026-10-01", "Uno."], ["2026-10-02", "Dos."], ["2026-10-03", "Tres."]]) {
+      assert.equal(enmendarEnProsa({ raiz: root, texto, ahora: fecha, autorizado: true }).enmendada, true);
+    }
+    assert.deepEqual(leer(root).enmiendas.map((e) => e.fecha), ["2026-10-01", "2026-10-02", "2026-10-03"]);
+    const doc = readFileSync(join(root, "acuerdo.md"), "utf8");
+    assert.equal(["Uno.", "Dos.", "Tres."].every((t) => doc.includes(t)), true);
+    assert.equal(leer(root).documentoDigest, huella(root));
+  } finally { limpiar(root); }
+});
+
+test("15f: los dos comandos nuevos se ejecutan de verdad desde la línea de órdenes", async () => {
+  const root = tree();
+  try {
+    writeFileSync(join(root, "acuerdo.md"), PROSA, "utf8");
+    const registrado = JSON.parse(CLI(root, "registrar-escrito", "--raiz", "{raiz}", "--ahora", HOY));
+    assert.equal(registrado.escrito, true, `el comando no registró: ${JSON.stringify(registrado)}`);
+    assert.equal(registrado.falta, null);
+
+    const enmienda = JSON.parse(CLI(root, "enmendar-prosa", "--raiz", "{raiz}", "--ahora", "2026-10-09", "--autorizado", "true", "--texto", "Se prueban los dos playgrounds."));
+    assert.equal(enmienda.enmendada, true);
+    assert.match(readFileSync(join(root, "acuerdo.md"), "utf8"), /Se prueban los dos playgrounds\./);
+    assert.equal(JSON.parse(readFileSync(join(root, ".lore-acuerdo"), "utf8")).documentoDigest, huella(root));
+  } finally { limpiar(root); }
+});
+
+test("15g: la línea de órdenes rechaza un texto vacío y un subcomando desconocido", async () => {
+  const root = tree();
+  try {
+    writeFileSync(join(root, "acuerdo.md"), PROSA, "utf8");
+    assert.equal(JSON.parse(CLI(root, "registrar-escrito", "--raiz", "{raiz}", "--ahora", HOY)).escrito, true);
+    const vacio = JSON.parse(CLI(root, "enmendar-prosa", "--raiz", "{raiz}", "--ahora", "2026-10-09", "--autorizado", "true", "--texto", "   "));
+    assert.equal(vacio.enmendada, false, "una enmienda sin texto no es una enmienda");
+    assert.equal(vacio.razon, "sin-texto");
+  } finally { limpiar(root); }
 });

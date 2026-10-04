@@ -32,8 +32,9 @@
 //      o con los limites renderizados como `[object Object]`, es una enmienda que pierde
 //      informacion. Las tres se comprueban.
 
-import { appendFileSync, existsSync, readFileSync, renameSync, unlinkSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { createHash } from "node:crypto";
+import { appendFileSync, existsSync, lstatSync, readFileSync, renameSync, unlinkSync, writeFileSync } from "node:fs";
+import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 export const ACUERDO = "acuerdo.md";
@@ -451,6 +452,186 @@ export function hayAcuerdo(raiz) {
   return leer(raiz) !== null;
 }
 
+// --- el acuerdo que la persona YA escribió (fricción 1, R4) ------------------------
+//
+// `registrar` se niega cuando `acuerdo.md` ya existe, y su plantilla trae encabezados en
+// inglés. Eso cerraba la puerta a un acuerdo que la persona hubiera escrito en su idioma: el
+// bot de Desarrollo Web (2026-10-04) tuvo que fabricar el recibo con su propio código en un
+// directorio temporal y copiarlo, porque no había camino. Aquí lo hay.
+//
+// Lo que hace es lo UNO que un recibo es: un hecho. Que el documento existe, que no está
+// vacío, que es texto, y qué bytes tiene. Lo que NO hace, y por eso se dice aquí, es reescribir
+// el documento ni traducirlo ni deducir de él unas perillas que la persona no escribió. Un
+// recibo con `intensidad` inventada sería peor que no tener recibo: `leer()` lo devolvería y
+// el kit operaría con un valor que nadie eligió.
+//
+// Y no se activa solo. Tener `acuerdo.md` en el árbol no registra nada: el registro es un acto,
+// y el acto lo hace quien decide. Ver `14f`.
+
+// La huella es del CONTENIDO y normalizada a LF, igual que la del estado de Lore
+// (`hooks/lore-state.mjs`): tocar el archivo sin cambiarlo no cambia la huella, y el mismo
+// documento da la misma huella en otra máquina.
+function huellaDocumento(cuerpo) {
+  return createHash("sha256").update(String(cuerpo).replace(/\r\n/g, "\n")).digest("hex");
+}
+
+// Un acuerdo es texto. La pregunta es qué lo hace texto, y la respuesta no es una lista de
+// extensiones —un `.png` renombrado a `acuerdo.md` la pasa— sino el contenido: UTF-8 que
+// vuelve a sí mismo al codificar, y sin caracteres de control que no sean de línea. Un
+// volcado de memoria o un binario fallan las dos cosas.
+function esTexto(cuerpo) {
+  const bytes = Buffer.from(cuerpo, "utf8");
+  if (!Buffer.from(bytes.toString("utf8"), "utf8").equals(bytes)) return false;
+  let control = 0;
+  for (let i = 0; i < bytes.length; i += 1) {
+    const b = bytes[i];
+    if (b === 9 || b === 10 || b === 13) continue;
+    if (b < 32 || b === 127) control += 1;
+  }
+  return bytes.length === 0 || control / bytes.length < 0.02;
+}
+
+function leerDocumento(raiz) {
+  // La raíz tiene que ser un directorio. Un archivo no es un árbol, y sin árbol no hay dónde
+  // escribir el recibo: decirlo es más honesto que escribir un recibo al lado de un archivo.
+  let raizReal;
+  try {
+    raizReal = lstatSync(raiz);
+  } catch {
+    return { falta: "raiz" };
+  }
+  if (!raizReal.isDirectory()) return { falta: "raiz" };
+
+  const ruta = join(raiz, ACUERDO);
+  // `lstat` y no `stat`: un enlace —o un junction, que en Windows no necesita privilegios—
+  // es la forma en que una ruta sale del árbol sin que nada lo parezca. Se mira el enlace, no
+  // el destino, y un enlace no es el archivo de este árbol.
+  let info;
+  try {
+    info = lstatSync(ruta);
+  } catch {
+    return { falta: "no-existe" };
+  }
+  if (info.isSymbolicLink() || !info.isFile()) return { falta: "no-regular" };
+
+  const crudo = readFileSync(ruta);
+  if (!esTexto(crudo)) return { falta: "no-texto" };
+  const cuerpo = crudo.toString("utf8");
+  if (cuerpo.trim() === "") return { falta: "vacio" };
+  return { cuerpo, huella: huellaDocumento(cuerpo) };
+}
+
+/**
+ * Registra un acuerdo que la persona ya escribió. No reescribe ni traduce el texto: verifica
+ * que el documento exista y tenga contenido, calcula su huella y escribe el recibo `.lore-acuerdo`
+ * que el kit ya reconoce. Se ofrece; nunca se activa solo.
+ */
+export function registrarEscrito({ raiz, ahora } = {}) {
+  const leido = leerDocumento(raiz);
+  if (leido.falta) return { escrito: false, falta: leido.falta, ruta: ACUERDO };
+
+  // Un recibo que ya existe tiene la última palabra sobre si el documento sigue siendo el que
+  // se registró. Si coincide, registrar otra vez no cambia nada y dice que vaya a enmendar. Si
+  // NO coincide, el texto cambió por una puerta que no es la enmienda: pisar ese recibo
+  // registraría una huella nueva y borraría el rastro de que el documento se editó a mano,
+  // que es justo lo que un acuerdo no debe hacer sin que nadie lo haya autorizado.
+  const previo = leerRecibo(raiz);
+  if (previo?.aprobado === true) {
+    if (previo.documentoDigest === undefined) {
+      return { escrito: false, falta: "recibo-desfasado", ruta: ACUERDO, redirige: "enmendar" };
+    }
+    if (previo.documentoDigest !== leido.huella) {
+      return { escrito: false, falta: "recibo-desfasado", ruta: ACUERDO, redirige: "enmendar" };
+    }
+    return { escrito: false, falta: "ya-existe", ruta: ACUERDO, redirige: "enmendar" };
+  }
+
+  // El mismo merge que `registrar()`: un campo que no le pertenece a este registro no es de
+  // este registro para borrarlo. `aviso` vive en este archivo y lo escribe otra puerta.
+  escribirRecibo(raiz, {
+    ...(previo ?? {}),
+    version: 1,
+    aprobado: true,
+    aprobadoEn: ahora ?? null,
+    documento: ACUERDO,
+    documentoDigest: leido.huella,
+    escritaPorLaPersona: true,
+  });
+  return { escrito: true, falta: null, ruta: ACUERDO };
+}
+
+// --- la enmienda en prosa --------------------------------------------------------------
+//
+// `enmendar` entiende perillas, límites y piezas cubiertas. Es el vocabulario cerrado del
+// acuerdo, y sirve para lo que el kit tiene que leer. No alcanza para «además los playgrounds
+// se prueban antes de entregar»: una frase así no es un error de quien la escribió, es un tipo
+// de cambio que el kit no tiene un lugar donde poner. Aquí la frase entra tal cual, fechada, al
+// final del documento, y el recibo se actualiza con la huella nueva.
+//
+// Las tres puertas siguen siendo las mismas: acuerdo registrado, palabra de la persona, fecha
+// real. Una enmienda en prosa es más fácil de autorizar que una de perillas, no más fácil de
+// pasar por alto.
+
+/**
+ * Agrega una enmienda en prosa libre al final del acuerdo existente y actualiza el recibo.
+ * `autorizado` es la palabra de la persona: sin ella no se escribe nada.
+ */
+export function enmendarEnProsa({ raiz, texto, ahora, autorizado } = {}) {
+  if (autorizado !== true) return { enmendada: false, razon: "sin-autorizacion" };
+
+  // Lo mismo que `enmendar`: solo se enmenda lo que YA PASÓ por las tres puertas. Un archivo
+  // lleno de texto y sin recibo es un documento, no un acuerdo, y `appendFileSync` lo
+  // convertiría en uno con la forma del aprobado sin que nadie lo hubiera aprobado.
+  const acuerdo = raiz ? leer(raiz) : null;
+  if (!acuerdo) return { enmendada: false, razon: "sin-acuerdo-registrado" };
+
+  // Una enmienda sin texto no es una enmienda: es un encabezado fechado con nada debajo, que
+  // tres meses después se lee como un cambio que alguien decidió y no escribió.
+  const cuerpo = typeof texto === "string" ? texto.trim() : "";
+  if (cuerpo === "") return { enmendada: false, razon: "sin-texto" };
+
+  if (!fechaReal(ahora)) {
+    throw new TypeError(
+      `Una enmienda necesita su fecha (YYYY-MM-DD) y que sea una fecha real; recibí ${JSON.stringify(ahora ?? null)}.`,
+    );
+  }
+
+  const amendment = { fecha: ahora.trim(), que: "prosa" };
+  appendFileSync(join(raiz, ACUERDO), enmiendaProsa(amendment, cuerpo), "utf8");
+
+  const siguiente = {
+    ...acuerdo,
+    enmendada: true,
+    enmiendas: [...(acuerdo.enmiendas ?? []), amendment],
+  };
+  // La huella se recalcula sobre el disco DESPUÉS de agregar: es la del documento que queda,
+  // no la que tenía antes. Es lo que hace que `registrarEscrito` pueda decir después
+  // «ya-existe» en vez de «el texto cambió por fuera».
+  escribirRecibo(raiz, {
+    ...(leerRecibo(raiz) ?? {}),
+    ...siguiente,
+    version: 1,
+    aprobado: true,
+    documentoDigest: huellaDocumento(readFileSync(join(raiz, ACUERDO), "utf8")),
+  });
+  return { ...leer(raiz), enmendada: true };
+}
+
+// El andamiaje es el mismo que el de `enmendar()` y en el mismo idioma, porque el documento
+// que genera el kit es en inglés; lo que la persona escribió va debajo, sin tocarlo. Un
+// `## Amendment` en inglés sobre una frase en español no la traduce: solo la nombra.
+function enmiendaProsa({ fecha }, cuerpo) {
+  return [
+    "",
+    `## Amendment ${fecha} - prose`,
+    "",
+    "Authorized by the person, in their own words. Everything above stays as it was.",
+    "",
+    cuerpo,
+    "",
+  ].join("\n");
+}
+
 // Una apuesta que cae es un hecho del arbol, no una variable del turno: se anota en el recibo
 // para que las funciones que dependen de ella (el aviso, el reparto, el recordatorio) la lean de
 // verdad y no de un flag que alguien tiene que acordarse de pasar.
@@ -719,7 +900,13 @@ export function caer(acuerdo, apuesta) {
 // caida, es un archivo roto.
 export function puedeOperar(acuerdo) {
   if (acuerdo === null || acuerdo === undefined) return true;
-  return INTENSIDADES.includes(acuerdo?.intensidad) && RITMOS.includes(acuerdo?.ritmo);
+  // Un acuerdo que la persona escribió en prosa no declara perillas, y eso no es un acuerdo
+  // ilegible: es un acuerdo del que el kit no sabe más. Sin este `??`, un acuerdo escrito a
+  // mano pararía el kit por no declarar algo que nunca se pidió que declarara — la primera
+  // puerta sin la que el segundo camino de registro no habría servido de nada. Lo ilegible
+  // sigue siendo lo ilegible: una perilla declarada con un valor que no existe.
+  return INTENSIDADES.includes(acuerdo?.intensidad ?? DEFECTO.intensidad)
+    && RITMOS.includes(acuerdo?.ritmo ?? DEFECTO.ritmo);
 }
 
 export function noSeMueve() {
@@ -745,7 +932,7 @@ export function decision(acuerdo, cosa) {
 // funcion importada. `primera-vez` es la oferta (y trae el hueco del por que, que es por donde el
 // acuerdo empieza); `aviso` es el mensaje unico a quien actualiza.
 
-const OPCIONES = ["primera-vez", "aviso"];
+const OPCIONES = ["primera-vez", "aviso", "registrar-escrito", "enmendar-prosa"];
 
 function banderas(argv) {
   const salida = {};
@@ -767,6 +954,24 @@ export function lineaDeComandos(argv = process.argv.slice(2)) {
   if (subcomando === "primera-vez") {
     const sesiones = Number(op.sesiones ?? Number.NaN);
     return { ok: true, salida: primeraVez({ raiz, trabajo: { sesiones } }) };
+  }
+  if (subcomando === "registrar-escrito") {
+    // El registro de un acuerdo que la persona ya escribió. Se ofrece y no se dispara: quien
+    // corre esto decide que el documento es un acuerdo, y el módulo solo deja constancia.
+    return { ok: true, salida: registrarEscrito({ raiz, ahora: op.ahora ?? null }) };
+  }
+  if (subcomando === "enmendar-prosa") {
+    return {
+      ok: true,
+      salida: enmendarEnProsa({
+        raiz,
+        texto: typeof op.texto === "string" ? op.texto : "",
+        ahora: op.ahora ?? null,
+        // La palabra de la persona llega por bandera y es explícita: `--autorizado`. Sin ella el
+        // comando responde que no enmendó, que es más honesto que escribir y avisar después.
+        autorizado: op.autorizado === true || op.autorizado === "true",
+      }),
+    };
   }
   return {
     ok: true,

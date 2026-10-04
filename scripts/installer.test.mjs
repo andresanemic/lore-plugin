@@ -6,6 +6,7 @@ import { spawnSync } from "node:child_process";
 import test from "node:test";
 
 import { installClaude, installCodex, installOpenCode, claudeCommands, claudePluginInstallPath, sameTree, replaceLocalEntry, recoverLocalEntry, replaceManagedPath } from "./installer.mjs";
+import { comandosOrdenados, ayudaDe, NO_VIAJA_EN_LA_ENTRADA_LOCAL } from "./skill-text.mjs";
 
 const makePackage = () => {
   const root = mkdtempSync(join(tmpdir(), "lore-package-"));
@@ -33,6 +34,10 @@ const makePackage = () => {
   // procede, y un fixture que las omitiera certificaría un instalador que deja a la prosa
   // mandando correr un comando que el host no tiene — el defecto que esta prueba persiguió.
   writeFileSync(join(root, "scripts", "lore-cli.mjs"), "// local entry\n");
+  // La cadena local es «la entrada y todo lo que importa», y desde R4 la entrada importa la
+  // higiene de salida. Un fixture que la omitiera certificaria un instalador que copia una
+  // entrada con un import roto: el mismo defecto que esta lista de fixtures ya persiguió.
+  writeFileSync(join(root, "scripts", "hygiene.mjs"), "export const scanHygiene = () => ({ findings: [], coverage: [], notCovered: [] });\nexport const salidaHygiene = () => [];\n");
   writeFileSync(join(root, "scripts", "installer.mjs"), "// installer\n");
   mkdirSync(join(root, "skills", "use-lore", "scripts"), { recursive: true });
   writeFileSync(join(root, "skills", "use-lore", "scripts", "acuerdo.mjs"), "export const acuerdo = {};\n");
@@ -104,32 +109,19 @@ test("Codex retira archivos obsoletos de una versión anterior de Lore", () => {
 });
 
 // La prosa instalada es la misma en todos los hosts; la capacidad instalada no.
-// Esta prueba corre contra el paquete REAL, no contra un fixture: un fixture repetiría
+// Estas pruebas corren contra el paquete REAL, no contra un fixture: un fixture repetiría
 // el defecto que la produjo — certificar el mecanismo bajo las condiciones que su autor
 // imaginó. Detectado el 2026-09-03 instalando el RC de 2.4.8: `use-lore` mandaba correr
 // `lore-plugin mycelium bodies` desde 2.4.7 publicada y Codex nunca recibió `scripts/`.
-function invocacionesDelCLI(root) {
-  const tokens = new Set();
-  const skills = join(root, "skills");
-  for (const entry of readdirSync(skills, { recursive: true })) {
-    const name = String(entry);
-    if (!name.endsWith(".md")) continue;
-    const prosa = readFileSync(join(skills, name), "utf8");
-    // `lore-plugin` es la entrada de la vía npm/marketplace; `lore-cli` es la entrada local que
-    // instala cada host. La prosa puede ordenar cualquiera de las dos, y lo que esta prueba
-    // afirma es que el comando ordenado exista en lo instalado, no cuál de los dos nombres usa.
-    for (const [, comando, sub] of prosa.matchAll(/(?:lore-plugin|lore-cli)\s+([a-z][a-z-]*)(?:\s+([a-z][a-z-]*))?/g)) {
-      tokens.add(comando);
-      if (sub) tokens.add(sub);
-    }
-  }
-  return [...tokens];
-}
+// El extractor de la prosa vive en `skill-text.mjs`, porque desde R4 hay dos guardas que lo
+// necesitan (esta, sobre lo INSTALADO, y `skill-consistency`, sobre el repo) y dos
+// extractores serían dos verdades sobre la misma prosa: el segundo se queda viejo en silencio.
+const invocacionesDelCLI = (root) => comandosOrdenados(root);
 
 test("Codex recibe todo comando que la prosa de una skill ordena correr", () => {
   const root = join(import.meta.dirname, "..");
   const invocados = invocacionesDelCLI(root);
-  assert.ok(invocados.length > 0, "la prosa de las skills debe invocar el CLI del kit");
+  assert.ok(invocados.size > 0, "la prosa de las skills debe invocar el CLI del kit");
 
   const home = mkdtempSync(join(tmpdir(), "lore-home-"));
   installCodex({ home, packageRoot: root });
@@ -141,9 +133,25 @@ test("Codex recibe todo comando que la prosa de una skill ordena correr", () => 
   const localPath = join(home, ".lore-plugin", "entry", "codex", "scripts", "lore-cli.mjs");
   assert.equal(existsSync(localPath), true, "Codex no recibió la entrada local que la prosa nombra por ruta");
 
-  const cli = readFileSync(cliPath, "utf8");
-  for (const token of invocados) {
-    assert.ok(cli.includes(token), `la prosa ordena "${token}" y el CLI instalado no lo implementa`);
+  // Se mira la ayuda que ANUNCIA lo instalado, no el texto del archivo: la fricción se
+  // encontró leyendo la ayuda, y una guarda que busca la palabra en el código no distingue
+  // un comando de la frase que lo explica.
+  const ayuda = { completa: ayudaDe(cliPath), local: ayudaDe(localPath) };
+  for (const [comando, subs] of invocados) {
+    for (const sub of [comando, ...subs]) {
+      assert.match(ayuda.completa, new RegExp(`\\b${sub}\\b`),
+        `la prosa ordena "${sub}" y el CLI instalado no lo anuncia`);
+    }
+    // R4 (fricción 6): la entrada local ES la que la persona tiene a mano en Claude Code,
+    // porque `use-lore` y `transmute-lore` la nombran por ruta. Un comando que la prosa
+    // ordena y que solo vive en la entrada de la vía npm es una promesa: no se resuelve
+    // donde se la pide correr, y no escribe recibo. Verificado el 2026-10-04 con el bot de
+    // Desarrollo Web —`save-to-lore` pedía `lore-plugin hygiene` y `lore-cli` no lo ofrecía.
+    if (NO_VIAJA_EN_LA_ENTRADA_LOCAL.has(comando)) continue;
+    for (const sub of [comando, ...subs]) {
+      assert.match(ayuda.local, new RegExp(`\\b${sub}\\b`),
+        `la prosa ordena "${sub}" y la entrada local instalada no lo anuncia`);
+    }
   }
 });
 

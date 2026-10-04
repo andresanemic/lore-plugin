@@ -336,6 +336,7 @@ test("el fallo cerrado que sí exige el acuerdo es el del instalador: digest dis
   mkdirSync(join(packageRoot, "scripts"), { recursive: true });
   mkdirSync(join(packageRoot, "skills", "use-lore", "scripts"), { recursive: true });
   writeFileSync(join(packageRoot, "scripts", "lore-cli.mjs"), "// local entry\n");
+  writeFileSync(join(packageRoot, "scripts", "hygiene.mjs"), "export const scanHygiene = () => ({ findings: [], coverage: [], notCovered: [] });\nexport const salidaHygiene = () => [];\n");
   writeFileSync(join(packageRoot, "scripts", "installer.mjs"), "// installer\n");
   writeFileSync(join(packageRoot, "skills", "use-lore", "scripts", "acuerdo.mjs"), "export const acuerdo = {};\n");
 
