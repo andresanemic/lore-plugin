@@ -3,7 +3,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
-import { skillFiles, skillText } from "./skill-text.mjs";
+import { skillFiles, skillText, comandosOrdenados, NO_VIAJA_EN_LA_ENTRADA_LOCAL } from "./skill-text.mjs";
 import { parseFrontmatter } from "./yaml-frontmatter.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -29,6 +29,35 @@ test("save-to-lore corre higiene de salida y propone limpieza sin podar por tama
   assert.match(save, /lore-plugin hygiene/i);
   assert.match(save, /propose.*cleanup.*never execute|proponer.*limpieza.*nunca ejecutar/i);
   assert.match(save, /does not prune by size|no poda por tamaño/i);
+});
+
+// R4, fricción 6 (recibo de la sesión de Desarrollo Web, 2026-10-04): `save-to-lore` manda
+// correr `lore-plugin hygiene <ruta>` al cerrar cada pase, y la entrada que la persona tiene
+// a mano —`~/.lore-plugin/entry/<host>/scripts/lore-cli.mjs`, la que `use-lore` y
+// `transmute-lore` nombran POR RUTA— solo ofrecía `mycelium` y `nivel`: la orden no se
+// resolvía donde se la pedía correr. Un nombre que el host no tiene es una promesa, y una
+// promesa no escribe recibo.
+//
+// La guarda es sobre el REPO y la de `installer.test.mjs` es sobre lo INSTALADO: una mira
+// que el comando esté, la otra que llegue al host. Las dos leen el mismo extractor.
+test("todo comando que la prosa ordena correr existe en las dos entradas del kit", () => {
+  const ordenados = comandosOrdenados(root);
+  assert.ok(ordenados.length > 0, "la prosa de las skills debe ordenar correr algún comando");
+
+  const entradas = ["scripts/lore-plugin.mjs", "scripts/lore-cli.mjs"]
+    .map((file) => [file, readFileSync(join(root, file), "utf8")]);
+  const local = entradas.find(([file]) => file.endsWith("lore-cli.mjs"))[1];
+
+  for (const token of ordenados) {
+    for (const [archivo, texto] of entradas) {
+      assert.ok(texto.includes(token), `la prosa ordena "${token}" y ${archivo} no lo implementa`);
+    }
+    // Una exención sin razón escrita es el defecto con otra forma, y una exención que ya no
+    // hace falta es ruido que esconde el siguiente comando. Las dos se comprueban.
+    if (!NO_VIAJA_EN_LA_ENTRADA_LOCAL.has(token)) continue;
+    assert.match(NO_VIAJA_EN_LA_ENTRADA_LOCAL.get(token), /\S{12,}/, `${token}: la exención dice por qué`);
+    assert.equal(local.includes(token), false, `${token}: la exención está vieja, la entrada local ya lo ofrece`);
+  }
 });
 
 test("el contrato de proyecto de create-area alcanza el Lore del área", () => {

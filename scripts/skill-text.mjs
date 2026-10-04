@@ -50,3 +50,44 @@ export function skillFiles(root, name) {
   }
   return files;
 }
+
+// Los comandos que la prosa de las skills ORDENA CORRER, leídos del paquete real y no de un
+// fixture: un fixture repetiría el defecto que produjo esta lista — certificar el mecanismo
+// bajo las condiciones que su autor imaginó (RC de 2.4.8 en Codex, 2026-09-03).
+//
+// `lore-plugin` es la entrada de la vía npm/marketplace; `lore-cli` es la entrada local que
+// instala cada host. La prosa puede nombrar cualquiera de las dos, y lo que se afirma es que
+// el comando ordenado exista en lo INSTALADO, no cuál de los dos nombres usa la frase.
+//
+// Vive acá y no en una prueba porque hay dos guardas que lo necesitan —la que mira las
+// entradas instaladas y la que mira las del repo— y dos extractores serían dos verdades
+// sobre la misma prosa: el segundo se queda viejo y no lo dice.
+export function comandosOrdenados(root) {
+  const tokens = new Set();
+  const skills = join(root, "skills");
+  for (const entry of readdirSync(skills, { recursive: true })) {
+    const name = String(entry);
+    if (!name.endsWith(".md")) continue;
+    const prosa = read(join(skills, name));
+    for (const [, comando, sub] of prosa.matchAll(/(?:lore-plugin|lore-cli)\s+([a-z][a-z-]*)(?:\s+([a-z][a-z-]*))?/g)) {
+      tokens.add(comando);
+      if (sub) tokens.add(sub);
+    }
+  }
+  return [...tokens].sort();
+}
+
+// Los que la entrada local NO ofrece, cada uno con su razón. Una lista sin razón es una
+// exención silenciosa, y una exención silenciosa es el defecto con otra forma: por eso la
+// prueba exige que cada razón esté escrita y que la exención no se quede vieja.
+//
+// Y son tres, por tres razones distintas, que es lo que hace que la lista sea corta:
+// `crystallize` lanza `skills/transmute-lore/scripts/crystallize.mjs`, que no viaja en una
+// cadena corta; `opencode-permissions` y `opencode-sandbox` escriben la configuración del
+// host, y la entrada local es de solo lectura por lo que hace MYCELIUM. Lo que no hace
+// ninguna de las dos es offering una capacidad que no trae.
+export const NO_VIAJA_EN_LA_ENTRADA_LOCAL = new Map([
+  ["crystallize", "shells out to skills/transmute-lore/scripts/crystallize.mjs, which does not travel in a short chain"],
+  ["opencode-permissions", "writes the host's OpenCode config; the local entry stays read-only"],
+  ["opencode-sandbox", "writes the host's OpenCode config; the local entry stays read-only"],
+]);
