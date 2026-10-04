@@ -10,6 +10,9 @@ const DESTINATIONS = new Map([
   ["scripts/installer.mjs", "explicit-host-install"],
   ["scripts/install-claude-statusline.mjs", "explicit-host-install"],
   ["scripts/opencode-permissions.mjs", "explicit-project-config"],
+  // Vendorizar el kernel escribe dentro del propio repositorio del kit, y solo cuando alguien lo
+  // ordena con --source y --ref. No toca nada de quien lo corre ni de los hosts instalados.
+  ["scripts/vendor-kernel.mjs", "explicit-kit-vendoring"],
   ["skills/create-bot/plantillas/sync.js", "created-bot-tree"],
   ["skills/transmute-lore/scripts/crystallize.mjs", "explicit-user-output"],
   ["skills/use-lore/scripts/acuerdo.mjs", "approved-agreement-at-tree-root"],
