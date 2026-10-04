@@ -9,19 +9,26 @@
 // comprueba, no la fuente de la comprobación.
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
 import { readGitSource } from "./git-source.mjs";
+import { kernelDirOf, kernelModules, readSourceRows } from "../scripts/kernel-inventory.mjs";
 
 const kit = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const kernelDir = join(kit, "skills", "vespi", "core", "kernel");
+const kernelDir = kernelDirOf(kit);
 
 // El corte que RC5 adopta. No se lee de SOURCE.md: SOURCE.md es parte de lo que se verifica.
 const PINNED_COMMIT = "fde2ee08789e3d30517148e224310faace7e488c";
-const PINNED_MODULES = ["authority.js", "continuity.js", "delegation.js", "operation.js", "receipt.js", "time.js"];
 const short = PINNED_COMMIT.slice(0, 7);
+
+// La lista de módulos tampoco se escribe. La fuente única es el directorio vendorizado, y R2 dejó de
+// tener una lista escrita a mano en dos archivos: cuando el kernel gana un módulo, la prueba lo ve
+// porque mira lo que el kit trae, y no porque alguien añadiera su nombre aquí. Lo que esta prueba ya no
+// puede decir con una lista propia —«estos son los del corte»— lo dice contra el propio Git, abajo.
+const VENDORED = kernelModules(kernelDir);
 
 // Dónde vive la fuente canónica, para leer los bytes EN el commit fijado y no desde el directorio
 // de trabajo, que puede estar adelantado, atrasado o sucio. Es relativo a propósito: nada de rutas
@@ -30,9 +37,7 @@ const kernelRoot = [process.env.VESPI_KERNEL_ROOT, resolve(kit, "..", "..", ".."
   .find((candidate) => candidate && existsSync(join(candidate, ".git")));
 
 const source = readFileSync(join(kernelDir, "SOURCE.md"), "utf8");
-const rows = new Map(
-  [...source.matchAll(/^\| `([a-z]+\.js)` \| `([0-9a-f]{64})` \| (\d+) \|$/gm)].map((r) => [r[1], { digest: r[2], bytes: Number(r[3]) }]),
-);
+const rows = readSourceRows(source);
 
 // Texto que el kit afirma en público sobre su copia. Cada commit que aparece aquí es una
 // afirmación, y toda afirmación tiene que ser la vigente.
@@ -61,17 +66,22 @@ function fromSourceCommit(commit, name) {
   return readGitSource({ root: kernelRoot, commit, name });
 }
 
-test("SOURCE.md inventaría los módulos del corte fijado, y solo esos", () => {
-  assert.deepEqual([...rows.keys()].sort(), PINNED_MODULES);
+test("SOURCE.md inventaría los módulos que el kit trae, y solo esos", () => {
+  assert.deepEqual([...rows.keys()].sort(), VENDORED);
 });
 
-test("el directorio vendorizado contiene los módulos del corte fijado, y solo esos", () => {
-  const vendored = readdirSync(kernelDir).filter((name) => name.endsWith(".js")).sort();
-  assert.deepEqual(vendored, PINNED_MODULES);
+test("el directorio vendorizado es exactamente el src del commit fijado, leído de Git", (t) => {
+  // El reemplazo de la lista escrita a mano. Antes la prueba comparaba el directorio con seis
+  // nombres tecleados aquí; ahora lo compara con lo que el commit fijado declara tener, que es la
+  // misma pregunta con mejor fuente: ¿le falta al kit un módulo del corte, o trae de más?
+  if (!kernelRoot) return t.skip("la fuente canónica no está disponible; el conjunto del corte no se puede comprobar");
+  const listed = execFileSync("git", ["-c", `safe.directory=${kernelRoot.replaceAll("\\", "/")}`, "ls-tree", "--name-only", `${PINNED_COMMIT}:src`], { cwd: kernelRoot, encoding: "utf8" })
+    .split("\n").map((line) => line.trim()).filter((name) => name.endsWith(".js")).sort();
+  assert.deepEqual(VENDORED, listed);
 });
 
 test("cada módulo lleva un encabezado de tres líneas que declara el commit fijado", () => {
-  for (const name of PINNED_MODULES) {
+  for (const name of VENDORED) {
     const path = join(kernelDir, name);
     assert.ok(existsSync(path), `core/kernel/${name} no está vendorizado`);
     const [first, second, third] = header(name);
@@ -97,7 +107,7 @@ test("todo commit que el kit afirma en público es el commit fijado", () => {
 
 test("cada módulo declara el commit al que dice corresponder a sus bytes", (t) => {
   if (!kernelRoot) return t.skip("la fuente canónica no está disponible; la deriva declarada no se puede comprobar");
-  for (const name of PINNED_MODULES) {
+  for (const name of VENDORED) {
     assert.ok(existsSync(join(kernelDir, name)), `core/kernel/${name} no está vendorizado, y no hay encabezado que leer`);
     const [, declared] = header(name)[1].match(/commit ([0-9a-f]{7,40})\b/);
     assert.ok(
@@ -108,7 +118,7 @@ test("cada módulo declara el commit al que dice corresponder a sus bytes", (t) 
 });
 
 test("quitar el encabezado deja los bytes que SOURCE.md publica", () => {
-  for (const name of PINNED_MODULES) {
+  for (const name of VENDORED) {
     const row = rows.get(name);
     assert.ok(row, `SOURCE.md no publica ${name}`);
     const bytes = body(name);
@@ -119,7 +129,7 @@ test("quitar el encabezado deja los bytes que SOURCE.md publica", () => {
 
 test("los bytes tras el encabezado son los del commit fuente, leídos de Git", (t) => {
   if (!kernelRoot) return t.skip("la fuente canónica no está disponible; los bytes no se pueden contrastar con el commit");
-  for (const name of PINNED_MODULES) {
+  for (const name of VENDORED) {
     assert.ok(
       body(name).equals(fromSourceCommit(PINNED_COMMIT, name)),
       `core/kernel/${name}: tras el encabezado no están los bytes de ${short}:src/${name}`,
@@ -127,13 +137,13 @@ test("los bytes tras el encabezado son los del commit fuente, leídos de Git", (
   }
 });
 
-test("la afirmación pública nombra los cinco módulos del corte", () => {
+test("la afirmación pública nombra cada módulo del corte", () => {
   const skill = claims[1][1];
   assert.ok(
     [...skill.matchAll(COMMIT_CLAIM)].some(([, commit]) => PINNED_COMMIT.startsWith(commit)),
     `SKILL.md no nombra el commit ${short}`,
   );
-  for (const name of PINNED_MODULES) {
+  for (const name of VENDORED) {
     assert.ok(skill.includes(`\`${name}\``), `SKILL.md no nombra ${name}`);
   }
 });

@@ -5,15 +5,20 @@ import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { bodyAfterHeader, kernelDirOf, kernelModules } from "./kernel-inventory.mjs";
 
 export const EXPECTED_VERSION = "2.4.9";
 export const EXPECTED_KERNEL_VERSION = "0.1.4";
 export const KERNEL_BRANCH_HEAD = "f5e3c25f43ff2553615434ad8655a608abeb479c";
 export const KERNEL_SOURCE_COMMIT = "fde2ee08789e3d30517148e224310faace7e488c";
-export const KERNEL_FILES = ["authority.js", "continuity.js", "delegation.js", "operation.js", "receipt.js", "time.js"];
 export const RETIRED_SKILLS = ["obsidian-lore"];
 
 const scriptRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+// La lista de módulos no se escribe: es la del directorio vendorizado que este kit trae. Cuando el
+// kernel gana un módulo, el vendorizado lo trae y el verificador lo comprueba, sin que nadie edite
+// una lista en dos archivos distintos y se olvide de la otra.
+export const KERNEL_FILES = kernelModules(kernelDirOf(scriptRoot));
+
 const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
 
 function json(path) {
@@ -79,10 +84,10 @@ function installedKernelVersion(host) {
   return readFileSync(sourcePath, "utf8").match(/Vespi kernel \*\*(\d+\.\d+\.\d+)/)?.[1] ?? "desconocida";
 }
 
-function sourceBodies(canonicalRoot, gitShow) {
+function sourceBodies(canonicalRoot, gitShow, kernelFiles) {
   const head = gitShow(canonicalRoot, ["rev-parse", "release/0.1.4-prep"]).trim();
   const results = {};
-  for (const file of KERNEL_FILES) {
+  for (const file of kernelFiles) {
     const canonical = gitShow(canonicalRoot, ["show", `${KERNEL_SOURCE_COMMIT}:src/${file}`]);
     results[file] = { hash: sha256(canonical) };
   }
@@ -91,8 +96,9 @@ function sourceBodies(canonicalRoot, gitShow) {
 
 export function verifyHosts({ home = homedir(), kitRoot = scriptRoot, canonicalKernelRoot = "C:/Claude/founder/proyectos/vespi/kernel", gitShow = (cwd, args) => execFileSync("git", ["-C", cwd, ...args], { encoding: args[0] === "show" ? "buffer" : "utf8" }) } = {}) {
   const expectedSkills = skillNames(join(kitRoot, "skills"));
-  const expectedKernel = hashTree(join(kitRoot, "skills", "vespi", "core", "kernel"));
-  const source = sourceBodies(canonicalKernelRoot, gitShow);
+  const kernelFiles = kernelModules(kernelDirOf(kitRoot));
+  const expectedKernel = hashTree(kernelDirOf(kitRoot));
+  const source = sourceBodies(canonicalKernelRoot, gitShow, kernelFiles);
   const hosts = installedHosts(resolve(home)).map((host) => {
     const version = host.packageRoot || host.name === "OpenCode" ? packageVersion(host) : "no instalada";
     const kernelVersion = installedKernelVersion(host);
@@ -105,18 +111,11 @@ export function verifyHosts({ home = homedir(), kitRoot = scriptRoot, canonicalK
     const retiredPresent = RETIRED_SKILLS.filter((name) => (host.retiredRoots ?? [host.skillsRoot]).some((root) => root && existsSync(join(root, name))));
     const unexpectedSkills = host.sharedSkills ? [] : presentSkills.filter((name) => !expectedSkills.includes(name));
     const matchesRepo = kernel.digest !== null && kernel.digest === expectedKernel.digest;
-    const sourceMatches = Object.fromEntries(KERNEL_FILES.map((file) => {
+    const sourceMatches = Object.fromEntries(kernelFiles.map((file) => {
       const installed = host.kernelRoot && existsSync(join(host.kernelRoot, file))
         ? readFileSync(join(host.kernelRoot, file))
         : Buffer.alloc(0);
-      const marker = Buffer.from("\n", "utf8");
-      let offset = 0;
-      for (let line = 0; line < 3; line++) {
-        const next = installed.indexOf(marker, offset);
-        if (next < 0) { offset = installed.length; break; }
-        offset = next + marker.length;
-      }
-      return [file, !!host.kernelRoot && sha256(installed.subarray(offset)) === source.results[file].hash];
+      return [file, !!host.kernelRoot && sha256(bodyAfterHeader(installed)) === source.results[file].hash];
     }));
     return { ...host, version, kernelVersion, kernel, matchesRepo, presentSkills: relevantPresent, missingSkills, retiredPresent, unexpectedSkills, sourceMatches };
   });
@@ -127,7 +126,7 @@ export function verifyHosts({ home = homedir(), kitRoot = scriptRoot, canonicalK
   const ok = sourcePinned && hosts.every((host) => host.version === EXPECTED_VERSION
     && host.kernelVersion === EXPECTED_KERNEL_VERSION && host.matchesRepo && host.missingSkills.length === 0 && host.retiredPresent.length === 0
     && Object.values(host.sourceMatches).every(Boolean)) && hostsAgree;
-  return { ok, kitVersion: json(join(kitRoot, "package.json")).version, expectedSkills, expectedKernel, canonicalHead: source.head, kernelBranchHead: KERNEL_BRANCH_HEAD, kernelSourceCommit: KERNEL_SOURCE_COMMIT, sourcePinned, hostsAgree, hosts };
+  return { ok, kitVersion: json(join(kitRoot, "package.json")).version, expectedSkills, expectedKernel, kernelFiles, canonicalHead: source.head, kernelBranchHead: KERNEL_BRANCH_HEAD, kernelSourceCommit: KERNEL_SOURCE_COMMIT, sourcePinned, hostsAgree, hosts };
 }
 
 export function formatReport(report) {
