@@ -46,15 +46,17 @@ test("la guía nombra la reserva de sorpresa y la enmienda fechada", () => {
   const s = seccion(leer());
   assert.match(s, /surprise reserve/i);
   assert.match(s, /execution, not the idea/i, "la reserva tiene que ser la ejecución, no la idea");
-  assert.match(s, /dated amendment/i);
-  assert.match(s, /not reopened on the agent'?s own initiative/i, "falta lo aprobado no se reabre por iniciativa propia");
+  assert.match(s, /dated\s+amendment/i);
+  assert.match(s, /not\s+reopened on the agent'?s own initiative/i, "falta lo aprobado no se reabre por iniciativa propia");
   assert.match(s, /never [\s\S]{0,30}silence/i, "una enmienda en silencio no es una enmienda");
 });
 
 test("la guía fija el eje del acuerdo y sus dos cierres antes de construir", () => {
   const s = seccion(leer());
-  assert.match(s, /one point per message/i, "falta la conversación de a un punto");
-  assert.match(s, /one question/i);
+  // `\s+` y no un espacio: la prosa de la skill va hardwrap, y una coincidencia que muere en el
+  // salto de línea midió una maquetación, no la frase.
+  assert.match(s, /one\s+point\s+per\s+message/i, "falta la conversación de a un punto");
+  assert.match(s, /one\s+question/i);
   assert.match(s, /recommended option with the risk/i, "falta la opción recomendada con su riesgo dicho");
   assert.match(s, /before anything is built/i, "el acuerdo se escribe antes de construir");
   assert.match(s, /\*\*why\*\*[^*]*heart/i, "falta el eje porqué con su corazón");
