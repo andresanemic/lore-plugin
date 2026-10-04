@@ -1,6 +1,6 @@
 import { createHash, randomBytes } from "node:crypto";
 import { cpSync, existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, realpathSync, renameSync, rmSync, writeFileSync } from "node:fs";
-import { basename, dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
+import { basename, dirname, extname, isAbsolute, join, relative, resolve, sep } from "node:path";
 
 const loreEntry = {
   name: "lore",
@@ -31,35 +31,144 @@ export function claudePluginInstallPath({ home }) {
   return entries[0].installPath;
 }
 
-function treeDigest(root) {
+// --- qué es un archivo de texto y qué es un final de línea ------------------------------
+//
+// El 2026-10-04, instalando de verdad en Windows, `sameTree` se negó a actualizar la marca TUI de
+// OpenCode: el árbol de trabajo estaba en CRLF y la copia instalada en LF. La comparación era de
+// bytes, así que un checkout de Windows era indistinguible de un archivo ajeno. `.gitattributes`
+// con `eol=lf` no arregla eso: no reescribe lo que ya está en disco.
+//
+// La comparación se relaja solo en un punto, y el punto es uno: CR seguido de LF contra LF. Un CR
+// que no va delante de un LF es un byte, no un final de línea, y ahí no se toca nada.
+//
+// Qué es texto, con las dos señales y en este orden:
+//
+// 1. La extensión. Un formato binario conocido es binario aunque su contenido no tenga un solo
+//    NUL: un `.png` sin NUL sigue siendo un `.png`, y normalizar sus bytes hide una diferencia.
+// 2. El contenido. Un byte nulo no es de texto. Se mira el archivo entero, no una cabecera.
+//
+// Lo que no es binario por las dos señales es texto, incluidos los archivos sin extensión
+// (`LICENSE`, `Dockerfile`) y los de extensión que nadie registra. Un `.mjs` lleno de NUL cae por
+// la segunda señal y se compara byte a byte.
+//
+// El límite que esto deja, dicho aquí y no escondido: un archivo sin NUL y de extensión
+// desconocida que solo difiera en CR+LF contra LF se cuenta como el mismo. Ninguna heurística de
+// texto puede cerrar ese caso sin un `.gitattributes` que lo decida por archivo, y el kit no tiene
+// uno que lo decida por archivo.
+//
+// Esto solo cambia un veredicto de igualdad. Los bytes que se escriben en el host siguen siendo los
+// del origen, tal cual los copia `cpSync`: el núcleo de Vespi, que `.gitattributes` marca `-text`,
+// nunca se convierte por pasar por aquí.
+const BINARY_EXTENSIONS = new Set([
+  ".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp", ".ico", ".tif", ".tiff",
+  ".pdf", ".zip", ".gz", ".tgz", ".bz2", ".xz", ".7z", ".rar", ".tar",
+  ".woff", ".woff2", ".ttf", ".otf", ".eot",
+  ".mp3", ".mp4", ".mov", ".webm", ".ogg", ".wav", ".flac",
+  ".wasm", ".pyc", ".so", ".dylib", ".dll", ".exe", ".class", ".jar",
+  ".pptx", ".docx", ".xlsx", ".sqlite", ".db", ".bin", ".dat", ".dmg", ".iso",
+]);
+
+function esTexto(relativePath, bytes) {
+  if (BINARY_EXTENSIONS.has(extname(relativePath).toLowerCase())) return false;
+  return !bytes.includes(0);
+}
+
+/** El archivo sin el CR que precede a un LF. Los demas bytes no se mueven. */
+function sinCrDelanteDeLf(bytes) {
+  // `latin1` ida y vuelta es identidad byte a byte en 0..255: esto no puede alterar un byte que
+  // no sea el CR de un CRLF, y no decodifica el archivo como texto.
+  return Buffer.from(bytes.toString("latin1").replace(/\r\n/g, "\n"), "latin1");
+}
+
+// El recorrido del árbol. `readdirSync(root, {recursive: true})` sigue las junctions de Windows:
+// el contenido que vive detrás de un enlace entraba en la comparación como si fuera del árbol. Aquí
+// cada entrada se mira con `lstat`, que no sigue nada, y un enlace o una junction se anotan por su
+// ruta y se dejan sin leer. No seguirlos es también lo que hace el digest immune a un enlace.
+function describirArbol(root) {
   if (!existsSync(root)) return null;
+  const rootStat = lstatSync(root);
+  if (rootStat.isSymbolicLink()) return { tipo: "enlace", nombre: basename(root) };
+  if (rootStat.isFile()) return { tipo: "archivo", nombre: basename(root), bytes: readFileSync(root) };
+
+  const archivos = [];
+  const enlaces = [];
+  const otros = [];
+  const visitar = (directorio, prefix) => {
+    for (const entrada of readdirSync(directorio, { withFileTypes: true })) {
+      const ruta = join(directorio, entrada.name);
+      const relativa = prefix ? `${prefix}/${entrada.name}` : entrada.name;
+      const stat = lstatSync(ruta);
+      if (stat.isSymbolicLink()) enlaces.push(relativa);
+      else if (stat.isDirectory()) visitar(ruta, relativa);
+      else if (stat.isFile()) archivos.push({ relativo: relativa, bytes: readFileSync(ruta) });
+      else otros.push(relativa);
+    }
+  };
+  visitar(root, "");
+  const porRuta = (a, b) => a.localeCompare(b);
+  archivos.sort((a, b) => porRuta(a.relativo, b.relativo));
+  enlaces.sort(porRuta);
+  otros.sort(porRuta);
+  return { tipo: "arbol", archivos, enlaces, otros };
+}
+
+function treeDigest(root) {
+  // El formato del hash es el de RC8 y no cambia: una ruta, un NUL y los bytes del archivo. Para
+  // un árbol sin enlaces —todos los del kit— el digest de antes y el de ahora son el mismo número.
+  const descripcion = describirArbol(root);
+  if (descripcion === null) return null;
   const hash = createHash("sha256");
-  // Una copia puede ser un archivo suelto —el núcleo que carga el host no es un árbol— y
-  // esa comprobación es la que C1 exige sobre lo que cada host ejecuta. Un archivo se
-  // nombra por su base para que su digest no pueda coincidir con el de la carpeta que lo contiene.
-  if (lstatSync(root).isFile()) {
-    hash.update(basename(root));
+  if (descripcion.tipo === "enlace") return hash.digest("hex");
+  if (descripcion.tipo === "archivo") {
+    hash.update(descripcion.nombre);
     hash.update("\0");
-    hash.update(readFileSync(root));
+    hash.update(descripcion.bytes);
     hash.update("\n");
     return hash.digest("hex");
   }
-  const files = readdirSync(root, { recursive: true, withFileTypes: true })
-    .filter((entry) => entry.isFile())
-    .map((entry) => join(entry.parentPath, entry.name))
-    .sort((a, b) => relative(root, a).localeCompare(relative(root, b)));
-  for (const file of files) {
-    hash.update(relative(root, file).replaceAll("\\", "/"));
+  for (const archivo of descripcion.archivos) {
+    hash.update(archivo.relativo);
     hash.update("\0");
-    hash.update(readFileSync(file));
+    hash.update(archivo.bytes);
     hash.update("\n");
   }
   return hash.digest("hex");
 }
 
+function mismoArchivo(rutaA, bytesA, rutaB, bytesB) {
+  if (bytesA.equals(bytesB)) return true;
+  if (!esTexto(rutaA, bytesA) || !esTexto(rutaB, bytesB)) return false;
+  return sinCrDelanteDeLf(bytesA).equals(sinCrDelanteDeLf(bytesB));
+}
+
+function mismaForma(a, b) {
+  if (a.length !== b.length) return false;
+  return a.every((valor, i) => valor === b[i]);
+}
+
+/** La identidad la da el contenido de cada archivo en su posicion, no su nombre: dos archivos con
+ *  los mismos bytes en rutas distintas son dos archivos distintos, porque lo que se instala es la
+ *  estructura. Lo que se relaja es el CR de un CRLF, y solo en archivos de texto. */
+function mismoArbol(a, b) {
+  if (!a || !b || a.tipo !== b.tipo) return false;
+  if (a.tipo === "archivo") {
+    // Un archivo suelto conserva la regla del RC8: tambien hay que llamarse igual. El nombre dice
+    // que clase de objeto se esta mirando; el contenido dice si es el mismo.
+    return a.nombre === b.nombre && mismoArchivo(a.nombre, a.bytes, b.nombre, b.bytes);
+  }
+  if (a.tipo === "enlace" || b.tipo === "enlace") return a.tipo === b.tipo && a.nombre === b.nombre;
+  if (a.archivos.length !== b.archivos.length) return false;
+  if (!mismaForma(a.enlaces, b.enlaces) || !mismaForma(a.otros, b.otros)) return false;
+  const enB = new Map(b.archivos.map((archivo) => [archivo.relativo, archivo.bytes]));
+  for (const archivo of a.archivos) {
+    const bytesB = enB.get(archivo.relativo);
+    if (!bytesB || !mismoArchivo(archivo.relativo, archivo.bytes, archivo.relativo, bytesB)) return false;
+  }
+  return true;
+}
+
 export function sameTree(source, destination) {
-  const sourceDigest = treeDigest(source);
-  return sourceDigest !== null && sourceDigest === treeDigest(destination);
+  return mismoArbol(describirArbol(source), describirArbol(destination));
 }
 
 // --- la entrada local: el ejecutable que la prosa de MYCELIUM nombra ---------

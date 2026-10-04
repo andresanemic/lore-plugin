@@ -62,13 +62,22 @@ test("el caso real del 2026-10-04: arbol fuente en CRLF y copia instalada en LF 
 
 test("un archivo suelto en CRLF y su copia en LF son el mismo archivo", (t) => {
   // La produccion compara archivos, no arboles: `opencode-statusline.tui.tsx` contra su copia.
+  // Los dos se llaman igual, porque en un archivo suelto el nombre tambien cuenta: dice que clase
+  // de objeto se esta mirando. El contenido dice si es el mismo.
   const base = scratch(t);
   const crlf = "export default {\r\n  id: 'lore-plugin.statusline',\r\n};\r\n";
-  const source = join(base, "fuente.tsx");
-  const installed = join(base, "instalada.tsx");
-  writeFileSync(source, crlf);
-  writeFileSync(installed, LF(crlf));
-  assert.equal(sameTree(source, installed), true);
+  const nombre = "opencode-statusline.tui.tsx";
+  const source = join(tree(base, "fuente", { [nombre]: crlf }), nombre);
+  const instalado = join(tree(base, "instalada", { [nombre]: LF(crlf) }), nombre);
+  assert.equal(sameTree(source, instalado), true);
+});
+
+test("un archivo suelto con otro nombre no es el mismo archivo, aunque los bytes sean los mismos", (t) => {
+  const base = scratch(t);
+  const bytes = "contenido\n";
+  const uno = join(tree(base, "fuente", { "uno.md": bytes }), "uno.md");
+  const otro = join(tree(base, "instalada", { "otro.md": bytes }), "otro.md");
+  assert.equal(sameTree(uno, otro), false);
 });
 
 // --- texto: por extension y por contenido, con el binario por delante ------------------
@@ -145,7 +154,7 @@ test("CR LF contra LF LF: los dos LF no se funden", (t) => {
   const base = scratch(t);
   const source = tree(base, "fuente", { "a.md": "uno\r\n" });
   const instalado = tree(base, "instalado", { "a.md": "uno\n\n" });
-  assert.equal(sameTree(source, installed), false);
+  assert.equal(sameTree(source, instalado), false);
 });
 
 // --- cardinalidad ----------------------------------------------------------------------
@@ -210,8 +219,8 @@ test("una junction no es el directorio al que apunta", (t) => {
   writeFileSync(join(destino, "SKILL.md"), "mismo\n");
 
   const conDirectorio = tree(base, "con-directorio", { "use-lore/SKILL.md": "mismo\n" });
-  const conJunction = tree(base, "con-junction", {});
-  mkdirSync(join(conJunction, "use-lore"), { recursive: true });
+  const conJunction = join(base, "con-junction");
+  mkdirSync(conJunction, { recursive: true });
   if (!junction(t, destino, join(conJunction, "use-lore"))) {
     t.skip("este sistema no permite crear junctions");
     return;

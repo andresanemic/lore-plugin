@@ -215,7 +215,7 @@ test("OpenCode reinstala cuando el checkout paso de LF a CRLF y la copia instala
   const first = installOpenCode({ home, packageRoot });
 
   const toCrlf = (root) => {
-    for (const file of readdirSync(root, { recursive: true, withFileTypes: true }).filter((entry) => entry.isFile())) {
+    for (const entry of readdirSync(root, { recursive: true, withFileTypes: true }).filter((item) => item.isFile())) {
       const path = join(entry.parentPath, entry.name);
       const text = readFileSync(path, "utf8");
       if (text.includes("\n")) writeFileSync(path, text.replaceAll("\n", "\r\n"));
