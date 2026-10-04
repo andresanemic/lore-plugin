@@ -596,6 +596,13 @@ export function installOpenCode({ home, packageRoot }) {
   const pluginRoot = join(configRoot, "plugin");
   const tuiRoot = join(configRoot, "plugins");
   const tuiConfigPath = join(configRoot, "tui.json");
+  const versionReceiptPath = join(configRoot, "lore-plugin.json");
+  const packageManifest = JSON.parse(readFileSync(join(packageRoot, "package.json"), "utf8"));
+  const kernelProvenance = readFileSync(join(packageRoot, "skills", "vespi", "core", "kernel", "SOURCE.md"), "utf8");
+  const kernelVersion = kernelProvenance.match(/Vespi kernel \*\*(\d+\.\d+\.\d+)\*\*/)?.[1] ?? null;
+  if (typeof packageManifest.version !== "string" || !kernelVersion) {
+    throw new Error("OpenCode install requires package.json version and Vespi kernel version provenance");
+  }
   const tuiSource = join(packageRoot, "hooks", "opencode-statusline.tui.tsx");
   const tuiDestination = join(tuiRoot, OPENCODE_TUI_PLUGIN);
 
@@ -624,8 +631,19 @@ export function installOpenCode({ home, packageRoot }) {
     ["OpenCode TUI root", tuiRoot],
     ["OpenCode TUI config", tuiConfigPath],
     ["OpenCode TUI plugin", tuiDestination],
+    ["OpenCode Lore version receipt", versionReceiptPath],
   ]) {
     assertInsidePerimeter({ home, target, label });
+  }
+
+  if (existsSync(versionReceiptPath)) {
+    if (lstatSync(versionReceiptPath).isSymbolicLink() || !lstatSync(versionReceiptPath).isFile()) {
+      throw new Error(`Refusing to replace a non-regular OpenCode Lore version receipt: ${versionReceiptPath}`);
+    }
+    const oldReceipt = JSON.parse(readFileSync(versionReceiptPath, "utf8"));
+    if (oldReceipt.name !== "@andresanemic/lore-plugin") {
+      throw new Error(`Refusing to replace a different file at ${versionReceiptPath}`);
+    }
   }
 
   if (existsSync(tuiDestination) && lstatSync(tuiDestination).isSymbolicLink()) {
@@ -669,6 +687,13 @@ export function installOpenCode({ home, packageRoot }) {
 
   const cli = installLocalEntry({ home, packageRoot, host: "opencode" });
 
+  // OpenCode stores individual skills and hooks, not the package manifest. Keep a small
+  // Lore-owned version receipt beside them so a read-only host audit can report exactly
+  // which package version the copied skills came from.
+  const versionReceipt = { name: "@andresanemic/lore-plugin", version: packageManifest.version, kernelVersion };
+  writeFileSync(versionReceiptPath, JSON.stringify(versionReceipt, null, 2) + "\n", "utf8");
+  const versionVerified = JSON.parse(readFileSync(versionReceiptPath, "utf8")).version === packageManifest.version;
+
   // Los plugins locales se autodescubren: instalar no es editar `opencode.jsonc`. Se copia
   // encima de lo que hubiera y no se toca ningún otro archivo del directorio, porque ahí
   // viven los plugins de otra persona.
@@ -677,10 +702,11 @@ export function installOpenCode({ home, packageRoot }) {
     pluginRoot,
     tuiRoot,
     tuiConfigPath,
+    versionReceiptPath,
     cliRoot: cli.cliRoot,
     entryRoot: cli.entryRoot,
     digest: cli.digest,
     cli,
-    verified: skillsVerificadas && pluginVerificado && tuiVerificado && cli.verified,
+    verified: skillsVerificadas && pluginVerificado && tuiVerificado && cli.verified && versionVerified,
   };
 }

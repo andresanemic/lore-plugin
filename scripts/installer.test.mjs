@@ -9,11 +9,14 @@ import { installClaude, installCodex, installOpenCode, claudeCommands, claudePlu
 
 const makePackage = () => {
   const root = mkdtempSync(join(tmpdir(), "lore-package-"));
+  writeFileSync(join(root, "package.json"), '{"name":"@andresanemic/lore-plugin","version":"2.0.0"}\n');
   mkdirSync(join(root, ".codex-plugin"), { recursive: true });
   mkdirSync(join(root, "skills", "use-lore"), { recursive: true });
   mkdirSync(join(root, "hooks"), { recursive: true });
   writeFileSync(join(root, ".codex-plugin", "plugin.json"), '{"name":"lore","version":"2.0.0"}');
   writeFileSync(join(root, "skills", "use-lore", "SKILL.md"), "---\nname: use-lore\n---\n");
+  mkdirSync(join(root, "skills", "vespi", "core", "kernel"), { recursive: true });
+  writeFileSync(join(root, "skills", "vespi", "core", "kernel", "SOURCE.md"), "Fixed copy of the Vespi kernel **0.1.4** inside Lore Plugin **2.0.0**.\n");
   writeFileSync(join(root, "hooks", "hooks.json"), '{"hooks":{}}');
   // OpenCode carga `{plugin,plugins}/*.{ts,js}`: el adaptador y el núcleo que comparte
   // viajan en el paquete, y un fixture que los omitiera certificaría un instalador que
@@ -191,6 +194,11 @@ test("OpenCode reinstala las skills locales y verifica su digest", () => {
   const result = installOpenCode({ home, packageRoot });
   assert.equal(result.verified, true);
   assert.equal(sameTree(join(packageRoot, "skills"), result.skillsRoot), true);
+  assert.deepEqual(JSON.parse(readFileSync(result.versionReceiptPath, "utf8")), {
+    name: "@andresanemic/lore-plugin",
+    version: "2.0.0",
+    kernelVersion: "0.1.4",
+  });
 
   writeFileSync(join(result.skillsRoot, "use-lore", "SKILL.md"), "alterado\n");
   assert.equal(sameTree(join(packageRoot, "skills"), result.skillsRoot), false);
