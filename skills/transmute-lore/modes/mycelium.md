@@ -259,14 +259,14 @@ and if the same finding is really isolation, pruning destroys the junction nobod
 written as a two-sided junction or declined in writing with its reason — record it:
 
 ```bash
-node "$LORE_CLI" mycelium receipt          # Bash/Zsh; or: --tree <dir>
+node "$LORE_CLI" mycelium receipt --accept-always-on   # Bash/Zsh; or: --tree <dir>
 ```
 
 ```powershell
-node "$env:LORE_CLI" mycelium receipt       # or: --tree <dir>
+node "$env:LORE_CLI" mycelium receipt --accept-always-on   # or: --tree <dir>
 ```
 
-**Two conditions, not one.** The connection review performed and the receipt written are
+**It writes, so it asks.** `receipt` is not a query: it writes receipt v2 at the tree root, and writing needs `--accept-always-on` every time, not only when the block grew. Without the flag it writes nothing, says what it would record and what is missing, and exits with a code that does not read as approved — so running it "just to check" cannot overwrite the state another sweep left. (Correction of 2026-10-04: the flag used to be needed only for a material expansion, and running it without it recorded state anyway.) **Two conditions, not one.** The connection review performed and the receipt written are
 separate facts, and only the second one is a file. The receipt is what makes the bracket persist
 for the next cut; it is **not** evidence that the review happened well, and it never stands in for
 the connection review that precedes it. When the review was performed and the receipt could not be
@@ -278,9 +278,7 @@ file the tree holds plus `alwaysOnBytes`, the normalized size of criterion bodie
 task. The Claude Code `Stop` hook and the Codex `SessionStart` + `PostToolUse` pair compare that state
 against the tree and intervene when Lore changed and no sweep was recorded since.
 
-If the loaded bodies grew by 8 KiB or more, the command leaves the receipt untouched and asks for
-authority in plain language. After approval, record it with `--accept-always-on`. The flag accepts
-the expansion only; it does not replace the connection review.
+If the loaded bodies grew by 8 KiB or more, the flag also accepts that expansion, and without it the command names the growth as part of what is missing. The flag accepts the expansion only; it does not replace the connection review.
 
 **Only the full pass closes it.** `mycelium bodies` and `mycelium federated` are structural scans: they check that the index reaches each module and that a bot's always-on block carries the triplete rule, and they say so in their own output; neither asks what step runs each clue. The receipt records the state of the tree, not the quality of the review. Reporting the sweep as closed after running only the structural scans is the defect corrected in 2.4.9 (agreement 019, amendment d): the closing sentence names which scans ran, and «MYCELIUM passed» is said only after the full pass.
 

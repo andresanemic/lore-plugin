@@ -205,8 +205,18 @@ if (command === "mycelium") {
     process.exit(1);
   }
   const guard = evaluateState(current, readReceipt(tree));
-  if (guard.requiresApproval && args.indexOf("--accept-always-on") === -1) {
-    console.log(formatIntervention({ ...guard, pendingLore: false }));
+  // R4, fricción 2 (2026-10-04): sin la opción de aceptación NO se escribe. El nombre del
+  // comando invita a usarlo como consulta —«corre el receipt a ver»— y grababa estado en el
+  // árbol: el chequeo se llevaba por delante el estado de otro barrido sin que nadie lo
+  // pidiera. Escribir es el efecto; el efecto se pide explícito.
+  if (!args.includes("--accept-always-on")) {
+    console.log(`Nothing recorded for ${tree}: mycelium receipt writes ${RECEIPT}, and writing needs the explicit --accept-always-on.`);
+    console.log(`Would record ${current.fileCount} Lore file(s) in ${tree}; digest ${current.digest.slice(0, 12)}...`);
+    // Y si además el bloque siempre-activo creció de forma material, se dice aquí y no
+    // después de escribir: la intervención y el registro no pueden contradecirse.
+    if (guard.requiresApproval) console.log(formatIntervention({ ...guard, pendingLore: false }));
+    console.log("Missing: --accept-always-on — the acceptance of this tree's state. Nothing was written and nothing was changed.");
+    console.log("This records the state of the tree; it does not certify that the sweep ran (every clue getting a step, a junction written or declined with its reason).");
     process.exit(2);
   }
   const value = writeReceipt(tree, current);

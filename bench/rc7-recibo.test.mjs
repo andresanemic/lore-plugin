@@ -629,7 +629,10 @@ test("la entrada local escribe un recibo real sin npm, y su huella se recalcula 
   const r = installer.installCli({ home, packageRoot: kit, host: "claude" });
   const tree = arbolFixture(join(base, "arbol"));
 
-  const salida = correr([join(r.entryRoot, "scripts", "lore-cli.mjs"), "mycelium", "receipt", "--tree", tree]);
+  // R4: escribir es el efecto y el efecto se pide —`--accept-always-on` es la autoridad de
+  // escribir, no solo la del crecimiento. Lo que esta prueba sigue certifying es lo de antes:
+  // la entrada local escribe un recibo real sin npm, y su huella se recalcula por fuera.
+  const salida = correr([join(r.entryRoot, "scripts", "lore-cli.mjs"), "mycelium", "receipt", "--tree", tree, "--accept-always-on"]);
   assert.equal(salida.status, 0, `el recibo debería escribirse sin npm. stdout: ${salida.stdout} stderr: ${salida.stderr}`);
 
   const recibo = JSON.parse(readFileSync(join(tree, ".lore-mycelium"), "utf8"));
@@ -653,7 +656,7 @@ test("el crecimiento del bloque siempre-activo sin autoridad deja el recibo inta
   const tree = arbolFixture(join(base, "arbol"));
   const cli = join(r.entryRoot, "scripts", "lore-cli.mjs");
 
-  assert.equal(correr([cli, "mycelium", "receipt", "--tree", tree]).status, 0, "primer recibo");
+  assert.equal(correr([cli, "mycelium", "receipt", "--tree", tree, "--accept-always-on"]).status, 0, "primer recibo");
   const antes = readFileSync(join(tree, ".lore-mycelium"), "utf8");
 
   writeFileSync(join(tree, "lore", "principios.md"), `# Principios\n\nLey.\n\n${"criterio ".repeat(1200)}\n`, "utf8");
