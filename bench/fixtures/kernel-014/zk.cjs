@@ -60,11 +60,10 @@ function readZkClaim(receipt) {
 
 function reconcileZk(receipt, verification) {
   const observed = readZkEvidence(receipt);
-  // Un zk con result 'verified' y verified false es consistente a proposito; lo incoherente es al reves.
-  if (observed.present && observed.result === 'verified' && observed.verified !== true) {
-    return { ok: false, code: 'zk_inconsistent' };
-  }
-  if (verification?.verified === false && observed.observed === 'verified') {
+  // Un result 'verified' con verified false es CONSISTENTE a proposito (B7): el puerto dice que el
+  // efecto no quedo probado. Lo incoherente es al reves: la evidencia se declara verificada y el
+  // recibo no la respalda. Eso no se reconcilia como verified.
+  if (observed.present && observed.result === 'verified' && observed.verified === true && verification?.verified !== true) {
     return { ok: false, code: 'zk_inconsistent' };
   }
   return { ok: true, code: null };

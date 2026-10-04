@@ -78,7 +78,8 @@ const CAPABILITIES = {
       "ZK_VK_SCHEMA",
       "ZK_EVIDENCE_SCHEMA",
     ],
-    sourceNames: ["ZK_CHECK_KEYS", "LIMIT_CHECKS", "VK_SCHEMA", "EVIDENCE_SCHEMA"],
+    // Alias explicito: el nombre del kit lleva prefijo ZK_ y el del modulo no.
+    aliases: { ZK_LIMIT_CHECKS: "LIMIT_CHECKS", ZK_VK_SCHEMA: "VK_SCHEMA", ZK_EVIDENCE_SCHEMA: "EVIDENCE_SCHEMA" },
   },
 };
 
@@ -137,9 +138,7 @@ test("A01 la fachada reexporta cada capacidad presente con el nombre y el objeto
     assert.ok(synthetic.modules().includes(spec.module), `el fixture no.trajo ${spec.module}`);
     const kernel = kernelRequire(`./${spec.module}`);
     for (const name of spec.names) {
-      const exported = spec.sourceNames?.includes(name)
-        ? kernel[spec.sourceNames[spec.sourceNames.indexOf(name)]]
-        : kernel[name];
+      const exported = kernel[spec.aliases?.[name] ?? name];
       assert.equal(typeof exported !== "undefined", true, `${capability}: el modulo no trae ${name}`);
       assert.equal(facade[name], exported, `${capability}.${name} no es la misma funcion que la del kernel`);
     }
@@ -179,7 +178,6 @@ test("A02b una capacidad ausente queda ausente y la fachada lo dice", async () =
 test("A03 importar la fachada no hace I/O, no crea recibos, no crea backend ZK y no carga la referencia", async () => {
   const synthetic = syntheticKit({ extra: ["zk-bn254-reference.cjs"] });
   const loaded = [];
-  const before = new Set(process.getBuiltinModule ? [] : []);
   const probe = { calls: 0 };
   const originalLog = console.log;
   console.log = () => { probe.calls += 1; };
@@ -190,7 +188,6 @@ test("A03 importar la fachada no hace I/O, no crea recibos, no crea backend ZK y
     console.log = originalLog;
   }
   assert.equal(probe.calls, 0, "importar la fachada no puede escribir nada");
-  assert.ok(before.size === 0);
 
   // Ninguna referencia ZK cargada: si se hubiera cargado, el requireCache traeria el basename.
   const required = (await import("node:module")).createRequire(import.meta.url);
@@ -273,12 +270,18 @@ test("A05 emergencia sin concesion real, con senal propia, o revisada por si mis
   assert.equal(negado.code, "grantor_unauthorized");
   assert.equal(negado.coverage.grantor_authority, false);
 
-  // Concedido de verdad, pero la senal viene del propio ejecutor y no esta ligada al disparador.
+  // Concedido de verdad. Sin puerto de verificacion no hay uso: la fachada no suple la senal.
   const concedido = await facade.createEmergencyPermission({ trigger, grantor: "persona", maxUses: 2 }, {
     authorizeGrantor: async () => ({ authorized: true }),
   });
   assert.equal(concedido.ok, true);
-  const sinSenal = await facade.exerciseEmergency(concedido.permission, { signal: { trigger: trigger } }, {
+  await assert.rejects(
+    () => facade.exerciseEmergency(concedido.permission, { signal: { trigger } }, { ledger: facade.createEmergencyLedger() }),
+    /signal port/,
+  );
+
+  // El propio ejecutor presenta su propia senal y el puerto se la devuelve sin ligar al disparador.
+  const sinSenal = await facade.exerciseEmergency(concedido.permission, { signal: { trigger } }, {
     ledger: facade.createEmergencyLedger(),
     resolveVerifier: async (signal) => signal,
   });
@@ -289,7 +292,7 @@ test("A05 emergencia sin concesion real, con senal propia, o revisada por si mis
   // Control positivo con disparador ligado.
   const ejercicio = await facade.exerciseEmergency(concedido.permission, { signal: { trigger } }, {
     ledger: facade.createEmergencyLedger(),
-    resolveVerifier: async (signal) => ({ trigger: signal.trigger, source: "host-sensor" }),
+      resolveVerifier: async (signal) => ({ trigger: signal.trigger, verifiedByHost: true }),
   });
   assert.equal(ejercicio.ok, true);
   assert.equal(ejercicio.receipt.effect_verified, false, "el efecto nunca queda verificado por el uso");
@@ -319,7 +322,7 @@ test("A06 un ledger distinto no resetea, y pausar o reanudar conserva los contad
   });
   const ledgerUno = facade.createEmergencyLedger();
   const ledgerDos = facade.createEmergencyLedger();
-  const io = { resolveVerifier: async (signal) => ({ trigger: signal.trigger }) };
+  const io = { resolveVerifier: async (signal) => ({ trigger: signal.trigger, verifiedByHost: true }) };
 
   await facade.exerciseEmergency(permission, { signal: { trigger } }, { ledger: ledgerUno, ...io });
   assert.equal(facade.getEmergencyState(permission).uses, 1);
@@ -356,10 +359,26 @@ test("A07 procedencia: eco del resolvedor, author ausente, bytes cambiados y dec
   const { claim } = facade.registerSkillProvenance(spec);
   assert.ok(claim);
 
-  // Eco: el resolvedor devuelve la propia declaracion y no aporta author ni bytes.
-  const eco = await facade.verifySkillProvenance(claim, async () => ({ ...spec }), {});
+  // Lo que el resolvedor recibe es solo name, repository y commit. Ni el author, ni el digest que el
+  // kit espera: si se los pasara, un resolvedor que devuelve la propia declaracion compararia consigo mismo.
+  let pregunta = null;
+  const eco = await facade.verifySkillProvenance(claim, async (q) => { pregunta = q; return { ...spec }; }, {});
+  assert.deepEqual(Object.keys(pregunta).sort(), ["commit", "name", "repository"]);
+  assert.equal("author" in pregunta, false);
+  assert.equal("contentDigest" in pregunta, false);
+  // Repetir la declaracion no observa la existencia del commit: eso no lo puede watch el eco.
+  assert.equal(eco.coverage.commit_exists, false);
   assert.equal(eco.status, "not_verifiable");
-  assert.equal(eco.coverage.content_digest, false);
+
+  // El resolvedor declara el digest que el kit espera y no manda bytes: declararlo no es recalcular.
+  const digestDeclarado = await facade.verifySkillProvenance(claim, async () => ({
+    repository: spec.repository,
+    commitExists: true,
+    author: spec.author,
+    contentDigest: createHash("sha256").update(spec.content).digest("hex"),
+  }), {});
+  assert.equal(digestDeclarado.coverage.content_digest, false, "un digest declarado no equivale a que el kernel lo recalculo");
+  assert.equal(digestDeclarado.status, "not_verifiable");
 
   // Pregunta sin author: el resolvedor nunca recibio el author esperado, asi que no puede acertarlo.
   const sinAuthor = await facade.verifySkillProvenance(claim, async () => ({
@@ -373,6 +392,7 @@ test("A07 procedencia: eco del resolvedor, author ausente, bytes cambiados y dec
     repository: spec.repository, commitExists: true, author: spec.author, content: "print(2)",
   }), {});
   assert.equal(otrosBytes.coverage.content_digest, false);
+  assert.equal(otrosBytes.status, "not_verifiable");
 
   // Camino fuerte: observation separada y contenido identico.
   const fuerte = await facade.verifySkillProvenance(claim, async () => ({
@@ -538,7 +558,7 @@ test("A12 timeout tras el posible envio: sin reintento, sin output acreditado, r
   const facade = await syntheticKit().load();
   const terms = { id: "p4", asset: "USDC", amount: 10, to: "0xabc", network: "base" };
   const puertos = paymentPorts();
-  puertos.ports.http.sendPaid = async () => { throw new Error("timeout"); };
+  puertos.ports.http.sendPaid = async () => { puertos.calls.push(["sendPaid"]); throw new Error("timeout"); };
   await assert.rejects(() => facade.createX402Payment(terms, puertos.ports).run({ id: "op-5" }), /timeout/);
   // Lo que el kit puede afirmar tras un timeout es que el envio pudo ocurrir: no que no ocurrio.
   assert.equal(puertos.calls.some(([name]) => name === "sendPaid"), true, "el envio se intento: no se puede decir que no ocurrio");
@@ -575,18 +595,21 @@ test("A13 ZK sin backend, con inputs distintos o con backend truthy: nunca verif
   assert.equal(llamadas.length, 0, "los inputs distintos del acuerdo no llegan al backend");
 
   // Un backend que devuelve un objeto truthy no es una verificacion.
+  const llamadasMentirosas = [];
   const mentiroso = facade.createZkVerifier({
     verificationKey: { vk: 1 },
     expectedPublicInputs: ["a", "b"],
-    backend: async () => ({ verified: true }),
+    backend: async (request) => { llamadasMentirosas.push(request); return { verified: true }; },
   });
   const answered = await mentiroso({ proof: {}, publicInputs: ["a", "b"] });
   assert.equal(answered.verified, false);
   assert.equal(answered.code, "proof_rejected");
-  assert.equal(llamadas.length, 1);
+  assert.equal(llamadasMentirosas.length, 1, "el backend mentiroso si llego a llamarse: lo que no verifica es su objeto truthy");
+  assert.equal(llamadas.length, 0, "el camino feliz todavia no habia llegado al backend");
 
   // Camino feliz, con la limitacion de que esto es el backend del fixture y no criptografia.
   const bueno = await conBackend({ proof: {}, publicInputs: ["a", "b"] });
+  assert.equal(llamadas.length, 1);
   assert.equal(bueno.verified, true);
   assert.equal(bueno.backendDigest, "sha256:fixture");
 });
@@ -634,7 +657,7 @@ test("A15 ningun recibo nativo lleva estampa del kit, y todos verifican su diges
     (await facade.exerciseEmergency(
       (await facade.createEmergencyPermission({ trigger: "t", grantor: "p" }, { authorizeGrantor: async () => ({ authorized: true }) })).permission,
       { signal: { trigger: "t" } },
-      { resolveVerifier: async (signal) => ({ trigger: signal.trigger }) },
+      { resolveVerifier: async (signal) => ({ trigger: signal.trigger, verifiedByHost: true }) },
     )).receipt,
   ];
   for (const receipt of natives) {

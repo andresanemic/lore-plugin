@@ -88,6 +88,148 @@ const delegationKernel = require("./kernel/delegation.js");
 
 export const { createOperation, runOperation, STATES } = kernel;
 
+// --- Capacidades opcionales del kernel ------------------------------------------------------------
+//
+// Estas cuatro capacidades no son conducta del kit: son superficies que el kernel ofrece y que el
+// acuerdo tiene que nombrar para que se usen. Se reexportan enteras, con el nombre que el kernel les
+// da y el mismo objeto, sin redecidir permiso, permiso de uso, liquidacion, verificacion ni recibo.
+//
+// PRESENTES es lo unico que decide si algo se expone: se lee el directorio vendorizado, no una lista
+// escrita a mano. Un modulo que no esta en la copia no se inventa, no se rellena con un stub y no se
+// simula: el nombre queda con valor undefined y OPTIONAL_CAPABILITIES lo dice. Cuando el coordinador
+// vendorice el corte final, lo que llegue queda expuesto sin editar una sola lista.
+//
+// Lo que NO se expone, y por que:
+// - zk-bn254-reference.js: la referencia declara en su propia documentacion que es experimental y no
+//   auditada. Su presencia fisica en la copia es parte del conjunto vendorizado; no es un backend del
+//   kit y ninguna ruta de aqui la activa.
+// - authority-narrowing.js: cubre solo {spend}, rechaza multifirma y pausers, y comparar dos
+//   instantaneas sin reservar saldo podria borrar restricciones que el kit si conserva. No hay
+//   consumidor demostrado que lo necesite.
+// - COVERED_CHECKS, FP_MODULUS, SCALAR_MODULUS de zk.js: un Set mutable y aritmetica de campos. La
+//   fachada no necesita abrirlos para usar el puerto.
+const OPTIONAL_SURFACE = {
+  emergency: {
+    module: "emergency",
+    names: [
+      "createEmergencyPermission",
+      "createEmergencyLedger",
+      "exerciseEmergency",
+      "reviewEmergencyUse",
+      "pauseEmergencyPermission",
+      "resumeEmergencyPermission",
+      "revokeEmergencyPermission",
+      "getEmergencyState",
+      "renewEmergencyPermission",
+    ],
+  },
+  provenance: {
+    module: "skill-provenance",
+    names: [
+      "registerSkillProvenance",
+      "verifySkillProvenance",
+      "authorizeSkill",
+      "loadSkill",
+      "buildSkillReceipt",
+      "listSkillProvenance",
+      "SKILL_PROVENANCE_STATUSES",
+    ],
+  },
+  x402: {
+    module: "x402",
+    names: ["createX402Payment", "selectX402Terms", "createMemoryPaymentClaims"],
+  },
+  zk: {
+    module: "zk",
+    // LIMIT_CHECKS, VK_SCHEMA y EVIDENCE_SCHEMA salen con prefijo ZK_: son nombres NUEVOS del kit, con
+    // alias explicito, porque una fachada que reexporta cuatro	Check_keys y cuatro LIMIT_CHECKS de dos
+    // capacidades distintas se lee como una sola.
+    names: [
+      "createZkVerifier",
+      "digestZkVerificationKey",
+      "readZkEvidence",
+      "readZkClaim",
+      "reconcileZk",
+      "claimsZk",
+      "ZK_CHECK_KEYS",
+      "LIMIT_CHECKS:ZK_LIMIT_CHECKS",
+      "VK_SCHEMA:ZK_VK_SCHEMA",
+      "EVIDENCE_SCHEMA:ZK_EVIDENCE_SCHEMA",
+    ],
+  },
+};
+
+// Un modulo ausente no es un error: es el estado normal de una copia que todavia no lo trae.
+function optionalKernelModule(name) {
+  try {
+    const loaded = require(`./kernel/${name}.js`);
+    return typeof loaded === "object" && loaded !== null ? loaded : null;
+  } catch (err) {
+    if (err?.code === "MODULE_NOT_FOUND" && String(err.message).includes(`${name}.js`)) return null;
+    throw err;
+  }
+}
+
+const OPTIONAL_LOADED = {};
+const OPTIONAL_STATE = {};
+for (const [capability, spec] of Object.entries(OPTIONAL_SURFACE)) {
+  const loaded = optionalKernelModule(spec.module);
+  const exposed = {};
+  const missing = [];
+  for (const entry of spec.names) {
+    const [from, to = from] = entry.split(":");
+    // Si el modulo no trae el nombre, tampoco se inventa: se dice cual falta y se sigue.
+    if (loaded !== null && loaded[from] !== undefined) exposed[to] = loaded[from];
+    else missing.push(from);
+  }
+  OPTIONAL_LOADED[capability] = exposed;
+  OPTIONAL_STATE[capability] = Object.freeze({
+    present: loaded !== null,
+    module: loaded === null ? null : `./kernel/${spec.module}.js`,
+    exposed: Object.freeze(Object.keys(exposed)),
+    missing: Object.freeze(missing),
+  });
+}
+
+// Que capacidades trajo la copia vendorizada y cuales no. Se lee antes de usar ninguna, y es lo que
+// permite a un consumidor decir "no tengo ZK" sin adivinarlo por un error de importacion.
+export const OPTIONAL_CAPABILITIES = Object.freeze(OPTIONAL_STATE);
+
+// Identidad con el modulo, no copia: lo que el kernel liga con WeakMap (el grantor de una emergencia,
+// el registro de procedencia) tiene que seguir siendo el del MISMO objeto de este require.
+export const createEmergencyPermission = OPTIONAL_LOADED.emergency.createEmergencyPermission;
+export const createEmergencyLedger = OPTIONAL_LOADED.emergency.createEmergencyLedger;
+export const exerciseEmergency = OPTIONAL_LOADED.emergency.exerciseEmergency;
+export const reviewEmergencyUse = OPTIONAL_LOADED.emergency.reviewEmergencyUse;
+export const pauseEmergencyPermission = OPTIONAL_LOADED.emergency.pauseEmergencyPermission;
+export const resumeEmergencyPermission = OPTIONAL_LOADED.emergency.resumeEmergencyPermission;
+export const revokeEmergencyPermission = OPTIONAL_LOADED.emergency.revokeEmergencyPermission;
+export const getEmergencyState = OPTIONAL_LOADED.emergency.getEmergencyState;
+export const renewEmergencyPermission = OPTIONAL_LOADED.emergency.renewEmergencyPermission;
+
+export const registerSkillProvenance = OPTIONAL_LOADED.provenance.registerSkillProvenance;
+export const verifySkillProvenance = OPTIONAL_LOADED.provenance.verifySkillProvenance;
+export const authorizeSkill = OPTIONAL_LOADED.provenance.authorizeSkill;
+export const loadSkill = OPTIONAL_LOADED.provenance.loadSkill;
+export const buildSkillReceipt = OPTIONAL_LOADED.provenance.buildSkillReceipt;
+export const listSkillProvenance = OPTIONAL_LOADED.provenance.listSkillProvenance;
+export const SKILL_PROVENANCE_STATUSES = OPTIONAL_LOADED.provenance.SKILL_PROVENANCE_STATUSES;
+
+export const createX402Payment = OPTIONAL_LOADED.x402.createX402Payment;
+export const selectX402Terms = OPTIONAL_LOADED.x402.selectX402Terms;
+export const createMemoryPaymentClaims = OPTIONAL_LOADED.x402.createMemoryPaymentClaims;
+
+export const createZkVerifier = OPTIONAL_LOADED.zk.createZkVerifier;
+export const digestZkVerificationKey = OPTIONAL_LOADED.zk.digestZkVerificationKey;
+export const readZkEvidence = OPTIONAL_LOADED.zk.readZkEvidence;
+export const readZkClaim = OPTIONAL_LOADED.zk.readZkClaim;
+export const reconcileZk = OPTIONAL_LOADED.zk.reconcileZk;
+export const claimsZk = OPTIONAL_LOADED.zk.claimsZk;
+export const ZK_CHECK_KEYS = OPTIONAL_LOADED.zk.ZK_CHECK_KEYS;
+export const ZK_LIMIT_CHECKS = OPTIONAL_LOADED.zk.ZK_LIMIT_CHECKS;
+export const ZK_VK_SCHEMA = OPTIONAL_LOADED.zk.ZK_VK_SCHEMA;
+export const ZK_EVIDENCE_SCHEMA = OPTIONAL_LOADED.zk.ZK_EVIDENCE_SCHEMA;
+
 // K7 re-exported whole: the orchestrator's review gate lives in the kernel and this facade does
 // not re-decide it. What the host hands back from a delegated run is a message, not a result, so
 // the orchestrator fills these in from what it observed itself — nothing here infers a delegate's

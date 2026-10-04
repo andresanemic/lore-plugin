@@ -5,7 +5,8 @@
 // loadSkill es el RESULTADO DE VERIFICACION y no la decision de authorizeSkill.
 const { createHash } = require('node:crypto');
 
-const records = new Map();
+const claims = new WeakSet();
+const verifications = new Map();
 const SKILL_PROVENANCE_STATUSES = Object.freeze(['verified', 'not_verifiable', 'unverified']);
 
 const digestOf = (bytes) => createHash('sha256').update(bytes).digest('hex');
@@ -22,12 +23,12 @@ function registerSkillProvenance(spec) {
   if (claim.name === null || claim.repository === null || claim.commit === null) {
     return { ok: false, code: 'incomplete_spec' };
   }
-  records.set(claim, true);
+  claims.add(claim);
   return { ok: true, claim };
 }
 
 function recordOf(claim) {
-  return claim !== null && typeof claim === 'object' && records.get(claim) === true;
+  return claim !== null && typeof claim === 'object' && claims.has(claim);
 }
 
 async function verifySkillProvenance(claim, resolver, options = {}) {
@@ -51,13 +52,13 @@ async function verifySkillProvenance(claim, resolver, options = {}) {
   }
   const status = coverage.repository && coverage.commit_exists && coverage.author && coverage.content_digest ? 'verified' : 'not_verifiable';
   const verification = { status, coverage, contentRecomputed: true, observation: observed ?? null };
-  records.set(verification, claim);
+  verifications.set(verification, claim);
   return verification;
 }
 
 function verificationOf(claim, verification) {
-  if (!recordOf(claim) || !recordOf(verification)) return null;
-  return records.get(verification) === claim ? verification : null;
+  if (!recordOf(claim) || verification === null || typeof verification !== 'object') return null;
+  return verifications.get(verification) === claim ? verification : null;
 }
 
 function authorizeSkill(claim, verification, requested) {
@@ -100,7 +101,7 @@ function buildSkillReceipt(spec, decisionOrLoad) {
 }
 
 function listSkillProvenance() {
-  return [...records.keys()].filter((key) => recordOf(key)).map((claim) => ({ name: claim.name, repository: claim.repository, commit: claim.commit }));
+  return [...verifications.values()].map((claim) => ({ name: claim.name, repository: claim.repository, commit: claim.commit }));
 }
 
 module.exports = {

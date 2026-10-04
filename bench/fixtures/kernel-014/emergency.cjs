@@ -61,7 +61,7 @@ async function exerciseEmergency(permission, request, options = {}) {
   const verifier = options.resolveVerifier ?? options.resolveSignal;
   if (typeof verifier !== 'function') throw new Error('exerciseEmergency needs a signal port');
   const signal = await verifier(request?.signal ?? null);
-  const bound = signal !== null && signal !== undefined && signal.trigger === permission.trigger;
+  const bound = signal !== null && signal !== undefined && signal.trigger === permission.trigger && signal.verifiedByHost === true;
   if (!bound) {
     return { ok: false, code: 'trigger_unverified', coverage: grantorAuthorityCovered(true), notCovered: [...NO_ANCHOR] };
   }
