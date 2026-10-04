@@ -28,6 +28,10 @@ When the person asks to coordinate existing work across projects, use the bounde
 5. Arbitrate conflicts between sources and territories. Keep a scientific finding separate from a product decision, and a simulated result separate from a real effect.
 6. Show a short, truthful checkpoint: completed, running, pending, blocked, next decision and its owner. Bring a changed scope or authority back to the person; do not silently approve it.
 
+When several authorized operations are ready, give each a bounded stretch before repeating one. At the existing checkpoint, name the operation just served and the next ready operation. Repeat a turn only for a recorded dependency, an authorized urgent exception, or because no other operation is ready. A worker's claimed urgency is not authority. Waiting operations do not consume a turn and are not failures. This rule coordinates turns; it does not promise CPU shares, deadlines, background monitoring, or a scheduler.
+
+Pausing and resuming keep the same operation identity and the record of its last served stretch. They never reset spent budget, attempts, pending review, or uncertain effects. Recheck the existing authority and continuity gates before resuming. A new name or a fresh worker does not grant a fresh budget or priority.
+
 This is an invocable way to run a multi-step operation, not a permanent mode or a new agent. It stops when direct execution is enough.
 
 Before running work concurrently, you may call `node skills/vespi/core/host-resources.mjs` from the installed kit to measure time, free/total memory and available parallelism. Its result is a local snapshot, not a quota or an authorization; if it is unavailable, say “not measured” and choose a conservative sequence. Do not run the probe by default on every turn or copy private host details into public Lore.
