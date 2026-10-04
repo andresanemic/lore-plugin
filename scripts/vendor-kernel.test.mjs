@@ -252,6 +252,26 @@ test("otro commit declarado en el encabezado es una diferencia, aunque los cuerp
   assert.ok(report.differences.length > 0);
 });
 
+test("cuando los cuerpos coinciden y solo cambia el commit del encabezado, la diferencia lo dice así", () => {
+  // Es el caso del día de la integración: el kernel avanzó en documentación y los módulos no. La
+  // diferencia tiene que leerse como lo que es, no como «los bytes son distintos» en siete archivos.
+  const fijado = kernelRepo({ modules: BASE_MODULES, branch: "release/0.1.4-prep" });
+  const kitDirectory = kitRoot();
+  vendorKernel({ source: fijado.root, ref: fijado.ref, kitRoot: kitDirectory, published: "2026-10-05" });
+
+  put(join(fijado.root, "NOTAS.md"), "una nota que no es codigo\n");
+  git(fijado.root, ["add", "-A"]);
+  git(fijado.root, ["commit", "-qm", "notas"]);
+  const movido = git(fijado.root, ["rev-parse", "HEAD"]).trim();
+
+  const report = vendorKernel({ source: fijado.root, ref: "HEAD", kitRoot: kitDirectory, published: "2026-10-05", check: true });
+  assert.equal(report.ok, false);
+  const modulos = report.differences.filter((item) => item.path !== join("core", "kernel", "SOURCE.md"));
+  assert.equal(modulos.length, 3);
+  assert.ok(modulos.every((item) => item.reason.includes("los cuerpos coinciden") && item.reason.includes(movido.slice(0, 7))), `razones: ${JSON.stringify(report.differences)}`);
+  assert.ok(report.differences.some((item) => item.path === join("core", "kernel", "SOURCE.md")), "SOURCE.md también nombra el commit, y tiene que distinguirse");
+});
+
 test("el CLI devuelve 0 si todo cuadra, 1 si difiere y 2 si no se puede ni leer", () => {
   const repo = kernelRepo({ modules: BASE_MODULES });
   const root = kitRoot();

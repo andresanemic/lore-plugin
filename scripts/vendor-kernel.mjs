@@ -23,6 +23,8 @@ import {
   VENDORED_PACKAGE_JSON,
   declaredBranch,
   declaredPublished,
+  bodyAfterHeader,
+  headerLinesOf,
   kernelDirOf,
   kernelModules,
   readVendoredPackageJson,
@@ -204,12 +206,13 @@ export function vendorKernel({
   const rows = [];
   const files = [];
   for (const name of selected) {
-    const bytes = readSourceModule(git, commit, name);
-    rows.push({ name, digest: sha256(bytes), bytes: bytes.length });
+    const body = readSourceModule(git, commit, name);
+    rows.push({ name, digest: sha256(body), bytes: body.length });
     files.push({
       name,
       relative: join("core", "kernel", name),
-      bytes: Buffer.concat([Buffer.from(provenanceHeader({ name, kernelVersion, branch: declaredBranchName, short }), "utf8"), bytes]),
+      body,
+      bytes: Buffer.concat([Buffer.from(provenanceHeader({ name, kernelVersion, branch: declaredBranchName, short }), "utf8"), body]),
     });
   }
 
@@ -237,8 +240,18 @@ export function vendorKernel({
   const differences = [];
   for (const file of files) {
     const path = join(kernelDir, file.name);
-    if (!existsSync(path)) differences.push({ path: file.relative, reason: "no está vendorizado" });
-    else if (!readFileSync(path).equals(file.bytes)) differences.push({ path: file.relative, reason: "los bytes son distintos" });
+    if (!existsSync(path)) {
+      differences.push({ path: file.relative, reason: "no está vendorizado" });
+    } else if (readFileSync(path).equals(file.bytes)) {
+      continue;
+    } else if (file.body && bodyAfterHeader(readFileSync(path)).equals(file.body)) {
+      // El caso que el encargo del día de la integración tiene que poder leer de un vistazo: el
+      // código es el mismo y lo único que cambia es el commit del que se dice que viene.
+      const declared = headerLinesOf(readFileSync(path))[1]?.match(/commit ([0-9a-f]{7,40})\b/)?.[1] ?? "sin commit";
+      differences.push({ path: file.relative, reason: `los cuerpos coinciden; el encabezado declara ${declared} y el ref es ${short}` });
+    } else {
+      differences.push({ path: file.relative, reason: "los bytes son distintos" });
+    }
   }
   for (const name of orphans) {
     differences.push({ path: join("core", "kernel", name), reason: "está vendorizado y este ref no lo trae" });
