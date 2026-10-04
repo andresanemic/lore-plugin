@@ -1,5 +1,7 @@
 ## 6. Invariantes operativas
 
+El digest SHA-256 del recibo prueba integridad, no autoría: quien pueda escribir el archivo puede forjar el recibo. El JSON de estado de operación en `FASES.md` tampoco tiene sello; quien pueda escribir allí puede forjarlo. El estado persistido no es una frontera de seguridad frente a quien ya puede escribir en el repositorio.
+
 El comportamiento de Lore está gobernado por un conjunto de invariantes compartidas:
 
 - **El Lore se escribe en el idioma del usuario** – contenido y nombres de artefactos; solo el

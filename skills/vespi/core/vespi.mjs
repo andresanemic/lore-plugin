@@ -1,7 +1,7 @@
 // vespi core facade — RC3 experimental.
-// Ported kernel (operation/authority/receipt/continuity/delegation: a 3-line provenance header,
-// then the exact bytes of the Vespi kernel 0.1.3 candidate as of commit 892bd91,
-// branch codex/rc6, canonical source founder/proyectos/vespi/kernel/src/ —
+// Ported kernel (operation/authority/receipt/continuity/delegation/time: a 3-line provenance header,
+// then the exact bytes of the Vespi kernel 0.1.4 as of commit fde2ee0,
+// branch release/0.1.4-prep, canonical source founder/proyectos/vespi/kernel/src/ —
 // digests in ./kernel/SOURCE.md; pinned snapshot, never edited in place)
 // plus RC3 truthfulness wrappers. No scheduler, no router, no managers.
 import { createRequire } from "node:module";

@@ -111,7 +111,7 @@ export async function callTool(name, args = {}) {
     if (name === 'vespi_about') {
       const changelog = await getDocument('vespi-kernel-changelog');
       const release = await getDocument('release-2-4-9');
-      const status = 'Vespi kernel 0.1.3 is published. Version 0.1.4 is prepared and not published, as stated in its CHANGELOG.';
+      const status = 'Vespi kernel 0.1.4 was published on 2026-10-05 as v0.1.4-kernel; Lore Plugin 2.4.9 carries its fixed copy.';
       return resultText(JSON.stringify({ status, citations: [JSON.parse(payload(changelog, changelog.text.slice(0, 1100))), JSON.parse(payload(release, release.text.slice(0, 900)))] }));
     }
     if (['kit_cases','kit_bibliography','kit_genealogy','kit_release_notes'].includes(name)) { const type = ({ kit_cases:'cases', kit_bibliography:'bibliography', kit_genealogy:'genealogy', kit_release_notes:'release' })[name]; const docs = await docsOf(type); return resultText(JSON.stringify(await Promise.all(docs.map(async (d) => { const full = await getDocument(d.id); return JSON.parse(payload(full)); })))); }

@@ -6,7 +6,7 @@
     "lang": "en",
     "title": "Lore Plugin public overview",
     "path": "README.md",
-    "sha256": "c6e5563b16e88d2f5e00cad755ae1f14a5bfeaf8efa7ba7b6bd7161190300ae4"
+    "sha256": "758714d435124f0efcb2087ec31e544112f2b247ee642059fe25253ea4578292"
   },
   {
     "id": "skill-use-lore",
@@ -78,7 +78,7 @@
     "lang": "en",
     "title": "vespi skill",
     "path": "skills/vespi/SKILL.md",
-    "sha256": "3b58eca2c8f446829798625b1e8992dcebb1c9a77c0bbe25032a58712f2f6f70"
+    "sha256": "1a35196543a6ae834b7e5640ce5618b4af427c184c423eccdf16eda3c47465bf"
   },
   {
     "id": "vespi-method",
@@ -96,7 +96,7 @@
     "lang": "en",
     "title": "Lore Plugin reference EN",
     "path": "docs/REFERENCE_en.md",
-    "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392"
+    "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e"
   },
   {
     "id": "reference-es",
@@ -105,7 +105,7 @@
     "lang": "es",
     "title": "Lore Plugin reference ES",
     "path": "docs/REFERENCE_es.md",
-    "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4"
+    "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d"
   },
   {
     "id": "90_seconds-en",
@@ -222,7 +222,7 @@
     "lang": "en",
     "title": "Lore Plugin 2.4.9 release notes",
     "path": "docs/RELEASE_2.4.9.md",
-    "sha256": "682afb1b0a6df9fde171db1159aa566a61c2fcee6cc2912d81549655687a85cc"
+    "sha256": "bbc729129cdc1e3ec78530758f8a4eda0d43a3912856a434b376290a3a7359bc"
   },
   {
     "id": "vespi-kernel-readme",
@@ -231,7 +231,7 @@
     "lang": "en",
     "title": "Vespi kernel README",
     "path": "vespi-kernel/README.md",
-    "sha256": "0c0a539e1c5a5a98be09262ccbbca9461db17f98217e691f17575fcc1668afbb"
+    "sha256": "74c9895b35a7b07a13b201f78f02150bcc67be8e7a8b3df0655e86a3317f7246"
   },
   {
     "id": "vespi-kernel-method",
@@ -249,7 +249,7 @@
     "lang": "en",
     "title": "Vespi kernel prior art",
     "path": "vespi-kernel/PRIOR_ART.md",
-    "sha256": "cbedc21c29d36d770c32dbb4760838820958410c27b390db3d53dcec9ab5991b"
+    "sha256": "26b71f7476553d74a596e63e839c4e8cdd5637bef1922c54514ef4251681a9d4"
   },
   {
     "id": "vespi-kernel-changelog",
@@ -258,6 +258,6 @@
     "lang": "en",
     "title": "Vespi kernel changelog",
     "path": "vespi-kernel/CHANGELOG.md",
-    "sha256": "2dfa7399a4497d454522d5e61db60ce3716617f50675a759aa325d64962ee09d"
+    "sha256": "c714d76c0c1303accec65f091568430f93752bf80efdf28945243f9cc3d9209a"
   }
 ]

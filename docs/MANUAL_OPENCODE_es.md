@@ -1,6 +1,6 @@
 # Manual de Lore Plugin y Vespi desde OpenCode
 
-Este manual describe la versión prevista para Lore Plugin 2.4.9 y Vespi Kernel 0.1.4. La fecha anunciada para ambos releases es el lunes 2026-10-05. Mientras no estén publicados, instala desde el release cuando exista; no uses instrucciones de Ollama ni de modelos locales.
+Este manual describe Lore Plugin 2.4.9 y el kernel Vespi 0.1.4, publicados el 2026-10-05. Sigue las instrucciones de instalación de esa versión; este manual no usa instrucciones de Ollama ni de modelos locales.
 
 ## Qué vas a lograr
 
@@ -12,7 +12,7 @@ Instala OpenCode siguiendo su [documentación oficial](https://opencode.ai/docs/
 
 ## Instalar Lore Plugin
 
-Cuando el release 2.4.9 esté disponible, instala esa versión y ejecuta desde una terminal:
+Con Lore Plugin 2.4.9 instalado, ejecuta desde una terminal:
 
 ```sh
 lore-plugin install --target opencode

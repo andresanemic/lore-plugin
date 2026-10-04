@@ -8,3 +8,4 @@
 
 `transmute-lore` does not commit: the diff is yours to review as a human editor. With one or two
 pilots migrated, reuse the same patterns across the Area's other repositories.
+

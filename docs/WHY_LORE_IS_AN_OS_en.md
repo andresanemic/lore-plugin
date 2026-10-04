@@ -35,7 +35,7 @@ Loops are work cycles with an exit condition; TDD can organize part of software 
 
 ## Status and limits
 
-As this text is prepared, the repository identifies Lore Plugin 2.4.9 and lists Vespi Kernel 0.1.4 as prepared, not published. The Monday, 2026-10-05 publication date comes from the release assignment. The 0.1.4 notes describe a prepared version with 267 tests and six simulated independent verification passes; these are not an external audit. The real superreview is still pending. TDD was used with red-first tests to fix reproduced kernel defects; this does not claim every product change follows TDD. QA has automated tests and those simulated passes, but is not presented as certification or a real independent evaluation.
+Lore Plugin 2.4.9 and Vespi Kernel 0.1.4 were published on 2026-10-05. The kernel release prep suite passed 277/277 tests; six simulated independent verification passes are recorded, and they are not an external audit. The real superreview is still pending. TDD was used with red-first tests to fix reproduced kernel defects; this does not claim every product change follows TDD. QA has automated tests and those simulated passes, but is not presented as certification or a real independent evaluation.
 
 Vespi does not claim mainnet, production availability, a stable protocol, or a production runtime. Lore Plugin and the kernel also do not promise that AI will always be right, that receipts are identity signatures, or that the system replaces your judgment. The published limits for kernel 0.1.4 describe a verifiable demo without external connectivity inside the kernel; do not mistake evidence from a specific test for general production readiness.
 
@@ -51,4 +51,4 @@ If you already work with AI and want to improve your workflows, Lore Plugin pres
 
 **Release notes:**
 
-Lore Plugin 2.4.9 organizes criteria, routing, and method for working with AI. Vespi Kernel 0.1.4 adds experimental mechanisms for bounded operations under authority and continuity through receipts. The prepared version records 267 tests and six simulated independent verification passes; the real superreview is pending. TDD was used for fixes with red-first tests. No mainnet or production readiness is claimed.
+Lore Plugin 2.4.9 organizes criteria, routing, and method for working with AI. Vespi Kernel 0.1.4 adds experimental mechanisms for bounded operations under authority and continuity through receipts. The release prep suite passed 277/277 tests, and six simulated independent verification passes are recorded; the real superreview is pending. TDD was used for fixes with red-first tests. No mainnet or production readiness is claimed.

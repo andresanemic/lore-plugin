@@ -5,6 +5,8 @@ use, core concepts, the exact spec for every skill, mode and artifact, and how t
 project. For the motivation, the architecture at a glance and the index of every document, see the
 main [`README.md`](../README.md); for the 90-second version, [`90_SECONDS_en.md`](./90_SECONDS_en.md).
 
+This reference describes Lore Plugin 2.4.9, published on 2026-10-05, carrying a fixed copy of Vespi kernel 0.1.4. See [`RELEASE_2.4.9.md`](./RELEASE_2.4.9.md) for the release summary.
+
 ---
 
 ## Getting started

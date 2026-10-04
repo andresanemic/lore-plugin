@@ -391,13 +391,13 @@ Areas and projects are places; **a bot is a lens you carry into them.** An Area 
 
 **Day one needs two of these:** `use-lore` routes you to whatever comes next, and `save-to-lore` is the one you will actually type — *"save to lore"*, after solving something that cost you. **Getting started, day-to-day use and the full mechanism for every skill and mode** live in one place: [`REFERENCE_en.md`](./docs/REFERENCE_en.md).
 
-The 2.4.9 candidate retires four things: encryption, the `lore-ecosistema/` copy, `create-bot`'s local launcher, and the Professor with its Notebook. A shared repository takes their place. Detail in [`REFERENCE_en.md`](./docs/REFERENCE_en.md).
+Version 2.4.9 retires four things: encryption, the `lore-ecosistema/` copy, `create-bot`'s local launcher, and the Professor with its Notebook. A shared repository takes their place. Detail in [`REFERENCE_en.md`](./docs/REFERENCE_en.md).
 
 ---
 
 ## Vespi
 
-**Vespi is the kernel that runs under Lore Plugin: [kernel 0.1.3](https://github.com/andresanemic/vespi/releases/tag/v0.1.3-kernel) is published, and 2.4.9 brings its operation layer into the kit.**
+**Vespi is the kernel that runs under Lore Plugin: [kernel 0.1.4](https://github.com/andresanemic/vespi/releases/tag/v0.1.4-kernel) was published on 2026-10-05, and Lore Plugin 2.4.9 carries that fixed copy.**
 
 <p align="center">
   <img src="./assets/vespi-B.png" alt="Vespi" width="100%">
@@ -993,13 +993,13 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 **El primer día necesitas dos de estas:** `use-lore` te enruta hacia lo que sigue, y `save-to-lore` es la que vas a escribir de verdad — *"guarda en lore"*, después de resolver algo que te costó. **Cómo empezar, el uso cotidiano y el mecanismo completo de cada skill y modo** viven en un solo lugar: [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
 
-La candidata 2.4.9 retira cuatro cosas: el cifrado, la copia `lore-ecosistema/`, el launcher local de `create-bot` y el Professor con su Cuaderno. En su lugar queda un repositorio compartido. Detalle en [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
+La versión 2.4.9 retira cuatro cosas: el cifrado, la copia `lore-ecosistema/`, el launcher local de `create-bot` y el Professor con su Cuaderno. En su lugar queda un repositorio compartido. Detalle en [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
 
 ---
 
 ## Vespi
 
-**Vespi es el kernel que corre bajo Lore Plugin: el [kernel 0.1.3](https://github.com/andresanemic/vespi/releases/tag/v0.1.3-kernel) está publicado y el 2.4.9 trae su capa de operación al kit.**
+**Vespi es el kernel que corre bajo Lore Plugin: el [kernel 0.1.4](https://github.com/andresanemic/vespi/releases/tag/v0.1.4-kernel) se publicó el 2026-10-05 y Lore Plugin 2.4.9 lleva esa copia fija.**
 
 <p align="center">
   <img src="./assets/vespi-B.png" alt="Vespi" width="100%">

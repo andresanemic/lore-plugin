@@ -1,8 +1,8 @@
 # Changelog
 
-## 0.1.4: prepared, not published
+## [v0.1.4-kernel] — 2026-10-05
 
-Prepared in this worktree; not published or tagged. This section describes the pending cut, not a public release.
+Published on 2026-10-05 as `v0.1.4-kernel`; the previous release is `v0.1.3-kernel`.
 
 ### Added
 
@@ -26,13 +26,13 @@ Prepared in this worktree; not published or tagged. This section describes the p
 - Lightweight receipt chaining with `prev`, recording intent before the effect, and accumulated budgets across operations.
 - `narrow(parent, child)` and a resume epoch.
 - Leases and leader election, a scheduler, and a project-owned Merkle log are not recommended for this kernel cut.
-- Six independent verification passes; every defect they reproduced (eight in the first, more in time handling, unknown-shape signals and asynchronous clocks later) was corrected with a red-first test; 267 tests. This prepared cut is not published.
+- Six independent verification passes; every defect they reproduced (eight in the first, more in time handling, unknown-shape signals and asynchronous clocks later) was corrected with a red-first test; those passes recorded 267 tests, and the final release prep suite passed 277/277.
 
 All notable public changes to Vespi will be recorded here.
 
 This project is experimental. Before `v1.0.0`, version numbers describe public snapshots of a system still under active arbitration.
 
-## [v0.1.3-kernel] — 2026-10-03
+## [v0.1.3-kernel] — 2026-10-03 (historical)
 
 Released: this version carries the `v0.1.3-kernel` tag; the previous tag is `v0.1.2-kernel`. Everything below was read in this tree.
 The note that opens with what this changes for the person is [`RELEASE_0.1.3_KERNEL.md`](./docs/RELEASE_0.1.3_KERNEL.md).

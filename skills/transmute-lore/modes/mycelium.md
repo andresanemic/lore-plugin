@@ -282,7 +282,7 @@ If the loaded bodies grew by 8 KiB or more, the command leaves the receipt untou
 authority in plain language. After approval, record it with `--accept-always-on`. The flag accepts
 the expansion only; it does not replace the connection review.
 
-**Only the full pass closes it.** `mycelium bodies` and `mycelium federated` are structural scans: they check that the index reaches each module and that a bot's always-on block carries the triplete rule, and they say so in their own output; neither asks what step runs each clue. The receipt records the state of the tree, not the quality of the review. Reporting the sweep as closed after running only the structural scans is the defect the 2.4.9 candidate corrects (agreement 019, amendment d): the closing sentence names which scans ran, and «MYCELIUM passed» is said only after the full pass.
+**Only the full pass closes it.** `mycelium bodies` and `mycelium federated` are structural scans: they check that the index reaches each module and that a bot's always-on block carries the triplete rule, and they say so in their own output; neither asks what step runs each clue. The receipt records the state of the tree, not the quality of the review. Reporting the sweep as closed after running only the structural scans is the defect corrected in 2.4.9 (agreement 019, amendment d): the closing sentence names which scans ran, and «MYCELIUM passed» is said only after the full pass.
 
 **Why a fact and not a sentence, and this is the correction that 2.4.2 exists for.** Until then the
 hook accepted the word *MYCELIUM* appearing anywhere in the agent's prose as evidence that the sweep

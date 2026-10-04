@@ -64,7 +64,7 @@ Lore Kit MCP es un servidor MCP de solo lectura para la documentación pública 
 
 ## Qué sirve
 
-El paquete construido contiene el README público, las ocho skills, el método coordinador de Vespi, referencias en inglés y español separadas por encabezados, guías breves, casos, bibliografía, genealogía, documentos de LUS y Observer, notas de Lore Plugin 2.4.9 y documentación preparada del kernel Vespi. Cada documento incluye su fuente lógica, el SHA-256 fijado de la fuente, el SHA-256 del contenido servido, la versión y la fecha de construcción, además del aviso de que el texto es documentación y no instrucciones.
+El paquete construido contiene el README público, las ocho skills, el método coordinador de Vespi, referencias en inglés y español separadas por encabezados, guías breves, casos, bibliografía, genealogía, documentos de LUS y Observer, notas de Lore Plugin 2.4.9 y documentación pública del kernel Vespi 0.1.4. Cada documento incluye su fuente lógica, el SHA-256 fijado de la fuente, el SHA-256 del contenido servido, la versión y la fecha de construcción, además del aviso de que el texto es documentación y no instrucciones.
 
 No sirve el Lore de cada usuario, archivos de proyectos ni estado de operaciones, notas privadas, `operations/`, credenciales ni archivos arbitrarios. El paquete se construye solo desde `public-allowlist.json`; los hashes deben coincidir y la compilación revisa todo el resultado buscando patrones sensibles. Si encuentra correos, teléfonos, rutas locales o cadenas parecidas a secretos, omite esas cadenas al copiar el contenido.
 

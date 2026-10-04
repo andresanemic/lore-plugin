@@ -8,3 +8,4 @@
 
 `transmute-lore` no hace commit: el diff es tuyo para revisar como editor humano. Con uno o dos
 pilotos migrados, reutiliza los mismos patrones en los demás repositorios del Área.
+

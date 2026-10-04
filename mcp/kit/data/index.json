@@ -1,6 +1,6 @@
 {
   "packageVersion": "0.1.0",
-  "builtAt": "2026-10-03T15:11:42.234Z",
+  "builtAt": "2026-10-04T04:09:54.936Z",
   "documents": [
     {
       "id": "readme",
@@ -8,8 +8,8 @@
       "lang": "en",
       "title": "Lore Plugin public overview",
       "path": "README.md",
-      "sha256": "c6e5563b16e88d2f5e00cad755ae1f14a5bfeaf8efa7ba7b6bd7161190300ae4",
-      "contentSha256": "87522cdcf6ad95e23d0a79e2325ed9e2659370d92050e128b47a779629d6ba0a",
+      "sha256": "758714d435124f0efcb2087ec31e544112f2b247ee642059fe25253ea4578292",
+      "contentSha256": "85402b4c94b3a7e35f321ff10f7fe9d34e024cb7fd9e7f0c7eaf23228b8f25db",
       "file": "content/readme.md"
     },
     {
@@ -88,8 +88,8 @@
       "lang": "en",
       "title": "vespi skill",
       "path": "skills/vespi/SKILL.md",
-      "sha256": "3b58eca2c8f446829798625b1e8992dcebb1c9a77c0bbe25032a58712f2f6f70",
-      "contentSha256": "3b58eca2c8f446829798625b1e8992dcebb1c9a77c0bbe25032a58712f2f6f70",
+      "sha256": "1a35196543a6ae834b7e5640ce5618b4af427c184c423eccdf16eda3c47465bf",
+      "contentSha256": "1a35196543a6ae834b7e5640ce5618b4af427c184c423eccdf16eda3c47465bf",
       "file": "content/skill-vespi.md"
     },
     {
@@ -108,8 +108,8 @@
       "lang": "en",
       "title": "Lore Plugin – Reference",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "48f9526245a1fed1ac67a169af25ab397bec22699177ee23d435523d99b56516",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "f28cf6bde3ebe40cf92d5e5d00a9a25e759146171b27378046f9a1f9eb96989c",
       "file": "content/reference-en-001-lore-plugin-reference.md"
     },
     {
@@ -118,8 +118,8 @@
       "lang": "en",
       "title": "Getting started",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "60cad58e9c8f6f3879cefdaef2d3dc1a66ad1382a3d48b6ddc23fc4ee194e636",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "415b9032fce2aa32d881006d9521f996e9cfcc743136ea5c8b315980ce9be988",
       "file": "content/reference-en-002-getting-started.md"
     },
     {
@@ -128,8 +128,8 @@
       "lang": "en",
       "title": "The daily loop",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "686c5f9fb0bea7d3075e8a04e354eba8da04a56734379375a581fb8ae7e17a39",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "097a0e882dafbf8a69ea47cb6b7d27780cde87b132da5b63d10836055b874f16",
       "file": "content/reference-en-003-the-daily-loop.md"
     },
     {
@@ -138,8 +138,8 @@
       "lang": "en",
       "title": "Your first Area and project",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "fa4e374d4c42fe2d581f4692c6de71691b2a75749e22a064d70731b2ebc4a8d7",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "47e8d82b5332b3d27b4898c0452909163ed9c5a1926c4385daa3b6340fb99d49",
       "file": "content/reference-en-004-your-first-area-and-project.md"
     },
     {
@@ -148,8 +148,8 @@
       "lang": "en",
       "title": "Best practices",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "c12e6a529c661099af0ca777bdb338fdd3cd035fd9e4bf5778ad3502eb78cb0c",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "460ad565bcc2f78394f47bdfa8c3d2548acdeac87bcb15952d25271f325a5a4e",
       "file": "content/reference-en-005-best-practices.md"
     },
     {
@@ -158,8 +158,8 @@
       "lang": "en",
       "title": "1. Core Concepts",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "6eb5a9fbdb46677ffd2700c5594e150237b0ec37dc58d4fde020ee41bdcc1779",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "cd573aa24e21fbc5b65c6e320fdfc0296dc6187a0e528d14d840a0ff914e3b7e",
       "file": "content/reference-en-006-1-core-concepts.md"
     },
     {
@@ -168,8 +168,8 @@
       "lang": "en",
       "title": "2. Skills Overview",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "c6b1b6a349c0d57cecff28d9397c4021a2afcf7c221e9034b709ec3ffd5c3b6f",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "38660727bd7f0e23465ad441024fc6a4a9b5e0e2396c41ee68997b11a5179729",
       "file": "content/reference-en-007-2-skills-overview.md"
     },
     {
@@ -178,8 +178,8 @@
       "lang": "en",
       "title": "3. Skill Details",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "ffce77b44e3be63a07410e00639f0193b803fd82c789b67c0bb8557592b2aa14",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "6e0334648a25f97ec826011b587ae8cd6a5ae3fb0f6ba3c83e17ae3d4b07cf21",
       "file": "content/reference-en-008-3-skill-details.md"
     },
     {
@@ -188,8 +188,8 @@
       "lang": "en",
       "title": "3.1 `use-lore`",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "a65539d97c97d836d3280c3e3fec1ba2a9f604f163a54ea6760a5068e86119d5",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "8d15f5e04b1e8d3c0464cd3476618de51f00cb0c50ed55e84028babd61afa4f4",
       "file": "content/reference-en-009-3-1-use-lore.md"
     },
     {
@@ -198,8 +198,8 @@
       "lang": "en",
       "title": "3.2 `brainstorming-lore`",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "4cec71b56264864794fc758c15da737d958ffc961fbee4517d155d9c3e8a55e9",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "b4b55671c1d04257f8f0cdaf549816539c6537069a49e877db48f05be9ac41e3",
       "file": "content/reference-en-010-3-2-brainstorming-lore.md"
     },
     {
@@ -208,8 +208,8 @@
       "lang": "en",
       "title": "3.3 `create-area`",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "3dc8dc697bc3cf650c5ac66fc6c2c0807f7b7aa8e6446b82ba27900156410f47",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "eeeffa34084645bb79b09bd4c599a4d3095557678b94d782b81b520a5c3155f5",
       "file": "content/reference-en-011-3-3-create-area.md"
     },
     {
@@ -218,8 +218,8 @@
       "lang": "en",
       "title": "3.4 `create-project`",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "644534249c2010041c38dd700e36306d2c1401f5f81887ba190a0fcb33e4e9e4",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "f42d57c40c9a643138babd985c3cea08c981eea4855b8e927c87c49ce9b3f3fa",
       "file": "content/reference-en-012-3-4-create-project.md"
     },
     {
@@ -228,8 +228,8 @@
       "lang": "en",
       "title": "3.5 `save-to-lore`",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "25bd86c6c09ff973f29faff77df19d6cf6e894b32f39ea3b9e34e810945406b5",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "74e0e296ef25d1c26672d4b6e3057b3e75c75ee71b142ca749b4e5369f3d5f59",
       "file": "content/reference-en-013-3-5-save-to-lore.md"
     },
     {
@@ -238,8 +238,8 @@
       "lang": "en",
       "title": "3.6 `transmute-lore`",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "e5a9fd10df8d3c68b674d896c766648cd11496c39f45349f20a04acfadce5ed9",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "6a3b2b6ec771b3a7a125eb04b0003afa1a263c8557a5fcaf6ad0502c1eb35ab1",
       "file": "content/reference-en-014-3-6-transmute-lore.md"
     },
     {
@@ -248,8 +248,8 @@
       "lang": "en",
       "title": "3.7 `create-bot`",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "7956667c73408a187a0b4411615a56918e839cc3c279dd3bc780ecfe958367cb",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "51622daca23cbf833a778d52d4d1536c6972db90734b8e0ea991b1e42a9035b2",
       "file": "content/reference-en-015-3-7-create-bot.md"
     },
     {
@@ -258,8 +258,8 @@
       "lang": "en",
       "title": "3.9 `vespi`",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "ebadc8d2466add892852ce8f0982d61ee7877c2e69409c160f36136a417ca0b8",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "b125ba9256ad01e31cb616aa88953dc8a71e303835a63f2efc484a452c59ab7f",
       "file": "content/reference-en-016-3-9-vespi.md"
     },
     {
@@ -268,8 +268,8 @@
       "lang": "en",
       "title": "3.8 Note function loaded by `save-to-lore`",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "1d7b6e122abf7722424af4bcff89905ced4fed3360a0b0901b4005b0902dec2a",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "a3e354bc99e88383ab635d7c9ebf6f6484a7843b8fe85038bc0e37d9b25b206f",
       "file": "content/reference-en-017-3-8-note-function-loaded-by-save-to-lore.md"
     },
     {
@@ -278,8 +278,8 @@
       "lang": "en",
       "title": "4. Artifacts Specification",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "b82b86450e0ac19fd87583325ef0040f4854d97d07f1757ce542ab5e4aab48dd",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "b22a69241f85d39d9146f331f41588abe430c19c223bc0847a970e9574bc6dd1",
       "file": "content/reference-en-018-4-artifacts-specification.md"
     },
     {
@@ -288,8 +288,8 @@
       "lang": "en",
       "title": "4.1 `lore/identidad.md`",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "9fbed08a751708429a5cfc0ecdb1c6759e2850ff9b7c30d0f5184fcfb468fad1",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "ccb52ab07a8a97c3169396bdb270c95ad82a711d0741fff8cf7091d4c872504f",
       "file": "content/reference-en-019-4-1-lore-identidad-md.md"
     },
     {
@@ -298,8 +298,8 @@
       "lang": "en",
       "title": "4.2 `lore/principios.md`",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "1c4e790337696e00cc37009d3e8f841dfc9e77aebc2cc9c5d9d6b4b529f2cb6a",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "a5d6f0e6a331f958b89d43f64c9a2a7d82470780c9c99e959c1d3745c1ba622f",
       "file": "content/reference-en-020-4-2-lore-principios-md.md"
     },
     {
@@ -308,8 +308,8 @@
       "lang": "en",
       "title": "4.3 Thematic Modules under `lore/`",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "f5f777cb7a619228673cd07aa92f0b0465702c672b8d156cc89d45c3e3be08f6",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "719774f4e4666cc8d6d5ac7d2256dd548785ccc326f47e4c6c95f1656ee539fb",
       "file": "content/reference-en-021-4-3-thematic-modules-under-lore.md"
     },
     {
@@ -318,8 +318,8 @@
       "lang": "en",
       "title": "4.4 `lore/index.md`",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "2138e19739e80ed43089b9dd9789982ae09e7ef376b5e79a8e5ddfe8901adf52",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "7a272a3084fc4df55579831d2e3223a4b017a10aab0e1ff6dffb106c65766835",
       "file": "content/reference-en-022-4-4-lore-index-md.md"
     },
     {
@@ -328,8 +328,8 @@
       "lang": "en",
       "title": "4.5 `FASES.md`",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "28ff0d3ee5f814a52b36923c8ccfa21f9e978ea32a720bad1345d46ebbfebeab",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "fdb902e40e69919a23e171bfcbb42c88f6ff64b54f4a603d9d48e554e85e4982",
       "file": "content/reference-en-023-4-5-fases-md.md"
     },
     {
@@ -338,8 +338,8 @@
       "lang": "en",
       "title": "4.6 `CLAUDE.md` or `AGENTS.md`",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "91d5d84ff0d737e30ed44e59b8e79abdbe240ec97a21a0610f2c615d5681f286",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "577a3d7174cc91c05827a3cda6182dd3bba360e168a65c0109f78ae44b60b14d",
       "file": "content/reference-en-024-4-6-claude-md-or-agents-md.md"
     },
     {
@@ -348,8 +348,8 @@
       "lang": "en",
       "title": "4.7 `golden-paths.md` (optional)",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "904f2a8c8fcc97727d7b29cef1c4c12d0c6c892b3a8048560547c0d14cb8c33e",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "e346905efc17458a64146bee42f798778e98c695187a89cf4f7c1ff2256f0159",
       "file": "content/reference-en-025-4-7-golden-paths-md-optional.md"
     },
     {
@@ -358,8 +358,8 @@
       "lang": "en",
       "title": "4.8 `assets/constitucion-puntero.md` — the pointer constitution (2.1.0)",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "80be4968de1d44f42420da5fba68063c236472fae767b7227180a2879e45fc3a",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "177a01a3feaa38d385a9a01e60885d7554662164f7ff32e78df6612d7e9fd5bf",
       "file": "content/reference-en-026-4-8-assets-constitucion-puntero-md-the-pointer-constitution-2-1-0.md"
     },
     {
@@ -368,8 +368,8 @@
       "lang": "en",
       "title": "5. Filesystem Layout",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "812b2015b5ea4cb9bd5d1a41ea9e5c45b6a4ddbe487ebb02ef2bb8acec9de642",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "7fb5b75ff35af003194f6beafc7b9660ac8ce7b4b306b8c148ff4b3349207b37",
       "file": "content/reference-en-027-5-filesystem-layout.md"
     },
     {
@@ -378,8 +378,8 @@
       "lang": "en",
       "title": "6. Operational Invariants",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "5d0fc56fa394d3bc69698f71e60fbe0175daab2f74cb7a69b515e146f04ddc75",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "2a4b9479cb469ab20073eff27207d5ba09977106ac7e53ad250881581f0c5531",
       "file": "content/reference-en-028-6-operational-invariants.md"
     },
     {
@@ -388,7 +388,7 @@
       "lang": "en",
       "title": "Running OpenCode non-interactively",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
       "contentSha256": "5ff91f3bcca0f0d0dd7dbdb319c3b10c4d1c55b5014324ebd6f4d9604bcc9b94",
       "file": "content/reference-en-029-running-opencode-non-interactively.md"
     },
@@ -398,8 +398,8 @@
       "lang": "en",
       "title": "7. Relationship to the other documents",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "13d305b7ae55c0c60e9182687fbd00f2223f75aec0abfafdd663277538b5a44d",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "e0d471c29fae3191cf8e5bdb8a134792d78661d816a7465879f2d37ef4bb4528",
       "file": "content/reference-en-030-7-relationship-to-the-other-documents.md"
     },
     {
@@ -408,8 +408,8 @@
       "lang": "en",
       "title": "8. Migrating an existing project",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "7eb3da78aa478e345c3400baf71eddd683440246dc8652400c6108a52c3e3508",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "d12a7d8cf8c119d155d37e67b160fb6e1b14c7a5f405510722bc5c39600dbde8",
       "file": "content/reference-en-031-8-migrating-an-existing-project.md"
     },
     {
@@ -418,8 +418,8 @@
       "lang": "en",
       "title": "8.1 Strategy",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "5ef0db96efeef9c0cdb90ddb827ebf80da5fc74b6cd61cadc4c863bbebd7c96f",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "18cfa981ee1049bda80ad80f11c5138662a44eb808df5b89ee90fb07c3e018d1",
       "file": "content/reference-en-032-8-1-strategy.md"
     },
     {
@@ -428,8 +428,8 @@
       "lang": "en",
       "title": "8.2 Mapping old documentation to artifacts",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "0b15f6e3a1e71fded0839a767e4d350d27468332a44d74e96200cd1710eddec1",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "66f09cd1ebc97cae75f8e0835b9b6cc9906bd761285d31d93f4f813702a1668a",
       "file": "content/reference-en-033-8-2-mapping-old-documentation-to-artifacts.md"
     },
     {
@@ -438,9 +438,19 @@
       "lang": "en",
       "title": "8.3 Post-migration checklist",
       "path": "docs/REFERENCE_en.md",
-      "sha256": "515a7ec577f9611bf341eb5cb722da07d7a6e0e3431e1dd4364cde3fe78b9392",
-      "contentSha256": "238a7176d438954ca0a17fefe295fa3d90c1f82d387c031a7ddde6d3e54e3f7e",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "a94275ff36f207b6f7f523526a1353ebdb43a55b083a3b3f36e5b3a3c799f823",
       "file": "content/reference-en-034-8-3-post-migration-checklist.md"
+    },
+    {
+      "id": "reference-en-035-delegating-to-codex-and-opencode-on-windows",
+      "type": "reference",
+      "lang": "en",
+      "title": "Delegating to Codex and OpenCode on Windows",
+      "path": "docs/REFERENCE_en.md",
+      "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e",
+      "contentSha256": "dce3be9c5659b32ae9c95fc9fec398138b33e24fed57d645c956a8081c822b15",
+      "file": "content/reference-en-035-delegating-to-codex-and-opencode-on-windows.md"
     },
     {
       "id": "reference-es-001-plugin-lore-referencia",
@@ -448,8 +458,8 @@
       "lang": "es",
       "title": "Plugin Lore – Referencia",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "7281122e354f3f185ba41be70ea0a619ac472996f079c088cbafb378866e3a2a",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "b28d5812c3cfd1f850e7455e8d347de9a032f904f7e7658d2718b0c42b66aca8",
       "file": "content/reference-es-001-plugin-lore-referencia.md"
     },
     {
@@ -458,8 +468,8 @@
       "lang": "es",
       "title": "Empezar",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "f0a0da2298e404d3cb7b308d5d9f6574c0097dce1d8ad1da332abe2ca923bd8c",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "ac1f664838d99c4fde9e4ffd724d8a69dc9853f590873b68f58d3655b2ad51ae",
       "file": "content/reference-es-002-empezar.md"
     },
     {
@@ -468,8 +478,8 @@
       "lang": "es",
       "title": "El ciclo cotidiano",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "c706d4b74c3fa33102348dfb9002f3dea6b9a207a80faaa3e99746e4d21da867",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "7ec8db3a947f31b708d59c3a2f622e468cbaacfc2d473920e4fbf61a7a771bd4",
       "file": "content/reference-es-003-el-ciclo-cotidiano.md"
     },
     {
@@ -478,8 +488,8 @@
       "lang": "es",
       "title": "Tu primera Área y proyecto",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "5f2b73c1b5b63b7f5b4a9162041b4feb1c83e5440bd6826ef2776797ddcc9971",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "5f1c90607deb6e64d6692ea3afe0715d8c5deefac3aca09005496908a9659e34",
       "file": "content/reference-es-004-tu-primera-area-y-proyecto.md"
     },
     {
@@ -488,8 +498,8 @@
       "lang": "es",
       "title": "Buenas prácticas",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "6d4e2135643e9b03041abb3c85d3138068298c4217eb73578773c626636eaf1e",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "9e9afb36948b9f9512f749e0aabc4fb36e53917d5d228242db96c32495b2c1c3",
       "file": "content/reference-es-005-buenas-practicas.md"
     },
     {
@@ -498,8 +508,8 @@
       "lang": "es",
       "title": "1. Conceptos centrales",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "875a3d372cba3685ad89d60684700fbe0dd8e089fd127bc27e744ad191fcb3d9",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "c8c3e5b28cae37851d0dc6f93cc80f0380ddc32cb534fec2dea1cd96c9869c35",
       "file": "content/reference-es-006-1-conceptos-centrales.md"
     },
     {
@@ -508,8 +518,8 @@
       "lang": "es",
       "title": "2. Resumen de skills",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "f833f627cf959cd5e836dd0ef25a83b343e465685dc19f985548596da93bd915",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "4ffd9acfd67d00d8ee28ce93d8e3c63957ba7fa100218c25f2713fdc01a22497",
       "file": "content/reference-es-007-2-resumen-de-skills.md"
     },
     {
@@ -518,8 +528,8 @@
       "lang": "es",
       "title": "3. Detalle de skills",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "6a822e7802f38475b2f37fb6f9525cdadfca2405cef7665fb5bc2b8bf7e378e6",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "c50ceacb5d453ce6ab736a375404b78c90fbe262af46d0fc4bb14cd6ae5e1908",
       "file": "content/reference-es-008-3-detalle-de-skills.md"
     },
     {
@@ -528,8 +538,8 @@
       "lang": "es",
       "title": "3.1 `use-lore`",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "94a78f83897bf3f43c14672464d7c3902397c40f07ba3fcd812d1a90dcfecb52",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "ceae398e51735844da7387d0655390ca122a49109d41288616c8e76e602ea4cb",
       "file": "content/reference-es-009-3-1-use-lore.md"
     },
     {
@@ -538,8 +548,8 @@
       "lang": "es",
       "title": "3.2 `brainstorming-lore`",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "d5f3d54a6b431dae709e599e65a89c1871968a6f603f2bbf0e281fb5237c0ff0",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "f195cf4e9aee6d51efbbf7dccbf0cea0dfa6e85f13042e95d4e07e09d3f7975a",
       "file": "content/reference-es-010-3-2-brainstorming-lore.md"
     },
     {
@@ -548,8 +558,8 @@
       "lang": "es",
       "title": "3.3 `create-area`",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "a5d95c42e85caa45112cfb6a85cbe81d6f90e19155f1a2e11f31d6b7e8caea18",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "f19dfd7ad44a2ef4370faa1c3d7315893c50de3a619142f14aefde12a594988e",
       "file": "content/reference-es-011-3-3-create-area.md"
     },
     {
@@ -558,8 +568,8 @@
       "lang": "es",
       "title": "3.4 `create-project`",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "ee2457eb447ebcee376e1b6a0c84bee60c1074c94186ce905c4f35fb9083b605",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "9b540450996a7da02900b116e96f4b086f0e17bc3356c8eb750f94e941baff1a",
       "file": "content/reference-es-012-3-4-create-project.md"
     },
     {
@@ -568,8 +578,8 @@
       "lang": "es",
       "title": "3.5 `save-to-lore`",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "6f5033982966e767bff73338a9c9f3fdb96ff36ee3f3020f77a674b6bf32d11b",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "90945023dfc3901fff3446a9c4e71808deac4448fc3a9ebfcb2b17267a44b44a",
       "file": "content/reference-es-013-3-5-save-to-lore.md"
     },
     {
@@ -578,8 +588,8 @@
       "lang": "es",
       "title": "3.6 `transmute-lore`",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "1dce84b097837f2baa6944d2d8bae4ba4d8b91b7aab87fa3aa6fb89668f518a3",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "e430f41db1efb80b0616faebf8a68b22ceb5c541f3b1bfa4710bda4c187f44f0",
       "file": "content/reference-es-014-3-6-transmute-lore.md"
     },
     {
@@ -588,8 +598,8 @@
       "lang": "es",
       "title": "3.7 `create-bot`",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "eeacba81ef59cbe30bc6679e2a655aba9f6d3fe7a699576c566b171fa40b239b",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "4bf08e93430a453917de597cf61a97bbf48303e39c6cf40e4bec3d0a41d3c3cc",
       "file": "content/reference-es-015-3-7-create-bot.md"
     },
     {
@@ -598,8 +608,8 @@
       "lang": "es",
       "title": "3.9 `vespi`",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "636374e1b20564e22902b2fcc79a3a21f9742fc83506afce1d636a5931e62899",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "fb14416d95e8b6758607f93020ce622e1b5da183f95c6df972d11189347bc4bc",
       "file": "content/reference-es-016-3-9-vespi.md"
     },
     {
@@ -608,8 +618,8 @@
       "lang": "es",
       "title": "3.8 Función de notas que carga `save-to-lore`",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "edecb693a255a869d4ed184661161e00948309abaf55f32e183471602722d404",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "322efdb41b7840b68c4b275cd146c0be485ace1d10bc05010c855a35da72cd24",
       "file": "content/reference-es-017-3-8-funcion-de-notas-que-carga-save-to-lore.md"
     },
     {
@@ -618,8 +628,8 @@
       "lang": "es",
       "title": "4. Especificación de artefactos",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "1d5bc97f2b3282686fec74e6c2788045b0b3dfd9534c6fcabb2e2cf130b81ee6",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "71cdd46038a92b9cdbeb316772817129a676a16b7fbaa7810dec5d36868af29d",
       "file": "content/reference-es-018-4-especificacion-de-artefactos.md"
     },
     {
@@ -628,8 +638,8 @@
       "lang": "es",
       "title": "4.1 `lore/identidad.md`",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "e7e385d30ecf75bcfeb42947adfaddbaa4bd858a31b95deb4b575ab20c4b6f28",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "fbda9d3b451f2738a37873b13c89bda08d5d2a6cbd2d3deccfec935fa8e5f25b",
       "file": "content/reference-es-019-4-1-lore-identidad-md.md"
     },
     {
@@ -638,8 +648,8 @@
       "lang": "es",
       "title": "4.2 `lore/principios.md`",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "5149514d129ea7d839357a051fd98cc0cceb6959d5b61fc3197472a2337a782d",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "837ec55139ea3f3a5f905fa95c0ea8516287d2c6aa0d188b486b4f7f378172a6",
       "file": "content/reference-es-020-4-2-lore-principios-md.md"
     },
     {
@@ -648,8 +658,8 @@
       "lang": "es",
       "title": "4.3 Módulos temáticos bajo `lore/`",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "0a81fb59645bec449959b4fd082d777b6c210645ea493e286f189d5a5e6acec1",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "7bc5720034c21f63745246c1781d99f87c538f2a203892ec800be7b689b9deef",
       "file": "content/reference-es-021-4-3-modulos-tematicos-bajo-lore.md"
     },
     {
@@ -658,8 +668,8 @@
       "lang": "es",
       "title": "4.4 `lore/index.md`",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "6626cf0cdf237fcbf57a22934139c87009379df9a7c91ead9001d98105d15b30",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "dc1a4fe38b7aea39ae3180dfe641d180a25863d829ca0c391593d2fb55eda2cd",
       "file": "content/reference-es-022-4-4-lore-index-md.md"
     },
     {
@@ -668,8 +678,8 @@
       "lang": "es",
       "title": "4.5 `FASES.md`",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "3a8302ba76abafcc031a9d47d776d6614e32ade16c2201485b581091e163c0e0",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "9827ce7ef134b3eaa034d123f5250b227b97b8bc3fa198e52bac16816a2e64ac",
       "file": "content/reference-es-023-4-5-fases-md.md"
     },
     {
@@ -678,8 +688,8 @@
       "lang": "es",
       "title": "4.6 `CLAUDE.md` o `AGENTS.md`",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "a2a4edc8ca66a5a88bda80151cffeae45221c36a39096967e99c1180ec74dfc1",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "8fd6c96d06a0f2be3e494ad89a7e9ff00c58b7f7dd828087b7226870fa796341",
       "file": "content/reference-es-024-4-6-claude-md-o-agents-md.md"
     },
     {
@@ -688,8 +698,8 @@
       "lang": "es",
       "title": "4.7 `golden-paths.md` (opcional)",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "1e348924c89418c87bc184419d177f625b77ac88b0f6ee2ad5b1db21d7df17ba",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "33d877b17df893da52f4b7096d1b3ee3552b4f1b07f4cac88c6d4c6e9243aad9",
       "file": "content/reference-es-025-4-7-golden-paths-md-opcional.md"
     },
     {
@@ -698,8 +708,8 @@
       "lang": "es",
       "title": "4.8 `assets/constitucion-puntero.md` — la constitución-puntero (2.1.0)",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "fef3608ecd241adb0c636ca37235169a7ffca1c3a14ca0592249b68646b357b9",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "45609858b747ea4a601dd19c2a258aabc07a559893256dae49c162bcaff5946f",
       "file": "content/reference-es-026-4-8-assets-constitucion-puntero-md-la-constitucion-puntero-2-1-0.md"
     },
     {
@@ -708,8 +718,8 @@
       "lang": "es",
       "title": "5. Estructura de archivos",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "2a59edefccdf772cbb002c6138700cf2d6402927e6597ddbed02fbad133e0b3d",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "6f8ae96b93464d4e74456de717af831ff262fa417623543a5b5c0c19326cbef3",
       "file": "content/reference-es-027-5-estructura-de-archivos.md"
     },
     {
@@ -718,8 +728,8 @@
       "lang": "es",
       "title": "6. Invariantes operativas",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "208acdab43f3660d0f0ac03e9476a88b19be20d48d5aa2748469f1bf6154eefe",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "8705f5916315605bf2bd7240e812e5ff2a9565be0ffddf01e258ed946e29e4ec",
       "file": "content/reference-es-028-6-invariantes-operativas.md"
     },
     {
@@ -728,7 +738,7 @@
       "lang": "es",
       "title": "Ejecutar OpenCode sin interacción",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
       "contentSha256": "1217b8cfafd083f3432d27d0578611fc0a35b13cee6d1c17190cd5041a734c73",
       "file": "content/reference-es-029-ejecutar-opencode-sin-interaccion.md"
     },
@@ -738,8 +748,8 @@
       "lang": "es",
       "title": "7. Relación con los otros documentos",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "1de4c3264393893b7c06da634502144a0273185963d9328f163e3d75ccaa63dd",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "0587194f951edf32677e0beb22f07554970396f4d3c46c2fd893354971c258f8",
       "file": "content/reference-es-030-7-relacion-con-los-otros-documentos.md"
     },
     {
@@ -748,8 +758,8 @@
       "lang": "es",
       "title": "8. Migración de un proyecto existente",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "9bff54ac16cfb99983ba3887962b8e6275202bba201792c14ee343a22db8c566",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "53b09c21a4bbf310fe2ab7377e78e10517d9eb807f0c6204869c62a0b62f71cf",
       "file": "content/reference-es-031-8-migracion-de-un-proyecto-existente.md"
     },
     {
@@ -758,8 +768,8 @@
       "lang": "es",
       "title": "8.1 Estrategia",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "51ee8f556dae3ac4abba5fb746ca867422d3498b33ba9b5cbe544601996a09ee",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "e0b9d134066edf1d613cab44754bfd4fcf321cfd460c296caff1469827318ead",
       "file": "content/reference-es-032-8-1-estrategia.md"
     },
     {
@@ -768,8 +778,8 @@
       "lang": "es",
       "title": "8.2 Mapear documentación antigua a artefactos",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "9ed503e544a3f7eb8f8d98d3372f021233c81cb6177c491024e97a37376670f1",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "787ba39eed162268a56605285ffa811157b0a71881aac4cee22d12e494725e97",
       "file": "content/reference-es-033-8-2-mapear-documentacion-antigua-a-artefactos.md"
     },
     {
@@ -778,9 +788,19 @@
       "lang": "es",
       "title": "8.3 Checklist posterior",
       "path": "docs/REFERENCE_es.md",
-      "sha256": "270a5940e8537f044f7c056834d2751326ad0e76c5045ed6d85a3790308e82b4",
-      "contentSha256": "84df9ece98c873105fdc386b2984763c4a4067eab0845a0768d1843a2de9c828",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "9e0f5d4ff43643f9420407dc3bc308fa628440ae3cc11cd32d1e31a312af2c53",
       "file": "content/reference-es-034-8-3-checklist-posterior.md"
+    },
+    {
+      "id": "reference-es-035-delegar-a-codex-y-a-opencode-en-windows",
+      "type": "reference",
+      "lang": "es",
+      "title": "Delegar a Codex y a OpenCode en Windows",
+      "path": "docs/REFERENCE_es.md",
+      "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d",
+      "contentSha256": "36869d0698487dc76aa2c5fb63b99180b2b32b7e35c306e77071ce28d260609e",
+      "file": "content/reference-es-035-delegar-a-codex-y-a-opencode-en-windows.md"
     },
     {
       "id": "90_seconds-en",
@@ -908,8 +928,8 @@
       "lang": "en",
       "title": "Lore Plugin 2.4.9 release notes",
       "path": "docs/RELEASE_2.4.9.md",
-      "sha256": "682afb1b0a6df9fde171db1159aa566a61c2fcee6cc2912d81549655687a85cc",
-      "contentSha256": "682afb1b0a6df9fde171db1159aa566a61c2fcee6cc2912d81549655687a85cc",
+      "sha256": "bbc729129cdc1e3ec78530758f8a4eda0d43a3912856a434b376290a3a7359bc",
+      "contentSha256": "bbc729129cdc1e3ec78530758f8a4eda0d43a3912856a434b376290a3a7359bc",
       "file": "content/release-2-4-9.md"
     },
     {
@@ -918,8 +938,8 @@
       "lang": "en",
       "title": "Vespi kernel README",
       "path": "vespi-kernel/README.md",
-      "sha256": "0c0a539e1c5a5a98be09262ccbbca9461db17f98217e691f17575fcc1668afbb",
-      "contentSha256": "0c0a539e1c5a5a98be09262ccbbca9461db17f98217e691f17575fcc1668afbb",
+      "sha256": "74c9895b35a7b07a13b201f78f02150bcc67be8e7a8b3df0655e86a3317f7246",
+      "contentSha256": "74c9895b35a7b07a13b201f78f02150bcc67be8e7a8b3df0655e86a3317f7246",
       "file": "content/vespi-kernel-readme.md"
     },
     {
@@ -938,8 +958,8 @@
       "lang": "en",
       "title": "Vespi kernel prior art",
       "path": "vespi-kernel/PRIOR_ART.md",
-      "sha256": "cbedc21c29d36d770c32dbb4760838820958410c27b390db3d53dcec9ab5991b",
-      "contentSha256": "cbedc21c29d36d770c32dbb4760838820958410c27b390db3d53dcec9ab5991b",
+      "sha256": "26b71f7476553d74a596e63e839c4e8cdd5637bef1922c54514ef4251681a9d4",
+      "contentSha256": "26b71f7476553d74a596e63e839c4e8cdd5637bef1922c54514ef4251681a9d4",
       "file": "content/vespi-kernel-prior-art.md"
     },
     {
@@ -948,8 +968,8 @@
       "lang": "en",
       "title": "Vespi kernel changelog",
       "path": "vespi-kernel/CHANGELOG.md",
-      "sha256": "2dfa7399a4497d454522d5e61db60ce3716617f50675a759aa325d64962ee09d",
-      "contentSha256": "2dfa7399a4497d454522d5e61db60ce3716617f50675a759aa325d64962ee09d",
+      "sha256": "c714d76c0c1303accec65f091568430f93752bf80efdf28945243f9cc3d9209a",
+      "contentSha256": "c714d76c0c1303accec65f091568430f93752bf80efdf28945243f9cc3d9209a",
       "file": "content/vespi-kernel-changelog.md"
     }
   ]
