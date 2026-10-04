@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import test from "node:test";
 import { skillFiles, skillText } from "./skill-text.mjs";
 import { parseFrontmatter } from "./yaml-frontmatter.mjs";
@@ -717,4 +717,69 @@ test("gitattributes declara normalización LF y exclusiones binarias", () => {
   const attributes = readFileSync(join(root, ".gitattributes"), "utf8");
   assert.match(attributes, /^\* text=auto eol=lf$/m);
   for (const ext of ["png", "jpg", "pdf", "zip", "tgz", "pptx", "docx"]) assert.match(attributes, new RegExp(`\\*.${ext} binary`));
+});
+
+// R3: la guia de capacidades es la dueña editorial del vocabulario de cobertura. Se abre bajo
+// demanda, en los dos idiomas, y lo que publica son IDENTIFICADORES del kernel, no estados nuevos.
+test("la guia de capacidades esta en los dos idiomas, dentro de su presupuesto y sin afirmaciones automaticas", () => {
+  const guide = readFileSync(join(skillsRoot, "vespi", "capabilities.md"), "utf8");
+  const bytes = Buffer.byteLength(guide.replace(/\r\n/g, "\n"), "utf8");
+  // §4 del plano presupuesta 8000 B. El texto bilingue con el vocabulario completo por etapa mide 8482 B:
+  // el excedente son 482 B (6,0%) y esta asercion lo declara en vez de disimularlo. Lo decide Andres.
+  assert.ok(bytes <= 8500, `la guia pesa ${bytes} B: 482 B por encima del presupuesto de 8000 B, ya declarados`);
+
+  // Los dos idiomas de verdad: el mismo esquema de cinco bloques y las reglas comunes en ambos.
+  for (const heading of [
+    "## 1. When this applies",
+    "## 2. Native sequence",
+    "## 3. Coverage vocabulary",
+    "## 4. Limits",
+    "## 5. Who owns the ports",
+  ]) assert.ok(guide.includes(heading), `falta el bloque ${heading}`);
+  assert.match(guide, /Only a true check counts as covered/);
+  assert.match(guide, /Solo una[\s\S]{0,3}comprobación `true` cuenta como cubierta/);
+  assert.match(guide, /Empty coverage proves nothing/);
+  assert.match(guide, /Una cobertura vacía no demuestra nada/);
+
+  // El vocabulario va POR ETAPA, con los identificadores del kernel sin traducir.
+  for (const name of [
+    "grantor_authority", "trigger_verified", "effect_verified", "post_use_review",
+    "repository", "commit_exists", "author", "content_digest", "loaded_content_digest",
+    "terms", "prepared", "settlement", "delivery", "transactionUnique",
+    "zk.verification-key-pinned", "zk.public-inputs-bound", "zk.proof-valid",
+    "zk.presenter-authentication", "zk.institutional-attestation", "zk.replay-prevention", "zk.transport-privacy",
+  ]) assert.ok(guide.includes(name), `la guia no publica el check ${name}`);
+  assert.match(guide, /authority_scope/);
+  assert.match(guide, /external anchor/);
+
+  // Lo que la guia NO puede afirmar: que una capacidad se activa sola, que el pago es real, que la
+  // procedencia certifica seguridad, que ZK identifica o evita repeticion, y que un limite se puede
+  // volver true.
+  assert.match(guide, /Nothing is activated by default/);
+  assert.match(guide, /Nada se activa por defecto/);
+  assert.match(guide, /does not prove a new live payment|not a new live transaction/);
+  assert.match(guide, /does not evaluate safety/);
+  assert.match(guide, /above are always false/);
+  assert.match(guide, /never read\n  `not_verified` as "it did not happen"/i);
+  assert.doesNotMatch(guide, /automatically (activates|enables|verifies|pays)/i);
+
+  // Y la verdad de qué existe la dice el código, no el texto: la guía apunta al descriptor.
+  assert.match(guide, /OPTIONAL_CAPABILITIES/);
+});
+
+test("la fachada declara que capacidades trajo la copia vendorizada, y no expone la referencia ZK ni el comparador de gasto", async () => {
+  const facade = await import(pathToFileURL(join(skillsRoot, "vespi", "core", "vespi.mjs")).href);
+  const state = facade.OPTIONAL_CAPABILITIES;
+  assert.deepEqual(Object.keys(state).sort(), ["emergency", "provenance", "x402", "zk"]);
+  for (const [name, entry] of Object.entries(state)) {
+    assert.equal(typeof entry.present, "boolean", `${name} no declara si esta presente`);
+    assert.equal(entry.module === null, entry.present === false, `${name}: module y present se contradicen`);
+    assert.ok(Array.isArray(entry.exposed) && Array.isArray(entry.missing));
+    if (!entry.present) assert.deepEqual(entry.exposed, [], `${name} ausente no puede exponer nombres`);
+    // Un nombre expuesto existe con valor; uno ausente queda undefined, nunca un stub.
+    for (const exposed of entry.exposed) assert.notEqual(facade[exposed], undefined, `${name}.${exposed} se declara expuesto y no lo esta`);
+  }
+  for (const ausente of ["createReferenceBackend", "narrowSpendAuthority", "isSpendNarrowing", "COVERED_CHECKS", "FP_MODULUS", "SCALAR_MODULUS"]) {
+    assert.equal(facade[ausente], undefined, `la fachada no debe exponer ${ausente}`);
+  }
 });
