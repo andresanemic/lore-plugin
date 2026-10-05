@@ -267,12 +267,11 @@ test("el techo del peso del criterio está declarado y esta medición no se pued
     }
   }
 
-  assert.deepEqual(fallen(fallas), fallen([]), "el techo del peso del criterio no tiene prueba:\n  - " + fallen(fallas).join("\n  - "));
+  assert.equal(fallas.length, 0,
+    fallas.length === 0
+      ? "el techo del peso del criterio no tiene prueba"
+      : `el techo del peso del criterio no tiene prueba:\n  - ${fallas.join("\n  - ")}`);
 });
-
-function fallen(fallas) {
-  return fallas.map((f) => f.split("\n")[0]);
-}
 
 // --- 2. La superficie declarada es la superficie que el kit carga --------------------------
 
