@@ -160,17 +160,15 @@ test("A02 la superficie actual no pierde nombres y la referencia ZK y el compara
   assert.ok(!(("zk-bn254-reference.js" in full)), "ninguna ruta de la fachada carga la referencia ZK");
 });
 
-test("A02b una capacidad ausente queda ausente y la fachada lo dice", async () => {
-  const sinZk = await syntheticKit({ present: ["emergency"] }).load();
-  assert.equal(sinZk.createEmergencyPermission !== undefined, true);
-  assert.equal(sinZk.createZkVerifier, undefined, "sin modulo zk no hay createZkVerifier: nada de relleno");
-  assert.equal(sinZk.createX402Payment, undefined);
-  const state = sinZk.OPTIONAL_CAPABILITIES;
-  assert.equal(state.zk.present, false);
-  assert.equal(state.zk.module, null);
-  assert.equal(state.emergency.present, true);
-  // Y lo ausente se lee como ausente en todas las formas que un llamador puede mirar.
-  assert.deepEqual(Object.keys(state).sort(), Object.keys(CAPABILITIES).sort());
+test("A02b la referencia experimental ausente sigue ausente", async () => {
+  const synthetic = syntheticKit();
+  const facade = await synthetic.load();
+  assert.equal(synthetic.modules().includes("zk-bn254-reference.js"), false, "la referencia no está en la copia ni en el fixture");
+  assert.equal(facade.createReferenceBackend, undefined, "la fachada no rellena una referencia ZK ausente");
+  for (const capability of Object.keys(CAPABILITIES)) {
+    assert.equal(facade.OPTIONAL_CAPABILITIES[capability].present, true, `${capability} sí está en la copia`);
+  }
+  assert.deepEqual(Object.keys(facade.OPTIONAL_CAPABILITIES).sort(), Object.keys(CAPABILITIES).sort());
 });
 
 // --- A03: importar no activa --------------------------------------------------------------------
