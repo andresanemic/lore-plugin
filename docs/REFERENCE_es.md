@@ -155,8 +155,8 @@ alcancen para repartir el trabajo entre las tres skills; que el recordatorio por
 registro turno a turno; que OpenCode permita avisar sin bloquear; y que cada host deje leer el uso
 de la sesión, donde no, usando las señales contables y declarándolo por escrito. **Si cae una, se
 sigue.** «El acuerdo nunca se impone» no es una apuesta: es una regla dura, y por eso no degrada
-nunca. La guardia sigue bloqueando el criterio de otro dueño es la sexta frase de la misma lista
-del acuerdo, pero con el signo contrario: no es una parada, es una regla que sigue vigente.
+nunca. La guardia registra escrituras en el árbol de otra persona; el permiso del host decide si
+avanzan y el coordinador respeta la gobernanza propietaria. Esta regla no detiene el trabajo.
 
 **Interacciones típicas:**
 

@@ -88,7 +88,7 @@ For a non-interactive OpenCode delegate, prepare its directory with `lore-plugin
 - `resumeOperation({ root, id, freshness })` reads the state back and returns the artifact's own verdict. A refused resume writes nothing: a terminal, stale or invalid-authority operation stops here rather than continuing silently.
 - `readOperation({ root, id })` reads one artifact with no verdict attached.
 
-The state lives as one block in the `## Operaciones` section of `FASES.md` under the root the caller passes: a single checkpoint, no second copy. Where a project keeps its folders is the person's policy and the host's permission; this names a file inside the root it is handed and adds no rule of its own about where a write may land. The receipt carries the path of what now exists, so a receipt and the disk cannot drift apart. A verified step ends the artifact at `verified` with `certify` pending: finishing, verifying and closing are three different things, and closing is the owner's.
+The state lives as one block in the `## Operaciones` section of `FASES.md` under the root the caller passes: a single checkpoint, no second copy. Where a project keeps its folders is the person's policy and the host's permission; this names a file inside the root it is handed and adds no rule of its own about where a write may land. The receipt carries the path written at that checkpoint; the host and coordinator must reread and compare it before relying on it later. A verified step ends the artifact at `verified` with `certify` pending: finishing, verifying and closing are three different things, and closing is the owner's.
 
 ## Routes follow the host, not a provider's willingness
 
@@ -96,7 +96,7 @@ The state lives as one block in the `## Operaciones` section of `FASES.md` under
 
 ## Tasks inside an operation: the coordinator flow
 
-An operation can carry tasks, each with one role and its own commission: **daimon** (reads the sources and returns evidence and limits), **advisor** (answers one question from the context it was given) and **worker** (does a scoped piece against a done criterion and a proof). A task is born with its whole commission, a timeout and the time it will be observed again, or it is not born. It then moves `proposed → running → received → reviewed → verified → integrated`, and each step is a different fact: a file that arrived is not a file that was reviewed, and a reviewed file is not a verified one. The verifier is never whoever executed it, and closing names every task that is neither integrated nor blocked with its reason.
+An operation can carry tasks, each with one role and its own commission: **daimon** (reads the sources and returns evidence and limits), **advisor** (answers one question from the context it was given) and **worker** (does a scoped piece against a done criterion and a proof). A task is born with its whole commission, a timeout and the time it will be observed again, or it is not born. It then moves `proposed → running → received → reviewed → verified → integrated`, and each step is a different fact: a file that arrived is not a file that was reviewed, and a reviewed file is not a verified one. The record requires different executor and verifier labels; the host and coordinator must establish their actual independence and check the observed evidence. Closing names every task that is neither integrated nor blocked with its reason.
 
 If the host does not expose the tool a role needs, the task comes back `blocked` with the missing tool and the next action; nothing is simulated. The operation also declares its effect up front: `none`, or `external` with its economy (cost, grant, settlement) and whether it goes on chain; an on-chain placement without a reason of distrust is recorded as a defect, not rejected silently.
 
@@ -106,7 +106,7 @@ From the command line, in the project root: `node scripts/lore-plugin.mjs operat
 
 Anything worth keeping leaves as evidence, artifact, proposal, question, refusal, or nothing — handed to `save-to-lore` arbitration with source and provenance. Nothing here auto-becomes Lore.
 
-Project state and operation state stay apart: `FASES.md` owns the project's phase, roadmap, and open work; this operation keeps its single checkpoint as a delimited block inside that same `FASES.md`, so there is one place to look and nothing to reconcile.
+Project state and operation state stay apart: `FASES.md` owns the project's phase, roadmap, and open work; this operation keeps its single checkpoint as a delimited block inside that same `FASES.md`, so there is one place to look; resuming still requires reconciliation of changed authority, evidence and effects.
 
 Before delivering a user artifact, replace every internal label with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. Operation, envelope, validity, and probe stay below the conversation unless the user asks for technical detail.
 

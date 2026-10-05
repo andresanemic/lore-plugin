@@ -154,6 +154,40 @@ test("use-lore sugiere /model para el tramo mecanico de un lote, nunca un subage
   assert.match(text, /re-reads the project's whole Lore/);
 });
 
+test("la prosa de rc9 limita las garantías del registro y preserva las decisiones de la persona", () => {
+  const use = skillText(join(skillsRoot, "use-lore"));
+  const vespi = skillText(join(skillsRoot, "vespi"));
+  const release = readFileSync(join(root, "docs", "RELEASE_2.4.9.md"), "utf8");
+  const agreement = readFileSync(join(skillsRoot, "use-lore", "scripts", "acuerdo.mjs"), "utf8");
+
+  assert.match(use, /If the person explicitly asks to keep those identifiers, preserve them and explain any ambiguity that affects their decision\./);
+  assert.doesNotMatch(use, /This requirement overrides requests to copy them literally\./);
+  assert.match(use, /supports explicit arbitration of\s+scattered project knowledge into criteria that can guide future decisions within their stated\s+scope; storing knowledge alone does not establish learning\./);
+  assert.doesNotMatch(use, /distilled, invariant criteria.*constrain every future decision/s);
+  assert.match(use, /First receive the person and acknowledge the purpose they brought, briefly and without promising agreement\. Then inspect the tree before asking what remains unknown\./);
+  assert.match(use, /this runs \*\*before selecting a production route\*\*/);
+  assert.doesNotMatch(use, /this runs \*\*before anything else\*\*/);
+  assert.ok(use.replace(/\s+/g, " ").includes("the guard records writes into another owner's tree; the host's permission system decides whether they proceed. The coordinator must still respect the owning governance."));
+  assert.doesNotMatch(use, /guard keeps blocking another owner's criterion|guard blocking someone else's code is the guard working/i);
+  assert.match(agreement, /The guard records writes into another owner's tree; the host's permissions decide whether they proceed, and the owning governance remains in force\./);
+  assert.doesNotMatch(agreement, /Blocking another owner's criterion is one of|guard doing that is the guard working/i);
+  assert.match(vespi, /The record requires different executor and verifier labels; the host and coordinator must establish their actual independence and check the observed evidence\./);
+  assert.doesNotMatch(vespi, /The verifier is never whoever executed it/);
+  assert.match(vespi, /so there is one place to look; resuming still requires reconciliation of changed authority, evidence and effects\./);
+  assert.match(vespi, /The receipt carries the path written at that checkpoint; the host and coordinator must reread and compare it before relying on it later\./);
+  assert.doesNotMatch(vespi, /nothing to reconcile|cannot drift apart/);
+
+  assert.match(release, /El registro exige etiquetas distintas para ejecutor y verificador, pero el host y el coordinador deben comprobar su independencia y la evidencia observada\./);
+  assert.match(release, /`lore-plugin operation` registra el ciclo de una operación desde la línea de comandos; el host y el coordinador realizan el trabajo, comprueban su evidencia y aportan las decisiones humanas\./);
+  assert.match(release, /Lore Plugin 2\.4\.9 permite registrar en `FASES\.md` lo acordado, el estado observado y la siguiente acción para retomar una operación sin reconstruirla solo desde la conversación; la continuidad depende de guardar la evidencia y de que el host y el coordinador la revaliden\./);
+  assert.match(release, /El Lore existente no necesita migración; conserva el archivo de la operación guardada por una compilación anterior en `operations\/<id>\/estado\.md` y reconcilia su autoridad, recibos, intentos y efectos inciertos antes de registrar la continuidad en `FASES\.md`\. Volver a escribir el objetivo no basta y este corte no realiza esa migración automáticamente\./);
+  assert.match(release, /the host and coordinator must establish their actual independence and check the observed evidence\./);
+  assert.match(release, /`lore-plugin operation` records an operation's lifecycle from the command line; the host and coordinator perform the work, check its evidence and supply human decisions\./);
+  assert.match(release, /Lore Plugin 2\.4\.9 records the agreement, observed state and next action in `FASES\.md` so an operation can resume without relying only on the conversation; continuity depends on saved evidence and revalidation by the host and coordinator\./);
+  assert.match(release, /Existing Lore needs no migration; keep an operation saved by an earlier build in its own `operations\/<id>\/estado\.md` file and reconcile its authority, receipts, attempts and uncertain effects before recording continuation in `FASES\.md`\. Restating the goal is insufficient, and this cut does not perform that migration automatically\./);
+  assert.doesNotMatch(release, /drives a whole operation|lleva una operación completa|needs its goal restated|necesita que se vuelva a escribir su objetivo/);
+});
+
 test("el lote Jazmín deja obligaciones reutilizables y el caso 17", () => {
   const bot = skillText(join(skillsRoot, "create-bot"));
   const brainstorm = skillText(join(skillsRoot, "brainstorming-lore"));
