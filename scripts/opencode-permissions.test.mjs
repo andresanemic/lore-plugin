@@ -27,6 +27,55 @@ test("from-routing permits two routed siblings including spaces and Windows sepa
   } finally { rmSync(project, { recursive: true, force: true }); }
 });
 
+test("from-routing never turns project prose into permissions outside the project", () => {
+  const project = temp();
+  try {
+    const escapes = [
+      "C:/Users/andre/.ssh",
+      "c:\\Users\\andre\\.ssh",
+      "\\\\servidor\\recurso",
+      "~/.ssh",
+      "~\\.ssh",
+      "/etc",
+      "/Users/andre/.ssh",
+      "../../../../Windows",
+      "area/../../../../etc",
+      "$HOME/.ssh",
+      "%USERPROFILE%/.ssh",
+    ];
+    const cells = escapes.map((value) => `| \`${value}\` |`).join("\n");
+    mkdirSync(join(project, "lore"), { recursive: true });
+    writeFileSync(join(project, "lore", "enrutamiento.md"), `| Fuente | Ruta |\n|---|---|\n${cells}\n| area | ../Vecina/lore |\n`);
+    const result = opencodePermissions({ project, fromRouting: true });
+    const external = result.proposed.permission.external_directory;
+    const hive = resolve(project, "..");
+    const allowed = Object.entries(external).filter(([key, value]) => value === "allow").map(([key]) => key);
+    assert.equal(external["*"], "deny", "the wildcard stays denied");
+    assert.ok(allowed.length <= 1, `only the sibling may be allowed, got ${JSON.stringify(allowed)}`);
+    for (const key of allowed) {
+      const target = resolve(key.replace(/[\\/]\*\*$/, ""));
+      const insideHive = target === hive || target.startsWith(`${hive}${sep}`);
+      assert.ok(insideHive, `${key} resolves outside the hive ${hive}`);
+    }
+    const serialized = JSON.stringify(result.proposed);
+    for (const value of escapes) assert.ok(!serialized.includes(value.replace(/\\/g, "\\\\")), `leaked ${value}`);
+    assert.doesNotMatch(serialized, /\.ssh/);
+  } finally { rmSync(project, { recursive: true, force: true }); }
+});
+
+test("from-routing keeps prose that names a file, not a path, out of the permissions", () => {
+  const project = temp();
+  try {
+    mkdirSync(join(project, "lore"), { recursive: true });
+    writeFileSync(join(project, "lore", "enrutamiento.md"), "| Fuente | Ruta |\n|---|---|\n| nota | un archivo con guion - no es una ruta |\n| web | https://example.com/x |\n| vecina | ../Vecina/lore |\n");
+    const result = opencodePermissions({ project, fromRouting: true });
+    assert.deepEqual(result.proposed.permission.external_directory, {
+      [resolve(project, "..", "Vecina") + "/**"]: "allow",
+      "*": "deny",
+    });
+  } finally { rmSync(project, { recursive: true, force: true }); }
+});
+
 test("permission fusion preserves other keys and never widens existing deny", () => {
   const existing = { model: "x", permission: { edit: "allow", external_directory: { "C:/private/**": "deny", "*": "deny" } } };
   const got = buildPermissions({ siblings: ["C:/private", "C:/routed"], existing });
