@@ -84,6 +84,52 @@ function leerMarca(sessionId) {
   return existsSync(ruta) ? JSON.parse(readFileSync(ruta, "utf8")) : null;
 }
 
+// Las dos pruebas que miden el techo de peso. La puerta de abajo las busca por nombre: si una cambia
+// de título, la puerta dice que no la encontró en vez de quedarse sin mirar.
+const PRUEBAS_DEL_TECHO = [
+  "el encabezado de use-lore — lo que se carga siempre — no se mueve",
+  "los encabezados de use-lore y Vespi no cambian y su crecimiento conjunto no supera 400 B",
+];
+
+// El archivo de esta prueba, partido por pruebas. No ejecuta nada: lee el texto, que es lo que hay
+// que mirar cuando lo que se juzga es si una medición puede anularse a sí misma.
+function bloquesDeTest(fuente) {
+  const bloques = {};
+  let nombre = null;
+  let lineas = [];
+  for (const linea of fuente.replace(/\r\n/g, "\n").split("\n")) {
+    const abre = /^test\("([^"]+)"/.exec(linea);
+    if (abre) {
+      if (nombre) bloques[nombre] = lineas.join("\n");
+      nombre = abre[1];
+      lineas = [linea];
+    } else if (nombre) {
+      lineas.push(linea);
+    }
+  }
+  if (nombre) bloques[nombre] = lineas.join("\n");
+  return bloques;
+}
+
+// Toda referencia que la medición del techo declara para leer el «antes». Hoy se escriben en las dos
+// pruebas con el mismo nombre de variable; la puerta lee cualquiera de las dos formas.
+function anclasDeclaradas(fuente) {
+  return [...fuente.matchAll(/const\s+(?:ANCLA_TECHO|base)\s*=\s*"([^"]+)"/g)].map((m) => m[1]);
+}
+
+// El tipo de objeto del ancla, si existe: un tag publicado o `null`. Una rama local no es un tag, y
+// `cat-file` sale con 128, así que una referencia que no resuelve se lee como `null` y no como un
+// error de la puerta.
+function tipoDeAncla(ancla) {
+  try {
+    return execFileSync("git", ["-c", "safe.directory=*", "cat-file", "-t", `refs/tags/${ancla}`], {
+      cwd: repo, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
+  } catch {
+    return null;
+  }
+}
+
 test.after(() => {
   for (const dir of roots) rmSync(dir, { recursive: true, force: true });
   for (const ruta of marcas) rmSync(ruta, { recursive: true, force: true });
@@ -365,4 +411,47 @@ test("hooks.json registra PreCompact para las dos causas de compactación", () =
     assert.match(grupo.matcher ?? "", /manual/, "sin `manual` no se marca un /compact de la persona");
     assert.match(grupo.matcher ?? "", /auto/, "sin `auto` no se marca una compactación automática, que es el caso que motivó esto");
   }
+});
+
+// --- E. La ley del techo no puede quedar sin prueba -----------------------------
+//
+// `plugins/lore/principios.md` #24 (una queja de exceso se repara por lo que quedó fuera) y
+// `andamiaje/lore-plugin/lore/principios.md` #30 (el techo se expresa en los bytes cargados en el
+// contexto, con la cifra «antes» en la condición). Las dos dependen de que exista una cifra «antes».
+//
+// El defecto: las dos pruebas del techo cerraban con `t.skip` cuando el ancla no se leía, y el ancla
+// era una rama que solo vive en esta máquina —`release/2.4.9-rc9-prep` no está en `origin`—. En
+// cualquier otro clon la medición se saltaba, `fail 0`, y la ley del corte pasaba sin comprobar. Un
+// `skip` no rompe la corrida: es la forma más silenciosa de dejar una ley sin prueba.
+
+test("el techo de peso no se puede anular a sí mismo", () => {
+  const fuente = readFileSync(fileURLToPath(import.meta.url), "utf8");
+  const bloques = bloquesDeTest(fuente);
+  const fallas = [];
+
+  // 1. Ninguna de las dos puede convertirse en un resultado que no rompa la corrida.
+  for (const nombre of PRUEBAS_DEL_TECHO) {
+    const bloque = bloques[nombre];
+    if (!bloque) {
+      fallas.push(`«${nombre}» no está en el archivo: la puerta no puede guardarla si no sabe dónde está`);
+    } else if (/\bt\.(skip|todo)\s*\(/.test(bloque)) {
+      fallas.push(`«${nombre}» se puede anular a sí misma con t.skip/todo, y un skip no rompe la corrida`);
+    }
+  }
+
+  // 2. Y el ancla que produce la cifra «antes» tiene que ser un artefacto publicado, no una rama
+  //    local: una rama no viaja a ningún clon, así que el skip de arriba no es hipotético.
+  const anclas = anclasDeclaradas(fuente);
+  if (anclas.length === 0) {
+    fallas.push("la medición del techo no declara su ancla con nombre: no se puede comprobar que exista fuera de esta máquina");
+  }
+  for (const ancla of anclas) {
+    const tipo = tipoDeAncla(ancla);
+    if (tipo !== "tag") {
+      fallas.push(`el ancla «${ancla}» no es un tag publicado (${tipo ?? "no existe como tag"}): en otro clon la medición se anula, y el «antes» tiene que ser un artefacto congelado con su fecha y su archivo`);
+    }
+  }
+
+  assert.deepEqual(fallas, [],
+    "la ley del corte no tiene prueba:\n  - " + (fallas.join("\n  - ") || "sinauce"));
 });
