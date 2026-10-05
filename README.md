@@ -160,7 +160,7 @@ The shape behind that gate has a name: Andy Clark and David Chalmers called it t
 
 And the process has a name too: Gilbert Simondon called it **transduction**, an operation that advances through a domain step by step, each phase founded on the structuration of the one before. One distillation is exactly that — friction crystallizes into a constraint that changes the next interaction, and then the next, until the accumulated structure becomes a body of criteria nobody designed in advance: your Lore.
 
-So that is the mechanism: not documentation, not a memory dump — a threshold between what happened and what gets to constrain tomorrow. The next section takes you from zero to a running install.
+That frame is a hypothesis, not a demonstrated mechanism: a threshold between what happened and what constrains tomorrow, not documentation nor a memory dump. The next section takes you from zero to running.
 
 ---
 
@@ -722,7 +722,7 @@ La forma detrás de esa puerta tiene nombre: Andy Clark y David Chalmers la llam
 
 Y el proceso también tiene nombre: Gilbert Simondon lo llamó **transducción**, una operación que avanza por un dominio paso a paso, cada fase fundada en la estructuración de la anterior. Una destilación es exactamente eso — la fricción cristaliza en una restricción que modifica la siguiente interacción, y luego la siguiente, hasta que la estructura acumulada se vuelve un cuerpo de criterio que nadie diseñó de antemano: tu Lore.
 
-Ese es el mecanismo: no es documentación ni un volcado de memoria, es un umbral entre lo que pasó y lo que puede condicionar mañana. La sección siguiente te lleva de cero a tenerlo corriendo.
+Para este kit es una hipótesis, no un mecanismo demostrado: un umbral entre lo que pasó y lo que puede condicionar mañana, no documentación ni volcado de memoria. La siguiente sección te lleva a correrlo.
 
 ---
 
