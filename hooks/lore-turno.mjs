@@ -14,6 +14,14 @@
 // ya cargo una vez: mas tokens y ningun criterio nuevo. Lo que entra por turno son las
 // dos perillas y el estado del acuerdo, y eso son menos de 60 tokens.
 //
+// Eso se corrigio una vez, y queda anotado aqui para que no se lea como una excepcion
+// escondida. El puntero era el LUGAR del estado, no su veredicto: quien lo leyo coordino
+// quince tareas sin abrir ni una operacion ni escribir un recibo, en un kit cuya version
+// distinta de cero es justamente la operacion. Al abrir, `puertaDeOperacion` no nombra el
+// lugar: entrega lo que el kernel dice de lo guardado y el archivo exacto donde esta. Un
+// puntero que no puede fallar en voz alta no es una puerta. Los turnos que siguen siendo
+// dos perillas, y lo que no cabe en el presupuesto sigue sin entrar.
+//
 // La persona puede elegir el nivel y apagarlo. El defecto es `full` porque el
 // recordatorio es lo que sostiene el acuerdo turno a turno, que es la segunda de las
 // cuatro apuestas; apagarlo es una eleccion suya, no un defecto del kit.
@@ -24,6 +32,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 
 import { leer as leerAcuerdo, recordatorio } from "../skills/use-lore/scripts/acuerdo.mjs";
+import { operationEntry } from "../skills/vespi/core/operation-state.mjs";
 
 // Vocabulario cerrado, como el de intensidad y ritmo: un nivel que solo existe en
 // una sesion no es una perilla, es un remembered typo que nadie va a recuperar.
@@ -106,6 +115,37 @@ export function marca(nivelActual) {
 
 const SIN_LORE = { inyectar: false, por: "sin-lore", texto: null, nivel: DEFECTO_NIVEL, turno: null };
 
+// Lo que la apertura decia cuando no habia nada que abrir. Sigue siendo lo cierto en un arbol sin
+// operacion: ahi FASES.md es solo un lugar, y nombrarlo es todo lo que hay que decir.
+const PUNTERO = "el estado vive en FASES.md";
+
+// La puerta. Con una operacion abierta, lo que entra al turno es el veredicto del kernel sobre lo
+// guardado, el siguiente paso, lo que queda pendiente por rol y el archivo exacto donde esta
+// escrito: no el nombre del lugar donde vive el estado. Ese puntero fue el defecto medido —quien lo
+// leyo coordino quince tareas sin abrir ni una operacion ni escribir un recibo— porque un puntero no
+// puede fallar en voz alta.
+//
+// Dos veces sin puerta: si el arbol no tiene Lore, o si no hay acuerdo en vigor, `inyeccion` ya
+// callo antes de llegar aqui, y sin acuerdo no hay registro que sostener. Y si el FASES.md esta
+// danado o el disco no responde, esto devuelve el puntero viejo: una puerta que no puede abrirse
+// no puede ser la que tumba la sesion. El techo de este mecanismo es no romper nada.
+function puertaDeOperacion(raiz) {
+  let entrada;
+  try {
+    entrada = operationEntry({ root: raiz });
+  } catch {
+    return PUNTERO;
+  }
+  if (!entrada?.open) return PUNTERO;
+  const pendiente = (entrada.pending_by_role ?? [])
+    .map(({ role, tasks }) => `${role}: ${tasks.map((task) => `${task.id} (${task.state})`).join(", ")}`)
+    .join("; ");
+  return `operacion ${entrada.id} abierta en ${entrada.file} · estado ${entrada.state} · veredicto ${entrada.reason}`
+    + ` · siguiente ${entrada.next_step}`
+    + (pendiente ? ` · pendiente ${pendiente}` : "")
+    + ` · antes de coordinar, abre ${entrada.file}`;
+}
+
 // El cuerpo del recordatorio. `texto` es lo que entra al turno; `inyectar` dice si
 // entra, y los dos estan en el mismo objeto porque la razon de que algo calla importa
 // tanto como su contenido: un hook que calla sin poder explicar por que es un hook que
@@ -144,11 +184,12 @@ export function inyeccion({ raiz, turno = null, nivel: n = DEFECTO_NIVEL, hoy = 
   // texto que el modulo ya sabe dar.
   const texto = r.texto ?? `sin hook: el registro de este turno se guarda a mano en ${r.en}.`;
 
-  // La apertura nombra el nivel y donde vive el estado. Una vez por sesion, y solo si
-  // hay un acuerdo en vigor: anunciarle a quien nunca pidio uno que no lo tiene es
-  // exactamente el ruido de entrada que R40 prohibe.
+  // La apertura es la puerta: pregunta que operacion esta abierta y entrega el veredicto de esa,
+  // no el lugar donde el estado vive. Una vez por sesion, y solo si hay un acuerdo en vigor:
+  // anunciarle a quien nunca pidio uno que no lo tiene es exactamente el ruido de entrada que R40
+  // prohibe.
   const apertura = turno === null && acuerdo
-    ? `${texto} · nivel ${nivelActual} · el estado vive en FASES.md`
+    ? `${texto} · nivel ${nivelActual} · ${puertaDeOperacion(raiz)}`
     : texto;
 
   return { inyectar: true, por: r.por, texto: apertura, nivel: nivelActual, turno, acuerdo: Boolean(acuerdo) };

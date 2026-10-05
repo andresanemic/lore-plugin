@@ -11,6 +11,7 @@ export const FASES_FILE = "FASES.md";
 export const OPERATIONS_HEADING = "## Operaciones";
 
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
+import { readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 
 let seq = 0;
@@ -217,14 +218,20 @@ export function operationStatePath(root, id) {
   // so a receipt naming FASES.md#<id> and the writer writing somewhere else is not a shape this
   // module can produce. The id is checked because it is interpolated into a marker.
   assertOperationId(id);
-  const directory = resolve(root);
   return {
-    directory,
-    file: join(directory, FASES_FILE),
+    directory: resolve(root),
+    file: fasesFileOf(root),
     // POSIX separators on purpose: this string travels in a receipt, and a Windows path is not what
     // the person who reads it can click.
     relative: `${FASES_FILE}#${id}`,
   };
+}
+
+// El archivo del proyecto, sin id: el unico que decide donde esta el estado de todas las
+// operaciones a la vez. Vive aqui para que la puerta no tenga que componer una ruta propia y acabe
+// nombrando otro lugar que el de los recibos.
+export function fasesFileOf(root) {
+  return join(resolve(root), FASES_FILE);
 }
 
 // statePath: the shortest legal walk from one state to another, or null when there is none.
@@ -372,12 +379,15 @@ export async function saveOperationState(root, artifact) {
   return file;
 }
 
-export async function loadOperationState(root, id) {
-  const { file } = operationStatePath(root, id);
-  let text = "";
-  try { text = await readFile(file, "utf8"); } catch (error) {
-    if (error?.code !== "ENOENT") throw error;
-  }
+// El parseo de un bloque, y solo este: decide que es una operacion y que su estado es valido. Un
+// lector que prometiera y otro que no, cada uno con su copia, serian dos verdades sobre el mismo
+// archivo; por eso los dos caminos de abajo —el que promete y el que ya tiene el archivo en la
+// mano— pasan por aqui y no por codigo parecido.
+function parseBlock(text, id) {
+  // El id se valida aqui y no en quien compone la ruta: es lo unico que se interpola en un marcador
+  // y en un nombre de archivo, y un lector que se saltara la comprobacion abriria la puerta a un
+  // id que sale del directorio. Los dos caminos de lectura pasan por esta misma linea.
+  assertOperationId(id);
   const found = locateBlock(text, id);
   if (!found) throw new Error(`operation not found in FASES.md: ${id}`);
   const block = text.slice(found.start, found.end);
@@ -388,6 +398,145 @@ export async function loadOperationState(root, id) {
     throw new Error(`invalid persisted operation state: ${id}`);
   }
   return artifact;
+}
+
+// Un FASES.md que no esta todavia no es un error de lectura: es un proyecto donde nadie abrio una
+// operacion. Un error de verdad si se propaga, porque un disco que no responde no se lee como
+// «no hay nada». Ojo: esto tiene que ser `async` — un `try` alrededor de una promesa rechazada no la
+// alcanza, y el ENOENT se escaparia como error de lectura de un archivo que si existe en el proyecto.
+async function readFases(file) {
+  try {
+    return await readFile(file, "utf8");
+  } catch (error) {
+    if (error?.code !== "ENOENT") throw error;
+    return "";
+  }
+}
+
+function readFasesNow(file) {
+  try {
+    return readFileSync(file, "utf8");
+  } catch (error) {
+    if (error?.code !== "ENOENT") throw error;
+    return "";
+  }
+}
+
+export async function loadOperationState(root, id) {
+  return parseBlock(await readFases(fasesFileOf(root)), id);
+}
+
+// El mismo lector, sin promesa. El hook que abre la sesion vive dentro de una funcion sincrona y
+// no puede esperar una sin reescribir el adaptador entero que lo invoca; este es el unico modo de
+// que el recordatorio de la apertura pueda devolver el veredicto y no el lugar donde vive.
+export function loadOperationStateSync(root, id) {
+  return parseBlock(readFasesNow(fasesFileOf(root)), id);
+}
+
+// Las operaciones que FASES.md declara, en el orden en que estan. El marcador cuenta con la misma
+// regla que en el resto del modulo —al comienzo de una linea— y un id repetido se cuenta una vez:
+// duplicar el nombre no crea dos operaciones, y adivinar cual de los dos bloques es el bueno ya lo
+// rechaza `locateBlock` al leer ese id.
+const OPERATION_MARKER = /^<!-- vespi:operacion ([a-z0-9]+(?:-[a-z0-9]+)*) -->[ \t]*$/gm;
+
+export function listOperationIds(root) {
+  const text = readFasesNow(fasesFileOf(root));
+  return [...new Set([...text.matchAll(OPERATION_MARKER)].map((match) => match[1]))];
+}
+
+// --- la puerta de entrada ------------------------------------------------------
+//
+// `resumeOperation` responde a la pregunta de quien YA sabe que hay una operacion. Esta responde a la
+// anterior —si hay algo abierto, y cual es el primer paso— y por eso no recibe un id: lee FASES.md.
+//
+// No reimplementa el veredicto. El que devuelve es `resumeArtifact`, la misma funcion que
+// `resumeOperation` pide, sobre el mismo artefacto que el lector de arriba lee. Lo que anade es una
+// sola cosa, y es la que faltaba: el archivo exacto donde esa operacion esta escrita, porque un
+// veredicto que no nombra donde esta no se puede usar. Una puerta sin el archivo es el puntero que
+// ya existia, con otro nombre.
+
+// Cerrada o cancelada no es «abierta», y quien lo decide es el grafo: `resumeArtifact` ya separa los
+// estados sin arista de salida y los llama `terminal_state`. La puerta no escribe una lista terminal
+// propia —una segunda lista seria una segunda verdad sobre el mismo grafo—: usa el veredicto que ya
+// hace falta pedir, y solo lo usa para nombrar cual es la abierta.
+function esTerminal(verdict) {
+  return verdict.allowed === false && verdict.reason === "terminal_state";
+}
+
+// El comando que desbloquea una tarea en cada estado en que puede quedarse. Cada entrada nombra un
+// subcomando que la CLI ya expone para exactamente ese estado: no es una politica nueva, es el
+// nombre de la puerta que ya existe. Un estado que no este en la tabla no se adivina: es `decide`.
+const NEXT_FOR_TASK = {
+  proposed: "dispatch",
+  running: "receive",
+  received: "review",
+  reviewed: "verify",
+  verified: "integrate",
+};
+
+// Esta proyecta `artifact.tasks` y no llama a `taskSummary` del coordinador: este modulo no importa
+// el coordinador —no puede, porque el coordinador tira del kernel— y una vista de tareas escrita
+// dos veces seria dos verdades sobre el mismo arreglo. Los campos que salen son los de la puerta:
+// quien tiene pendiente cada cosa, en que estado, y el archivo que esa tarea tiene que dejar.
+function pendingByRole(artifact) {
+  const porRol = new Map();
+  for (const task of artifact?.tasks ?? []) {
+    if (task.state === "integrated") continue;
+    const role = task.role ?? "unknown";
+    if (!porRol.has(role)) porRol.set(role, []);
+    porRol.get(role).push({ id: task.id, state: task.state, output: task.output?.path ?? null });
+  }
+  return [...porRol.entries()].map(([role, tasks]) => ({ role, tasks }));
+}
+
+function nextStep(artifact, pending) {
+  // Nadie autorizo a correr: lo primero sigue siendo la autorizacion, y ningun comando de tarea
+  // puede adelantarla (la misma razon por la que `prepared` no es despachable en el coordinador).
+  if (artifact.state === "prepared") return "authorize";
+  const first = pending[0]?.tasks?.[0];
+  if (first) return `${NEXT_FOR_TASK[first.state] ?? "decide"} ${first.id}`;
+  // Nada pendiente y tampoco nada que cerrar: la operacion esta esperando una decision de quien
+  // coordina, y nombrarla asi es mas honesto que inventar un paso.
+  return (artifact.tasks ?? []).length > 0 ? "close" : "decide";
+}
+
+// Lo que hay abierto bajo `root`, o que no hay nada. Nunca lanza por no encontrar una operacion:
+// eso es la respuesta normal de la puerta. Si FASES.md esta danado, el error sube: una puerta que
+// adivina cual de los dos bloques repetidos era el bueno no es una puerta.
+export function operationEntry({ root } = {}) {
+  const abiertas = [];
+  const cerradas = [];
+  for (const id of listOperationIds(root)) {
+    const artifact = loadOperationStateSync(root, id);
+    const verdict = resumeArtifact(artifact);
+    if (esTerminal(verdict)) cerradas.push(id);
+    else abiertas.push({ artifact, verdict });
+  }
+  if (abiertas.length === 0) {
+    return { open: false, state: "none", file: FASES_FILE, file_to_open: fasesFileOf(root), closed: cerradas.length };
+  }
+  const [{ artifact, verdict }] = abiertas;
+  const { file, relative } = operationStatePath(root, artifact.id);
+  const pending = pendingByRole(artifact);
+  return {
+    open: true,
+    id: artifact.id,
+    state: artifact.state,
+    allowed: verdict.allowed,
+    reason: verdict.reason,
+    next_step: nextStep(artifact, pending),
+    // Lo que el artefacto DECLARA como siguiente accion, tal cual. Viaja aparte de `next_step`
+    // porque los dos no son lo mismo: esta se escribe sola al nacer la operacion y el camino por
+    // comandos nunca la actualiza, asi que repetirla como si un recibo la hubiera puesto seria
+    // hacer decir a la puerta algo que el kernel no dijo.
+    declared_next_action: artifact.next_legitimate_action ?? null,
+    pending_by_role: pending,
+    file: relative,
+    file_to_open: file,
+    // Si hubiera mas de una abierta, la puerta no elige una y esconde la otra: nombra las demas.
+    also_open: abiertas.slice(1).map(({ artifact: each }) => each.id),
+    closed: cerradas.length,
+  };
 }
 
 // governable: only ACTIVE blocks govern the present. HISTORY is true without

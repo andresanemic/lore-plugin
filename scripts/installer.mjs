@@ -216,6 +216,13 @@ export const LOCAL_CHAIN = [
   "hooks/lore-state.mjs",
   "hooks/lore-turno.mjs",
   "skills/use-lore/scripts/acuerdo.mjs",
+  // La puerta de entrada de la operacion, que `hooks/lore-turno.mjs` corre al abrir la sesion para
+  // entregar el veredicto de lo guardado en vez de nombrar el lugar donde vive. Entra por la misma
+  // razon que `acuerdo.mjs` y con la misma condicion: este modulo no importa NADA del kit, solo
+  // `node:fs` y `node:path`. La alternativa era importarlo del coordinador, y habria arrastrado la
+  // copia vendorizada del kernel entero a una entrada que es de solo lectura y que los tres hosts
+  // instalan —una puerta que el hook no puede alcanzar sin romper el ejecutable no es una puerta.
+  "skills/vespi/core/operation-state.mjs",
 ];
 
 export const LOCAL_HOSTS = ["claude", "codex", "opencode"];

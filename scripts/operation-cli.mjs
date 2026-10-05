@@ -6,6 +6,7 @@ import {
   holdOperation,
   integrateTask,
   observeTask,
+  operationEntry,
   planTask,
   readOperation,
   receiveTask,
@@ -18,6 +19,7 @@ import { attemptWall, operationStatePath, saveOperationState, transitionArtifact
 import { readCalibrationSeed } from "../skills/vespi/core/calibration-seed.mjs";
 
 const COMMANDS = [
+  "entry",
   "hold",
   "authorize",
   "pause",
@@ -33,11 +35,17 @@ const COMMANDS = [
   "resume",
 ];
 
+// El codigo con el que la puerta dice que hay algo abierto. No es 1 (un fallo) ni 2 (no entiendo el
+// comando): es una respuesta, y tiene que poder distinguirse de las dos para que quien la invoca no
+// la confunda con que la CLI se rompio.
+const PUERTA_CERRADA = 3;
+
 const FLAGS = new Set(["root", "id", "task", "tools", "json", "file"]);
 
 function usage() {
   return [
     "operation <sub> --root <dir> [--id <op>] [--task <t>] [--tools <a,b>] [--json '<obj>' | --file <ruta>]",
+    "  entry                              que operacion hay abierta y cual es el primer paso",
     "  hold       {goal, owner, authority}  deja la operacion preparada en FASES.md",
     "  authorize  {by, words}               las palabras citadas, o no hay autorizacion",
     "  pause      {note}                    deja el checkpoint durable en pausa",
@@ -178,6 +186,22 @@ function recordOf(artifact, taskId) {
 
 async function execute(sub, flags, stdout) {
   const payload = await readPayload(flags);
+
+  // `entry` es la unica puerta y por eso va antes de `load`: no pide un id, porque lo que responde
+  // es si hay algo abierto. Sin `--root` sigue fallando con el mismo mensaje que el resto.
+  if (sub === "entry") {
+    const root = requiredRoot(flags);
+    const entrada = operationEntry({ root });
+    if (!entrada.open) {
+      return emit(stdout, { ok: true, gate: "operation_entry", ...entrada });
+    }
+    const instruction = `operation entry: hay una operacion abierta y su entrada sigue sin leerse. `
+      + `Abre ${entrada.file} (${entrada.file_to_open}) antes de coordinar nada; siguiente: ${entrada.next_step}.`
+      + (entrada.also_open.length > 0 ? ` Tambien abiertas: ${entrada.also_open.join(", ")}.` : "");
+    emit(stdout, { ok: false, gate: "operation_entry", ...entrada, instruction });
+    process.stderr.write(`${instruction}\n`);
+    return PUERTA_CERRADA;
+  }
 
   if (sub === "hold") {
     const root = requiredRoot(flags);

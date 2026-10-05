@@ -429,9 +429,12 @@ test("entry de una operacion solo preparada dice que hay que autorizar, y sigue 
   const e = run(["entry", "--root", root]);
   assert.equal(e.json.open, true);
   assert.equal(e.json.state, "prepared");
-  assert.equal(e.json.allowed, false);
-  assert.equal(e.json.reason, "terminal_state" === e.json.reason ? e.json.reason : "fresh");
+  // `prepared` no bloquea la reanudacion: lo que no deja correr una tarea sin autorizacion es el
+  // dispatch, no el veredicto. La puerta por eso dice lo que falta, `authorize`, en vez de
+  // inventarse un motivo de parada.
+  assert.equal(e.json.reason, "fresh");
   assert.equal(e.json.next_step, "authorize");
+  assert.equal(e.json.declared_next_action, "authorize");
   assert.notEqual(e.code, 0);
 });
 

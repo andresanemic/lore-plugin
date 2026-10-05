@@ -339,6 +339,7 @@ test("el fallo cerrado que sí exige el acuerdo es el del instalador: digest dis
   writeFileSync(join(packageRoot, "scripts", "hygiene.mjs"), "export const scanHygiene = () => ({ findings: [], coverage: [], notCovered: [] });\nexport const salidaHygiene = () => [];\n");
   writeFileSync(join(packageRoot, "scripts", "installer.mjs"), "// installer\n");
   writeFileSync(join(packageRoot, "skills", "use-lore", "scripts", "acuerdo.mjs"), "export const acuerdo = {};\n");
+  writeFileSync(join(packageRoot, "skills", "vespi", "core", "operation-state.mjs"), "export const piece = true;\n");
 
   const resultado = installOpenCode({ home, packageRoot });
   assert.equal(resultado.verified, true);

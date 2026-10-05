@@ -378,6 +378,7 @@ test("el instalador copia el módulo nuevo y su comparación de árbol lo ve, si
   put(join(kitDirectory, ".codex-plugin", "plugin.json"), '{"name":"lore","version":"2.4.9"}\n');
   put(join(kitDirectory, "skills", "use-lore", "SKILL.md"), "---\nname: use-lore\n---\n");
   put(join(kitDirectory, "skills", "use-lore", "scripts", "acuerdo.mjs"), "export const acuerdo = {};\n");
+put(join(kitDirectory, "skills", "vespi", "core", "operation-state.mjs"), "export const piece = true;\n");
   put(join(kitDirectory, "scripts", "lore-plugin.mjs"), "// cli\n");
   put(join(kitDirectory, "scripts", "lore-cli.mjs"), "// local entry\n");
   put(join(kitDirectory, "scripts", "hygiene.mjs"), "export const scanHygiene = () => ({ findings: [], coverage: [], notCovered: [] });\nexport const salidaHygiene = () => [];\n");

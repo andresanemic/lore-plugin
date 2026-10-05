@@ -41,6 +41,10 @@ const makePackage = () => {
   writeFileSync(join(root, "scripts", "installer.mjs"), "// installer\n");
   mkdirSync(join(root, "skills", "use-lore", "scripts"), { recursive: true });
   writeFileSync(join(root, "skills", "use-lore", "scripts", "acuerdo.mjs"), "export const acuerdo = {};\n");
+  // Y la puerta de entrada de la operacion, que `lore-turno.mjs` corre al abrir: entra en la
+  // cadena local porque no importa nada del kit, y sin ella el ejecutable local no arranca.
+  mkdirSync(join(root, "skills", "vespi", "core"), { recursive: true });
+  writeFileSync(join(root, "skills", "vespi", "core", "operation-state.mjs"), "export const piece = true;\n");
   return root;
 };
 

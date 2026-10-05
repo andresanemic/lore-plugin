@@ -66,7 +66,7 @@ function codexPackage(manifest) {
   write("scripts/secreto.test.mjs", "no publicado\n");
   write("internal/notas.md", "no publicado\n");
   write("docs/REFERENCE_en.md", "referencia\n");
-  for (const piece of ["scripts/hygiene.mjs", "scripts/installer.mjs", "hooks/lore-guard.mjs", "hooks/lore-state.mjs", "hooks/lore-turno.mjs", "skills/use-lore/scripts/acuerdo.mjs"]) write(piece, "export const piece = true;\n");
+  for (const piece of ["scripts/hygiene.mjs", "scripts/installer.mjs", "hooks/lore-guard.mjs", "hooks/lore-state.mjs", "hooks/lore-turno.mjs", "skills/use-lore/scripts/acuerdo.mjs", "skills/vespi/core/operation-state.mjs"]) write(piece, "export const piece = true;\n");
   write("_ref-superreview-rc8.md", "notas internas de la maquina\n");
   return root;
 }

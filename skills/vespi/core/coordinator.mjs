@@ -408,3 +408,14 @@ export function taskSummary(artifact) {
     nextCheckAt: task.nextCheckAt ?? null,
   }));
 }
+
+// --- la puerta de entrada vive en operation-state.mjs ------------------------
+//
+// `operationEntry` lee FASES.md y pregunta al grafo si hay algo abierto. Vive ahi, y no aqui, por
+// una razon que no es de estilo: el modulo del estado no importa NADA del kit —solo `node:fs` y
+// `node:path`—, y por eso puede viajar en la cadena de la entrada local que los tres hosts
+// instalan, que es el cierre transitivo de imports de `lore-cli.mjs` y esta congelado. El
+// coordinador, en cambio, tira de `routeOperation` y de la copia vendorizada del kernel entero: una
+// puerta que el hook de la apertura no puede alcanzar sin dragar el kernel a una entrada que es de
+// solo lectura no es una puerta, es una promesa. Se reexporta desde la fachada para que quien
+// importa un solo modulo la encuentre igual.
