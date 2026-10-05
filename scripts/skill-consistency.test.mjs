@@ -519,9 +519,8 @@ test("2.4.9 sincroniza badges, paquete y release", () => {
   const releasePath = join(root, "docs", "RELEASE_2.4.9.md");
   assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.4\.9-/g) ?? []).length, 2);
   assert.ok(existsSync(join(root, "docs", "RELEASE_2.4.8.md")), "la nota de 2.4.8 se conserva como historia");
-  // Decisión 34 de Vespi / checkpoint de RC4: el badge dice lo que pasó (rojo → verde), no «validated».
-  assert.equal((readme.match(/writing--skills-(?:RED%E2%86%92GREEN|ROJO%E2%86%92VERDE)_2\.3\.3_%C2%B7_2\.4\.0-/g) ?? []).length, 2);
-  assert.doesNotMatch(readme, /writing--skills-(?:validated|validado)/i);
+  // Decisión de Andrés 2026-10-05: el badge writing-skills sale de la portada (vuelta al 2.4.8); la disciplina sigue en la prosa.
+  assert.doesNotMatch(readme, /writing--skills-/);
   assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.4.9.md");
   const release = readFileSync(releasePath, "utf8");
   assert.match(release, /Claude Code/i);

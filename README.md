@@ -8,7 +8,6 @@
 <p align="center">
   <a href="#installation"><img src="https://img.shields.io/badge/version-2.4.9-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/AI_provider-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="AI provider: neutral"></a>
-  <a href="#the-eight-skills"><img src="https://img.shields.io/badge/writing--skills-RED%E2%86%92GREEN_2.3.3_%C2%B7_2.4.0-63C49B?style=for-the-badge&labelColor=0B0B12" alt="writing-skills: RED to GREEN in 2.3.3 and 2.4.0"></a>
   <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
   <a href="#origin"><img src="https://img.shields.io/badge/research-active-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Status"></a>
@@ -397,7 +396,7 @@ Version 2.4.9 retires four things: encryption, the `lore-ecosistema/` copy, `cre
 
 ## Vespi
 
-**Vespi is the kernel under Lore Plugin. This candidate cut carries frozen kernel 0.1.4, commit `221bfa02fe277281d50b6141ec10299eea3426f3`, with ten modules; it excludes `zk-bn254-reference.js` and the SDK-backed x402 bridge. Publication date pending.**
+**Vespi is the kernel under Lore Plugin. This cut carries frozen kernel 0.1.4.**
 
 <p align="center">
   <img src="./assets/vespi-B.png" alt="Vespi" width="100%">
@@ -491,13 +490,13 @@ Lore was not designed ahead of time: every decision came from applying it to rea
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/3%2C232-clones_through_2026-09-23-FF557A?style=for-the-badge&labelColor=0B0B12" alt="3,232 clones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/81-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="81 days"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~40-a_day-F94F79?style=for-the-badge&labelColor=0B0B12" alt="40 a day"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/3541-clones-through-2026-10-04-FF557A?style=for-the-badge&labelColor=0B0B12" alt="3,541 clones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/92-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="92 days"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~38-a_day-F94F79?style=for-the-badge&labelColor=0B0B12" alt="38 a day"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-peak-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 peak"></a>
 </p>
 
-GitHub traffic windows preserved in [`data/traffic/clones.json`](./data/traffic/clones.json). A **minimum, cut at 2026-09-23**.
+GitHub traffic windows preserved in [`data/traffic/clones.json`](./data/traffic/clones.json). A **minimum, cut at 2026-10-04**.
 
 Lore Plugin is the technical arm of LUS, not a productivity system with philosophy attached. The benchmark tests a narrow product claim; it does not validate LUS as a whole. [The research boundary is explicit here.](./docs/LUS_en.md)
 
@@ -569,7 +568,6 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 <p align="center">
   <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.4.9-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/proveedor_IA-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Proveedor IA: neutral"></a>
-  <a href="#las-ocho-skills"><img src="https://img.shields.io/badge/writing--skills-ROJO%E2%86%92VERDE_2.3.3_%C2%B7_2.4.0-63C49B?style=for-the-badge&labelColor=0B0B12" alt="writing-skills: de rojo a verde en 2.3.3 y 2.4.0"></a>
   <a href="./docs/SPEC_KIT_es.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
   <a href="#origen"><img src="https://img.shields.io/badge/investigaci%C3%B3n-activa-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Estado"></a>
@@ -999,7 +997,7 @@ La versión 2.4.9 retira cuatro cosas: el cifrado, la copia `lore-ecosistema/`, 
 
 ## Vespi
 
-**Vespi es el kernel de Lore Plugin. Este corte candidato lleva el kernel 0.1.4 congelado, commit `221bfa02fe277281d50b6141ec10299eea3426f3`, con diez módulos; excluye `zk-bn254-reference.js` y el puente x402 con el SDK real. Fecha de publicación pendiente.**
+**Vespi es el kernel de Lore Plugin. Este corte lleva el kernel 0.1.4 congelado.**
 
 <p align="center">
   <img src="./assets/vespi-B.png" alt="Vespi" width="100%">
@@ -1091,13 +1089,13 @@ Lore no se diseñó de antemano: cada decisión salió de aplicarlo a proyectos 
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/3%2C232-clonaciones_hasta_2026-09-23-FF557A?style=for-the-badge&labelColor=0B0B12" alt="3.232 clonaciones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/81-d%C3%ADas-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="81 días"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~40-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="40 al día"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/3541-clonaciones-hasta-2026-10-04-FF557A?style=for-the-badge&labelColor=0B0B12" alt="3.541 clonaciones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/92-d%C3%ADas-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="92 días"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~38-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="38 al día"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-pico-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 pico"></a>
 </p>
 
-Ventanas GitHub preservadas en [`data/traffic/clones.json`](./data/traffic/clones.json). Un **mínimo, con corte al 2026-09-23**.
+Ventanas GitHub preservadas en [`data/traffic/clones.json`](./data/traffic/clones.json). Un **mínimo, con corte al 2026-10-04**.
 
 Lore Plugin es el brazo técnico de LUS, no un sistema de productividad con filosofía agregada. El benchmark prueba una afirmación acotada de producto; no valida LUS como conjunto. [La frontera de investigación está explícita acá.](./docs/LUS_es.md)
 
