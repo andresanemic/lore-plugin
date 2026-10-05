@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
@@ -90,6 +91,16 @@ test("reporta kernel alterado, skill faltante y skill retirada presente", () => 
   assert.match(formatReport(report), /RECHAZADO/);
 });
 
+test("rechaza skills instaladas cuyo árbol difiere del kit aunque estén todas presentes", () => {
+  const f = fixture();
+  put(join(f.codex, "skills", "use-lore", "SKILL.md"), "---\nname: use-lore\n---\nRC8 content\n");
+  const report = verifyHosts({ home: f.home, kitRoot: f.kitRoot, canonicalKernelRoot: "fake-kernel", gitShow: f.gitShow });
+  const codex = report.hosts.find((host) => host.name === "Codex");
+  assert.equal(codex.missingSkills.length, 0);
+  assert.equal(codex.matchesSkills, false);
+  assert.equal(report.ok, false);
+});
+
 test("contrasta opcionalmente la rama kernel con --kernel-head", () => {
   const f = fixture();
   const ok = verifyHosts({ home: f.home, kitRoot: f.kitRoot, canonicalKernelRoot: "fake-kernel", gitShow: f.gitShow, kernelHead: branchHead });
@@ -123,7 +134,8 @@ test("lee el commit fijado desde SOURCE.md para cotejar los cuerpos del kernel",
 
 test("la huella contiene el árbol de skills, kernel vendorizado y cuerpo de use-lore", () => {
   const f = fixture();
-  put(join(f.kitRoot, "skills", "use-lore", "SKILL.md"), "---\\nname: use-lore\\n---\\nbody\\n");
+  const useLore = "---\nname: use-lore\n---\n  body exacto\n";
+  put(join(f.kitRoot, "skills", "use-lore", "SKILL.md"), useLore);
   for (const root of [f.codex, f.claude]) put(join(root, "skills", "use-lore", "SKILL.md"), readFileSync(join(f.kitRoot, "skills", "use-lore", "SKILL.md")));
   put(join(f.opencodeSkills, "use-lore", "SKILL.md"), readFileSync(join(f.kitRoot, "skills", "use-lore", "SKILL.md")));
   const fingerprint = fingerprintHost(f.home, "Codex", f.kitRoot);
@@ -131,6 +143,7 @@ test("la huella contiene el árbol de skills, kernel vendorizado y cuerpo de use
   assert.match(fingerprint.vendoredKernelTreeSha256, /^[a-f0-9]{64}$/);
   assert.equal(fingerprint.useLoreBodySha256, fingerprintHost(f.home, "Claude Code", f.kitRoot).useLoreBodySha256);
   assert.match(fingerprint.useLoreBodySha256, /^[a-f0-9]{64}$/);
+  assert.equal(fingerprint.useLoreBodySha256, createHash("sha256").update("  body exacto\n").digest("hex"));
 });
 
 test("la huella guardada se puede comparar y detecta cambios por host", () => {

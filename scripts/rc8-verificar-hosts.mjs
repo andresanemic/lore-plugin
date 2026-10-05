@@ -98,6 +98,7 @@ function sourceBodies(canonicalRoot, gitShow, kernelFiles, kernelDir) {
 
 export function verifyHosts({ home = homedir(), kitRoot = scriptRoot, canonicalKernelRoot = "C:/Claude/founder/proyectos/vespi/kernel", kernelHead = null, host: hostName = null, gitShow = (cwd, args) => execFileSync("git", ["-C", cwd, ...args], { encoding: args[0] === "show" ? "buffer" : "utf8" }) } = {}) {
   const expectedSkills = skillNames(join(kitRoot, "skills"));
+  const expectedSkillsSha256 = selectedSkillsDigest(join(kitRoot, "skills"), expectedSkills);
   const kernelFiles = kernelModules(kernelDirOf(kitRoot));
   const expectedKernel = hashTree(kernelDirOf(kitRoot));
   const source = sourceBodies(canonicalKernelRoot, gitShow, kernelFiles, kernelDirOf(kitRoot));
@@ -113,6 +114,8 @@ export function verifyHosts({ home = homedir(), kitRoot = scriptRoot, canonicalK
     const relevantPresent = host.sharedSkills
       ? expectedSkills.filter((name) => presentSkills.includes(name))
       : presentSkills;
+    const installedSkillsSha256 = host.skillsRoot ? selectedSkillsDigest(host.skillsRoot, expectedSkills) : null;
+    const matchesSkills = installedSkillsSha256 !== null && installedSkillsSha256 === expectedSkillsSha256;
     const missingSkills = expectedSkills.filter((name) => !presentSkills.includes(name));
     const retiredPresent = RETIRED_SKILLS.filter((name) => (host.retiredRoots ?? [host.skillsRoot]).some((root) => root && existsSync(join(root, name))));
     const unexpectedSkills = host.sharedSkills ? [] : presentSkills.filter((name) => !expectedSkills.includes(name));
@@ -123,16 +126,16 @@ export function verifyHosts({ home = homedir(), kitRoot = scriptRoot, canonicalK
         : Buffer.alloc(0);
       return [file, !!host.kernelRoot && sha256(bodyAfterHeader(installed)) === source.results[file].hash];
     }));
-    return { ...host, version, kernelVersion, kernel, matchesRepo, presentSkills: relevantPresent, missingSkills, retiredPresent, unexpectedSkills, sourceMatches };
+    return { ...host, version, kernelVersion, kernel, matchesRepo, installedSkillsSha256, matchesSkills, presentSkills: relevantPresent, missingSkills, retiredPresent, unexpectedSkills, sourceMatches };
   });
 
   const firstKernel = hosts[0].kernel;
   const hostsAgree = hostName ? hosts[0].kernel.digest !== null : firstKernel.digest !== null && hosts.every((host) => host.kernel.digest === firstKernel.digest);
   const sourcePinned = kernelHead === null ? null : source.head === kernelHead;
   const ok = (sourcePinned !== false) && hosts.every((host) => host.version === EXPECTED_VERSION
-    && host.kernelVersion === EXPECTED_KERNEL_VERSION && host.matchesRepo && host.missingSkills.length === 0 && host.retiredPresent.length === 0
+    && host.kernelVersion === EXPECTED_KERNEL_VERSION && host.matchesRepo && host.matchesSkills && host.missingSkills.length === 0 && host.retiredPresent.length === 0
     && Object.values(host.sourceMatches).every(Boolean)) && hostsAgree;
-  return { ok, kitVersion: json(join(kitRoot, "package.json")).version, expectedSkills, expectedKernel, kernelFiles, canonicalHead: source.head, kernelBranch: source.branch, kernelBranchHead: kernelHead, kernelSourceCommit: source.commit, sourcePinned, hostsAgree, hosts };
+  return { ok, kitVersion: json(join(kitRoot, "package.json")).version, expectedSkills, expectedSkillsSha256, expectedKernel, kernelFiles, canonicalHead: source.head, kernelBranch: source.branch, kernelBranchHead: kernelHead, kernelSourceCommit: source.commit, sourcePinned, hostsAgree, hosts };
 }
 
 function selectedSkillsDigest(root, names) {
@@ -159,9 +162,12 @@ export function fingerprintHost(home, name, kitRoot = scriptRoot) {
   const skillTreeSha256 = selectedSkillsDigest(host.skillsRoot, expectedSkills);
   const kernel = host.kernelRoot ? hashTree(host.kernelRoot) : { digest: null };
   const useLorePath = host.skillsRoot && join(host.skillsRoot, "use-lore", "SKILL.md");
-  const bodyHash = useLorePath && existsSync(useLorePath)
-    ? sha256(Buffer.from(readFileSync(useLorePath, "utf8").replace(/^---[\s\S]*?---\s*/, ""), "utf8"))
-    : null;
+  let bodyHash = null;
+  if (useLorePath && existsSync(useLorePath)) {
+    const text = readFileSync(useLorePath, "utf8");
+    const frontMatter = text.match(/^---\r?\n[\s\S]*?^---\r?\n/m);
+    bodyHash = sha256(Buffer.from(frontMatter ? text.slice(frontMatter[0].length) : text, "utf8"));
+  }
   return {
     schema: 1,
     host: name,
@@ -187,6 +193,7 @@ export function formatReport(report) {
     lines.push(`\n${host.name}: versión ${host.version}; kernel ${host.kernelVersion}; SHA-256 de árbol ${host.kernel.digest ?? "ausente"}; coincide con kit ${host.matchesRepo ? "sí" : "NO"}.`);
     for (const [file, hash] of Object.entries(host.kernel.files)) lines.push(`  ${file}: ${hash}`);
     lines.push(`  skills presentes/esperadas: ${host.presentSkills.join(", ") || "ninguna"} / ${report.expectedSkills.join(", ")}`);
+    lines.push(`  SHA-256 del árbol de skills esperado: ${report.expectedSkillsSha256}; coincide con kit: ${host.matchesSkills ? "sí" : "NO"}`);
     lines.push(`  skills faltantes: ${host.missingSkills.join(", ") || "ninguna"}; retiradas: ${host.retiredPresent.join(", ") || "ninguna"}${host.unexpectedSkills.length ? `; ajenas en raíz administrada: ${host.unexpectedSkills.join(", ")}` : ""}`);
     lines.push(`  módulos con cuerpo idéntico al kernel: ${Object.entries(host.sourceMatches).filter(([, ok]) => ok).map(([file]) => file).join(", ") || "ninguno"}`);
     lines.push(`  módulos distintos o no leídos: ${Object.entries(host.sourceMatches).filter(([, ok]) => !ok).map(([file]) => file).join(", ") || "ninguno"}`);
