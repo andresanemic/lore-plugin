@@ -1,12 +1,13 @@
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { existsSync, mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, utimesSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, symlinkSync, utimesSync, writeFileSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import test from "node:test";
 
-import { ANNOUNCE_POOL, RECEIPT, claimAnnounce, digest, readReceipt, snapshot, writeReceipt, writeSessionBaseline } from "../hooks/lore-state.mjs";
+import { ANNOUNCE_POOL, RECEIPT, claimAnnounce, digest, readReceipt, readSessionRoot, snapshot, writeReceipt, writeSessionBaseline, writeSessionRoot } from "../hooks/lore-state.mjs";
 
 const OPEN = "<!-- lore:always-on -->";
 const CLOSE = "<!-- /lore:always-on -->";
@@ -212,6 +213,39 @@ test("exam: recibo inválido no se escribe — TypeError, no recibo corrupto", (
   assert.equal(readReceipt(dir), null);
 });
 
+// H13: `mkdirSync(SESSION_DIR, { mode: 0o700 })` solo(mode) en el momento de crear. Un
+// directorio plantado antes conservaba su modo, y uno que fuera un enlace se seguía como si
+// fuera el del kit. Ahora, antes de escribir, se comprueba el directorio: si es un enlace no se
+// sigue, y si el modo abre el grupo o el resto se corrige. La prueba corre en un hijo con TMP
+// propio porque `SESSION_DIR` se resuelve al importar el módulo.
+test("H13: un SESSION_DIR que es un enlace no recibe la memoria de sesión", () => {
+  const base = mkdtempSync(join(tmpdir(), "lore-sesion-"));
+  const victima = mkdtempSync(join(tmpdir(), "lore-sesion-victima-"));
+  try {
+    symlinkSync(victima, join(base, "lore-plugin-sessions"), "junction");
+    const guion = join(base, "hijo.mjs");
+    writeFileSync(guion, [
+      'import { writeSessionRoot, readSessionRoot } from "file:///CURRENT/hooks/lore-state.mjs";',
+      'writeSessionRoot("sesion-plantada", process.argv[2]);',
+      'process.stdout.write(String(readSessionRoot("sesion-plantada")));',
+    ].join(String.fromCharCode(10)).replace("CURRENT", new URL("../", import.meta.url).href.replace("file:///", "")));
+    const salida = execFileSync(process.execPath, [guion, base], {
+      encoding: "utf8",
+      env: { ...process.env, TMP: base, TEMP: base, TMPDIR: base },
+    });
+    assert.deepEqual(readdirSync(victima).filter((n) => n.endsWith(".json")), [],
+      `el destino del enlace recibio la memoria de sesion: ${readdirSync(victima).join(", ")}`);
+    assert.equal(salida, "null", "la sesion no se ancla en un directorio que no es del kit");
+  } finally { rmSync(base, { recursive: true, force: true }); rmSync(victima, { recursive: true, force: true }); }
+});
+
+test("H13b: un SESSION_DIR normal sigue anclando la sesión", () => {
+  const dir = tree({ "lore/principios.md": OPEN + "\nprincipios\n" + CLOSE + "\n" });
+  const id = `sesion-h13b-${process.pid}`;
+  writeSessionRoot(id, dir);
+  assert.equal(readSessionRoot(id), dir, "el anclaje de sesion sigue funcionando");
+});
+
 // H8: el nombre del temporal se derivaba de `process.pid`, así que un árbol hostil podía
 // versionar un enlace o un hardlink para un rango de PID y la escritura pasaba por él. El
 // temporal lleva ahora un nombre no predecible y se crea en exclusiva: si ese nombre ya
@@ -252,4 +286,5 @@ test("H8b: el temporal se crea en exclusiva y no se queda en el árbol", async (
       "el temporal se renombra o se borra, nunca se queda");
   }
 });
+
 
