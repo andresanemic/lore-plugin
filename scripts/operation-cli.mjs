@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import {
   closeOperation,
   calibrateEstimates,
+  delegationStatus,
   dispatchTask,
   holdOperation,
   integrateTask,
@@ -186,6 +187,56 @@ function recordOf(artifact, taskId) {
   return found;
 }
 
+// El reloj, CONSULTADO. El kernel trae `due_at` por tarea y `delegationStatus`, y su propia
+// declaracion —RELEASE_0.1.4_KERNEL.md— dice que los plazos informan el estado solo cuando los
+// consultas y nunca programan ni ejecutan trabajo. Eso es exactamente lo que hay aqui: nadie
+// programo nada y nadie ejecuto nada; solo se pregunta, y la respuesta es un muro con su edad.
+//
+// Por eso NO hay rechazo en `integrate`. Ejecutar juicio con el reloj es otra cosa —es decidir que
+// una tarea vencida no se integra— y esa consecuencia la decide el host, no el kernel. El kernel
+// declara; este archivo enseña lo que declara. Un muro dicho es capacidad prometida; un muro que
+// ademas frena trabajo es una politica que nadie acudo.
+//
+// Un solo reloj para las dos superficies: `status` y `entry` se llaman por separado y cada una mide
+// su propio `ahora`, asi que un `Date.now()` por tarea haria que dos tareas del mismo informe
+// tuvieran edades incompatibles si el segundo cae entre medias.
+function murosDeVencimiento(tareas, ahora = Date.now()) {
+  const muros = [];
+  for (const tarea of tareas ?? []) {
+    const { overdue, dueAt } = delegationStatus({ dueAt: Date.parse(tarea?.due_at), state: tarea?.state }, ahora);
+    if (!overdue) continue;
+    muros.push({
+      task: tarea.id,
+      state: tarea.state,
+      role: tarea.role ?? null,
+      due_at: new Date(dueAt).toISOString(),
+      age_ms: ahora - dueAt,
+      age_human: edadLegible(ahora - dueAt),
+    });
+  }
+  return muros;
+}
+
+// La edad en palabras, porque `age_ms` no lo lee nadie. Redondeo hacia abajo y sin decimales: una
+// edad que dice 3 min cuando son 3 min y 59 s no esta mintiendo todavia, y una que dijera "hace un
+// rato" no diria nada.
+function edadLegible(ms) {
+  if (!Number.isFinite(ms) || ms < 0) return null;
+  const segundos = Math.floor(ms / 1000);
+  if (segundos < 60) return `${segundos} s`;
+  const minutos = Math.floor(segundos / 60);
+  if (minutos < 60) return `${minutos} min`;
+  const horas = Math.floor(minutos / 60);
+  if (horas < 24) return `${horas} h ${minutos % 60} min`;
+  return `${Math.floor(horas / 24)} d ${horas % 24} h`;
+}
+
+function fraseDelMuro(muros) {
+  if (muros.length === 0) return "";
+  const lista = muros.map((m) => `${m.task} (${m.role ?? "sin rol"}, ${m.state}) vencida hace ${m.age_human}`).join(", ");
+  return ` Tarea vencida, sin verificar: ${lista}. El plazo informa, no bloquea: la consecuencia la decide quien coordina.`;
+}
+
 async function execute(sub, flags, stdout) {
   const payload = await readPayload(flags);
 
@@ -197,10 +248,16 @@ async function execute(sub, flags, stdout) {
     if (!entrada.open) {
       return emit(stdout, { ok: true, gate: "operation_entry", ...entrada });
     }
+    // El muro se consulta tambien en la puerta, y no solo en `status`: son las dos superficies por
+    // las que se pregunta, y una que supiera y la otra no seria una consulta sino dos. Lo que
+    // llega aqui es `pending_by_role`, que ya trae `due_at` porque operation-state no puede
+    // importar el kernel.
+    const muros = murosDeVencimiento((entrada.pending_by_role ?? []).flatMap(({ tasks }) => tasks ?? []));
     const instruction = `operation entry: hay una operacion abierta y su entrada sigue sin leerse. `
       + `Abre ${entrada.file} (${entrada.file_to_open}) antes de coordinar nada; siguiente: ${entrada.next_step}.`
-      + (entrada.also_open.length > 0 ? ` Tambien abiertas: ${entrada.also_open.join(", ")}.` : "");
-    emit(stdout, { ok: false, gate: "operation_entry", ...entrada, instruction });
+      + (entrada.also_open.length > 0 ? ` Tambien abiertas: ${entrada.also_open.join(", ")}.` : "")
+      + fraseDelMuro(muros);
+    emit(stdout, { ok: false, gate: "operation_entry", ...entrada, ...(muros.length > 0 ? { muro: muros } : {}), instruction });
     process.stderr.write(`${instruction}\n`);
     return PUERTA_CERRADA;
   }
@@ -302,8 +359,14 @@ async function execute(sub, flags, stdout) {
   }
 
   if (sub === "status") {
-    const overdue = new Map((context.artifact.tasks ?? []).map((task) => [task.id, task.overdue === true]));
-    const tasks = taskSummary(context.artifact).map((task) => ({ ...task, overdue: overdue.get(task.id) === true }));
+    const ahora = Date.now();
+    const muros = murosDeVencimiento(context.artifact.tasks ?? [], ahora);
+    const vencido = new Set(muros.map((m) => m.task));
+    // El `overdue` que se escribe al observar no se tira: es la vencida que alguien YA vio y nadie
+    // consulto despues. El reloj no lo reemplaza, lo confirma —son la misma pregunta hecha por dos
+    // caminos— y por eso la linea dice vencido con cualquiera de los dos.
+    const observado = new Map((context.artifact.tasks ?? []).map((task) => [task.id, task.overdue === true]));
+    const tasks = taskSummary(context.artifact).map((task) => ({ ...task, overdue: vencido.has(task.id) || observado.get(task.id) === true }));
     const wall = attemptWall(context.artifact);
     const calibration = calibrateEstimates(context.artifact.tasks ?? []);
     const measured = Object.fromEntries(Object.entries(calibration).filter(([, value]) => value.measured !== false));
@@ -333,6 +396,7 @@ async function execute(sub, flags, stdout) {
         ? { calibration, suggestions }
         : { calibrationNote: "calibración no medida: se requieren al menos 3 muestras por clave" }),
       ...(wall.stop ? { wall: wallReceipt(wall) } : {}),
+      ...(muros.length > 0 ? { muro: muros } : {}),
     });
   }
 

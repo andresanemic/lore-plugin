@@ -132,9 +132,21 @@ export function planTask(artifact, spec = {}) {
   if (spec.estimateMs !== undefined && (!Number.isInteger(spec.estimateMs) || spec.estimateMs <= 0)) {
     throw new Error(`${role} estimateMs must be a positive integer`);
   }
+  // `deadlineMs` es una DURACION, con la misma forma y la misma regla que en el kernel: un entero
+  // positivo de milisegundos contados desde que la tarea se planifico. No es un instante —el
+  // instante es `due_at`— y no es `timeoutMs`: `timeoutMs` es el presupuesto de ejecucion y lo
+  // cuenta `dispatch` desde el arranque; este se cuenta desde el plan y es del ciclo completo.
+  if (spec.deadlineMs !== undefined && (!Number.isInteger(spec.deadlineMs) || spec.deadlineMs <= 0)) {
+    throw new Error(`${role} deadlineMs must be a positive integer`);
+  }
   if (!present(spec.nextCheckAt) || Number.isNaN(Date.parse(spec.nextCheckAt))) {
     throw new Error(`${role} needs a nextCheckAt (ISO date): when it is observed again`);
   }
+  // El plazo se CONGELA aqui, al nace la tarea, y no se recalcula al consultarlo: es lo que hace el
+  // kernel con su `dueAt`, y con el mismo motivo —guardar un reloj de creación obliga a que quien
+  // consulta lo vuelva a saber— mas uno propio de este archivo: `planned_at` es un texto que se
+  // puede editar a mano en FASES.md, y un plazo que dependiera de el moveria solo al mirarlo.
+  const plannedAt = new Date().toISOString();
   const tasks = artifact?.tasks ?? [];
   const task = {
     id: `t${tasks.length + 1}`,
@@ -146,6 +158,9 @@ export function planTask(artifact, spec = {}) {
     output: { path: spec.output.path },
     timeoutMs: spec.timeoutMs,
     ...(spec.estimateMs !== undefined ? { estimateMs: spec.estimateMs } : {}),
+    ...(spec.deadlineMs !== undefined
+      ? { deadlineMs: spec.deadlineMs, due_at: new Date(Date.parse(plannedAt) + spec.deadlineMs).toISOString() }
+      : {}),
     nextCheckAt: spec.nextCheckAt,
     deadline: null,
     executor: null,
@@ -156,7 +171,7 @@ export function planTask(artifact, spec = {}) {
     verification: null,
     integration: null,
     blocked: null,
-    planned_at: new Date().toISOString(),
+    planned_at: plannedAt,
     ...(Array.isArray(spec.sources) ? { sources: [...spec.sources] } : {}),
     ...(spec.context ? { context: spec.context } : {}),
     ...(spec.scope ? { scope: spec.scope } : {}),

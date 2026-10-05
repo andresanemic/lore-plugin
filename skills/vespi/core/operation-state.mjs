@@ -478,13 +478,22 @@ const NEXT_FOR_TASK = {
 // el coordinador —no puede, porque el coordinador tira del kernel— y una vista de tareas escrita
 // dos veces seria dos verdades sobre el mismo arreglo. Los campos que salen son los de la puerta:
 // quien tiene pendiente cada cosa, en que estado, y el archivo que esa tarea tiene que dejar.
+//
+// `due_at` viaja porque es el dato del reloj, y aqui no se puede consultar: este modulo no importa
+// el kernel y su cierre de imports esta congelado. Consultarlo es de quien puede—the CLI—, asi que
+// lo que sale de la puerta es la fecha y la decision de vencido se toma una sola vez, en el kernel.
 function pendingByRole(artifact) {
   const porRol = new Map();
   for (const task of artifact?.tasks ?? []) {
     if (task.state === "integrated") continue;
     const role = task.role ?? "unknown";
     if (!porRol.has(role)) porRol.set(role, []);
-    porRol.get(role).push({ id: task.id, state: task.state, output: task.output?.path ?? null });
+    porRol.get(role).push({
+      id: task.id,
+      state: task.state,
+      output: task.output?.path ?? null,
+      due_at: task.due_at ?? null,
+    });
   }
   return [...porRol.entries()].map(([role, tasks]) => ({ role, tasks }));
 }

@@ -254,6 +254,12 @@ export const {
   delegationReceipt,
   integrateDelegation,
   personView,
+  // El reloj, consultado. `delegationStatus` ya venía en la copia vendorizada y la fachada lo
+  // cargaba sin exponerlo: el modulo estaba disponible y nadie podía preguntar. Se exporta entero y
+  // con el nombre que el kernel le da, sin redecidir que cuenta como vencido —la lista de estados
+  // resueltos y la regla `now > dueAt` son del kernel— porque una vencimiento re-decidida aqui
+  // seria un segundo reloj con la misma palabra.
+  delegationStatus,
 } = delegationKernel;
 
 function sameTerms(declared, effective) {

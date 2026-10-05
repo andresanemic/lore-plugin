@@ -375,7 +375,7 @@ test("RC2: plan acepta deadlineMs y lo persiste por tarea", async (t) => {
   const p = run(["plan", "--root", root, "--id", id, "--json", j(encargoVencido(root))]);
   assert.equal(p.json.ok, true, p.err);
   assert.equal(p.json.taskRecord.deadlineMs, 1);
-  assert.ok(Number.isFinite(p.json.taskRecord.due_at),
+  assert.ok(Number.isFinite(Date.parse(p.json.taskRecord.due_at)),
     `el plazo tiene que quedar congelado en un instante: ${JSON.stringify(p.json.taskRecord)}`);
   assert.equal(Date.parse(p.json.taskRecord.due_at), Date.parse(p.json.taskRecord.planned_at) + 1);
   // Y sobrevive al archivo: la consulta de otro proceso tiene que poder leerlo.
