@@ -490,7 +490,7 @@ Lore was not designed ahead of time: every decision came from applying it to rea
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/3541-clones-through-2026-10-04-FF557A?style=for-the-badge&labelColor=0B0B12" alt="3,541 clones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/3541-clones_through_2026.10.04-FF557A?style=for-the-badge&labelColor=0B0B12" alt="3,541 clones"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/92-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="92 days"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~38-a_day-F94F79?style=for-the-badge&labelColor=0B0B12" alt="38 a day"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-peak-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 peak"></a>
@@ -1089,7 +1089,7 @@ Lore no se diseñó de antemano: cada decisión salió de aplicarlo a proyectos 
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/3541-clonaciones-hasta-2026-10-04-FF557A?style=for-the-badge&labelColor=0B0B12" alt="3.541 clonaciones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/3541-clonaciones_hasta_2026.10.04-FF557A?style=for-the-badge&labelColor=0B0B12" alt="3.541 clonaciones"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/92-d%C3%ADas-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="92 días"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~38-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="38 al día"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-pico-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 pico"></a>
