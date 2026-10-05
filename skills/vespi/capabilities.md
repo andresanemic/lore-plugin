@@ -2,8 +2,8 @@
 
 ## 1. When this applies / Cuándo aplica
 
-Use only capabilities named by the agreement; import them from `skills/vespi/core/vespi.mjs`. Nothing
-connects by default: ports, payments, external skills and the ZK backend stay inactive.
+Use only capabilities named by the agreement; import them from `skills/vespi/core/vespi.mjs`. Nothing is
+activated by default; ports, payments, external skills and the ZK backend stay inactive.
 
 Usa solo capacidades que nombre el acuerdo e impórtalas desde `skills/vespi/core/vespi.mjs`. Puertos,
 pagos, skills externas y backend ZK quedan inactivos por defecto.
@@ -101,8 +101,8 @@ presenta ni evita la repetición. Nada se añade a un recibo nativo tras el sell
 ## 5. Who owns the ports / Quién es dueño de los puertos
 
 The host supplies every gate: grantor, signal verifier, provenance resolver, payment ports, claims store
-and ZK backend. No defaults; an agent echo cannot replace the person's gate. The capability map says
-what arrived; ports say what happened.
+and ZK backend. An agent echo cannot replace the person's gate. The map lists what is present; ports say
+what happened.
 
 El host aporta cada compuerta, sin puertos por defecto; el eco del agente no sustituye la compuerta
 humana.
