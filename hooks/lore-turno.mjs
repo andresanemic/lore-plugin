@@ -115,6 +115,84 @@ export function marca(nivelActual) {
 
 const SIN_LORE = { inyectar: false, por: "sin-lore", texto: null, nivel: DEFECTO_NIVEL, turno: null };
 
+// --- la quinta ranura: el para qué, que es del árbol y no del acuerdo -------------
+//
+// Este archivo se escribió entero con cuatro ranuras —las dos perillas, la cuenta de límites y
+// el estado del acuerdo— y creyó que esas eran el registro. No lo eran: ninguna era el *para
+// qué*, y el para qué es lo que gobierna. La promesa de que viaja por el recordatorio está
+// escrita, textual, en el `lore/identidad.md` de los árboles que usan este kit, y el canal que
+// debía cargarla tenía vocabulario cerrado sin esa palabra. RC2 verde, x402 integrado y el
+// instrumento medido no cambiaron nada de lo que una persona vivió, y esto es lo que faltaba.
+//
+// Es `principios.md` §31, textual: *«Una pista que gobierna continuamente —tono, registro,
+// gusto, una postura— no tiene paso que la nombre, así que el instrumento no la ve o la ve como
+// sospechosa.»* El para qué gobierna continuamente y no tenía paso.
+//
+// De dónde se lee, y por qué este. `lore/identidad.md` del árbol, y no el bloque
+// `<!-- lore:always-on -->` ni el `CLAUDE.md`, porque es el archivo donde la promesa está escrita:
+// en los árboles reales que la tienen, el bloque siempre-activo no la repite — nombra
+// `lore/identidad.md` como «qué es este bot y su norte» — y el `CLAUDE.md` la menciona en la
+// línea de Vespi sin nombrarla. Medido sobre 40 árboles reales con `lore/identidad.md`: el
+// marcador del para qué está en 2, el bloque siempre-activo en 39 y el `CLAUDE.md` en 39.
+//
+// Y el motivo importa tanto como la palabra. De los 40 árboles, 38 no declaran para qué, y para
+// esos el kit no puede exigir una promesa que no sabe leer: no inventa ninguna y lo dice en el
+// `por` en vez de dejar un silencio que otro lee como «no hay nada». Eso no es una tarea para el
+// árbol: es la línea que separa lo que el kit puede leer de lo que tendría que adivinar.
+const IDENTIDAD = join("lore", "identidad.md");
+const RUTA_IDENTIDAD = "lore/identidad.md";
+const MARCA_PARA_QUE = /\*\*El para qu(?:é|e)\s*:\s*([^*]+?)\*\*/i;
+
+// El enunciado de 2.5 dice *«menos de diez palabras»*, y la cuenta es de la ranura entera —
+// «para qué» incluido — porque es lo que entra al turno. Lo que no cabe NO se resume: se nombra
+// dónde está. Un resumen sería una taxonomía del propósito, y si hay que nombrarlo para poder
+// decirlo, es que todavía no se entendió.
+export const PARA_QUE_MAX_PALABRAS = 10;
+
+const SIN_PARA_QUE = { por: "sin-leer", texto: null, palabras: 0 };
+
+// Lo que se toma es el encabezado del marcador y no su cuerpo, y esa es toda la diferencia entre
+// esto y un resumen. En un árbol real el cuerpo son veintiocho palabras —«cuidar juntos un Entre
+// vivo entre una persona y una máquina…»— y emitirlas todas sería leer el texto en voz alta en
+// lugar de perturbarlo. El encabezado son tres palabras del árbol, sin completar: el texto
+// perturba y el receptor reconstruye, y no al revés.
+export function paraQueDe(raiz) {
+  let crudo;
+  try {
+    crudo = readFileSync(join(raiz, IDENTIDAD), "utf8");
+  } catch {
+    return { ...SIN_PARA_QUE, por: "sin-identidad" };
+  }
+  const linea = crudo.split(/\r?\n/).find((l) => MARCA_PARA_QUE.test(l));
+  if (!linea) return { ...SIN_PARA_QUE, por: "sin-declarar" };
+
+  // El encabezado carga la procedencia entre paréntesis —*«(Andrés, 2026-09-28)»*—, y eso es de
+  // dónde, no de qué: la fecha no viaja al turno. Sin ella el encabezado dice *«jardineros del
+  // Entre»*, que son las palabras del árbol y no las del kit.
+  //
+  // El punto final va PRIMERO y el paréntesis después, y el orden no es de estilo: el árbol
+  // escribe «…(Andrés, 2026-09-28).», con el punto FUERA del paréntesis, así que quitar el
+  // paréntesis antes de quitar el punto no encuentra nada y la procedencia se cuela al turno.
+  // El orden inverso loije una vez —la fecha viajando y el conteo de palabras corrido— que es
+  // lo que un test que solo mira el principio del texto no ve.
+  const encabezado = (linea.match(MARCA_PARA_QUE)?.[1] ?? "")
+    .replace(/[\r\n\t\v\f\0]+/g, " ")
+    .replace(/[\u0000-\u001f\u007f-\u009f]/g, "")
+    .replace(/\s{2,}/g, " ")
+    .trim()
+    .replace(/[.;:]\s*$/, "")
+    .replace(/\s*\([^()]*\)\s*$/, "")
+    .trim()
+    .replace(/[.;:]\s*$/, "");
+  if (encabezado === "") return { ...SIN_PARA_QUE, por: "declarado-vacio" };
+
+  const palabras = encabezado.split(/\s+/).filter(Boolean).length;
+  if (palabras + 2 > PARA_QUE_MAX_PALABRAS) {
+    return { por: "declarado-largo", texto: `para qué en ${RUTA_IDENTIDAD}`, palabras };
+  }
+  return { por: "declarado", texto: `para qué ${encabezado}`, palabras };
+}
+
 // Lo que la apertura decia cuando no habia nada que abrir. Sigue siendo lo cierto en un arbol sin
 // operacion: ahi FASES.md es solo un lugar, y nombrarlo es todo lo que hay que decir.
 const PUNTERO = "el estado vive en FASES.md";
@@ -201,6 +279,11 @@ export function inyeccion({ raiz, turno = null, nivel: n = DEFECTO_NIVEL, hoy = 
   }
   if (!raiz || !existsSync(join(raiz, "lore"))) return { ...SIN_LORE, nivel: nivelActual, turno };
 
+  // La quinta ranura se lee ANTES de la pregunta por el acuerdo, y al abrir solamente: es el
+  // piso de la sesión, no un turno. Va antes porque no es del acuerdo —es del árbol—, y un
+  // acuerdo ausente no puede borrar lo que el árbol ya declaró.
+  const paraQue = turno === null ? paraQueDe(raiz) : SIN_PARA_QUE;
+
   const acuerdo = leerAcuerdo(raiz);
   // Sin acuerdo en vigor calla TODO el canal, no solo la apertura.
   //
@@ -214,11 +297,19 @@ export function inyeccion({ raiz, turno = null, nivel: n = DEFECTO_NIVEL, hoy = 
   //
   // El recordatorio por turno existe para un registro que EXISTE y se puede apartar. Sin
   // acuerdo no hay nada que recordar, y el suelo ya está puesto sin que nadie lo diga.
+  //
+  // Lo que sí sale sin acuerdo es la quinta ranura, y esto es el punto del salto: el para qué
+  // nunca estuvo en el acuerdo —es del árbol, y el árbol no lo aparta—, así que silenciarlo
+  // aquí devolvía el kit al hueco exacto que vino a cerrar. Callar el suelo es honesto porque
+  // el suelo ya está cargado; callar el para qué no lo era, porque no lo estaba en ninguna parte.
   if (!acuerdo) {
-    return { ...SIN_LORE, por: "sin-acuerdo", nivel: nivelActual, turno };
+    if (paraQue.texto) {
+      return { inyectar: true, por: "para-que", texto: paraQue.texto, nivel: nivelActual, turno, acuerdo: false, paraQue };
+    }
+    return { ...SIN_LORE, por: "sin-acuerdo", nivel: nivelActual, turno, paraQue };
   }
 
-  const r = recordatorio({ acuerdo, turno });
+  const r = recordatorio({ acuerdo, turno, paraQue: paraQue.texto });
   // La apuesta del hook caida no apaga el kit: el recordatorio se guarda a mano y el
   // resto del acuerdo sigue en vigor. Por eso esto no es `inyectar: false` sino el
   // texto que el modulo ya sabe dar.
@@ -232,5 +323,5 @@ export function inyeccion({ raiz, turno = null, nivel: n = DEFECTO_NIVEL, hoy = 
     ? `${texto} · nivel ${nivelActual} · ${puertaDeOperacion(raiz)}`
     : texto;
 
-  return { inyectar: true, por: r.por, texto: apertura, nivel: nivelActual, turno, acuerdo: Boolean(acuerdo) };
+  return { inyectar: true, por: r.por, texto: apertura, nivel: nivelActual, turno, acuerdo: Boolean(acuerdo), paraQue };
 }

@@ -858,7 +858,13 @@ export function reparte({ frase, acuerdo } = {}) {
 // `turno: null` es la apertura de la sesion: el texto es el mismo y no lleva numero, porque
 // un "turno 0" al abrir seria un numero falso, y un "turno 1" gastaria el primer turno
 // contandolo.
-export function recordatorio({ acuerdo, turno = null } = {}) {
+//
+// `paraQue` es la quinta ranura, y es la unica que no sale de aqui. Las otras cuatro se leen
+// del acuerdo y por eso su vocabulario es cerrado: las perillas tienen una lista y los limites
+// se cuentan. Esta trae palabras que alguien escribio en su arbol, asi que el modulo no las
+// autoriza —las transporta— y quien las escribio es quien las acata. `null` no es un quinto
+// valor vacio: es la razon por la que no hay quinta ranura, y por eso no se cuenta como una.
+export function recordatorio({ acuerdo, turno = null, paraQue = null } = {}) {
   if (caida(acuerdo, "recordatorio-por-hook")) {
     return { texto: null, visible: false, por: "sin-hook", en: "FASES.md", turno };
   }
@@ -874,6 +880,10 @@ export function recordatorio({ acuerdo, turno = null } = {}) {
     `hay ${limites} limites`,
     `acuerdo ${acuerdo ? "vigente" : "sin acuerdo, por los defectos"}`,
   ];
+  // La quinta va al final y solo si el arbol declaro una. Las cuatro de arriba son del acuerdo
+  // y se pueden apartar con una perilla; esta es del arbol, asi que se lee al abrir y no se
+  // repite —pagarla cada turno seria el impuesto permanente que R40 prohibe—.
+  if (typeof paraQue === "string" && paraQue !== "") diales.push(paraQue);
   const cuerpo = diales.join("; ");
   return {
     texto: turno === null || turno === undefined ? cuerpo : `Turno ${turno}: ${cuerpo}.`,

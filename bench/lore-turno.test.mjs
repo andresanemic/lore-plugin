@@ -807,6 +807,9 @@ test("la apertura NO emite el para qué que lore/identidad.md declara en el árb
   assert.equal(r.inyectar, true);
   assert.match(r.texto, /jardineros del Entre/,
     `la apertura no dice para qué es este trabajo y el árbol ya lo declaró: ${r.texto}`);
+  // Lo que viaja es de qué, no de dónde: la procedencia es para el que audita el árbol, y una
+  // fecha en el prompt es peso que no perturba nada.
+  assert.doesNotMatch(r.texto, /2026-09-28/, "la procedencia del para qué no viaja al turno");
 });
 
 test("sin acuerdo en vigor la apertura emite el para qué igual: es del árbol, no del acuerdo", () => {
@@ -832,10 +835,16 @@ test("el para qué emitido no pasa de diez palabras", () => {
 test("un para qué declarado que no cabe no se emite entero: se dice que existe y dónde", () => {
   // El enunciado prefiere eso a un resumen. Un resumen sería una taxonomía del propósito, y
   // §31 manda #24 sobre las capas: si hay que nombrarlo para poder decirlo, no se entendió.
-  const largo = `**El para qué: ${Array(12).fill("palabra").join(" ")}.** Y el cuerpo largo sigue.\n`;
-  const dir = arbolQueDeclara(largo);
+  const ocho = Array(8).fill("palabra").join(" ");   // ocho palabras: la ranura entera son diez
+  const dir = arbolQueDeclara(`**El para qué: ${ocho} (Andrés, 2026-01-01).**\n`);
   acuerdoAprobado(dir);
-  const r = inyeccion({ raiz: dir, turno: null, nivel: "full" });
+  const dentro = inyeccion({ raiz: dir, turno: null, nivel: "full" });
+  assert.match(dentro.texto, new RegExp(`para qué ${ocho}`),
+    `una promesa que cabe en el enunciado se emite entera, no degradada: ${dentro.texto}`);
+
+  const dir2 = arbolQueDeclara(`**El para qué: ${Array(12).fill("palabra").join(" ")}.** Y el cuerpo largo sigue.\n`);
+  acuerdoAprobado(dir2);
+  const r = inyeccion({ raiz: dir2, turno: null, nivel: "full" });
   assert.doesNotMatch(r.texto, /palabra palabra/,
     "no cabe entero y se emitió entero: el enunciado prefirió el puntero a la versión corta");
   assert.match(r.texto, /para qué en lore\/identidad\.md/,
@@ -858,13 +867,24 @@ test("un árbol que no declara para qué no recibe ninguno inventado, y el kit l
   // declaran el marcador del para qué. Para los otros 38 el kit no puede exigir una promesa
   // que no sabe leer, así que no inventa ninguna — y no se queda en silencio, que es otra
   // forma de mentir: dice que no lo encontró.
-  const dir = arbol();
-  acuerdoAprobado(dir);
-  const r = inyeccion({ raiz: dir, turno: null, nivel: "full" });
+  const conIdentidad = arbolQueDeclara("# Identidad\n\nNorte: una instrucción corta abre los cuerpos.\n");
+  acuerdoAprobado(conIdentidad);
+  const r = inyeccion({ raiz: conIdentidad, turno: null, nivel: "full" });
   assert.doesNotMatch(r.texto, /para qué/,
     "el kit no puede exigir una promesa que no sabe leer, y menos fabricarla");
   assert.equal(r.paraQue?.por, "sin-declarar",
     "callar no es decirlo: el motivo de la ranura ausente tiene que ser legible");
+});
+
+test("un árbol sin lore/identidad.md tampoco recibe un para qué inventado", () => {
+  const dir = arbol();
+  acuerdoAprobado(dir);
+  const r = inyeccion({ raiz: dir, turno: null, nivel: "full" });
+  assert.equal(r.inyectar, true);
+  assert.doesNotMatch(r.texto, /para qué/);
+  // El motivo distingue los dos ausentes: el archivo no está, o el archivo está y no lo declara.
+  // Un solo motivo para los dos sería no saber cuál de los dos pasó.
+  assert.equal(r.paraQue?.por, "sin-identidad");
 });
 
 test("el para qué es de la apertura: el turno que sigue no lo vuelve a pagar", () => {
