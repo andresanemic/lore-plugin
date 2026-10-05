@@ -150,6 +150,21 @@ function cifrasDe(texto) {
   return { siempre, bajoDemanda: Buffer.byteLength(limpio, "utf8") - siempre };
 }
 
+// ¿El ancla se puede resolver en este clon? Distinguir esto de «el ancla existe pero no tiene este
+// archivo» es lo que separa un clon mal clonado de una pieza que entró en la superficie. Confundir
+// los dos hace que agregar una skill se reporte como «el clon está roto», que es un diagnóstico
+// falso: la medición que dice una cosa que no pasó es el mismo defecto que este instrumento tapa.
+function anclaSeLee() {
+  try {
+    execFileSync("git", ["-c", "safe.directory=*", "rev-parse", "--verify", "--quiet", `${ANCLA}^{commit}`], {
+      cwd: repo, stdio: ["ignore", "ignore", "ignore"],
+    });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 // El texto de un `SKILL.md` en el ancla. Si el ancla no se puede leer, ESTO FALLA en vez de
 // saltarse: un `skip` no rompe la corrida, y una ley que se salta no está probada.
 function leerEnElAncla(ruta) {
@@ -158,6 +173,17 @@ function leerEnElAncla(ruta) {
       cwd: repo, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"],
     }).replace(/\r\n/g, "\n");
   } catch {
+    // El ancla se lee pero no tiene esta pieza: la superficie creció con algo que no tiene «antes».
+    if (anclaSeLee()) {
+      assert.fail(
+        `«${ruta}» está en la superficie de HOY y no existe en el ancla ${ANCLA}.\n` +
+        `Eso no es un clon roto: es una pieza nueva, y la ley del corte es textual — «2.5 no puede\n` +
+        `agregar nada que no quite lo mismo». Para que la pieza entre bajo el techo hay que decidirlo\n` +
+        `por escrito: mover el ancla a un tag que ya la contenga, y entonces las dos cifras «antes» se\n` +
+        `vuelven a leer de ese artefacto. Si la entrada no debería contar, no es una skill del kit y no\n` +
+        `va en skills/ con un SKILL.md.`,
+      );
+    }
     assert.fail(
       `el peso del criterio no se pudo medir: el ancla ${ANCLA} no se lee en este clon.\n` +
       `No se saltea a propósito. Para medirlo a mano:\n` +
