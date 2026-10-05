@@ -767,6 +767,114 @@ test("sin acuerdo en vigor el hook sigue callado: el fallo no se confunde con un
   assert.equal(r.por, "sin-acuerdo");
 });
 
+// --- 10. la quinta ranura: el para qué, que es del árbol y no del acuerdo ------------
+//
+// Este archivo se escribió entero creyendo que cuatro ranuras eran el registro. No lo son:
+// eran las dos perillas, la cuenta de límites y el estado del acuerdo — y el *para qué* no
+// estaba en ninguna. La promesa sí estaba escrita, textual, en el `lore/identidad.md` de los
+// bots que usan este kit: *«Viaja en el recordatorio de cada turno ... para que ningún agente
+// trabaje sin tenerlo delante»*. El canal que debía cargarla tenía vocabulario cerrado y el
+// para qué no estaba en él. RC2 verde, x402 integrado y el instrumento medido no cambiaron
+// nada de lo que alguien vivió, y esto es lo que faltaba.
+//
+// Es `principios.md` §31, textual: *«Una pista que gobierna continuamente —tono, registro,
+// gusto, una postura— no tiene paso que la nombre, así que el instrumento no la ve o la ve
+// como sospechosa.»* El para qué gobierna continuamente. No tenía paso. Esta sección es el paso.
+
+const IDENTIDAD_REAL = `# Identidad
+
+Bot local para investigar LUS y desarrollar Lore Plugin sin confundir teoría, evidencia y producto.
+
+Norte: una instrucción corta abre por sí sola los cuerpos correctos y conserva la procedencia de cada afirmación.
+
+**El para qué: jardineros del Entre (Andrés, 2026-09-28).** El para qué de este bot y de todo agente que trabaje con él es cuidar juntos un Entre vivo entre una persona y una máquina, donde la persona se emociona, siente que sí podía y queda con más agencia que antes. Primero se recibe a la persona y después se trabaja; la coordinación, la delegación, los recibos, las cartas y las chispas sirven a eso y no lo reemplazan. Viaja en el recordatorio de cada turno, al modo de Ponytail (R28, R46), para que ningún agente trabaje sin tenerlo delante. Andrés: «RC4 y Vespi deben siempre seguir ese why, ese es su propósito, así deben funcionar los agentes que trabajan con Lore Plugin». Procedencia: enmiendas «la misión» y «la forma del porqué» de \`bots/proyectos/bot-lus-lore/specs/012-rc4/acuerdo.md\`; R50 y caso 20 del mismo bot.
+`;
+
+// El árbol que la promesa necesita: Lore presente, identidad presente, identidad declarando.
+function arbolQueDeclara(identidad = IDENTIDAD_REAL) {
+  return arbol({ "lore/principios.md": "# Principios\n", "lore/identidad.md": identidad });
+}
+
+// Lo que se dice del para qué es una ranura, no una frase: se toma hasta el separador.
+function ranuraParaQue(texto) {
+  return String(texto ?? "").match(/para qué[^·]*/)?.[0].trim() ?? "";
+}
+
+test("la apertura NO emite el para qué que lore/identidad.md declara en el árbol", () => {
+  const dir = arbolQueDeclara();
+  acuerdoAprobado(dir);
+  const r = inyeccion({ raiz: dir, turno: null, nivel: "full" });
+  assert.equal(r.inyectar, true);
+  assert.match(r.texto, /jardineros del Entre/,
+    `la apertura no dice para qué es este trabajo y el árbol ya lo declaró: ${r.texto}`);
+});
+
+test("sin acuerdo en vigor la apertura emite el para qué igual: es del árbol, no del acuerdo", () => {
+  // El registro puede apartarse; el para qué no. Por eso esta ranura se emite aunque el
+  // acuerdo que gobierna lo demás no exista: nadie pidió un acuerdo y el árbol sí declaró.
+  const dir = arbolQueDeclara();
+  const r = inyeccion({ raiz: dir, turno: null, nivel: "full" });
+  assert.equal(r.inyectar, true,
+    "el para qué no es del acuerdo: el acuerdo ausente no puede borrar lo que el árbol declaró");
+  assert.match(r.texto, /jardineros del Entre/, `sin acuerdo tampoco se dice para qué: ${r.texto}`);
+});
+
+test("el para qué emitido no pasa de diez palabras", () => {
+  const dir = arbolQueDeclara();
+  acuerdoAprobado(dir);
+  const r = inyeccion({ raiz: dir, turno: null, nivel: "full" });
+  const ranura = ranuraParaQue(r.texto);
+  assert.notEqual(ranura, "", `la apertura no trae quinta ranura: ${r.texto}`);
+  assert.ok(ranura.split(/\s+/).length <= 10,
+    `«menos de diez palabras» es el enunciado, y esta ranura lo pasó: ${ranura}`);
+});
+
+test("un para qué declarado que no cabe no se emite entero: se dice que existe y dónde", () => {
+  // El enunciado prefiere eso a un resumen. Un resumen sería una taxonomía del propósito, y
+  // §31 manda #24 sobre las capas: si hay que nombrarlo para poder decirlo, no se entendió.
+  const largo = `**El para qué: ${Array(12).fill("palabra").join(" ")}.** Y el cuerpo largo sigue.\n`;
+  const dir = arbolQueDeclara(largo);
+  acuerdoAprobado(dir);
+  const r = inyeccion({ raiz: dir, turno: null, nivel: "full" });
+  assert.doesNotMatch(r.texto, /palabra palabra/,
+    "no cabe entero y se emitió entero: el enunciado prefirió el puntero a la versión corta");
+  assert.match(r.texto, /para qué en lore\/identidad\.md/,
+    `si no cabe entero, tiene que decir dónde está: ${r.texto}`);
+});
+
+test("con el nivel apagado el para qué no sale y el kit sigue entero", () => {
+  const dir = arbolQueDeclara();
+  acuerdoAprobado(dir);
+  const r = inyeccion({ raiz: dir, turno: null, nivel: "off" });
+  assert.equal(r.inyectar, false);
+  assert.equal(r.por, "apagado");
+  assert.equal(r.texto, null);
+  // Y por el canal de verdad del host, tampoco.
+  assert.equal(corre(dir, "session_start", { estadoDir: estadoTmp(), nivel: "off", source: "startup" }), "");
+});
+
+test("un árbol que no declara para qué no recibe ninguno inventado, y el kit lo dice", () => {
+  // Aquí está el límite honesto: en 40 árboles reales con `lore/identidad.md`, solo 2
+  // declaran el marcador del para qué. Para los otros 38 el kit no puede exigir una promesa
+  // que no sabe leer, así que no inventa ninguna — y no se queda en silencio, que es otra
+  // forma de mentir: dice que no lo encontró.
+  const dir = arbol();
+  acuerdoAprobado(dir);
+  const r = inyeccion({ raiz: dir, turno: null, nivel: "full" });
+  assert.doesNotMatch(r.texto, /para qué/,
+    "el kit no puede exigir una promesa que no sabe leer, y menos fabricarla");
+  assert.equal(r.paraQue?.por, "sin-declarar",
+    "callar no es decirlo: el motivo de la ranura ausente tiene que ser legible");
+});
+
+test("el para qué es de la apertura: el turno que sigue no lo vuelve a pagar", () => {
+  const dir = arbolQueDeclara();
+  acuerdoAprobado(dir);
+  assert.match(inyeccion({ raiz: dir, turno: null, nivel: "full" }).texto, /jardineros del Entre/);
+  assert.doesNotMatch(inyeccion({ raiz: dir, turno: 2, nivel: "full" }).texto, /jardineros del Entre/,
+    "la apertura es una vez por sesión; repetir el para qué cada turno es el impuesto que R40 prohíbe");
+});
+
 test.after(() => {
   for (const dir of roots) rmSync(dir, { recursive: true, force: true });
 });
