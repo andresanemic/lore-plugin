@@ -129,12 +129,21 @@ const PUNTERO = "el estado vive en FASES.md";
 // callo antes de llegar aqui, y sin acuerdo no hay registro que sostener. Y si el FASES.md esta
 // danado o el disco no responde, esto devuelve el puntero viejo: una puerta que no puede abrirse
 // no puede ser la que tumba la sesion. El techo de este mecanismo es no romper nada.
+//
+// Pero el puntero solo es honesto cuando NO hay nada que abrir. Cuando si lo hay y la lectura
+// falla, devolver el puntero hace que el fallo sea indistinguible de una apertura de verdad —que
+// es el defecto que este archivo ya pago una vez, con quince tareas coordinadas sin abrir nada—.
+// Por eso el fallo se dice, con el motivo y el archivo. Sigue sin lanzar: el techo no se cambia,
+// lo que cambia es que el silencio no es una de las respuestas posibles.
 function puertaDeOperacion(raiz) {
   let entrada;
   try {
     entrada = operationEntry({ root: raiz });
-  } catch {
-    return PUNTERO;
+  } catch (error) {
+    const motivo = typeof error?.message === "string" && error.message !== ""
+      ? error.message
+      : String(error);
+    return `la puerta no pudo leer el estado: ${motivo} · revisa ${join(raiz, "FASES.md")} a mano antes de coordinar`;
   }
   if (!entrada?.open) return PUNTERO;
   const pendiente = (entrada.pending_by_role ?? [])

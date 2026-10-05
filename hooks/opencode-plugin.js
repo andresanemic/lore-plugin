@@ -98,6 +98,10 @@ export const LorePlugin = async ({ directory, worktree } = {}) => {
     .slice(0, MAX_DATO);
   const listaDeDatos = (valores) => (Array.isArray(valores) ? valores : []).map(comoDato).filter(Boolean).join(", ");
 
+  // El motivo de un fallo, como dato y no como frase: acota y quita lo que en ese canal seria una
+  // instruccion. Un error que no se puede leer no sirve para depurar nada.
+  const motivoDe = (error) => comoDato(error?.message ?? error);
+
   // La jurisdicción se ancla donde abrió la sesión, no en el cwd: en OpenCode el directorio
   // de instancia es el que se le pasó al host. Sin session.start se learns en el primer
   // evento de la sesión, que llega con su sessionID.
@@ -234,6 +238,25 @@ export const LorePlugin = async ({ directory, worktree } = {}) => {
       if (!output || !Array.isArray(output.system)) return;
       const aviso = pendiente;
       pendiente = null;
+
+      // Escribir en el canal del host es lo unico que puede fallar aqui, y cuando falla no queda
+      // otro canal dentro del proceso. Por eso stderr es el respaldo y no una excepcion: un hook que
+      // pierde lo que tenia que decir es un hook que nadie puede depurar. El texto se escribe tal
+      // cual —no se pierde lo que se iba a decir— y con la marca delante cuando el texto no se
+      // identifica solo, para que quien lo lea en la consola sepa de quien es.
+      const alSistema = (texto) => {
+        if (typeof texto !== "string" || texto === "") return true;
+        try {
+          output.system.push(texto);
+          return true;
+        } catch {
+          const conMarca = texto.startsWith("Lore Plugin") ? texto : `[Lore Plugin] ${texto}`;
+          try { process.stderr.write(`${conMarca}\n`); }
+          catch { /* ni stderr responde: no queda nada, y el techo sigue siendo no romper nada */ }
+          return false;
+        }
+      };
+
       // El registro del turno viaja por el MISMO canal que el aviso de la guardia, y en la
       // misma petición: son las dos cosas que el sistema tiene que saber antes de que el
       // modelo responda, y separarlas costaría un disparo del hook por cada una.
@@ -243,17 +266,22 @@ export const LorePlugin = async ({ directory, worktree } = {}) => {
         // Solo chat.message cuenta a la persona. Las peticiones auxiliares y los ciclos
         // internos del modelo no crean turnos ni consumen la apertura.
         const turno = turnosHumanos.get(sessionID)?.turno;
-        if (!turno) { if (aviso) output.system.push(aviso); return; }
+        if (!turno) { alSistema(aviso); return; }
         const r = inyeccion({
           raiz: raizSesion,
           turno: turno === 1 ? null : turno,
           nivel: nivel(),
         });
-        if (r.inyectar && r.texto) output.system.push(r.texto);
-      } catch {
-        /* un disco que no responde deja pasar el turno: el techo es que nada se rompa */
+        if (r.inyectar && r.texto) alSistema(r.texto);
+      } catch (error) {
+        // Fallo abierto, que es el techo declarado y no se cambia: una puerta que no puede
+        // abrirse no puede ser la que tumba la sesion. Lo que si se cambia es el silencio. Con el
+        // catch mudo, la inyeccion no llegaba y el turno seguía como si no hubiera puerta —que es
+        // el defecto, no la garantia— y nadie tenía forma de saber que el registro en vigor se
+        // acababa de saltar. Se dice que fallo y por que, por el mismo canal que el aviso.
+        alSistema(`Lore Plugin: el hook fallo y este turno pasa sin el registro en vigor (${motivoDe(error)}). El turno sigue: la puerta es lo que no abrio, no el trabajo.`);
       }
-      if (aviso) output.system.push(aviso);
+      alSistema(aviso);
     },
   };
 };
