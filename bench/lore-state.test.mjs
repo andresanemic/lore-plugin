@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { existsSync, mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, utimesSync, writeFileSync } from "node:fs";
+import { readFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import test from "node:test";
@@ -210,3 +211,45 @@ test("exam: recibo inválido no se escribe — TypeError, no recibo corrupto", (
   }
   assert.equal(readReceipt(dir), null);
 });
+
+// H8: el nombre del temporal se derivaba de `process.pid`, así que un árbol hostil podía
+// versionar un enlace o un hardlink para un rango de PID y la escritura pasaba por él. El
+// temporal lleva ahora un nombre no predecible y se crea en exclusiva: si ese nombre ya
+// existe, la escritura falla con EEXIST en vez de escribir encima de lo que hubiera.
+const fuenteDeEstado = () => readFile(new URL("../hooks/lore-state.mjs", import.meta.url), "utf8");
+
+test("H8: un temporal plantado no recibe la escritura y el recibo sigue intacto", async () => {
+  const dir = tree({ "lore/principios.md": OPEN + "\nprincipios\n" + CLOSE + "\n" });
+  const fuente = await fuenteDeEstado();
+  assert.doesNotMatch(fuente, /process\.pid/, "el nombre del temporal no se deriva del PID");
+  assert.match(fuente, /flag:\s*"wx"/, "el temporal se crea en exclusiva");
+
+  // Nombres que un atacante podría adivinar antes de que el proceso arranque.
+  const plantados = [`${RECEIPT}.${process.pid}.tmp`, `${RECEIPT}.${process.pid + 1}.tmp`, `${RECEIPT}.tmp`, `${RECEIPT}.0.tmp`];
+  for (const nombre of plantados) writeFileSync(join(dir, nombre), `plantado: ${nombre}\n`);
+
+  const recibo = writeReceipt(dir);
+  assert.equal(recibo.version, 2, "la escritura del recibo sigue funcionando");
+  for (const nombre of plantados) {
+    assert.equal(readFileSync(join(dir, nombre), "utf8"), `plantado: ${nombre}\n`, `el temporal adivinado ${nombre} no se pisa`);
+  }
+  const sobrantes = readdirSync(dir).filter((name) => name.endsWith(".tmp") && !plantados.includes(name));
+  assert.deepEqual(sobrantes, [], `quedan temporales del kit en el árbol: ${sobrantes.join(", ")}`);
+  assert.equal(existsSync(join(dir, RECEIPT)), true, "el recibo se escribió");
+});
+
+test("H8b: el temporal se crea en exclusiva y no se queda en el árbol", async () => {
+  // El nombre lleva `randomUUID()`, así que la colisión no se provoca desde fuera: lo que sí
+  // es observable es que la escritura pide creación exclusiva y que ningún temporal sobrevive.
+  const fuente = await fuenteDeEstado();
+  const enExclusiva = [...fuente.matchAll(/flag:\s*"wx"/g)];
+  assert.ok(enExclusiva.length >= 5, `temporales escritos en exclusiva: ${enExclusiva.length}`);
+  assert.ok((fuente.match(/randomUUID\(\)\}\.tmp/g) ?? []).length >= 5, "los cinco temporales llevan nombre no predecible");
+  const dir = tree({ "lore/principios.md": OPEN + "\nprincipios\n" + CLOSE + "\n" });
+  for (let i = 0; i < 5; i++) {
+    writeReceipt(dir);
+    assert.deepEqual(readdirSync(dir).filter((name) => name.endsWith(".tmp")), [],
+      "el temporal se renombra o se borra, nunca se queda");
+  }
+});
+

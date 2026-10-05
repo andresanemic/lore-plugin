@@ -18,6 +18,7 @@
 // recordatorio es lo que sostiene el acuerdo turno a turno, que es la segunda de las
 // cuatro apuestas; apagarlo es una eleccion suya, no un defecto del kit.
 
+import { randomUUID } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, renameSync, unlinkSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
@@ -57,10 +58,10 @@ export function estado(dir, escribir = null) {
   if (escribir !== null && escribir !== undefined) {
     const nivel = nivelDesde(escribir);
     const target = join(base, ESTADO);
-    const temporal = `${target}.${process.pid}.tmp`;
+    const temporal = `${target}.${randomUUID()}.tmp`;
     try {
       mkdirSync(base, { recursive: true });
-      writeFileSync(temporal, `${JSON.stringify({ nivel, desde: new Date().toISOString() }, null, 2)}\n`);
+      writeFileSync(temporal, `${JSON.stringify({ nivel, desde: new Date().toISOString() }, null, 2)}\n`, { flag: "wx" });
       renameSync(temporal, target);
     } finally {
       if (existsSync(temporal)) unlinkSync(temporal);

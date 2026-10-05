@@ -7,7 +7,7 @@
 //
 // Se usa desde la guardia de Codex y desde los subcomandos locales de `lore-plugin mycelium`.
 
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import {
   existsSync,
   mkdirSync,
@@ -195,9 +195,9 @@ export function writeReceipt(root, state = snapshot(root)) {
   const carried = state.announce ?? readReceipt(root)?.announce;
   if (carried) receipt.announce = carried;
   const target = join(root, RECEIPT);
-  const temporary = join(root, `${RECEIPT}.${process.pid}.tmp`);
+  const temporary = join(root, `${RECEIPT}.${randomUUID()}.tmp`);
   try {
-    writeFileSync(temporary, `${JSON.stringify(receipt)}\n`);
+    writeFileSync(temporary, `${JSON.stringify(receipt)}\n`, { flag: "wx" });
     renameSync(temporary, target);
   } finally {
     if (existsSync(temporary)) unlinkSync(temporary);
@@ -294,10 +294,10 @@ export function writeSessionBaseline(sessionId, root, state) {
   try {
     mkdirSync(SESSION_DIR, { recursive: true, mode: 0o700 });
     const target = sessionBaselinePath(sessionId, root);
-    const temporary = `${target}.${process.pid}.tmp`;
+    const temporary = `${target}.${randomUUID()}.tmp`;
     writeFileSync(temporary,
       `${JSON.stringify({ digest: state.digest, alwaysOnBytes: state.alwaysOnBytes })}\n`,
-      { mode: 0o600 });
+      { mode: 0o600, flag: "wx" });
     renameSync(temporary, target);
   } catch {
     /* tmp no disponible: el guard arma en el próximo cambio, no en el arranque */
@@ -316,8 +316,8 @@ export function writeSessionRoot(sessionId, root) {
   try {
     mkdirSync(SESSION_DIR, { recursive: true, mode: 0o700 });
     const target = sessionRootPath(sessionId);
-    const temporary = `${target}.${process.pid}.tmp`;
-    writeFileSync(temporary, `${JSON.stringify({ root: resolve(root) })}\n`, { mode: 0o600 });
+    const temporary = `${target}.${randomUUID()}.tmp`;
+    writeFileSync(temporary, `${JSON.stringify({ root: resolve(root) })}\n`, { mode: 0o600, flag: "wx" });
     renameSync(temporary, target);
   } catch {
     /* tmp no disponible: la jurisdicción cae al cwd */
@@ -364,8 +364,8 @@ export function nextTurn(sessionId, root) {
   const siguiente = n + 1;
   try {
     mkdirSync(SESSION_DIR, { recursive: true, mode: 0o700 });
-    const temporal = `${target}.${process.pid}.tmp`;
-    writeFileSync(temporal, `${JSON.stringify({ n: siguiente })}\n`, { mode: 0o600 });
+    const temporal = `${target}.${randomUUID()}.tmp`;
+    writeFileSync(temporal, `${JSON.stringify({ n: siguiente })}\n`, { mode: 0o600, flag: "wx" });
     renameSync(temporal, target);
   } catch {
     /* tmp no disponible: el numero no avanza, y el recordatorio sigue llegando */
@@ -463,8 +463,8 @@ export function writeCompactMark(sessionId, { cwd, raiz, trigger, now = Date.now
   };
   try {
     mkdirSync(SESSION_DIR, { recursive: true, mode: 0o700 });
-    const temporal = `${target}.${process.pid}.tmp`;
-    writeFileSync(temporal, `${JSON.stringify(marca)}\n`, { mode: 0o600 });
+    const temporal = `${target}.${randomUUID()}.tmp`;
+    writeFileSync(temporal, `${JSON.stringify(marca)}\n`, { mode: 0o600, flag: "wx" });
     renameSync(temporal, target);
   } catch {
     /* tmp no disponible o la marca no se puede escribir: la compactación no se bloquea */

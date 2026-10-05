@@ -32,7 +32,7 @@
 //      o con los limites renderizados como `[object Object]`, es una enmienda que pierde
 //      informacion. Las tres se comprueban.
 
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { appendFileSync, existsSync, lstatSync, readFileSync, renameSync, unlinkSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -311,9 +311,9 @@ function leerRecibo(raiz) {
 function escribirRecibo(raiz, estado, { opcional = false } = {}) {
   if (!raiz) return false;
   const target = join(raiz, RECIBO);
-  const temporal = join(raiz, `${RECIBO}.${process.pid}.tmp`);
+  const temporal = join(raiz, `${RECIBO}.${randomUUID()}.tmp`);
   try {
-    writeFileSync(temporal, `${JSON.stringify(estado, null, 2)}\n`);
+    writeFileSync(temporal, `${JSON.stringify(estado, null, 2)}\n`, { flag: "wx" });
     renameSync(temporal, target);
     return true;
   } catch (error) {
