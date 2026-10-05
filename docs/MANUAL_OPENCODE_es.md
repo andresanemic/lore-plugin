@@ -7,9 +7,9 @@
 
 ## La idea
 
-No necesitas elegir un modelo para siempre. Necesitas un lugar donde distintos modelos puedan entrar al mismo trabajo sin llevarse el proyecto, su estado o su criterio al terminar la sesión. Aquí ese lugar será OpenCode. En una segunda jornada sumaremos Claude Code, Codex si lo necesitas, y el primer Área, Proyecto y Bot.
+No necesitas elegir un modelo para siempre, sino un lugar donde distintos modelos compartan proyecto, estado y criterio entre sesiones. Aquí será OpenCode. En la segunda jornada sumaremos Claude Code, Codex si lo necesitas, y el primer Área, Proyecto y Bot.
 
-Lore Plugin conserva criterio ganado que puede seguir operando entre agentes y modelos. El modelo cambia; los archivos del trabajo, su estado y el criterio que gobierna las decisiones permanecen en el proyecto.
+Lore Plugin conserva criterio ganado entre agentes y modelos. El modelo cambia; archivos, estado y criterio permanecen en el proyecto.
 
 ## Mapa del sistema
 
@@ -58,7 +58,7 @@ Codex puede sumarse como otro host. Vespi coordina operaciones acotadas bajo aut
 
 ### 1. Bootstrap: instalar OpenCode
 
-Ésta es la única paradoja del recorrido: OpenCode no puede instalar OpenCode. Descarga e instala OpenCode para Windows desde su sitio oficial. La forma concreta de instalación puede variar según la edición disponible; comprueba que la aplicación abre y puede iniciar una sesión.
+OpenCode no puede instalarse a sí mismo. Descárgalo para Windows desde el sitio oficial. El método depende de la edición; comprueba que la aplicación abre y puede iniciar una sesión.
 
 > **Bootstrap**  
 > El host se instala fuera del agente. Después el agente puede ayudarte a preparar el entorno dentro de los límites que tú apruebes.
@@ -80,7 +80,7 @@ En OpenCode, usa `/connect`, elige OpenCode Zen y completa la autenticación; lu
 Ejemplos vistos el 2026-09-15: Big Pickle, MiMo-V2.5 Free y Muse Spark 1.3 Contributor Free. Son referencias fechadas, no una lista vigente.
 
 > **Límite**  
-> Gratuito no significa local ni privado. Revisa las condiciones actuales del proveedor y no pegues credenciales, secretos ni material confidencial en un servicio cuyas condiciones no hayas aceptado.
+> Gratuito no significa local ni privado. Revisa las condiciones del proveedor antes de compartir material confidencial o credenciales.
 
 **Le decimos al agente:**
 
@@ -94,7 +94,7 @@ Abre una conversación nueva y pide: `Responde únicamente: SETUP READY; modelo:
 
 ### 3. Crear la raíz y preparar herramientas base
 
-Antes de crear Áreas o Lore, prepara `C:\IA\setup\SETUP-LOG.md`, fuera de `lore/`. Registra fecha, herramienta, método, versión, estado GREEN/RED y problemas. Es un registro técnico, no criterio.
+Antes de crear Áreas o Lore, prepara `C:\IA\setup\SETUP-LOG.md`, fuera de `lore/`. Es un registro técnico de la instalación, no criterio.
 
 **Le decimos al agente:**
 
@@ -123,7 +123,7 @@ Superpowers es una colección comunitaria de skills de desarrollo, opcional y aj
 **Le decimos al agente:**
 
 ```text
-Instala Superpowers como complemento opcional siguiendo su mecanismo oficial vigente para OpenCode. Lee mi configuración, conserva lo existente y muéstrame el diff antes de guardar. Si la documentación contradice una instalación previa, detente y explícame. Luego verificaremos sus skills.
+Instala Superpowers como complemento opcional siguiendo https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md. Lee mi configuración, conserva lo existente y muéstrame el diff antes de guardar. Si la guía cambió o contradice una instalación previa, detente y explícame. Luego verificaremos sus skills.
 ```
 
 **Puerta 4 — GREEN, si instalaste Superpowers**
@@ -148,16 +148,14 @@ El instalador copia y verifica las skills, el hook, la marca TUI, `tui.json` y l
 Instala Lore Plugin desde mi clon local con node scripts/lore-plugin.mjs install --target opencode. Antes revisa la instalación y detecta duplicados. Conserva skills ajenas y no dejes copias de Lore duplicadas. No crees Lore todavía. Al terminar, informa qué instaló y verificó.
 ```
 
-El clon público y la presencia de rc9 requieren **[verificar al publicar]**. No uses otra versión creyendo que es rc9.
-
 **Puerta 5 — GREEN: Lore instalado**
 
-Reinicia OpenCode. Pide al host que enumere sus skills de Lore sin ejecutar ninguna. Las siete skills de Lore que debe traer el kit son `use-lore`, `brainstorming-lore`, `create-area`, `create-project`, `save-to-lore`, `transmute-lore` y `create-bot`. Además, rc9 contiene la skill experimental `vespi`, descrita en su sección. `obsidian-lore` no forma parte del kit. Comprueba las rutas, que no haya una segunda copia de estas skills y que la salida del instalador informe verificación correcta. Todavía no crees Lore: ése es el punto correcto para cerrar la primera jornada.
+Reinicia OpenCode. Pide al host que enumere sus skills de Lore sin ejecutar ninguna. Las siete skills de Lore que debe traer el kit son `use-lore`, `brainstorming-lore`, `create-area`, `create-project`, `save-to-lore`, `transmute-lore` y `create-bot`. Además, rc9 contiene la skill experimental `vespi`, descrita en su sección. `obsidian-lore` no forma parte del kit. Comprueba las rutas, que no haya copias duplicadas y que la salida del instalador informe verificación correcta. Si aparece `obsidian-lore`, anota su ruta y confirma si es un residuo de otra instalación antes de quitarlo. Todavía no crees Lore: ése es el punto correcto para cerrar la primera jornada.
 
 **Le decimos al agente:**
 
 ```text
-Usa la herramienta de skills de OpenCode para enumerar las skills disponibles relacionadas con Lore Plugin. No cargues ni ejecutes ninguna todavía. Espero ver use-lore, brainstorming-lore, create-area, create-project, save-to-lore, transmute-lore y create-bot; confirma también que ves vespi como skill experimental. No debe aparecer obsidian-lore. Señala rutas duplicadas o faltantes y no cambies nada.
+Usa la herramienta de skills de OpenCode para enumerar las skills disponibles relacionadas con Lore Plugin. No cargues ni ejecutes ninguna todavía. Espero ver use-lore, brainstorming-lore, create-area, create-project, save-to-lore, transmute-lore y create-bot; confirma también que ves vespi como skill experimental. obsidian-lore no forma parte del kit: si aparece, informa su ruta y no la borres. Señala rutas duplicadas o faltantes y no cambies nada.
 ```
 
 ## Segunda jornada: los otros hosts y el primer trabajo
@@ -169,21 +167,26 @@ Claude Code es otro host y no hereda las skills de OpenCode. En Windows, usa el 
 **Le decimos al agente:**
 
 ```text
-Instala Claude Code en Windows desde la fuente oficial. Explícame el comando y espera mi aprobación. No uses mis credenciales ni inicies sesión. Comprueba claude --version y claude doctor, registra el resultado y detente antes del login.
+Instala Claude Code en Windows con `irm https://claude.ai/install.ps1 | iex`. Explícame el comando y espera mi aprobación. No uses mis credenciales ni inicies sesión. Comprueba claude --version y claude doctor, registra el resultado y detente antes del login.
 ```
 
-Desde Claude Code agrega el marketplace de Lore e instala el plugin. Estos comandos dependen de que el repositorio público ya exponga rc9 y se marcan **[verificar al publicar]**:
+Desde el mismo clon rc9 que usaste para OpenCode, ejecuta el instalador de Claude. Este comando llama al marketplace oficial de Claude Code, instala la CLI local del kit y conecta el indicador de estado. Depende de que el repositorio público ya exponga rc9 y se marca **[verificar al publicar]**:
+
+```powershell
+node scripts/lore-plugin.mjs install --target claude
+```
+
+**Le decimos al agente:**
 
 ```text
-/plugin marketplace add andresanemic/lore-plugin
-/plugin install lore@lore-plugin
+Ejecuta node scripts/lore-plugin.mjs install --target claude desde el clon rc9. El repositorio público debe contener rc9 [verificar al publicar]. Antes de modificar nada, explica los comandos del marketplace y las rutas locales que tocarás. No uses mis credenciales. Abre una sesión nueva y confirma las siete skills de Lore y vespi. No borres instalaciones existentes sin mostrarme sus rutas.
 ```
 
 Reinicia o abre una sesión nueva según indique Claude Code. Si quieres el indicador de estado del plugin, el clon incluye `node scripts/lore-plugin.mjs statusline install`; es opcional y debe ejecutarse desde el clon de la misma versión instalada.
 
 **Puerta 6 — GREEN**
 
-Confirma que Claude Code inicia sesión y que `/help` o el selector de skills muestra las siete skills de Lore y la skill `vespi`. La instalación en Claude la gestiona su marketplace; la copia local de utilidades y recibos del kit es otra pieza y no reemplaza ese paso.
+Confirma que Claude Code inicia sesión y que el selector muestra las siete skills de Lore y `vespi`. El marketplace carga el plugin; la CLI local y el indicador de estado son piezas aparte.
 
 ### 7. Codex, si lo necesitas
 
@@ -284,11 +287,11 @@ El bloque bajo `## Operaciones` aparece en `FASES.md`; el permiso corresponde al
 
 Este borrador fija Vespi 0.1.4: operaciones, autoridad concedida, decisiones humanas, recibos, delegaciones acotadas y reanudación. La skill y `capabilities.md` exponen superficies opcionales para permisos de emergencia, procedencia de skills, pagos x402 y verificación ZK. El kit no conecta esas capacidades automáticamente.
 
-El repositorio del kernel conserva evidencia histórica de testnet, pero este recorrido no ejecuta transacciones y esa evidencia no es una auditoría. 0.1.4 no incluye recibos encadenados con `prev`, intención previa al efecto, presupuestos acumulados, `narrow(parent, child)` ni época de reanudación. El host aporta el reloj; los puertos son código confiable, no un sandbox. El digest protege integridad, no autentica aprobaciones ni prueba efectos externos.
+La documentación del kernel incluye evidencia histórica de testnet; este recorrido no ejecuta transacciones y esa evidencia no es una auditoría. 0.1.4 no incluye recibos encadenados con `prev`, intención previa al efecto, presupuestos acumulados, `narrow(parent, child)` ni época de reanudación. El host aporta el reloj; los puertos son código confiable, no un sandbox. El digest protege integridad, no autentica aprobaciones ni prueba efectos externos.
 
 ## Continuidad ante la compactación
 
-Tras compactar o reanudar, el kit manda releer contrato, Lore conectado y `FASES.md`, comprobar enlaces y reconstruir el trabajo desde archivos. Si falta una conexión, señala la decisión pendiente. Skills y hooks sostienen esta regla en Claude Code, Codex y OpenCode, aunque cada host conserva información distinta. El kit no recupera datos nunca escritos ni autoriza efectos por reanudar. Vespi revalida autoridad, premisas y recibo antes de seguir.
+Tras compactar o reanudar, `use-lore` exige releer el contrato, Lore conectado y `FASES.md`, comprobar enlaces y reconstruir el trabajo desde archivos. Claude Code y Codex tienen hooks que dejan una marca antes de compactar y avisan al reanudar. OpenCode no ofrece al plugin el mismo evento de compactación; ahí guarda el estado antes de llegar al límite y aplica la regla al reabrir la sesión o recibir el siguiente pedido. Ningún host recupera datos nunca escritos. Vespi revalida autoridad, premisas y recibo antes de seguir; reanudar no autoriza efectos.
 
 ## Prueba final: cambiar de modelo sin cambiar de trabajo
 
@@ -309,23 +312,16 @@ Lore Plugin no garantiza respuestas correctas, no añade criterio sin aprobació
 
 ## Fuentes técnicas y estado
 
-Versión de campo redactada el 2026-10-04. Consulta de fuentes externas: 2026-10-04. Las interfaces, los modelos gratuitos y los mecanismos de instalación pueden cambiar; vuelve a verificar antes de publicar este manual.
+Versión de campo redactada el 2026-10-04. Las interfaces, los modelos gratuitos y los mecanismos de instalación pueden cambiar; vuelve a verificar antes de publicar este manual.
 
-- OpenCode, documentación, instalación y descarga: https://opencode.ai/docs/ y https://opencode.ai/download/ (consultado 2026-10-04).
-- OpenCode, proveedores y conexión de OpenCode Zen: https://opencode.ai/docs/providers (consultado 2026-10-04).
-- OpenCode, skills y descubrimiento por host: https://opencode.ai/docs/skills (consultado 2026-10-04).
-- OpenCode Zen, catálogo y conexión: https://opencode.ai/docs/zen (consultado 2026-10-04; la oferta gratuita rota).
-- Claude Code, instalación para Windows, verificación y login: https://code.claude.com/docs/en/setup (consultado 2026-10-04).
-- Claude Code, plugins y marketplaces: https://code.claude.com/docs/en/plugins (consultado 2026-10-04).
-- Codex, plugins y marketplaces: https://developers.openai.com/plugins/build/plugins (consultado 2026-10-04).
-- Superpowers, instalación por host y guía OpenCode: https://github.com/obra/superpowers y https://github.com/obra/superpowers/blob/main/docs/README.opencode.md (consultado 2026-10-04).
-- Git for Windows: https://git-scm.com/install/windows (consultado 2026-10-04).
-- WinGet, comando `install` e IDs exactos: https://learn.microsoft.com/windows/package-manager/winget/install (consultado 2026-10-04).
-- Visual Studio Code, descargas: https://code.visualstudio.com/Download (consultado 2026-10-04).
-- Obsidian, instalación: https://obsidian.md/help/Getting%2Bstarted/Download%2Band%2Binstall%2BObsidian (consultado 2026-10-04).
+- OpenCode: https://opencode.ai/docs/, https://opencode.ai/download/, https://opencode.ai/docs/windows-wsl, https://opencode.ai/docs/providers, https://opencode.ai/docs/skills y https://opencode.ai/docs/zen (consultado 2026-10-05; la oferta gratuita rota).
+- Claude Code, instalación, verificación y plugins: https://code.claude.com/docs/en/setup y https://code.claude.com/docs/en/plugins (consultado 2026-10-05).
+- Codex, plugins y marketplaces: https://developers.openai.com/plugins/build/plugins (consultado 2026-10-05).
+- Superpowers, instalación por host y guía OpenCode: https://github.com/obra/superpowers y https://github.com/obra/superpowers/blob/main/docs/README.opencode.md (consultado 2026-10-05).
+- Git for Windows, WinGet, Visual Studio Code y Obsidian: https://git-scm.com/install/windows, https://learn.microsoft.com/windows/package-manager/winget/install, https://code.visualstudio.com/Download y https://obsidian.md/help/Getting%2Bstarted/Download%2Band%2Binstall%2BObsidian (consultado 2026-10-05).
 - Lore Plugin, fuente de instalación, comandos y siete skills: `README.md`, `scripts/installer.mjs`, `scripts/lore-plugin.mjs` y `skills/` de este kit. El repositorio remoto debe contener rc9 para que los comandos públicos instalen esta versión **[verificar al publicar]**.
 - Vespi 0.1.4 y evidencia: `skills/vespi/SKILL.md`, `skills/vespi/capabilities.md`, `docs/RELEASE_2.4.9.md` de este kit y el `README.md`, `docs/RELEASE_0.1.4_KERNEL.md`, `docs/WALKTHROUGH.md` y `docs/TESTNET_EVIDENCE.md` del repositorio del kernel. No implica una conexión en vivo desde el kit.
 
 ## Nota de procedencia
 
-Este recorrido adapta la estructura y el tono del tutorial maestro de setup Windows v0.1 de Andrés: mapa, puertas verdes, recuadros, dos jornadas, prueba final y fuentes. Quita Ollama, Qwen, Ponytail y modelos locales; Superpowers queda recomendado. Actualiza las skills y la instalación por host, y añade Vespi y continuidad tras compactar. Aplica las correcciones del 2026-09-15; los ejemplos de modelos conservan esa fecha.
+Adapta estructura y tono del tutorial maestro v0.1 de Andrés: mapa, puertas, recuadros, dos jornadas y prueba final. Quita Ollama, Qwen, Ponytail y modelos locales; Superpowers queda recomendado. Actualiza skills e instalación por host; añade Vespi y continuidad tras compactar. Aplica correcciones del 2026-09-15; los ejemplos están fechados ese día.
