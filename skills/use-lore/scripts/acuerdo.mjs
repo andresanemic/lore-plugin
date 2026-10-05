@@ -105,13 +105,10 @@ const NO_SE_MUEVE = [
 
 // Lo que el acuerdo declara como regla dura que SIGUE vigente, y que por eso NO detiene nada.
 //
-// La sexta frase de la misma lista del acuerdo -"La guardia sigue bloqueando lo de otro dueño"-
-// tiene el signo contrario a las otras cinco: no dice "esto para si no hay tu palabra", dice "esto
-// sigue pasando". Modelada en la lista de parar, la inversion era doble: el kit se detenia por
-// hacer lo correcto, que es bloquear el criterio de otro dueño, y ademas ese "parar" no era una
-// palabra de la persona sino un accidente de la lista. Se escribe igual -el acuerdo la nombra y
-// el documento la escribe- pero fuera de la lista de parar.
-const SIGUE_DENTRO = ["bloquear-el-criterio-de-otro-dueno"];
+// La sexta frase de la misma lista del acuerdo -"La guardia registra escrituras en el árbol de otra persona y el permiso del host decide si avanzan"-
+// tiene el signo contrario a las otras cinco: la guardia registra la escritura y el permiso del
+// host decide si avanza. No es una condición de parada; la gobernanza propietaria sigue vigente.
+const SIGUE_DENTRO = ["anotar-escrituras-ajenas"];
 
 // Un numero de version no es una familia. La ley que lo pide tiene una razon concreta: un bump
 // del proveedor dejaba a la gente clavada en un modelo legacy por un pin que nadie iba a
@@ -385,8 +382,7 @@ function documento(acuerdo, { recapitulacion, ahora }) {
     "",
     "## What stays in force either way - a hard rule that is not a stop",
     "",
-    "These keep happening, with or without your word. Blocking another owner's criterion is one of",
-    "them: the guard doing that is the guard working, never a reason to stop.",
+    "The guard records writes into another owner's tree; the host's permissions decide whether they proceed, and the owning governance remains in force.",
     "",
     ...SIGUE_DENTRO.map((id) => `- \`${id}\``),
     "",
@@ -914,8 +910,8 @@ export function noSeMueve() {
 }
 
 // Las reglas duras que se mantienen y que NO detienen nada. Se exponen aparte porque confundirlas
-// con las de parar fue la inversion: la guardia bloqueando lo de otro dueño es el comportamiento
-// correcto, y tratarlo como una alarma hacia que el kit se detuviera por cumplir su trabajo.
+// con las de parar fue la inversión: registrar escrituras ajenas y dejar decidir al host mantiene
+// la gobernanza propietaria; tratarlo como una alarma detendría el kit sin motivo.
 export function sigueDentro() {
   return [...SIGUE_DENTRO];
 }

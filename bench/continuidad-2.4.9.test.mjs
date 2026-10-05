@@ -139,6 +139,29 @@ test("el encabezado de use-lore — lo que se carga siempre — no se mueve", (t
   assert.ok(delta <= 450, `el cuerpo de use-lore creció ${delta} B y el techo son 450 B`);
 });
 
+test("los encabezados de use-lore y Vespi no cambian y su crecimiento conjunto no supera 400 B", (t) => {
+  const base = "release/2.4.9-rc9-prep";
+  const nombres = ["skills/use-lore/SKILL.md", "skills/vespi/SKILL.md"];
+  let originales;
+  try {
+    originales = nombres.map((nombre) => execFileSync("git", ["-c", "safe.directory=*", "show", `${base}:${nombre}`], {
+      cwd: repo,
+      encoding: "utf8",
+    }).replace(/\r\n/g, "\n"));
+  } catch {
+    return t.skip(`el ref ${base} no está disponible; no se puede comprobar el peso conjunto`);
+  }
+  const actuales = nombres.map((nombre) => readFileSync(join(repo, nombre), "utf8").replace(/\r\n/g, "\n"));
+  const frontmatter = (texto) => /^---\n[\s\S]*?\n---\n/.exec(texto)?.[0] ?? "";
+
+  for (let i = 0; i < nombres.length; i += 1) {
+    assert.equal(frontmatter(actuales[i]), frontmatter(originales[i]), `${nombres[i]}: el frontmatter debe conservarse byte por byte`);
+  }
+  const bytes = (textos) => textos.reduce((total, texto) => total + Buffer.byteLength(texto, "utf8"), 0);
+  const delta = bytes(actuales) - bytes(originales);
+  assert.ok(delta <= 400, `use-lore y Vespi crecieron ${delta} B; el techo combinado son 400 B`);
+});
+
 // --- B. La marca silenciosa antes de compactar (Claude Code) -------------------
 
 test("pre_compact deja la marca con la hora, el cwd, la raíz y el triplete, y no dice nada", () => {

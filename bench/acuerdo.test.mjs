@@ -1122,21 +1122,18 @@ test("13e-ter: la enmienda no cuela ni la familia versionada ni la fecha imposib
   }
 });
 
-// 13f. NO_SE_MUEVE estaba INVERTIDO para la guardia. El acuerdo lista seis cosas bajo "Lo que no
-// se mueve sin la palabra de Andres", y cinco son "si esto pasa sin tu palabra, para". La sexta -
-// "La guardia sigue bloqueando lo de otro dueno" - tiene el signo contrario: no es una condicion
-// de parada, es la regla dura que SIGUE vigente. Modelada en la lista de parar, el kit se
-// detenia por hacer lo correcto.
-test("13f: la guardia bloqueando lo de otro dueno no es una alarma - se sigue", async () => {
+// 13f. Cinco reglas detienen el trabajo sin la palabra de Andrés. La sexta registra escrituras
+// ajenas y deja la decisión al permiso del host; no es una condición de parada.
+test("13f: anotar escrituras ajenas y respetar el permiso del host no es una alarma", async () => {
   const { noSeMueve, decision, elegir, caer, APUESTAS } = await MODULO();
   const entero = elegir(ELECCION);
 
-  // Bloquear lo de otro dueno es lo que la guardia DEBE seguir haciendo: no dispara parar.
+  // La guardia registra la escritura y el host decide si procede: no dispara parar.
   assert.ok(
-    !noSeMueve().includes("bloquear-el-criterio-de-otro-dueno"),
-    "bloquear lo de otro dueno no es algo ante lo cual el kit se detenga",
+    !noSeMueve().includes("anotar-escrituras-ajenas"),
+    "anotar escrituras ajenas no es algo ante lo cual el kit se detenga",
   );
-  assert.equal(decision(entero, "bloquear-el-criterio-de-otro-dueno"), "seguir");
+  assert.equal(decision(entero, "anotar-escrituras-ajenas"), "seguir");
 
   // Y las cinco que SI son parada por romper una regla dura, siguen parando.
   for (const id of [
@@ -1153,38 +1150,35 @@ test("13f: la guardia bloqueando lo de otro dueno no es una alarma - se sigue", 
   // Y caer las cuatro apuestas no cambia ninguna de las dos mitades.
   let roto = entero;
   for (const apuesta of APUESTAS) roto = caer(roto, apuesta.id);
-  assert.equal(decision(roto, "bloquear-el-criterio-de-otro-dueno"), "seguir");
+  assert.equal(decision(roto, "anotar-escrituras-ajenas"), "seguir");
   assert.equal(decision(roto, "imponer-el-acuerdo"), "parar");
 });
 
-test("13f-bis: la regla dura que se mantiene queda escrita, no desaparece", async () => {
+test("13f-bis: la regla de permisos del host queda escrita, no desaparece", async () => {
   const { sigueDentro, decision, noSeMueve } = await MODULO();
   // Sacarla de la lista de parar no es borrarla: el acuerdo la nombra, y el documento la escribe.
-  assert.ok(sigueDentro().includes("bloquear-el-criterio-de-otro-dueno"), "el acuerdo la nombra: sigue escrita");
-  assert.ok(!noSeMueve().includes("bloquear-el-criterio-de-otro-dueno"), "pero no como condicion de parada");
+  assert.ok(sigueDentro().includes("anotar-escrituras-ajenas"), "el acuerdo la nombra: sigue escrita");
+  assert.ok(!noSeMueve().includes("anotar-escrituras-ajenas"), "pero no como condicion de parada");
 
   const root = tree();
   try {
     const { ruta } = await aprobado(root);
     const doc = readFileSync(join(root, ruta), "utf8");
-    assert.ok(doc.includes("bloquear-el-criterio-de-otro-dueno"), "y el documento del acuerdo la escribe");
+    assert.ok(doc.includes("anotar-escrituras-ajenas"), "y el documento del acuerdo la escribe");
     assert.ok(doc.includes("imponer-el-acuerdo"), "junto a las que si paran");
   } finally {
     limpiar(root);
   }
 });
 
-test("13f-ter: use-lore no lista la guardia entre las cosas que detienen el kit", () => {
+test("13f-ter: use-lore deja al host decidir las escrituras ajenas", () => {
   const text = skillText(join(raiz, "skills", "use-lore"));
   const seccion = text.slice(text.indexOf("### The four bets"));
   const dura = seccion.slice(seccion.indexOf("**And the one thing that is not a bet:**"));
-  // El bloque de lo que detiene el kit NO puede llevar a la guardia: la guardia bloqueando es
-  // precisamente lo que tiene que seguir pasando.
-  assert.ok(dura.length > 0, "use-lore tiene el bloque de la regla dura");
-  assert.ok(
-    !/not a bet[\s\S]{0,600}guard blocking/i.test(dura),
-    "la guardia bloqueando lo de otro dueno no esta entre lo que detiene el kit",
-  );
+  // El bloque de lo que detiene el kit no debe atribuir a la guardia la decisión del host.
+  assert.ok(dura.includes("**And the one hard rule that is not a stop:**"), "use-lore nombra la regla que no detiene el kit");
+  assert.match(dura, /the host's permission system decides whether they proceed/i);
+  assert.match(dura, /respect the owning governance/i);
 });
 
 test("12: sin las tres puertas no se toca un arbol que no tiene acuerdo aprobado", async () => {
