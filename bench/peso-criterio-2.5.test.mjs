@@ -43,22 +43,35 @@
 //     · carga siempre     = el frontmatter de cada `skills/*/SKILL.md` (nombre + descripción).
 //     · carga bajo demanda = el cuerpo de esos mismos ocho `SKILL.md`.
 //
-//   FUERA — declarado aquí y no medido, con el motivo de cada exclusión:
+//   FUERA — declarado aquí y no medido, con el motivo y la cifra de cada exclusión. Las tres sumas
+//   son de HOY, medidas sobre el mismo árbol que las dos cifras de dentro, para que la comparación
+//   sea de frente:
+//     · `skills/vespi/core/` — el kernel vendorizado: 447 634 B en 21 archivos (.js, .mjs, .json). Se
+//       EJECUTAN; no entran al contexto del modelo.
+//     · El resto de los `.mjs`/`.json` de `skills/` (`use-lore/scripts/`,
+//       `transmute-lore/scripts/`, `save-to-lore/scripts/`, `create-bot/`): 110 721 B. También se
+//       ejecutan, también fuera del contexto.
 //     · Los `.md` que no son `SKILL.md` dentro de `skills/` (`save-to-lore/notas.md`,
-//       `transmute-lore/*.md`, `vespi/*.md`). Los lee un procedimiento cuando su propia skill los
-//       nombra; no cargan al abrir la sesión.
-//     · `skills/vespi/core/kernel/*.js` y los `.mjs` de `skills/`: se EJECUTAN, no entran al contexto
-//       del modelo. Son 447 634 B y son la explicación rival más probable de «el kit grew».
+//       `transmute-lore/*.md`, `vespi/*.md`): 103 690 B. Los lee un procedimiento cuando su propia
+//       skill los nombra por ruta; no cargan al abrir la sesión.
 //     · El árbol de la persona: `CLAUDE.md`, `lore/`, `FASES.md`. Eso sí carga al abrir, pero es
 //       criterio suyo y no del kit, y lo mide `alwaysOnBytes` en otra superficie.
 //
 //   LA RIVAL QUE EXPLICARÍA LO MISMO, y por qué no es esta:
-//     Que el peso grew no es que el criterio grew: es que el PAQUETE grew. Los 447 634 B del kernel
-//     vendorizado y los `.mjs` se leen como «el kit pesa más» y no como «el agente carga más». Esa
-//     rival queda fuera por la ley de la unidad (#30): lo que se mide son los bytes cargados en el
-//     contexto, y un archivo que se ejecuta no entra al contexto. La misma rival, segunda forma: que
-//     la sixth cifra sea el bloque always-on del árbol de la persona — es la confusión que la causa
-//     raíz de #30 ya nombró, y por eso las dos superficies se declaran por separado.
+//
+//     RIVAL 1 — «el kit pesó más». Los 558 355 B de código del kit y los 103 690 B de criterio que no
+//     es `SKILL.md` se leen como que la superficie cresció, sin que cresciera una sola palabra de lo que
+//     el agente carga. Queda fuera por la ley de la unidad (#30): lo que se mide son los bytes
+//     CARGADOS EN EL CONTEXTO, y un archivo que se ejecuta no entra al contexto. Este es el rival
+//     más probable, porque es el que hace que «la cifra subió» y «el agente carga más» parezcan lo
+//     mismo — y son cosas distintas.
+//
+//   RIVAL 2 — «el árbol de la persona engordó». `alwaysOnBytes` (`hooks/lore-state.mjs:150`) es un
+//     número ejecutable que el kit produce, y mira el bloque siempre-activo del `CLAUDE.md` de la
+//     persona, no el criterio del kit. Confundir las dos superficies da un número que se mueve con una
+//     escritura de otra persona y se lee como una regresión del kit. Es la confusión que la causa raíz
+//     de #30 ya nombró — *«la del paquete no exige abrir el kit»*—, y por eso aquí las dos superficies
+//     se miden y se declaran por separado.
 //
 // LO QUE NO SE AFIRMA AQUÍ:
 //
@@ -208,10 +221,22 @@ test("el techo del peso del criterio está declarado y esta medición no se pued
   if (!d) {
     fallas.push(SIN_DECLARACION);
   } else {
-    for (const campo of ["unidad", "ancla", "ancla_tipo", "ancla_fecha", "superficie",
-      "carga_siempre_antes", "carga_bajo_demanda_antes", "fuera_de_superficie", "rival"]) {
+    for (const campo of ["unidad", "ancla", "ancla_tipo", "ancla_fecha",
+      "carga_siempre_antes", "carga_bajo_demanda_antes"]) {
       if (d[campo] === undefined || d[campo] === null || d[campo] === "") {
         fallas.push(`la declaración no trae «${campo}»: una condición sin ese campo no declara el techo que dice declarar`);
+      }
+    }
+    // Y las tres listas. Vacías o solo con cadenas en blanco: es la forma que toma una declaración
+    // que nadie escribió, y por eso se miran con `trim`.
+    for (const campo of ["superficie", "fuera_de_superficie", "rival"]) {
+      const valor = d[campo];
+      if (!Array.isArray(valor)) {
+        fallas.push(`«${campo}» no es una lista: la superficie, lo que queda fuera y la rival se declaran pieza por pieza, no como una frase`);
+      } else if (valor.length === 0) {
+        fallas.push(`«${campo}» está vacía: la superficie, lo que queda fuera y la rival se declaran, y una lista vacía es no declararlas`);
+      } else if (valor.some((p) => typeof p !== "string" || p.trim() === "")) {
+        fallas.push(`«${campo}» tiene una pieza vacía: una declaración a medio escribir pesa como una declaración entera`);
       }
     }
   }

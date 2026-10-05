@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "que_declara": "La condición del techo de peso del corte 2.5, escrita porque la ley la exige con su cifra. Ley del corte, textual: «2.5 no puede agregar nada que no quite lo mismo.» La aritmética de esa frase es una resta, y esta es la condición que la hace verificable: lo que entra menos lo que sale, por cifra, y el resultado no puede ser positivo.",
+  "unidad": "bytes",
+  "unidad_por_que": "andamiaje/lore-plugin/lore/principios.md #30, textual: «Un techo sin unidad declarada se cumple según la unidad que elija cada uno; la del paquete no exige abrir el kit.» La unidad es el byte CARGADO EN EL CONTEXTO. El tamaño del paquete no es la unidad. Lo prueba el número ejecutable del propio kit: alwaysOnBytes (hooks/lore-state.mjs:150) mide el bloque siempre-activo del árbol de la persona y nunca el criterio del kit.",
+  "ancla": "v2.4.9",
+  "ancla_tipo": "tag",
+  "ancla_fecha": "2026-10-05T13:59:24-03:00",
+  "ancla_por_que": "docs/RC2-la-unidad-con-reloj.md:100, textual: «el tag v2.4.9 ya es una coordenada que no se mueve: esto es RC2 sobre release/2.5-prep, no un 2.5 publicado». Un tag, no una rama: un tag lo bajan todos los clones y no se mueve, y una rama local convierte la medición en una observación de esta sola máquina. La fecha es la del tag, y la prueba la contrasta contra él — una fecha escrita a mano no es la fecha del artefacto.",
+  "superficie": [
+    "skills/brainstorming-lore/SKILL.md",
+    "skills/create-area/SKILL.md",
+    "skills/create-bot/SKILL.md",
+    "skills/create-project/SKILL.md",
+    "skills/save-to-lore/SKILL.md",
+    "skills/transmute-lore/SKILL.md",
+    "skills/use-lore/SKILL.md",
+    "skills/vespi/SKILL.md"
+  ],
+  "carga_siempre_antes": 4536,
+  "carga_bajo_demanda_antes": 260969,
+  "cifras_por_que": "andamiaje/lore-plugin/lore/principios.md #30, textual: «El techo se expresa en los bytes cargados en el contexto, siempre y bajo demanda, con la cifra «antes» en la condición, su fecha y su archivo; toda reducción se prueba por identidad del artefacto.» De ahí que sean DOS cifras y no una, y que las dos paran aquí con su fecha y su archivo. La cuenta es la misma para el ancla y para hoy: frontmatter de ^--- a ^--- para la carga siempre, el resto del archivo para la carga bajo demanda, en bytes UTF-8, con CRLF normalizado a LF. Si el «antes» y el «ahora» se midieran con cuentas distintas, el delta no compararía nada.",
+  "norma": "delta <= 0 en cada cifra, contra el ancla. La resta es la ley del corte, no un techo nuevo.",
+  "absoluto": {
+    "hay": false,
+    "por_que": "No hay ningún techo ABSOLUTO para ninguna de las dos cifras, y no se inventa uno. andamiaje/lore-plugin/lore/principios.md #30 fija la unidad y las dos cifras, pero no da un número. Los dos números absolutos que el kit tiene —450 B en el cuerpo de use-lore y 400 B conjuntos entre use-lore y vespi— son decisiones de Andrés del 2026-10-04 sobre DOS archivos concretos, no sobre la superficie entera. Estirarlos a los ocho sería fabricar la vara.",
+    "propuesto": "Un techo absoluto sobre la carga siempre — 4536 B —, contra un número que la persona acepte y que quede escrito con su fecha. Queda pendiente de Andrés. Hasta que exista, la ley aplicable es la resta: delta <= 0 por cifra."
+  },
+  "fuera_de_superficie": [
+    "skills/vespi/core/ — el kernel vendorizado: 447634 B en 21 archivos (.js, .mjs, .json). Se EJECUTAN; no entran al contexto del modelo.",
+    "El resto de los .mjs y .json de skills/ (use-lore/scripts/, transmute-lore/scripts/, save-to-lore/scripts/, create-bot/): 110721 B. También se ejecutan, también fuera del contexto.",
+    "Los .md que no son SKILL.md dentro de skills/ (save-to-lore/notas.md, transmute-lore/*.md, vespi/*.md): 103690 B. Los lee un procedimiento cuando su propia skill los nombra por ruta; no cargan al abrir la sesión.",
+    "El árbol de la persona: CLAUDE.md, lore/, FASES.md. Eso sí carga al abrir, pero es criterio suyo y no del kit, y lo mide alwaysOnBytes en otra superficie."
+  ],
+  "fuera_por_que": "Las tres primeras sumas son de HOY, medidas sobre el mismo árbol que las dos cifras de dentro, para que la comparación sea de frente. Una exclusión sin cifra es una exclusión que puede ser de cualquier tamaño.",
+  "rival": [
+    "RIVAL 1 — «el kit pesó más». Los 558355 B de código del kit y los 103690 B de criterio que no es SKILL.md se leen como que la superficie cresció, sin que cresciera una sola palabra de lo que el agente carga. Queda fuera por la ley de la unidad: lo que se mide son los bytes CARGADOS EN EL CONTEXTO, y un archivo que se ejecuta no entra al contexto. Es el rival más probable, porque hace que «la cifra subió» y «el agente carga más» parezcan lo mismo, y son cosas distintas.",
+    "RIVAL 2 — «el árbol de la persona engordó». alwaysOnBytes (hooks/lore-state.mjs:150) es un número ejecutable que el kit produce, y mira el bloque siempre-activo del CLAUDE.md de la persona, no el criterio del kit. Confundir las dos superficies da un número que se mueve con una escritura de otra persona y se lee como una regresión del kit. Es la confusión que la causa raíz de #30 ya nombró — «la del paquete no exige abrir el kit» —, y por eso aquí las dos superficies se miden y se declaran por separado."
+  ],
+  "frontera_de_validez": "Rige el techo de este corte y sus copias vendorizadas; no mide lo que el host cargue. La afirmación de que los ocho frontmatter cargan en cada turno es del kit y es textual —bench/continuidad-2.4.9.test.mjs:199, «Ley #24: lo siempre cargado no cambia. Un byte de frontmatter es un byte por host, por turno.»—, y una prueba de repositorio no puede verificar una propiedad del host. Si un host dejara de cargar los encabezados, esta cifra seguiría siendo la del texto del kit y perdería valor como medida de lo que ese host carga — sin que nada de lo que hay aquí dejara de ser cierto.",
+  "no_afirmado": "Que el host cargue los ocho frontmatter en cada turno. Eso es una propiedad del host, no del repositorio, y queda fuera de la frontera de validez."
+}
