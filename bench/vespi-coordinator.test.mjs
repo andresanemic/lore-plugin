@@ -9,6 +9,7 @@ import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import test from "node:test";
 
 const V = "../skills/vespi/core/vespi.mjs";
@@ -91,7 +92,12 @@ test("la semilla es válida y solo orienta, nunca altera los límites de una tar
   const pkg = JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8"));
   assert.ok(pkg.files.includes("skills/"));
   const { spawnSync } = await import("node:child_process");
-  const packed = spawnSync("npm", ["pack", "--dry-run", "--json"], { cwd: new URL("..", import.meta.url), encoding: "utf8" });
+  // En Windows `npm` es un script, no un binario: sin shell, spawnSync da ENOENT.
+  const packed = spawnSync("npm", ["pack", "--dry-run", "--json"], {
+    cwd: fileURLToPath(new URL("..", import.meta.url)),
+    encoding: "utf8",
+    shell: process.platform === "win32",
+  });
   assert.equal(packed.status, 0, packed.stderr);
   assert.ok(JSON.parse(packed.stdout)[0].files.some((file) => file.path === "skills/vespi/core/calibration-seed.json"));
 });
