@@ -57,7 +57,7 @@ import {
   writeSessionBaseline,
   writeSessionRoot,
 } from "./lore-state.mjs";
-import { inyeccion, nivel } from "./lore-turno.mjs";
+import { inyeccion, nivel, semillaDePuerta } from "./lore-turno.mjs";
 import { alVocabularioDelKit } from "./opencode-input.mjs";
 
 export const LorePlugin = async ({ directory, worktree } = {}) => {
@@ -84,6 +84,25 @@ export const LorePlugin = async ({ directory, worktree } = {}) => {
     if (typeof texto !== "string" || texto === "") return;
     pendiente = pendiente === null ? texto : `${pendiente}\n${texto}`;
   };
+
+  // La puerta se siembra AQUÍ, al abrir, y no en el primer turno. `experimental.chat.system.transform`
+  // es el único canal de la v1 que muta `output.system`, o sea el único que alcanza al modelo; su
+  // inyección depende de `chat.message`, que cuenta turnos humanos y devuelve temprano. Con la
+  // ventana sin sembrar, el veredicto esperaba a ese guard: para cuando llegaba, la persona ya había
+  // escrito y el modelo ya había formulado su respuesta. Sembrarla no puede hacer que el sistema
+  // hable antes del primer mensaje —eso no lo puede ningún hook— y sí que no espere a que el modelo
+  // ya haya acted, que es la diferencia entre esto y un `UserPromptSubmit`.
+  //
+  // `veredictoSemilla` se guarda aparte del texto encolado por una sola razon, y es para no
+  // decirlo dos veces: cuando el guard ya corrió, la inyección del turno lleva el veredicto
+  // dentro de su propio texto, y repetirlo en el mismo prompt del sistema es gasto, no énfasis.
+  let veredictoSemilla = null;
+  try {
+    veredictoSemilla = semillaDePuerta({ raiz });
+    if (veredictoSemilla) encolar(veredictoSemilla);
+  } catch {
+    /* el techo no se cambia: la puerta vuelve a decir su motivo en la inyección del turno */
+  }
 
   // Lo que el prompt del sistema publica lo lee el modelo como instrucción, así que una ruta
   // que viene de `tool_input` viaja como dato: una línea, sin caracteres de control, y
@@ -239,6 +258,13 @@ export const LorePlugin = async ({ directory, worktree } = {}) => {
       const aviso = pendiente;
       pendiente = null;
 
+      // Lo que esta peticion va a decir de la semilla, y que arbol es el suyo. Tres formas de
+      // callarla, y las tres se deciden aqui y no en la fabrica: el turno ya la dijo, la sesion no
+      // es el arbol donde se sembro, o la perilla esta apagada —que se lee en este momento y no
+      // al cargar la fabrica, porque `LORE_ESTADO_DIR` todavia no esta puesto en ese instante.
+      const injectionDelTurno = { texto: null };
+      let raizSesion = raiz;
+
       // Escribir en el canal del host es lo unico que puede fallar aqui, y cuando falla no queda
       // otro canal dentro del proceso. Por eso stderr es el respaldo y no una excepcion: un hook que
       // pierde lo que tenia que decir es un hook que nadie puede depurar. El texto se escribe tal
@@ -257,22 +283,36 @@ export const LorePlugin = async ({ directory, worktree } = {}) => {
         }
       };
 
+      // El aviso sin la semilla cuando esta peticion ya la dijo por otro camino, cuando la sesion
+      // no es el arbol donde se sembro, o cuando la perilla esta apagada. La semilla es una LINEA
+      // propia de la cola —no una frase pegada dentro de otro texto— porque es lo unico que se
+      // puede quitar sin perder el aviso de la guardia, que viaja en la misma cola.
+      const sinSemilla = (texto) => {
+        if (typeof texto !== "string" || veredictoSemilla === null) return texto;
+        const yaLaDijoElTurno = injectionDelTurno.texto !== null && injectionDelTurno.texto.includes(veredictoSemilla);
+        if (!yaLaDijoElTurno && raizSesion === raiz && nivel() !== "off") return texto;
+        return texto.split("\n").filter((linea) => linea !== veredictoSemilla).join("\n");
+      };
+
       // El registro del turno viaja por el MISMO canal que el aviso de la guardia, y en la
       // misma petición: son las dos cosas que el sistema tiene que saber antes de que el
       // modelo responda, y separarlas costaría un disparo del hook por cada una.
       try {
         const sessionID = input && input.sessionID;
-        const raizSesion = (typeof sessionID === "string" ? readSessionRoot(sessionID) : null) ?? raiz;
+        raizSesion = (typeof sessionID === "string" ? readSessionRoot(sessionID) : null) ?? raiz;
         // Solo chat.message cuenta a la persona. Las peticiones auxiliares y los ciclos
         // internos del modelo no crean turnos ni consumen la apertura.
         const turno = turnosHumanos.get(sessionID)?.turno;
-        if (!turno) { alSistema(aviso); return; }
+        if (!turno) { alSistema(sinSemilla(aviso)); return; }
         const r = inyeccion({
           raiz: raizSesion,
           turno: turno === 1 ? null : turno,
           nivel: nivel(),
         });
-        if (r.inyectar && r.texto) alSistema(r.texto);
+        if (r.inyectar && r.texto) {
+          injectionDelTurno.texto = r.texto;
+          alSistema(r.texto);
+        }
       } catch (error) {
         // Fallo abierto, que es el techo declarado y no se cambia: una puerta que no puede
         // abrirse no puede ser la que tumba la sesion. Lo que si se cambia es el silencio. Con el
@@ -281,7 +321,7 @@ export const LorePlugin = async ({ directory, worktree } = {}) => {
         // acababa de saltar. Se dice que fallo y por que, por el mismo canal que el aviso.
         alSistema(`Lore Plugin: el hook fallo y este turno pasa sin el registro en vigor (${motivoDe(error)}). El turno sigue: la puerta es lo que no abrio, no el trabajo.`);
       }
-      alSistema(aviso);
+      alSistema(sinSemilla(aviso));
     },
   };
 };

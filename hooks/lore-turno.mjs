@@ -155,6 +155,37 @@ function puertaDeOperacion(raiz) {
     + ` · antes de coordinar, abre ${entrada.file}`;
 }
 
+// La semilla de la puerta: lo que la puerta dice cuando HAY algo que abrir, y `null` cuando no.
+//
+// Vive aqui y no en la fabrica del plugin por una razon que no es de estilo: las tres preguntas —
+// hay acuerdo, hay arbol con Lore, hay operacion abierta— ya tienen una sola respuesta en este
+// modulo, y una segunda en el adaptador de OpenCode seria dos verdades sobre la misma puerta. Esta
+// es la pieza que le permite a la fabrica sembrar el veredicto sin decidir cuando hablar.
+//
+// Lo que NO se siembra, y es lo mas importante de esta funcion: el puntero. Sin operacion abierta
+// la puerta dice \`PUNTERO\` —donde vive el estado— y sembrar eso seria sembrar el defecto que las
+// lineas 118-137 de este archivo ya cobaron una vez: quien lo leyo coordino quince tareas sin
+// abrir nada. Un puntero que no puede fallar en voz alta no es una puerta, y esta semilla solo
+// transporta la puerta.
+//
+// El nivel NO se consulta aqui: \`nivel()\` lee \`LORE_ESTADO_DIR\` y en el instante de cargar la
+// fabrica todavia no esta puesto —las pruebas lo ponen despues de construir el plugin—, asi que
+// decidir "apagado" aqui seria decidir con el reloj de otra persona. Lo decide el hook, en el
+// momento de decir, que es cuando la perilla ya es legible.
+export function semillaDePuerta({ raiz } = {}) {
+  try {
+    if (!raiz || !existsSync(join(raiz, "lore"))) return null;
+    if (!leerAcuerdo(raiz)) return null;
+    const veredicto = puertaDeOperacion(raiz);
+    return veredicto === PUNTERO ? null : veredicto;
+  } catch {
+    // El techo de este mecanismo es no romper nada, y no se cambia: la puerta volvera a decir su
+    // motivo en la inyeccion del turno. aqui solo hay una garantia —la de la apertura—, y perder
+    // la semilla no tira la sesion.
+    return null;
+  }
+}
+
 // El cuerpo del recordatorio. `texto` es lo que entra al turno; `inyectar` dice si
 // entra, y los dos estan en el mismo objeto porque la razon de que algo calla importa
 // tanto como su contenido: un hook que calla sin poder explicar por que es un hook que
