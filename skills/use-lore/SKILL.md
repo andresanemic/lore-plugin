@@ -36,6 +36,12 @@ invoking any other Lore skill.
 > not an exemption: continuing is deciding.* Criterion that waits to be remembered is criterion
 > that does not run.
 >
+> **A compaction is an opening too.** After the session compacts or resumes, re-read this tree's
+> contract, its Lore and its `FASES.md` before continuing, and say that you did. Near the context
+> limit, or when the person says you are about to compact, leave one line per decision in
+> `FASES.md` or in the operation's own state first. In a host with no compaction event, only this
+> rule stands.
+>
 > **Every session opening checks that those bodies can load — only when the work will rely on them.** In a tree with `lore/`, run
 > the installed local CLI's `mycelium bodies --tree <root>` against the governed root just resolved above before relying on its criterion. Set its path to this host's entry under `~/.lore-plugin/entry/<host>/scripts/lore-cli.mjs`; use only the current host's `claude`, `codex` or `opencode` entry. Never select whichever host entry happens to exist first. In Bash/Zsh, set `LORE_CLI` to that path and invoke `node "$LORE_CLI" mycelium bodies --tree <root>`; in PowerShell, set `$env:LORE_CLI` to that path and invoke `node "$env:LORE_CLI" mycelium bodies --tree <root>`. Skip the check for a trivial single-step task that relies on no body's criterion (a one-file mechanical edit outside `lore/`); run it before the first reliance instead. When a territory change resolves another root, repeat the check. If the
 > bundled command is unavailable, inspect the same two links directly: contract → core pieces

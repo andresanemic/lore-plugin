@@ -92,23 +92,23 @@ test.after(() => {
 // --- A. La prosa que manda en los tres hosts -----------------------------------
 
 test("use-lore trata una compactación como una apertura de sesión, no como una regla nueva", () => {
-  const useLore = readFileSync(join(repo, "skills", "use-lore", "SKILL.md"), "utf8").replace(/\r\n/g, "\n");
+  // El bloque es una cita con `> ` y un ancho de línea que no es el del código: la prosa se lee
+  // sin esos prefijos y con los saltos de línea unidos a un espacio, o cada aserción mide el
+  // ajuste de línea en vez de la regla.
+  const useLore = readFileSync(join(repo, "skills", "use-lore", "SKILL.md"), "utf8")
+    .replace(/\r\n/g, "\n")
+    .replace(/^> ?/gm, "")
+    .replace(/\s+/g, " ");
 
   // La regla vive DENTRO del bloque que ya trata de apertura de sesión, no en un sección nueva.
-  assert.match(useLore, /governs session openings too[\s\S]{0,3000}A compaction is a session opening/);
-  assert.match(useLore, /compacts or resumes[\s\S]{0,200}re-read/);
-  assert.match(useLore, /contract, its Lore and its `FASES\.md`/);
-  assert.match(useLore, /say that you did/i);
+  assert.match(useLore, /governs session openings too[\s\S]{0,900}A compaction is an opening too/);
+  assert.match(useLore, /compacts or resumes, re-read this tree's contract/);
+  assert.match(useLore, /contract, its Lore and its `FASES\.md` before continuing, and say that you did\./);
+  assert.match(useLore, /Near the context limit, or when the person says you are about to compact/);
+  assert.match(useLore, /leave one line per decision in `FASES\.md` or in the operation's own state first\./);
+  assert.match(useLore, /In a host with no compaction event, only this rule stands\./);
 
-  // El checkpoint es de una línea por decisión y va al estado, no al criterio.
-  assert.match(useLore, /Near the[\s\S]{0,200}context limit/i);
-  assert.match(useLore, /one line per decision[\s\S]{0,200}`FASES\.md`/);
-  assert.match(useLore, /the operation's own state|operation state/i);
-
-  // La honestidad por host (andamiaje #30): donde el evento no existe, se dice que solo queda esto.
-  assert.match(useLore, /in a host without that event, only this rule stands/i);
-
-  // Y la prohibition que la motivó: la regla NO es un canal de hook.
+  // Y la prohibición que la motivó: la regla NO es un canal de hook.
   assert.doesNotMatch(
     useLore,
     /compaction[\s\S]{0,300}additionalContext/,
