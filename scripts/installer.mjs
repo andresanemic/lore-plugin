@@ -336,7 +336,16 @@ export function recoverLocalEntry({ transactionRoot, entryRoot, receiptPath, ren
     remove(transactionRoot, { recursive: true, force: true });
     return "discarded-uncommitted-staging";
   }
-  const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+  // Un manifiesto truncado o ilegible no puede decidir qué restaurar. Antes este `JSON.parse`
+  // lanzaba fuera de todo `try`, dejaba el staging en su sitio y, como el nombre es fijo, el
+  // bloqueo se repetía en cada intento. Se descarta el staging y se dice cuál fue el motivo.
+  let manifest;
+  try {
+    manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+  } catch {
+    remove(transactionRoot, { recursive: true, force: true });
+    return "discarded-corrupt-manifest";
+  }
   const backupEntry = join(transactionRoot, "previous-entry");
   const backupReceipt = join(transactionRoot, "previous-receipt.json");
   let published = false;
@@ -405,7 +414,15 @@ function recoverManagedPath({ transactionRoot, destination }) {
     rmSync(transactionRoot, { recursive: true, force: true });
     return;
   }
-  const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+  // Misma regla que en la entrada local: un manifiesto ilegible no puede decidir qué dejar
+  // atrás, así que el staging se descarta en vez de bloquear la instalación con una excepción.
+  let manifest;
+  try {
+    manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+  } catch {
+    rmSync(transactionRoot, { recursive: true, force: true });
+    return;
+  }
   const backup = join(transactionRoot, "previous");
   if (treeDigest(destination) === manifest.digest) {
     rmSync(transactionRoot, { recursive: true, force: true });

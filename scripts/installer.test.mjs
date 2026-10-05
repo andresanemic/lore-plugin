@@ -467,3 +467,44 @@ test("la entrada local de Claude se instala dos veces en un HOME vacío sin sali
   assert.equal(first.cli.cliRoot.startsWith(home), true);
   assert.equal(second.cli.cliRoot.startsWith(home), true);
 });
+
+// H15: un `transaction.json` truncado lanzaba `SyntaxError` fuera de todo `try`, dejaba el
+// directorio de staging en su sitio y, como el nombre es fijo, el bloqueo se repetía en cada
+// intento hasta que alguien lo borraba a mano. Ahora el staging corrupto se descarta y la
+// instalación continúa, y se dice con un valor propio en vez de con una excepción.
+test("H15: un manifiesto de transacción corrupto se descarta y la instalación continúa", () => {
+  const home = mkdtempSync(join(tmpdir(), "lore-corrupt-"));
+  const packageRoot = makePackage();
+  try {
+    const staging = join(home, ".lore-plugin", "staging", "claude-abcd1234");
+    mkdirSync(staging, { recursive: true });
+    writeFileSync(join(staging, "transaction.json"), '{"digest": "abc", "hadEntr');
+
+    const estado = recoverLocalEntry({
+      transactionRoot: staging,
+      entryRoot: join(home, ".lore-plugin", "entry", "claude"),
+      receiptPath: join(home, ".lore-plugin", "entry", "claude", "RECIBO-LOCAL.json"),
+    });
+    assert.equal(estado, "discarded-corrupt-manifest");
+    assert.equal(existsSync(staging), false, "el staging corrupto no bloquea el siguiente intento");
+
+    writeFileSync(join(packageRoot, "NOTICE"), "aviso del paquete" + String.fromCharCode(10));
+
+    mkdirSync(join(home, ".agents", "plugins", "plugins", "lore"), { recursive: true });
+    // Y el mismo manifiesto corrupto en una ruta gestionada tampoco tumba la instalación.
+    const managed = join(home, ".lore-plugin", "staging", "codex-managed-000000000000");
+    mkdirSync(managed, { recursive: true });
+    writeFileSync(join(managed, "transaction.json"), "esto no es json");
+    assert.doesNotThrow(() => replaceManagedPath({
+      home,
+      host: "codex",
+      source: join(packageRoot, "NOTICE"),
+      destination: join(home, ".agents", "plugins", "plugins", "lore", "NOTICE"),
+      label: "Codex component NOTICE",
+    }), "un manifiesto corrupto no puede bloquear la instalacion");
+    assert.equal(readFileSync(join(home, ".agents", "plugins", "plugins", "lore", "NOTICE"), "utf8"), readFileSync(join(packageRoot, "NOTICE"), "utf8"));
+
+    const instalacion = installCodex({ home, packageRoot });
+    assert.equal(instalacion.verified, true, "y la instalacion sigue su curso");
+  } finally { rmSync(home, { recursive: true, force: true }); rmSync(packageRoot, { recursive: true, force: true }); }
+});
