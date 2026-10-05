@@ -1,6 +1,6 @@
 {
   "packageVersion": "0.1.0",
-  "builtAt": "2026-10-05T05:59:03.188Z",
+  "builtAt": "2026-10-05T06:03:41.392Z",
   "documents": [
     {
       "id": "readme",
@@ -8,8 +8,8 @@
       "lang": "en",
       "title": "Lore Plugin public overview",
       "path": "README.md",
-      "sha256": "3b8fd7393642c9cdd3c581c499b01ac404d543c85eef24a4ec550e2195760639",
-      "contentSha256": "03ba795b1430d935a410e10027bfeafb423861178c9da4a7787b5ffbea54372a",
+      "sha256": "b8d28dc2054f6db14535aefd2da522613caa0c1ef09e385aab0ca846c05ad4f7",
+      "contentSha256": "326d7d9c6e2d39278f4e5539cb8e846e531293e7bcca46c035896338b8563c5f",
       "file": "content/readme.md"
     },
     {
