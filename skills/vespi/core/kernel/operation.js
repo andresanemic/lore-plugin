@@ -1,5 +1,5 @@
 // Vendored copy — canonical source is founder/proyectos/vespi/kernel/src/operation.js
-// commit 03f78db, branch release/0.1.4-prep.
+// (kernel 0.1.4, release/0.1.4-prep branch, commit 8062649). Edit the canonical source, then re-copy here;
 // this file is not the source of truth.
 'use strict';
 

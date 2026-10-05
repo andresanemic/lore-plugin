@@ -285,7 +285,7 @@ El bloque bajo `## Operaciones` aparece en `FASES.md`; el permiso corresponde al
 
 ### Qué trae 0.1.4 y qué no
 
-El kit fija la copia congelada de Vespi 0.1.4 del commit `03f78db3911089151288851260f5253c0dc988c6`, con operaciones, autoridad concedida, decisiones humanas, recibos, delegaciones acotadas y reanudación. La skill y `capabilities.md` exponen las cuatro superficies opcionales presentes: permisos de emergencia, procedencia de skills, pagos x402 y verificación ZK. No se incluye `zk-bn254-reference.js`, una referencia criptográfica experimental, ni el puente x402 con el SDK real; las superficies no se conectan automáticamente y siguen en validación de campo.
+El kit fija la copia congelada de Vespi 0.1.4 del commit `806264985e05de1843f6826e791869758fe94b68`, con operaciones, autoridad concedida, decisiones humanas, recibos, delegaciones acotadas y reanudación. La skill y `capabilities.md` exponen las cuatro superficies opcionales presentes: permisos de emergencia, procedencia de skills, pagos x402 y verificación ZK. No se incluye `zk-bn254-reference.js`, una referencia criptográfica experimental, ni el puente x402 con el SDK real; las superficies no se conectan automáticamente y siguen en validación de campo.
 
 La documentación del kernel incluye evidencia histórica de testnet; este recorrido no ejecuta transacciones y esa evidencia no es una auditoría. 0.1.4 no incluye recibos encadenados con `prev`, intención previa al efecto, presupuestos acumulados, `narrow(parent, child)` ni época de reanudación. El host aporta el reloj; los puertos son código confiable, no un sandbox. El digest protege integridad, no autentica aprobaciones ni prueba efectos externos.
 

@@ -1,10 +1,8 @@
 # Vespi kernel copy provenance
 
-Fixed copy of Vespi kernel **0.1.4**, a candidate cut with publication date pending, in Lore Plugin 2.4.9. Canonical source: `founder/proyectos/vespi/kernel/src/`, branch `release/0.1.4-prep`, commit `03f78db3911089151288851260f5253c0dc988c6`.
+Fixed copy of the Vespi kernel **0.1.4** in Lore Plugin 2.4.9, published on 2026-10-05. Canonical source: `founder/proyectos/vespi/kernel/src/`, branch `release/0.1.4-prep`, commit `806264985e05de1843f6826e791869758fe94b68`.
 
-The vendored modules are `authority.js`, `continuity.js`, `delegation.js`, `emergency.js`, `operation.js`, `receipt.js`, `skill-provenance.js`, `time.js`, `x402.js` and `zk.js`. `zk-bn254-reference.js`, an experimental cryptographic reference, is NOT vendored.
-
-Each module carries a three-line provenance header followed by the exact committed source bytes. The table below does not verify itself: `bench/vespi-kernel-provenance.test.mjs` compares each body with the pinned Git source.
+Each module carries a three-line provenance header followed by the exact committed source bytes. The table below does not verify itself: `bench/vespi-kernel-provenance.test.mjs` compares the body with `git show 806264985e05de1843f6826e791869758fe94b68:src/<file>`.
 
 | Module | SHA-256 of source bytes | Bytes |
 |---|---|---|

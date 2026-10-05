@@ -285,7 +285,7 @@ The block appears under `## Operaciones` in `FASES.md`; permission matches the d
 
 ### What 0.1.4 includes and does not include
 
-The kit pins the frozen Vespi 0.1.4 cut from commit `03f78db3911089151288851260f5253c0dc988c6`, with operations, granted authority, human decisions, receipts, bounded delegations, and resuming. The skill and `capabilities.md` expose the four optional surfaces present: emergency permission, skill provenance, x402 payments, and ZK verification. `zk-bn254-reference.js`, an experimental cryptographic reference, and the SDK-backed x402 bridge are excluded; the surfaces are not connected automatically and remain in field validation.
+The kit pins the frozen Vespi 0.1.4 cut from commit `806264985e05de1843f6826e791869758fe94b68`, with operations, granted authority, human decisions, receipts, bounded delegations, and resuming. The skill and `capabilities.md` expose the four optional surfaces present: emergency permission, skill provenance, x402 payments, and ZK verification. `zk-bn254-reference.js`, an experimental cryptographic reference, and the SDK-backed x402 bridge are excluded; the surfaces are not connected automatically and remain in field validation.
 
 The kernel documentation includes historical testnet evidence; this walkthrough does not run transactions, and that evidence is not an audit. Version 0.1.4 lacks receipt chaining with `prev`, intent recorded before effects, accumulated budgets, `narrow(parent, child)`, and a resume epoch. The host supplies the clock; injected ports are trusted code, not a sandbox. A digest protects integrity, not approval identity or external effects.
 
