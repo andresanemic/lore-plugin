@@ -545,6 +545,9 @@ test("Claude no recibe contexto del guard y Codex conserva su guardia", () => {
   assert.ok(!hooks.hooks?.Stop, "Claude sigue recibiendo contexto al cerrar");
   assert.ok(Array.isArray(hooks.hooks?.SessionStart), "falta la base silenciosa de Codex");
   assert.ok(Array.isArray(hooks.hooks?.PostToolUse), "falta la guardia de Codex");
+  // 2.4.9: la marca de compactación se registra en `PreCompact`, no en un evento inventado ni
+  // en `UserPromptSubmit`, que es el canal que el agente narra.
+  assert.ok(Array.isArray(hooks.hooks?.PreCompact), "falta la marca silenciosa de compactación");
   assert.ok(!existsSync(join(root, "hooks", "mycelium-guard.mjs")), "el adaptador retirado de Claude todavía se empaqueta");
 });
 

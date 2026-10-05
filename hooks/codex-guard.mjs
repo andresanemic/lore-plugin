@@ -32,6 +32,8 @@ import {
   readSessionBaseline,
   readSessionRoot,
   snapshot,
+  takeCompactMark,
+  writeCompactMark,
   writeReceipt,
   writeSessionBaseline,
   writeSessionRoot,
@@ -59,7 +61,7 @@ try {
   OK();
 }
 
-if (!["session_start", "pre_tool_use", "post_tool_use", "user_prompt_submit"].includes(event)) OK();
+if (!["session_start", "pre_tool_use", "post_tool_use", "user_prompt_submit", "pre_compact"].includes(event)) OK();
 if (event === "post_tool_use" && typeof data.turn_id !== "string") OK();
 
 const root = typeof data.cwd === "string" && data.cwd ? data.cwd : process.cwd();
@@ -118,6 +120,26 @@ if (event === "user_prompt_submit") {
 }
 
 
+// --- `pre_compact`: la marca silenciosa (2.4.9) ---------------------------------
+//
+// Cero bytes de salida, y esa es toda la restricción. No puede ser de otra manera: el host
+// DESCARTA el `systemMessage` de `PreCompact` y el stdout plano de un hook de command no se
+// entrega al modelo en este evento; y aunque lo hiciera, un texto que el modelo lee como
+// instrucción de la persona es exactamente el defecto medido en `UserPromptSubmit`. Lo que queda
+// es un archivo en el tmp de la sesión, que no es contexto: es un hecho en disco.
+//
+// Se ancla en la MISMA raíz que el resto de la guardia (`readSessionRoot`), no en el `cwd`, que
+// en Claude Code yaderivó cuando se compacta. Falla abierto: una marca que no se puede escribir
+// deja pasar la compactación, que es lo único razonable.
+if (event === "pre_compact") {
+  writeCompactMark(sessionId, {
+    cwd: root,
+    raiz: readSessionRoot(sessionId) ?? root,
+    trigger: data.trigger,
+  });
+  OK();
+}
+
 // Solo la primera vez: Claude Code re-dispara SessionStart al compactar/reanudar con el cwd ya
 // derivado, y sobrescribir ahí re-anclaba la jurisdicción en ese cwd (ocurrió en uso real el
 // 2026-09-25 y salió como NC-B-2, junto con el de la memoria de sesión).
@@ -171,6 +193,17 @@ if (event === "session_start") {
   // Declaración federada, solo-en-rojo (2.4.8-rc.3): si el cwd es un bot federado
   // y su always-on no nombra los tres cuerpos, una línea y nada más. Verde = 0
   // bytes. No evalúa estado del Lore — solo la declaración escrita. Fail open.
+  //
+  // Una compactación ocupa el mismo stdout y no lo comparte: el aviso de continuidad va por
+  // `systemMessage`, que la documentación del host define como mensaje para la PERSONA, y mezclar
+  // en una sola salida un objeto JSON con campo y una línea de texto plano es un fallo de parseo
+  // del host. La línea federada no se pierde: es estática y ya salió en el arranque; aquí cede el
+  // turno una vez, la de la compactación.
+  const marca = data.source === "compact" ? takeCompactMark(sessionId) : null;
+  if (marca && marca.triplete.length > 0) {
+    process.stdout.write(JSON.stringify({ systemMessage: avisoDeCompactacion(marca) }));
+    OK();
+  }
   try {
     const line = federatedRedLine(root);
     if (line) process.stdout.write(line + "\n");
@@ -178,6 +211,15 @@ if (event === "session_start") {
     /* fail open */
   }
   OK();
+}
+
+/** Lo que ve la persona cuando su sesión vuelve de una compactación. Sin `additionalContext`:
+ *  al modelo no le llega nada, que es la condición para que esto sea un aviso y no una
+ *  instrucción disfrazada. Nombra los archivos que existen de verdad, que es lo que la persona
+ *  puede pedir; sin triplete en la raíz no hay nada que pedir y el hook calla. */
+function avisoDeCompactacion(marca) {
+  return `Lore Plugin: esta sesión se compactó y el contexto se reconstruyó desde el resumen. `
+    + `Falta releer el triplete de ${marca.raiz} (${marca.triplete.join(", ")}) y declararlo antes de seguir.`;
 }
 
 /** Una línea cuando un bot federado no declara la regla del triplete; null en otro caso.
