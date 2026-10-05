@@ -613,6 +613,61 @@ test("el turno que sigue NO repite el veredicto: la puerta abre una vez por sesi
   assert.doesNotMatch(turno.texto, /dispatch/);
 });
 
+// --- 8b. RC2: la puerta por el canal que ya existe, no detras del guard de turnos ---
+//
+// La puerta no faltaba: corria en cada inyeccion. Lo que hacia era esperar. Su texto lo compone
+// `inyeccion`, y a `inyeccion` solo se llega cuando `chat.message` ya conto un turno humano —el
+// guard de `opencode-plugin.js`—. `experimental.chat.system.transform` es el unico canal que llega
+// al modelo, y el sistema no puede hablar antes de que la persona escriba: lo que puede es no
+// esperar a que el modelo YA haya acted, que es la diferencia entre esto y un `UserPromptSubmit`.
+//
+// Por eso el rojo no se escribe con `chat.message` delante: ahi el veredicto ya llegaba y el test
+// passaría sin el arreglo. El rojo es la peticion que el host hace sin que el guard haya corrido, y
+// es la que hoy recibe solo `base`.
+
+test("RC2: el primer system.transform lleva el veredicto de la puerta aunque el guard no haya corrido", async () => {
+  const dir = arbol();
+  acuerdoAprobado(dir);
+  const { id, task } = operacionAbierta(dir);
+  const previo = process.env.LORE_ESTADO_DIR;
+  process.env.LORE_ESTADO_DIR = estadoTmp();
+  try {
+    const plugin = await LorePlugin({ directory: dir });
+    const salida = { system: ["base"] };
+    await plugin["experimental.chat.system.transform"]({ sessionID: idOpenCode(), model: { id: "probe" } }, salida);
+    const unido = salida.system.join(".");
+    assert.match(unido, new RegExp(id), `la puerta no nombro la operacion abierta: ${unido}`);
+    assert.match(unido, new RegExp(task), `la puerta no nombro la tarea pendiente: ${unido}`);
+    assert.match(unido, /dispatch/, `la puerta no dijo el siguiente paso: ${unido}`);
+  } finally {
+    if (previo === undefined) delete process.env.LORE_ESTADO_DIR;
+    else process.env.LORE_ESTADO_DIR = previo;
+  }
+});
+
+test("RC2: la semilla de la puerta no se dice dos veces en la misma peticion", async () => {
+  const dir = arbol();
+  acuerdoAprobado(dir);
+  const { id } = operacionAbierta(dir);
+  const previo = process.env.LORE_ESTADO_DIR;
+  process.env.LORE_ESTADO_DIR = estadoTmp();
+  try {
+    const plugin = await LorePlugin({ directory: dir });
+    const sessionID = idOpenCode();
+    // Con el guard delante la inyeccion ya lleva el veredicto dentro de su texto: sembrarlo otra
+    // vez lo diria dos veces en el mismo prompt del sistema, que es gasto y no enfasis.
+    await plugin["chat.message"]({ sessionID, messageID: "u1" }, { message: { role: "user" }, parts: [] });
+    const salida = { system: ["base"] };
+    await plugin["experimental.chat.system.transform"]({ sessionID, model: { id: "probe" } }, salida);
+    const unido = salida.system.join(".");
+    const apariciones = unido.split("abierta en FASES.md#").length - 1;
+    assert.equal(apariciones, 1, `el veredicto de ${id} tiene que llegar una vez, no repetido: ${unido}`);
+  } finally {
+    if (previo === undefined) delete process.env.LORE_ESTADO_DIR;
+    else process.env.LORE_ESTADO_DIR = previo;
+  }
+});
+
 // --- 9. una puerta que no puede abrirse tiene que decirlo -------------------------------
 //
 // El techo declarado de este mecanismo es no romper nada, y por eso todo lo que puede fallar
