@@ -96,11 +96,16 @@ function sourceBodies(canonicalRoot, gitShow, kernelFiles, kernelDir) {
   return { head, branch, commit, results };
 }
 
-export function verifyHosts({ home = homedir(), kitRoot = scriptRoot, canonicalKernelRoot = "C:/Claude/founder/proyectos/vespi/kernel", kernelHead = null, host: hostName = null, gitShow = (cwd, args) => execFileSync("git", ["-C", cwd, ...args], { encoding: args[0] === "show" ? "buffer" : "utf8" }) } = {}) {
+export function verifyHosts({ home = homedir(), kitRoot = scriptRoot, canonicalKernelRoot = process.env.VESPI_KERNEL_ROOT ?? null, kernelHead = null, host: hostName = null, gitShow = (cwd, args) => execFileSync("git", ["-C", cwd, ...args], { encoding: args[0] === "show" ? "buffer" : "utf8" }) } = {}) {
   const expectedSkills = skillNames(join(kitRoot, "skills"));
   const expectedSkillsSha256 = selectedSkillsDigest(join(kitRoot, "skills"), expectedSkills);
   const kernelFiles = kernelModules(kernelDirOf(kitRoot));
   const expectedKernel = hashTree(kernelDirOf(kitRoot));
+  // La raiz canonica del kernel no viaja en el arbol: llega por `--kernel-source` o por
+  // `VESPI_KERNEL_ROOT`, y sin ella no hay nada que comparar.
+  if (!canonicalKernelRoot) {
+    throw new Error("Falta la raiz canonica del kernel: pasa --kernel-source <raíz> o define VESPI_KERNEL_ROOT.");
+  }
   const source = sourceBodies(canonicalKernelRoot, gitShow, kernelFiles, kernelDirOf(kitRoot));
   const availableHosts = installedHosts(resolve(home));
   if (hostName && !availableHosts.some((host) => host.name === hostName)) {
@@ -209,7 +214,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     process.exit(0);
   }
   let home = homedir();
-  let canonicalKernelRoot = "C:/Claude/founder/proyectos/vespi/kernel";
+  let canonicalKernelRoot = process.env.VESPI_KERNEL_ROOT ?? null;
   let kernelHead = null;
   let fingerprintHostName = null;
   let fingerprintOut = null;

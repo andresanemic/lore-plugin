@@ -65,7 +65,7 @@ function fixture() {
 test("rechaza rutas de extracción inseguras", () => {
   assert.equal(isSafeExtractPath("founder/lore/identidad.md"), true);
   assert.equal(isSafeExtractPath("../etc/passwd"), false);
-  assert.equal(isSafeExtractPath("C:/Claude/x.md"), false);
+  assert.equal(isSafeExtractPath("C:/otra-carpeta/x.md"), false);
   assert.equal(isSafeExtractPath("/tmp/x.md"), false);
 });
 

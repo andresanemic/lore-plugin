@@ -32,7 +32,7 @@
 //      o con los limites renderizados como `[object Object]`, es una enmienda que pierde
 //      informacion. Las tres se comprueban.
 
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { appendFileSync, existsSync, lstatSync, readFileSync, renameSync, unlinkSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -311,9 +311,9 @@ function leerRecibo(raiz) {
 function escribirRecibo(raiz, estado, { opcional = false } = {}) {
   if (!raiz) return false;
   const target = join(raiz, RECIBO);
-  const temporal = join(raiz, `${RECIBO}.${process.pid}.tmp`);
+  const temporal = join(raiz, `${RECIBO}.${randomUUID()}.tmp`);
   try {
-    writeFileSync(temporal, `${JSON.stringify(estado, null, 2)}\n`);
+    writeFileSync(temporal, `${JSON.stringify(estado, null, 2)}\n`, { flag: "wx" });
     renameSync(temporal, target);
     return true;
   } catch (error) {
@@ -862,10 +862,16 @@ export function recordatorio({ acuerdo, turno = null } = {}) {
   if (caida(acuerdo, "recordatorio-por-hook")) {
     return { texto: null, visible: false, por: "sin-hook", en: "FASES.md", turno };
   }
+  // El recordatorio viaja al canal de sistema del host, asi que sus palabras solo pueden venir
+  // del vocabulario cerrado: un `.lore-acuerdo` con texto libre en `intensidad` o `ritmo` no
+  // llega a hablar por el sistema. Los limites se cuentan, no se citan (H9).
+  const intensidad = INTENSIDADES.includes(acuerdo?.intensidad) ? acuerdo.intensidad : DEFECTO.intensidad;
+  const ritmo = RITMOS.includes(acuerdo?.ritmo) ? acuerdo.ritmo : DEFECTO.ritmo;
+  const limites = Array.isArray(acuerdo?.limites) ? acuerdo.limites.length : 0;
   const diales = [
-    `hablo ${acuerdo?.intensidad ?? DEFECTO.intensidad}`,
-    `a ritmo ${acuerdo?.ritmo ?? DEFECTO.ritmo}`,
-    `hay ${(acuerdo?.limites ?? []).length} limites`,
+    `hablo ${intensidad}`,
+    `a ritmo ${ritmo}`,
+    `hay ${limites} limites`,
     `acuerdo ${acuerdo ? "vigente" : "sin acuerdo, por los defectos"}`,
   ];
   const cuerpo = diales.join("; ");

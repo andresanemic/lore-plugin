@@ -1,4 +1,4 @@
-import { appendFileSync, existsSync, mkdirSync, readFileSync, realpathSync, statSync } from "node:fs";
+import { appendFileSync, chmodSync, existsSync, lstatSync, mkdirSync, readFileSync, realpathSync, statSync } from "node:fs";
 import { homedir, tmpdir } from "node:os";
 import { basename, dirname, isAbsolute, join, relative, resolve } from "node:path";
 
@@ -188,12 +188,24 @@ export function anotarDesconocidos(
 ) {
   if (!Array.isArray(rutas) || rutas.length === 0) return;
   try {
-    mkdirSync(dir, { recursive: true });
+    // El log es constancia compartida en el tmp del sistema: se crea con modo restrictivo y,
+    // si ya existe, el modo se corrige. Un directorio de log que además sea un enlace no se
+    // sigue: el log se queda sin escribir, porque la constancia es un piso, no una condición.
+    mkdirSync(dir, { recursive: true, mode: 0o700 });
+    if (lstatSync(dir).isSymbolicLink()) return;
+    if ((statSync(dir).mode & 0o077) !== 0) chmodSync(dir, 0o700);
     const at = new Date().toISOString();
     const TAB = String.fromCharCode(9);
     const NL = String.fromCharCode(10);
+    // Una ruta con tabulador o salto forjaría filas de log que nadie escribió: se acota a una
+    // línea sin tabulador, y el log deja de ser un registro falsificable desde una ruta.
+    const filas = rutas.map((ruta) => String(ruta)
+      .replace(/[\r\n\t\v\f\0]+/g, " ")
+      .replace(/[\u0000-\u001f\u007f-\u009f]/g, "")
+      .trim()
+      .slice(0, 400));
     appendFileSync(join(dir, "desconocidos.log"),
-      rutas.map((ruta) => [at, jurisdiccion, tool, ruta].join(TAB) + NL).join(""));
+      filas.map((ruta) => [at, jurisdiccion, tool, ruta].join(TAB) + NL).join(""));
   } catch {
     /* la constancia es un piso, no una condición: el aviso a la persona ya salió */
   }

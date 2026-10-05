@@ -413,7 +413,7 @@ test("preflight de la entrada local falla antes de mutar Codex u OpenCode", () =
   }
 });
 
-test("Codex instala el paquete entero y no deja archivos de la versión anterior", () => {
+test("Codex instala lo que el manifiesto publica y no deja archivos de la versión anterior", () => {
   const home = mkdtempSync(join(tmpdir(), "lore-codex-todo-"));
   const packageRoot = makePackage();
   // Lo que el instalador antes ignoraba: la etiqueta de versión, el recibo y la documentación viajan con el paquete.
@@ -423,7 +423,14 @@ test("Codex instala el paquete entero y no deja archivos de la versión anterior
   writeFileSync(join(packageRoot, "docs", "REFERENCE_en.md"), "new reference\n");
   writeFileSync(join(packageRoot, ".claude-plugin", "plugin.json"), '{"version":"2.4.9-rc.7"}');
   writeFileSync(join(packageRoot, "commands", "nivel.md"), "new nivel\n");
-  for (const name of ["README.md", "LICENSE", "NOTICE", "package.json", "RECIBO-LOCAL.json"]) writeFileSync(join(packageRoot, name), `new ${name}\n`);
+  for (const name of ["README.md", "LICENSE", "NOTICE", "RECIBO-LOCAL.json"]) writeFileSync(join(packageRoot, name), `new ${name}\n`);
+  // La lista de publicación manda: `RECIBO-LOCAL.json` no está en `files`, así que ya no viaja
+  // aunque esté en la raíz del paquete (H14: la copia era por lista de exclusión).
+  writeFileSync(join(packageRoot, "package.json"), JSON.stringify({
+    name: "@andresanemic/lore-plugin",
+    version: "2.0.0",
+    files: ["hooks/", "skills/", "docs/", ".claude-plugin/", ".codex-plugin/", "commands/", "scripts/", "README.md", "LICENSE", "NOTICE"],
+  }, null, 2) + "\n");
   // Lo que un árbol fuente trae y no es parte de lo que se instala.
   mkdirSync(join(packageRoot, "bench"), { recursive: true });
   mkdirSync(join(packageRoot, "node_modules", "x"), { recursive: true });
@@ -435,16 +442,19 @@ test("Codex instala el paquete entero y no deja archivos de la versión anterior
   mkdirSync(join(pluginRoot, "docs"), { recursive: true });
   writeFileSync(join(pluginRoot, "docs", "REFERENCE_en.md"), "old reference\n");
   writeFileSync(join(pluginRoot, "docs", "SOLO_EN_LA_ANTERIOR.md"), "old\n");
-  for (const name of ["README.md", "LICENSE", "package.json", "RECIBO-LOCAL.json"]) writeFileSync(join(pluginRoot, name), `old ${name}\n`);
+  for (const name of ["README.md", "LICENSE", "NOTICE", "package.json", "RECIBO-LOCAL.json"]) writeFileSync(join(pluginRoot, name), `old ${name}\n`);
 
   const result = installCodex({ home, packageRoot });
   assert.equal(result.verified, true);
-  for (const name of ["docs", ".claude-plugin", "commands", "README.md", "LICENSE", "NOTICE", "package.json", "RECIBO-LOCAL.json", "skills", "scripts", "hooks", ".codex-plugin"]) {
+  for (const name of ["docs", ".claude-plugin", "commands", "README.md", "LICENSE", "NOTICE", "package.json", "skills", "hooks", ".codex-plugin"]) {
     assert.equal(sameTree(join(packageRoot, name), join(pluginRoot, name)), true, `${name} debe quedar idéntico al paquete`);
   }
   assert.equal(existsSync(join(pluginRoot, "docs", "SOLO_EN_LA_ANTERIOR.md")), false, "un archivo de la versión anterior no sobrevive");
+  assert.equal(readFileSync(join(pluginRoot, "RECIBO-LOCAL.json"), "utf8"), "old RECIBO-LOCAL.json\n",
+    "lo que el manifiesto no publica no se instala ni se refresca");
   for (const name of ["bench", "node_modules", "CLAUDE.md"]) assert.equal(existsSync(join(pluginRoot, name)), false, `${name} no se instala`);
 });
+
 
 test("la entrada local de Claude se instala dos veces en un HOME vacío sin salir de él", () => {
   const home = mkdtempSync(join(tmpdir(), "lore-claude-fresh-home-"));
@@ -456,4 +466,45 @@ test("la entrada local de Claude se instala dos veces en un HOME vacío sin sali
   assert.equal(existsSync(join(home, ".lore-plugin", "entry", "claude", "scripts", "lore-cli.mjs")), true);
   assert.equal(first.cli.cliRoot.startsWith(home), true);
   assert.equal(second.cli.cliRoot.startsWith(home), true);
+});
+
+// H15: un `transaction.json` truncado lanzaba `SyntaxError` fuera de todo `try`, dejaba el
+// directorio de staging en su sitio y, como el nombre es fijo, el bloqueo se repetía en cada
+// intento hasta que alguien lo borraba a mano. Ahora el staging corrupto se descarta y la
+// instalación continúa, y se dice con un valor propio en vez de con una excepción.
+test("H15: un manifiesto de transacción corrupto se descarta y la instalación continúa", () => {
+  const home = mkdtempSync(join(tmpdir(), "lore-corrupt-"));
+  const packageRoot = makePackage();
+  try {
+    const staging = join(home, ".lore-plugin", "staging", "claude-abcd1234");
+    mkdirSync(staging, { recursive: true });
+    writeFileSync(join(staging, "transaction.json"), '{"digest": "abc", "hadEntr');
+
+    const estado = recoverLocalEntry({
+      transactionRoot: staging,
+      entryRoot: join(home, ".lore-plugin", "entry", "claude"),
+      receiptPath: join(home, ".lore-plugin", "entry", "claude", "RECIBO-LOCAL.json"),
+    });
+    assert.equal(estado, "discarded-corrupt-manifest");
+    assert.equal(existsSync(staging), false, "el staging corrupto no bloquea el siguiente intento");
+
+    writeFileSync(join(packageRoot, "NOTICE"), "aviso del paquete" + String.fromCharCode(10));
+
+    mkdirSync(join(home, ".agents", "plugins", "plugins", "lore"), { recursive: true });
+    // Y el mismo manifiesto corrupto en una ruta gestionada tampoco tumba la instalación.
+    const managed = join(home, ".lore-plugin", "staging", "codex-managed-000000000000");
+    mkdirSync(managed, { recursive: true });
+    writeFileSync(join(managed, "transaction.json"), "esto no es json");
+    assert.doesNotThrow(() => replaceManagedPath({
+      home,
+      host: "codex",
+      source: join(packageRoot, "NOTICE"),
+      destination: join(home, ".agents", "plugins", "plugins", "lore", "NOTICE"),
+      label: "Codex component NOTICE",
+    }), "un manifiesto corrupto no puede bloquear la instalacion");
+    assert.equal(readFileSync(join(home, ".agents", "plugins", "plugins", "lore", "NOTICE"), "utf8"), readFileSync(join(packageRoot, "NOTICE"), "utf8"));
+
+    const instalacion = installCodex({ home, packageRoot });
+    assert.equal(instalacion.verified, true, "y la instalacion sigue su curso");
+  } finally { rmSync(home, { recursive: true, force: true }); rmSync(packageRoot, { recursive: true, force: true }); }
 });

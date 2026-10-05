@@ -36,11 +36,35 @@ const VENDORED = kernelModules(kernelDir);
 const kernelRoot = [process.env.VESPI_KERNEL_ROOT, resolve(kit, "..", "..", "..", "founder", "proyectos", "vespi", "kernel")]
   .find((candidate) => candidate && existsSync(join(candidate, ".git")));
 
+// H18: sin la fuente canonica, estas tres preguntas no tienen respuesta, y un `t.skip` callado
+// las hacia desaparecer del resumen. Aqui el salto se declara: dice que se salto, por que, y lo
+// dice en una linea que la suite imprime siempre (AVISO DE PROCEDENCIA). En CI el salto es un
+// fallo: una verificacion que solo corre a veces no verifica. Ninguna asercion se relaja.
+const MARCA_SIN_FUENTE = "procedencia NO verificada contra Git";
+export const sinFuente = { marca: MARCA_SIN_FUENTE, esVisible: true };
+
+if (!kernelRoot) {
+  process.stderr.write([
+    `${MARCA_SIN_FUENTE}: no se encontro el repositorio canonico del kernel.`,
+    "Las tres comprobaciones que comparan los bytes con Git quedan sin verificar en esta corrida.",
+    "Lo que se verifica aqui es solo la tabla de hashes de SOURCE.md, que vive en el mismo directorio",
+    "y se edita en el mismo commit. Se puede anular la ruta con VESPI_KERNEL_ROOT.",
+    ""].join(" ") + String.fromCharCode(10));
+}
+
+export function exigirFuente(t, que, { hayFuente = Boolean(kernelRoot), esCI = process.env.CI === "true" } = {}) {
+  if (hayFuente) return true;
+  const motivo = `${MARCA_SIN_FUENTE}: ${que} necesita el repositorio canonico del kernel, que no esta en esta corrida`;
+  if (esCI) {
+    assert.fail(`${motivo}. En CI esto es un fallo a proposito: dejar la verificacion sin correr no puede pasar inadvertido.`);
+  }
+  t.diagnostic(motivo);
+  return t.skip(motivo);
+}
+
 const source = readFileSync(join(kernelDir, "SOURCE.md"), "utf8");
 const rows = readSourceRows(source);
 
-// Texto que el kit afirma en público sobre su copia. Cada commit que aparece aquí es una
-// afirmación, y toda afirmación tiene que ser la vigente.
 const claims = [
   ["SOURCE.md", source],
   ["SKILL.md", readFileSync(join(kit, "skills", "vespi", "SKILL.md"), "utf8")],
@@ -74,7 +98,7 @@ test("el directorio vendorizado es exactamente el src del commit fijado, leído 
   // El reemplazo de la lista escrita a mano. Antes la prueba comparaba el directorio con seis
   // nombres tecleados aquí; ahora lo compara con lo que el commit fijado declara tener, que es la
   // misma pregunta con mejor fuente: ¿le falta al kit un módulo del corte, o trae de más?
-  if (!kernelRoot) return t.skip("la fuente canónica no está disponible; el conjunto del corte no se puede comprobar");
+  exigirFuente(t, "el conjunto del corte");
   const listed = execFileSync("git", ["-c", `safe.directory=${kernelRoot.replaceAll("\\", "/")}`, "ls-tree", "--name-only", `${PINNED_COMMIT}:src`], { cwd: kernelRoot, encoding: "utf8" })
     .split("\n").map((line) => line.trim()).filter((name) => name.endsWith(".js") && name !== "zk-bn254-reference.js").sort();
   assert.ok(!VENDORED.includes("zk-bn254-reference.js"), "the experimental ZK reference is not part of the vendored cut");
@@ -107,7 +131,7 @@ test("todo commit que el kit afirma en público es el commit fijado", () => {
 });
 
 test("cada módulo declara el commit al que dice corresponder a sus bytes", (t) => {
-  if (!kernelRoot) return t.skip("la fuente canónica no está disponible; la deriva declarada no se puede comprobar");
+  exigirFuente(t, "la deriva declarada");
   for (const name of VENDORED) {
     assert.ok(existsSync(join(kernelDir, name)), `core/kernel/${name} no está vendorizado, y no hay encabezado que leer`);
     const [, declared] = header(name)[1].match(/commit ([0-9a-f]{7,40})\b/);
@@ -129,7 +153,7 @@ test("quitar el encabezado deja los bytes que SOURCE.md publica", () => {
 });
 
 test("los bytes tras el encabezado son los del commit fuente, leídos de Git", (t) => {
-  if (!kernelRoot) return t.skip("la fuente canónica no está disponible; los bytes no se pueden contrastar con el commit");
+  exigirFuente(t, "los bytes frente al commit");
   for (const name of VENDORED) {
     assert.ok(
       body(name).equals(fromSourceCommit(PINNED_COMMIT, name)),
@@ -147,4 +171,38 @@ test("la afirmación pública nombra cada módulo del corte", () => {
   for (const name of VENDORED) {
     assert.ok(skill.includes(`\`${name}\``), `SKILL.md no nombra ${name}`);
   }
+});
+
+// H18: el salto tiene que ser visible y con su razón, y en CI tiene que ser un fallo. Esta
+// prueba no depende de si la fuente está o no: mira cómo el archivo se comporta.
+test("H18: la procedencia dice que no se verificó, con su razón, y en CI el salto es un fallo", async () => {
+  const propio = import.meta.url;
+  const fuente = readFileSync(fileURLToPath(propio), "utf8");
+  assert.ok(fuente.includes('"procedencia NO verificada contra Git"'),
+    "el archivo declara la marca que la suite imprime cuando no verifica contra Git");
+  assert.equal((fuente.match(/^  exigirFuente\(t, /gm) ?? []).length, 3,
+    "las tres comprobaciones que necesitan Git pasan por la misma guarda");
+  assert.equal((fuente.match(/t\.skip\(motivo\)/g) ?? []).length, 1,
+    "el unico salto del archivo es el de la guarda, que declara el motivo antes de saltar");
+  assert.match(fuente, /process\.env\.CI === "true"/,
+    "en CI la falta de la fuente canonica es un fallo, no un salto");
+});
+
+test("H18b: sin la fuente canonica el salto dice su motivo, y en CI es un fallo", async () => {
+  const { exigirFuente } = await import("./vespi-kernel-provenance.test.mjs");
+  const dicho = [];
+  const t = {
+    diagnostic: (motivo) => dicho.push(["diagnostic", motivo]),
+    skip: (motivo) => { dicho.push(["skip", motivo]); return "skip"; },
+  };
+  assert.equal(exigirFuente(t, "los bytes frente al commit", { hayFuente: false, esCI: false }), "skip");
+  assert.deepEqual(dicho.map(([k]) => k), ["diagnostic", "skip"], "el motivo se dice antes de saltarse");
+  for (const [, motivo] of dicho) assert.match(motivo, /procedencia NO verificada contra Git/, motivo);
+  assert.match(dicho[1][1], /los bytes frente al commit/, "el motivo nombra que comprobacion se quedo sin correr");
+
+  assert.throws(() => exigirFuente(t, "los bytes frente al commit", { hayFuente: false, esCI: true }),
+    /procedencia NO verificada contra Git/,
+    "en CI la falta de la fuente canonica es un fallo, no un salto");
+  assert.equal(exigirFuente(t, "los bytes frente al commit", { hayFuente: true, esCI: true }), true,
+    "con la fuente canonica a mano, la guarda no dice nada");
 });

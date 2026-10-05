@@ -7,9 +7,11 @@
 //
 // Se usa desde la guardia de Codex y desde los subcomandos locales de `lore-plugin mycelium`.
 
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import {
+  chmodSync,
   existsSync,
+  lstatSync,
   mkdirSync,
   readdirSync,
   readFileSync,
@@ -195,9 +197,9 @@ export function writeReceipt(root, state = snapshot(root)) {
   const carried = state.announce ?? readReceipt(root)?.announce;
   if (carried) receipt.announce = carried;
   const target = join(root, RECEIPT);
-  const temporary = join(root, `${RECEIPT}.${process.pid}.tmp`);
+  const temporary = join(root, `${RECEIPT}.${randomUUID()}.tmp`);
   try {
-    writeFileSync(temporary, `${JSON.stringify(receipt)}\n`);
+    writeFileSync(temporary, `${JSON.stringify(receipt)}\n`, { flag: "wx" });
     renameSync(temporary, target);
   } finally {
     if (existsSync(temporary)) unlinkSync(temporary);
@@ -260,6 +262,27 @@ export function claimAnnounce(root, { pool = ANNOUNCE_POOL, now = Date.now() } =
 
 export const SESSION_DIR = join(tmpdir(), "lore-plugin-sessions");
 
+// La memoria de sesión vive en el tmp del sistema, y `mkdirSync(..., { mode })` solo(mode) en el
+// momento de crear: un directorio plantado antes conservaba su modo, y uno que fuera un enlace
+// se seguía como si fuera el del kit. Aquí se comprueba el directorio cada vez que se va a
+// escribir: si es un enlace no se sigue, y si el modo abre el grupo o el resto se corrige.
+// Devuelve el directorio, o `null` cuando no se puede usar (el callers ya falla abierto).
+function sesionPrivada() {
+  try {
+    mkdirSync(SESSION_DIR, { recursive: true, mode: 0o700 });
+  } catch {
+    return null;
+  }
+  try {
+    const st = lstatSync(SESSION_DIR);
+    if (st.isSymbolicLink()) return null;
+    if ((st.mode & 0o077) !== 0) chmodSync(SESSION_DIR, 0o700);
+    return SESSION_DIR;
+  } catch {
+    return null;
+  }
+}
+
 function sessionBaselinePath(sessionId, root) {
   const key = createHash("sha256")
     .update(`${sessionId ?? "no-session"}\0${resolve(root)}`)
@@ -292,12 +315,12 @@ export function writeSessionBaseline(sessionId, root, state) {
     || !Number.isInteger(state.alwaysOnBytes)
     || state.alwaysOnBytes < 0) return;
   try {
-    mkdirSync(SESSION_DIR, { recursive: true, mode: 0o700 });
+    if (!sesionPrivada()) return;
     const target = sessionBaselinePath(sessionId, root);
-    const temporary = `${target}.${process.pid}.tmp`;
+    const temporary = `${target}.${randomUUID()}.tmp`;
     writeFileSync(temporary,
       `${JSON.stringify({ digest: state.digest, alwaysOnBytes: state.alwaysOnBytes })}\n`,
-      { mode: 0o600 });
+      { mode: 0o600, flag: "wx" });
     renameSync(temporary, target);
   } catch {
     /* tmp no disponible: el guard arma en el próximo cambio, no en el arranque */
@@ -314,10 +337,10 @@ function sessionRootPath(sessionId) {
 export function writeSessionRoot(sessionId, root) {
   if (!sessionId || !root) return;
   try {
-    mkdirSync(SESSION_DIR, { recursive: true, mode: 0o700 });
+    if (!sesionPrivada()) return;
     const target = sessionRootPath(sessionId);
-    const temporary = `${target}.${process.pid}.tmp`;
-    writeFileSync(temporary, `${JSON.stringify({ root: resolve(root) })}\n`, { mode: 0o600 });
+    const temporary = `${target}.${randomUUID()}.tmp`;
+    writeFileSync(temporary, `${JSON.stringify({ root: resolve(root) })}\n`, { mode: 0o600, flag: "wx" });
     renameSync(temporary, target);
   } catch {
     /* tmp no disponible: la jurisdicción cae al cwd */
@@ -363,10 +386,11 @@ export function nextTurn(sessionId, root) {
   }
   const siguiente = n + 1;
   try {
-    mkdirSync(SESSION_DIR, { recursive: true, mode: 0o700 });
-    const temporal = `${target}.${process.pid}.tmp`;
-    writeFileSync(temporal, `${JSON.stringify({ n: siguiente })}\n`, { mode: 0o600 });
-    renameSync(temporal, target);
+    if (sesionPrivada()) {
+      const temporal = `${target}.${randomUUID()}.tmp`;
+      writeFileSync(temporal, `${JSON.stringify({ n: siguiente })}\n`, { mode: 0o600, flag: "wx" });
+      renameSync(temporal, target);
+    }
   } catch {
     /* tmp no disponible: el numero no avanza, y el recordatorio sigue llegando */
   }
@@ -462,9 +486,9 @@ export function writeCompactMark(sessionId, { cwd, raiz, trigger, now = Date.now
     triplete: Array.isArray(triple) ? triple : tripleteOf(raiz),
   };
   try {
-    mkdirSync(SESSION_DIR, { recursive: true, mode: 0o700 });
-    const temporal = `${target}.${process.pid}.tmp`;
-    writeFileSync(temporal, `${JSON.stringify(marca)}\n`, { mode: 0o600 });
+    if (!sesionPrivada()) return;
+    const temporal = `${target}.${randomUUID()}.tmp`;
+    writeFileSync(temporal, `${JSON.stringify(marca)}\n`, { mode: 0o600, flag: "wx" });
     renameSync(temporal, target);
   } catch {
     /* tmp no disponible o la marca no se puede escribir: la compactación no se bloquea */

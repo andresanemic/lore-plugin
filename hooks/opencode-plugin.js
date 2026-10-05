@@ -85,6 +85,19 @@ export const LorePlugin = async ({ directory, worktree } = {}) => {
     pendiente = pendiente === null ? texto : `${pendiente}\n${texto}`;
   };
 
+  // Lo que el prompt del sistema publica lo lee el modelo como instrucción, así que una ruta
+  // que viene de `tool_input` viaja como dato: una línea, sin caracteres de control, y
+  // acotada. Una ruta con salto de línea no puede inyectar una instrucción en ese canal (H10).
+  const MAX_DATO = 200;
+  const comoDato = (valor) => String(valor)
+    .replace(/[\r\n\t\v\f\0]+/g, " ")
+    // eslint-disable-next-line no-control-regex -- quitar los controles es el punto
+    .replace(/[\u0000-\u001f\u007f-\u009f]/g, "")
+    .replace(/\s{2,}/g, " ")
+    .trim()
+    .slice(0, MAX_DATO);
+  const listaDeDatos = (valores) => (Array.isArray(valores) ? valores : []).map(comoDato).filter(Boolean).join(", ");
+
   // La jurisdicción se ancla donde abrió la sesión, no en el cwd: en OpenCode el directorio
   // de instancia es el que se le pasó al host. Sin session.start se learns en el primer
   // evento de la sesión, que llega con su sessionID.
@@ -177,7 +190,7 @@ export const LorePlugin = async ({ directory, worktree } = {}) => {
       if (bloquea) return;
       if (desconocidos.length === 0) return;
       anotarDesconocidos(jurisdiccion, carga.tool, desconocidos);
-      encolar(`Lore Plugin: escritura fuera de un árbol con Lore, permitida y anotada: ${desconocidos.join(", ")}`);
+      encolar(`Lore Plugin: escritura fuera de un árbol con Lore, permitida y anotada: ${listaDeDatos(desconocidos)}`);
     },
 
     "tool.execute.after"(input) {

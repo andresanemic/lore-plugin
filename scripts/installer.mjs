@@ -1,5 +1,5 @@
 import { createHash, randomBytes } from "node:crypto";
-import { cpSync, existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, realpathSync, renameSync, rmSync, writeFileSync } from "node:fs";
+import { copyFileSync, cpSync, existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, realpathSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { basename, dirname, extname, isAbsolute, join, relative, resolve, sep } from "node:path";
 
 const loreEntry = {
@@ -336,7 +336,16 @@ export function recoverLocalEntry({ transactionRoot, entryRoot, receiptPath, ren
     remove(transactionRoot, { recursive: true, force: true });
     return "discarded-uncommitted-staging";
   }
-  const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+  // Un manifiesto truncado o ilegible no puede decidir qué restaurar. Antes este `JSON.parse`
+  // lanzaba fuera de todo `try`, dejaba el staging en su sitio y, como el nombre es fijo, el
+  // bloqueo se repetía en cada intento. Se descarta el staging y se dice cuál fue el motivo.
+  let manifest;
+  try {
+    manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+  } catch {
+    remove(transactionRoot, { recursive: true, force: true });
+    return "discarded-corrupt-manifest";
+  }
   const backupEntry = join(transactionRoot, "previous-entry");
   const backupReceipt = join(transactionRoot, "previous-receipt.json");
   let published = false;
@@ -405,7 +414,15 @@ function recoverManagedPath({ transactionRoot, destination }) {
     rmSync(transactionRoot, { recursive: true, force: true });
     return;
   }
-  const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+  // Misma regla que en la entrada local: un manifiesto ilegible no puede decidir qué dejar
+  // atrás, así que el staging se descarta en vez de bloquear la instalación con una excepción.
+  let manifest;
+  try {
+    manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+  } catch {
+    rmSync(transactionRoot, { recursive: true, force: true });
+    return;
+  }
   const backup = join(transactionRoot, "previous");
   if (treeDigest(destination) === manifest.digest) {
     rmSync(transactionRoot, { recursive: true, force: true });
@@ -601,16 +618,60 @@ export function installClaude({ home, packageRoot }) {
   };
 }
 
-// Lo que un árbol fuente trae y no es parte de lo que se instala: repositorio, dependencias, banco de pruebas, datos y
-// estado del proyecto. Todo lo demás del primer nivel del paquete viaja: el paquete es lo que se instala, y una lista
-// de piezas escrita aparte es la que dejó la versión y la documentación de la rc.6 en la carpeta de Codex.
-const CODEX_NOT_INSTALLED = new Set([".git", ".github", ".gitignore", ".gitattributes", ".specify", ".claude", "node_modules", "bench", "data", "specs", "CLAUDE.md", "AGENTS.md", "FASES.md"]);
+// Lo que un árbol fuente trae y no es parte de lo que se instala lo decide la lista de
+// publicación del manifiesto, no una lista de pièces escrita aparte: `files` es lo que el
+// paquete entrega, y una lista de exclusión hacía que cualquier archivo nuevo del árbol
+// viajara a la carpeta de Codex sin que nadie lo nombrara. Cuando el manifiesto no declara
+// `files` se usa la lista de piezas del kit, que es la misma en forma, nunca «todo lo demás».
+const CODEX_DEFAULT_SHIPPED = [
+  ".claude-plugin/", ".codex-plugin/", "assets/", "commands/", "docs/", "hooks/", "skills/",
+  "scripts/install-claude-statusline.mjs", "scripts/installer.mjs", "scripts/hygiene.mjs",
+  "scripts/lore-cli.mjs", "scripts/lore-plugin.mjs", "scripts/opencode-permissions.mjs",
+  "scripts/operation-cli.mjs", "README.md", "LICENSE", "NOTICE",
+];
+
+// El manifiesto viaja siempre: es lo que identifica lo instalado.
+const CODEX_ALWAYS_SHIPPED = ["package.json"];
+
+function codexPlan(packageRoot) {
+  const manifestPath = join(packageRoot, "package.json");
+  // Un manifiesto ilegible es un manifiesto que no declara qué publica: se aplica la lista de
+  // piezas del kit, que es acotada. Nunca se cae en «todo lo que hay en el primer nivel».
+  let manifest = {};
+  try { manifest = JSON.parse(readFileSync(manifestPath, "utf8")); } catch { manifest = {}; }
+  if (!manifest || typeof manifest !== "object") manifest = {};
+  const declared = Array.isArray(manifest.files) && manifest.files.length ? manifest.files : CODEX_DEFAULT_SHIPPED;
+  const entries = [...declared.map(String), ...CODEX_ALWAYS_SHIPPED];
+  const plan = new Map();
+  for (const entry of entries) {
+    const rel = entry.replace(/\\/g, "/").replace(/^\.\//, "").replace(/^\/+|\/+$/g, "");
+    if (!rel || rel.startsWith("..")) continue;
+    const [top, ...rest] = rel.split("/");
+    if (rest.length === 0) { plan.set(top, null); continue; }
+    const files = plan.get(top);
+    if (files === null) continue;
+    plan.set(top, [...(files ?? []), rest.join("/")]);
+  }
+  return plan;
+}
 
 export function codexComponents(packageRoot) {
-  return readdirSync(packageRoot, { withFileTypes: true })
-    .map((entry) => entry.name)
-    .filter((name) => !CODEX_NOT_INSTALLED.has(name))
-    .sort();
+  return [...codexPlan(packageRoot).keys()].sort();
+}
+
+function stageCodexComponent(plan, packageRoot, name, stageRoot) {
+  const files = plan.get(name);
+  const source = join(packageRoot, name);
+  if (files === null || !existsSync(source)) return source;
+  const staged = join(stageRoot, name);
+  for (const rel of files) {
+    const from = join(source, ...rel.split("/"));
+    if (!existsSync(from)) continue;
+    const to = join(staged, ...rel.split("/"));
+    mkdirSync(dirname(to), { recursive: true });
+    copyFileSync(from, to);
+  }
+  return staged;
 }
 
 export function installCodex({ home, packageRoot }) {
@@ -634,7 +695,8 @@ export function installCodex({ home, packageRoot }) {
   // Todos los destinos, comprobados antes de crear o borrar ninguno. El origen no va por
   // aquí: el repositorio vive fuera de HOME por definición, y `validateLocalBundle` ya
   // comprobó que cada miembro existe, es un archivo regular y resuelve dentro del paquete.
-  const components = codexComponents(packageRoot);
+  const plan = codexPlan(packageRoot);
+  const components = [...plan.keys()].sort();
   for (const name of components) {
     assertInsidePerimeter({ home, target: join(pluginRoot, name), label: `Codex destination ${name}` });
   }
@@ -650,11 +712,21 @@ export function installCodex({ home, packageRoot }) {
 
   // `scripts/` viaja porque el kit lo invoca por nombre: la apertura de sesion corre
   // `lore-plugin mycelium bodies` y el Anuncio reclama su franja con `mycelium announce`.
-  // Sin el, Codex recibe la prosa que manda correr un comando que ese host no tiene.
-  for (const name of components) {
-    const source = join(packageRoot, name);
-    const destination = join(pluginRoot, name);
-    if (existsSync(source)) replaceManagedPath({ home, host: "codex", source, destination, label: `Codex component ${name}` });
+  // Sin el, Codex recibe la prosa que manda correr un comando que ese host no tiene. De `scripts/`
+  // viaja solo lo que el manifiesto publica, que es la cadena de importacion del CLI.
+  const stageRoot = join(physicalHome(home), LOCAL_HOME_DIR, "staging", `codex-pick-${randomBytes(6).toString("hex")}`);
+  let verified = false;
+  try {
+    for (const name of components) {
+      const source = stageCodexComponent(plan, packageRoot, name, stageRoot);
+      const destination = join(pluginRoot, name);
+      if (existsSync(source)) replaceManagedPath({ home, host: "codex", source, destination, label: `Codex component ${name}` });
+    }
+    verified = components
+      .filter((name) => existsSync(stageCodexComponent(plan, packageRoot, name, stageRoot)))
+      .every((name) => sameTree(stageCodexComponent(plan, packageRoot, name, stageRoot), join(pluginRoot, name)));
+  } finally {
+    rmSync(stageRoot, { recursive: true, force: true });
   }
 
   market.plugins ??= [];
@@ -664,8 +736,6 @@ export function installCodex({ home, packageRoot }) {
   mkdirSync(marketplaceRoot, { recursive: true });
   writeFileSync(marketplacePath, JSON.stringify(market, null, 2) + "\n");
 
-  const verified = components
-    .every((name) => sameTree(join(packageRoot, name), join(pluginRoot, name)));
 
   const cli = installLocalEntry({ home, packageRoot, host: "codex" });
   return {
