@@ -636,7 +636,13 @@ async function transformSinCanal(plugin, sessionID) {
   process.stderr.write = (chunk) => { errores.push(String(chunk)); return true; };
   try {
     await plugin["chat.message"]({ sessionID, messageID: "human-1" }, { message: { role: "user" }, parts: [] });
-    await plugin["experimental.chat.system.transform"]({ sessionID, model: { id: "probe" } }, Object.freeze(["base"]));
+    // El arreglo `system` es lo que no admite la escritura: congelado, `push` revienta DENTRO del
+    // try de la inyeccion y ahi el unico canal que queda es stderr. Congelar el `output` entero
+    // no serviria de nada: el guard de la primera linea lo rechazaria antes de intentarlo.
+    await plugin["experimental.chat.system.transform"](
+      { sessionID, model: { id: "probe" } },
+      { system: Object.freeze(["base"]) },
+    );
   } finally {
     process.stderr.write = previo;
   }
