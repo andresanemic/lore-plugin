@@ -84,6 +84,35 @@ function leerMarca(sessionId) {
   return existsSync(ruta) ? JSON.parse(readFileSync(ruta, "utf8")) : null;
 }
 
+// El «antes» del techo de peso: el artefacto publicado de la versión anterior.
+//
+// Un tag, no una rama. La ancla que se usaba antes —`release/2.4.9-rc9-prep`— no está en `origin`, así
+// que la medición solo existía en la máquina que la escribió, y en cualquier otro clon se saltaba. Un
+// tag lo bajan todos los clones, no se mueve y tiene fecha y archivo, que es lo que
+// `andamiaje/…/principios.md` #30 pide de la condición. `v2.4.9` produce las mismas cifras que
+// producía aquella rama —63938 B y 16732 B—, así que cambiar el ancla no movió ningún número.
+const ANCLA_TECHO = "v2.4.9";
+
+// La versión del «antes» de un archivo, leída del ancla. Si el ancla no se puede leer, ESTO FALLA en
+// vez de saltarse: una ley que se salta no está probada, y un `skip` no rompe la corrida. El mensaje
+// trae el comando para producir las dos cifras a mano, porque una medición que no corrió tiene que
+// dejar el número afuera, no una ausencia.
+function leerEnElAncla(ruta) {
+  try {
+    return execFileSync("git", ["-c", "safe.directory=*", "show", `${ANCLA_TECHO}:${ruta}`], {
+      cwd: repo, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"],
+    }).replace(/\r\n/g, "\n");
+  } catch {
+    assert.fail(
+      `el techo de peso no se pudo medir: el ancla ${ANCLA_TECHO} no se lee en este clon.\n` +
+      `No se saltea a propósito. Para medirlo a mano:\n` +
+      `  git -c safe.directory=* fetch --tags\n` +
+      `  git -c safe.directory=* show ${ANCLA_TECHO}:skills/use-lore/SKILL.md | Measure-Object -Character\n` +
+      `  git -c safe.directory=* show ${ANCLA_TECHO}:skills/vespi/SKILL.md  | Measure-Object -Character`,
+    );
+  }
+}
+
 // Las dos pruebas que miden el techo de peso. La puerta de abajo las busca por nombre: si una cambia
 // de título, la puerta dice que no la encontró en vez de quedarse sin mirar.
 const PRUEBAS_DEL_TECHO = [
@@ -163,15 +192,7 @@ test("use-lore trata una compactación como una apertura de sesión, no como una
 });
 
 test("el encabezado de use-lore — lo que se carga siempre — no se mueve", (t) => {
-  const base = "release/2.4.9-rc9-prep";
-  let ref;
-  try {
-    ref = execFileSync("git", ["-c", "safe.directory=*", "show", `${base}:skills/use-lore/SKILL.md`], {
-      cwd: repo, encoding: "utf8",
-    }).replace(/\r\n/g, "\n");
-  } catch {
-    return t.skip(`el ref ${base} no está disponible; el techo de peso no se puede comprobar`);
-  }
+  const ref = leerEnElAncla("skills/use-lore/SKILL.md");
   const ahora = readFileSync(join(repo, "skills", "use-lore", "SKILL.md"), "utf8").replace(/\r\n/g, "\n");
   const fm = (texto) => /^---\n[\s\S]*?\n---\n/.exec(texto)?.[0] ?? "";
 
@@ -181,22 +202,16 @@ test("el encabezado de use-lore — lo que se carga siempre — no se mueve", (t
   assert.equal(fm(ahora), fm(ref), "el texto del frontmatter de use-lore cambió");
 
   // Techo decision de Andrés (2026-10-04): 450 B netos en el cuerpo, o lo que se podó.
-  const delta = Buffer.byteLength(ahora, "utf8") - Buffer.byteLength(ref, "utf8");
+  const antes = Buffer.byteLength(ref, "utf8");
+  const despues = Buffer.byteLength(ahora, "utf8");
+  const delta = despues - antes;
+  t.diagnostic(`techo use-lore: ${antes} B (${ANCLA_TECHO}) -> ${despues} B ahora | delta ${delta} B | techo 450 B`);
   assert.ok(delta <= 450, `el cuerpo de use-lore creció ${delta} B y el techo son 450 B`);
 });
 
 test("los encabezados de use-lore y Vespi no cambian y su crecimiento conjunto no supera 400 B", (t) => {
-  const base = "release/2.4.9-rc9-prep";
   const nombres = ["skills/use-lore/SKILL.md", "skills/vespi/SKILL.md"];
-  let originales;
-  try {
-    originales = nombres.map((nombre) => execFileSync("git", ["-c", "safe.directory=*", "show", `${base}:${nombre}`], {
-      cwd: repo,
-      encoding: "utf8",
-    }).replace(/\r\n/g, "\n"));
-  } catch {
-    return t.skip(`el ref ${base} no está disponible; no se puede comprobar el peso conjunto`);
-  }
+  const originales = nombres.map((nombre) => leerEnElAncla(nombre));
   const actuales = nombres.map((nombre) => readFileSync(join(repo, nombre), "utf8").replace(/\r\n/g, "\n"));
   const frontmatter = (texto) => /^---\n[\s\S]*?\n---\n/.exec(texto)?.[0] ?? "";
 
@@ -204,7 +219,10 @@ test("los encabezados de use-lore y Vespi no cambian y su crecimiento conjunto n
     assert.equal(frontmatter(actuales[i]), frontmatter(originales[i]), `${nombres[i]}: el frontmatter debe conservarse byte por byte`);
   }
   const bytes = (textos) => textos.reduce((total, texto) => total + Buffer.byteLength(texto, "utf8"), 0);
-  const delta = bytes(actuales) - bytes(originales);
+  const antes = bytes(originales);
+  const despues = bytes(actuales);
+  const delta = despues - antes;
+  t.diagnostic(`techo conjunto use-lore+vespi: ${antes} B (${ANCLA_TECHO}) -> ${despues} B ahora | delta ${delta} B | techo 400 B`);
   assert.ok(delta <= 400, `use-lore y Vespi crecieron ${delta} B; el techo combinado son 400 B`);
 });
 
