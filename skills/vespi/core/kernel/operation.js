@@ -1,5 +1,5 @@
 // Vendored copy — canonical source is founder/proyectos/vespi/kernel/src/operation.js
-// (kernel 0.1.4, release/0.1.4-prep branch, commit 8062649). Edit the canonical source, then re-copy here;
+// (kernel 0.1.4, release/0.1.4-prep branch, commit 13881d4). Edit the canonical source, then re-copy here;
 // this file is not the source of truth.
 'use strict';
 
@@ -36,13 +36,55 @@ const STATES = {
 
 const DEFAULT_EXIT = 'return to the person: change the agreement or cancel';
 
-function errorText(error) {
+// What a failure says. The text a port threw is not copied into a receipt, and not into the
+// digest either: `detail` is sealed, so a raw SDK message carrying a url with a key in it would
+// end up inside the chain of trust instead of outside it. This is the rule emergency.js and
+// x402.js already apply; operation.js was the one module that did not.
+// The only thing copied is `error.code`, and only when it looks like a code: uppercase letters,
+// digits and underscores, at most 64. That is a token a host chose, not a sentence, and it
+// cannot smuggle a url, a path or a body. Each call site supplies its own fixed phrase, because
+// the phrase has to say which step failed, and the code alone never does.
+// A port can also hand that text back as data instead of throwing it. `returnedCode` applies the
+// same closed vocabulary to the returned `error`, because a sentence travels the same distance a
+// thrown sentence does once it is sealed.
+function failureCode(error) {
   try {
-    if (error && typeof error.message === 'string') return error.message;
-    return String(error);
+    const code = error && error.code;
+    return typeof code === 'string' && /^[A-Z0-9_]{1,64}$/.test(code) ? ` [${code}]` : '';
   } catch {
-    return 'unknown error';
+    return '';
   }
+}
+
+function refused(error, phrase) {
+  return `${phrase}${failureCode(error)}`;
+}
+
+// The sibling channel of the thrown text: `perform` may answer `{ ok: false, error }` instead of
+// throwing, and that string was copied whole into `detail`, which is sealed. So a port could put a
+// url with a key in it inside the chain of trust and verifyReceipt would bless it (R1 finding H1b,
+// the channel H1 did not charter). The same rule as the thrown text: a free sentence never travels.
+// What can travel is a token shaped like a code, uppercase letters, digits and underscores, at
+// most 64, because that is a token the host chose rather than a sentence and it cannot smuggle a
+// url, a path or a body. Everything else answers null and the call site says its own fixed phrase.
+function returnedCode(error) {
+  try {
+    if (typeof error === 'string') return /^[A-Z0-9_]{1,64}$/.test(error) ? error : null;
+    if (error == null || typeof error !== 'object') return null;
+    const code = error.code;
+    return typeof code === 'string' && /^[A-Z0-9_]{1,64}$/.test(code) ? code : null;
+  } catch {
+    return null;
+  }
+}
+
+// The closed vocabulary, spoken the way the port that wrote it already speaks it: when a port names
+// its failure with a code-shaped token that token is the detail, which is the contract x402.js has
+// always had (`PREPARE_FAILED`, `SEND_UNKNOWN`). When it hands free text over, the kernel answers its
+// own fixed phrase and the text stays in the port. Either way `detail` is sealed and carries no
+// sentence a host wrote.
+function capabilityFailure(code, phrase) {
+  return code ?? phrase;
 }
 
 const DEFAULT_OPERATION_TIMEOUT_MS = 15_000;
@@ -128,14 +170,16 @@ function hasEvidence(value) {
 
 function readCapabilityResult(result) {
   try {
-    const error = result?.error;
+    const code = returnedCode(result?.error);
     const reason = result?.reason;
     const exit = result?.exit;
     return {
       settlementUnknown: result?.settlementUnknown === true,
       impossible: result?.impossible === true,
       ok: result?.ok === true,
-      error: typeof error === 'string' ? error : (error == null ? null : 'capability returned an invalid error'),
+      // A code-shaped token or null, never the words of the port: `capabilityFailure` adds it to
+      // the fixed phrase of the site that asks for it.
+      error: code,
       reason: typeof reason === 'string' && reason.length > 0 ? reason : null,
       exit: typeof exit === 'string' && exit.length > 0 ? exit : null,
       evidence: result?.evidence ?? null,
@@ -146,7 +190,7 @@ function readCapabilityResult(result) {
       settlementUnknown: true,
       impossible: false,
       ok: false,
-      error: `capability result invalid: ${errorText(error)}`,
+      error: refused(error, 'the capability result could not be read'),
       reason: null,
       exit: null,
       evidence: null,
@@ -289,10 +333,18 @@ function safeBuildReceipt(spec) {
   }
 }
 
+// The copy is built without a prototype on purpose. Assigning to `{}` runs the inherited
+// `__proto__` setter, so a body carrying that key as its own property (JSON.parse makes one, and a
+// receipts file read from disk is full of them) either changed this copy's prototype and lost the
+// key or replaced it, and the key then never reached the sealed text: two different bodies hashed to
+// the same digest and verifyReceipt answered ok on both (R1 finding H5). With no prototype there is
+// no inherited setter, every key of the body becomes exactly the data property it was, and the
+// string this returns for a body without that key is byte for byte the one a plain object gave.
+// This is the copy emergency.js:497 already builds, and the reason it does.
 function canonicalize(value) {
   if (Array.isArray(value)) return value.map(canonicalize);
   if (value !== null && typeof value === 'object') {
-    const out = {};
+    const out = Object.create(null);
     for (const key of Object.keys(value).sort()) out[key] = canonicalize(value[key]);
     return out;
   }
@@ -567,7 +619,7 @@ async function runOperationOnce(op, capability, io) {
       operation: op,
       capabilityId: capabilityId,
       authority: op.authority,
-      outcome: { status: 'failed', exercised: [], detail: errorText(err) },
+      outcome: { status: 'failed', exercised: [], detail: refused(err, 'the capability requirements could not be read') },
       evidence: null,
       verification: null,
     });
@@ -594,7 +646,7 @@ async function runOperationOnce(op, capability, io) {
       operation: op,
       capabilityId,
       authority: op.authority,
-      outcome: { status: 'failed', exercised: [], detail: errorText(err) },
+      outcome: { status: 'failed', exercised: [], detail: refused(err, 'the authority check could not be read') },
       evidence: null,
       verification: null,
     });
@@ -654,7 +706,7 @@ async function runOperationOnce(op, capability, io) {
           ? await withTimeout(Promise.resolve().then(() => askFn.call(io, askPayload)), readTimeout(io, 'askTimeoutMs'), 'human gate')
           : null;
       } catch (err) {
-        gateError = `human gate error: ${errorText(err)}`;
+        gateError = refused(err, 'human gate failed');
       }
     }
     let explicitReject = false;
@@ -714,7 +766,7 @@ async function runOperationOnce(op, capability, io) {
           operation: op,
           capabilityId: capabilityId,
           authority: { ...op.authority, approval: 'human_gate_approved' },
-          outcome: { status: 'failed', exercised: [], detail: errorText(err) },
+          outcome: { status: 'failed', exercised: [], detail: refused(err, 'the granted spend could not be read') },
           evidence: null,
           verification: null,
           ...(decidedBy ? { decidedBy } : {}),
@@ -807,7 +859,7 @@ async function runOperationOnce(op, capability, io) {
         if (gateApproved && typeof byValue === 'string' && byValue.length > 0) decidedBy = byValue;
       }
     } catch (err) {
-      gateError = `human gate error: ${errorText(err)}`;
+      gateError = refused(err, 'human gate failed');
     }
     if (gateError || !gateApproved) {
       op.state = STATES.NEEDS_DECISION;
@@ -857,7 +909,7 @@ async function runOperationOnce(op, capability, io) {
         operation: op,
         capabilityId: capabilityId,
         authority: { ...op.authority, approval: 'human_gate_approved' },
-        outcome: { status: 'failed', exercised: [], detail: errorText(err) },
+        outcome: { status: 'failed', exercised: [], detail: refused(err, 'the granted spend could not be read') },
         evidence: null,
         verification: null,
         ...(decidedBy ? { decidedBy } : {}),
@@ -903,7 +955,7 @@ async function runOperationOnce(op, capability, io) {
         operation: op,
         capabilityId,
         authority: { ...op.authority, approval },
-        outcome: { status: 'not_verified', exercised: requirements.map((r) => ({ ...r })), detail: errorText(err) },
+        outcome: { status: 'not_verified', exercised: requirements.map((r) => ({ ...r })), detail: refused(err, 'the capability did not answer before the timeout') },
         evidence: null,
         verification: { verified: false, checks: {}, reason: 'capability outcome unknown after timeout' },
         ...(decidedBy ? { decidedBy } : {}),
@@ -915,7 +967,7 @@ async function runOperationOnce(op, capability, io) {
       operation: op,
       capabilityId,
       authority: { ...op.authority, approval },
-      outcome: { status: 'failed', exercised: [], detail: errorText(err) },
+      outcome: { status: 'failed', exercised: [], detail: refused(err, 'the capability could not be read') },
       evidence: null,
       verification: null,
       ...(decidedBy ? { decidedBy } : {}),
@@ -943,7 +995,7 @@ async function runOperationOnce(op, capability, io) {
 
   const capabilityResult = readCapabilityResult(result);
   if (capabilityResult.impossible) {
-    const reason = capabilityResult.reason || capabilityResult.error || 'impossible';
+    const reason = capabilityResult.reason || capabilityFailure(capabilityResult.error, 'impossible');
     const exit = capabilityResult.exit || operationExit(op);
     op.state = STATES.BLOCKED;
     const receipt = buildReceiptForRun({
@@ -966,7 +1018,7 @@ async function runOperationOnce(op, capability, io) {
       outcome: {
         status: 'not_verified',
         exercised: requirements.map((r) => ({ ...r })),
-        detail: capabilityResult.error || 'settlement outcome unknown',
+        detail: capabilityFailure(capabilityResult.error, 'settlement outcome unknown'),
       },
       evidence: capabilityResult.evidence,
       verification: { verified: false, checks: {}, reason: 'settlement outcome unknown' },
@@ -981,7 +1033,7 @@ async function runOperationOnce(op, capability, io) {
       operation: op,
       capabilityId: capabilityId,
       authority: { ...op.authority, approval },
-      outcome: { status: 'failed', exercised: [], detail: capabilityResult.error || 'capability failed' },
+      outcome: { status: 'failed', exercised: [], detail: capabilityFailure(capabilityResult.error, 'capability failed') },
       evidence: capabilityResult.evidence,
       verification: null,
       ...(decidedBy ? { decidedBy } : {}),
@@ -1017,7 +1069,7 @@ async function runOperationOnce(op, capability, io) {
       ? await withTimeout(Promise.resolve().then(() => verifyFn.call(io, capabilityResult.evidence)), readTimeout(io, 'verifyTimeoutMs'), 'verifier')
       : { verified: false, checks: {}, reason: 'no verifier' };
   } catch (err) {
-    verification = { verified: false, checks: {}, reason: `verifier error: ${errorText(err)}` };
+    verification = { verified: false, checks: {}, reason: refused(err, 'verifier failed') };
   }
   // The answer has to be the verifier's own object. `io.verify` was handed this evidence, and if it
   // hands the very same object back then the executor answered itself: `verified: true` in the
@@ -1069,7 +1121,7 @@ async function runOperationOnce(op, capability, io) {
     normalizedVerification = {
       verified: false,
       checks: {},
-      reason: `verifier error: ${errorText(err)}`,
+      reason: refused(err, 'verifier failed'),
     };
     verified = false;
   }

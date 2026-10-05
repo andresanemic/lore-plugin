@@ -6,7 +6,7 @@ y cómo migrar un proyecto existente. Para la motivación, la arquitectura de un
 todos los documentos, consulta el [`README.md`](../README.md); para la versión de 90 segundos,
 [`90_SECONDS_es.md`](./90_SECONDS_es.md).
 
-Esta referencia describe el corte candidato de Lore Plugin 2.4.9, con fecha de publicación pendiente, y la copia fija del kernel Vespi 0.1.4 en el commit `806264985e05de1843f6826e791869758fe94b68`. Incluye diez módulos, con superficies opcionales de emergencia, procedencia de skills, x402 y ZK; excluye `zk-bn254-reference.js`, una referencia criptográfica experimental, y el puente x402 con el SDK real. Consulta [`RELEASE_2.4.9.md`](./RELEASE_2.4.9.md) para ver el resumen.
+Esta referencia describe el corte candidato de Lore Plugin 2.4.9, con fecha de publicación pendiente, y la copia fija del kernel Vespi 0.1.4 en el commit `13881d41cf3d9c7611eee9794bc1d9c4945a4a6e`. Incluye diez módulos, con superficies opcionales de emergencia, procedencia de skills, x402 y ZK; excluye `zk-bn254-reference.js`, una referencia criptográfica experimental, y el puente x402 con el SDK real. Consulta [`RELEASE_2.4.9.md`](./RELEASE_2.4.9.md) para ver el resumen.
 
 ---
 

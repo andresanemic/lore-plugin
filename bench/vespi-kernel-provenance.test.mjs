@@ -21,7 +21,7 @@ const kit = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const kernelDir = kernelDirOf(kit);
 
 // El corte que RC5 adopta. No se lee de SOURCE.md: SOURCE.md es parte de lo que se verifica.
-const PINNED_COMMIT = "806264985e05de1843f6826e791869758fe94b68";
+const PINNED_COMMIT = "13881d41cf3d9c7611eee9794bc1d9c4945a4a6e";
 const short = PINNED_COMMIT.slice(0, 7);
 
 // La lista de módulos tampoco se escribe. La fuente única es el directorio vendorizado, y R2 dejó de

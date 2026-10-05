@@ -459,8 +459,8 @@ test("la nota vigente cumple la vara mínima de un release legible", () => {
 
   const sections = body.split(/^# .+$/gm).slice(1);
   const closingRules = [
-    { tested: /tested (?:on|in)/i, action: /migration|no action|required|needs?/i },
-    { tested: /probado en/i, action: /migración|ninguna acción|requiere|necesita/i },
+    { tested: /(?:is |will be )?tested (?:on|in)/i, action: /migration|no action|required|needs?/i },
+    { tested: /(?:probado|se prueba) en/i, action: /migración|ninguna acción|requiere|necesita/i },
   ];
   for (const [index, section] of sections.entries()) {
     const blocks = section.trim().split(/\r?\n\r?\n/);
@@ -530,8 +530,9 @@ test("2.4.9 sincroniza badges, paquete y release", () => {
   assert.match(release, /use-lore/i);
   assert.match(release, /Vespi/i);
   assert.match(release, /lore-plugin operation/i);
-  assert.match(release, /tested (?:on|in) Claude Code, Codex, and OpenCode/i);
-  assert.match(release, /probado en Claude Code, Codex y OpenCode/i);
+  // El corte candidato dice que se prueba antes de publicarse; al publicar, la nota dice «probado» con su registro.
+  assert.match(release, /(?:is |will be )?tested (?:on|in) Claude Code, Codex,? and OpenCode/i);
+  assert.match(release, /(?:probado|se prueba) en Claude Code, Codex y OpenCode/i);
   assert.match(release, /no public function was removed|no se eliminó ninguna función pública/i);
   assert.match(release, /existing Lore needs no migration|el Lore existente no necesita migración/i);
   const packageFiles = JSON.parse(readFileSync(join(root, "package.json"), "utf8")).files;

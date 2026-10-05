@@ -35,7 +35,7 @@ Los loops son ciclos de trabajo con una condición de salida; TDD puede ordenar 
 
 ## Estado y límites
 
-Lore Plugin 2.4.9 y el kernel Vespi 0.1.4 son un corte candidato, con fecha de publicación pendiente. La copia del kit fija el commit `806264985e05de1843f6826e791869758fe94b68` y trae diez módulos; excluye la referencia criptográfica experimental `zk-bn254-reference.js` y el puente x402 con el SDK real. Las pruebas locales y las pasadas simuladas no son una auditoría externa; la superreview real sigue pendiente. TDD se usó con pruebas red primero para corregir defectos reproducidos en el kernel, no para afirmar que cada cambio siguió TDD.
+Lore Plugin 2.4.9 y el kernel Vespi 0.1.4 son un corte candidato, con fecha de publicación pendiente. La copia del kit fija el commit `13881d41cf3d9c7611eee9794bc1d9c4945a4a6e` y trae diez módulos; excluye la referencia criptográfica experimental `zk-bn254-reference.js` y el puente x402 con el SDK real. Las pruebas locales y las pasadas simuladas no son una auditoría externa; la superreview real sigue pendiente. TDD se usó con pruebas red primero para corregir defectos reproducidos en el kernel, no para afirmar que cada cambio siguió TDD.
 
 Vespi no afirma mainnet, disponibilidad en producción, protocolo estable ni un runtime de producción. Lore Plugin y el kernel tampoco prometen que la IA siempre acierte, que los recibos sean una firma de identidad o que el sistema sustituya tu juicio. Los límites documentados del kernel 0.1.4 describen una demo verificable sin conexión externa al kernel; no confundas evidencia de una prueba concreta con preparación general para producción.
 

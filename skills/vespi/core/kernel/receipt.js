@@ -1,5 +1,5 @@
 // Vendored copy — canonical source is founder/proyectos/vespi/kernel/src/receipt.js
-// (kernel 0.1.4, release/0.1.4-prep branch, commit 8062649). Edit the canonical source, then re-copy here;
+// (kernel 0.1.4, release/0.1.4-prep branch, commit 13881d4). Edit the canonical source, then re-copy here;
 // this file is not the source of truth.
 'use strict';
 
@@ -33,10 +33,18 @@ const ANCHOR_NETWORKS = new Set([DEFAULT_NETWORK, 'stellar:pubnet']);
 
 const PENDING_ANCHOR = { status: 'pending', network: DEFAULT_NETWORK };
 
+// The copy is built without a prototype on purpose. Assigning to `{}` runs the inherited
+// `__proto__` setter, so a body carrying that key as its own property (JSON.parse makes one, and a
+// receipts file read from disk is full of them) either changed this copy's prototype and lost the
+// key or replaced it, and the key then never reached the sealed text: two different bodies hashed to
+// the same digest and verifyReceipt answered ok on both (R1 finding H5). With no prototype there is
+// no inherited setter, every key of the body becomes exactly the data property it was, and the
+// string this returns for a body without that key is byte for byte the one a plain object gave.
+// This is the copy emergency.js:497 already builds, and the reason it does.
 function canonicalize(value) {
   if (Array.isArray(value)) return value.map(canonicalize);
   if (value !== null && typeof value === 'object') {
-    const out = {};
+    const out = Object.create(null);
     for (const key of Object.keys(value).sort()) out[key] = canonicalize(value[key]);
     return out;
   }
@@ -44,7 +52,9 @@ function canonicalize(value) {
 }
 
 function computeDigest(receipt) {
-  const stripped = {};
+  // Without a prototype here too, for the same reason: a `__proto__` key of the receipt has to be a
+  // key of the sealed text rather than a write to an inherited setter that goes nowhere.
+  const stripped = Object.create(null);
   for (const key of Object.keys(receipt)) {
     if (key === 'digest' || key === 'anchor') continue;
     stripped[key] = receipt[key];
@@ -105,8 +115,12 @@ function verifyAnchorBinding(receipt, expected) {
     }
     if (anchor.digest !== expected) return { ok: false, reason: 'anchor is bound to another receipt' };
     return { ok: true };
-  } catch (err) {
-    return { ok: false, reason: `anchor verify error: ${err && err.message ? err.message : String(err)}` };
+  } catch {
+    // A fixed phrase, not the thrown message. This reason is shown to whoever is verifying, and the
+    // thing that threw on the way can be the receipt itself: `err.message` is a getter a hostile body
+    // controls, and `String(err)` runs a `toString` it controls. Same rule as x402.js and
+    // emergency.js: nothing a body wrote comes back out in words (R1 finding H6).
+    return { ok: false, reason: 'the anchor could not be read' };
   }
 }
 
@@ -129,8 +143,11 @@ function verifyReceipt(receipt) {
     const bound = verifyAnchorBinding(receipt, expected);
     if (bound.ok !== true) return bound;
     return { ok: true, reason: 'digest matches' };
-  } catch (err) {
-    return { ok: false, reason: `verify error: ${err && err.message ? err.message : String(err)}` };
+  } catch {
+    // Same closed list as every other reason this function returns. A body that cannot be
+    // canonicalized at all (a BigInt, a cycle, a hostile getter) is refused in words of our own
+    // rather than in the words of the serializer that refused it.
+    return { ok: false, reason: 'receipt is not serializable' };
   }
 }
 

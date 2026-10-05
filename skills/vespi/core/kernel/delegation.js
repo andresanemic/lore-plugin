@@ -1,5 +1,5 @@
 // Vendored copy — canonical source is founder/proyectos/vespi/kernel/src/delegation.js
-// (kernel 0.1.4, release/0.1.4-prep branch, commit 8062649). Edit the canonical source, then re-copy here;
+// (kernel 0.1.4, release/0.1.4-prep branch, commit 13881d4). Edit the canonical source, then re-copy here;
 // this file is not the source of truth.
 'use strict';
 
@@ -56,6 +56,10 @@ function orchestratorOf(d) {
 function digestOf(text) {
   return createHash('sha256').update(text, 'utf8').digest('hex');
 }
+
+// What a delegation recorded when its delivered output could not be sealed. It is a marker of this
+// module, not text a delegate chose, so it can never be confused with a file that was touched.
+const UNSEALABLE_OUTPUT = 'the delivered output could not be sealed';
 
 function text(value) {
   return typeof value === 'string' && value.length > 0;
@@ -233,7 +237,30 @@ function recordResult(d, { output, touched, spark } = {}) {
   const note = readSpark(spark);
   const files = list(touched);
   const violations = [...new Set([...d.violations, ...violationsFor(d, files)])];
-  d.outputDigest = digestOf(text(output) ? output : JSON.stringify(output === undefined ? null : output));
+  // Sealing the output is the one step here the delegate's own data can make fail: JSON.stringify
+  // throws a RangeError on an output nested past the stack, and a BigInt or a getter throws too. Left
+  // unguarded, that RangeError escaped recordResult, so the delegation stayed `running` with no
+  // outputDigest, no violation on record and no receipt at all: a failure that leaves no trace. A
+  // result this kernel cannot seal is refused in words of its own and recorded as a violation, so
+  // what happened is on the record instead of nowhere (R1 finding H7).
+  let sealed = null;
+  try {
+    const serialized = text(output) ? output : JSON.stringify(output === undefined ? null : output);
+    sealed = typeof serialized === 'string' ? digestOf(serialized) : null;
+  } catch {
+    sealed = null;
+  }
+  if (sealed === null) {
+    d.outputDigest = null;
+    d.touched = files;
+    d.violations = [...new Set([...violations, UNSEALABLE_OUTPUT])];
+    d.pendingCorrections = [];
+    if (note !== null) d.sparks.push(note);
+    push(d, 'out_of_bounds', d.delegate);
+    d.reason = 'the delivered output could not be sealed, so this kernel cannot say what came back';
+    return d;
+  }
+  d.outputDigest = sealed;
   d.touched = files;
   d.violations = violations;
   d.pendingCorrections = [];
@@ -277,10 +304,18 @@ function personView(d) {
 
 // The seal is the same canonical digest receipt.js uses, so verifyReceipt from receipt.js
 // verifies a delegation receipt as it verifies any other (digest and anchor excluded).
+// The copy is built without a prototype on purpose. Assigning to `{}` runs the inherited
+// `__proto__` setter, so a body carrying that key as its own property (JSON.parse makes one, and a
+// receipts file read from disk is full of them) either changed this copy's prototype and lost the
+// key or replaced it, and the key then never reached the sealed text: two different bodies hashed to
+// the same digest and verifyReceipt answered ok on both (R1 finding H5). With no prototype there is
+// no inherited setter, every key of the body becomes exactly the data property it was, and the
+// string this returns for a body without that key is byte for byte the one a plain object gave.
+// This is the copy emergency.js:497 already builds, and the reason it does.
 function canonicalize(value) {
   if (Array.isArray(value)) return value.map(canonicalize);
   if (value !== null && typeof value === 'object') {
-    const out = {};
+    const out = Object.create(null);
     for (const key of Object.keys(value).sort()) out[key] = canonicalize(value[key]);
     return out;
   }
@@ -288,7 +323,9 @@ function canonicalize(value) {
 }
 
 function seal(receipt) {
-  const stripped = {};
+  // Without a prototype here too, for the same reason: a `__proto__` key of the receipt has to be a
+  // key of the sealed text rather than a write to an inherited setter that goes nowhere.
+  const stripped = Object.create(null);
   for (const key of Object.keys(receipt)) {
     if (key === 'digest' || key === 'anchor') continue;
     stripped[key] = receipt[key];
