@@ -2,20 +2,17 @@
 
 ## 1. When this applies / Cuándo aplica
 
-Optional capabilities from the pinned kernel are used only when the agreement names them. Import the
-named functions from `skills/vespi/core/vespi.mjs`. Nothing is activated by default: no port, payment,
-external skill or ZK backend is connected for you.
+Use only capabilities named by the agreement; import them from `skills/vespi/core/vespi.mjs`. Nothing
+connects by default: ports, payments, external skills and the ZK backend stay inactive.
 
-Del kernel fijado, solo se usan cuando el acuerdo las nombra. Importa las funciones por su nombre desde
-`skills/vespi/core/vespi.mjs`. Nada se activa por defecto: no se conecta por ti ningun puerto, pago,
-skill externa ni backend ZK.
+Usa solo capacidades que nombre el acuerdo e impórtalas desde `skills/vespi/core/vespi.mjs`. Puertos,
+pagos, skills externas y backend ZK quedan inactivos por defecto.
 
-Which of them exist is a fact of the vendored copy, not a promise of this document. Read
-`OPTIONAL_CAPABILITIES` first: each capability reports `present`, its module path, the names it exposes
-and the ones it misses. An absent module stays absent; the facade does not invent, fill or stub it.
+Presence comes from the vendored copy. `OPTIONAL_CAPABILITIES` lists `present`, module, `exposed` and
+`missing`; the facade never invents or stubs absent modules or exports.
 
-Cuales existen es un hecho de la copia vendorizada, no una promesa. `OPTIONAL_CAPABILITIES` declara
-`present`, la ruta y los nombres; un modulo ausente sigue ausente, sin relleno.
+La copia vendorizada determina la presencia. `OPTIONAL_CAPABILITIES` lista `present`, modulo, `exposed` y
+`missing`; la fachada no inventa ni rellena modulos ni nombres.
 
 ## 2. Native sequence / Secuencia nativa
 
@@ -71,15 +68,13 @@ escritura del kernel: esta guía es la dueña editorial del vocabulario.
 | zk | permanent limits false / limites permanentes | `zk.presenter-authentication`, `zk.institutional-attestation`, `zk.replay-prevention`, `zk.transport-privacy` |
 | any receipt / cualquier recibo | common / comun | `external anchor` in `notCovered` while no anchor is verified |
 
-A successful use covers the first two emergency checks and leaves `effect_verified` false. A pending
-review says only that a declared reviewer closed it: not a favourable review, not a proven effect.
-`contentRecomputed` is reported separately and is not a check name. The allowed settlement controls are
-a catalogue a host declares it needs, not proof that any receipt measured all seven. Domain names are
-the host's own: `host.local-effect-observed`, with evidence and owner.
+Emergency use covers only its first two checks; `effect_verified` stays false. A pending review means
+only that the declared reviewer closed it, not that the review favoured the action or proved its effect.
+`contentRecomputed` is separate from check names. Allowed settlement controls are a host-declared
+catalogue, not evidence that a receipt measured all seven. Hosts own domain names and their evidence.
 
-Un uso exitoso cubre las dos primeras y `effect_verified` sigue false. Una revisión pendiente solo dice
-que un revisor declarado la cerró. Los controles de liquidación permitidos son un catálogo, no cobertura
-medida.
+El uso solo cubre las dos primeras; `effect_verified` sigue false. Cerrar una revisión pendiente no
+aprueba el efecto. Los controles permitidos son un catálogo, no cobertura medida.
 
 ## 4. Limits / Límites
 
@@ -105,18 +100,18 @@ presenta ni evita la repetición. Nada se añade a un recibo nativo tras el sell
 
 ## 5. Who owns the ports / Quién es dueño de los puertos
 
-The host. Every gate above is a port it supplies: grantor, signal verifier, provenance resolver, payment
-ports, claims store, ZK backend. No defaults, and a port returning the agent's own claim does not replace
-the person's gate. `OPTIONAL_CAPABILITIES` says what arrived; the ports say what happened.
+The host supplies every gate: grantor, signal verifier, provenance resolver, payment ports, claims store
+and ZK backend. No defaults; an agent echo cannot replace the person's gate. The capability map says
+what arrived; ports say what happened.
 
-El host aporta toda compuerta, sin puerto por defecto: un puerto que devuelve la afirmación del agente no
-sustituye la compuerta de la persona.
+El host aporta cada compuerta, sin puertos por defecto; el eco del agente no sustituye la compuerta
+humana.
 
 ## Reporting / Informe
 
-Four editorial labels, not new kernel states: proven by the cited test; refuted by it; not measured; out
-of scope. Keep native `status`, `code` and `reason` beside them. "Test port" and "test backend" describe
-one run's support, not a certification. Never derive "it did not happen" from `not_verified`.
+Four editorial labels, not kernel states: proven by the cited test, refuted, not measured, out of scope.
+Keep native `status`, `code` and `reason`. Test ports and backends support only that run, not a
+certification. `not_verified` never means an event did not happen.
 
-Cuatro etiquetas que no son estados nuevos del kernel: comprobado, refutado, no medido, fuera de
-alcance, con el `status`, `code` y `reason` nativos al lado.
+Cuatro etiquetas editoriales, no estados del kernel: comprobado por prueba citada, refutado, no medido,
+fuera de alcance. Conserva `status`, `code` y `reason` nativos.
