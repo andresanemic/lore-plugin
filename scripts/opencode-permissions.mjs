@@ -2,12 +2,22 @@ import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "
 import { dirname, isAbsolute, join, resolve, sep } from "node:path";
 import { randomUUID } from "node:crypto";
 
+// Quita las barras finales en tiempo lineal. El reemplazo con
+// /[\\/]+$/ era el mismo resultado con peor caso polinomial
+// (CodeQL js/polynomial-redos): cada posición de arranque
+// reescaneaba hasta el final en barras repetidas.
+function stripTrailingSlashes(text) {
+  let end = text.length;
+  while (end > 0 && (text[end - 1] === "/" || text[end - 1] === "\\")) end -= 1;
+  return text.slice(0, end);
+}
+
 function normalizedRulePath(path, project) {
   const value = String(path).trim().replace(/^['"`]|['"`]$/g, "");
   if (!value) return null;
   const native = value.replace(/[\\/]+/g, sep);
   const full = isAbsolute(native) ? resolve(native) : resolve(project, native);
-  return `${full.replace(/[\\/]+$/g, "")}/**`;
+  return `${stripTrailingSlashes(full)}/**`;
 }
 
 export function buildPermissions({ siblings = [], existing = {} } = {}) {
@@ -19,7 +29,8 @@ export function buildPermissions({ siblings = [], existing = {} } = {}) {
   const external = { ...oldExternal };
   for (const sibling of siblings) {
     if (!sibling) continue;
-    const key = String(sibling).endsWith("/**") ? String(sibling) : `${String(sibling).replace(/[\\/]+$/g, "")}/**`;
+    const raw = String(sibling);
+    const key = raw.endsWith("/**") ? raw : `${stripTrailingSlashes(raw)}/**`;
     if (external[key] !== "deny") external[key] = "allow";
   }
   if (!Object.hasOwn(external, "*")) external["*"] = "deny";
