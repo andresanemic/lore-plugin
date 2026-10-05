@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, test } from "node:test";
@@ -140,4 +141,17 @@ test("la huella guardada se puede comparar y detecta cambios por host", () => {
   assert.equal(compareFingerprint(file, before).matches, true);
   const after = { ...before, useLoreBodySha256: "0".repeat(64) };
   assert.equal(compareFingerprint(file, after).matches, false);
+});
+
+test("la CLI guarda y compara huellas sin exigir que los otros hosts estén instalados", () => {
+  const home = mkdtempSync(join(tmpdir(), "lore-fingerprint-home-"));
+  temporary.push(home);
+  const file = join(home, "opencode-before.json");
+  const args = ["scripts/rc8-verificar-hosts.mjs", "--home", home, "--fingerprint-host", "OpenCode"];
+  const saved = spawnSync(process.execPath, [...args, "--fingerprint-out", file], { encoding: "utf8" });
+  assert.equal(saved.status, 0, saved.stderr);
+  assert.match(saved.stdout, /Fingerprint saved:/);
+  const compared = spawnSync(process.execPath, [...args, "--fingerprint-compare", file], { encoding: "utf8" });
+  assert.equal(compared.status, 0, compared.stderr);
+  assert.match(compared.stdout, /Fingerprint OpenCode: COINCIDE/);
 });

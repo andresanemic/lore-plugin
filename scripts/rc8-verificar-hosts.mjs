@@ -219,23 +219,21 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     else { console.error(`Argumento no reconocido: ${args[i]}`); process.exit(2); }
   }
   try {
-    const report = verifyHosts({ home, canonicalKernelRoot, kernelHead, host });
-    console.log(formatReport(report));
-    let fingerprintOk = true;
     if (fingerprintOut || fingerprintCompare) {
       if (!fingerprintHostName) throw new Error("--fingerprint-out y --fingerprint-compare requieren --fingerprint-host");
       const current = fingerprintHost(home, fingerprintHostName);
-      if (fingerprintOut) {
-        console.log(`Fingerprint saved: ${saveFingerprint(fingerprintOut, current)}`);
-      }
+      if (fingerprintOut) console.log(`Fingerprint saved: ${saveFingerprint(fingerprintOut, current)}`);
       if (fingerprintCompare) {
         const comparison = compareFingerprint(fingerprintCompare, current);
-        fingerprintOk = comparison.matches;
-        console.log(`Fingerprint ${fingerprintHostName}: ${fingerprintOk ? "COINCIDE" : "DIFIERE"}`);
-        if (!fingerprintOk) console.log(`Anterior: ${JSON.stringify(comparison.previous)}\nActual:   ${JSON.stringify(current)}`);
+        console.log(`Fingerprint ${fingerprintHostName}: ${comparison.matches ? "COINCIDE" : "DIFIERE"}`);
+        if (!comparison.matches) console.log(`Anterior: ${JSON.stringify(comparison.previous)}\nActual:   ${JSON.stringify(current)}`);
+        process.exit(comparison.matches ? 0 : 1);
       }
+      process.exit(0);
     }
-    process.exit(report.ok && fingerprintOk ? 0 : 1);
+    const report = verifyHosts({ home, canonicalKernelRoot, kernelHead, host });
+    console.log(formatReport(report));
+    process.exit(report.ok ? 0 : 1);
   } catch (error) {
     console.error(`Verificación incompleta: ${error.message}`);
     process.exit(1);
