@@ -2,11 +2,11 @@
 
 ## 1. When this applies / Cuándo aplica
 
-Use only capabilities named by the agreement; import them from `skills/vespi/core/vespi.mjs`. Nothing is
-activated by default; ports, payments, external skills and the ZK backend stay inactive.
+Use only capabilities named by the agreement; import them from `skills/vespi/core/vespi.mjs`.
+Nothing is activated by default; ports, payments, external skills and the ZK backend stay inactive.
 
-Usa solo capacidades que nombre el acuerdo e impórtalas desde `skills/vespi/core/vespi.mjs`. Puertos,
-pagos, skills externas y backend ZK quedan inactivos por defecto.
+Usa solo capacidades que nombre el acuerdo e impórtalas desde `skills/vespi/core/vespi.mjs`.
+Nada se activa por defecto: puertos, pagos, skills externas y backend ZK permanecen desconectados.
 
 Presence comes from the vendored copy. `OPTIONAL_CAPABILITIES` lists `present`, module, `exposed` and
 `missing`; the facade never invents or stubs absent modules or exports.
