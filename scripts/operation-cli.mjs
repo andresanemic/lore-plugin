@@ -1,4 +1,6 @@
 import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   closeOperation,
   calibrateEstimates,
@@ -377,4 +379,23 @@ export async function runOperationCli(argv = [], { stdout = process.stdout, stde
   } catch (error) {
     return fail(stdout, error, stderr);
   }
+}
+
+// Este archivo es dos cosas a la vez, y solo una de ellas se ejecutaba. Lo exportado lo consume
+// la facade —`lore-plugin.mjs operation`, que es la via publicada— y lo importado lo consumen las
+// pruebas. Pero el `usage()` de arriba anuncia la forma "operation <sub> --root <dir>", que es este
+// archivo como proceso, y por ahi no pasaba nada: sin salida y con codigo 0. Un ok vacio es lo peor
+// que puede responder una puerta, porque quien pregunto se va con la certeza de haber preguntado.
+//
+// La comparacion es de rutas resueltas, no de cadenas: por symlink o por `\` de Windows el mismo
+// archivo llega con dos formas distintas, y una guarda que no reconoce su propia ruta volveria a
+// fallar en silencio en el host que mas la usa. Importado, esto no corre.
+const invocadoComoProceso = process.argv[1] !== undefined
+  && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+
+if (invocadoComoProceso) {
+  process.exitCode = await runOperationCli(process.argv.slice(2), {
+    stdout: process.stdout,
+    stderr: process.stderr,
+  });
 }
