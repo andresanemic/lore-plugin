@@ -366,3 +366,82 @@ test("status sin raíz nombra el id, cómo completar la raíz y no crea archivos
   assert.match(rc.err, /root: <missing>/);
   assert.deepEqual(await import("node:fs/promises").then(({ readdir }) => readdir(root)), []);
 });
+
+// --- la puerta de entrada: `entry` ------------------------------------------
+//
+// `resume` es lo que el coordinador corre cuando YA sabe que hay una operacion. `entry` es lo que
+// responde a la pregunta anterior: si hay algo abierto, y que es lo primero. Por eso no necesita
+// `--id`: lo lee de FASES.md, y si no hay nada abierto dice que no hay y sale 0. Si hay algo abierto
+// devuelve el veredicto del kernel, el siguiente paso y el pendiente por rol, y sale distinto de
+// cero nombrando el archivo exacto: un puntero que no puede fallar en voz alta no es una puerta.
+
+test("entry en una raiz sin operacion responde breve y sale 0", async (t) => {
+  const root = await proyecto(t);
+  const e = run(["entry", "--root", root]);
+  assert.equal(e.code, 0, e.err);
+  assert.equal(e.json.ok, true);
+  assert.equal(e.json.open, false);
+});
+
+test("entry con una operacion abierta da el veredicto, el siguiente paso y el pendiente por rol", async (t) => {
+  const { root, id } = await conOperacion(t);
+  run(["plan", "--root", root, "--id", id, "--json", j(encargoDaimon(root))]);
+  const e = run(["entry", "--root", root]);
+  assert.equal(e.json.open, true);
+  assert.equal(e.json.id, id);
+  assert.equal(e.json.allowed, true);
+  assert.equal(e.json.reason, "fresh");
+  assert.equal(e.json.state, "authorized");
+  assert.equal(e.json.next_step, "dispatch t1");
+  assert.equal(e.json.pending_by_role.length, 1);
+  assert.equal(e.json.pending_by_role[0].role, "daimon");
+  assert.equal(e.json.pending_by_role[0].tasks[0].id, "t1");
+  assert.equal(e.json.pending_by_role[0].tasks[0].state, "proposed");
+});
+
+test("entry con una operacion abierta SALE DISTINTO DE CERO y nombra el archivo a abrir", async (t) => {
+  const { root, id } = await conOperacion(t);
+  run(["plan", "--root", root, "--id", id, "--json", j(encargoDaimon(root))]);
+  const e = run(["entry", "--root", root]);
+  assert.notEqual(e.code, 0, "una operacion abierta no puede salir como si no hubiera nada que abrir");
+  assert.equal(e.json.ok, false);
+  assert.equal(e.json.file, `FASES.md#${id}`);
+  assert.equal(e.json.file_to_open, join(root, "FASES.md"));
+  assert.match(e.err, new RegExp(`FASES\\.md#${id}`));
+});
+
+test("entry no necesita --id: lee la operacion abierta de FASES.md", async (t) => {
+  const { root, id } = await conOperacion(t);
+  const e = run(["entry", "--root", root]);
+  assert.equal(e.json.id, id);
+});
+
+test("entry sin --root falla nombrando la raiz y no crea archivos", async (t) => {
+  const root = await proyecto(t);
+  const e = run(["entry"]);
+  assert.notEqual(e.code, 0);
+  assert.match(e.json.error, /--root/);
+  assert.deepEqual(await import("node:fs/promises").then(({ readdir }) => readdir(root)), []);
+});
+
+test("entry de una operacion solo preparada dice que hay que autorizar, y sigue sin ser 0", async (t) => {
+  const { root, id } = await conOperacion(t, { autorizar: false });
+  const e = run(["entry", "--root", root]);
+  assert.equal(e.json.open, true);
+  assert.equal(e.json.state, "prepared");
+  assert.equal(e.json.allowed, false);
+  assert.equal(e.json.reason, "terminal_state" === e.json.reason ? e.json.reason : "fresh");
+  assert.equal(e.json.next_step, "authorize");
+  assert.notEqual(e.code, 0);
+});
+
+test("entry delega el veredicto en el mismo camino que resume", async (t) => {
+  const { root, id } = await conOperacion(t);
+  run(["plan", "--root", root, "--id", id, "--json", j(encargoDaimon(root))]);
+  const entry = run(["entry", "--root", root]).json;
+  const resume = run(["resume", "--root", root, "--id", id]).json;
+  assert.equal(entry.id, resume.id);
+  assert.equal(entry.allowed, resume.allowed);
+  assert.equal(entry.reason, resume.reason);
+  assert.equal(entry.state, resume.state);
+});

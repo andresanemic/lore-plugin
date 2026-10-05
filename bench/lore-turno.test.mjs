@@ -542,6 +542,77 @@ test("en OpenCode un arbol con Lore pero sin acuerdo en vigor calla: el suelo ya
   for (const pedido of pedidos) assert.equal(registroDe(pedido), "");
 });
 
+// --- 8. la puerta: la apertura entrega el veredicto, no el lugar donde vive ----
+//
+// Este archivo se escribio entero creyendo que un puntero era un recordatorio. No lo es: el
+// coordinador leyo «el estado vive en FASES.md», salto el archivo que ahi se le senalaba y coordino
+// quince tareas sin abrir ni una operacion ni escribir un recibo. El puntero nombra el lugar y no
+// puede fallar en voz alta, asi que no es una puerta: es una nota. Lo que se prueba aqui es que
+// al abrir, con una operacion abierta de verdad, lo que llega al modelo es el veredicto del kernel,
+// el siguiente paso y la tarea pendiente por rol.
+
+function operacionAbierta(dir) {
+  const cli = join(repo, "scripts", "lore-plugin.mjs");
+  const op = (...args) => execFileSync("node", [cli, "operation", ...args], { encoding: "utf8" });
+  const hold = JSON.parse(op("hold", "--root", dir, "--json", JSON.stringify({
+    goal: "Retomar el cotejo", owner: "coordinador", authority: { spend: [] },
+  })));
+  op("authorize", "--root", dir, "--id", hold.id, "--json", JSON.stringify({ by: "Andres", words: "corre el cotejo" }));
+  const plan = JSON.parse(op("plan", "--root", dir, "--id", hold.id, "--json", JSON.stringify({
+    role: "daimon", question: "Que dicen las fuentes?", sources: ["https://example.test/norma"],
+    output: { path: join(dir, "daimon.md") }, timeoutMs: 600_000,
+    nextCheckAt: new Date(Date.now() + 60_000).toISOString(),
+  })));
+  return { id: hold.id, task: plan.task };
+}
+
+test("con una operacion abierta la apertura entrega el siguiente paso y la tarea pendiente", () => {
+  const dir = arbol();
+  acuerdoAprobado(dir);
+  const { id, task } = operacionAbierta(dir);
+  const r = inyeccion({ raiz: dir, turno: null, nivel: "full" });
+  assert.equal(r.inyectar, true);
+  assert.match(r.texto, new RegExp(id), "la apertura no nombra la operacion abierta");
+  assert.match(r.texto, /dispatch/, "la apertura no dice el siguiente paso");
+  assert.match(r.texto, new RegExp(task), "la apertura no dice la tarea pendiente");
+  assert.match(r.texto, /daimon/, "la apertura no dice que rol la tiene pendiente");
+});
+
+test("con una operacion abierta la apertura NO se conforma con nombrar donde vive el estado", () => {
+  const dir = arbol();
+  acuerdoAprobado(dir);
+  operacionAbierta(dir);
+  const r = inyeccion({ raiz: dir, turno: null, nivel: "full" });
+  assert.doesNotMatch(r.texto, /el estado vive en FASES\.md/,
+    "con una operacion abierta, el puntero es exactamente el defecto que esta puerta arregla");
+});
+
+test("sin operacion abierta la apertura conserva el puntero: no hay nada que abrir ahi", () => {
+  const dir = arbol();
+  acuerdoAprobado(dir);
+  const r = inyeccion({ raiz: dir, turno: null, nivel: "full" });
+  assert.equal(r.inyectar, true);
+  assert.match(r.texto, /el estado vive en FASES\.md/);
+});
+
+test("una apertura con operacion abierta nombra el archivo exacto que hay que abrir", () => {
+  const dir = arbol();
+  acuerdoAprobado(dir);
+  const { id } = operacionAbierta(dir);
+  const r = inyeccion({ raiz: dir, turno: null, nivel: "full" });
+  assert.match(r.texto, new RegExp(`FASES\\.md#${id}`));
+});
+
+test("el turno que sigue NO repite el veredicto: la puerta abre una vez por sesion", () => {
+  const dir = arbol();
+  acuerdoAprobado(dir);
+  operacionAbierta(dir);
+  const apertura = inyeccion({ raiz: dir, turno: null, nivel: "full" });
+  const turno = inyeccion({ raiz: dir, turno: 2, nivel: "full" });
+  assert.match(apertura.texto, /dispatch/);
+  assert.doesNotMatch(turno.texto, /dispatch/);
+});
+
 test.after(() => {
   for (const dir of roots) rmSync(dir, { recursive: true, force: true });
 });
