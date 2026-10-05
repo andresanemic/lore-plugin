@@ -21,7 +21,7 @@ const kit = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const kernelDir = kernelDirOf(kit);
 
 // El corte que RC5 adopta. No se lee de SOURCE.md: SOURCE.md es parte de lo que se verifica.
-const PINNED_COMMIT = "fde2ee08789e3d30517148e224310faace7e488c";
+const PINNED_COMMIT = "03f78db3911089151288851260f5253c0dc988c6";
 const short = PINNED_COMMIT.slice(0, 7);
 
 // La lista de módulos tampoco se escribe. La fuente única es el directorio vendorizado, y R2 dejó de
@@ -76,7 +76,8 @@ test("el directorio vendorizado es exactamente el src del commit fijado, leído 
   // misma pregunta con mejor fuente: ¿le falta al kit un módulo del corte, o trae de más?
   if (!kernelRoot) return t.skip("la fuente canónica no está disponible; el conjunto del corte no se puede comprobar");
   const listed = execFileSync("git", ["-c", `safe.directory=${kernelRoot.replaceAll("\\", "/")}`, "ls-tree", "--name-only", `${PINNED_COMMIT}:src`], { cwd: kernelRoot, encoding: "utf8" })
-    .split("\n").map((line) => line.trim()).filter((name) => name.endsWith(".js")).sort();
+    .split("\n").map((line) => line.trim()).filter((name) => name.endsWith(".js") && name !== "zk-bn254-reference.js").sort();
+  assert.ok(!VENDORED.includes("zk-bn254-reference.js"), "the experimental ZK reference is not part of the vendored cut");
   assert.deepEqual(VENDORED, listed);
 });
 

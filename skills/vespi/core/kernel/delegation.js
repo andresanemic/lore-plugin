@@ -1,5 +1,5 @@
 // Vendored copy — canonical source is founder/proyectos/vespi/kernel/src/delegation.js
-// (kernel 0.1.4, release/0.1.4-prep branch, commit fde2ee0). Edit the canonical source, then re-copy here;
+// commit 03f78db, branch release/0.1.4-prep.
 // this file is not the source of truth.
 'use strict';
 
