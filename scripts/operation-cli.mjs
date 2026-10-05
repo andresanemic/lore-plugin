@@ -15,6 +15,7 @@ import {
   verifyTask,
 } from "../skills/vespi/core/vespi.mjs";
 import { attemptWall, operationStatePath, saveOperationState, transitionArtifact } from "../skills/vespi/core/operation-state.mjs";
+import { readCalibrationSeed } from "../skills/vespi/core/calibration-seed.mjs";
 
 const COMMANDS = [
   "hold",
@@ -283,11 +284,25 @@ async function execute(sub, flags, stdout) {
     const suggestions = Object.fromEntries(Object.entries(measured).map(([key, value]) => [key,
       `sugerencia, no regla: el tiempo suele ser ${value.medianRatio} de lo estimado (${value.samples} muestras)`,
     ]));
+    const seed = await readCalibrationSeed();
+    const seedByKind = new Map((seed?.entries ?? []).map((entry) => [entry.kind, entry]));
+    const measuredKeys = new Set(Object.entries(calibration).filter(([, value]) => value.measured !== false).map(([key]) => key));
+    const calibrationLines = [];
+    for (const task of context.artifact.tasks ?? []) {
+      const key = `${task.role ?? "unknown"}|host=${task.executor?.host ?? "unspecified"}|model=${task.executor?.model ?? "unspecified"}`;
+      if (measuredKeys.has(key)) continue;
+      const entry = typeof task.kind === "string" ? seedByKind.get(task.kind) : null;
+      const line = entry
+        ? `referencia inicial (no medida en tu máquina): suele tardar del orden de ${entry.medianMinutes} min, hasta unos ${entry.p80Minutes} min; viene de ${entry.samples} trabajos de una sesión del ${seed.header.observedOn}; tu propia medición la reemplaza con 3 muestras`
+        : "sin referencia";
+      calibrationLines.push({ task: task.id, line });
+    }
     return emit(stdout, {
       ok: true,
       id: context.id,
       state: context.artifact.state,
       tasks,
+      calibrationLines,
       ...(Object.keys(measured).length > 0
         ? { calibration, suggestions }
         : { calibrationNote: "calibración no medida: se requieren al menos 3 muestras por clave" }),

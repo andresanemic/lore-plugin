@@ -57,11 +57,43 @@ test("planificar una tarea exige timeout y proxima observacion antes de lanzar",
   assert.throws(() => f.planTask(a, daimon(root, { timeoutMs: 0 })), /timeout/i);
   assert.throws(() => f.planTask(a, daimon(root, { estimateMs: 1.5 })), /estimateMs/i);
   assert.throws(() => f.planTask(a, daimon(root, { estimateMs: 0 })), /estimateMs/i);
+  assert.throws(() => f.planTask(a, daimon(root, { kind: "other" })), /kind/i);
+  assert.equal(f.planTask(a, daimon(root, { kind: "review" })).task.kind, "review");
+  assert.equal(f.planTask(a, daimon(root)).task.kind, undefined);
   const { artifact, task } = f.planTask(a, daimon(root));
   assert.equal(task.id, "t1");
   assert.equal(task.state, "proposed");
   assert.equal(artifact.tasks.length, 1);
   assert.deepEqual([...task.must_declare].sort(), ["evidence", "limits"], "Daimon debe declarar evidencia y limites");
+});
+
+test("la semilla es válida y solo orienta, nunca altera los límites de una tarea", async (t) => {
+  const { readCalibrationSeed, validateCalibrationSeed } = await import("../skills/vespi/core/calibration-seed.mjs");
+  const seed = await readCalibrationSeed();
+  assert.equal(seed.header.notAMeasurementOnYourMachine, true);
+  assert.deepEqual(seed.entries.map(({ kind }) => kind), ["review", "build", "fix", "write"]);
+  for (const entry of seed.entries) {
+    assert.deepEqual(Object.keys(entry).sort(), ["kind", "maxMinutes", "medianMinutes", "minMinutes", "p80Minutes", "samples"].sort());
+    assert.ok(Number.isInteger(entry.samples) && entry.samples >= 3);
+    assert.ok(entry.minMinutes <= entry.medianMinutes && entry.medianMinutes <= entry.p80Minutes && entry.p80Minutes <= entry.maxMinutes);
+  }
+  assert.equal(validateCalibrationSeed({ ...seed, entries: [{ ...seed.entries[0], p80Minutes: 1 }] }), false);
+  const invalidPath = join(await proyecto(t), "bad.json");
+  await writeFile(invalidPath, "{ corrupt");
+  assert.equal(await readCalibrationSeed(invalidPath), null);
+  assert.equal(await readCalibrationSeed(join(await proyecto(t), "missing.json")), null);
+  const root = await proyecto(t);
+  const { f, a } = await autorizada();
+  const { task } = f.planTask(a, daimon(root, { kind: "build", timeoutMs: 12345, nextCheckAt: "2026-10-06T00:00:00.000Z" }));
+  assert.equal(task.timeoutMs, 12345);
+  assert.equal(task.nextCheckAt, "2026-10-06T00:00:00.000Z");
+  const { readFile } = await import("node:fs/promises");
+  const pkg = JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8"));
+  assert.ok(pkg.files.includes("skills/"));
+  const { spawnSync } = await import("node:child_process");
+  const packed = spawnSync("npm", ["pack", "--dry-run", "--json"], { cwd: new URL("..", import.meta.url), encoding: "utf8" });
+  assert.equal(packed.status, 0, packed.stderr);
+  assert.ok(JSON.parse(packed.stdout)[0].files.some((file) => file.path === "skills/vespi/core/calibration-seed.json"));
 });
 
 test("calibrar estimaciones solo con tres duraciones observadas por clave", async (t) => {

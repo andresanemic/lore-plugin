@@ -189,6 +189,32 @@ test("status resume el estado en una linea por tarea y marca la tarea vencida", 
   assert.deepEqual(Object.keys(s.json.tasks[0]).sort(), ["by", "id", "nextCheckAt", "overdue", "role", "state"]);
   assert.match(s.json.calibrationNote, /calibraci[oó]n no medida/);
   assert.equal(s.json.suggestions, undefined);
+  assert.equal(s.json.calibrationLines[0].line, "sin referencia");
+});
+
+test("status imprime referencia inicial por tipo y la medición propia con 3 muestras la reemplaza", async (t) => {
+  const { root, id } = await conOperacion(t);
+  const base = { ...encargoDaimon(root), role: "worker", question: "q", scope: "s", done_criterion: "d", proof: "p", estimateMs: 100, kind: "review" };
+  const one = { ...base, output: { path: join(root, "one.md") } };
+  run(["plan", "--root", root, "--id", id, "--json", j(one)]);
+  let status = run(["status", "--root", root, "--id", id]);
+  assert.equal(status.json.calibrationLines.length, 1);
+  assert.equal(status.json.calibrationLines[0].line, "referencia inicial (no medida en tu máquina): suele tardar del orden de 13 min, hasta unos 15 min; viene de 25 trabajos de una sesión del 2026-10-04 al 2026-10-05; tu propia medición la reemplaza con 3 muestras");
+  assert.equal(status.json.tasks[0].timeoutMs, undefined);
+  for (let n = 0; n < 3; n++) {
+    const taskSpec = { ...base, output: { path: join(root, `measured${n}.md`) } };
+    run(["plan", "--root", root, "--id", id, "--json", j(taskSpec)]);
+    const started = Date.parse("2026-10-05T10:00:00.000Z") + n * 1000;
+    run(["dispatch", "--root", root, "--id", id, "--task", `t${n + 2}`, "--tools", "delegate", "--json", j({ hostName: "oc", model: "m", now: new Date(started).toISOString() })]);
+    await writeFile(taskSpec.output.path, "evidencia");
+    run(["receive", "--root", root, "--id", id, "--task", `t${n + 2}`, "--json", j({ now: new Date(started + 1000 * (n + 1)).toISOString() })]);
+  }
+  status = run(["status", "--root", root, "--id", id]);
+  assert.equal(status.json.calibrationLines.length, 1);
+  assert.match(status.json.calibrationLines[0].line, /referencia inicial/);
+  const ownKey = "worker|host=oc|model=m";
+  assert.equal(status.json.calibration[ownKey].samples, 3);
+  assert.ok(!status.json.calibrationLines.some(({ task }) => task !== "t1"));
 });
 
 test("status muestra calibracion agrupada y no sugiere cifras con pocas muestras", async (t) => {

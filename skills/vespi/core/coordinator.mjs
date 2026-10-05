@@ -126,6 +126,9 @@ export function planTask(artifact, spec = {}) {
   }
   if (!present(spec.output?.path)) throw new Error(`${role} needs an output.path`);
   if (!(Number(spec.timeoutMs) > 0)) throw new Error(`${role} needs a timeoutMs greater than zero`);
+  if (spec.kind !== undefined && (typeof spec.kind !== "string" || !["review", "build", "fix", "write"].includes(spec.kind))) {
+    throw new Error(`${role} kind must be one of review, build, fix, write`);
+  }
   if (spec.estimateMs !== undefined && (!Number.isInteger(spec.estimateMs) || spec.estimateMs <= 0)) {
     throw new Error(`${role} estimateMs must be a positive integer`);
   }
@@ -139,6 +142,7 @@ export function planTask(artifact, spec = {}) {
     state: "proposed",
     by: null,
     question: spec.question,
+    ...(spec.kind !== undefined ? { kind: spec.kind } : {}),
     output: { path: spec.output.path },
     timeoutMs: spec.timeoutMs,
     ...(spec.estimateMs !== undefined ? { estimateMs: spec.estimateMs } : {}),
