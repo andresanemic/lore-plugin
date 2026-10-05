@@ -56,6 +56,13 @@ function replaceTask(artifact, task) {
   return { ...artifact, tasks: (artifact?.tasks ?? []).map((each) => (each.id === task.id ? task : each)) };
 }
 
+function clockIso(value) {
+  const time = value === null || value === undefined ? Date.now() : value;
+  const timestamp = typeof time === "number" && Number.isInteger(time) ? time : Date.parse(time);
+  if (!Number.isFinite(timestamp)) throw new Error("task clock must be a valid ISO date or integer millisecond timestamp");
+  return new Date(timestamp).toISOString();
+}
+
 // El camino legal y nada mas: una tarea lanzada deja la operacion corriendo porque alguien la lanzo,
 // y el recorrido lo decide el grafo de states, no esta funcion.
 function advanceTo(artifact, target, note) {
@@ -119,6 +126,12 @@ export function planTask(artifact, spec = {}) {
   }
   if (!present(spec.output?.path)) throw new Error(`${role} needs an output.path`);
   if (!(Number(spec.timeoutMs) > 0)) throw new Error(`${role} needs a timeoutMs greater than zero`);
+  if (spec.kind !== undefined && (typeof spec.kind !== "string" || !["review", "build", "fix", "write"].includes(spec.kind))) {
+    throw new Error(`${role} kind must be one of review, build, fix, write`);
+  }
+  if (spec.estimateMs !== undefined && (!Number.isInteger(spec.estimateMs) || spec.estimateMs <= 0)) {
+    throw new Error(`${role} estimateMs must be a positive integer`);
+  }
   if (!present(spec.nextCheckAt) || Number.isNaN(Date.parse(spec.nextCheckAt))) {
     throw new Error(`${role} needs a nextCheckAt (ISO date): when it is observed again`);
   }
@@ -129,8 +142,10 @@ export function planTask(artifact, spec = {}) {
     state: "proposed",
     by: null,
     question: spec.question,
+    ...(spec.kind !== undefined ? { kind: spec.kind } : {}),
     output: { path: spec.output.path },
     timeoutMs: spec.timeoutMs,
+    ...(spec.estimateMs !== undefined ? { estimateMs: spec.estimateMs } : {}),
     nextCheckAt: spec.nextCheckAt,
     deadline: null,
     executor: null,
@@ -173,7 +188,7 @@ export function dispatchTask(artifact, taskId, { host = {}, hostName = null, mod
       },
     });
   }
-  const startedAt = now ?? new Date().toISOString();
+  const startedAt = clockIso(now);
   const executor = {
     by: `${hostName ?? "unknown"}/${model ?? "unknown"}`,
     host: hostName ?? "unknown",
@@ -232,7 +247,7 @@ function validObservationTime(at) {
 
 // receiveTask: recibida significa que el archivo existe de verdad, con su huella real. Sin archivo,
 // la tarea sigue corriendo y el llamador se lleva el motivo.
-export async function receiveTask(artifact, taskId, { path = null, exitCode = null, text = "" } = {}) {
+export async function receiveTask(artifact, taskId, { path = null, exitCode = null, text = "", now = null } = {}) {
   const task = taskById(artifact, taskId);
   const file = path ?? task.output?.path ?? null;
   if (!present(file)) throw new Error(`receiveTask needs a path for ${taskId}`);
@@ -259,18 +274,56 @@ export async function receiveTask(artifact, taskId, { path = null, exitCode = nu
       blocked: { cause: delivery.cause, next_action: delivery.nextStep, owner: "coordinador" },
     });
   }
+  const finishedAt = clockIso(now);
+  const startedAt = task.executor?.startedAt;
+  const actualMs = Number.isFinite(Date.parse(finishedAt)) && Number.isFinite(Date.parse(startedAt))
+    ? Date.parse(finishedAt) - Date.parse(startedAt)
+    : null;
   return replaceTask(artifact, {
     ...task,
     state: "received",
     by: task.executor?.by ?? task.by ?? "coordinador",
     blocked: null,
+    finishedAt,
+    ...(actualMs !== null ? { actualMs } : {}),
     received: {
       path: file,
       sha256: createHash("sha256").update(bytes).digest("hex"),
       bytes: bytes.length,
-      at: new Date().toISOString(),
+      at: finishedAt,
     },
   });
+}
+
+// Calibration is intentionally descriptive: each exact role/host/model key stands on its own.
+// Percentiles use nearest rank, and fewer than three valid durations never produce a ratio.
+export function calibrateEstimates(tasks = []) {
+  const groups = new Map();
+  for (const task of Array.isArray(tasks) ? tasks : []) {
+    if (!Number.isInteger(task?.estimateMs) || task.estimateMs <= 0) continue;
+    const host = task.executor?.host ?? null;
+    const model = task.executor?.model ?? null;
+    const key = `${task.role ?? "unknown"}|host=${host ?? "unspecified"}|model=${model ?? "unspecified"}`;
+    if (!groups.has(key)) groups.set(key, { ratios: [], ignoredNonPositive: 0 });
+    const group = groups.get(key);
+    const start = Date.parse(task.executor?.startedAt);
+    const finish = Date.parse(task.finishedAt);
+    if (!Number.isFinite(start) || !Number.isFinite(finish)) continue;
+    const actualMs = finish - start;
+    if (actualMs <= 0) {
+      group.ignoredNonPositive += 1;
+      continue;
+    }
+    group.ratios.push(actualMs / task.estimateMs);
+  }
+  return Object.fromEntries([...groups].map(([key, group]) => {
+    const ratios = group.ratios.sort((a, b) => a - b);
+    if (ratios.length < 3) return [key, { samples: ratios.length, measured: false, ignoredNonPositive: group.ignoredNonPositive }];
+    const middle = Math.floor(ratios.length / 2);
+    const medianRatio = ratios.length % 2 ? ratios[middle] : (ratios[middle - 1] + ratios[middle]) / 2;
+    const p80Ratio = ratios[Math.ceil(ratios.length * 0.8) - 1];
+    return [key, { samples: ratios.length, medianRatio, p80Ratio, basis: "actualMs / estimateMs", ignoredNonPositive: group.ignoredNonPositive }];
+  }));
 }
 
 // reviewTask: revisada es un hecho del revisor, con lo que cotejo dicho. Cotejar es revisar; sin las

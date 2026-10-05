@@ -55,6 +55,7 @@ export {
 // cuando se observa) se apoya en el grafo de estados de operation-state y en routeOperation de aqui.
 import {
   closeOperation,
+  calibrateEstimates,
   declareEffect,
   dispatchTask,
   integrateTask,
@@ -68,6 +69,7 @@ import {
 
 export {
   closeOperation,
+  calibrateEstimates,
   declareEffect,
   dispatchTask,
   integrateTask,

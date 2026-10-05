@@ -9,6 +9,7 @@ import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import test from "node:test";
 
 const V = "../skills/vespi/core/vespi.mjs";
@@ -42,7 +43,7 @@ const HOST_CON_EJECUTOR = { execute: async () => ({}) };
 
 test("la fachada expone el flujo del coordinador", async () => {
   const f = await import(V);
-  for (const name of ["declareEffect", "planTask", "dispatchTask", "observeTask", "receiveTask", "reviewTask", "verifyTask", "integrateTask", "closeOperation", "taskSummary"]) {
+  for (const name of ["declareEffect", "planTask", "dispatchTask", "observeTask", "receiveTask", "reviewTask", "verifyTask", "integrateTask", "closeOperation", "taskSummary", "calibrateEstimates"]) {
     assert.equal(typeof f[name], "function", `la fachada no expone ${name}`);
   }
 });
@@ -55,11 +56,85 @@ test("planificar una tarea exige timeout y proxima observacion antes de lanzar",
   assert.throws(() => f.planTask(a, daimon(root, { timeoutMs: undefined })), /timeout/i);
   assert.throws(() => f.planTask(a, daimon(root, { nextCheckAt: undefined })), /next check|nextCheckAt/i);
   assert.throws(() => f.planTask(a, daimon(root, { timeoutMs: 0 })), /timeout/i);
+  assert.throws(() => f.planTask(a, daimon(root, { estimateMs: 1.5 })), /estimateMs/i);
+  assert.throws(() => f.planTask(a, daimon(root, { estimateMs: 0 })), /estimateMs/i);
+  assert.throws(() => f.planTask(a, daimon(root, { kind: "other" })), /kind/i);
+  assert.equal(f.planTask(a, daimon(root, { kind: "review" })).task.kind, "review");
+  assert.equal(f.planTask(a, daimon(root)).task.kind, undefined);
   const { artifact, task } = f.planTask(a, daimon(root));
   assert.equal(task.id, "t1");
   assert.equal(task.state, "proposed");
   assert.equal(artifact.tasks.length, 1);
   assert.deepEqual([...task.must_declare].sort(), ["evidence", "limits"], "Daimon debe declarar evidencia y limites");
+});
+
+test("la semilla es válida y solo orienta, nunca altera los límites de una tarea", async (t) => {
+  const { readCalibrationSeed, validateCalibrationSeed } = await import("../skills/vespi/core/calibration-seed.mjs");
+  const seed = await readCalibrationSeed();
+  assert.equal(seed.header.notAMeasurementOnYourMachine, true);
+  assert.deepEqual(seed.entries.map(({ kind }) => kind), ["review", "build", "fix", "write"]);
+  for (const entry of seed.entries) {
+    assert.deepEqual(Object.keys(entry).sort(), ["kind", "maxMinutes", "medianMinutes", "minMinutes", "p80Minutes", "samples"].sort());
+    assert.ok(Number.isInteger(entry.samples) && entry.samples >= 3);
+    assert.ok(entry.minMinutes <= entry.medianMinutes && entry.medianMinutes <= entry.p80Minutes && entry.p80Minutes <= entry.maxMinutes);
+  }
+  assert.equal(validateCalibrationSeed({ ...seed, entries: [{ ...seed.entries[0], p80Minutes: 1 }] }), false);
+  const invalidPath = join(await proyecto(t), "bad.json");
+  await writeFile(invalidPath, "{ corrupt");
+  assert.equal(await readCalibrationSeed(invalidPath), null);
+  assert.equal(await readCalibrationSeed(join(await proyecto(t), "missing.json")), null);
+  const root = await proyecto(t);
+  const { f, a } = await autorizada();
+  const { task } = f.planTask(a, daimon(root, { kind: "build", timeoutMs: 12345, nextCheckAt: "2026-10-06T00:00:00.000Z" }));
+  assert.equal(task.timeoutMs, 12345);
+  assert.equal(task.nextCheckAt, "2026-10-06T00:00:00.000Z");
+  const { readFile } = await import("node:fs/promises");
+  const pkg = JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8"));
+  assert.ok(pkg.files.includes("skills/"));
+  const { spawnSync } = await import("node:child_process");
+  // En Windows `npm` es un script, no un binario: sin shell, spawnSync da ENOENT.
+  const packed = spawnSync("npm", ["pack", "--dry-run", "--json"], {
+    cwd: fileURLToPath(new URL("..", import.meta.url)),
+    encoding: "utf8",
+    shell: process.platform === "win32",
+  });
+  assert.equal(packed.status, 0, packed.stderr);
+  assert.ok(JSON.parse(packed.stdout)[0].files.some((file) => file.path === "skills/vespi/core/calibration-seed.json"));
+});
+
+test("calibrar estimaciones solo con tres duraciones observadas por clave", async (t) => {
+  const root = await proyecto(t);
+  const { f, a } = await autorizada();
+  assert.equal(typeof f.calibrateEstimates, "function");
+  const make = (id, actualMs, { estimateMs = 100, role = "worker", host = "oc", model = "m" } = {}) => ({
+    id, role, estimateMs, executor: { host, model, startedAt: "2026-10-05T10:00:00.000Z" },
+    finishedAt: new Date(Date.parse("2026-10-05T10:00:00.000Z") + actualMs).toISOString(),
+  });
+  const result = f.calibrateEstimates([make("a", 100), make("b", 200), make("c", 300), make("d", 0)]);
+  const calibration = result["worker|host=oc|model=m"];
+  assert.deepEqual(calibration, { samples: 3, medianRatio: 2, p80Ratio: 3, basis: "actualMs / estimateMs", ignoredNonPositive: 1 });
+  assert.equal(result["worker|host=oc|model=m"].measured, undefined);
+  const sparse = f.calibrateEstimates([make("a", 100), make("b", 200)]);
+  assert.deepEqual(sparse["worker|host=oc|model=m"], { samples: 2, measured: false, ignoredNonPositive: 0 });
+  const split = f.calibrateEstimates([make("a", 100), make("b", 200), make("c", 300), make("d", 400, { model: "other" })]);
+  assert.equal(split["worker|host=oc|model=m"].samples, 3);
+  assert.deepEqual(split["worker|host=oc|model=other"], { samples: 1, measured: false, ignoredNonPositive: 0 });
+  const noEstimate = f.calibrateEstimates([{ ...make("z", 100), estimateMs: undefined }]);
+  assert.deepEqual(noEstimate, {});
+});
+
+test("estimateMs is optional and dispatch plus receipt retain observed duration", async (t) => {
+  const root = await proyecto(t);
+  const { f, a } = await autorizada();
+  const { artifact } = f.planTask(a, daimon(root, { estimateMs: 500 }));
+  const start = "2026-10-05T10:00:00.000Z";
+  const running = f.dispatchTask(artifact, "t1", { host: HOST_CON_EJECUTOR, hostName: "oc", model: "m", now: start });
+  assert.equal(running.tasks[0].executor.startedAt, start);
+  await writeFile(join(root, "daimon.md"), "evidencia");
+  const received = await f.receiveTask(running, "t1", { now: "2026-10-05T10:00:00.250Z" });
+  assert.equal(received.tasks[0].finishedAt, "2026-10-05T10:00:00.250Z");
+  assert.equal(received.tasks[0].actualMs, 250);
+  assert.equal(f.planTask(a, daimon(root)).task.estimateMs, undefined);
 });
 
 test("cada rol recibe su encargo completo o no se planifica", async (t) => {
@@ -160,6 +235,7 @@ test("recibida significa que el artefacto existe en la ruta declarada, con su hu
   assert.equal(t1.received.sha256, createHash("sha256").update(contenido).digest("hex"));
   assert.equal(t1.received.bytes, Buffer.byteLength(contenido));
   assert.equal(t1.received.path, join(root, "daimon.md"));
+  assert.deepEqual(Object.keys(t1.received).sort(), ["at", "bytes", "path", "sha256"]);
 });
 
 // D - revisada, verificada, integrada: tres hechos y ninguno se infiere del anterior
