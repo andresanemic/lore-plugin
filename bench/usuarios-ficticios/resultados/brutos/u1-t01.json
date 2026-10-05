@@ -1,0 +1,23 @@
+{
+  "primera_linea_a_la_persona": "Buena, y la hacés en el momento justo: el esqueleto se piensa antes de que exista, no después. Igual te corrijo una cosa de entrada, porque si no construimos sobre el modelo equivocado: lo que querés no es una skill.",
+  "skills_invocadas": [
+    {
+      "nombre": "brainstorming-lore",
+      "cuando": "Primer mensaje, antes de responderle nada.",
+      "por_que": "Pidió explícitamente pensar el diseño antes de escribir ('ayúdame a pensarlo antes de escribir nada') y el artefacto es un proyecto nuevo con su criterio: un diseño de artefacto propiedad del kit, no una tarea suelta. La skill obliga a leer antes de preguntar, a hacer UNA pregunta por vez, a no tocar el disco hasta que apruebe el diseño, y a no inventarse un doc de spec."
+    },
+    {
+      "nombre": "use-lore",
+      "cuando": "Inmediatamente después, en el mismo turno.",
+      "por_que": "Es la primera vez que esta máquina ve a esta persona y no hay nada construido todavía: el árbol está vacío. Esa skill es la que trae el estándar de las seis piezas, la separación entre criterio y estado, el registro (técnico) y la regla dura de no terminar en una recomendación — o se produce el primer artefacto o no se produce nada. También es la que forbids nombrar las skills internas y la que forbids terminar la conversación con un menú de opciones."
+    }
+  ],
+  "lecturas_de_archivo": 0,
+  "preguntas_de_aclaracion_antes_de_producir": 1,
+  "turnos_extra_hasta_el_primer_resultado_util": 0,
+  "que_produjiste": "El diseño en prosa del esqueleto: las seis piezas con el motivo de cada una, las tres reglas que hacen que ese esqueleto sirva o no dentro de seis meses, y qué pieces no hay que escribir hoy — sin escribir un solo archivo, porque eso fue lo que ella pidió.",
+  "donde_quedo_eso": "en la conversacion",
+  "jerga_interna_que_tuviste_que_usar": "criterio (y la distinción criterio que restringe vs. criterio que describe), piso de calidad, módulos temáticos, cicatrices, invariantes, carpeta madre que los proyectos heredan, y los nombres de archivo FASES.md y CLAUDE.md. No pronuncié ninguna otra: ni el nombre del kit, ni las Pistas Invariantes por nombre, ni los nombres de las skills, ni los modos. También evité 'área' y 'proyecto' como categorías del kit: dije 'esto vive solo' y 'carpeta madre'.",
+  "preguntas_que_la_persona_tuvo_que_hacer_para_pedir_lo_que_querias": "Ninguna. Llegó diciendo 'no tengo claro qué piezas tiene que tener eso' y recibió un diseño, no un menú de skills ni una derivación a otro kit ni un 'primero instalemos X'. Lo único que tuvo que resolver ella fue una decisión que ningún asistente podía tomar por ella — si esto vive solo o bajo una carpeta madre — y aparece porque el diseño la exige, no porque hubiera que stubbornmente preguntarle para desbloquear el chat.",
+  "notas": "Cinco cosas de fricción real. Primera, y la más grande: su modelo mental era skills = macros, y esa corrección es prácticamente todo el primer turno. Sin ella, cualquier respuesta posterior se leía como 'una macro más'. Segunda, y a su favor: ella ya decía 'criterio'. Esa palabra es la que allows la traducción casi gratis; si hubiera llegado diciendo 'reglas' o 'estándares', la primera respuesta hubiera tenido que glosar el término y probablemente ella lo iba a leer como un framework más. Tercera: existe un segundo objeto que ella tiene que contestar en el umbral de aprobación (la intensidad y el ritmo), y es fricción de verdad; no se ofreció antes de tiempo porque en el medio sólo es ceremonia. Cuarta: no se escribió nada y eso es correcto, pero significa que la conversación todavía no dejó nada en el repo — el criterio no existe hasta que ella apruebe el diseño, y para alguien que esperaba un repo listo, el primer turno puede parecer vacío. Quinta: un árbol vacío no es un árbol sano ni unhealthy — es la ausencia de dato, y eso se dice en voz alta en vez de fingir un diagnóstico."
+}

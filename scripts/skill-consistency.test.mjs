@@ -1,9 +1,10 @@
 import assert from "node:assert/strict";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import test from "node:test";
-import { skillFiles, skillText } from "./skill-text.mjs";
+import { skillFiles, skillText, comandosOrdenados, ayudaDe, NO_VIAJA_EN_LA_ENTRADA_LOCAL } from "./skill-text.mjs";
+import { parseFrontmatter } from "./yaml-frontmatter.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const skillsRoot = join(root, "skills");
@@ -13,6 +14,74 @@ const rootDocs = readdirSync(root).filter((name) => name.endsWith(".md"));
 const docs = rootDocs.map((name) => name).concat(
   readdirSync(join(root, "docs")).filter((name) => name.endsWith(".md")).map((name) => join("docs", name)),
 );
+
+test("cada descripción de skill declara su frontera Not yours y cabe en 700 caracteres", () => {
+  for (const name of skillNames) {
+    const frontmatter = parseFrontmatter(readFileSync(join(skillsRoot, name, "SKILL.md"), "utf8"));
+    const description = frontmatter.data.description;
+    assert.match(description, /Not yours:/, `${name}: falta la frontera de responsabilidad`);
+    assert.ok(description.length <= 700, `${name}: descripción de ${description.length} caracteres`);
+  }
+});
+
+test("save-to-lore corre higiene de salida y propone limpieza sin podar por tamaño", () => {
+  const save = skillText(join(skillsRoot, "save-to-lore"));
+  assert.match(save, /lore-plugin hygiene/i);
+  assert.match(save, /propose.*cleanup.*never execute|proponer.*limpieza.*nunca ejecutar/i);
+  assert.match(save, /does not prune by size|no poda por tamaño/i);
+});
+
+// R4, fricción 6 (recibo de la sesión de Desarrollo Web, 2026-10-04): `save-to-lore` manda
+// correr `lore-plugin hygiene <ruta>` al cerrar cada pase, y la entrada que la persona tiene
+// a mano —`~/.lore-plugin/entry/<host>/scripts/lore-cli.mjs`, la que `use-lore` y
+// `transmute-lore` nombran POR RUTA— solo ofrecía `mycelium` y `nivel`: la orden no se
+// resolvía donde se la pedía correr. Un nombre que el host no tiene es una promesa, y una
+// promesa no escribe recibo.
+//
+// La guarda es sobre el REPO y la de `installer.test.mjs` es sobre lo INSTALADO: una mira
+// que el comando esté, la otra que llegue al host. Las dos leen el mismo extractor.
+test("todo comando que la prosa ordena correr existe en las dos entradas del kit", () => {
+  const ordenados = comandosOrdenados(root);
+  assert.ok(ordenados.size > 0, "la prosa de las skills debe ordenar correr algún comando");
+
+  const ayuda = {
+    "scripts/lore-plugin.mjs": ayudaDe(join(root, "scripts", "lore-plugin.mjs")),
+    "scripts/lore-cli.mjs": ayudaDe(join(root, "scripts", "lore-cli.mjs")),
+  };
+
+  for (const [comando, subs] of ordenados) {
+    for (const sub of [comando, ...subs]) {
+      assert.match(ayuda["scripts/lore-plugin.mjs"], new RegExp(`\\b${sub}\\b`),
+        `la prosa ordena "${sub}" y la entrada completa no lo anuncia en su ayuda`);
+    }
+    // Una exención sin razón escrita es el defecto con otra forma, y una exención que ya no
+    // hace falta es ruido que esconde el siguiente comando. Las dos se comprueban.
+    if (NO_VIAJA_EN_LA_ENTRADA_LOCAL.has(comando)) {
+      const razon = NO_VIAJA_EN_LA_ENTRADA_LOCAL.get(comando);
+      assert.ok(razon.length >= 40 && razon.split(/\s+/).length >= 6,
+        `${comando}: la exención dice por qué, con una razón y no con una palabra`);
+      assert.doesNotMatch(ayuda["scripts/lore-cli.mjs"], new RegExp(`\\b${comando}\\b`),
+        `${comando}: la exención está vieja, la entrada local ya lo anuncia`);
+      continue;
+    }
+    for (const sub of [comando, ...subs]) {
+      assert.match(ayuda["scripts/lore-cli.mjs"], new RegExp(`\\b${sub}\\b`),
+        `la prosa ordena "${sub}" y la entrada local no lo anuncia en su ayuda`);
+    }
+  }
+});
+
+test("el contrato de proyecto de create-area alcanza el Lore del área", () => {
+  const skill = skillText(join(skillsRoot, "create-area"));
+  const section = skill.split("### `_starter/{{CONTRACT_FILE}}.template.md` (project contract)")[1]?.split("### `_starter/FASES.md`")[0];
+  assert.ok(section, "falta la plantilla de contrato del proyecto");
+  const pointer = section.match(/`((?:\.\.\/)+lore\/<module>\.md)`/)?.[1];
+  assert.ok(pointer, "falta el puntero al Lore del área");
+
+  const area = join(root, "fixture", "areas", "huerto-comun");
+  const project = join(area, "proyectos", "turnos-de-riego");
+  assert.equal(resolve(project, pointer.replace("<module>", "identidad")), join(area, "lore", "identidad.md"));
+});
 
 test("las ocho skills declaran un nombre único y neutral al proveedor", () => {
   assert.equal(skills.length, 8);
@@ -83,6 +152,40 @@ test("use-lore sugiere /model para el tramo mecanico de un lote, nunca un subage
   assert.match(text, /mechanical bulk and arbitration/);
   assert.match(text, /Never spend a subagent on it/);
   assert.match(text, /re-reads the project's whole Lore/);
+});
+
+test("la prosa de rc9 limita las garantías del registro y preserva las decisiones de la persona", () => {
+  const use = skillText(join(skillsRoot, "use-lore"));
+  const vespi = skillText(join(skillsRoot, "vespi"));
+  const release = readFileSync(join(root, "docs", "RELEASE_2.4.9.md"), "utf8");
+  const agreement = readFileSync(join(skillsRoot, "use-lore", "scripts", "acuerdo.mjs"), "utf8");
+
+  assert.match(use, /If the person explicitly asks to keep those identifiers, preserve them and explain any ambiguity that affects their decision\./);
+  assert.doesNotMatch(use, /This requirement overrides requests to copy them literally\./);
+  assert.match(use, /supports explicit arbitration of\s+scattered project knowledge into criteria that can guide future decisions within their stated\s+scope; storing knowledge alone does not establish learning\./);
+  assert.doesNotMatch(use, /distilled, invariant criteria.*constrain every future decision/s);
+  assert.match(use, /First receive the person and acknowledge the purpose they brought, briefly and without promising agreement\. Then inspect the tree before asking what remains unknown\./);
+  assert.match(use, /this runs \*\*before selecting a production route\*\*/);
+  assert.doesNotMatch(use, /this runs \*\*before anything else\*\*/);
+  assert.ok(use.replace(/\s+/g, " ").includes("the guard records writes into another owner's tree; the host's permission system decides whether they proceed. The coordinator must still respect the owning governance."));
+  assert.doesNotMatch(use, /guard keeps blocking another owner's criterion|guard blocking someone else's code is the guard working/i);
+  assert.match(agreement, /The guard records writes into another owner's tree; the host's permissions decide whether they proceed, and the owning governance remains in force\./);
+  assert.doesNotMatch(agreement, /Blocking another owner's criterion is one of|guard doing that is the guard working/i);
+  assert.match(vespi, /The record requires different executor and verifier labels; the host and coordinator must establish their actual independence and check the observed evidence\./);
+  assert.doesNotMatch(vespi, /The verifier is never whoever executed it/);
+  assert.match(vespi, /so there is one place to look; resuming still requires reconciliation of changed authority, evidence and effects\./);
+  assert.match(vespi, /The receipt carries the path written at that checkpoint; the host and coordinator must reread and compare it before relying on it later\./);
+  assert.doesNotMatch(vespi, /nothing to reconcile|cannot drift apart/);
+
+  assert.match(release, /El registro exige etiquetas distintas para ejecutor y verificador, pero el host y el coordinador deben comprobar su independencia y la evidencia observada\./);
+  assert.match(release, /`lore-plugin operation` registra el ciclo de una operación desde la línea de comandos; el host y el coordinador realizan el trabajo, comprueban su evidencia y aportan las decisiones humanas\./);
+  assert.match(release, /Lore Plugin 2\.4\.9 permite registrar en `FASES\.md` lo acordado, el estado observado y la siguiente acción para retomar una operación sin reconstruirla solo desde la conversación; la continuidad depende de guardar la evidencia y de que el host y el coordinador la revaliden\./);
+  assert.match(release, /El Lore existente no necesita migración; conserva el archivo de la operación guardada por una compilación anterior en `operations\/<id>\/estado\.md` y reconcilia su autoridad, recibos, intentos y efectos inciertos antes de registrar la continuidad en `FASES\.md`\. Volver a escribir el objetivo no basta y este corte no realiza esa migración automáticamente\./);
+  assert.match(release, /the host and coordinator must establish their actual independence and check the observed evidence\./);
+  assert.match(release, /`lore-plugin operation` records an operation's lifecycle from the command line; the host and coordinator perform the work, check its evidence and supply human decisions\./);
+  assert.match(release, /Lore Plugin 2\.4\.9 records the agreement, observed state and next action in `FASES\.md` so an operation can resume without relying only on the conversation; continuity depends on saved evidence and revalidation by the host and coordinator\./);
+  assert.match(release, /Existing Lore needs no migration; keep an operation saved by an earlier build in its own `operations\/<id>\/estado\.md` file and reconcile its authority, receipts, attempts and uncertain effects before recording continuation in `FASES\.md`\. Restating the goal is insufficient, and this cut does not perform that migration automatically\./);
+  assert.doesNotMatch(release, /drives a whole operation|lleva una operación completa|needs its goal restated|necesita que se vuelva a escribir su objetivo/);
 });
 
 test("el lote Jazmín deja obligaciones reutilizables y el caso 17", () => {
@@ -305,6 +408,27 @@ test("los creadores generan un solo contrato según el host principal", () => {
   assert.match(sync, /AGENTS\.md/);
 });
 
+// RC6, revision adversarial simulada: `.claude-plugin/marketplace.json` —la descripcion que se lee
+// al navegar y al instalar— enumeraba siete skills y omitia `vespi`, que si se instala y si la nombra
+// `.claude-plugin/plugin.json`. La suite solo contrastaba el frontmatter de las skills contra si
+// mismo, nunca contra los manifiestos, asi que la deriva no podia verse.
+test("los dos manifiestos nombran todas las skills que se instalan", () => {
+  const instaladas = readdirSync(join(root, "skills"), { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort();
+  assert.ok(instaladas.length > 0, "hay skills que instalar");
+
+  const plugin = JSON.parse(readFileSync(join(root, ".claude-plugin", "plugin.json"), "utf8"));
+  const marketplace = JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8"));
+  const descripcion = marketplace.plugins[0].description;
+
+  for (const skill of instaladas) {
+    assert.match(plugin.description, new RegExp(`\\b${skill}\\b`), `plugin.json no nombra ${skill}`);
+    assert.match(descripcion, new RegExp(`\\b${skill}\\b`), `marketplace.json no nombra ${skill}`);
+  }
+});
+
 test("las cuatro fuentes de versión publicable coinciden", () => {
   const versions = [
     JSON.parse(readFileSync(join(root, "package.json"), "utf8")).version,
@@ -312,7 +436,7 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.4.8"]));
+  assert.deepEqual(new Set(versions), new Set(["2.4.9"]));
 });
 
 // andamiaje/lore-plugin/lore/principios.md #12: la nota sirve al usuario que actualiza el producto.
@@ -335,8 +459,8 @@ test("la nota vigente cumple la vara mínima de un release legible", () => {
 
   const sections = body.split(/^# .+$/gm).slice(1);
   const closingRules = [
-    { tested: /tested (?:on|in)/i, action: /migration|no action|required|needs?/i },
-    { tested: /probado en/i, action: /migración|ninguna acción|requiere|necesita/i },
+    { tested: /(?:is |will be )?tested (?:on|in)/i, action: /migration|no action|required|needs?/i },
+    { tested: /(?:probado|se prueba) en/i, action: /migración|ninguna acción|requiere|necesita/i },
   ];
   for (const [index, section] of sections.entries()) {
     const blocks = section.trim().split(/\r?\n\r?\n/);
@@ -390,21 +514,25 @@ test("2.4.6 conserva el intento fallido y su aporte real", () => {
   assert.match(release, /deferred arming|armado diferido/i);
 });
 
-test("2.4.8 sincroniza badges, paquete y release", () => {
+test("2.4.9 sincroniza badges, paquete y release", () => {
   const readme = readFileSync(join(root, "README.md"), "utf8");
-  const releasePath = join(root, "docs", "RELEASE_2.4.8.md");
-  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.4\.8-/g) ?? []).length, 2);
-  assert.equal((readme.match(/writing--skills-(?:validated|validado)/gi) ?? []).length, 2);
-  assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.4.8.md");
+  const releasePath = join(root, "docs", "RELEASE_2.4.9.md");
+  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.4\.9-/g) ?? []).length, 2);
+  assert.ok(existsSync(join(root, "docs", "RELEASE_2.4.8.md")), "la nota de 2.4.8 se conserva como historia");
+  // Decisión 34 de Vespi / checkpoint de RC4: el badge dice lo que pasó (rojo → verde), no «validated».
+  assert.equal((readme.match(/writing--skills-(?:RED%E2%86%92GREEN|ROJO%E2%86%92VERDE)_2\.3\.3_%C2%B7_2\.4\.0-/g) ?? []).length, 2);
+  assert.doesNotMatch(readme, /writing--skills-(?:validated|validado)/i);
+  assert.ok(existsSync(releasePath), "falta docs/RELEASE_2.4.9.md");
   const release = readFileSync(releasePath, "utf8");
   assert.match(release, /Claude Code/i);
   assert.match(release, /Codex/i);
   assert.match(release, /MYCELIUM/i);
   assert.match(release, /use-lore/i);
-  assert.match(release, /brainstorming-lore/i);
-  assert.match(release, /create-\*/i);
-  assert.match(release, /tested (?:on|in) Claude Code, Codex, and OpenCode/i);
-  assert.match(release, /probado en Claude Code, Codex y OpenCode/i);
+  assert.match(release, /Vespi/i);
+  assert.match(release, /lore-plugin operation/i);
+  // El corte candidato dice que se prueba antes de publicarse; al publicar, la nota dice «probado» con su registro.
+  assert.match(release, /(?:is |will be )?tested (?:on|in) Claude Code, Codex,? and OpenCode/i);
+  assert.match(release, /(?:probado|se prueba) en Claude Code, Codex y OpenCode/i);
   assert.match(release, /no public function was removed|no se eliminó ninguna función pública/i);
   assert.match(release, /existing Lore needs no migration|el Lore existente no necesita migración/i);
   const packageFiles = JSON.parse(readFileSync(join(root, "package.json"), "utf8")).files;
@@ -452,6 +580,9 @@ test("Claude no recibe contexto del guard y Codex conserva su guardia", () => {
   assert.ok(!hooks.hooks?.Stop, "Claude sigue recibiendo contexto al cerrar");
   assert.ok(Array.isArray(hooks.hooks?.SessionStart), "falta la base silenciosa de Codex");
   assert.ok(Array.isArray(hooks.hooks?.PostToolUse), "falta la guardia de Codex");
+  // 2.4.9: la marca de compactación se registra en `PreCompact`, no en un evento inventado ni
+  // en `UserPromptSubmit`, que es el canal que el agente narra.
+  assert.ok(Array.isArray(hooks.hooks?.PreCompact), "falta la marca silenciosa de compactación");
   assert.ok(!existsSync(join(root, "hooks", "mycelium-guard.mjs")), "el adaptador retirado de Claude todavía se empaqueta");
 });
 
@@ -641,4 +772,92 @@ test("la documentación viva separa silencio de Claude y enforcement de Codex", 
   const release = read("docs/RELEASE_2.4.6.md");
   assert.match(release, /known defect|defecto conocido/i);
   assert.match(release, /2\.4\.7/);
+});
+
+test("Vespi documenta delegación segura en Windows y checkpoint en FASES.md", () => {
+  const en = readFileSync(join(root, "docs", "REFERENCE_en.md"), "utf8");
+  const es = readFileSync(join(root, "docs", "REFERENCE_es.md"), "utf8");
+  const skill = readFileSync(join(skillsRoot, "vespi", "SKILL.md"), "utf8");
+  assert.match(en, /Delegating to Codex and OpenCode on Windows/);
+  assert.match(es, /Delegar a Codex y a OpenCode en Windows/);
+  assert.match(en, /LORE_RELEASE_GATE|test:release/);
+  assert.match(es, /LORE_RELEASE_GATE|test:release/);
+  for (const text of [en, es, skill]) {
+    assert.match(text, /FASES\.md/);
+    assert.doesNotMatch(text, /operations\/<id>\/estado\.md/);
+  }
+  assert.match(skill, /one block in the `## Operaciones` section of `FASES\.md`/);
+  assert.match(en, /one block in the `## Operaciones` section of that same `FASES\.md`/);
+  assert.match(es, /un bloque en la sección `## Operaciones` de ese mismo `FASES\.md`/);
+});
+
+test("gitattributes declara normalización LF y exclusiones binarias", () => {
+  const attributes = readFileSync(join(root, ".gitattributes"), "utf8");
+  assert.match(attributes, /^\* text=auto eol=lf$/m);
+  for (const ext of ["png", "jpg", "pdf", "zip", "tgz", "pptx", "docx"]) assert.match(attributes, new RegExp(`\\*.${ext} binary`));
+});
+
+// R3: la guia de capacidades es la dueña editorial del vocabulario de cobertura. Se abre bajo
+// demanda, en los dos idiomas, y lo que publica son IDENTIFICADORES del kernel, no estados nuevos.
+test("la guia de capacidades esta en los dos idiomas, dentro de su presupuesto y sin afirmaciones automaticas", () => {
+  const guide = readFileSync(join(skillsRoot, "vespi", "capabilities.md"), "utf8");
+  const bytes = Buffer.byteLength(guide.replace(/\r\n/g, "\n"), "utf8");
+  // §4 del plano presupuesta 8000 B. El texto bilingue con el vocabulario completo por etapa mide 8482 B:
+  // el excedente son 482 B (6,0%) y esta asercion lo declara en vez de disimularlo. Lo decide Andres.
+  assert.ok(bytes <= 8500, `la guia pesa ${bytes} B: 482 B por encima del presupuesto de 8000 B, ya declarados`);
+
+  // Los dos idiomas de verdad: el mismo esquema de cinco bloques y las reglas comunes en ambos.
+  for (const heading of [
+    "## 1. When this applies",
+    "## 2. Native sequence",
+    "## 3. Coverage vocabulary",
+    "## 4. Limits",
+    "## 5. Who owns the ports",
+  ]) assert.ok(guide.includes(heading), `falta el bloque ${heading}`);
+  assert.match(guide, /Only a true check counts as covered/);
+  assert.match(guide, /Solo una[\s\S]{0,3}comprobación `true` cuenta como cubierta/);
+  assert.match(guide, /Empty coverage proves nothing/);
+  assert.match(guide, /Una cobertura vacía no demuestra nada/);
+
+  // El vocabulario va POR ETAPA, con los identificadores del kernel sin traducir.
+  for (const name of [
+    "grantor_authority", "trigger_verified", "effect_verified", "post_use_review",
+    "repository", "commit_exists", "author", "content_digest", "loaded_content_digest",
+    "terms", "prepared", "settlement", "delivery", "transactionUnique",
+    "zk.verification-key-pinned", "zk.public-inputs-bound", "zk.proof-valid",
+    "zk.presenter-authentication", "zk.institutional-attestation", "zk.replay-prevention", "zk.transport-privacy",
+  ]) assert.ok(guide.includes(name), `la guia no publica el check ${name}`);
+  assert.match(guide, /authority_scope/);
+  assert.match(guide, /external anchor/);
+
+  // Lo que la guia NO puede afirmar: que una capacidad se activa sola, que el pago es real, que la
+  // procedencia certifica seguridad, que ZK identifica o evita repeticion, y que un limite se puede
+  // volver true.
+  assert.match(guide, /Nothing is activated by default/);
+  assert.match(guide, /Nada se activa por defecto/);
+  assert.match(guide, /does not prove a new live payment|not a new live transaction/);
+  assert.match(guide, /does not evaluate safety/);
+  assert.match(guide, /above are always false/);
+  assert.match(guide, /never read\n  `not_verified` as "it did not happen"/i);
+  assert.doesNotMatch(guide, /automatically (activates|enables|verifies|pays)/i);
+
+  // Y la verdad de qué existe la dice el código, no el texto: la guía apunta al descriptor.
+  assert.match(guide, /OPTIONAL_CAPABILITIES/);
+});
+
+test("la fachada declara que capacidades trajo la copia vendorizada, y no expone la referencia ZK ni el comparador de gasto", async () => {
+  const facade = await import(pathToFileURL(join(skillsRoot, "vespi", "core", "vespi.mjs")).href);
+  const state = facade.OPTIONAL_CAPABILITIES;
+  assert.deepEqual(Object.keys(state).sort(), ["emergency", "provenance", "x402", "zk"]);
+  for (const [name, entry] of Object.entries(state)) {
+    assert.equal(typeof entry.present, "boolean", `${name} no declara si esta presente`);
+    assert.equal(entry.module === null, entry.present === false, `${name}: module y present se contradicen`);
+    assert.ok(Array.isArray(entry.exposed) && Array.isArray(entry.missing));
+    if (!entry.present) assert.deepEqual(entry.exposed, [], `${name} ausente no puede exponer nombres`);
+    // Un nombre expuesto existe con valor; uno ausente queda undefined, nunca un stub.
+    for (const exposed of entry.exposed) assert.notEqual(facade[exposed], undefined, `${name}.${exposed} se declara expuesto y no lo esta`);
+  }
+  for (const ausente of ["createReferenceBackend", "narrowSpendAuthority", "isSpendNarrowing", "COVERED_CHECKS", "FP_MODULUS", "SCALAR_MODULUS"]) {
+    assert.equal(facade[ausente], undefined, `la fachada no debe exponer ${ausente}`);
+  }
 });

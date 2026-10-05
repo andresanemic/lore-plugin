@@ -1,0 +1,28 @@
+{
+  "primera_linea_a_la_persona": "Sí, va aparte: si tiene su propio calendario y su propia gente, meterlo con la huerta y las ensas lo haría más difícil de manejar, no más fácil. Te lo abro.\nUna cosa antes de armarlo: la carpeta de trabajo está vacía. No tengo nada escrito de la huerta, ni de las ensas, ni de la biblioteca, ni la parte común que iban a compartir. Así que la abro de cero, y lo que me cuentes entra en ella.\nY arranco por lo único que no me lo puede decir nadie más que vos: ¿qué tiene que estar resuelto para que dentro de un año digas 'la biblioteca andaba'? O sea, ¿qué cambió?",
+  "skills_invocadas": [
+    {
+      "nombre": "create-project",
+      "cuando": "Al leer 'el de la biblioteca va a ser su propio proyecto... Ábrelo'",
+      "por_que": "Es exactamente abrir un proyecto propio. La invoco y me frena en la precondición: un proyecto vive dentro de algo común que ya existe, y acá no existe — la carpeta de trabajo está vacía y la huerta y las ensas tampoco están. Sin ese contenedor no se puede abrir nada sin inventarlo."
+    },
+    {
+      "nombre": "brainstorming-lore",
+      "cuando": "Inmediatamente después, porque create-project exige cerrar el diseño de qué es el proyecto antes de escribir un solo archivo",
+      "por_que": "Me dio la regla que decidía el turno: no se crea ningún archivo hasta que el diseño esté aprobado. Con la carpeta vacía no hay nada que heredar, así que el proyecto se diseña a partir de lo que ella diga, y primero."
+    }
+  ],
+  "lecturas_de_archivo": 0,
+  "preguntas_de_aclaracion_antes_de_producir": 1,
+  "turnos_extra_hasta_el_primer_resultado_util": 1,
+  "que_produjiste": "Nada en disco: confirmé que la decisión es correcta, le dije que la carpeta está vacía y le hice la primera pregunta para poder abrir el proyecto de verdad.",
+  "donde_quedo_eso": "en la conversacion",
+  "terminos_que_le_tuviste_que_explicar": [
+    {
+      "termino": "que un proyecto puede ser aparte y al mismo tiempo no repetir lo que ya está dicho en la parte común",
+      "cuantas_veces_hubo_que_explicarlo": 0
+    }
+  ],
+  "archivos_que_escribiste": [],
+  "notas": "El turno entero lo definió la carpeta vacía. Ella salió del turno anterior con la impresión de que ya había algo armado — dijo 'ya con lo anterior claro' — y se encontró con que no hay nada escrito en ninguna parte: ni huerta, ni ensas, ni biblioteca, ni la parte común. Eso es lo que más le costó: no que yo le preguntara, sino enterarse de que el turno anterior no dejó nada. Le dije eso de entrada, sin rodeos, antes de la pregunta. El segundo costo es mío: le pido que defina el proyecto antes de escribir, y a una persona que coordina nueve personas y ya decidió lo grande eso se le siente como otra vuelta. Pero la pregunta es una sola y es la que manda: si no sé qué es que la biblioteca funcione, cualquier carpeta que le abra después la vamos a tener que rehacer. La última fricción es del vocabulario, y esa la esquivé: no le dije área, ni lore, ni archivos de identidad, ni que hereda de la parte común. Hablé de 'abrirlo', 'lo común' y 'qué cambió'. Cuando aparezca la parte común en el próximo turno, el nombre técnico va a tener que entrar, y ahí sí va a haber que explicarlo."
+}

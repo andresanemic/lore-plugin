@@ -36,6 +36,19 @@
           }
         ]
       }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "manual|auto",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/codex-guard.mjs\" pre_compact",
+            "shell": "bash",
+            "async": false
+          }
+        ]
+      }
     ]
   }
 }

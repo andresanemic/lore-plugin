@@ -3,10 +3,10 @@
     "Un solo manifiesto genera la tabla (lore/enrutamiento.md) y el acceso a los árboles vivos",
     "(.claude/settings.local.json). Las rutas se escriben UNA vez, acá.",
     "",
-    "POR PUNTEROS, NO POR COPIA. Cada fila apunta al Lore donde vive; no se duplica nada, igual",
-    "que un proyecto referencia los módulos de su área en vez de copiarlos.",
-    "copia = true enciende lore-ecosistema/ y sirve para UNA cosa: que el bot funcione en la",
-    "máquina de quien clonó el repo y NO tiene el árbol. Ahí el puntero no apunta a nada.",
+    "POR PUNTEROS, NUNCA POR COPIA. Cada fila apunta al Lore donde vive; no se duplica nada, igual",
+    "que un proyecto referencia los módulos de su área en vez de copiarlos. La copia",
+    "`lore-ecosistema/` salió del kit en 2.4.9: para trabajar con otra persona, un repositorio",
+    "compartido. Un manifiesto de una versión anterior que traiga \"copia\" sigue funcionando — la",
     "",
     "tipo = el tipo de TAREA que ese Lore gobierna, NO el nombre del proyecto. Agrupa la tabla.",
     "incluir = opcional; piezas concretas en vez de la carpeta entera. Acepta rutas anidadas.",
@@ -27,8 +27,6 @@
   ],
 
   "raiz": "/ruta/a/tu/carpeta-madre",
-
-  "copia": false,
 
   "nota": "Un proyecto puede tener más de un cuerpo de criterio, y sus propios principios suelen prohibir cruzarlos. Cuando eso pasa, aparece una fila por cuerpo.",
 

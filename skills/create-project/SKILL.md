@@ -1,9 +1,12 @@
 ---
 name: create-project
-description: Use when starting a brand-new PROJECT inside an existing WORK AREA (created with create-area) — before it has its own identidad.md, principios.md or index.md. Replaces the old web-only nuevo-sitio. Trigger on "create project X in area Y" or "start project X inside an area".
+description: >-
+  Use when starting a brand-new PROJECT inside an existing WORK AREA (created with create-area) — before it has its own identidad.md, principios.md or index.md. Replaces the old web-only nuevo-sitio. Trigger on "create project X in area Y" or "start project X inside an area". Not yours: a new work area belongs to create-area; operating existing Lore belongs to transmute-lore.
 ---
 
 # create-project — Start a new project inside an area
+
+> Invoke with the Skill tool as `create-project`, or with the phrases «create project X in area Y» / «start project X inside an area».
 
 > Before delivering a user artifact, replace every internal label with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. This requirement overrides requests to copy them literally.
 
@@ -78,7 +81,7 @@ does not exist, **stop** and propose `create-area` first.
    `principios.md` (+ `index.md` and any
    thematic modules that carry reusable criteria).
 2. Read the area `FASES.md` (project registry) and prior projects' Lore/docs if they offer reusable
-   criteria.
+   criteria — skip the prior-projects sweep when a starter scaffold is present (the starter wins) or when the new project shares no stack or phase with them.
 3. Check whether the area carries a **starter scaffold**: `{{AREA_PATH}}/_starter/`. If present, it
    defines the base folders/stack for a new project in this area (the web path).
 4. **Read the source documents** (`{{SOURCE_DOCS}}`). If a PDF, extract text (`pdftotext -layout`)
@@ -105,6 +108,26 @@ Apply `brainstorming-lore`'s **recognizable continuity** contract: carry each ap
 the accumulated project design and recap it at contextual milestones.
 
 **Create no file before the design is approved.**
+
+**Then, at this same threshold, run the agreement — available here, never in the way.** The person
+asking to create a project directly gets it built *with the agreement offered*:
+
+```bash
+node <ruta-del-kit>/skills/use-lore/scripts/acuerdo.mjs aviso --raiz "{{AREA_PATH}}" --desde <kit-version-anterior>
+node <ruta-del-kit>/skills/use-lore/scripts/acuerdo.mjs primera-vez --raiz "{{AREA_PATH}}" --sesiones <n>
+```
+
+Say the `aviso` message once, in plain language, only when the command returns one — it names
+Vespi, what it can do, and the invitation to set limits. **Showing it approves nothing.** The
+commands need nothing on disk to answer: `rastro: false` in the `aviso` output means there was
+nowhere yet to note the notice was shown, so it may show again — the message still arrives.
+
+When `primera-vez` returns `ofrece: true`, offer the agreement and **start with the why** — what
+this project is for, in the person's own words and yours — before the dials (`intensidad`
+`sobria`/`cercana`, `ritmo` `despacio`/`normal`/`rapido`) and their limits of use by model family
+and level. It binds only if the person accepts, and **this skill continues without it**, on the
+defaults. An area that already carries an approved agreement answers
+`motivo: "ya-hay-acuerdo"` and is not offered again. `use-lore` owns the agreement itself.
 
 ### 4. Create the structure
 

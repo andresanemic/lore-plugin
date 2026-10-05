@@ -25,7 +25,7 @@ a credible safety risk for participants here.
 
 ## Reporting and enforcement
 
-Report a concern privately to [andres@healthproof.cl](mailto:andres@healthproof.cl). Include links,
+Report a concern privately to [a.leonardopm@gmail.com](mailto:a.leonardopm@gmail.com). Include links,
 screenshots, or other context when possible. Reports will be handled as confidentially as the
 situation allows.
 

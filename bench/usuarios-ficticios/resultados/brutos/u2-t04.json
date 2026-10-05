@@ -1,0 +1,25 @@
+{
+  "primera_linea_a_la_persona": "Pará un segundo: en ese CONTRATOS.md que nadie abrió desde marzo está la renovación con el municipio de Luján — vence el 1 de diciembre, se renueva sola salvo que avises con 60 días, y ese aviso nadie lo firmó. El plazo es el 2 de octubre: quedan tres días. Eso no espera a la migración.",
+  "skills_invocadas": [
+    {
+      "nombre": "transmute-lore",
+      "cuando": "antes de leer sus tres archivos, apenas entendí que el criterio estaba atrapado en un contrato inflado, en comentarios de código y en un doc muerto",
+      "por_que": "Es literalmente su caso ADD: criterio real escrito en formas que nada puede cargar, y ella pidió exactamente las dos Guaranteas del modo — no perder nada, no inventar lo que no escribí. ADD tiene umbral: se presenta el mapeo con contenido a la vista y se espera aprobación antes de escribir. Por eso el primer resultado de esta sesión es un mapeo, no un lore/."
+    },
+    {
+      "nombre": "use-lore",
+      "cuando": "primero, en paralelo, para decidir que la ruta era transmute-lore y no save-to-lore",
+      "por_que": "Porque decide qué skill corre. También mehrmandó dos cosas que cambian la respuesta: la versión que corre es la instalada, no la que dice su FASES.md; y una migración a medias sin estado escrito no se retoma en silencio, porque retomar callado finge que no pasó nada."
+    }
+  ],
+  "lecturas_de_archivo": 4,
+  "preguntas_de_aclaracion_antes_de_producir": 0,
+  "turnos_extra_hasta_el_primer_resultado_util": 0,
+  "que_produjiste": "El mapeo de la transmutación con el contenido a la vista —qué frase va a qué archivo—, la lista de discrepancias entre lo escrito y el código, y el aviso de que lo único con fecha real en todo su corpus estaba en el archivo que nadie abre. No escribí nada en su árbol: ADD no escribe antes del umbral.",
+  "donde_quedo_eso": "en la conversacion",
+  "ceremonia_del_kit_que_tuviste_que_poner": "El umbral de ADD: el mapeo con contenido a la vista y la espera de su aprobación antes de tocar un archivo. Y el nombre de `vespi`, que es la skill que nunca vio y que describe exactamente lo que su FASES.md dice —la migración a medias sin estado escrito—; le dije que esa es la que responde cuando retomar en silencio fingiría que no pasó nada. Nada más: no le mostré la lista de modos, ni la carta de enrutamiento, ni la mesa de las seis piezas, ni le ofrecí el acuerdo de trabajo. La corrección de versión la dije en una línea y sin frenar el trabajo, porque la diferencia entre 2.4.8 y 2.4.9-rc.5 no toca nada que este árbol use.",
+  "archivos_que_escribiste": [
+    "C:\\Claude\\plugins\\proyectos\\lore-plugin\\bench\\usuarios-ficticios\\resultados\\brutos\\u2-t04.json"
+  ],
+  "notas": "Tres fricciones. Primera, la de la versión: su FASES.md dice 2.4.8 y ella lo cree vigente; lo instalado es 2.4.9-rc.5. No lo usé para frenar nada —comprobé el delta contra lo que este árbol usa y no se cruza— pero el número en su archivo está viejo y ella va a seguir creyéndolo. Segunda, la migración a medias: FASES.md admite que quedó a medias y que nadie escribió en qué punto, así que empiecé de cero sin saber si la pasada anterior decidió algo que yo iba a contradecir; eso es la pregunta que va al umbral y no un reclamo. Tercera, y es la que más me山的: la única cosa con una fecha que vence en su corpus entero —el aviso de 60 días del municipio de Luján— estaba en el documento que nadie abrió desde marzo, y su FASES.md ni la menciona. Separar criterio de estado no es ceremonia de kit: es lo que hace que esa fecha aparezca. También: AGENTS.md dice en su encabezado 'Líneas: 212' y el archivo tiene 25, y la tarifa de $45 la hora aparece solo en el código —nunca escrita en ningún documento—, que es criterio que ya se está perdiendo."
+}

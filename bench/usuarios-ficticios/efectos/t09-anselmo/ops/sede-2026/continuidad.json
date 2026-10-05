@@ -1,0 +1,21 @@
+{
+  "fuentes_leidas": [
+    "chat-sede-2026-08-02.md",
+    "correo-2026-08-02.md",
+    "recibo-3-sede.md"
+  ],
+  "lo_que_el_recibo_dice_que_no_sabe": null,
+  "punto_de_control_recuperado": "recibo 3 leído: falta el acta del municipio; el correo del 2 de agosto menciona San Lorenzo pero NO lo autoriza; el chat no confirma la fecha del 10",
+  "tarea_imposible": {
+    "estado": "blocked",
+    "detalle": null,
+    "por_que_importa": "la operación no termina por esta vía; se devuelve, no se reintenta a ciegas"
+  },
+  "delegacion": {
+    "estado_tras_el_primer_resultado": "out_of_bounds",
+    "violaciones_tras_la_entrega_limpia": 1,
+    "integracion_limpio": "rechazada: delegated work is not accepted: state is out_of_bounds; nothing delegated is integrated without orchestrator review",
+    "quien_autorizo_la_delegacion": "la persona, al aceptar que un modelo barato leyera los recibos",
+    "quien_verifico_fuera_de_la_accion": "el orquestador, comparando `touched` con lo que él mismo puede observar"
+  }
+}

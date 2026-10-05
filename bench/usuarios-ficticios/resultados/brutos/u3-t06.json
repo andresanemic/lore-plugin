@@ -1,0 +1,17 @@
+{
+  "primera_linea_a_la_persona": "Quedó acá en la charla, Sabi, y me doy cuenta de que eso no era lo que necesitabas: nunca lo escribí en un archivo, así que no quedó en ningún lado donde se pueda volver a buscar.",
+  "skills_invocadas": [],
+  "lecturas_de_archivo": 0,
+  "preguntas_de_aclaracion_antes_de_producir": 0,
+  "turnos_extra_hasta_el_primer_resultado_util": 1,
+  "que_produjiste": "No produje entregable: le dije la verdad sobre dónde quedó (en la conversación), le ofrecí escribirlo ahora mismo en un archivo de texto y le pedí que me lo dictara otra vez.",
+  "donde_quedo_eso": "en la conversacion",
+  "ceremonia_del_kit_que_se_le_mostro": "",
+  "terminos_que_le_tuviste_que_explicar": [
+    {
+      "termino": "archivo",
+      "cuantas_veces_hubo_que_explicarlo": 1
+    }
+  ],
+  "notas": "Fricción central: el turno anterior falló en lo único que Sabi pidió. Ella pidió algo 'por escrito' para que no se perdiera, y lo entregado fue una conversación: no hay archivo, no hay dirección, no hay forma de recuperarlo. El riesgo mayor acá fue inventar o 'recordar' un procedimiento de devoluciones que no tengo en contexto: preferí pedirle que lo dicte de nuevo y ofrecer escribirlo en un archivo .txt en su carpeta de trabajo, que es lo que ella entiende por escrito. Sin mencionar skills, umbrales, plugins ni nombres internos. Con un turno ella recupera lo que pidió: el archivo."
+}

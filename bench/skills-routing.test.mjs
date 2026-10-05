@@ -88,9 +88,12 @@ test("ninguna skill depende del brainstorming de Superpowers", () => {
   }
 });
 
-test("create-bot ofrece un launcher local minimo sin nombrar un plugin aparte", () => {
+test("create-bot nombra el launcher retirado una vez y no invoca un plugin aparte", () => {
+  // El launcher local salió del kit en 2.4.9. La aserción que exigía ofrecerlo se retira con la
+  // pieza; quedan las dos guardas negativas, que siguen hablando de algo vivo: el kit no puede
+  // ofrecer un launcher externo ni nombrar un producto que ya no existe.
   const createBot = skill("create-bot");
-  assert.match(createBot, /minimum launcher\s+locally/i);
+  assert.match(createBot, /The local launcher left the kit in 2\.4\.9/);
   assert.doesNotMatch(createBot, /lore-in-the-shell/);
   assert.doesNotMatch(createBot, /Telegram/);
 });

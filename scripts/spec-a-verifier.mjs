@@ -2,11 +2,21 @@ import { readFileSync, readdirSync } from "node:fs";
 import { join, relative } from "node:path";
 
 const DESTINATIONS = new Map([
+  ["hooks/codex-guard.mjs", "session-temp-log"],
+  ["hooks/lore-guard.mjs", "session-temp-log"],
+  ["hooks/opencode-plugin.js", "session-temp-log"],
   ["hooks/lore-state.mjs", "tree-or-session-temp"],
+  ["hooks/lore-turno.mjs", "person-level-choice"],
   ["scripts/installer.mjs", "explicit-host-install"],
-  ["skills/create-bot/plantillas/canon.js", "created-bot-tree"],
+  ["scripts/install-claude-statusline.mjs", "explicit-host-install"],
+  ["scripts/rc8-verificar-hosts.mjs", "explicit-user-output"],
+  ["scripts/opencode-permissions.mjs", "explicit-project-config"],
+  // Vendorizar el kernel escribe dentro del propio repositorio del kit, y solo cuando alguien lo
+  // ordena con --source y --ref. No toca nada de quien lo corre ni de los hosts instalados.
+  ["scripts/vendor-kernel.mjs", "explicit-kit-vendoring"],
   ["skills/create-bot/plantillas/sync.js", "created-bot-tree"],
   ["skills/transmute-lore/scripts/crystallize.mjs", "explicit-user-output"],
+  ["skills/use-lore/scripts/acuerdo.mjs", "approved-agreement-at-tree-root"],
 ]);
 const WRITE = /\b(?:writeFileSync|appendFileSync|renameSync|copyFileSync|cpSync|mkdirSync|rmSync|unlinkSync)\s*\(/;
 

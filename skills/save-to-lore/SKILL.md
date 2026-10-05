@@ -1,9 +1,12 @@
 ---
 name: save-to-lore
-description: Use when saving a lesson to the Lore, right after solving a problem worth keeping, when distilling Lore from an external body of criteria (a skill, a style guide, a third-party playbook), or when reviewing a folder of loose notes to decide what becomes criteria or state. Trigger on "save to lore", "distill this to the lore", "guarda en lore", "distill this skill", "destila esta skill", "guárdalo como formato base", "esto es el estándar de ahora en más", "revisa mis notas", "mina la bandeja", or proactively after resolving a friction that passes the Lore bar (constraint + signal + executability + genericity).
+description: >-
+  Use when saving a lesson to the Lore after a worthwhile fix, distilling an external body of criteria, or reviewing loose notes. Trigger on "save to lore", "distill this skill", "destila esta skill", "revisa mis notas", or after a friction passes the Lore bar (constraint + signal + executability + genericity). Not yours: designing a new shape for the work belongs to brainstorming-lore or use-lore; operating an existing Lore method belongs to transmute-lore.
 ---
 
 # save-to-lore — Incremental capture and promotion
+
+> Invoke with the Skill tool as `save-to-lore`, or with the phrases «save to lore» / «guarda en lore» / «destila esta skill» / «revisa mis notas».
 
 > Before delivering a user artifact, replace every internal label with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. This requirement overrides requests to copy them literally.
 
@@ -16,9 +19,9 @@ to the project's **mother area** the clues that are already **confirmed + generi
 incremental counterpart to the structural skills: `transmute-lore` migrates a whole project;
 `save-to-lore` adds one clue at a time and routes it to the right level.
 
-> **This pass is bracketed by MYCELIUM, and both ends are mandatory.** Set up two todos before you
-> write anything. **Entry:** if this pass will lean on existing Lore to decide where things go, open
-> with a MYCELIUM entry scan (`transmute-lore` MYCELIUM) and address its findings first. **Exit:**
+> **This pass is bracketed by MYCELIUM; the exit scan is always mandatory, the entry scan runs only when this pass leans on existing Lore.** Set up two todos before you
+> write anything — a single todo suffices for a single-clue CAPTURE that names its destination without leaning on existing Lore to place it. **Entry:** if this pass will lean on existing Lore to decide where things go, open
+> with a MYCELIUM entry scan (`transmute-lore` MYCELIUM) and address its findings first; otherwise skip it and say so in one line. **Exit:**
 > after you write, close with a MYCELIUM exit scan over what this pass produced — detail in *Closing
 > either mode*, below. **The pass is not complete** — do not report success, do not hand back control
 > — until the exit scan has run and every finding is written as a junction or explicitly declined
@@ -48,6 +51,7 @@ possible editor, never a prerequisite.
 
 Do not load `notas.md` for an ordinary CAPTURE or GRAFT whose source is not a loose-note folder.
 The separation is deliberate: users who never keep notes should not pay for the mining procedure.
+That separation exempts the mining procedure, not the brief source note Step 1 requires before any write under `lore/`.
 
 ## Before anything: the mode is decided here, not before you arrived
 
@@ -169,6 +173,8 @@ move to the work that was going to lean on this Lore, until the exit scan has ru
 it returns is either written as a junction on both sides or declined in writing with its reason. A
 finding parked as "connect it in a later transmute-lore pass" leaves the pass **not done**, and the
 next deliverable runs against a clue nothing invokes.
+
+After the MYCELIUM exit scan, run `lore-plugin hygiene <area-or-project-path>` on the area or project touched. Report findings and propose cleanup; never execute it. This check does not prune by size.
 
 ## Before either mode — is this a fact, or is it criteria?
 
@@ -311,7 +317,9 @@ promotion to the area. Never write the area silently.
    - Generic domain → project `lore/<domain>.md`.
    - Project-specific → project `lore/proyecto.md` (create if absent). **Not** promotable.
    - A law/standard → the project layer of `principios.md` / `identidad.md` (see routing table).
-3. Write the full entry in that file, and one line in the project's `lore/index.md` with the index
+3. Show the preview — destination, wording, and why it is worth saving now — and get the person's approval. This single approval covers the source note, the entry, and the batch's writes and commits below; never a second approval per step, never push.
+4. Write a brief source note outside `lore/` (e.g. `notas/YYYY-MM-DD_<slug>.md`) with what happened; it lands before writing anything under `lore/`. No second approval: the preview approval above already covers it. The clue's `evidencia:` line will point at that note, relative to the file holding the clue (e.g. `../notas/YYYY-MM-DD_<slug>.md` from `lore/`). This is not the `notas.md` mining procedure above: that procedure stays unloaded for an ordinary CAPTURE, but the brief source note is still required.
+5. Write the full entry in that file, and one line in the project's `lore/index.md` with the index
    format: `` `domain` · symptom · confidence · [file](file) ``.
    **A paragraph is a paragraph** (kit invariant in `use-lore`): the clue's prose runs to the
    period, not to column 80. Do not hard-wrap mid-sentence.
@@ -326,6 +334,11 @@ promotion to the area. Never write the area silently.
       claim has** leaves a settled finding sitting in `conjecture`, and lets one lucky run pass for
       `confirmed`.
     - **REQUIRED slots when the entry declares a destination:** `destino:` (module + step) and **landing verification** — `grep` the declared term in the declared file and report `arrived / written, never exercised (conjecture)`. **A landing condition is not an ascent condition:** a clause that depends on the criterion being applied is landing, not ascent.
+6. Verify the new clue's own section with `node skills/save-to-lore/scripts/save-to-lore.mjs --pista <pista.md> --seccion "<the new clue's exact heading>"` (`--lineas <A-B>` selects the new lines instead): `--seccion` matches the heading text exactly (only case and outer spaces ignored); a duplicate exact heading fails as ambiguous and asks for `--lineas`. The `evidencia:` line must start at column 0-3 with spaces, no `>`, no leading tab — 4+ spaces is indented code and never counts — and must sit outside fenced examples (```/~~~, including fences nested in blockquotes); `--lineas` is read against the whole file, so a range starting inside a fenced example fails as selection, not as the new clue. The command exits nonzero when the new clue's evidence is missing, and a clue with no resolving evidence does not enter. The bare `--pista <pista.md>` without selection checks the whole file and serves only as diagnostics, never as the gate for the new clue. The checker is a limited fence-aware scan, not a general Markdown parser.
+
+#### Source note first — ordinary CAPTURE too (detail of steps 3–4 above)
+
+Steps 3–4 are the executable order: after the person approves the destination and wording (step 3, the single approval), the brief source note lands before anything is written under `lore/` (step 4). No second approval: the preview approval already covers it. The clue's `evidencia:` line points at that note, relative to the file holding the clue (e.g. `../notas/YYYY-MM-DD_<slug>.md` from `lore/`), and must verify with the CLI in step 6.
 
 #### The junction is written on both sides — 2.3.0
 
@@ -351,6 +364,10 @@ that does not exist.
 
 If the entry declares a destination, run `grep -r "term" <file>` on the declared file **before closing the threshold**. If the term is absent, keep the clue as `conjecture` with note `escrito, nunca ejercido` and report it. Promotion of that clue is blocked until the destination is written. A check that is fulfilled by reading (`IF reading THEN considered done`) is not a point of application — it has no verificable artifact within the threshold.
 
+#### Evidence pointer — every new clue names what earned it
+
+Every new Invariant Clue carries one line `evidencia: <ruta relativa>` naming the report, case or note that earned it, relative to the file holding the clue (a sibling such as `../notas/caso.md` from `lore/` resolves). The line must start at column 0-3 with spaces, no `>`, no leading tab — 4+ spaces is indented code and never counts — and must sit outside fenced examples (```/~~~, including fences nested in blockquotes). Before closing, verify the new clue's own section with `node skills/save-to-lore/scripts/save-to-lore.mjs --pista <pista.md> --seccion "<the new clue's exact heading>"` (`verificaEvidencia` on the selected section; `--seccion` matches the heading text exactly, only case and outer spaces ignored; `--lineas <A-B>` selects by line interval instead — read against the whole file, so a range starting inside a fenced example fails as selection — and a duplicate exact heading fails as ambiguous asking for `--lineas`): the line must exist inside the new clue and its pointer must resolve to a file that exists — the command exits nonzero when the new clue's evidence is missing. A clue with no resolving evidence does not enter. Without `--seccion`/`--lineas` the command checks the whole file; that whole-file pass is diagnostics only, never the gate for the new clue. The checker is a limited fence-aware scan, not a general Markdown parser. Migration: an `evidencia:` indented 4+ spaces or with a leading tab used to count and no longer does — move it to column 0; a `--lineas` range starting inside a fenced example used to pass with the example's pointer and now fails as selection.
+
 #### Writing a law into a body that already has laws
 
 A Lore grows by accumulation, so a new law usually leans on a distinction an older one already made.
@@ -372,7 +389,9 @@ Two habits, and the second is the cheap one that pays every time:
 *Boundary of validity:* this applies to bodies of criteria whose laws cite each other, which is any
 Lore that grows by accumulation. A flat list of independent rules has no inheritance to break.
 
-### Step 2 — Promotion review (always, after capturing)
+### Step 2 — Promotion review (only when a `confirmed` candidate exists)
+
+If no captured line is `confirmed`, report "nothing to promote" in one line and skip this step: `conjecture` never promotes, so the review would change nothing.
 
 1. Resolve the mother area: the project at `{area}/proyectos/{name}/` promotes to `{area}/lore/`.
    If the project has **no parent area** (standalone), skip promotion and say so.
@@ -395,6 +414,10 @@ Lore that grows by accumulation. A flat list of independent rules has no inherit
 4. Show the user a summary (what was captured, what would be promoted, what was deduped, what is
    pending). If the preview threshold already approved the batch, write and make its corresponding
    commits without a second authorization per clue or commit. Never `git push`.
+
+#### Level question — the kit or the person's garden root
+
+A generic learning that would travel beyond the area asks one explicit question before it moves (`preguntaNivel` in `skills/save-to-lore/scripts/save-to-lore.mjs`): does it say how Lore and agents work **for anyone**, or how **this person** works? For anyone → the kit, as a PR or proposal, never auto-committed to the kit repository. For this person → the root of their garden, outside the kit. No answer, no move.
 
 ### Step 3 — Inbox debt (one line, only if an inbox exists)
 
@@ -467,6 +490,7 @@ does not happen. Two rules govern it:
   corpus struck through and dated if it is not edited.
 - **A declared junction is written on both sides.** The clue carries `destino:`; the step carries one line naming the clue. A pointer written in only one direction cannot be verified from the other tree, and the two often live in different repositories.
 - **Honest confidence:** `confirmed` only after real validation; never inflated to force promotion.
+- **Notes are never deleted to make room for criteria.** A note leaves the inbox only by `destilado:` plus archive (`notas.md`); `autorizaBorrado` in `skills/save-to-lore/scripts/save-to-lore.mjs` blocks any delete — first when the note is still unarbitrated.
 - **Discarded noise is reported**, not silently dropped.
 - **A paragraph is a paragraph.** Continuous prose in the clue, the index line's surrounding file
   and any law written here runs to the period, not to column 80. Full statement in `use-lore`.

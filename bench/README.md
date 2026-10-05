@@ -157,3 +157,7 @@ Lo que este benchmark **no** demuestra:
 - **El corpus no es ciego.** El modelo podría respetar una Pista por conocimiento general y no por
   haber leído el Lore. Por eso se audita la lectura, y por eso el brazo frío corre con el mismo
   modelo: lo que se compara es la misma cabeza con y sin el criterio a mano.
+
+## Linea base historica retirada del arbol publicado
+
+`bench/base/` (fixtures, vistas previas y resultados crudos de la medicion anterior a la 2.3.2) contenia material real de una campana comercial y se retiro del arbol de la 2.4.9. Sigue en el historial de Git y en la rama local `bench/base-historico`. Las cifras publicadas de esa medicion ya no se pueden rederivar desde este arbol: se dice asi a proposito (ley #1: toda cifra publicada se deriva de su fuente). El instrumento vigente, con datos sinteticos, es `bench/effect-2.3.2/`.

@@ -1,6 +1,6 @@
 {
   "name": "lore",
-  "version": "2.4.8",
+  "version": "2.4.9",
   "description": "Provider-neutral project criterion that persists across agents, models, and sessions.",
   "author": {
     "name": "andresanemic",
@@ -8,7 +8,7 @@
   },
   "homepage": "https://github.com/andresanemic/lore-plugin",
   "repository": "https://github.com/andresanemic/lore-plugin",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "keywords": ["lore", "skills", "context-engineering", "knowledge-management"],
   "skills": "./skills/",
   "interface": {

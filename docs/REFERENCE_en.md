@@ -5,6 +5,8 @@ use, core concepts, the exact spec for every skill, mode and artifact, and how t
 project. For the motivation, the architecture at a glance and the index of every document, see the
 main [`README.md`](../README.md); for the 90-second version, [`90_SECONDS_en.md`](./90_SECONDS_en.md).
 
+This reference describes the Lore Plugin 2.4.9 candidate cut, publication date pending, with the fixed Vespi kernel 0.1.4 copy from commit `13881d41cf3d9c7611eee9794bc1d9c4945a4a6e`. It includes ten modules, with optional emergency, skill provenance, x402 and ZK surfaces; it excludes `zk-bn254-reference.js`, an experimental cryptographic reference, and the SDK-backed x402 bridge. See [`RELEASE_2.4.9.md`](./RELEASE_2.4.9.md) for the summary.
+
 ---
 
 ## Getting started
@@ -92,6 +94,7 @@ The Lore plugin exposes eight main skills through compatible AI agents:
 | `save-to-lore`   | Capture criteria (**capture**), arbitrate imported criteria (**graft**), or conditionally mine a loose-notes inbox | "save to lore", "distill skill X into the lore", "review my notes and save what belongs" |
 | `transmute-lore` | Operate an existing Lore in eight modes | add / clean / translate / upgrade / prune / **mycelium** / leave / crystallize |
 | `create-bot`     | Build a bot: one place to open a session and work across several projects at once, with their criteria reachable and routed | "create a bot to work on X and Y" (nuevo) / "I want a bot that federates the lore already living in A and B" (federar) |
+| `vespi`         | Run a bounded live operation under authority, with a durable checkpoint (experimental) | Never invoked from a person's sentence: the coordinator takes it, in role, when the operation is under strain |
 
 Each skill operates on or creates specific Markdown artifacts under your repository.
 
@@ -132,6 +135,33 @@ triggers documented in each skill's `SKILL.md`.
   all, someone asking for bots has already named the deliverable: the Areas are **steps**, `create-bot`
   runs last, and the whole chain is stated with its cost — one `create-area` plus one `transmute-lore`
   per source.
+- **Offer the agreement on first use, starting with the why.** The agreement is offered when the
+  work has to last more than one session, and it **binds only if you accept it: the kit never
+  refuses to work without it.** It exists only if it passed three doors together — the AI recapped
+  it completely, you approved it explicitly, and it was written down before any building started.
+  In that first agreement you choose the intensity (`sobria`/`cercana`, default `cercana`), the tempo
+  (`despacio`/`normal`/`rapido`, default `normal`), and your limits of use **by model family and
+  level, never by version number**. `create-area`, `create-project` and `create-bot` offer it at
+  their own threshold, not as a separate step.
+- **Tell whoever updates from an earlier version once**, in plain language: Vespi arrived, what it
+  can do, and the invitation to set your limits. Showing that notice **approves no agreement** and
+  creates none.
+
+**Artifacts the agreement writes:**
+
+| Artifact | What it is | Where |
+|---|---|---|
+| `acuerdo.md` | The agreement document. It **starts with the why**, then the full recap, the dials, the limits and the four bets. Amendments are **appended at the end**: it is never overwritten. | tree root, beside `FASES.md` and **outside `lore/`** |
+| `.lore-acuerdo` | The machine-readable state. It is rewritten, and its `aprobado` field is the only thing that makes an agreement exist: a receipt with that shape but without that field — the state the notice leaves — **does not count**. | tree root, beside `acuerdo.md` |
+
+The agreement declares exactly four bets, all about the apparatus: that everyday phrases suffice to
+divide the work between the three skills; that the hook reminder sustains the record turn by turn;
+that OpenCode allows notifying without blocking; and that each host lets you read the session's
+usage — where it does not, the countable signals stand in and that they are standing in is said out
+loud. **When one falls, work continues.** *"The agreement is never imposed"* is not a bet: it is a
+hard rule, and so it never degrades. *The guard keeps blocking another owner's criterion* is the
+sixth line of that same list, but with the opposite sign: it is not a stop, it is a rule that stays
+in force.
 
 **Typical interactions:**- “Explain the Lore structure for this repository.”
 - “What artifacts exist for this project?”
@@ -323,6 +353,8 @@ notes to `archivadas/`; it never deletes them. A note remains source, not criter
 
 Use `save-to-lore` as the main mechanism for feeding your Lore after important decisions.
 
+**Verifiable safeguards (executable core: `skills/save-to-lore/scripts/save-to-lore.mjs`):** every new clue carries one line `evidencia: <relative path>` naming the report, case or note that earned it — the line starts at column 0-3 with spaces, no `>`, no leading tab (4+ spaces is indented code and never counts), outside fenced examples (```/~~~, including fences nested in blockquotes) —, and `verificaEvidencia` checks the line exists, stays a relative path (absolute paths and URLs rejected; `..` to a sibling folder allowed, e.g. `../notas/caso.md` from `lore/`), and resolves to a real file — gate the new clue's own section as `node skills/save-to-lore/scripts/save-to-lore.mjs --pista <pista.md> --seccion "<the new clue's exact heading>"` (`--seccion` matches the heading text exactly, only case and outer spaces ignored; `--lineas <A-B>` selects by line interval instead — read against the whole file, so a range starting inside a fenced example fails as selection —, and a duplicate exact heading fails as ambiguous asking for `--lineas`), which exits nonzero when the new clue's evidence is missing — a clue with no resolving evidence does not enter. The bare `--pista <pista.md>` without selection checks the whole file and serves only as diagnostics, never as the gate for the new clue. The checker is a limited fence-aware scan, not a general Markdown parser. Migration: an `evidencia:` indented 4+ spaces or with a leading tab used to count and no longer does — move it to column 0; a `--lineas` range starting inside a fenced example used to pass with the example's pointer and now fails as selection. Notes are never deleted to make room for criteria: a note leaves the inbox only by a non-empty `destilado:` plus archive to `archivadas/`, and `autorizaBorrado` blocks every delete — first while the note is still unarbitrated, then because an arbitrated note is archived, never deleted. A generic learning that would travel beyond the area asks one explicit question before it moves (`preguntaNivel` / `resuelveNivel`): what holds for anyone goes to the kit as a PR or proposal, never auto-committed to the kit repository; what holds for this person goes to the root of their garden, outside the kit. No answer, no move: an ambiguous or negated answer asks again instead of assuming a destination.
+
 ---
 
 ### 3.6 `transmute-lore`
@@ -473,7 +505,8 @@ actually ships before reading a single module — without it, `prune` has no den
 
 **Process — `crystallize` mode (conceptually):** resolve the **whole routed tree** — the target's
 contract, canon, identity, principles, and every `lore/` named by `enrutamiento.md` or
-`scripts/ecosistema.json`, including `lore-ecosistema/` when the live origin is absent. A snapshot
+`scripts/ecosistema.json`, including a `lore-ecosistema/` copy left by an earlier kit when the live
+origin is absent — read, never created. A snapshot
 that only *points* at criterion it does not contain has failed the mode. Classify the rest as
 private, noise (notes, scripts other than the manifest, lockfiles) or unrouted; show the full
 manifest; wait for approval; write one snapshot outside `lore/`. Each inlined file is wrapped in
@@ -574,7 +607,11 @@ invisible and unwarned). Reported as part of the brainstorm.
 The test that keeps them apart: **would the source be discardable?** Distilling produces something
 smaller that can replace its origin; copying produces something identical that cannot.
 
-**The copy (`lore-ecosistema/`) is optional and off by default** (`"copia": true`). It answers one question: *do the people who will use this bot have your folders, or only the bot?* Without the tree the pointer resolves to nothing and the copy is the only way that criteria exists on their machine. With it on, `sync.js` never summarizes — a summary next to the consultation index competes with the original and wins by being closer — and **precedence is checked per row at read time**: if the live source resolves, it is read there and the copy is not opened, so the copy **deactivates itself**, row by row, as someone acquires the folders.
+**The `lore-ecosistema/` copy left the kit in 2.4.9.** It duplicated a bot's borrowed Lore so that
+someone who cloned the repository without your folder tree still had criteria; **a shared repository
+is the way to work with other people now**, and it keeps one owner and one version. A
+`lore-ecosistema/` folder that already exists is left alone: `transmute-lore` CRYSTALLIZE still
+reads it when a live source is absent, and still travels it, so nothing already built is lost.
 
 **Responsibilities:**
 
@@ -605,16 +642,23 @@ canon and broken paths, so passing it proves nothing about whether the bot works
 **premiere**: an instruction that does not name the criteria, recorded **verbatim** in the Area's
 `FASES.md` — a paraphrase can no longer be judged for whether it was short.
 
-Optional, off by default:
+Removed in 2.4.9, and what to use instead:
 
-- **Encryption** (*experimental*, see [`ENCRYPTION.md`](./ENCRYPTION.md)): encrypt in distribution,
-  never at consultation. With encryption the plaintext stays out of git; without it the criteria
-  **must** be committed, or the repository travels with no criteria. The passphrase comes from *stdin*
-  and never enters the chat.
+- **Encryption** used to seal a bot's criteria so they travelled encrypted — off by default, never
+  audited, no key rotation and no answer for a passphrase that leaked. **A private repository does
+  that job now**, without a passphrase to lose: `canon/` and `lore/` are committed as plain
+  Markdown and never leave the repository in the clear. A `canon.enc` you already carry is yours —
+  decrypt it once and commit the Markdown.
+- **The `lore-ecosistema/` copy** duplicated borrowed Lore for a teammate without your tree. **A
+  shared repository is the way to work with other people now.** A folder that already exists is
+  never written, never pruned, and still travels when you crystallize.
+- **The local launcher** offered a small menu to open Lore-governed folders in Claude Code CLI or
+  Codex CLI. **Opening the folder is the whole of it** — a bot is a folder and its contract loads
+  when you open a session there. A launcher of your own outside the kit is untouched.
 
-A bot without it is complete. **Packaging is crystallization**, not wrapping the bot as a plugin:
-unpacking the snapshot rebuilds the folder, including `lore-ecosistema/` — that is how the work
-travels to someone who does not have your tree.
+A bot without any of them is complete. **Packaging is crystallization**, not wrapping the bot as a
+plugin: unpacking the snapshot rebuilds the folder, and that is how the work travels to someone who
+does not have your tree.
 
 Use `create-bot` when you want one session that works across several projects — with or without existing Lore: none, it orchestrates the chain above; some, it federates it. It never substitutes for building that Lore in the Area that owns it.
 
@@ -820,8 +864,9 @@ promoted to the area. Absent the line, assume `equilibrado`.
 
 - Update as the project progresses through phases.
 - Use concise, factual descriptions.
+- Add a “Not yours:” sentence naming the neighboring skill that owns work outside this skill's boundary.
 
-**Project state vs operation state.** `FASES.md` owns project state: phase, roadmap, registry, open work. A live operation under pressure owns its state in `operations/<id>/` (see `vespi`): goal, authority, effects, verification, checkpoints. Operation progress is never duplicated into `FASES.md` — one pointer line names the live operation and where its state lives. Duplicating it creates two governors that diverge silently.
+**Project state vs operation state.** `FASES.md` owns project state: phase, roadmap, registry, open work. A live operation under pressure keeps its state as one block in the `## Operaciones` section of that same `FASES.md` (see `vespi`): goal, authority, effects, tasks, verification, checkpoints. There is a single checkpoint and it is not copied anywhere else: a second file for the same operation would be two governors that diverge silently.
 
 **Open work is explicit.** A pending item carries owner, impact, and date, in one line:
 
@@ -836,6 +881,16 @@ Impact is `BLOCKING` (resolves before the next boundary), `NON_BLOCKING` (rides 
 **Closures are four different things.** Session close (this conversation ends; resumable state points onward) ≠ run close (this execution ends; receipts stay) ≠ operation closed (its conditions are met per its own state) ≠ phase close (`FASES.md` advances). Say which one closed. A closed session never silently closes its operation.
 
 **Fresh-session orientation.** Open in this order: contract, `FASES.md`, routing table, then the state pointers `FASES.md` names. Do not reconstruct from memory what a pointer already resolves.
+
+**Read-only hygiene scan:** `lore-plugin hygiene [path]` (or `--json`) reports `.tmp-*` directories, campaign-named loose files or folders at an Area root, `canon/` and `lore/` together without a declared owner except the standard bot layout, Markdown in loose crystallization/clue/lesson folders, `_rc-backup-*` copies, and hooks not named by a test in `bench/`. It reports coverage and omissions; it excludes `.git` and `node_modules`, does not follow links (reported as not covered), and checks only defined patterns. It proposes review and does not modify or delete files; it does not prune by size.
+
+**Repeated failure wall:** `lore-plugin operation observe --root <dir> --id <op> --task <task> --json '{"text":"...","signature":"..."}'` records an observation and its failure signature. A signature must be a string and is limited to 500 characters; rejected signature input is not persisted. After three consecutive matching normalized failures without a success, `operation status` includes `wall`, `instruction: "stop_and_search"`, and the attempts. The CLI does not search: use host tools, record the search in the receipt, and flag findings that conflict with Lore or the agreement for proposed arbitration.
+
+**Pausing and resuming.** `lore-plugin operation pause --json '{"note":"..."}'` leaves the durable checkpoint paused and writes the note beside it. `operation resume` does not rebuild the operation from the conversation: it returns the kernel's verdict on the block saved in `FASES.md` and, if the operation was paused and the verdict allows it, moves it back to `running` in the same call. Resuming without saved state invents nothing: the verdict says so and the state does not change. A task's `timeoutMs` is the pre-existing safety ceiling and stays as it is; calibration lives beside it and does not recompute it.
+
+**Estimates and calibration.** `operation plan` takes two optional fields per task. `estimateMs` is a positive integer, the time the task is expected to take. `kind` is one of four words, `review`, `build`, `fix` or `write`, and describes the kind of work; without `kind` there is nothing to say about the kind. Neither field is required and neither changes the commission: without them the task is still carried out.
+
+`operation status` adds `calibrationLines`, one line per task with no measurement of its own, and each line takes one of two forms. The first says `sin referencia`. The second says `referencia inicial (no medida en tu máquina)`, with the typical order of magnitude, the upper range, how many jobs it comes from and which dated session: it comes from `skills/vespi/core/calibration-seed.json`, which is dated orientation from one work session observed between 2026-10-04 and 2026-10-05, not a promise and not a ceiling for your machine. When at least three valid samples exist for one exact key (`role|host=model`), `status` also adds the `calibration` block with `samples`, `medianRatio`, `p80Ratio` and `basis`, plus a `suggestions` block that declares every ratio a suggestion and not a rule. Measured tasks drop out of `calibrationLines`, and with fewer than three samples per key the status returns `calibrationNote` instead of ratios. A missing or corrupt seed does not break the status: it returns `sin referencia`.
 
 ---
 
@@ -970,6 +1025,8 @@ Key points of this hierarchy:
 
 ## 6. Operational Invariants
 
+The receipt's SHA-256 digest proves integrity, not authorship: anyone who can write the receipt file can forge it. The operation state JSON in `FASES.md` is also unsigned; anyone who can write there can forge it. Persisted state is not a security boundary against someone who already has write access to the repository.
+
 Lore’s behavior is governed by a set of shared invariants:
 
 - **Lore is written in the user's language** – content and artifact filenames; only the selected
@@ -982,22 +1039,32 @@ Lore’s behavior is governed by a set of shared invariants:
 - **A human always reviews the final diff** – AI assists, but does not silently change Lore.
 - **Host guarantees are explicit, not inferred from a shared manifest** – Codex captures a silent per-session baseline at `SessionStart` and checks content after tool use. Claude Code does not receive routine hook context: its context-bearing adapter was removed because the host can surface it or the agent can answer it. One red-only exception since 2.4.8: a federated bot whose always-on block does not declare its load gets exactly one repair line at `SessionStart`, on both hosts; green stays silent. The bundled `use-lore` opening check still verifies contract → core pieces → indexed modules on every host; clean means silence, while a missing link requires choosing whether to connect it or declare it outside the universe. **When that check is run as a command it prints its own coverage** — it walked contract → index → module and nothing else, it never asked what step runs any clue, and validity boundaries were never in its universe. That clause rides only on output already being written: the clean automatic pass still says nothing.
 - **Read-only tree checks ship as commands** – `lore-plugin mycelium bodies` walks contract → index → module inside one tree; `mycelium federated` checks a federated bot's always-on carries the triplete rule for sibling trees (word + sibling mark, never literal bodies); `mycelium announce` claims one of three per-tree announcement slots. All print their own coverage and change nothing.
+- **A compaction is an opening, and each host warns where it can** – in Claude Code, `PreCompact` writes a silent mark in the session temporary holding the time, the cwd, the root and the triplet that really exists, and exits with zero bytes; the compaction `SessionStart` consumes it, warns the person through `systemMessage`, and hands the model nothing. The mark never touches the person's tree. Codex does not register `PreCompact` and OpenCode does not expose the event: in those two hosts only the `use-lore` rule stands, re-read the contract, the Lore and `FASES.md` before continuing and say that you did. The mark answered a real compaction on 2026-10-04 that forced the context to be rebuilt by reading files, under a contract that already ordered loading the triplet on open and nothing to recall it after compacting. A compaction with no prior mark, or in a tree with no triplet, stays quiet: the hook does not warn when there is nothing to warn about.
 - **The process announcement is one sentence per tree** – agent-written prose saying what class of work comes next and what the person judges; never a hook, never blocking. Three slots per tree, claimed with the bundled opening check; exit 1 means the pool is spent.
 - **A material expansion of always-loaded criterion needs authority** – receipt v2 stores `alwaysOnBytes`, the normalized UTF-8 size of Markdown criterion bodies pointed to directly by the `<!-- lore:always-on -->` block. Duplicate pointers count once; unresolved paths, block prose, `FASES.md`, and `PHASES.md` are excluded. An increase of 8,192 bytes or more requires `lore-plugin mycelium receipt --accept-always-on`; without that flag the receipt is not advanced. This is an authority boundary derived from observed cases, not a diagnosis of crowding or semantic quality.
 - **Receipt v1 remains readable** – the historical 64-character digest migrates silently when still current. If it is stale, the content change remains pending and no size comparison is invented because v1 has no prior `alwaysOnBytes`.
 - **Healthy infrastructure is silent** – hooks emit no user-facing text when clean. Skills communicate the result, the decision or approval needed when blocked, or nothing for clean automatic work. Exact skill and mode identifiers remain available in documentation and technical diagnostics, and are used conversationally when the user names one or asks for detail. Before delivering an external artifact, the agent preserves the meaning but replaces every internal label with the audience's language; the final site, document or deck contains none of the workshop vocabulary, even when literal fidelity was requested.
 
+- **Operation state is data, never structure** – the text of a goal, an owner or a note can never open, close or duplicate an operation block in `FASES.md`: title lines are a single line free of block markers, the embedded JSON escapes `<` and the code fence, markers count only at the start of a line, and a repeated marker is refused instead of guessed. Found by the security review of 2.4.9 and fixed with the test written first.
+- **The operation gates record words; they do not prove who said them** – `authorize` stores who authorized and their own words, the verifier differs from the executor by name, `close` takes the certifier's declaration, and `--tools` declares the tools the operator observed. These are honor-system records by design: only the person's own words open an outward gate, and an agent's claim never stands in for them.
+- **A write into another tree is decided by the host, not by the plugin** – the guard classifies the destination and notes it; whether a foreign write is asked, allowed or denied belongs to the host's permission system (Claude Code's permissions, the Codex sandbox, OpenCode's `external_directory` and `edit`). On a setup that adds sibling trees as working directories or runs without prompts, a cross-tree write goes through.
+
 These invariants are what separate Lore from generic note‑taking or logging tools: a trusted, human‑curated body of criteria that AI can rely on.
 
 ---
+
+### Running OpenCode non-interactively
+
+`opencode run` needs explicit permissions for unattended delegates. A permission request left in `ask` is auto-rejected and ends the whole run, so use `lore-plugin opencode-permissions --project <dir> --from-routing` to allow routed sibling trees while denying other paths; add `--write` to merge the proposal into that project's `opencode.json`. Or use `lore-plugin opencode-sandbox <dir>` to write a confined delegate profile and create its local `tmp` folder. Neither command changes global OpenCode configuration.
+
+Three invocation details also matter: close stdin (`< /dev/null`, or `stdio: ['ignore', ...]`) or `opencode run` waits for EOF; put the prompt before `-f <file>` because `-f` consumes following positional arguments; and set `TEMP`, `TMP` and `TMPDIR` to `<dir>/tmp` so Node temporaries stay inside the work tree. The sandbox command prints those environment values and a recommended command line without launching OpenCode.
 
 ## 7. Relationship to the other documents
 
 This is the complete technical document: getting started, day-to-day use, concepts, the spec for
 every skill/mode/artifact, and migration. The [`README.md`](../README.md) carries story, motivation,
 architecture at a glance and the index of everything else; [`90_SECONDS_en.md`](./90_SECONDS_en.md)
-is the 90-second version; [`ENCRYPTION.md`](./ENCRYPTION.md), the optional bot-criteria encryption;
-[`CASES_en.md`](./CASES_en.md), the case studies. One technical document — instead of a separate
+is the 90-second version; [`CASES_en.md`](./CASES_en.md), the case studies. One technical document — instead of a separate
 usage guide and reference that restated the same model in a friendlier voice — keeps the spec in one
 place with no drift between copies.
 
@@ -1048,3 +1115,8 @@ Focus on rules that still constrain decisions today; ignore obsolete detail.
 
 `transmute-lore` does not commit: the diff is yours to review as a human editor. With one or two
 pilots migrated, reuse the same patterns across the Area's other repositories.
+
+## Delegating to Codex and OpenCode on Windows
+
+With Codex `-s workspace-write`, it can write only to directories it creates or directories granted with `--add-dir`; it cannot edit existing files in a directory that already existed under other Windows permissions, so use a new Git worktree or folder and copy the files it must edit there. Codex cannot read outside its working directory, so copy reference files and images inside it. Put a long prompt in a file and pass it through stdin or a file tool, never in a shell heredoc or quoted inline. Under PowerShell, `npm test` can be blocked by execution policy; run `npm.cmd test`. Git Bash paths such as `/c/Users/...` and `/tmp/...` are not native paths for Node or PowerShell: convert them with `cygpath -w` or use forward-slash paths such as `C:/work/file`. Git's “LF will be replaced by CRLF” notices on Windows are normalization noise; `.gitattributes` prevents them. A worker exiting with code 0 does not prove delivery: check the expected artifact and verify it separately.
+The release gate runs the complete suite with `LORE_RELEASE_GATE=1` and requires method provenance against the external Vespi kernel; point it at a checkout with `VESPI_KERNEL_DIR=/path/to/kernel` or `VESPI_KERNEL_DIR=file:///C:/path/to/kernel`, then run `npm run test:release`.

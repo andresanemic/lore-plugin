@@ -1,0 +1,35 @@
+{
+  "artifact_schema_version": "1.0.0",
+  "created_by_vespi_version": "2.4.9-rc.3",
+  "id": "op-mumks3pg-1",
+  "working_goal": "Abrir la sede de la cooperativa en el local definitivo",
+  "owner": "anselmo",
+  "state": "prepared",
+  "authority": {
+    "spend": []
+  },
+  "loaded": [],
+  "latest_authorized_delta": null,
+  "effects": [],
+  "verification": null,
+  "freshness": [],
+  "validity": {},
+  "uncertainty": [],
+  "next_legitimate_action": "authorize",
+  "provenance": {},
+  "checkpoints": [
+    {
+      "id": "R1-genesis",
+      "at": "2026-09-29T11:10:39.556Z",
+      "note": "R1-genesis",
+      "validity": {}
+    },
+    {
+      "id": "R2",
+      "at": "2026-09-29T11:10:39.556Z",
+      "note": "recibo 3 leído: falta el acta del municipio; el correo del 2 de agosto menciona San Lorenzo pero NO lo autoriza; el chat no confirma la fecha del 10",
+      "validity": {},
+      "delta": null
+    }
+  ]
+}

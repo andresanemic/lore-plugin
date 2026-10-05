@@ -133,22 +133,30 @@ test("CLI refuses material growth without authority and preserves the old receip
   assert.equal(readReceipt(dir).alwaysOnBytes, 68_608);
 });
 
-test("CLI migrates a current v1 receipt without expansion authority", () => {
+// R4: `--accept-always-on` ya no es solo la autoridad del CRECIMIENTO sino la de ESCRIBIR, y
+// el nombre lo dice: sin la opción el comando no escribe nada. Lo que esta prueba sigue
+// probando es lo de antes —un recibo v1 actual migra a v2 sin que haga falta autoridad
+// de expansión, porque `evaluateState` no inventa expansión donde no la hay— y por eso el
+// nombre dice las dos cosas.
+test("CLI migrates a current v1 receipt with write authority but without expansion authority", () => {
   const dir = tree({ "lore/criterio.md": "criterio\n" });
   const current = snapshot(dir);
   writeFileSync(join(dir, RECEIPT), `${current.digest}\n`);
 
-  const result = spawnSync("node", [cli, "mycelium", "receipt", "--tree", dir], { encoding: "utf8" });
+  const result = spawnSync("node", [cli, "mycelium", "receipt", "--tree", dir, "--accept-always-on"], { encoding: "utf8" });
   assert.equal(result.status, 0, result.stderr);
   assert.deepEqual(readReceipt(dir), {
     version: 2, digest: current.digest, alwaysOnBytes: 0,
   });
 });
 
-test("exam: NotebookEdit fuera de jurisdicción se bloquea; herramienta desconocida no acusa", () => {
+test("exam: NotebookEdit en un árbol ajeno se bloquea; ruta suelta pasa (R16); herramienta desconocida no acusa", () => {
   const dir = tree({ "lore/criterio.md": "criterio\n" });
-  const blocked = jurisdictionBlock(dir, "NotebookEdit", { notebook_path: "/otra/parte/nb.ipynb" });
+  const other = tree({ "lore/ajeno.md": "ajeno\n" });
+  const blocked = jurisdictionBlock(dir, "NotebookEdit", { notebook_path: join(other, "nb.ipynb") });
   assert.match(blocked ?? "", /jurisdicci/i);
+  // R16: una ruta fuera de todo árbol con Lore es desconocida: pasa con aviso y constancia, no se bloquea.
+  assert.equal(jurisdictionBlock(dir, "NotebookEdit", { notebook_path: "/otra/parte/nb.ipynb" }), null);
   assert.equal(jurisdictionBlock(dir, "Bash", { command: "rm -rf /" }), null);
   assert.deepEqual(structuredWritePaths("Bash", { command: "x" }), []);
 });

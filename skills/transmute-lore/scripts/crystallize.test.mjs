@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
+import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, existsSync, readdirSync, rmSync, symlinkSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
@@ -65,7 +65,7 @@ function fixture() {
 test("rechaza rutas de extracción inseguras", () => {
   assert.equal(isSafeExtractPath("founder/lore/identidad.md"), true);
   assert.equal(isSafeExtractPath("../etc/passwd"), false);
-  assert.equal(isSafeExtractPath("C:/Claude/x.md"), false);
+  assert.equal(isSafeExtractPath("C:/otra-carpeta/x.md"), false);
   assert.equal(isSafeExtractPath("/tmp/x.md"), false);
 });
 
@@ -221,6 +221,99 @@ test("exam: extract con copia reconstruye lore-ecosistema y no deja rotos", () =
   const result = extractTo(md, out);
   assert.deepEqual(result.missing, []);
   assert.equal(existsSync(join(out, "bots", "proyectos", "bot-demo", "lore-ecosistema", "producto", "lore", "identidad.md")), true);
+});
+
+test("extract rechaza origen y destino de copia fuera de --out antes de escribir", () => {
+  for (const field of ["origen", "destino"]) {
+    const { root, bot } = fixture();
+    const ecoPath = join(bot, "scripts", "ecosistema.json");
+    const eco = JSON.parse(readFileSync(ecoPath, "utf8"));
+    eco.copia = true;
+    eco.fuentes[0][field] = "../../../../../fuera";
+    writeFileSync(ecoPath, `${JSON.stringify(eco, null, 2)}\n`, "utf8");
+    const md = compose({ ...collect(bot), generatedAt: "2026-09-24" });
+    const out = join(root, "hostil-copia");
+
+    assert.throws(() => extractTo(md, out), /unsafe|escaped|fuera/i, field);
+    assert.deepEqual(existsSync(out) ? readdirSync(out) : [], [], "no debe escribir ningún archivo antes de validar la copia");
+  }
+});
+
+test("extract detecta secretos antes de escribir cualquier bloque", () => {
+  const out = join(fixture().root, "hostil-secreto");
+  const md = [
+    '<!-- lore:extract path="lore/normal.md" owner="demo" -->', "normal", "<!-- /lore:extract -->", "", "### `lore/secreto.md`", "",
+    '<!-- lore:extract path="lore/secreto.md" owner="demo" -->',
+    "OPENAI_API_KEY=sk-proj-abcdefghijklmnopqrstuvwxyz123456", "<!-- /lore:extract -->", "",
+  ].join("\n");
+
+  assert.throws(() => extractTo(md, out), /possible secret.*lore\/secreto\.md/i);
+  assert.deepEqual(existsSync(out) ? readdirSync(out) : [], []);
+});
+
+test("extract no sigue una junction dentro de --out", (t) => {
+  const root = fixture().root;
+  const out = join(root, "hostil-junction");
+  const outside = join(root, "fuera");
+  mkdirSync(out, { recursive: true });
+  mkdirSync(outside, { recursive: true });
+  try {
+    symlinkSync(outside, join(out, "lore"), process.platform === "win32" ? "junction" : "dir");
+  } catch (error) {
+    t.skip(`no se pudo crear la junction/enlace de prueba: ${error.code ?? error.message}`);
+    return;
+  }
+  const md = '<!-- lore:extract path="lore/evil.md" owner="demo" -->\nmal\n<!-- /lore:extract -->\n';
+
+  assert.throws(() => extractTo(md, out), /escaped out dir/i);
+  assert.equal(existsSync(join(outside, "evil.md")), false);
+});
+
+test("la reconstrucción de copia no escribe a través de una junction anidada", (t) => {
+  const { root, bot } = fixture();
+  const ecoPath = join(bot, "scripts", "ecosistema.json");
+  const eco = JSON.parse(readFileSync(ecoPath, "utf8"));
+  eco.copia = true;
+  writeFileSync(ecoPath, `${JSON.stringify(eco, null, 2)}\n`, "utf8");
+  const md = compose({ ...collect(bot), generatedAt: "2026-09-24" });
+  const out = join(root, "hostil-copia-junction");
+  const outside = join(root, "fuera-copia");
+  const link = join(out, "bots", "proyectos", "bot-demo", "lore-ecosistema", "producto", "lore");
+  mkdirSync(link.replace(/[\\/]lore$/, ""), { recursive: true });
+  mkdirSync(outside, { recursive: true });
+  try { symlinkSync(outside, link, process.platform === "win32" ? "junction" : "dir"); }
+  catch (error) {
+    t.skip(`no se pudo crear la junction de prueba: ${error.code ?? error.message}`);
+    return;
+  }
+
+  assert.throws(() => extractTo(md, out), /escaped out dir/i);
+  assert.equal(existsSync(join(outside, "identidad.md")), false);
+});
+
+test("pack no sigue junctions hacia archivos ajenos", () => {
+  const { root, bot } = fixture();
+  const outside = join(root, "privado");
+  mkdirSync(outside, { recursive: true });
+  writeFileSync(join(outside, "secreto.md"), "contenido privado\n");
+  symlinkSync(outside, join(bot, "lore", "externo"), process.platform === "win32" ? "junction" : "dir");
+
+  assert.throws(() => collect(bot), /symbolic link skipped while packing/i);
+});
+
+test("pack no sigue un enlace en un archivo seleccionado directamente", (t) => {
+  const { root, bot } = fixture();
+  const outside = join(root, "contrato-privado.md");
+  writeFileSync(outside, "contenido privado\n");
+  const selected = join(bot, "CLAUDE.md");
+  rmSync(selected);
+  try { symlinkSync(outside, selected, "file"); }
+  catch (error) {
+    t.skip(`no se pudo crear el enlace de prueba: ${error.code ?? error.message}`);
+    return;
+  }
+
+  assert.throws(() => collect(bot), /symbolic link skipped while packing/i);
 });
 
 test("2.0: CLI verify sale 0 en snapshot fiel y 1 con deriva", () => {

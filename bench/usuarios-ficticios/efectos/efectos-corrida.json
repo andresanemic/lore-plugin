@@ -1,0 +1,176 @@
+{
+  "build": "2.4.9-rc.5",
+  "kernel": "0.1.3 candidato (copia instalada, Claude Code cache)",
+  "instanciado_desde": "C:/Users/andre/.claude/plugins/cache/lore-plugin/lore/2.4.9-rc.5/skills/vespi/core",
+  "generado": "2026-09-29T11:10:39.505Z",
+  "t03": {
+    "sesionA": {
+      "status": "needs_human_decision",
+      "operation": {
+        "id": "op-mumks3o5-0",
+        "goal": "Mapear el criterio disperso de portal-clientes antes de mover nada. Prohibido escribir en el árbol."
+      },
+      "capability": "mapear-criterio-disperso",
+      "authority": {
+        "grants": [
+          {
+            "asset": null,
+            "maxAmount": null,
+            "to": null
+          }
+        ],
+        "exercised": [],
+        "approval": "human_gate_no_decision"
+      },
+      "outcome": "needs_human_decision",
+      "evidence": null,
+      "verification": null,
+      "coverage": [],
+      "notCovered": [
+        "external anchor"
+      ],
+      "anchor": {
+        "status": "pending",
+        "network": "stellar:testnet"
+      },
+      "detail": null,
+      "exit": "return to the person: change the agreement or cancel",
+      "at": "2026-09-29T11:10:39.515Z",
+      "digest": "5b8a2086f144fefcc46a5fae98ee5c990b83eda77ee9b544b2530a36632f7d91",
+      "persistence": {
+        "owner": "ops/portal-migracion/artefacto.json"
+      }
+    },
+    "sesionAVocabularioKernel": {
+      "status": "verified",
+      "operation": {
+        "id": "op-mumks3og-1",
+        "goal": "Mapear el criterio disperso de portal-clientes antes de mover nada"
+      },
+      "capability": "mapear-criterio-disperso",
+      "authority": {
+        "grants": [
+          {
+            "asset": "lectura",
+            "maxAmount": "1",
+            "to": "portal-clientes"
+          }
+        ],
+        "exercised": [
+          {
+            "asset": "lectura",
+            "maxAmount": "1",
+            "to": "portal-clientes"
+          }
+        ],
+        "approval": "preauthorized"
+      },
+      "outcome": "verified",
+      "evidence": {
+        "status": "ok"
+      },
+      "verification": {
+        "verified": true,
+        "checks": {
+          "leido": true
+        },
+        "reason": "tres fuentes leidas"
+      },
+      "coverage": [
+        "leido"
+      ],
+      "notCovered": [
+        "external anchor"
+      ],
+      "anchor": {
+        "status": "pending",
+        "network": "stellar:testnet"
+      },
+      "detail": null,
+      "at": "2026-09-29T11:10:39.522Z",
+      "digest": "aaa00ad5923e3d8be8b02eee9141ca662c4e24b0d8a63bae72e97c2802887e2f",
+      "persistence": {
+        "owner": "none"
+      }
+    },
+    "sesionB": {
+      "status": "needs_human_decision",
+      "operation": {
+        "id": "op-mumks3ol-2",
+        "goal": "Retomar la migración de portal-clientes desde el punto de control en disco"
+      },
+      "capability": "retomar-desde-recibo",
+      "authority": {
+        "grants": [
+          {
+            "asset": null,
+            "maxAmount": null,
+            "to": null
+          }
+        ],
+        "exercised": [],
+        "approval": "human_gate_no_decision"
+      },
+      "outcome": "needs_human_decision",
+      "evidence": null,
+      "verification": null,
+      "coverage": [],
+      "notCovered": [
+        "external anchor"
+      ],
+      "anchor": {
+        "status": "pending",
+        "network": "stellar:testnet"
+      },
+      "detail": null,
+      "exit": "return to the person: change the agreement or cancel",
+      "at": "2026-09-29T11:10:39.525Z",
+      "digest": "33ca9259c2030866c70dc06fdc6842882a40683f2ef07a74634b0e80944f5e60",
+      "persistence": {
+        "owner": "none"
+      }
+    },
+    "checkpoints": 3,
+    "validateReceipt": {
+      "metodo": "validateReceipt",
+      "ok": true
+    },
+    "verifyReceipt": {
+      "ok": false,
+      "reason": "digest mismatch"
+    }
+  },
+  "t07": {
+    "reval": "requires_gate",
+    "intento": "needs_human_decision",
+    "ejecutado": false,
+    "expediente": "needs_human_decision"
+  },
+  "t09": {
+    "imposible": "blocked",
+    "violacion": "out_of_bounds",
+    "sobrevive": 1
+  },
+  "bitacora": [
+    {
+      "tarea": "T03",
+      "clase": "mandato-acotado",
+      "detalle": "sesión A estado=needs_human_decision, validateReceipt=true, verifyReceipt=false, checkpoints=3"
+    },
+    {
+      "tarea": "T03",
+      "clase": "traducion-enganosa",
+      "detalle": "con vocabulario del núcleo el mismo mandato sale verified (preauthorized)"
+    },
+    {
+      "tarea": "T07",
+      "clase": "evento-externo-cambiante",
+      "detalle": "revalidación=requires_gate, pago=needs_human_decision, ejecutado=false"
+    },
+    {
+      "tarea": "T09",
+      "clase": "continuidad+imposible+delegacion",
+      "detalle": "imposible=blocked, violación=out_of_bounds, sobrevive=1, integración=rechazada: delegated work is not accepted: state is out_of_bounds; nothing delegated is integrated without orchestrator review"
+    }
+  ]
+}

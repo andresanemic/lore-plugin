@@ -6,6 +6,8 @@ y cómo migrar un proyecto existente. Para la motivación, la arquitectura de un
 todos los documentos, consulta el [`README.md`](../README.md); para la versión de 90 segundos,
 [`90_SECONDS_es.md`](./90_SECONDS_es.md).
 
+Esta referencia describe el corte candidato de Lore Plugin 2.4.9, con fecha de publicación pendiente, y la copia fija del kernel Vespi 0.1.4 en el commit `13881d41cf3d9c7611eee9794bc1d9c4945a4a6e`. Incluye diez módulos, con superficies opcionales de emergencia, procedencia de skills, x402 y ZK; excluye `zk-bn254-reference.js`, una referencia criptográfica experimental, y el puente x402 con el SDK real. Consulta [`RELEASE_2.4.9.md`](./RELEASE_2.4.9.md) para ver el resumen.
+
 ---
 
 ## Empezar
@@ -95,6 +97,7 @@ El plugin Lore expone ocho skills principales a través de agentes de IA compati
 | `save-to-lore`   | Capturar criterio (**capture**), arbitrar criterio importado (**graft**) o minar condicionalmente una bandeja de notas sueltas | «guarda en lore», «destila la skill X en el lore», «revisa mis notas y guarda lo que corresponda» |
 | `transmute-lore` | Operar un Lore existente en ocho modos | add / clean / translate / upgrade / prune / **mycelium** / leave / crystallize |
 | `create-bot`     | Construir un bot: un solo lugar donde abrir sesión y trabajar en varios proyectos a la vez, con su criterio alcanzable y enrutado | «crea un bot para trabajar en X e Y» (nuevo) / «quiero un bot que federe el lore que ya existe en A y B» (federar) |
+| `vespi`         | Correr una operación viva acotada bajo autoridad, con checkpoint durable (experimental) | No la invoca una frase de la persona: la toma el coordinador, en rol, cuando la operación está bajo presión |
 
 Cada skill opera sobre, o crea, artefactos Markdown específicos dentro de tu repositorio.
 
@@ -129,6 +132,32 @@ Estos skills **no son comandos de una CLI**: son *skills* del agente que se disp
   Lore, quien pide bots ya nombró el entregable: las Áreas son **pasos**, `create-bot` corre al
   final, y la cadena se dice completa con su costo — un `create-area` más un `transmute-lore` por
   cada fuente antes de que el bot pueda enrutar a algo.
+- **Ofrecer el acuerdo en el primer uso**, empezando por el porqué. El acuerdo se ofrece cuando el
+  trabajo tiene que durar más de una sesión y **obliga solo si la persona lo acepta**; el kit nunca
+  se niega a operar sin él. Existe solo si pasó tres puertas juntas: la IA lo recapitula completo,
+  la persona lo aprueba explícitamente y queda escrito antes de construir. En ese primer acuerdo la
+  persona elige la intensidad (`sobria`/`cercada`, por defecto `cercana`), el ritmo
+  (`despacio`/`normal`/`rapido`, por defecto `normal`) y sus límites de uso **por familia de modelo
+  y nivel, nunca por número de versión**. `create-area`, `create-project` y `create-bot` lo
+  ofrecen en su propio umbral, no como un paso aparte.
+- **Avisar una sola vez a quien actualiza desde una versión anterior**, en llano: llegó Vespi, qué
+  puede hacer y la invitación a fijar límites. Mostrar ese aviso **no aprueba un acuerdo** ni crea
+  ninguno.
+
+**Artefactos que escribe el acuerdo:**
+
+| Artefacto | Qué es | Dónde |
+|---|---|---|
+| `acuerdo.md` | El documento del acuerdo. **Empieza por el porqué**, luego la recapitulación completa, las perillas, los límites y las cuatro apuestas. Las enmiendas **se agregan al final**: nunca se sobrescribe. | raíz del árbol, junto a `FASES.md` y **fuera de `lore/`** |
+| `.lore-acuerdo` | El estado legible por máquina. Es reescrito, y su campo `aprobado` es lo único que hace que exista un acuerdo: un recibo con esa forma pero sin ese campo —el estado que deja el aviso— **no cuenta**. | raíz del árbol, junto a `acuerdo.md` |
+
+Las cuatro apuestas del acuerdo, y solo cuatro, son sobre el aparato: que las frases cotidianas
+alcancen para repartir el trabajo entre las tres skills; que el recordatorio por hook sostenga el
+registro turno a turno; que OpenCode permita avisar sin bloquear; y que cada host deje leer el uso
+de la sesión, donde no, usando las señales contables y declarándolo por escrito. **Si cae una, se
+sigue.** «El acuerdo nunca se impone» no es una apuesta: es una regla dura, y por eso no degrada
+nunca. La guardia registra escrituras en el árbol de otra persona; el permiso del host decide si
+avanzan y el coordinador respeta la gobernanza propietaria. Esta regla no detiene el trabajo.
 
 **Interacciones típicas:**
 
@@ -325,6 +354,8 @@ notas cerradas a `archivadas/`; nunca las borra. La nota sigue siendo fuente, no
 
 Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decisiones importantes.
 
+**Salvaguardas verificables (núcleo ejecutable: `skills/save-to-lore/scripts/save-to-lore.mjs`):** cada Pista nueva trae una línea `evidencia: <ruta relativa>` que nombra el reporte, caso o nota que la ganó — la línea empieza en la columna 0-3 con espacios, sin `>`, sin tabulador inicial (4+ espacios es código indentado y nunca cuenta) y fuera de ejemplos cercados (```/~~~, incluso anidados en citas) —, y `verificaEvidencia` comprueba que la línea exista, que el puntero sea relativo (absolutas y URLs rechazadas; `..` a una carpeta hermana permitido, p. ej. `../notas/caso.md` desde `lore/`) y que resuelva a un archivo real — la puerta de la Pista nueva es su propia sección: `node skills/save-to-lore/scripts/save-to-lore.mjs --pista <pista.md> --seccion "<encabezado exacto de la Pista nueva>"` (`--seccion` exige el texto exacto del encabezado, solo caja y espacios exteriores se ignoran; `--lineas <A-B>` selecciona por intervalo de líneas — leído contra el archivo completo, así que un rango que empieza dentro de un ejemplo cercado falla por selección —, y un encabezado exacto duplicado falla por ambigüedad pidiendo `--lineas`), que sale distinto de cero si falta la evidencia de esa Pista — una Pista sin evidencia que resuelva no entra. El `--pista <pista.md>` sin selección revisa el archivo completo y sirve solo como diagnóstico, nunca como puerta de la Pista nueva. El comprobador es un rastreo limitado de cercas, no un parser general de Markdown. Migración: un `evidencia:` indentado 4+ espacios o con tabulador inicial antes contaba y ahora no — llevarlo a la columna 0; un rango `--lineas` que empezaba dentro de un ejemplo cercado antes pasaba con el puntero del ejemplo y ahora falla por selección. Las notas nunca se borran para hacer lugar al criterio: una nota sale de la bandeja solo con `destilado:` no vacío más archivo en `archivadas/`, y `autorizaBorrado` bloquea todo borrado — primero mientras la nota sigue sin arbitrar, después porque la nota arbitrada se archiva, nunca se borra. Un aprendizaje genérico que viajaría más allá del área pregunta una cosa explícita antes de moverse (`preguntaNivel` / `resuelveNivel`): lo que vale para cualquiera va al kit como PR o propuesta, nunca auto-commiteado al repositorio del kit; lo que vale para esta persona va a la raíz de su jardín, fuera del kit. Sin respuesta no hay movimiento: una respuesta ambigua o negada vuelve a preguntar en vez de asumir un destino.
+
 ---
 
 ### 3.6 `transmute-lore`
@@ -450,7 +481,8 @@ Usa `save-to-lore` como mecanismo principal para alimentar tu Lore tras decision
 
 **Proceso — modo `crystallize` (conceptual):** resolver el **árbol enrutado entero** — contrato,
 canon, identidad, principios y cada `lore/` que nombren `enrutamiento.md` o
-`scripts/ecosistema.json`, incluido `lore-ecosistema/` cuando la fuente viva no está. Una
+`scripts/ecosistema.json`, incluida una copia `lore-ecosistema/` que haya dejado una versión anterior
+cuando la fuente viva no está — se lee, nunca se crea. Una
 fotografía que solo *apunta* a criterio que no trae ha fallado el modo. El resto se clasifica
 como privado, ruido (notas, scripts que no sean el manifiesto, lockfiles) o no enrutado; se
 muestra el manifiesto; se espera aprobación; se escribe un solo archivo fuera de `lore/`. Cada
@@ -550,13 +582,11 @@ invisible y no avisa). El reporte va con el brainstorm.
 El test que los separa: **¿sería descartable la fuente?** Destilar produce algo más chico que puede
 reemplazar a su origen; copiar produce algo idéntico que no puede.
 
-**La copia (`lore-ecosistema/`) es opcional y está apagada por defecto** (`"copia": true` en el
-manifiesto). Responde a una sola pregunta: *¿los que van a usar el bot tienen tus carpetas, o solo el
-bot?* Sin el árbol, el puntero no apunta a nada y la copia es lo único que hace existir ese criterio
-en su máquina. Con la copia encendida, `sync.js` nunca resume —un resumen que vive junto al índice de
-consulta compite con el original y gana por estar más cerca— y **la precedencia se comprueba por fila
-al momento de leer**: si la fuente viva resuelve en esa máquina, se lee ahí y la copia no se abre.
-Así la copia **se desactiva sola**, fila por fila, a medida que alguien va teniendo las carpetas.
+**La copia `lore-ecosistema/` salió del kit en 2.4.9.** Duplicaba el criterio prestado de un bot para
+que alguien que clonó el repositorio sin tu árbol igualmente tuviera criterio; **ahora el camino con
+otras personas es un repositorio compartido**, que deja un dueño y una sola versión. Una carpeta
+`lore-ecosistema/` que ya exista se deja intacta: `transmute-lore` CRYSTALLIZE la sigue leyendo
+cuando falta la fuente viva, y la sigue llevando, así que no se pierde nada de lo ya construido.
 
 **Responsabilidades:**
 
@@ -587,15 +617,22 @@ rutas rotas, así que pasarla no prueba nada sobre si el bot funciona. El bot se
 **estreno**: una instrucción que no nombra el criterio, anotada **textual** en el `FASES.md` del
 Área — una parafraseada ya no permite juzgar si era corta.
 
-Opcional y apagado por defecto:
+Salió en 2.4.9, y qué usar en su lugar:
 
-- **Cifrado** (*experimental*, ver [`ENCRYPTION.md`](./ENCRYPTION.md)): se cifra en distribución,
-  nunca en consulta. Con cifrado el texto plano queda fuera de git; sin cifrado el criterio **debe**
-  commitearse, o el repositorio viaja sin criterio. La passphrase se pide por *stdin* y nunca entra al chat.
+- **El cifrado** sellaba el criterio de un bot para que viajara cifrado — apagado por defecto, sin
+  auditar, sin rotación de claves y sin respuesta para una passphrase que se filtra. **Ahora lo hace
+  un repositorio privado**, y sin una passphrase que perder: `canon/` y `lore/` se commitean como
+  Markdown plano y nunca salen del repositorio en claro. Un `canon.enc` que ya tengas es tuyo:
+  descifralo una vez y commitea el Markdown.
+- **La copia `lore-ecosistema/`** duplicaba el criterio prestado para un compañero sin tu árbol.
+  **El camino con otras personas es un repositorio compartido.** Una carpeta que ya exista nunca se
+  escribe, nunca se poda, y sigue viajando cuando cristalizas.
+- **El launcher local** ofrecía un menú chico para abrir carpetas gobernadas por Lore en Claude Code
+  CLI o Codex CLI. **Abrir la carpeta es todo**: un bot es una carpeta y su contrato carga al abrir
+  una sesión ahí. Un launcher tuyo, fuera del kit, no se toca.
 
-Un bot sin él está completo. **Empaquetar es cristalizar**, no envolver el bot como plugin:
-extraer la fotografía reconstruye la carpeta, incluido `lore-ecosistema/` — así viaja el trabajo
-a quien no tiene tu árbol.
+Un bot sin nada de eso está completo. **Empaquetar es cristalizar**, no envolver el bot como plugin:
+extraer la fotografía reconstruye la carpeta, y así viaja el trabajo a quien no tiene tu árbol.
 
 Usa `create-bot` cuando quieras una sola sesión que trabaje sobre varios proyectos — con o sin Lore previo: sin él, orquesta la cadena de arriba; con él, lo federa. Nunca sustituye construir ese Lore en el Área que lo posee.
 
@@ -795,8 +832,9 @@ Se **infiere, no se pregunta**, y se declara en una línea con la corrección of
 
 - Actualiza este archivo cuando el proyecto avance de fase.
 - Usa descripciones concisas y basadas en hechos.
+- Agrega una frase «Not yours:» que nombre la skill vecina responsable del trabajo fuera del límite de esta skill.
 
-**Estado de proyecto vs estado de operación.** `FASES.md` es dueño del estado del proyecto: fase, hoja de ruta, registro, trabajo abierto. Una operación viva bajo presión es dueña de su estado en `operations/<id>/` (ver `vespi`): finalidad, autoridad, efectos, verificación, checkpoints. El progreso de la operación nunca se duplica en `FASES.md` — una línea puntero nombra la operación viva y dónde vive su estado. Duplicarlo crea dos gobernantes que divergen en silencio.
+**Estado de proyecto vs estado de operación.** `FASES.md` es dueño del estado del proyecto: fase, hoja de ruta, registro, trabajo abierto. Una operación viva bajo presión guarda su estado como un bloque en la sección `## Operaciones` de ese mismo `FASES.md` (ver `vespi`): finalidad, autoridad, efectos, tareas, verificación, checkpoints. Hay un único checkpoint y no se copia en otro lado: un segundo archivo para la misma operación serían dos gobernantes que divergen en silencio.
 
 **El trabajo abierto es explícito.** Un pendiente lleva dueño, impacto y fecha, en una línea:
 
@@ -811,6 +849,16 @@ El impacto es `BLOCKING` (se resuelve antes de la próxima frontera), `NON_BLOCK
 **Los cierres son cuatro cosas distintas.** Cierre de sesión (esta conversación termina; el estado reanudable apunta hacia adelante) ≠ cierre de corrida (esta ejecución termina; los recibos quedan) ≠ operación cerrada (sus condiciones se cumplen según su propio estado) ≠ cierre de fase (`FASES.md` avanza). Di cuál cerró. Una sesión cerrada jamás cierra su operación en silencio.
 
 **Orientación de sesión fresca.** Abre en este orden: contrato, `FASES.md`, tabla de enrutamiento, y luego los punteros de estado que `FASES.md` nombra. No reconstruyas de memoria lo que un puntero ya resuelve.
+
+**Escaneo de higiene de solo lectura:** `lore-plugin hygiene [ruta]` (o `--json`) informa directorios `.tmp-*`, archivos o carpetas con nombre de campaña sueltos en la raíz de un Área, `canon/` y `lore/` juntos sin dueño declarado salvo el layout estándar de bot, Markdown en carpetas sueltas de cristalización/pista/lesson, copias `_rc-backup-*` y hooks que ninguna prueba de `bench/` nombra. Informa cobertura y omisiones; excluye `.git` y `node_modules`, no sigue enlaces (los declara como no cubiertos) y revisa solo los patrones definidos. Propone revisar y no modifica ni borra archivos; no poda por tamaño.
+
+**Muro por fallos repetidos:** `lore-plugin operation observe --root <dir> --id <op> --task <tarea> --json '{"text":"...","signature":"..."}'` registra una observación y su firma de fallo. La firma debe ser texto y se limita a 500 caracteres; una firma rechazada no se persiste. Tras tres fallos normalizados iguales seguidos sin éxito, `operation status` incluye `wall`, `instruction: "stop_and_search"` y los intentos. La CLI no busca: usa las herramientas del host, registra la búsqueda en el recibo y señala los hallazgos que contradigan el Lore o el acuerdo para proponer arbitraje.
+
+**Pausar y reanudar.** `lore-plugin operation pause --json '{"note":"..."}'` deja el checkpoint durable en pausa y escribe la nota junto a él. `operation resume` no reconstruye la operación desde la conversación: devuelve el veredicto del kernel sobre el bloque guardado en `FASES.md` y, si la operación estaba pausada y el veredicto lo permite, la devuelve a `running` en la misma llamada. Reanudar sin estado guardado no inventa nada: el veredicto lo dice y el estado no cambia. El `timeoutMs` de una tarea es el tope de seguridad que ya existía y no se toca: la calibración vive al lado y no lo recalcula.
+
+**Estimaciones y calibración.** `operation plan` acepta dos campos opcionales por tarea. `estimateMs` es un entero positivo, el tiempo que se espera que tome. `kind` es una de cuatro palabras, `review`, `build`, `fix` o `write`, y describe el tipo de trabajo; sin `kind` no hay nada que decir del tipo. Ninguno de los dos es obligatorio y ninguno cambia el encargo: sin ellos la tarea se cumple igual.
+
+`operation status` agrega `calibrationLines`, una línea por tarea sin medición propia, y cada línea es una de dos formas. La primera dice `sin referencia`. La segunda dice `referencia inicial (no medida en tu máquina)`, con el orden de magnitud típico, el rango superior, de cuántos trabajos viene y de qué sesión fechada: sale de `skills/vespi/core/calibration-seed.json`, que es orientación fechada de una sesión de trabajo observada entre el 2026-10-04 y el 2026-10-05, no una promesa ni un tope de tu máquina. Cuando ya existen al menos tres muestras válidas para una clave exacta (`rol|host=modelo`), `status` agrega además el bloque `calibration` con `samples`, `medianRatio`, `p80Ratio` y `basis`, y un bloque `suggestions` que declara cada proporción como sugerencia y no como regla. Las tareas ya medidas salen de `calibrationLines`, y con menos de tres muestras por clave el estado devuelve `calibrationNote` en lugar de las proporciones. Una semilla ausente o corrupta no rompe el estado: sale `sin referencia`.
 
 ---
 
@@ -948,6 +996,8 @@ Puntos clave de esta jerarquía:
 
 ## 6. Invariantes operativas
 
+El digest SHA-256 del recibo prueba integridad, no autoría: quien pueda escribir el archivo puede forjar el recibo. El JSON de estado de operación en `FASES.md` tampoco tiene sello; quien pueda escribir allí puede forjarlo. El estado persistido no es una frontera de seguridad frente a quien ya puede escribir en el repositorio.
+
 El comportamiento de Lore está gobernado por un conjunto de invariantes compartidas:
 
 - **El Lore se escribe en el idioma del usuario** – contenido y nombres de artefactos; solo el
@@ -960,23 +1010,33 @@ El comportamiento de Lore está gobernado por un conjunto de invariantes compart
 - **Un humano revisa siempre el diff final** – la IA asiste, pero no modifica Lore en secreto.
 - **Las garantías por host se declaran, no se infieren desde un manifiesto compartido** – Codex captura una base de sesión silenciosa en `SessionStart` y comprueba el contenido después del uso de herramientas. Claude Code no recibe contexto rutinario del hook: su adaptador con contexto fue retirado porque el host puede mostrarlo o el agente puede responderle. Una sola excepción solo-en-rojo desde 2.4.8: un bot federado cuyo always-on no declara su carga recibe exactamente una línea de reparación en `SessionStart`, en ambos hosts; el verde sigue en silencio. El chequeo de apertura de `use-lore` sí verifica contrato → piezas núcleo → módulos indexados en todos los hosts; limpio significa silencio y un enlace faltante exige decidir entre conectarlo o declararlo fuera del universo. **Cuando ese chequeo se corre como comando, imprime su propia cobertura** — recorrió contrato → índice → módulo y nada más, nunca preguntó qué paso corre una Pista, y las fronteras de validez jamás estuvieron en su universo. Esa cláusula viaja solo sobre salida que ya se iba a escribir: la pasada automática limpia sigue sin decir una palabra.
 - **Los chequeos de solo lectura viajan como comandos** – `lore-plugin mycelium bodies` recorre contrato → índice → módulo dentro de un árbol; `mycelium federated` comprueba que el always-on de un bot federado lleva la regla del triplete para árboles hermanos (palabra + marca, nunca cuerpos literales); `mycelium announce` reclama una de tres franjas por árbol. Todos imprimen su cobertura y no cambian nada.
+- **Una compactación es una apertura, y cada host avisa donde puede** – en Claude Code, `PreCompact` escribe una marca silenciosa en el temporal de la sesión con la hora, el cwd, la raíz y el triplete que existe de verdad, y sale con cero bytes; el `SessionStart` de compactación la consume, avisa a la persona por `systemMessage` y no le entrega nada al modelo. La marca nunca toca el árbol de la persona. Codex no registra `PreCompact` y OpenCode no expone el evento: en esos dos hosts la regla de `use-lore`, releer contrato, Lore y `FASES.md` antes de seguir y decirlo, es lo único que queda. La marca respondió a una compactación real del 2026-10-04 en la que hubo que reconstruir el contexto leyendo archivos, con un contrato que ya ordenaba cargar el triplete al abrir y nada que lo recordara después de compactar. Una compactación sin marca previa, o en un árbol sin triplete, calla: el hook no avisa cuando no hay nada que avisar.
 - **El anuncio de proceso es una frase por árbol** – prosa del agente que dice qué clase de trabajo viene y qué juzga la persona; nunca un hook, nunca bloquea. Tres franjas por árbol, reclamadas con el chequeo de apertura; exit 1 significa que el pool se agotó.
 - **Una expansión material del criterio cargado siempre necesita autoridad** – el recibo v2 guarda `alwaysOnBytes`, el tamaño UTF-8 normalizado de los cuerpos Markdown de criterio apuntados directamente por el bloque `<!-- lore:always-on -->`. Los punteros repetidos cuentan una vez; se excluyen rutas que no resuelven, la prosa del bloque, `FASES.md` y `PHASES.md`. Un aumento de 8.192 bytes o más exige `lore-plugin mycelium receipt --accept-always-on`; sin ese flag el recibo no avanza. Es una frontera de autoridad derivada de casos observados, no un diagnóstico de crowding ni de calidad semántica.
 - **El recibo v1 sigue siendo legible** – el digest histórico de 64 caracteres migra en silencio cuando sigue vigente. Si quedó desfasado, el cambio de contenido sigue pendiente y no se inventa una comparación de tamaño porque v1 no conserva el `alwaysOnBytes` anterior.
 - **La infraestructura sana es silenciosa** – los hooks no emiten texto visible cuando todo está bien. Las skills comunican el resultado, la decisión o aprobación necesaria cuando hay un bloqueo, o nada cuando el trabajo automático termina limpio. Los nombres exactos de skills y modos siguen disponibles en documentación y diagnósticos técnicos, y se usan en conversación cuando el usuario menciona uno o pide detalle. Antes de entregar un artefacto externo, el agente conserva el significado pero reemplaza cada etiqueta interna por el lenguaje de la audiencia; el sitio, documento o deck final no contiene vocabulario del taller, incluso si se pidió fidelidad literal.
+
+- **El estado de una operación es dato, nunca estructura** – el texto de un objetivo, un responsable o una nota no puede abrir, cerrar ni duplicar un bloque de operación en `FASES.md`: las líneas de título son una sola línea sin marcadores de bloque, el JSON embebido escapa `<` y la valla de código, los marcadores cuentan solo al comienzo de una línea y un marcador repetido se rechaza en vez de adivinarse. Lo encontró la revisión de seguridad de 2.4.9 y se corrigió con la prueba escrita primero.
+- **Las puertas de la operación registran palabras; no prueban quién las dijo** – `authorize` guarda quién autorizó y sus propias palabras, el verificador se distingue del ejecutor por nombre, `close` recibe la declaración de quien certifica y `--tools` declara las herramientas que el operador observó. Son registros de buena fe por diseño: solo las palabras propias de la persona abren una puerta hacia afuera, y la afirmación de un agente nunca las reemplaza.
+- **Una escritura en otro árbol la decide el host, no el plugin** – la guardia clasifica el destino y lo anota; que una escritura ajena se pregunte, se permita o se niegue es del sistema de permisos del host (los permisos de Claude Code, el sandbox de Codex, `external_directory` y `edit` de OpenCode). En una configuración que agrega árboles hermanos como directorios de trabajo o corre sin preguntar, una escritura entre árboles pasa.
 
 Estas invariantes distinguen a Lore de herramientas genéricas de notas o logs:  
 el objetivo es mantener un cuerpo de criterio confiable, curado por humanos, del que la IA pueda depender.
 
 ---
 
+### Ejecutar OpenCode sin interacción
+
+`opencode run` necesita permisos explícitos para los delegados desatendidos. Una solicitud de permiso en `ask` se rechaza automáticamente y termina toda la ejecución; usa `lore-plugin opencode-permissions --project <dir> --from-routing` para permitir los árboles hermanos enrutados y denegar las demás rutas. Añade `--write` para fusionar la propuesta en el `opencode.json` de ese proyecto. También puedes usar `lore-plugin opencode-sandbox <dir>` para escribir un perfil confinado y crear su carpeta local `tmp`. Ningún comando cambia la configuración global de OpenCode.
+
+También importan tres detalles de invocación: cierra stdin (`< /dev/null` o `stdio: ['ignore', ...]`) o `opencode run` esperará EOF; coloca el mensaje antes de `-f <archivo>`, porque `-f` consume los argumentos posicionales que siguen; y fija `TEMP`, `TMP` y `TMPDIR` en `<dir>/tmp` para que los temporales de Node queden dentro del árbol de trabajo. El comando sandbox imprime esas variables y una línea recomendada sin lanzar OpenCode.
+
 ## 7. Relación con los otros documentos
 
 Este documento es el técnico completo: cómo empezar, uso cotidiano, conceptos, la especificación de
 cada skill/modo/artefacto y la migración. El [`README.md`](../README.md) lleva historia, motivación,
 arquitectura de un vistazo y el índice de todo lo demás; [`90_SECONDS_es.md`](./90_SECONDS_es.md) es
-la versión de 90 segundos; [`ENCRYPTION.md`](./ENCRYPTION.md), el cifrado opcional del criterio de un
-bot; [`CASES_es.md`](./CASES_es.md), los casos de estudio. Un solo documento técnico —en vez de una
+la versión de 90 segundos; [`CASES_es.md`](./CASES_es.md), los casos de estudio. Un solo documento técnico —en vez de una
 guía de uso y una referencia por separado que repetían el mismo modelo con otra voz— mantiene la
 especificación en un lugar y sin derivas entre copias.
 
@@ -1027,3 +1087,8 @@ Enfócate en reglas que aún restringen decisiones hoy; ignora los detalles obso
 
 `transmute-lore` no hace commit: el diff es tuyo para revisar como editor humano. Con uno o dos
 pilotos migrados, reutiliza los mismos patrones en los demás repositorios del Área.
+
+## Delegar a Codex y a OpenCode en Windows
+
+Con Codex `-s workspace-write`, solo puede escribir en directorios que crea o que le concedes con `--add-dir`; no puede editar archivos existentes en un directorio que ya existía con otros permisos de Windows, así que usa un worktree de Git nuevo o una carpeta nueva y copia allí los archivos que debe editar. Codex no puede leer fuera de su directorio de trabajo, así que copia dentro las referencias y las imágenes. Pon el prompt largo en un archivo y pásalo por stdin o una herramienta de archivos, nunca en un heredoc de shell ni entre comillas. En PowerShell, `npm test` puede bloquearse por la política de ejecución; usa `npm.cmd test`. Las rutas de Git Bash como `/c/Users/...` y `/tmp/...` no son rutas nativas para Node ni PowerShell: conviértelas con `cygpath -w` o usa rutas con barras normales como `C:/work/file`. Los avisos de Git «LF will be replaced by CRLF» en Windows son ruido de normalización; `.gitattributes` los evita. Que un trabajador salga con código 0 no demuestra una entrega: comprueba el artefacto esperado y verifícalo aparte.
+La puerta de liberación ejecuta toda la suite con `LORE_RELEASE_GATE=1` y exige cotejar la procedencia del método con el kernel externo de Vespi; apúntala a un checkout con `VESPI_KERNEL_DIR=C:/ruta/al/kernel` o `VESPI_KERNEL_DIR=file:///C:/ruta/al/kernel` y ejecuta `npm run test:release`.

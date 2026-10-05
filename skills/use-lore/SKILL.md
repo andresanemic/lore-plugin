@@ -1,17 +1,28 @@
 ---
 name: use-lore
-description: Use when the user mentions "lore", asks how this kit or its skills work, installs or updates the plugin, is unsure which Lore skill to invoke, wants to migrate an old project to the Lore standard, or keeps loose notes in the same folder tree as their Lore. Starting a new work area, project or bot is create-area, create-project or create-bot, not this skill.
+description: >-
+  Use when the person says quiero hacer esto y no se como or todavia no hay forma de trabajo —
+  no hay forma de trabajo yet, so what is missing is the shape itself and the agreement is what
+  is offered. Also when the user mentions lore, installs or updates the plugin, is unsure which
+  Lore skill to invoke, or keeps loose notes in the same folder tree as their Lore. Not yours:
+  if the same sentence narrows to thinking the design of a Lore-owned artifact, that phrase
+  belongs to brainstorming-lore; if a way of working already exists and is under strain, that
+  phrase belongs to vespi. Starting a new work area, project or bot is create-area,
+  create-project or create-bot, not this skill.
 ---
 
 # Using Lore
+
+> Invoke with the Skill tool as `use-lore`, or with the person's sentence «quiero hacer esto y no sé cómo» / «todavía no hay forma de trabajo» when no shape of working exists yet.
 
 Yesterday you and an agent solved something hard. You argued about the edges, you threw away two
 approaches, and the thing finally worked. Today, new session, you are explaining it again from the
 beginning — and the agent is not worse. It simply never received what the two of you worked out. The
 facts may have survived in a file somewhere. **The reason you changed your mind did not.**
 
-Lore is a **spec-driven development kit** built for that gap: it turns scattered, tacit project
-knowledge into **distilled, invariant criteria** that constrain every future decision. Where other
+Lore is a **spec-driven development kit** built for that gap: it supports explicit arbitration of
+scattered project knowledge into criteria that can guide future decisions within their stated
+scope; storing knowledge alone does not establish learning. Where other
 SDD kits speak in pure engineering terms, this one borrows a linguistic and epistemic vocabulary —
 *lore, identity, principles, transmutation, distillation* — to name the same discipline.
 
@@ -26,20 +37,27 @@ invoking any other Lore skill.
 > not an exemption: continuing is deciding.* Criterion that waits to be remembered is criterion
 > that does not run.
 >
-> **Every session opening checks that those bodies can load.** In a tree with `lore/`, run the
-> bundled `lore-plugin mycelium bodies --tree <root>` check against the governed root just resolved above before relying on its criterion. When a territory change resolves another root, repeat the check. If the
+> **A compaction is an opening too.** After the session compacts or resumes, re-read this tree's
+> contract, its Lore and its `FASES.md` before continuing, and say that you did. Near the context
+> limit, or when the person says you are about to compact, leave one line per decision in
+> `FASES.md` or in the operation's own state first. In a host with no compaction event, only this
+> rule stands.
+>
+> **Every session opening checks that those bodies can load — only when the work will rely on them.** In a tree with `lore/`, run
+> the installed local CLI's `mycelium bodies --tree <root>` against the governed root just resolved above before relying on its criterion. Set its path to this host's entry under `~/.lore-plugin/entry/<host>/scripts/lore-cli.mjs`; use only the current host's `claude`, `codex` or `opencode` entry. Never select whichever host entry happens to exist first. In Bash/Zsh, set `LORE_CLI` to that path and invoke `node "$LORE_CLI" mycelium bodies --tree <root>`; in PowerShell, set `$env:LORE_CLI` to that path and invoke `node "$env:LORE_CLI" mycelium bodies --tree <root>`. Skip the check for a trivial single-step task that relies on no body's criterion (a one-file mechanical edit outside `lore/`); run it before the first reliance instead. When a territory change resolves another root, repeat the check. If the
 > bundled command is unavailable, inspect the same two links directly: contract → core pieces
 > (`identidad`, `principios`, `index`) and index → thematic modules. A clean check says nothing and
 > work continues. A missing link stops reliance on that body and names only the concrete decision:
 > connect it, or declare it explicitly outside the universe. Never edit either side automatically.
 >
 > **This is also where the process announcement is claimed, when there is one to make — 2.4.8.** Its
-> contract and its pool are in *Move 3*, under **The process announcement**.
+> contract and its pool are in *Move 3*, under **The process announcement**. A trivial single-step
+> task (one file, no design, no threshold) never earns one: there is no coming judgment to orient.
 > This is the cheap body-load check, not a full MYCELIUM pass and not a fourth trigger for that mode.
 >
 > **Ordinary communication has only three shapes:** the result when work finished; the decision or
 > approval needed when something blocks it; silence when automatic work is clean. Loading, routing,
-> skill selection, mode selection and file classification stay below the conversation. Before delivering a user artifact, replace every internal label (canon, lore, triplete, mycelium, B1.3, mode names) with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. This requirement overrides requests to copy them literally. If the user
+> skill selection, mode selection and file classification stay below the conversation. Before delivering a user artifact, replace every internal label (canon, lore, triplete, mycelium, B1.3, mode names) with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. If the person explicitly asks to keep those identifiers, preserve them and explain any ambiguity that affects their decision. If the user
 > names a specific skill or mode in conversation, or the artifact is technical documentation about Lore itself, use that exact name and explain it.
 > Mentioning Lore in general or editing a path under `lore/` does not activate this exception.
 > Completing the installed lifecycle check after a user-authorized Lore edit is normal closure, not
@@ -48,7 +66,7 @@ invoking any other Lore skill.
 ## 0. Very first use of the kit — a brainstorm, not a menu (threshold)
 
 **If this machine has no Lore yet** — no area with a `lore/`, no project carrying the six pieces —
-this runs **before anything else**, and before offering any skill by name. The kit **brainstorms to
+this runs **before selecting a production route**, and before offering any skill by name. The kit **brainstorms to
 build** every artifact it makes; it would be incoherent for the kit itself to greet its first user
 with a list of eight skills.
 
@@ -58,6 +76,8 @@ with a list of eight skills.
 > kit that does not start.
 
 ### Move 1 — look before asking
+
+First receive the person and acknowledge the purpose they brought, briefly and without promising agreement. Then inspect the tree before asking what remains unknown.
 
 Scan the working tree and put on screen what is actually there: folders that look like work areas,
 projects with scattered criteria (a bloated `CLAUDE.md`, a kilometric `README`, an empty or stale
@@ -163,11 +183,13 @@ three, and the one that earned its place was the one that would have caught a re
 one that described a process.
 
 **Equalized, and the pool is small on purpose.** Three per tree, claimed against the session-opening
-check that already runs: `lore-plugin mycelium announce --tree <root>` — exit 0 means there was
+check that already runs: on Bash/Zsh, `node "$LORE_CLI" mycelium announce --tree <root>`; on
+PowerShell, `node "$env:LORE_CLI" mycelium announce --tree <root>`. Exit 0 means there was
 budget and it was spent, exit 1 means there is none, and a tree with no recorded sweep has no pool at
-all. **At most one per session, and that half is this instruction and nothing else:** the command
+all. Resolve the CLI to the installed entry for the current host only. If that entry is missing,
+omit the announcement and do not claim or reclaim budget through another host's entry. **At most one per session, and that half is this instruction and nothing else:** the command
 meters per tree and has no session identifier, so nothing verifies it. **Omitted entirely when the
-person arrives with an urgent instruction** — framing work nobody asked to have framed is ceremony,
+person arrives with an urgent instruction, and when the operation is a trivial single step** — framing work nobody asked to have framed is ceremony,
 not orientation.
 
 **It stays universal while it adds orientation, and one question judges it: does it add orientation, or does it add ceremony?** Its
@@ -176,6 +198,200 @@ and it is withdrawn. **Nothing may be built that depends on it.**
 
 **Boundary:** this gate is for the **first** Lore on the machine. Once one area exists, entry is by
 the routing table below and this section is skipped.
+
+## The agreement — offered on first use, binding only if you accept it
+
+### Why — why the agreement starts here, and not with the what or the how
+
+The agreement is how you and the kit work together on something that has to last more than one
+session. It is offered on **first use**, and it **binds only if you accept it**.
+**The kit never refuses to work without it.** Someone who arrives asking to create something
+directly gets the work built *with the agreement available* — offered at the threshold that already
+exists, never in the way.
+
+**Say the why first, in your own words and mine: what are you doing this for, and what do you want
+back at the end.** Only then the what and the how. That order is not rhetoric: a list of dials
+without a reason is a settings screen, and nobody agrees to a settings screen. The why is also the
+first section of the written document, because that is the part a reader six months from now cannot
+reconstruct.
+
+Then the three doors, because an agreement exists only if it passed all three: **the person was
+given the full recap, the person approved it explicitly, and it was written down before any
+building started.** Two doors is zero doors, and nothing reaches disk until all three are through.
+A tree with no approved agreement is a tree working exactly as it should.
+
+**Say it in second person, with no jargon**, and cover these five things, because nobody can agree
+to what they were not told: what does not move without your word; where there is margin; what we
+are trying that may fall; what stays open to surprise you; and when I come back to ask. Every
+*still don't know* carries the step that would settle it.
+
+**Ask the threshold, then run it — the check is real, not a sentence to recite:**
+
+```bash
+node <ruta-del-kit>/skills/use-lore/scripts/acuerdo.mjs primera-vez --raiz "<root>" --sesiones <n>
+```
+
+`ofrece: true` means there is no approved agreement here and the work is longer than one sitting:
+offer it. `motivo: "trabajo-corto"` means it is not, and offering anyway is ceremony. `motivo:
+"ya-hay-acuerdo"` means do not offer it again. The `porQue` it returns is the slot to fill first.
+
+### What you choose in that first agreement
+
+Two dials, a closed vocabulary, and a default each so nobody is asked twice:
+
+| Dial | Values | Default |
+|---|---|---|
+| How close the skills speak — `intensidad` | `sobria` \| `cercana` | `cercana` |
+| How fast — `ritmo` | `despacio` \| `normal` \| `rapido` | `normal` |
+
+And your **limits of use**, which name a **model family** and a **level** — not version numbers,
+so a provider's bump does not leave anyone pinned to a model nobody maintains. Each limit says
+what is never used, and a limit resting on anything temporary carries the date it expires. Apply
+a limit by family and level; never write a version number into it.
+
+**The family is an identifier, and it is a closed vocabulary** — the third one, after the two
+dials. `acuerdo.mjs` exports it as `FAMILIAS`, and it is checked, not assumed:
+
+- **No version, not even glued on.** `4.5.1` and `opus-4.5.1` are both rejected, and so is
+  `gpt-4.1-turbo`. A number *with a dot* is a pin to a version; a plain integer is part of the
+  family's own name, so `gpt-5` and `o3` are families and go in.
+- **A family this kit does not recognize is a visible error, not a record.** A limit on an
+  invented family protects nothing, and three months on nobody can tell what was meant.
+- **A date is a calendar date, not four digits and two hyphens.** `vence` is checked against the
+  real calendar — month 01–12, a day that exists in that month, and 29 February only in a leap
+  year. `2026-99-99` is rejected, and so is an amendment dated `2026-02-30`.
+
+### The silent check, before each new piece of work
+
+Before taking on a new piece of work, ask yourself — **silently, without saying it** — whether the
+agreement in force already covers it. Covered: get on with it and say nothing. Not covered: that
+is the only case that goes to the person, as one line, in their language. An amendment that takes a
+piece out of the agreement sends that piece back to the question.
+
+**With no agreement in force, nothing is covered — and nothing is asked either.** The offer was
+already made once, at the threshold. Asking again about every new piece would turn the agreement
+into a toll, and *the agreement is never imposed* is a hard rule, not a bet.
+
+### What changes afterwards is an amendment
+
+Nothing in the agreement is rewritten. What changes later **enters as a dated amendment**,
+appended below what came before and authorized by the person, so a reader a month from now sees
+what was agreed first and what moved after it, in that order. Without the person's word there is
+no amendment, and the agreement stays as it was. An amendment without a date is refused, and so is
+registering a second agreement over the first one: what exists is amended, never replaced.
+
+### The four bets — and what happens when one falls
+
+The agreement declares exactly four bets, all of them about the apparatus and never about you:
+
+> 1. Que las frases cotidianas alcancen para repartir el trabajo entre las tres skills.
+> 2. Que el recordatorio por hook sostenga el registro turno a turno.
+> 3. Que OpenCode permita avisar sin bloquear.
+> 4. Que cada host deje leer el uso de la sesión; donde no, se usan las señales contables y se declara por escrito.
+
+**When a bet falls, work continues.** Without the everyday phrases, ask; without the hook
+reminder, keep the turn's record in `FASES.md`; without notifying without blocking, the notice is
+still made but rides along with the next thing you were already going to hear. And where the host
+does not expose session usage, the countable signals stand in — **and that they are standing in is
+said out loud**, because counting them as if they were the usage would tell the person something the
+kit does not know. Each fails toward asking, toward talking and toward not blocking — never toward
+going quiet.
+
+**And the one thing that is not a bet:** the work
+**stops when something that did not need your word is about to move without it** — freezing or
+publishing a version, writing criteria outside the skill that governs them, **imposing this
+agreement**, or reaching for the most expensive model by default. That list is a hard rule, never
+a bet: no bet falling touches it, and the kit never crosses it on its own.
+
+**And the one hard rule that is not a stop:** the agreement records this rule: the guard records
+writes into another owner's tree; the host's permission system decides whether they proceed. The
+coordinator must still respect the owning governance. It stays under its own heading in
+`acuerdo.md` and does not replace the person's authority.
+
+### Who updates hears about it once
+
+Whoever updates from an earlier version gets one short plain message, **once**: Vespi arrived, what
+it can do, and the invitation to set their limits.
+
+```bash
+node <ruta-del-kit>/skills/use-lore/scripts/acuerdo.mjs aviso --raiz "<root>" --desde <version-anterior>
+```
+
+**Showing that message never approves an agreement.** It writes its own record, and `leer()` /
+`hayAcuerdo()` answer *no* on a tree where the notice has been shown and nobody approved anything.
+The offer is still standing, and the first use still offers it.
+
+`skills/use-lore/scripts/acuerdo.mjs` holds all of this as executable law rather than prose: which
+dials exist and what they default to, which limits are legal, whether all three doors were through,
+whether a piece is covered, how an amendment appends, and the fallback for each fallen bet. Reach
+for it when you need a decision instead of a paragraph. **The document is `acuerdo.md` at the tree
+root, beside `FASES.md` and never inside `lore/`; the machine-readable state is `.lore-acuerdo`**
+beside it — the document is appended to, the receipt is rewritten.
+
+### An agreement they already wrote, in their own language
+
+Someone may hand you an `acuerdo.md` they wrote themselves, in their language, with their own
+headings. **Do not rewrite it, do not translate it, and do not ask them to adopt ours.** Record it
+as it is:
+
+```bash
+node <ruta-del-kit>/skills/use-lore/scripts/acuerdo.mjs registrar-escrito --raiz "<root>" --ahora <YYYY-MM-DD>
+```
+
+That checks the document exists, is not empty and is text, computes its digest, and writes the
+`.lore-acuerdo` receipt the kit already reads — so `hayAcuerdo()` answers yes and the first use
+stops offering. **It records no dial, no limit and no recap, because they did not write any**, and
+the kit keeps operating with its defaults; inventing a value the person never chose would be worse
+than having no receipt. Refused, each with its reason: a missing, empty or non-text file, a path
+that leaves the tree, and a receipt whose digest no longer matches the document — that last one
+means the text changed outside an amendment, and the door for it is the amendment, not a new record.
+
+**And a change in prose.** What follows does not fit the closed vocabularies — not a dial, not a
+limit, not a covered piece — and that is not a mistake on their part:
+
+```bash
+node <ruta-del-kit>/skills/use-lore/scripts/acuerdo.mjs enmendar-prosa --raiz "<root>" --ahora <YYYY-MM-DD> --autorizado true --texto "<their words>"
+```
+
+It appends their sentence, dated, under a heading, at the end, and updates the receipt's digest.
+Everything above stays byte for byte. Same three doors as any amendment: a registered agreement,
+**their word** (`--autorizado`), and a real date — without one of them nothing is written and the
+answer says which. Both paths are offered, never taken on your own: the file being there is not
+approval, and `hayAcuerdo()` keeps answering no until someone runs the record.
+
+### Who appears, and when — the everyday phrases
+
+Three skills answer the three ways a person says something ordinary. Which one answers is decided
+by **which of two states the work is in**, not by which skill sounds most apt.
+
+**Still no shape of work.** *«Quiero hacer esto y no sé cómo»* — todavía no hay forma de trabajo.
+That is this skill: what is missing is the shape itself, and the shape is what the agreement
+offers. When what has to be settled first is the design of a Lore-owned artifact, the same sentence
+narrowed, it belongs to `brainstorming-lore`.
+
+**The shape exists and está en riesgo.** *«Esto me está complicando»*, *«se está perdiendo lo que
+decidimos»*, *«sigamos mañana»*. That is `vespi`. Nothing is missing here; the way of working is
+under strain. **Under strain is not the same as absent**, and confusing the two is the mistake this
+paragraph exists to prevent: an absent shape is not a broken operation, and re-opening the
+agreement over a strained one is the second failure in the same place.
+
+**Under the agreement, all three go quiet.** A vigente agreement that already covers the piece
+silences every one of them, including when the piece is under strain. That is the silent check
+above, and it is silent on purpose — and the check is the same one `brainstorming-lore` and
+`vespi` apply, because a skill that answers a phrase the agreement already covers is the person
+being asked about the same thing twice.
+
+**Under the phrases, the five conditions — the R2 internal test.** The phrases are what a person
+says. These five are what the agent can count, and they run under every phrase, whether or not a
+phrase arrived: **no hay acuerdo para** that kind of work; the
+agreement that exists **ya no cubre** the case; the owner says the shape **dejó de servir**;
+**falla una condición concreta** of the agreement; or **fricción que se repite**. Never because
+some other way of doing it is imaginable, and never because a model arrived.
+
+**And each one stays silent when the phrase belongs to another.** This skill hands the design to
+`brainstorming-lore`, and both hand the strain to `vespi`. A skill that answers a phrase owned by
+another is not being helpful: it takes the work away from the skill that will carry it, and the
+person ends up holding two answers to one sentence.
 
 ## The standard: the skill runs, and it is the current one
 
@@ -429,7 +645,7 @@ never paid for will start receiving promotions that belong somewhere else.
 | Leave Lore without losing the project — remove governance, keep `lore/` and routing as plain `enrutamiento.md` | `transmute-lore` (**LEAVE**): one-pass structural removal of the `<!-- lore:always-on -->` block, conversion of `FASES.md` to host init, project stays buildable; a kit you cannot leave makes `H13` unmeasurable |
 | Export a project, Area or bot's **live routed Lore as one Markdown** for a chat, AI project or notebook — and **extract** that file back into a folder whose routing table resolves | `transmute-lore` (**CRYSTALLIZE**): inlines every routed `lore/` (including `lore-ecosistema/`) into one snapshot marked so the bundled script can unpack it; a file that only points at missing bodies has failed the mode |
 | Capture or **mine loose notes** (`notas/`, `notes/`, `apuntes/`, `.md`, `.txt`, `.docx`) and route what deserves to become criteria | `save-to-lore` — read its conditional `notas.md` function |
-| Continue a **live operation under pressure** across sessions — effects carry authority, resuming silently would pretend nothing changed, the route may not suffice | `vespi`, silently like any route: operation state lives in `operations/<id>/`, never duplicated into `FASES.md` (one pointer line); close states which closure closed — session, run, operation, or phase |
+| Continue a **live operation under pressure** across sessions — effects carry authority, resuming silently would pretend nothing changed, the route may not suffice | `vespi`, silently like any route: operation state lives as one block of the project's own `FASES.md` (`## Operaciones`), a single checkpoint with no second copy; close states which closure closed — session, run, operation, or phase |
 | Work in a repository that **also** has GitHub's spec-kit (`.specify/` is present) | Nothing new to invoke. Read [`docs/SPEC_KIT_en.md`](../../docs/SPEC_KIT_en.md) and copy `assets/constitucion-puntero.md` over the constitution `specify init` generated. **Lore never depends on spec-kit** — this row is recognition, not a dependency |
 | **Decide whether to add spec-kit** to a repository that has Lore | Answer by level before installing anything: an **area** does not take it — its unit of work is a clue, not a feature; a **project** takes the whole cycle; a **bot** takes `specify → plan → tasks` only, and `implement` runs in the destination repository its spec names. Table and the closing clause for the bot case: [`docs/SPEC_KIT_en.md`](../../docs/SPEC_KIT_en.md) |
 
@@ -508,6 +724,18 @@ survives to CAPTURE or GRAFT. Obsidian is one possible editor, never a prerequis
 > urge to preserve without producing criteria — the record exists, so the distillation never
 > happens, and the criterion stays inert inside it. Separating notes from Lore does not fix that;
 > only sweeping the inbox does.
+
+### Three ordinary phrases, three owners (canonical routing — lives only here)
+
+The state of the work decides, not the wording. Under an active agreement that already covers the piece, all three go quiet: the silent check runs first, silently.
+
+| The person says | It belongs to | Because |
+|---|---|---|
+| "quiero hacer esto y no se como" / "todavía no hay forma de trabajo" | `use-lore` | no shape of work yet; the agreement offers it |
+| same sentence + "hay que pensar el diseño antes de construir" (a Lore-owned artifact) | `brainstorming-lore` | the shape itself has to be worked out first |
+| "esto me está complicando" / "se está perdiendo lo que decidimos" / "sigamos mañana" | the **coordinator**, which invokes the `vespi` operation | an existing way of working under strain; a human phrase never invokes Vespi directly |
+
+Under the phrases, the five R2 conditions run as the internal test under every phrase, whether or not a phrase arrived.
 
 ## Language of the Lore
 

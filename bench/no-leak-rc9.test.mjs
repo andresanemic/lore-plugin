@@ -11,7 +11,7 @@ test("user artifacts ship with zero internal labels — central clause in use-lo
   const useLore = read("skills/use-lore/SKILL.md");
   assert.match(useLore, /before delivering a user artifact.*replace every internal label/i);
   assert.match(useLore, /contains zero internal labels/i);
-  assert.match(useLore, /requirement overrides requests to copy them literally/i);
+  assert.match(useLore, /if the person explicitly asks to keep those identifiers, preserve them and explain any ambiguity that affects their decision/i);
   assert.match(useLore, /in conversation.*technical documentation about Lore itself/i);
   assert.match(useLore, /site.*document.*deck|document.*deck|user artifacts/i);
   assert.match(useLore, /canon.*lore.*mycelium|internal vocabulary/i);
@@ -31,6 +31,10 @@ test("every skill carries the one-line zero-label delivery check", () => {
     const body = read(f);
     assert.match(body, /before delivering a user artifact.*replace every internal label/i, f);
     assert.match(body, /contains zero internal labels/i, f);
-    assert.match(body, /requirement overrides requests to copy them literally/i, f);
+    if (f === "skills/use-lore/SKILL.md") {
+      assert.match(body, /if the person explicitly asks to keep those identifiers, preserve them and explain any ambiguity that affects their decision/i, f);
+    } else {
+      assert.match(body, /requirement overrides requests to copy them literally/i, f);
+    }
   }
 });

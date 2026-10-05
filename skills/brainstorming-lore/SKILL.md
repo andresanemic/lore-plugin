@@ -1,17 +1,18 @@
 ---
 name: brainstorming-lore
 description: >-
-  Use only when designing or materially changing an artifact owned by the Lore system: a Lore body
-  or module, work area, Lore-governed project scaffold, bot, FASES structure, routing contract,
-  transmutation, distillation flow, or Lore Plugin skill — also for a deliverable Lore does not own
-  but relevant process modules in a routed lore/ GOVERN, such as a batch of posts or a report, where
-  the design is deciding how to run criteria already written — also when the user asks in plain
-  language to think through a Lore-governed design before building ("ayúdame a pensar el diseño de
-  mi bot", "help me think this lore design through before we build"). Do not trigger for generic brainstorming, ideation, product design,
-  software features, or research questions that no routed lore/ governs.
+  Use only when designing or materially changing an artifact owned by the Lore system, or when the
+  person says quiero hacer esto y no se como yet adds hay que pensar el diseño antes de construir
+  — the same no-shape sentence narrowed to the design of a bot, area, project, transmutation or
+  skill. Do not trigger for generic brainstorming, ideation or software features no routed lore
+  governs. Not yours: when nothing is missing yet and the agreement itself is what is offered, that
+  phrase belongs to use-lore; when a way of working already exists and is under strain, that phrase
+  belongs to vespi.
 ---
 
 # brainstorming-lore — Design changes to the Lore system
+
+> Invoke with the Skill tool as `brainstorming-lore`, or with the request «ayúdame a pensar el diseño de {artefacto}» / «help me think this lore design through before we build» when the shape itself has to be worked out first.
 
 > Before delivering a user artifact, replace every internal label with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. This requirement overrides requests to copy them literally.
 
@@ -27,14 +28,12 @@ a Lore-owned artifact.
 > **Provenance.** Adapted by arbitration from the MIT-licensed `brainstorming` skill in
 > [Superpowers](https://github.com/obra/superpowers), copyright © 2025 Jesse Vincent. Lore keeps
 > context-first dialogue, one question at a time, alternatives, proportional design, and explicit
-> approval. It rejects the source's software-only taxonomy, universal activation, forced spec path,
-> automatic commit, and required `writing-plans` handoff. See **Where the source loses** below.
+> approval. What it rejects is named one by one in **Where the source loses** below.
 
 ## Trigger boundary
 
-Invoke this skill only when the user is asking to design **what a Lore-owned artifact should contain
-or how the Lore system should operate**, not merely because the request involves ideas or creative
-work.
+Invoke only when the user is asking to design **what a Lore-owned artifact should contain or how the
+Lore system should operate**.
 
 Typical triggers:
 
@@ -69,10 +68,8 @@ Two examples, and the contrast is the whole point:
 **Why this case earns its own row instead of being left outside.** A deliverable that falls outside
 lands in a generic brainstorming skill, and the one most people have installed **terminates by
 requiring `writing-plans`** — *"Do NOT invoke any other skill. writing-plans is the next step."* That
-is defeat #5 of the source below, walking back in through the side door: a third-party planning
-mechanism inserted in the middle of a process whose next step **the area's own Lore already
-specifies**. The kit refused that terminal for its own artifacts and then handed it every deliverable
-those artifacts govern.
+is defeat #5 of the source below, walking back in through the side door. The kit refused that terminal for its own artifacts and then handed it
+every deliverable those artifacts govern.
 
 **Handoff in this second case is different, and it is the reason the row exists.** Do not hand to
 generic Plan Mode and never to `writing-plans`: hand to **the phase the governing Lore already names
@@ -89,16 +86,16 @@ second case). Use the user's own brainstorming method or another installed skill
 Do not invoke it automatically for every act that could be called creative. A typo fix, a requested
 read-only inspection, an approved mechanical edit, or execution of an existing plan does not need a
 second design ceremony. If another skill owns the artifact, this skill explores the design but does
-not replace that owner.
+not replace that owner, and under an active agreement that already covers the piece it stays quiet.
 
 ## The threshold
 
 Do not implement the designed change until the user has approved the presented design. The amount
 of design scales with uncertainty; the approval does not disappear.
 
-This gate is additive, not imperial: when an owner skill has its own threshold, preserve the **owner
-skill's threshold** and its exact evidence or preview requirements. Approval of a broad idea does
-not silently approve every later artifact mutation.
+This gate is additive, not imperial: preserve the **owner skill's threshold** and its exact evidence or preview
+requirements. Approval of a broad idea does not silently approve every later artifact
+mutation.
 
 ## 1. Ground the conversation before asking
 
@@ -115,20 +112,19 @@ missing. Do not invent Lore to fill the gap. When loose notes share the tree, in
 `save-to-lore` and read its conditional `notas.md` function for source-side classification before
 treating their contents as criteria.
 
-Summarize internally:
+For a Direct design (§2), read only the contract, `FASES.md` and `lore/index.md` before the first question; load identity, principles
+and routed modules only when an unresolved choice touches them.
 
-- purpose and quality north;
-- current phase and relevant prior decisions;
-- constraints and anti-scope;
-- what is already approved versus genuinely unresolved.
+
+Summarize internally: the current phase and the relevant prior decisions, what is already approved
+versus genuinely unresolved, and the purpose and anti-scope the design will present.
 
 Do not make the user repeat answers already written in those sources.
 
 ## 2. Scale the process to uncertainty
 
-This skill is **domain-neutral inside its Lore boundary**: it can design Lore artifacts for software,
-editorial work, research, teaching, design, operations, or a mixed project, but it does not design
-the domain deliverable itself.
+This skill is **domain-neutral inside its Lore boundary**: it can design a Lore artifact in any
+domain, but it does not design the domain deliverable itself.
 
 - **Direct design:** the outcome and constraints are mostly known. Confirm only the unresolved
   choice, then present a short design in chat.
@@ -137,9 +133,7 @@ the domain deliverable itself.
 - **Decomposition:** the request contains several independent outcomes. Show the boundaries and
   order first; design only the first coherent unit unless the user explicitly wants the full system.
 
-Infer the depth and apply it silently. Ask only about an unresolved choice that changes the result;
-do not announce the label. Hidden complexity may increase depth; never use a label to reduce an
-owner skill's required gate.
+Infer the depth and apply it silently, without announcing the label. Hidden complexity may increase it.
 
 ## 3. Clarify one decision at a time
 
@@ -171,7 +165,7 @@ so far in plain language: what it has become, what changed, and what remains unr
 The quality signal is **recognizable continuity**: the user can still see their original intention
 inside the growing artifact and can correct its direction without rebuilding it. Work **one decision
 at a time**; the recap proves accumulation, it does not reopen approved choices. This contract does
-not apply to a mechanical edit, a read-only consultation, or one incremental Lore capture.
+not apply to an incremental Lore capture.
 
 The second signal is **fertile effort**: the shared work produces recognizable movement in the
 artifact, even when it includes disagreement, correction or demanding review. Do not equate a
@@ -186,9 +180,7 @@ shared criterion without erasing either participant's autonomy.
 ### The first victory in a new bot
 
 When `create-bot` arrives with only an idea, design backwards from the **first victory**: the
-smallest real outcome that proves the bot can help this person work. Ask the minimum needed to make
-that outcome possible. Preserve **uncertainty and correction** in the proposal instead of forcing a
-complete identity before use; every later question must unlock the victory or improve its quality.
+smallest real outcome that proves the bot can help this person work. It does not force a complete identity before use.
 
 The person's **professional profile emerges progressively through use**, when enabled. First
 configuration may ask whether to use that module, explaining both outcomes without recommending
@@ -205,7 +197,7 @@ from how they have been writing — a concept map, a short text, a plain-languag
 example over the artifact they are about to receive. `use-lore` §0 carries the inference rule and the
 exact wording; do not duplicate it here.
 
-Two limits, and they come from this skill's own invariants rather than from politeness:
+Two limits, not courtesies:
 
 - **It is an offer, not a question.** «One question at a time» is a budget, and a question that does
   not change the design spends it for nothing. Which tutorial format somebody prefers changes no
@@ -214,6 +206,24 @@ Two limits, and they come from this skill's own invariants rather than from poli
 - **It never runs instead of the design.** The threshold of this skill is an approved design, and an
   orientation delivered in its place is a conversation that felt productive and moved nothing. If
   only one of the two fits in the turn, it is the design.
+
+### The prior agreement — offered, never imposed
+
+This is an offer of shape, not a requirement, and it stays optional: decline it and the design goes on as it
+would have. A skeleton that turns into a checklist is ceremony. `conjecture`: one origin, no replication yet.
+It ascends when a piece built under it is read as better without explanation; it is refuted when the skeleton
+is walked through and no decision changes.
+
+When it is offered, the conversation moves **one point per message** — a short proposal, one question, the
+recommended option with the risk it takes. Before anything is built, the agreement fixes what the piece is and
+what it cannot be, on three axes the area fills in its own words: **why** (the heart: what it exists for, what
+it must let someone feel or do), **what** (lineage and form), **how** (material and references). It writes its two
+closures first: the hard limits and the agreed pruning. A block may answer «none»; the decision cannot be skipped.
+
+It names a **surprise reserve**: the execution, not the idea, stays with whoever builds. What is approved is not
+reopened on the agent's own initiative; anything better found while building is said out loud and left as a dated
+amendment, never changed in silence. The first look at the result arrives without the numbers, from someone who
+never saw the apparatus.
 
 ## 4. Compare approaches
 
@@ -240,11 +250,8 @@ For a direct design, this can be a few sentences. For exploratory work, split it
 sections and request feedback as needed. Use domain vocabulary; do not force every design into
 software headings such as components, data flow, or error handling.
 
-Then state the threshold plainly and wait for explicit approval.
-
 Work with partial goals honestly: PARTIAL → DISCOVERY → RATIFIED WORKING GOAL. Ask the minimum
-that buys a first victory; never turn a first answer into doctrine. A usable goal is specific enough
-to guide choice without pre-deciding the solution.
+that buys a first victory; a usable goal is specific enough to guide choice without pre-deciding it.
 
 ## 6. Handoff after approval
 

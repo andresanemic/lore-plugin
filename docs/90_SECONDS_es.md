@@ -58,6 +58,10 @@ No es un README, no es un changelog, no es un documento de diseño. Esos describ
 Y la mayor parte de lo que pasa no sobrevive. Eso es el diseño: un Lore vale lo que cambia en
 decisiones futuras, nunca lo que guarda.
 
+## Y ahora también ejecuta
+
+Lore Plugin es el sistema operativo del trabajo con IA: guarda tu criterio, corre el método en silencio y ejecuta con Vespi. No necesitas saber qué es TDD, una spec o un plan maestro: trabajas y el kit aplica la disciplina sin que tengas que pedirla. (Identidad arbitrada 2026-10-02.)
+
 ## Empezar
 
 Instala el plugin y escribe **«quiero comenzar a usar Lore Plugin, ayúdame»**. El kit hace brainstorming para construir — no te va a entregar un

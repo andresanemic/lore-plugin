@@ -7,9 +7,11 @@
 //
 // Se usa desde la guardia de Codex y desde los subcomandos locales de `lore-plugin mycelium`.
 
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import {
+  chmodSync,
   existsSync,
+  lstatSync,
   mkdirSync,
   readdirSync,
   readFileSync,
@@ -195,9 +197,9 @@ export function writeReceipt(root, state = snapshot(root)) {
   const carried = state.announce ?? readReceipt(root)?.announce;
   if (carried) receipt.announce = carried;
   const target = join(root, RECEIPT);
-  const temporary = join(root, `${RECEIPT}.${process.pid}.tmp`);
+  const temporary = join(root, `${RECEIPT}.${randomUUID()}.tmp`);
   try {
-    writeFileSync(temporary, `${JSON.stringify(receipt)}\n`);
+    writeFileSync(temporary, `${JSON.stringify(receipt)}\n`, { flag: "wx" });
     renameSync(temporary, target);
   } finally {
     if (existsSync(temporary)) unlinkSync(temporary);
@@ -258,7 +260,28 @@ export function claimAnnounce(root, { pool = ANNOUNCE_POOL, now = Date.now() } =
 // está disponible, el guard trata la sesión como sin base y arma en el próximo
 // cambio, nunca en el arranque.
 
-const SESSION_DIR = join(tmpdir(), "lore-plugin-sessions");
+export const SESSION_DIR = join(tmpdir(), "lore-plugin-sessions");
+
+// La memoria de sesión vive en el tmp del sistema, y `mkdirSync(..., { mode })` solo(mode) en el
+// momento de crear: un directorio plantado antes conservaba su modo, y uno que fuera un enlace
+// se seguía como si fuera el del kit. Aquí se comprueba el directorio cada vez que se va a
+// escribir: si es un enlace no se sigue, y si el modo abre el grupo o el resto se corrige.
+// Devuelve el directorio, o `null` cuando no se puede usar (el callers ya falla abierto).
+function sesionPrivada() {
+  try {
+    mkdirSync(SESSION_DIR, { recursive: true, mode: 0o700 });
+  } catch {
+    return null;
+  }
+  try {
+    const st = lstatSync(SESSION_DIR);
+    if (st.isSymbolicLink()) return null;
+    if ((st.mode & 0o077) !== 0) chmodSync(SESSION_DIR, 0o700);
+    return SESSION_DIR;
+  } catch {
+    return null;
+  }
+}
 
 function sessionBaselinePath(sessionId, root) {
   const key = createHash("sha256")
@@ -292,11 +315,12 @@ export function writeSessionBaseline(sessionId, root, state) {
     || !Number.isInteger(state.alwaysOnBytes)
     || state.alwaysOnBytes < 0) return;
   try {
-    mkdirSync(SESSION_DIR, { recursive: true });
+    if (!sesionPrivada()) return;
     const target = sessionBaselinePath(sessionId, root);
-    const temporary = `${target}.${process.pid}.tmp`;
+    const temporary = `${target}.${randomUUID()}.tmp`;
     writeFileSync(temporary,
-      `${JSON.stringify({ digest: state.digest, alwaysOnBytes: state.alwaysOnBytes })}\n`);
+      `${JSON.stringify({ digest: state.digest, alwaysOnBytes: state.alwaysOnBytes })}\n`,
+      { mode: 0o600, flag: "wx" });
     renameSync(temporary, target);
   } catch {
     /* tmp no disponible: el guard arma en el próximo cambio, no en el arranque */
@@ -313,10 +337,10 @@ function sessionRootPath(sessionId) {
 export function writeSessionRoot(sessionId, root) {
   if (!sessionId || !root) return;
   try {
-    mkdirSync(SESSION_DIR, { recursive: true });
+    if (!sesionPrivada()) return;
     const target = sessionRootPath(sessionId);
-    const temporary = `${target}.${process.pid}.tmp`;
-    writeFileSync(temporary, `${JSON.stringify({ root: resolve(root) })}\n`);
+    const temporary = `${target}.${randomUUID()}.tmp`;
+    writeFileSync(temporary, `${JSON.stringify({ root: resolve(root) })}\n`, { mode: 0o600, flag: "wx" });
     renameSync(temporary, target);
   } catch {
     /* tmp no disponible: la jurisdicción cae al cwd */
@@ -331,6 +355,160 @@ export function readSessionRoot(sessionId) {
   } catch {
     return null;
   }
+}
+
+// --- el conteo de turnos de esta sesión (R28) ---------------------------------
+//
+// El recordatorio por turno dice en qué turno va la sesión, y para que ese número
+// signifique algo tiene que contar de verdad: si se calculara a mano, dos sesiones
+// abiertas a la vez dirían las dos "turno 1" y el número mentiría.
+//
+// Vive en el mismo tmp que la base de sesión, por session_id y raiz, y es lo unico
+// que se escribe ahi sin venir a revisar el Lore. Un archivo roto o ausente vale
+// turno 1: el recordatorio tiene que llegar igual, y un contador que se traba
+// convertiria una marca util en un turno que no avanza.
+
+function sessionTurnPath(sessionId, root) {
+  const key = createHash("sha256")
+    .update(`turno\0${sessionId ?? "no-session"}\0${resolve(root)}`)
+    .digest("hex");
+  return join(SESSION_DIR, `${key}.turno.json`);
+}
+
+export function nextTurn(sessionId, root) {
+  const target = sessionTurnPath(sessionId, root);
+  let n = 0;
+  try {
+    const parsed = JSON.parse(readFileSync(target, "utf8"));
+    if (Number.isInteger(parsed?.n) && parsed.n >= 0) n = parsed.n;
+  } catch {
+    /* sin archivo o ilegible: la sesion arranca en su primer turno */
+  }
+  const siguiente = n + 1;
+  try {
+    if (sesionPrivada()) {
+      const temporal = `${target}.${randomUUID()}.tmp`;
+      writeFileSync(temporal, `${JSON.stringify({ n: siguiente })}\n`, { mode: 0o600, flag: "wx" });
+      renameSync(temporal, target);
+    }
+  } catch {
+    /* tmp no disponible: el numero no avanza, y el recordatorio sigue llegando */
+  }
+  return siguiente;
+}
+
+// --- la marca de compactación (2.4.9) ------------------------------------------
+//
+// El 2026-10-04 el coordinador de una sesión se autocompactó y hubo que reconstruir el contexto
+// leyendo archivos. El contrato del bot ya ordenaba cargar el triplete al ABRIR; nada le
+// recordaba hacerlo DESPUÉS de compactar.
+//
+// La marca es el recordatorio más barato que existe y el único que no puede volverse texto para el
+// modelo: un archivo en el tmp de la sesión. El `PreCompact` la escribe (cero bytes de salida), y
+// el `SessionStart` de compactación la consume y avisa a la PERSONA. Nada de esto entra al
+// contexto del modelo, que es la restricción medida del kit: un `additionalContext` se lo toma
+// como instrucción de la persona y lo narra.
+//
+// El triplete es el trio que el kit ya nombraba: el contrato que eligió el host, el cuerpo que
+// enruta el Lore de este árbol, y el estado. Se registra lo que EXISTE, no lo que debería: una
+// lista de tres rutas donde una no está es una afirmación falsa sobre el árbol, y la marca se
+// lee para volver a cargar, no para presumir de estructura.
+
+export const COMPACT_MARK = "compactacion";
+
+// Las tres ranuras del triplete, en ese orden, con las variantes que el propio kit ya nombra:
+// `AGENTS.md` donde el host eligió ese contrato, `lore/enrutamiento.md` en un bot y `canon/`
+// donde el canon vive aparte del `lore/`. Cada ranura aporta como mucho una ruta.
+export const TRIPLETE = [
+  ["CLAUDE.md", "AGENTS.md"],
+  ["lore/index.md", "lore/enrutamiento.md", "canon/index.md", "canon/enrutamiento.md"],
+  ["FASES.md", "PHASES.md"],
+];
+
+export function tripleteOf(root) {
+  const encontrado = [];
+  for (const ranuras of TRIPLETE) {
+    const existe = ranuras.find((nombre) => {
+      try {
+        return statSync(join(root, nombre)).isFile();
+      } catch {
+        return false;
+      }
+    });
+    if (existe) encontrado.push(existe);
+  }
+  return encontrado;
+}
+
+// Un `session_id` es un UUID en Claude Code y en Codex. Se sanea igual: un identificador hostil
+// no puede convertir el nombre del archivo en una ruta que salga del directorio de sesión. Sin
+// identificador no hay sesión a la que volver, y por lo tanto no hay marca: `String(null)` es
+// `"null"`, que escribiría una marca de una sesión que nunca existió.
+function safeSessionName(sessionId) {
+  if (typeof sessionId !== "string") return null;
+  const limpio = sessionId.replace(/[^A-Za-z0-9._-]/g, "_").slice(0, 96);
+  if (limpio === "" || limpio === "." || limpio === ".." || limpio.startsWith("..")) return null;
+  return limpio;
+}
+
+function compactMarkPath(sessionId) {
+  const nombre = safeSessionName(sessionId);
+  return nombre === null ? null : join(SESSION_DIR, `${COMPACT_MARK}-${nombre}.json`);
+}
+
+export function readCompactMark(sessionId) {
+  const target = compactMarkPath(sessionId);
+  if (!target) return null;
+  try {
+    const marca = JSON.parse(readFileSync(target, "utf8"));
+    if (marca?.version !== 1 || typeof marca.at !== "string"
+      || typeof marca.cwd !== "string" || typeof marca.raiz !== "string"
+      || !Array.isArray(marca.triplete)) return null;
+    return marca;
+  } catch {
+    return null;
+  }
+}
+
+/** Escribe la marca y devuelve su contenido, o `null` si no se pudo. Nunca lanza.
+ *  Falla abierto en toda línea: un `PreCompact` que no puede marcar deja pasar la compactación,
+ *  que es lo único razonable — el aviso es una ayuda, no una condición. */
+export function writeCompactMark(sessionId, { cwd, raiz, trigger, now = Date.now(), triple = null } = {}) {
+  const target = compactMarkPath(sessionId);
+  if (!target || typeof raiz !== "string" || !raiz) return null;
+  const marca = {
+    version: 1,
+    session: safeSessionName(sessionId),
+    at: new Date(now).toISOString(),
+    cwd: typeof cwd === "string" && cwd ? cwd : raiz,
+    raiz,
+    trigger: typeof trigger === "string" && trigger ? trigger : null,
+    triplete: Array.isArray(triple) ? triple : tripleteOf(raiz),
+  };
+  try {
+    if (!sesionPrivada()) return;
+    const temporal = `${target}.${randomUUID()}.tmp`;
+    writeFileSync(temporal, `${JSON.stringify(marca)}\n`, { mode: 0o600, flag: "wx" });
+    renameSync(temporal, target);
+  } catch {
+    /* tmp no disponible o la marca no se puede escribir: la compactación no se bloquea */
+    return null;
+  }
+  return marca;
+}
+
+/** Consume la marca. Devolver el contenido ANTES de borrarla es lo que permite al `SessionStart`
+ *  decir algo sin volver a leer el disco, y `null` cuando no había nada que decir. */
+export function takeCompactMark(sessionId) {
+  const marca = readCompactMark(sessionId);
+  if (!marca) return null;
+  const target = compactMarkPath(sessionId);
+  try {
+    unlinkSync(target);
+  } catch {
+    /* el aviso ya salió: una marca que no se borra solo se repite, y el aviso es idempotente */
+  }
+  return marca;
 }
 
 // ¿la firma de Lore de esta sesión se apartó de la base?
