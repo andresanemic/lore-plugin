@@ -215,6 +215,28 @@ test("status imprime referencia inicial por tipo y la medición propia con 3 mue
   const ownKey = "worker|host=oc|model=m";
   assert.equal(status.json.calibration[ownKey].samples, 3);
   assert.ok(!status.json.calibrationLines.some(({ task }) => task !== "t1"));
+  // La medicion propia manda: la linea que la reemplaza nombra la proporcion medida, no un tope.
+  assert.match(status.json.suggestions[ownKey], /sugerencia, no regla/);
+});
+
+test("una semilla ausente o corrupta no rompe el estado: sale sin referencia", async (t) => {
+  const { root, id } = await conOperacion(t);
+  run(["plan", "--root", root, "--id", id, "--json", j({ ...encargoDaimon(root), timeoutMs: 60000, kind: "build" })]);
+  const semilla = resolve(dirname(fileURLToPath(import.meta.url)), "..", "skills", "vespi", "core", "calibration-seed.json");
+  const original = await readFile(semilla, "utf8");
+  t.after(() => writeFile(semilla, original));
+  // El top es proteccion contra colgados (ley #53), no una estimacion: la semilla no lo toca.
+  const conSemilla = run(["status", "--root", root, "--id", id]);
+  assert.match(conSemilla.json.calibrationLines[0].line, /^referencia inicial \(no medida en tu máquina\)/);
+  assert.match(conSemilla.json.calibrationLines[0].line, /del orden de 22 min, hasta unos 32 min/);
+  assert.equal(conSemilla.json.calibrationLines[0].line.includes(String(conSemilla.json.tasks[0].timeoutMs)), false);
+  for (const cuerpo of ["{ corrupt", "[]", "null", JSON.stringify({ entries: [{ kind: "build", samples: 1, medianMinutes: 1, p80Minutes: 1, minMinutes: 1, maxMinutes: 1 }] })]) {
+    await writeFile(semilla, cuerpo);
+    const status = run(["status", "--root", root, "--id", id]);
+    assert.equal(status.code, 0, `${cuerpo}: el estado se cae`);
+    assert.equal(status.json.ok, true);
+    assert.deepEqual(status.json.calibrationLines.map(({ line }) => line), ["sin referencia"], cuerpo);
+  }
 });
 
 test("status muestra calibracion agrupada y no sugiere cifras con pocas muestras", async (t) => {
