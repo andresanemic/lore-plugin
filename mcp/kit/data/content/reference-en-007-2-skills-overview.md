@@ -11,6 +11,7 @@ The Lore plugin exposes eight main skills through compatible AI agents:
 | `save-to-lore`   | Capture criteria (**capture**), arbitrate imported criteria (**graft**), or conditionally mine a loose-notes inbox | "save to lore", "distill skill X into the lore", "review my notes and save what belongs" |
 | `transmute-lore` | Operate an existing Lore in eight modes | add / clean / translate / upgrade / prune / **mycelium** / leave / crystallize |
 | `create-bot`     | Build a bot: one place to open a session and work across several projects at once, with their criteria reachable and routed | "create a bot to work on X and Y" (nuevo) / "I want a bot that federates the lore already living in A and B" (federar) |
+| `vespi`         | Run a bounded live operation under authority, with a durable checkpoint (experimental) | Never invoked from a person's sentence: the coordinator takes it, in role, when the operation is under strain |
 
 Each skill operates on or creates specific Markdown artifacts under your repository.
 
