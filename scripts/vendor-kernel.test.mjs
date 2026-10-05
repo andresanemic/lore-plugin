@@ -17,7 +17,7 @@ import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { afterEach, test } from "node:test";
 
-import { KERNEL_BRANCH_HEAD, KERNEL_FILES } from "./rc8-verificar-hosts.mjs";
+import { KERNEL_FILES } from "./rc8-verificar-hosts.mjs";
 import { verifyHosts } from "./rc8-verificar-hosts.mjs";
 import { installCodex, sameTree } from "./installer.mjs";
 import { bodyAfterHeader, kernelDirOf, kernelModules, readSourceRows } from "./kernel-inventory.mjs";
@@ -341,7 +341,7 @@ test("un módulo nuevo en el ref se vendoriza, se publica y lo recogen el invent
   const { home, opencodeSkills } = homeWithKit(kitDirectory);
   const canonical = {};
   for (const name of kernelModules(dir)) canonical[name] = bodyAfterHeader(readFileSync(join(dir, name)));
-  const gitShow = (_root, args) => (args[0] === "rev-parse" ? KERNEL_BRANCH_HEAD : canonical[args[1].split(":src/")[1]]);
+  const gitShow = (_root, args) => (args[0] === "rev-parse" ? "test-kernel-head" : canonical[args[1].split(":src/")[1]]);
   const hosts = verifyHosts({ home, kitRoot: kitDirectory, canonicalKernelRoot: "sin-uso", gitShow });
   assert.ok(Object.keys(hosts.hosts[0].sourceMatches).includes("emergency.js"), `el verificador no vio emergency.js: ${JSON.stringify(hosts.hosts[0].sourceMatches)}`);
   assert.ok(hosts.hosts.every((host) => host.sourceMatches["emergency.js"] === true), `los tres hosts tienen que traer el módulo nuevo con los bytes del kernel: ${JSON.stringify(hosts.hosts.map((host) => [host.name, host.sourceMatches["emergency.js"]]))}`);
@@ -357,7 +357,7 @@ test("el verificador acusa el módulo nuevo cuando un host tiene otra cosa", () 
   put(join(opencodeSkills, "vespi", "core", "kernel", "skill-provenance.js"), "// no es el del kernel\n// b\n// c\nresto\n");
   const canonical = {};
   for (const name of kernelModules(kernelDirOf(kitDirectory))) canonical[name] = bodyAfterHeader(readFileSync(join(kernelDirOf(kitDirectory), name)));
-  const gitShow = (_root, args) => (args[0] === "rev-parse" ? KERNEL_BRANCH_HEAD : canonical[args[1].split(":src/")[1]]);
+  const gitShow = (_root, args) => (args[0] === "rev-parse" ? "test-kernel-head" : canonical[args[1].split(":src/")[1]]);
   const hosts = verifyHosts({ home, kitRoot: kitDirectory, canonicalKernelRoot: "sin-uso", gitShow });
   assert.equal(hosts.ok, false);
   assert.equal(hosts.hosts[0].sourceMatches["skill-provenance.js"], false, "un módulo nuevo alterado en un host tiene que ser diferencia");

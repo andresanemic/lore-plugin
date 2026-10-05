@@ -3,11 +3,13 @@ import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "nod
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, test } from "node:test";
-import { EXPECTED_VERSION, KERNEL_BRANCH_HEAD, KERNEL_FILES, formatReport, hashTree, verifyHosts } from "./rc8-verificar-hosts.mjs";
+import { EXPECTED_VERSION, KERNEL_FILES, formatReport, hashTree, fingerprintHost, saveFingerprint, compareFingerprint, verifyHosts } from "./rc8-verificar-hosts.mjs";
 
 const temporary = [];
 const retired = "obsidian-lore";
 const skills = ["brainstorming-lore", "create-area", "create-bot", "create-project", "save-to-lore", "transmute-lore", "use-lore", "vespi"];
+const sourceCommit = "a".repeat(40);
+const branchHead = "b".repeat(40);
 
 function put(path, content) {
   mkdirSync(join(path, ".."), { recursive: true });
@@ -23,7 +25,7 @@ function fixture() {
   for (const skill of skills) {
     put(join(kitRoot, "skills", skill, "SKILL.md"), `---\nname: ${skill}\n---\n`);
   }
-  put(join(kitRoot, "skills", "vespi", "core", "kernel", "SOURCE.md"), "Fixed copy of the Vespi kernel **0.1.4** inside Lore Plugin **2.4.9**.\n");
+  put(join(kitRoot, "skills", "vespi", "core", "kernel", "SOURCE.md"), "Fixed copy of the Vespi kernel **0.1.4** inside Lore Plugin **2.4.9**. Canonical source: `src/`, branch `release/0.1.4-prep`, commit `" + sourceCommit + "`.\n");
   put(join(kitRoot, "skills", "vespi", "core", "kernel", "package.json"), '{"type":"commonjs"}\n');
   for (const file of KERNEL_FILES) {
     canonical[file] = Buffer.from(`canonical ${file}\n`);
@@ -46,7 +48,8 @@ function fixture() {
     put(join(opencodeSkills, "vespi", "core", "kernel", file), readFileSync(join(kitRoot, "skills", "vespi", "core", "kernel", file)));
   }
   const gitShow = (_root, args) => {
-    if (args[0] === "rev-parse") return KERNEL_BRANCH_HEAD;
+    if (args[0] === "rev-parse") return branchHead;
+    assert.equal(args[1].split(":")[0], sourceCommit);
     const file = args[1].split(":src/")[1];
     return canonical[file];
   };
@@ -62,6 +65,9 @@ test("verifica en modo solo lectura versión, kernel igual en los tres hosts y s
   const before = [hashTree(f.home).digest, hashTree(f.kitRoot).digest];
   const report = verifyHosts({ home: f.home, kitRoot: f.kitRoot, canonicalKernelRoot: "fake-kernel", gitShow: f.gitShow });
   assert.equal(report.ok, true, formatReport(report));
+  assert.equal(report.kernelSourceCommit, sourceCommit);
+  assert.equal(report.kernelBranch, "release/0.1.4-prep");
+  assert.equal(report.sourcePinned, null, "sin --kernel-head no se impone un SHA de rama");
   assert.equal(report.hostsAgree, true);
   assert.deepEqual(report.hosts.map((host) => host.version), [EXPECTED_VERSION, EXPECTED_VERSION, EXPECTED_VERSION]);
   assert.deepEqual(report.hosts.map((host) => host.missingSkills), [[], [], []]);
@@ -83,7 +89,24 @@ test("reporta kernel alterado, skill faltante y skill retirada presente", () => 
   assert.match(formatReport(report), /RECHAZADO/);
 });
 
-test("rechaza versión incorrecta y rama kernel que se movió", () => {
+test("contrasta opcionalmente la rama kernel con --kernel-head", () => {
+  const f = fixture();
+  const ok = verifyHosts({ home: f.home, kitRoot: f.kitRoot, canonicalKernelRoot: "fake-kernel", gitShow: f.gitShow, kernelHead: branchHead });
+  assert.equal(ok.sourcePinned, true);
+  const moved = verifyHosts({ home: f.home, kitRoot: f.kitRoot, canonicalKernelRoot: "fake-kernel", gitShow: f.gitShow, kernelHead: "c".repeat(40) });
+  assert.equal(moved.ok, false);
+  assert.equal(moved.sourcePinned, false);
+});
+
+test("permite aprobar un host individual durante la instalación escalonada", () => {
+  const f = fixture();
+  const report = verifyHosts({ home: f.home, kitRoot: f.kitRoot, canonicalKernelRoot: "fake-kernel", gitShow: f.gitShow, host: "Codex" });
+  assert.equal(report.hosts.length, 1);
+  assert.equal(report.hosts[0].name, "Codex");
+  assert.equal(report.ok, true, formatReport(report));
+});
+
+test("lee el commit fijado desde SOURCE.md para cotejar los cuerpos del kernel", () => {
   const f = fixture();
   put(join(f.claude, "package.json"), JSON.stringify({ version: "2.4.9-rc.7" }));
   const report = verifyHosts({
@@ -93,6 +116,28 @@ test("rechaza versión incorrecta y rama kernel que se movió", () => {
     gitShow: (_root, args) => args[0] === "rev-parse" ? "otro-commit" : f.gitShow(_root, args),
   });
   assert.equal(report.ok, false);
-  assert.equal(report.sourcePinned, false);
+  assert.equal(report.kernelSourceCommit, sourceCommit);
   assert.equal(report.hosts.find((host) => host.name === "Claude Code").version, "2.4.9-rc.7");
+});
+
+test("la huella contiene el árbol de skills, kernel vendorizado y cuerpo de use-lore", () => {
+  const f = fixture();
+  put(join(f.kitRoot, "skills", "use-lore", "SKILL.md"), "---\\nname: use-lore\\n---\\nbody\\n");
+  for (const root of [f.codex, f.claude]) put(join(root, "skills", "use-lore", "SKILL.md"), readFileSync(join(f.kitRoot, "skills", "use-lore", "SKILL.md")));
+  put(join(f.opencodeSkills, "use-lore", "SKILL.md"), readFileSync(join(f.kitRoot, "skills", "use-lore", "SKILL.md")));
+  const fingerprint = fingerprintHost(f.home, "Codex", f.kitRoot);
+  assert.match(fingerprint.skillsTreeSha256, /^[a-f0-9]{64}$/);
+  assert.match(fingerprint.vendoredKernelTreeSha256, /^[a-f0-9]{64}$/);
+  assert.equal(fingerprint.useLoreBodySha256, fingerprintHost(f.home, "Claude Code", f.kitRoot).useLoreBodySha256);
+  assert.match(fingerprint.useLoreBodySha256, /^[a-f0-9]{64}$/);
+});
+
+test("la huella guardada se puede comparar y detecta cambios por host", () => {
+  const f = fixture();
+  const before = fingerprintHost(f.home, "Codex", f.kitRoot);
+  const file = join(f.home, "codex-fingerprint.json");
+  saveFingerprint(file, before);
+  assert.equal(compareFingerprint(file, before).matches, true);
+  const after = { ...before, useLoreBodySha256: "0".repeat(64) };
+  assert.equal(compareFingerprint(file, after).matches, false);
 });
