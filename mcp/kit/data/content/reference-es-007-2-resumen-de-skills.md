@@ -11,6 +11,7 @@ El plugin Lore expone ocho skills principales a través de agentes de IA compati
 | `save-to-lore`   | Capturar criterio (**capture**), arbitrar criterio importado (**graft**) o minar condicionalmente una bandeja de notas sueltas | «guarda en lore», «destila la skill X en el lore», «revisa mis notas y guarda lo que corresponda» |
 | `transmute-lore` | Operar un Lore existente en ocho modos | add / clean / translate / upgrade / prune / **mycelium** / leave / crystallize |
 | `create-bot`     | Construir un bot: un solo lugar donde abrir sesión y trabajar en varios proyectos a la vez, con su criterio alcanzable y enrutado | «crea un bot para trabajar en X e Y» (nuevo) / «quiero un bot que federe el lore que ya existe en A y B» (federar) |
+| `vespi`         | Correr una operación viva acotada bajo autoridad, con checkpoint durable (experimental) | No la invoca una frase de la persona: la toma el coordinador, en rol, cuando la operación está bajo presión |
 
 Cada skill opera sobre, o crea, artefactos Markdown específicos dentro de tu repositorio.
 

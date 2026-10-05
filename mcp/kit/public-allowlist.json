@@ -78,7 +78,7 @@
     "lang": "en",
     "title": "vespi skill",
     "path": "skills/vespi/SKILL.md",
-    "sha256": "424771690234e193fa690a81dff7b907c70113440c1ba38f828caa7d6b627be4"
+    "sha256": "3b472a555e413d133fc4bbc63847c037c905650f290bcaa1859ae59cac4a9d01"
   },
   {
     "id": "vespi-method",
@@ -96,7 +96,7 @@
     "lang": "en",
     "title": "Lore Plugin reference EN",
     "path": "docs/REFERENCE_en.md",
-    "sha256": "a1bf1096aaa9f9551da4a8cb6e4b719777b6d7e58f0442cb6d89fe610e2e7145"
+    "sha256": "3eb033f2d93b3fea42f610c430e69c90b8493bd607d73a6d09860a9836db15c4"
   },
   {
     "id": "reference-es",
@@ -105,7 +105,7 @@
     "lang": "es",
     "title": "Lore Plugin reference ES",
     "path": "docs/REFERENCE_es.md",
-    "sha256": "c010855903c40063959e7b88a23be58dac5594a33a2866d0bf4aaf7b50af1c15"
+    "sha256": "690d473f5c12227dc2bbceb5cbc975e934261b43acccbf3db5d6797bf9d67450"
   },
   {
     "id": "90_seconds-en",
@@ -222,7 +222,7 @@
     "lang": "en",
     "title": "Lore Plugin 2.4.9 release notes",
     "path": "docs/RELEASE_2.4.9.md",
-    "sha256": "c1199df9e55594c4ad21d68433bbcbf5d21385ee0beba274910fbbc54b531a2f"
+    "sha256": "c56f7038c21f76e48e0892c2f1921bc063e9c2788923d8d4add86aacfad3f636"
   },
   {
     "id": "vespi-kernel-readme",
