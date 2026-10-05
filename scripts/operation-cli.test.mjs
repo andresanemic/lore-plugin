@@ -187,6 +187,29 @@ test("status resume el estado en una linea por tarea y marca la tarea vencida", 
   const s = run(["status", "--root", root, "--id", id]);
   assert.equal(s.json.state, "running");
   assert.deepEqual(Object.keys(s.json.tasks[0]).sort(), ["by", "id", "nextCheckAt", "overdue", "role", "state"]);
+  assert.match(s.json.calibrationNote, /calibraci[oó]n no medida/);
+  assert.equal(s.json.suggestions, undefined);
+});
+
+test("status muestra calibracion agrupada y no sugiere cifras con pocas muestras", async (t) => {
+  const { root, id } = await conOperacion(t);
+  const spec = { ...encargoDaimon(root), role: "worker", question: "q", scope: "s", done_criterion: "d", proof: "p", estimateMs: 100 };
+  for (let n = 0; n < 3; n++) {
+    const taskSpec = { ...spec, output: { path: join(root, `out${n}.md`) } };
+    run(["plan", "--root", root, "--id", id, "--json", j(taskSpec)]);
+    const startedAt = Date.parse("2026-10-05T10:00:00.000Z");
+    run(["dispatch", "--root", root, "--id", id, "--task", `t${n + 1}`, "--tools", "delegate", "--json", j({ hostName: "oc", model: "m", now: new Date(startedAt).toISOString() })]);
+    await writeFile(taskSpec.output.path, "evidencia");
+    run(["receive", "--root", root, "--id", id, "--task", `t${n + 1}`, "--json", j({ now: new Date(startedAt + 100 * (n + 1)).toISOString() })]);
+  }
+  const status = run(["status", "--root", root, "--id", id]);
+  const stored = await (await import("../skills/vespi/core/vespi.mjs")).readOperation({ root, id });
+  assert.ok(status.json.calibration, JSON.stringify({ status: status.json, tasks: stored.tasks }));
+  const measured = status.json.calibration["worker|host=oc|model=m"];
+  assert.equal(measured.samples, 3);
+  assert.equal(measured.measured, undefined);
+  assert.equal(typeof measured.medianRatio, "number");
+  assert.match(status.json.suggestions["worker|host=oc|model=m"], /^sugerencia, no regla: el tiempo suele ser [\d.]+ de lo estimado \(3 muestras\)$/);
 });
 
 test("status expone el muro y stop_and_search tras tres fallos iguales", async (t) => {

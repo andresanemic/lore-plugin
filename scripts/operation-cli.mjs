@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import {
   closeOperation,
+  calibrateEstimates,
   dispatchTask,
   holdOperation,
   integrateTask,
@@ -225,6 +226,7 @@ async function execute(sub, flags, stdout) {
       model: payload.model,
       effort: payload.effort,
       process: payload.process,
+      now: payload.now,
     });
     await persist(context, artifact);
     return emit(stdout, { ok: true, task: recordOf(artifact, taskId) });
@@ -276,7 +278,21 @@ async function execute(sub, flags, stdout) {
     const overdue = new Map((context.artifact.tasks ?? []).map((task) => [task.id, task.overdue === true]));
     const tasks = taskSummary(context.artifact).map((task) => ({ ...task, overdue: overdue.get(task.id) === true }));
     const wall = attemptWall(context.artifact);
-    return emit(stdout, { ok: true, id: context.id, state: context.artifact.state, tasks, ...(wall.stop ? { wall: wallReceipt(wall) } : {}) });
+    const calibration = calibrateEstimates(context.artifact.tasks ?? []);
+    const measured = Object.fromEntries(Object.entries(calibration).filter(([, value]) => value.measured !== false));
+    const suggestions = Object.fromEntries(Object.entries(measured).map(([key, value]) => [key,
+      `sugerencia, no regla: el tiempo suele ser ${value.medianRatio} de lo estimado (${value.samples} muestras)`,
+    ]));
+    return emit(stdout, {
+      ok: true,
+      id: context.id,
+      state: context.artifact.state,
+      tasks,
+      ...(Object.keys(measured).length > 0
+        ? { calibration, suggestions }
+        : { calibrationNote: "calibración no medida: se requieren al menos 3 muestras por clave" }),
+      ...(wall.stop ? { wall: wallReceipt(wall) } : {}),
+    });
   }
 
   const verdict = await resumeOperation({ root: context.root, id: context.id });
