@@ -16,7 +16,7 @@
 
 <p align="center">
   <b>Stop explaining your project to the AI every morning.</b><br>
-  Lore is the operating system for working with AI: it keeps your criterion, runs the method silently, and executes with Vespi.
+  Lore is the AI work layer: it keeps your criterion, runs the method silently, and hands bounded work to experimental Vespi.
 </p>
 
 ---
@@ -160,7 +160,7 @@ The shape behind that gate has a name: Andy Clark and David Chalmers called it t
 
 And the process has a name too: Gilbert Simondon called it **transduction**, an operation that advances through a domain step by step, each phase founded on the structuration of the one before. One distillation is exactly that — friction crystallizes into a constraint that changes the next interaction, and then the next, until the accumulated structure becomes a body of criteria nobody designed in advance: your Lore.
 
-So that is the mechanism: not documentation, not a memory dump — a threshold between what happened and what gets to constrain tomorrow. The next section takes you from zero to a running install.
+That frame is a hypothesis, not a demonstrated mechanism: a threshold between what happened and what constrains tomorrow, not documentation nor a memory dump. The next section takes you from zero to running.
 
 ---
 
@@ -255,7 +255,7 @@ Claude Code does not receive routine hook context: its adapter is deliberately a
 
 </details>
 
-Then open a new CLI session. **If this is your first time, you do not need to know a single command** — write *«I want to start using Lore Plugin, help me»* and the kit opens a **brainstorming, not a menu**: it looks at your tree first, asks one question at a time, and ends with your **first artifact created**, never with a recommendation. If you already know what you want, `use-lore` routes you.
+Then open a new CLI session. **If this is your first time, you need no command** — write *«I want to start using Lore Plugin, help me»* and the kit opens a **brainstorming, not a menu**: it receives you first, then looks at your tree, asks one question at a time, and ends with your **first artifact created**, never with a recommendation. If you already know what you want, `use-lore` routes you.
 
 One question at a time is not a courtesy, and a form would be faster. The questions are what keep you and the model two things instead of one — no fusion, and no sparing each other the friction — long enough for an answer neither of you had alone.
 
@@ -408,9 +408,9 @@ Lore Plugin is the ground: your criterion, written once, and the routing that op
 What 2.4.9 adds:
 
 - **An operation survives the session.** Its state is one block in your project's `FASES.md`, not a second file, and resuming asks the operation, not you.
-- **Work split into tasks with a role** (read the sources, advise, do a scoped piece). Each task moves through received, reviewed, verified and integrated as separate facts, and whoever verifies is never whoever executed. If the host lacks a tool, the task comes back blocked with its exit; nothing is simulated.
+- **Work split by role** (read, advise, do a piece). Each task passes through received, reviewed, verified and integrated; the record needs distinct executor and verifier labels, and host and coordinator check real independence. If the host lacks a tool, the task returns blocked with its exit; nothing is simulated.
 - **Authority with three limits at once** (until when, how much, to whom). The agent never signs for you, every receipt says what was verified and what was not, and an external effect of uncertain result is never retried blindly.
-- **A written method for the coordinator** ([`skills/vespi/method.md`](./skills/vespi/method.md), [also in the kernel](https://github.com/andresanemic/vespi/blob/master/docs/METHOD.md)) that depends on no installed skill, and `lore-plugin operation …` to drive a whole operation from the command line.
+- **A written method for the coordinator** ([`skills/vespi/method.md`](./skills/vespi/method.md), [also in the kernel](https://github.com/andresanemic/vespi/blob/master/docs/METHOD.md)) needing no installed skill, and `lore-plugin operation …` records an operation's lifecycle; the host and coordinator do the work.
 - **A read-only hygiene scan** – `lore-plugin hygiene [path]` reports selected cleanup candidates and its coverage; it proposes review but changes and deletes nothing.
 - **A stop-and-search wall** – after the same failure repeats three times without a success, `operation status` reports the attempts and says to stop and search with the host's tools; the CLI does not search.
 
@@ -577,7 +577,7 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 
 <p align="center">
   <b>Deja de explicarle tu proyecto a la IA todas las mañanas.</b><br>
-  Lore es el sistema operativo del trabajo con IA: guarda tu criterio, corre el método en silencio y ejecuta con Vespi.
+  Lore es la capa de trabajo con IA: guarda tu criterio, corre el método y pasa lo acotado al Vespi experimental.
 </p>
 
 ---
@@ -722,7 +722,7 @@ La forma detrás de esa puerta tiene nombre: Andy Clark y David Chalmers la llam
 
 Y el proceso también tiene nombre: Gilbert Simondon lo llamó **transducción**, una operación que avanza por un dominio paso a paso, cada fase fundada en la estructuración de la anterior. Una destilación es exactamente eso — la fricción cristaliza en una restricción que modifica la siguiente interacción, y luego la siguiente, hasta que la estructura acumulada se vuelve un cuerpo de criterio que nadie diseñó de antemano: tu Lore.
 
-Ese es el mecanismo: no es documentación ni un volcado de memoria, es un umbral entre lo que pasó y lo que puede condicionar mañana. La sección siguiente te lleva de cero a tenerlo corriendo.
+Para este kit es una hipótesis, no un mecanismo demostrado: un umbral entre lo que pasó y lo que puede condicionar mañana, no documentación ni volcado de memoria. La siguiente sección te lleva a correrlo.
 
 ---
 
@@ -817,7 +817,7 @@ Claude Code no recibe contexto rutinario del hook: el guard no entrega texto al 
 
 </details>
 
-Después abre una sesión nueva en la CLI. **Si es tu primera vez, no necesitas saber ningún comando** — escribe *«quiero comenzar a usar Lore Plugin, ayúdame»* y el kit abre un **brainstorming, no un menú**: primero mira tu árbol, después pregunta de a una cosa por vez, y termina con **tu primer artefacto creado**, nunca con una recomendación. En esa primera vez también te ofrece el acuerdo, y ahí eliges cómo quieres que te hablen —más sobrio o más cercano; despacio, normal o rápido; si no eliges, cercano y a ritmo normal— y tus límites de uso: qué modelos, o qué niveles de un modelo, no quieres que se usen nunca. Se nombran por familia y no por número de versión, para que una actualización del proveedor no te deje atado a un modelo viejo. Si ya sabes qué quieres, `use-lore` te enruta.
+Después abre una sesión nueva en la CLI. **Si es tu primera vez no necesitas comandos** — escribe *«quiero comenzar a usar Lore Plugin, ayúdame»* y el kit abre un **brainstorming, no un menú**: primero te recibe y ve qué vienes a hacer, después mira tu árbol, pregunta de a una cosa por vez y termina con **tu primer artefacto creado**, nunca con una recomendación. También te ofrece el acuerdo, y ahí eliges cómo quieres que te hablen —más sobrio o más cercano; despacio, normal o rápido; si no eliges, cercano y a ritmo normal— y tus límites de uso: qué modelos o qué niveles no quieres que se usen nunca. Se nombran por familia, no por número de versión, para que una actualización del proveedor no te deje atado a un modelo viejo. Si ya sabes qué quieres, `use-lore` te enruta.
 
 Si ya usabas una versión anterior, al actualizar recibes una sola vez un mensaje corto: llegó Vespi, qué puede hacer por ti y la invitación a fijar tus límites.
 
@@ -1010,9 +1010,9 @@ Lore Plugin es el terreno: tu criterio escrito una vez y el enrutamiento que abr
 Lo que agrega el 2.4.9:
 
 - **Una operación sobrevive a la sesión.** Su estado es un bloque del `FASES.md` de tu proyecto, no un segundo archivo, y retomarla se le pregunta a la operación, no a ti.
-- **El trabajo se reparte en tareas con un rol** (leer las fuentes, asesorar, hacer una pieza acotada). Cada tarea pasa por recibida, revisada, verificada e integrada como hechos distintos, y quien verifica nunca es quien ejecutó. Si el host no tiene la herramienta, la tarea vuelve bloqueada con su salida; nada se simula.
+- **El trabajo se reparte por rol** (leer, asesorar, una pieza). Cada tarea pasa por recibida, revisada, verificada e integrada; el registro exige etiquetas distintas de ejecutor y verificador, y el host y el coordinador comprueban su independencia real. Sin la herramienta, la tarea vuelve bloqueada con su salida; nada se simula.
 - **Autoridad con tres límites a la vez** (hasta cuándo, cuánto y a quién). El agente nunca firma por ti, cada recibo dice qué se verificó y qué no, y un efecto externo de resultado incierto no se reintenta a ciegas.
-- **Un método escrito para el coordinador** ([`skills/vespi/method.md`](./skills/vespi/method.md), [también en el kernel](https://github.com/andresanemic/vespi/blob/master/docs/METHOD.md)) que no depende de ninguna skill instalada, y `lore-plugin operation …` para llevar una operación completa desde la línea de comandos.
+- **Un método escrito para el coordinador** ([`skills/vespi/method.md`](./skills/vespi/method.md), [también en el kernel](https://github.com/andresanemic/vespi/blob/master/docs/METHOD.md)) sin skill instalada, y `lore-plugin operation …` registra el ciclo de una operación; el trabajo lo hacen host y coordinador.
 - **Un escaneo de higiene de solo lectura** – `lore-plugin hygiene [ruta]` informa candidatos de limpieza seleccionados y su cobertura; propone revisarlos, pero no modifica ni borra nada.
 - **Un muro para detenerse y buscar** – si el mismo fallo se repite tres veces sin un éxito, `operation status` informa los intentos e indica detenerse y buscar con las herramientas del host; la CLI no busca.
 
