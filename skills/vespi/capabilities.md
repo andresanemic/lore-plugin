@@ -2,11 +2,11 @@
 
 ## 1. When this applies / Cuándo aplica
 
-Use only capabilities named by the agreement; import them from `skills/vespi/core/vespi.mjs`. Nothing is
-activated by default; ports, payments, external skills and the ZK backend stay inactive.
+Use only agreement-named capabilities from `skills/vespi/core/vespi.mjs`. Nothing is activated by default;
+ports, payments, external skills and the ZK backend stay inactive.
 
-Usa solo capacidades que nombre el acuerdo e impórtalas desde `skills/vespi/core/vespi.mjs`. Puertos,
-pagos, skills externas y backend ZK quedan inactivos por defecto.
+Usa solo capacidades nombradas por el acuerdo desde `skills/vespi/core/vespi.mjs`. Nada se activa por defecto:
+puertos, pagos, skills externas y backend ZK permanecen desconectados.
 
 Presence comes from the vendored copy. `OPTIONAL_CAPABILITIES` lists `present`, module, `exposed` and
 `missing`; the facade never invents or stubs absent modules or exports.
@@ -68,10 +68,10 @@ escritura del kernel: esta guía es la dueña editorial del vocabulario.
 | zk | permanent limits false / limites permanentes | `zk.presenter-authentication`, `zk.institutional-attestation`, `zk.replay-prevention`, `zk.transport-privacy` |
 | any receipt / cualquier recibo | common / comun | `external anchor` in `notCovered` while no anchor is verified |
 
-Emergency use covers only its first two checks; `effect_verified` stays false. A pending review means
-only that the declared reviewer closed it, not that the review favoured the action or proved its effect.
+Emergency use covers only its first two checks; `effect_verified` stays false. A pending review records
+closure by a declared reviewer; it neither favours nor proves the effect.
 `contentRecomputed` is separate from check names. Allowed settlement controls are a host-declared
-catalogue, not evidence that a receipt measured all seven. Hosts own domain names and their evidence.
+catalogue, not evidence that a receipt measured all seven. Hosts own domain names and evidence.
 
 El uso solo cubre las dos primeras; `effect_verified` sigue false. Cerrar una revisión pendiente no
 aprueba el efecto. Los controles permitidos son un catálogo, no cobertura medida.
