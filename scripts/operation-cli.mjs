@@ -18,6 +18,7 @@ import { attemptWall, operationStatePath, saveOperationState, transitionArtifact
 const COMMANDS = [
   "hold",
   "authorize",
+  "pause",
   "plan",
   "dispatch",
   "observe",
@@ -37,6 +38,7 @@ function usage() {
     "operation <sub> --root <dir> [--id <op>] [--task <t>] [--tools <a,b>] [--json '<obj>' | --file <ruta>]",
     "  hold       {goal, owner, authority}  deja la operacion preparada en FASES.md",
     "  authorize  {by, words}               las palabras citadas, o no hay autorizacion",
+    "  pause      {note}                    deja el checkpoint durable en pausa",
     "  plan       <spec de tarea>           agrega la tarea con su encargo completo",
     "  dispatch   --task <t> --tools <a,b>  lanza por una ruta que el host expuso",
     "  observe    {text, alive, at}         deja escrito que se vio",
@@ -200,6 +202,15 @@ async function execute(sub, flags, stdout) {
     return emit(stdout, { ok: true, id: context.id, state: artifact.state });
   }
 
+  if (sub === "pause") {
+    const artifact = transitionArtifact(context.artifact, {
+      state: "paused",
+      note: present(payload.note) ? `pausa: ${payload.note}` : "operacion pausada",
+    });
+    await persist(context, artifact);
+    return emit(stdout, { ok: true, id: context.id, state: artifact.state });
+  }
+
   if (sub === "plan") {
     const { artifact, task } = planTask(context.artifact, payload);
     await persist(context, artifact);
@@ -269,6 +280,17 @@ async function execute(sub, flags, stdout) {
   }
 
   const verdict = await resumeOperation({ root: context.root, id: context.id });
+  if (verdict.allowed && verdict.artifact.state === "paused") {
+    const artifact = transitionArtifact(verdict.artifact, { state: "running", note: "operacion reanudada desde FASES.md" });
+    await persist(context, artifact);
+    return emit(stdout, {
+      ok: true,
+      id: context.id,
+      allowed: verdict.allowed,
+      reason: verdict.reason,
+      state: artifact.state,
+    });
+  }
   return emit(stdout, {
     ok: true,
     id: context.id,
