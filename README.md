@@ -397,7 +397,7 @@ Version 2.4.9 retires four things: encryption, the `lore-ecosistema/` copy, `cre
 
 ## Vespi
 
-**Vespi is the kernel under Lore Plugin. This candidate cut carries frozen kernel 0.1.4, commit `13881d41cf3d9c7611eee9794bc1d9c4945a4a6e`, with ten modules; it excludes `zk-bn254-reference.js` and the SDK-backed x402 bridge. Publication date pending.**
+**Vespi is the kernel under Lore Plugin. This candidate cut carries frozen kernel 0.1.4, commit `221bfa02fe277281d50b6141ec10299eea3426f3`, with ten modules; it excludes `zk-bn254-reference.js` and the SDK-backed x402 bridge. Publication date pending.**
 
 <p align="center">
   <img src="./assets/vespi-B.png" alt="Vespi" width="100%">
@@ -999,7 +999,7 @@ La versión 2.4.9 retira cuatro cosas: el cifrado, la copia `lore-ecosistema/`, 
 
 ## Vespi
 
-**Vespi es el kernel de Lore Plugin. Este corte candidato lleva el kernel 0.1.4 congelado, commit `13881d41cf3d9c7611eee9794bc1d9c4945a4a6e`, con diez módulos; excluye `zk-bn254-reference.js` y el puente x402 con el SDK real. Fecha de publicación pendiente.**
+**Vespi es el kernel de Lore Plugin. Este corte candidato lleva el kernel 0.1.4 congelado, commit `221bfa02fe277281d50b6141ec10299eea3426f3`, con diez módulos; excluye `zk-bn254-reference.js` y el puente x402 con el SDK real. Fecha de publicación pendiente.**
 
 <p align="center">
   <img src="./assets/vespi-B.png" alt="Vespi" width="100%">
