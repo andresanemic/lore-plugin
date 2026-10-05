@@ -9,6 +9,7 @@ const DESTINATIONS = new Map([
   ["hooks/lore-turno.mjs", "person-level-choice"],
   ["scripts/installer.mjs", "explicit-host-install"],
   ["scripts/install-claude-statusline.mjs", "explicit-host-install"],
+  ["scripts/rc8-verificar-hosts.mjs", "explicit-user-output"],
   ["scripts/opencode-permissions.mjs", "explicit-project-config"],
   // Vendorizar el kernel escribe dentro del propio repositorio del kit, y solo cuando alguien lo
   // ordena con --source y --ref. No toca nada de quien lo corre ni de los hosts instalados.
