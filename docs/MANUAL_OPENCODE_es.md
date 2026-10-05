@@ -182,7 +182,7 @@ node scripts/lore-plugin.mjs install --target claude
 Ejecuta node scripts/lore-plugin.mjs install --target claude desde el clon rc9. El repositorio público debe contener rc9 [verificar al publicar]. Antes de modificar nada, explica los comandos del marketplace y las rutas locales que tocarás. No uses mis credenciales. Abre una sesión nueva y confirma las siete skills de Lore y vespi. No borres instalaciones existentes sin mostrarme sus rutas.
 ```
 
-Reinicia o abre una sesión nueva según indique Claude Code. Si quieres el indicador de estado del plugin, el clon incluye `node scripts/lore-plugin.mjs statusline install`; es opcional y debe ejecutarse desde el clon de la misma versión instalada.
+Abre una sesión nueva según indique Claude Code.
 
 **Puerta 6 — GREEN**
 
@@ -190,12 +190,12 @@ Confirma que Claude Code inicia sesión y que el selector muestra las siete skil
 
 ### 7. Codex, si lo necesitas
 
-Codex es opcional. Desde un clon local, `node scripts/lore-plugin.mjs install --target codex` copia el paquete y prepara el marketplace personal. Después habilita el plugin desde Codex. Los comandos públicos requieren rc9 **[verificar al publicar]**.
+Codex es opcional. Desde un clon local, `node scripts/lore-plugin.mjs install --target codex` copia el paquete y prepara el marketplace personal. Después ejecuta `codex plugin add lore@personal` y habilítalo desde Codex. Los comandos públicos requieren rc9 **[verificar al publicar]**.
 
 **Le decimos al agente:**
 
 ```text
-Prepara Codex como host opcional según el README de esta versión. Antes de cambiar configuración, muéstrame las rutas y el diff. Ejecuta node scripts/lore-plugin.mjs install --target codex y verifica los componentes. No uses credenciales. Dime cómo habilitar lore@personal.
+Prepara Codex como host opcional según el README de esta versión. Antes de cambiar configuración, muéstrame las rutas y el diff. Ejecuta node scripts/lore-plugin.mjs install --target codex y verifica los componentes. Después ejecuta codex plugin add lore@personal. No uses credenciales.
 ```
 
 **Puerta 7 — GREEN, si instalaste Codex**
@@ -257,7 +257,7 @@ El Bot tiene un propósito, un límite y una tabla de enrutamiento revisables. C
 
 ### Qué es y cuándo se usa
 
-Vespi es un kernel JavaScript integrado en la skill `vespi`. Úsalo cuando una operación acotada continúe entre sesiones, requiera autoridad o deba comprobarse antes de reanudar. Declara objetivo, responsable, efecto y autoridad antes de actuar; verifica el efecto aparte y deja un recibo con lo observado y lo no comprobado. El estado vive bajo `## Operaciones` en el `FASES.md` del proyecto. El recibo no concede permiso.
+Vespi es un kernel JavaScript integrado en la skill `vespi`. Úsalo cuando una operación acotada continúe entre sesiones, requiera autoridad o deba comprobarse antes de reanudar. Declara objetivo, responsable, efecto y autoridad humana acotada antes de actuar; verifica el efecto aparte y deja un recibo con lo observado, lo no comprobado y la siguiente acción acordada. El estado vive bajo `## Operaciones` en el `FASES.md` del proyecto. El recibo no concede permiso.
 
 El trabajo ordinario no necesita Vespi. Una frase de tensión no la invoca: `use-lore` la enruta al coordinador. Solo `save-to-lore` arbitra escritura de criterio; Vespi no escribe Lore.
 
@@ -285,7 +285,7 @@ El bloque bajo `## Operaciones` aparece en `FASES.md`; el permiso corresponde al
 
 ### Qué trae 0.1.4 y qué no
 
-Este borrador fija Vespi 0.1.4: operaciones, autoridad concedida, decisiones humanas, recibos, delegaciones acotadas y reanudación. La skill y `capabilities.md` exponen superficies opcionales para permisos de emergencia, procedencia de skills, pagos x402 y verificación ZK. El kit no conecta esas capacidades automáticamente.
+El kit fija una copia de Vespi 0.1.4 con operaciones, autoridad concedida, decisiones humanas, recibos, delegaciones acotadas y reanudación. La skill y `capabilities.md` exponen superficies opcionales para permisos de emergencia, procedencia de skills, pagos x402 y verificación ZK. La skill y sus wrappers siguen en validación de campo; el kit no conecta esas capacidades automáticamente.
 
 La documentación del kernel incluye evidencia histórica de testnet; este recorrido no ejecuta transacciones y esa evidencia no es una auditoría. 0.1.4 no incluye recibos encadenados con `prev`, intención previa al efecto, presupuestos acumulados, `narrow(parent, child)` ni época de reanudación. El host aporta el reloj; los puertos son código confiable, no un sandbox. El digest protege integridad, no autentica aprobaciones ni prueba efectos externos.
 
@@ -320,7 +320,7 @@ Versión de campo redactada el 2026-10-04. Las interfaces, los modelos gratuitos
 - Superpowers, instalación por host y guía OpenCode: https://github.com/obra/superpowers y https://github.com/obra/superpowers/blob/main/docs/README.opencode.md (consultado 2026-10-05).
 - Git for Windows, WinGet, Visual Studio Code y Obsidian: https://git-scm.com/install/windows, https://learn.microsoft.com/windows/package-manager/winget/install, https://code.visualstudio.com/Download y https://obsidian.md/help/Getting%2Bstarted/Download%2Band%2Binstall%2BObsidian (consultado 2026-10-05).
 - Lore Plugin, fuente de instalación, comandos y siete skills: `README.md`, `scripts/installer.mjs`, `scripts/lore-plugin.mjs` y `skills/` de este kit. El repositorio remoto debe contener rc9 para que los comandos públicos instalen esta versión **[verificar al publicar]**.
-- Vespi 0.1.4 y evidencia: `skills/vespi/SKILL.md`, `skills/vespi/capabilities.md`, `docs/RELEASE_2.4.9.md` de este kit y el `README.md`, `docs/RELEASE_0.1.4_KERNEL.md`, `docs/WALKTHROUGH.md` y `docs/TESTNET_EVIDENCE.md` del repositorio del kernel. No implica una conexión en vivo desde el kit.
+- Vespi 0.1.4 y evidencia: `skills/vespi/SKILL.md`, `skills/vespi/capabilities.md`, `docs/RELEASE_2.4.9.md` de este kit y el `README.md`, `docs/CAPABILITIES.md`, `docs/RELEASE_0.1.4_KERNEL.md`, `docs/WALKTHROUGH.md` y `docs/TESTNET_EVIDENCE.md` del repositorio del kernel. No implica una conexión en vivo desde el kit.
 
 ## Nota de procedencia
 

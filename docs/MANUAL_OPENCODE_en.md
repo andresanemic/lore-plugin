@@ -182,7 +182,7 @@ node scripts/lore-plugin.mjs install --target claude
 Run node scripts/lore-plugin.mjs install --target claude from the rc9 clone. The public repository must contain rc9 [verify at publication]. Before changing anything, explain the marketplace commands and local paths you will touch. Do not use my credentials. Open a new session and confirm the seven Lore skills and vespi. Do not delete existing installs without showing their paths.
 ```
 
-Restart or open a new session as Claude Code directs. If you want the plugin's status mark, the clone includes `node scripts/lore-plugin.mjs statusline install`; this is optional and must be run from the clone of the same installed version.
+Open a new session as Claude Code directs.
 
 **Gate 6 — GREEN**
 
@@ -190,12 +190,12 @@ Confirm that Claude Code starts a session and its skill selector shows the seven
 
 ### 7. Codex, if you need it
 
-Codex is optional. From a local clone, `node scripts/lore-plugin.mjs install --target codex` copies the package and prepares the personal marketplace. Then enable the plugin from Codex. Public commands require rc9 **[verify at publication]**.
+Codex is optional. From a local clone, `node scripts/lore-plugin.mjs install --target codex` copies the package and prepares the personal marketplace. Then run `codex plugin add lore@personal` and enable it in Codex. Public commands require rc9 **[verify at publication]**.
 
 **We tell the agent:**
 
 ```text
-Prepare Codex as an optional host according to this version's README. Show configuration paths and diff before changing anything. Run node scripts/lore-plugin.mjs install --target codex and verify the components. Do not use credentials. Tell me how to enable lore@personal.
+Prepare Codex as an optional host according to this version's README. Show configuration paths and diff before changing anything. Run node scripts/lore-plugin.mjs install --target codex and verify the components. Then run codex plugin add lore@personal. Do not use credentials.
 ```
 
 **Gate 7 — GREEN, if you installed Codex**
@@ -257,7 +257,7 @@ The Bot has a reviewable purpose, limit, and routing table. Every route resolves
 
 ### What it is and when to use it
 
-Vespi is a JavaScript kernel integrated in the `vespi` skill. Use it when a bounded operation continues across sessions, needs authority, or must be checked before resuming. Declare goal, owner, effect, and authority before acting; verify the effect separately and leave a receipt of what was and was not observed. State lives under `## Operaciones` in the project's `FASES.md`. A receipt grants no permission.
+Vespi is a JavaScript kernel integrated in the `vespi` skill. Use it when a bounded operation continues across sessions, needs authority, or must be checked before resuming. Declare the goal, owner, effect, and bounded human-granted authority before acting; verify the effect separately and leave a receipt of what was and was not observed and the next agreed action. State lives under `## Operaciones` in the project's `FASES.md`. A receipt grants no permission.
 
 Ordinary work does not need Vespi. A phrase of strain does not invoke it: `use-lore` routes it to the coordinator. Only `save-to-lore` arbitrates writing criteria; Vespi does not write Lore.
 
@@ -285,7 +285,7 @@ The block appears under `## Operaciones` in `FASES.md`; permission matches the d
 
 ### What 0.1.4 includes and does not include
 
-This draft pins Vespi 0.1.4: operations, granted authority, human decisions, receipts, bounded delegations, and resuming. The skill and `capabilities.md` expose optional surfaces for emergency permission, skill provenance, x402 payments, and ZK verification. The kit does not connect these capabilities automatically.
+The kit pins Vespi 0.1.4 with operations, granted authority, human decisions, receipts, bounded delegations, and resuming. The skill and `capabilities.md` expose optional surfaces for emergency permission, skill provenance, x402 payments, and ZK verification. The skill and its wrappers remain in field validation; the kit does not connect these capabilities automatically.
 
 The kernel documentation includes historical testnet evidence; this walkthrough does not run transactions, and that evidence is not an audit. Version 0.1.4 lacks receipt chaining with `prev`, intent recorded before effects, accumulated budgets, `narrow(parent, child)`, and a resume epoch. The host supplies the clock; injected ports are trusted code, not a sandbox. A digest protects integrity, not approval identity or external effects.
 
@@ -320,7 +320,7 @@ Field version written on 2026-10-04. Interfaces, free models, and installation m
 - Superpowers, per-host installation and OpenCode guide: https://github.com/obra/superpowers and https://github.com/obra/superpowers/blob/main/docs/README.opencode.md (checked 2026-10-05).
 - Git for Windows, WinGet, Visual Studio Code, and Obsidian: https://git-scm.com/install/windows, https://learn.microsoft.com/windows/package-manager/winget/install, https://code.visualstudio.com/Download, and https://obsidian.md/help/Getting%2Bstarted/Download%2Band%2Binstall%2BObsidian (checked 2026-10-05).
 - Lore Plugin, install source, commands, and seven skills: `README.md`, `scripts/installer.mjs`, `scripts/lore-plugin.mjs`, and `skills/` in this kit. The remote repository must contain rc9 for public commands to install this version **[verify at publication]**.
-- Vespi 0.1.4 and evidence: `skills/vespi/SKILL.md`, `skills/vespi/capabilities.md`, `docs/RELEASE_2.4.9.md` in this kit, and `README.md`, `docs/RELEASE_0.1.4_KERNEL.md`, `docs/WALKTHROUGH.md`, and `docs/TESTNET_EVIDENCE.md` in the kernel repository. This does not imply a live connection from the kit.
+- Vespi 0.1.4 and evidence: `skills/vespi/SKILL.md`, `skills/vespi/capabilities.md`, `docs/RELEASE_2.4.9.md` in this kit, and `README.md`, `docs/CAPABILITIES.md`, `docs/RELEASE_0.1.4_KERNEL.md`, `docs/WALKTHROUGH.md`, and `docs/TESTNET_EVIDENCE.md` in the kernel repository. This does not imply a live connection from the kit.
 
 ## Provenance note
 
