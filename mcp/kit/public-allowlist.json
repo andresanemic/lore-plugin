@@ -6,7 +6,7 @@
     "lang": "en",
     "title": "Lore Plugin public overview",
     "path": "README.md",
-    "sha256": "758714d435124f0efcb2087ec31e544112f2b247ee642059fe25253ea4578292"
+    "sha256": "3b8fd7393642c9cdd3c581c499b01ac404d543c85eef24a4ec550e2195760639"
   },
   {
     "id": "skill-use-lore",
@@ -15,7 +15,7 @@
     "lang": "en",
     "title": "use-lore skill",
     "path": "skills/use-lore/SKILL.md",
-    "sha256": "03483b7b6b3dd47c71155f91540e71347831919b64c68260dc82a84ded7ed0a6"
+    "sha256": "2fb4a5869fd1bbe8462854cd1d96972ecc3e93eb10ee08392ad371d87a1bcd21"
   },
   {
     "id": "skill-brainstorming-lore",
@@ -24,7 +24,7 @@
     "lang": "en",
     "title": "brainstorming-lore skill",
     "path": "skills/brainstorming-lore/SKILL.md",
-    "sha256": "d5ed6d39041b8bf268aa259237b0b4e0055fecab7adcf058bff57ac327788a81"
+    "sha256": "4b4bb4414723dba33ca036fe407fd4f09c71e7d32678ce40b79b3a2bd2fe0eda"
   },
   {
     "id": "skill-create-area",
@@ -33,7 +33,7 @@
     "lang": "en",
     "title": "create-area skill",
     "path": "skills/create-area/SKILL.md",
-    "sha256": "9711384acff9692122fe3aef28499c42b7ad72e156f9a55c29f8a33e98ac77fb"
+    "sha256": "26908de3ff31f9ac00840aba426b4e833ab2319db6db0e129a5b7c936c8eb24e"
   },
   {
     "id": "skill-create-project",
@@ -42,7 +42,7 @@
     "lang": "en",
     "title": "create-project skill",
     "path": "skills/create-project/SKILL.md",
-    "sha256": "10995a52bade2905a3100475029887e856d4ed4632688c1ea2dd1ba6a9f48eea"
+    "sha256": "4ad7885d078a65167a8d86416f94b59b30f6cf8648e8c2c4e3786eaf01ee8347"
   },
   {
     "id": "skill-create-bot",
@@ -51,7 +51,7 @@
     "lang": "en",
     "title": "create-bot skill",
     "path": "skills/create-bot/SKILL.md",
-    "sha256": "bb8048e154fafe8286b96a2857419b36ed35a2ceb9f515482399f9b03ca05cca"
+    "sha256": "b75820e843509f25a292b19f62960499faeb78d73d659d6e32c08671a28395b1"
   },
   {
     "id": "skill-save-to-lore",
@@ -60,7 +60,7 @@
     "lang": "en",
     "title": "save-to-lore skill",
     "path": "skills/save-to-lore/SKILL.md",
-    "sha256": "fefc56252ad326b20e19be14f689fbb648256e5be71ae0153d399c4a597fae9c"
+    "sha256": "9c30c991ac9b6bca172acca5fc1c69a46189793eacfbb519f726166a1c97259c"
   },
   {
     "id": "skill-transmute-lore",
@@ -69,7 +69,7 @@
     "lang": "en",
     "title": "transmute-lore skill",
     "path": "skills/transmute-lore/SKILL.md",
-    "sha256": "f65e66a1d1293d5110b224d98038e0387b008d5c2dbd6ed963101f90e339a2bf"
+    "sha256": "c774698ff3d9716c7ef9bf1f605d2dee50ba0007fabd4dcefaedf3d4492327e9"
   },
   {
     "id": "skill-vespi",
@@ -78,7 +78,7 @@
     "lang": "en",
     "title": "vespi skill",
     "path": "skills/vespi/SKILL.md",
-    "sha256": "1a35196543a6ae834b7e5640ce5618b4af427c184c423eccdf16eda3c47465bf"
+    "sha256": "424771690234e193fa690a81dff7b907c70113440c1ba38f828caa7d6b627be4"
   },
   {
     "id": "vespi-method",
@@ -87,7 +87,7 @@
     "lang": "en",
     "title": "Vespi coordinator method",
     "path": "skills/vespi/method.md",
-    "sha256": "f02d9583cd682c396936fde87ba61bc66e3baf13968d8b8020c96b2e14526ad7"
+    "sha256": "6818646d6d89502ad099f8bc022b6da4f46c981c78a12ead1e9a417b2de7ba3f"
   },
   {
     "id": "reference-en",
@@ -96,7 +96,7 @@
     "lang": "en",
     "title": "Lore Plugin reference EN",
     "path": "docs/REFERENCE_en.md",
-    "sha256": "f9f179a08de2e9ad2231a40aeeb512a3e8d8382754869329e3d286c5c7cfc09e"
+    "sha256": "a1bf1096aaa9f9551da4a8cb6e4b719777b6d7e58f0442cb6d89fe610e2e7145"
   },
   {
     "id": "reference-es",
@@ -105,7 +105,7 @@
     "lang": "es",
     "title": "Lore Plugin reference ES",
     "path": "docs/REFERENCE_es.md",
-    "sha256": "c0d0721638f584ebe64aa839aeff1c2fc67437916e82a9655a98a7e4473f4d8d"
+    "sha256": "c010855903c40063959e7b88a23be58dac5594a33a2866d0bf4aaf7b50af1c15"
   },
   {
     "id": "90_seconds-en",
@@ -114,7 +114,7 @@
     "lang": "en",
     "title": "90 SECONDS EN",
     "path": "docs/90_SECONDS_en.md",
-    "sha256": "6c56b9046aa90733f89ad4c345daed741f10c9be5264fb359a9af706c899bcd7"
+    "sha256": "aa7c9858491be3bd2a6422149511b436e07dd4159bf6f14779bea0d2c11f6e3e"
   },
   {
     "id": "90_seconds-es",
@@ -123,7 +123,7 @@
     "lang": "es",
     "title": "90 SECONDS ES",
     "path": "docs/90_SECONDS_es.md",
-    "sha256": "560f0f64ad91666eb10a6d4dfd60eb1a3980bec4e2ca5e78518aec9663570b22"
+    "sha256": "aa94c7489552057a8ff7b1e7f555472f722a5583a9a0ec55bef8ff4b062bb87f"
   },
   {
     "id": "cases-en",
@@ -132,7 +132,7 @@
     "lang": "en",
     "title": "CASES EN",
     "path": "docs/CASES_en.md",
-    "sha256": "ae78f5f2bc3b4fd0ee5fa9616a16a1dcba43d32e5f150ad6c4503f2d12e5c8d1"
+    "sha256": "cec0dc8b25482728344a6af51eb69c6f2a8d31c0f8bf6ba1f9d21bb6fe988218"
   },
   {
     "id": "cases-es",
@@ -141,7 +141,7 @@
     "lang": "es",
     "title": "CASES ES",
     "path": "docs/CASES_es.md",
-    "sha256": "d083f2e45ed8a1fc4509230365ad45752b717bcacdf3f80020f549865e9db238"
+    "sha256": "fdf3ac64a301be629d0d743e9a27bab2b002cba352b59c986e29fc9d70eb3967"
   },
   {
     "id": "bibliography-en",
@@ -150,7 +150,7 @@
     "lang": "en",
     "title": "BIBLIOGRAPHY EN",
     "path": "docs/BIBLIOGRAPHY_en.md",
-    "sha256": "69378d70d2de31213629497aafb58e7c3da91dcaa981527e4f39628f04b67942"
+    "sha256": "88c5c1da9cbec7181c5c0ec9314eb4deb5ece74c6dce4e4b37dfb066d0ad0305"
   },
   {
     "id": "bibliography-es",
@@ -159,7 +159,7 @@
     "lang": "es",
     "title": "BIBLIOGRAPHY ES",
     "path": "docs/BIBLIOGRAPHY_es.md",
-    "sha256": "319531779fb4c5de36aaf1a8f06787f675b900701fc1c91852114c56da604723"
+    "sha256": "22f5f723942c83983e6b93e73d3afeb1c6df1801edb4f7408d6fcb736d682d43"
   },
   {
     "id": "genealogy-en",
@@ -168,7 +168,7 @@
     "lang": "en",
     "title": "GENEALOGY EN",
     "path": "docs/GENEALOGY_en.md",
-    "sha256": "27dbf29e864ff8733ef34aeb798e7f5f0b76b8a4532f813be5dcc280e24dbc78"
+    "sha256": "b678419cb8a8b7f58821bbb3d2d17a0f0a7d9504e999aa9eb927e140a362fe0b"
   },
   {
     "id": "genealogy-es",
@@ -177,7 +177,7 @@
     "lang": "es",
     "title": "GENEALOGY ES",
     "path": "docs/GENEALOGY_es.md",
-    "sha256": "b209ccb8bc80978ba841102559641fecb94ec4e27cc46621a7bad66597f8aa90"
+    "sha256": "7e850305a47978a6676ff6b63dd23d5164e97067854647fc852fbf4f03ba99c5"
   },
   {
     "id": "lus-en",
@@ -186,7 +186,7 @@
     "lang": "en",
     "title": "LUS EN",
     "path": "docs/LUS_en.md",
-    "sha256": "f30d07cb810c9236e58ae1cd93e5bf711e530e56f872c32ff012f22880370a2b"
+    "sha256": "7438532cd8b721e57f20e9abdab6a660ab983ed37e08752c79146fb36fa73110"
   },
   {
     "id": "lus-es",
@@ -195,7 +195,7 @@
     "lang": "es",
     "title": "LUS ES",
     "path": "docs/LUS_es.md",
-    "sha256": "348081bb7b2d264f41316fae65b693f354b07ca86b4253f661d3ca6b54c3eedb"
+    "sha256": "793ccd5176680abef9fdffe9997816f89b495bd6fb50fc42dea32198755e9c68"
   },
   {
     "id": "observer-en",
@@ -204,7 +204,7 @@
     "lang": "en",
     "title": "OBSERVER EN",
     "path": "docs/OBSERVER_en.md",
-    "sha256": "35646175568487dd98c558f2de0f21193f29c40fe76396a7650c97e5743c9c62"
+    "sha256": "f23b63be384128e18dc659501717904cfab76894b047000c811e18e4dc4b6a90"
   },
   {
     "id": "observer-es",
@@ -213,7 +213,7 @@
     "lang": "es",
     "title": "OBSERVER ES",
     "path": "docs/OBSERVER_es.md",
-    "sha256": "7f79c15d1923cd6c838b89a8e16c5598cea11d78c21c089af5e980ff70d18094"
+    "sha256": "c80f867d7869d4877da3014919311fac814c4665b0cfaca89e23b9271ef14500"
   },
   {
     "id": "release-2-4-9",
@@ -222,7 +222,7 @@
     "lang": "en",
     "title": "Lore Plugin 2.4.9 release notes",
     "path": "docs/RELEASE_2.4.9.md",
-    "sha256": "bbc729129cdc1e3ec78530758f8a4eda0d43a3912856a434b376290a3a7359bc"
+    "sha256": "c1199df9e55594c4ad21d68433bbcbf5d21385ee0beba274910fbbc54b531a2f"
   },
   {
     "id": "vespi-kernel-readme",
@@ -231,7 +231,7 @@
     "lang": "en",
     "title": "Vespi kernel README",
     "path": "vespi-kernel/README.md",
-    "sha256": "74c9895b35a7b07a13b201f78f02150bcc67be8e7a8b3df0655e86a3317f7246"
+    "sha256": "c548647f3ce570cc3cd610f1dcf92215442ff5135f78944f5ab4033723841e68"
   },
   {
     "id": "vespi-kernel-method",
@@ -240,7 +240,7 @@
     "lang": "en",
     "title": "Vespi kernel method",
     "path": "vespi-kernel/METHOD.md",
-    "sha256": "b0fff07e1e75f8c8a64e81a601b813ae145f0d518e48b5446a1f5b166ae25620"
+    "sha256": "fea89c6e2c5ec22f41600e856623c1deb502a43bf07331a81caa4624a6f58d0c"
   },
   {
     "id": "vespi-kernel-prior-art",
@@ -258,6 +258,6 @@
     "lang": "en",
     "title": "Vespi kernel changelog",
     "path": "vespi-kernel/CHANGELOG.md",
-    "sha256": "c714d76c0c1303accec65f091568430f93752bf80efdf28945243f9cc3d9209a"
+    "sha256": "fe9e44bf15b74630ad5a89572cd6953aecc33047c68d2e4f7af5627d6886259d"
   }
 ]

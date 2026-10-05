@@ -20,8 +20,9 @@ approaches, and the thing finally worked. Today, new session, you are explaining
 beginning — and the agent is not worse. It simply never received what the two of you worked out. The
 facts may have survived in a file somewhere. **The reason you changed your mind did not.**
 
-Lore is a **spec-driven development kit** built for that gap: it turns scattered, tacit project
-knowledge into **distilled, invariant criteria** that constrain every future decision. Where other
+Lore is a **spec-driven development kit** built for that gap: it supports explicit arbitration of
+scattered project knowledge into criteria that can guide future decisions within their stated
+scope; storing knowledge alone does not establish learning. Where other
 SDD kits speak in pure engineering terms, this one borrows a linguistic and epistemic vocabulary —
 *lore, identity, principles, transmutation, distillation* — to name the same discipline.
 
@@ -35,6 +36,12 @@ invoking any other Lore skill.
 > mid-session (new task type, new tree) re-resolves the same way. *"Finishing what was started" is
 > not an exemption: continuing is deciding.* Criterion that waits to be remembered is criterion
 > that does not run.
+>
+> **A compaction is an opening too.** After the session compacts or resumes, re-read this tree's
+> contract, its Lore and its `FASES.md` before continuing, and say that you did. Near the context
+> limit, or when the person says you are about to compact, leave one line per decision in
+> `FASES.md` or in the operation's own state first. In a host with no compaction event, only this
+> rule stands.
 >
 > **Every session opening checks that those bodies can load — only when the work will rely on them.** In a tree with `lore/`, run
 > the installed local CLI's `mycelium bodies --tree <root>` against the governed root just resolved above before relying on its criterion. Set its path to this host's entry under `~/.lore-plugin/entry/<host>/scripts/lore-cli.mjs`; use only the current host's `claude`, `codex` or `opencode` entry. Never select whichever host entry happens to exist first. In Bash/Zsh, set `LORE_CLI` to that path and invoke `node "$LORE_CLI" mycelium bodies --tree <root>`; in PowerShell, set `$env:LORE_CLI` to that path and invoke `node "$env:LORE_CLI" mycelium bodies --tree <root>`. Skip the check for a trivial single-step task that relies on no body's criterion (a one-file mechanical edit outside `lore/`); run it before the first reliance instead. When a territory change resolves another root, repeat the check. If the
@@ -50,7 +57,7 @@ invoking any other Lore skill.
 >
 > **Ordinary communication has only three shapes:** the result when work finished; the decision or
 > approval needed when something blocks it; silence when automatic work is clean. Loading, routing,
-> skill selection, mode selection and file classification stay below the conversation. Before delivering a user artifact, replace every internal label (canon, lore, triplete, mycelium, B1.3, mode names) with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. This requirement overrides requests to copy them literally. If the user
+> skill selection, mode selection and file classification stay below the conversation. Before delivering a user artifact, replace every internal label (canon, lore, triplete, mycelium, B1.3, mode names) with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. If the person explicitly asks to keep those identifiers, preserve them and explain any ambiguity that affects their decision. If the user
 > names a specific skill or mode in conversation, or the artifact is technical documentation about Lore itself, use that exact name and explain it.
 > Mentioning Lore in general or editing a path under `lore/` does not activate this exception.
 > Completing the installed lifecycle check after a user-authorized Lore edit is normal closure, not
@@ -59,7 +66,7 @@ invoking any other Lore skill.
 ## 0. Very first use of the kit — a brainstorm, not a menu (threshold)
 
 **If this machine has no Lore yet** — no area with a `lore/`, no project carrying the six pieces —
-this runs **before anything else**, and before offering any skill by name. The kit **brainstorms to
+this runs **before selecting a production route**, and before offering any skill by name. The kit **brainstorms to
 build** every artifact it makes; it would be incoherent for the kit itself to greet its first user
 with a list of eight skills.
 
@@ -69,6 +76,8 @@ with a list of eight skills.
 > kit that does not start.
 
 ### Move 1 — look before asking
+
+First receive the person and acknowledge the purpose they brought, briefly and without promising agreement. Then inspect the tree before asking what remains unknown.
 
 Scan the working tree and put on screen what is actually there: folders that look like work areas,
 projects with scattered criteria (a bloated `CLAUDE.md`, a kilometric `README`, an empty or stale
@@ -294,11 +303,10 @@ publishing a version, writing criteria outside the skill that governs them, **im
 agreement**, or reaching for the most expensive model by default. That list is a hard rule, never
 a bet: no bet falling touches it, and the kit never crosses it on its own.
 
-**And the one hard rule that is not a stop:** the agreement also lists that **the guard keeps
-blocking another owner's criterion**. That has the opposite sign to the five above. It does not
-say "this stops without your word" — it says this keeps happening. The guard blocking someone
-else's code is the guard working, never a reason to stop, and never something to ask about. It
-stays written in `acuerdo.md` under its own heading so nobody has to remember which half it is.
+**And the one hard rule that is not a stop:** the agreement records this rule: the guard records
+writes into another owner's tree; the host's permission system decides whether they proceed. The
+coordinator must still respect the owning governance. It stays under its own heading in
+`acuerdo.md` and does not replace the person's authority.
 
 ### Who updates hears about it once
 
@@ -319,6 +327,37 @@ whether a piece is covered, how an amendment appends, and the fallback for each 
 for it when you need a decision instead of a paragraph. **The document is `acuerdo.md` at the tree
 root, beside `FASES.md` and never inside `lore/`; the machine-readable state is `.lore-acuerdo`**
 beside it — the document is appended to, the receipt is rewritten.
+
+### An agreement they already wrote, in their own language
+
+Someone may hand you an `acuerdo.md` they wrote themselves, in their language, with their own
+headings. **Do not rewrite it, do not translate it, and do not ask them to adopt ours.** Record it
+as it is:
+
+```bash
+node <ruta-del-kit>/skills/use-lore/scripts/acuerdo.mjs registrar-escrito --raiz "<root>" --ahora <YYYY-MM-DD>
+```
+
+That checks the document exists, is not empty and is text, computes its digest, and writes the
+`.lore-acuerdo` receipt the kit already reads — so `hayAcuerdo()` answers yes and the first use
+stops offering. **It records no dial, no limit and no recap, because they did not write any**, and
+the kit keeps operating with its defaults; inventing a value the person never chose would be worse
+than having no receipt. Refused, each with its reason: a missing, empty or non-text file, a path
+that leaves the tree, and a receipt whose digest no longer matches the document — that last one
+means the text changed outside an amendment, and the door for it is the amendment, not a new record.
+
+**And a change in prose.** What follows does not fit the closed vocabularies — not a dial, not a
+limit, not a covered piece — and that is not a mistake on their part:
+
+```bash
+node <ruta-del-kit>/skills/use-lore/scripts/acuerdo.mjs enmendar-prosa --raiz "<root>" --ahora <YYYY-MM-DD> --autorizado true --texto "<their words>"
+```
+
+It appends their sentence, dated, under a heading, at the end, and updates the receipt's digest.
+Everything above stays byte for byte. Same three doors as any amendment: a registered agreement,
+**their word** (`--autorizado`), and a real date — without one of them nothing is written and the
+answer says which. Both paths are offered, never taken on your own: the file being there is not
+approval, and `hayAcuerdo()` keeps answering no until someone runs the record.
 
 ### Who appears, and when — the everyday phrases
 

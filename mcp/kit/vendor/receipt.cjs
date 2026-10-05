@@ -1,9 +1,21 @@
 // Vendored copy — canonical source is founder/proyectos/vespi/kernel/src/receipt.js
-// (kernel 0.1.3 candidate, codex/rc6 branch, commit 892bd91). Edit the canonical source, then re-copy here;
+// commit 03f78db, branch release/0.1.4-prep.
 // this file is not the source of truth.
 'use strict';
 
 const { createHash } = require('node:crypto');
+const { parseTime } = require('./time.js');
+// The zk vocabulary lives in one place (src/zk.js) so the port that writes the evidence and the
+// receipt that reads it cannot drift apart on what a valid claim is.
+const { readZkClaim, readCatalogChecks, reconcileZk, ZK_INCONSISTENT_REASON, ZK_FOREIGN_CHECK_REASON,
+  ZK_CHECK_KEYS, COVERED_CHECKS, LIMIT_CHECKS } = require('./zk.js');
+
+// The coverage vocabulary, read once from the frozen catalog the zk module defines. Sets built here
+// are private to this file, so the copy of the catalog that `zk.js` exports by reference cannot be
+// edited from the process into a wider coverage.
+const ZK_CATALOG = new Set(ZK_CHECK_KEYS);
+const ZK_COVERED = new Set(COVERED_CHECKS);
+const ZK_LIMITS = new Set(LIMIT_CHECKS);
 
 const RECEIPT_STATUSES = new Set([
   'verified',
@@ -42,13 +54,24 @@ function computeDigest(receipt) {
 }
 
 // A check counts as coverage only when it passed; a failed check is listed as not covered.
+//
+// The zk vocabulary is a closed catalog, so a name of ours is coverage only when it is one of the
+// three a proof can grant and the receipt carries a zk claim that held up. The four limits are never
+// coverage, whatever anybody reported, and a name the catalog does not enumerate never reaches this
+// function. Names that are not ours keep the behaviour they always had, so a receipt without a claim
+// still reports the controls its own verifier named.
 function readChecks(verification) {
   const covered = [];
   const failed = [];
   try {
     const checks = verification && verification.checks;
+    const claimed = Boolean(verification && verification.zk);
     if (checks !== null && typeof checks === 'object' && !Array.isArray(checks)) {
-      for (const key of Object.keys(checks)) (checks[key] === true ? covered : failed).push(key);
+      for (const key of Object.keys(checks)) {
+        const ours = ZK_CATALOG.has(key);
+        const isCoverage = !ours || (claimed && ZK_COVERED.has(key));
+        (isCoverage && !ZK_LIMITS.has(key) && checks[key] === true ? covered : failed).push(key);
+      }
     }
   } catch {
   }
@@ -135,7 +158,6 @@ function readAnchorResult(result) {
 function finishAnchor(base, prevNotCovered, submitted, confirmed) {
   if (submitted && confirmed) {
     base.anchor = { status: 'anchored', network: submitted.network, txHash: submitted.txHash };
-    base.notCovered = withExternalAnchor(prevNotCovered, true);
   } else if (submitted) {
     base.anchor = { status: 'submitted', network: submitted.network, txHash: submitted.txHash };
     base.notCovered = withExternalAnchor(prevNotCovered, false);
@@ -161,11 +183,12 @@ function finishAnchor(base, prevNotCovered, submitted, confirmed) {
 function prepareAnchor(receipt) {
   const base = { ...(receipt || {}) };
   const prevNotCovered = Array.isArray(base.notCovered) ? base.notCovered : [];
-  if (typeof base.digest !== 'string') {
-    try {
-      base.digest = computeDigest(base);
-    } catch {
-    }
+  // The confirmed body is the body submitted to the adapter. Prepare its final coverage before
+  // computing the digest so confirmation never needs to rewrite a field covered by that digest.
+  base.notCovered = withExternalAnchor(prevNotCovered, true);
+  try {
+    base.digest = computeDigest(base);
+  } catch {
   }
   return { base, prevNotCovered };
 }
@@ -214,7 +237,7 @@ async function anchorReceiptAsync(receipt, anchor, verifyAnchor) {
 
 const SAFE_EVIDENCE_KEYS = new Set([
   'txHash', 'tx', 'transaction', 'payer', 'network', 'amount', 'authDigest', 'planDigest',
-  'status', 'success', 'ledger', 'operationId', 'blockHeight', 'type', 'code',
+  'status', 'success', 'ledger', 'operationId', 'blockHeight', 'type', 'code', 'settlementUnknown', 'exercisedUnknown',
 ]);
 
 function safeText(value) {
@@ -245,6 +268,11 @@ function sanitizeEvidence(evidence) {
 // `verification` travels as evidence too, so it gets the same treatment: three named fields and
 // nothing else. A verifier is still free to return whatever it likes, but only the verdict, the
 // per-check results and the reason reach the receipt — a key it invented does not (T1-X2).
+//
+// `zk` is the one addition, and it is read with a closed schema (src/zk.js). A claim that does not
+// hold up — malformed, or inconsistent with the verdict and the checks it travels with — is removed
+// and the verdict becomes false with a fixed reason. It is never repaired into something valid: a
+// sanitizer that fixed a bad claim would be manufacturing evidence.
 function sanitizeVerification(verification) {
   if (!verification || typeof verification !== 'object' || Array.isArray(verification)) return null;
   const safe = {};
@@ -264,6 +292,31 @@ function sanitizeVerification(verification) {
   } catch {
     return null;
   }
+  const zkClaim = readZkClaim(verification);
+  // A zk claim reports the frozen catalog and nothing else: a name outside it is dropped instead of
+  // copied, and the verification fails closed with the fixed public reason.
+  const vocabulary = readCatalogChecks(safe.checks, { claimed: zkClaim.claimed });
+  // The catalog decides what a name is allowed to be called, not whether the record exists at all: a
+  // verification that arrived without `checks` leaves without it, which is the shape and the digest
+  // a receipt built before the zk vocabulary existed already has. A patch release cannot move a
+  // digest that is already in a file somewhere (advisor R2-08).
+  if (safe.checks !== undefined) safe.checks = vocabulary.checks;
+  const reconciled = reconcileZk({
+    verified: safe.verified === true,
+    checks: safe.checks,
+    claimed: zkClaim.claimed,
+    zk: zkClaim.value,
+  });
+  if (reconciled.zk !== null) safe.zk = reconciled.zk;
+  if (vocabulary.foreign) {
+    safe.verified = false;
+    safe.reason = ZK_FOREIGN_CHECK_REASON;
+  } else if (!reconciled.consistent) {
+    safe.verified = false;
+    safe.reason = ZK_INCONSISTENT_REASON;
+  } else if (safe.verified !== reconciled.verified) {
+    safe.verified = reconciled.verified;
+  }
   return safe;
 }
 
@@ -278,17 +331,53 @@ function sanitizeSpend(items) {
       to: safeScalar(item.to),
     };
     const expiresAt = safeScalar(item.expiresAt);
-    if (typeof expiresAt === 'string' && expiresAt.length > 0) out.expiresAt = expiresAt;
+    if ((typeof expiresAt === 'string' && expiresAt.length > 0)
+      || (typeof expiresAt === 'number' && parseTime(expiresAt) !== null)) out.expiresAt = expiresAt;
     return out;
   });
 }
 
-function buildReceipt({ operation, capabilityId, authority, outcome, evidence, verification, decidedBy }) {
+function validExercisedEntry(item) {
+  try {
+    if (!item || typeof item !== 'object' || Array.isArray(item)) return false;
+    const asset = item.asset;
+    const to = item.to;
+    const amount = item.amount ?? item.maxAmount;
+    const validAmount = (typeof amount === 'string' && amount.length > 0)
+      || (typeof amount === 'number' && Number.isFinite(amount));
+    return typeof asset === 'string' && asset.length > 0
+      && typeof to === 'string' && to.length > 0 && validAmount;
+  } catch {
+    return false;
+  }
+}
+
+function buildReceipt({ operation, capabilityId, authority, outcome, evidence, verification, decidedBy, at }) {
   const grants = Array.isArray(authority && authority.spend) ? authority.spend : [];
-  const exercised = Array.isArray(outcome && outcome.exercised) ? outcome.exercised : [];
+  const rawExercised = outcome && outcome.exercised;
+  const exercised = Array.isArray(rawExercised) ? rawExercised : [];
+  const validExercised = exercised.filter(validExercisedEntry);
+  const exercisedUnknown = (Array.isArray(rawExercised) && rawExercised.length > 0 && validExercised.length !== rawExercised.length)
+    || (rawExercised !== undefined && rawExercised !== null && !Array.isArray(rawExercised));
   const safeVerification = sanitizeVerification(verification);
   const rawStatus = safeText(outcome && outcome.status) || 'failed';
-  const status = RECEIPT_STATUSES.has(rawStatus) ? rawStatus : 'failed';
+  let status = RECEIPT_STATUSES.has(rawStatus) ? rawStatus : 'failed';
+  // A direct caller can pass any status, so the zk rule is applied here too and not only inside
+  // runOperation: a receipt may only read `verified` when the zk it carries says `verified` and the
+  // verdict agrees. A claim that was refused cannot leave a verified receipt behind.
+  if (status === 'verified' && readZkClaim(verification).claimed
+    && !(safeVerification && safeVerification.verified === true && safeVerification.zk
+      && safeVerification.zk.result === 'verified')) {
+    status = 'not_verified';
+  }
+  // The rule above only reaches a claim. A receipt may also be built by hand, with a status its maker
+  // chose and no claim at all, and then the only thing that can lower the status is its own
+  // verification: a verdict that ended false, here because a `zk.` name sat outside the closed
+  // catalog, cannot leave a receipt that reads `verified` (advisor R2-09).
+  if (status === 'verified' && safeVerification && safeVerification.verified === false
+    && safeVerification.reason === ZK_FOREIGN_CHECK_REASON) {
+    status = 'not_verified';
+  }
   const operationId = safeText(operation && operation.id) || 'unknown';
   const goal = safeText(operation && operation.goal) || '';
   const action = safeText(operation && operation.action);
@@ -308,11 +397,15 @@ function buildReceipt({ operation, capabilityId, authority, outcome, evidence, v
     capability: receiptCapability,
     authority: {
       grants: sanitizeSpend(grants),
-      exercised: sanitizeSpend(exercised),
+      exercised: sanitizeSpend(validExercised),
       ...(approval ? { approval } : {}),
     },
     outcome: status,
-    evidence: sanitizeEvidence(evidence),
+    evidence: (() => {
+      const safeEvidence = sanitizeEvidence(evidence);
+      if (!exercisedUnknown) return safeEvidence;
+      return { ...(safeEvidence || {}), exercisedUnknown: true };
+    })(),
     verification: safeVerification,
     coverage,
     notCovered: [...failedChecks, 'external anchor'],
@@ -321,10 +414,15 @@ function buildReceipt({ operation, capabilityId, authority, outcome, evidence, v
     ...(reason ? { reason } : {}),
     ...(exit ? { exit } : {}),
     ...(decided ? { decidedBy: decided } : {}),
-    at: new Date().toISOString(),
+    // An injected operation clock may supply the receipt time; direct callers retain wall time.
+    at: at === undefined ? new Date().toISOString() : at,
   };
   receipt.digest = computeDigest(receipt);
   return receipt;
 }
 
-module.exports = { buildReceipt, verifyReceipt, anchorReceipt, anchorReceiptAsync };
+// Exported so a module that seals extra fields onto a receipt (skill provenance) writes the same
+// digest this file writes, instead of keeping a second copy of the canonicalization that can drift.
+// Nothing here changed: `computeDigest` is the same function `buildReceipt` and `verifyReceipt` have
+// always called.
+module.exports = { buildReceipt, verifyReceipt, anchorReceipt, anchorReceiptAsync, computeDigest };
