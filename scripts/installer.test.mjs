@@ -413,7 +413,7 @@ test("preflight de la entrada local falla antes de mutar Codex u OpenCode", () =
   }
 });
 
-test("Codex instala el paquete entero y no deja archivos de la versión anterior", () => {
+test("Codex instala lo que el manifiesto publica y no deja archivos de la versión anterior", () => {
   const home = mkdtempSync(join(tmpdir(), "lore-codex-todo-"));
   const packageRoot = makePackage();
   // Lo que el instalador antes ignoraba: la etiqueta de versión, el recibo y la documentación viajan con el paquete.
@@ -423,7 +423,14 @@ test("Codex instala el paquete entero y no deja archivos de la versión anterior
   writeFileSync(join(packageRoot, "docs", "REFERENCE_en.md"), "new reference\n");
   writeFileSync(join(packageRoot, ".claude-plugin", "plugin.json"), '{"version":"2.4.9-rc.7"}');
   writeFileSync(join(packageRoot, "commands", "nivel.md"), "new nivel\n");
-  for (const name of ["README.md", "LICENSE", "NOTICE", "package.json", "RECIBO-LOCAL.json"]) writeFileSync(join(packageRoot, name), `new ${name}\n`);
+  for (const name of ["README.md", "LICENSE", "NOTICE", "RECIBO-LOCAL.json"]) writeFileSync(join(packageRoot, name), `new ${name}\n`);
+  // La lista de publicación manda: `RECIBO-LOCAL.json` no está en `files`, así que ya no viaja
+  // aunque esté en la raíz del paquete (H14: la copia era por lista de exclusión).
+  writeFileSync(join(packageRoot, "package.json"), JSON.stringify({
+    name: "@andresanemic/lore-plugin",
+    version: "2.0.0",
+    files: ["hooks/", "skills/", "docs/", ".claude-plugin/", ".codex-plugin/", "commands/", "scripts/", "README.md", "LICENSE", "NOTICE"],
+  }, null, 2) + "\n");
   // Lo que un árbol fuente trae y no es parte de lo que se instala.
   mkdirSync(join(packageRoot, "bench"), { recursive: true });
   mkdirSync(join(packageRoot, "node_modules", "x"), { recursive: true });
@@ -435,16 +442,19 @@ test("Codex instala el paquete entero y no deja archivos de la versión anterior
   mkdirSync(join(pluginRoot, "docs"), { recursive: true });
   writeFileSync(join(pluginRoot, "docs", "REFERENCE_en.md"), "old reference\n");
   writeFileSync(join(pluginRoot, "docs", "SOLO_EN_LA_ANTERIOR.md"), "old\n");
-  for (const name of ["README.md", "LICENSE", "package.json", "RECIBO-LOCAL.json"]) writeFileSync(join(pluginRoot, name), `old ${name}\n`);
+  for (const name of ["README.md", "LICENSE", "NOTICE", "package.json", "RECIBO-LOCAL.json"]) writeFileSync(join(pluginRoot, name), `old ${name}\n`);
 
   const result = installCodex({ home, packageRoot });
   assert.equal(result.verified, true);
-  for (const name of ["docs", ".claude-plugin", "commands", "README.md", "LICENSE", "NOTICE", "package.json", "RECIBO-LOCAL.json", "skills", "scripts", "hooks", ".codex-plugin"]) {
+  for (const name of ["docs", ".claude-plugin", "commands", "README.md", "LICENSE", "NOTICE", "package.json", "skills", "hooks", ".codex-plugin"]) {
     assert.equal(sameTree(join(packageRoot, name), join(pluginRoot, name)), true, `${name} debe quedar idéntico al paquete`);
   }
   assert.equal(existsSync(join(pluginRoot, "docs", "SOLO_EN_LA_ANTERIOR.md")), false, "un archivo de la versión anterior no sobrevive");
+  assert.equal(readFileSync(join(pluginRoot, "RECIBO-LOCAL.json"), "utf8"), "old RECIBO-LOCAL.json\n",
+    "lo que el manifiesto no publica no se instala ni se refresca");
   for (const name of ["bench", "node_modules", "CLAUDE.md"]) assert.equal(existsSync(join(pluginRoot, name)), false, `${name} no se instala`);
 });
+
 
 test("la entrada local de Claude se instala dos veces en un HOME vacío sin salir de él", () => {
   const home = mkdtempSync(join(tmpdir(), "lore-claude-fresh-home-"));
