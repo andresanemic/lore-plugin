@@ -613,6 +613,99 @@ test("el turno que sigue NO repite el veredicto: la puerta abre una vez por sesi
   assert.doesNotMatch(turno.texto, /dispatch/);
 });
 
+// --- 9. una puerta que no puede abrirse tiene que decirlo -------------------------------
+//
+// El techo declarado de este mecanismo es no romper nada, y por eso todo lo que puede fallar
+// esta dentro de un catch que se calla. Fallar abierto esta bien; fallar en silencio no: asi el
+// hook no inyecta nada y la sesion sigue como si no hubiera puerta, que es exactamente el defecto
+// que la seccion 8 acaba de pagar. Y el puntero al que se degrada la puerta cuando no puede leer
+// es el mismo que ya se declaro insuficiente, lo que hace el fallo indistinguible de una
+// apertura de verdad: quien lee no tiene forma de saber que la puerta esta caida.
+
+function fasesIlegible(dir) {
+  rmSync(join(dir, "FASES.md"), { force: true, recursive: true });
+  mkdirSync(join(dir, "FASES.md"), { recursive: true });
+}
+
+// El hook como lo corre el host, y lo que de verdad le llega: el arreglo `system` entero. Cuando
+// el host entrega un arreglo que no admite la escritura, el fallo ocurre DENTRO del try de la
+// inyeccion; ahi el unico canal que queda es stderr, y callar en los dos es no dejar rastro.
+async function transformSinCanal(plugin, sessionID) {
+  const errores = [];
+  const previo = process.stderr.write.bind(process.stderr);
+  process.stderr.write = (chunk) => { errores.push(String(chunk)); return true; };
+  try {
+    await plugin["chat.message"]({ sessionID, messageID: "human-1" }, { message: { role: "user" }, parts: [] });
+    await plugin["experimental.chat.system.transform"]({ sessionID, model: { id: "probe" } }, Object.freeze(["base"]));
+  } finally {
+    process.stderr.write = previo;
+  }
+  return errores.join("");
+}
+
+test("si FASES.md no se puede leer, la apertura lo dice y no vuelve al puntero", async () => {
+  const dir = arbol();
+  acuerdoAprobado(dir);
+  const { id } = operacionAbierta(dir);
+  fasesIlegible(dir);
+  process.env.LORE_ESTADO_DIR = estadoTmp();
+  const plugin = await LorePlugin({ directory: dir });
+  const salida = { system: ["base"] };
+  const sessionID = idOpenCode();
+  await plugin["chat.message"]({ sessionID, messageID: "u1" }, { message: { role: "user" }, parts: [] });
+  await plugin["experimental.chat.system.transform"]({ sessionID, model: { id: "probe" } }, salida);
+  const unido = salida.system.join(".");
+  assert.match(unido, new RegExp(`no (se pudo|pudo) leer|no se leyo`),
+    `la puerta caida tiene que decir que no pudo leer el estado: ${unido}`);
+  assert.doesNotMatch(unido, /el estado vive en FASES\.md/,
+    "volver al puntero es indistinguible de una apertura de verdad: es el defecto que la seccion 8 pago");
+});
+
+test("un bloque de operacion ilegible tambien se dice, no se disimula", async () => {
+  const dir = arbol();
+  acuerdoAprobado(dir);
+  operacionAbierta(dir);
+  writeFileSync(join(dir, "FASES.md"), "<!-- vespi:operacion op-corrupto -->\n\nun bloque sin estructura\n");
+  process.env.LORE_ESTADO_DIR = estadoTmp();
+  const plugin = await LorePlugin({ directory: dir });
+  const salida = { system: ["base"] };
+  const sessionID = idOpenCode();
+  await plugin["chat.message"]({ sessionID, messageID: "u1" }, { message: { role: "user" }, parts: [] });
+  await plugin["experimental.chat.system.transform"]({ sessionID, model: { id: "probe" } }, salida);
+  const unido = salida.system.join(".");
+  assert.match(unido, /op-corrupto|no (se pudo|pudo) leer|no se leyo/i,
+    `un FASES.md que no se puede parsear tiene que nombrarse: ${unido}`);
+});
+
+test("la puerta caida no tumba el turno: sigue habiendo texto y el host no se rompe", () => {
+  const dir = arbol();
+  acuerdoAprobado(dir);
+  operacionAbierta(dir);
+  fasesIlegible(dir);
+  const r = inyeccion({ raiz: dir, turno: null, nivel: "full" });
+  assert.equal(r.inyectar, true, "el techo sigue siendo no romper nada");
+  assert.equal(typeof r.texto, "string");
+  assert.ok(r.texto.length > 0);
+});
+
+test("si el host no admite la escritura, el hook deja rastro en stderr", async () => {
+  const dir = arbol();
+  acuerdoAprobado(dir);
+  operacionAbierta(dir);
+  process.env.LORE_ESTADO_DIR = estadoTmp();
+  const plugin = await LorePlugin({ directory: dir });
+  const rastro = await transformSinCanal(plugin, idOpenCode());
+  assert.match(rastro, /Lore Plugin/,
+    `el fallo del canal tiene que quedar en stderr, no en la nada: ${JSON.stringify(rastro)}`);
+});
+
+test("sin acuerdo en vigor el hook sigue callado: el fallo no se confunde con una apuesta", () => {
+  const dir = arbol();
+  const r = inyeccion({ raiz: dir, turno: null, nivel: "full" });
+  assert.equal(r.inyectar, false);
+  assert.equal(r.por, "sin-acuerdo");
+});
+
 test.after(() => {
   for (const dir of roots) rmSync(dir, { recursive: true, force: true });
 });
