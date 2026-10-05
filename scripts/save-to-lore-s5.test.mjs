@@ -92,7 +92,7 @@ test("S5.3 una carpeta como evidencia no verifica: debe ser un archivo real", (t
 
 test("S5.3 el puntero absoluto o URL no vale como evidencia alcanzable", (t) => {
   const dir = baseTemporal(t);
-  for (const ptr of ["C:/Claude/notas/x.md", "/tmp/x.md", "https://example.com/x.md"]) {
+  for (const ptr of ["C:/otra-carpeta/notas/x.md", "/tmp/x.md", "https://example.com/x.md"]) {
     const r = verificaEvidencia(`evidencia: ${ptr}\n`, dir);
     assert.equal(r.ok, false, ptr);
     assert.match(r.motivos.join(" "), /relativa/);

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync, existsSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import test from "node:test";
@@ -126,3 +126,38 @@ test("codexComponents del kit real no declara ninguna pieza fuera de `files`", (
   for (const name of declarados) assert.ok(publicados.has(name) || name === "package.json", `${name} se instala y el manifiesto no lo publica`);
   assert.ok(declarados.has("skills") && declarados.has("hooks"), "las piezas que el kit necesita si estan");
 });
+
+// H16: el árbol versionado traía rutas absolutas de la máquina del mantenedor, y dos de ellas
+// se distribuyen en el tarball. `bench/` y el kernel vendorizado quedan fuera de este encargo:
+// el primero por decisión del dueño (H17), el segundo porque `SOURCE.md` fija sus bytes y lo
+// arregla el kernel de origen con una re-pincada.
+test("H16: ningún archivo publicado contiene rutas absolutas de una máquina", () => {
+  const root = join(import.meta.dirname, "..");
+  const manifest = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
+  // La raiz del area y el nombre del usuario del mantenedor. Un `C:/Users/<otro>` en una
+  // prueba es un ejemplo adversario, no una ruta de esta maquina.
+  const prohibidos = [/[A-Za-z]:[\\/]Claude\b/, /[A-Za-z]:[\\/]Users[\\/]andre\b/i];
+  const publicados = [];
+  const visita = (rel) => {
+    if (rel.replaceAll("\\", "/").startsWith("skills/vespi/core/kernel/")) return;
+    const full = join(root, rel);
+    const st = statSync(full);
+    if (st.isDirectory()) {
+      for (const name of readdirSync(full, { withFileTypes: true })) visita(join(rel, name.name));
+      return;
+    }
+    publicados.push(rel);
+  };
+  for (const entry of manifest.files) visita(entry.replaceAll("\\", "/").replace(/\/+$/, ""));
+  for (const sub of readdirSync(root, { withFileTypes: true })
+    .filter((e) => e.isDirectory() && ["scripts", "skills", "hooks"].includes(e.name))
+    .map((e) => e.name)) visita(sub);
+
+  const infractores = [];
+  for (const rel of publicados) {
+    const texto = readFileSync(join(root, rel), "utf8");
+    for (const patron of prohibidos) if (patron.test(texto)) infractores.push(`${rel} (${patron})`);
+  }
+  assert.deepEqual(infractores, [], `rutas absolutas de una máquina en archivos publicados: ${infractores.join("; ")}`);
+});
+

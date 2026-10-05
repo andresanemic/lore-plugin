@@ -31,13 +31,13 @@ test("from-routing never turns project prose into permissions outside the projec
   const project = temp();
   try {
     const escapes = [
-      "C:/Users/andre/.ssh",
-      "c:\\Users\\andre\\.ssh",
+      "C:/Users/otra-cuenta/.ssh",
+      "c:\\Users\\otra-cuenta\\.ssh",
       "\\\\servidor\\recurso",
       "~/.ssh",
       "~\\.ssh",
       "/etc",
-      "/Users/andre/.ssh",
+      "/Users/otra-cuenta/.ssh",
       "../../../../Windows",
       "area/../../../../etc",
       "$HOME/.ssh",

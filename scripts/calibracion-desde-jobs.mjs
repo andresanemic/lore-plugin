@@ -4,8 +4,14 @@ import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { calibrateEstimates } from "../skills/vespi/core/coordinator.mjs";
 
-const root = process.argv[2] ?? "C:/Users/andre/AppData/Local/Temp/claude/C--Claude-bots-proyectos-bot-lus-lore/cb64e85b-ef54-40fb-b1ef-58412e18e892/scratchpad/jobs";
+// La raiz de los trabajos llega por argumento o por LORE_JOBS_ROOT: una ruta fija en el
+// arbol es la ruta de la maquina de quien lo escribio, y no debe viajar en el paquete.
+const root = process.argv[2] ?? process.env.LORE_JOBS_ROOT;
 const day = process.argv[3] ?? new Date().toISOString().slice(0, 10);
+if (!root) {
+  console.error("Falta la raiz de los trabajos: pasa el primer argumento o define LORE_JOBS_ROOT.");
+  process.exit(2);
+}
 const files = await readdir(root);
 const tasks = [];
 for (const name of files.filter((file) => file.endsWith(".inicio"))) {
