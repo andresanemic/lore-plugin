@@ -356,6 +356,106 @@ test("observe rechaza at inválido por API y CLI sin alterar el estado", async (
   assert.deepEqual(await readFile(file), before);
 });
 
+// --- RC2: el reloj consultado ------------------------------------------------------------------
+//
+// El kernel trae `deadlineMs` y `delegationStatus`, y su propia declaracion dice que los plazos
+// INFORMAN el estado solo cuando los consultas y nunca programan ni ejecutan trabajo. Es decir: el
+// reloj existe y depende de que alguien pregunte, y nadie preguntaba. Una tarea con su plazo
+// vencido no aparecia vencida en ninguna parte —no en `status`, no en `entry`— y eso no es que
+// estuviera bien: es que nadie miraba.
+//
+// `deadlineMs` es una DURACION en milisegundos, como en el kernel: el plazo se cuenta desde que la
+// tarea se planifico. El rojo usa `1`, que vence un milisegundo despues de planificarse: asi el
+// caso es "una tarea con `deadlineMs` en el pasado" sin escribir una fecha en el test.
+
+const encargoVencido = (root) => ({ ...encargoDaimon(root), deadlineMs: 1 });
+
+test("RC2: plan acepta deadlineMs y lo persiste por tarea", async (t) => {
+  const { root, id } = await conOperacion(t);
+  const p = run(["plan", "--root", root, "--id", id, "--json", j(encargoVencido(root))]);
+  assert.equal(p.json.ok, true, p.err);
+  assert.equal(p.json.taskRecord.deadlineMs, 1);
+  assert.ok(Number.isFinite(p.json.taskRecord.due_at),
+    `el plazo tiene que quedar congelado en un instante: ${JSON.stringify(p.json.taskRecord)}`);
+  assert.equal(Date.parse(p.json.taskRecord.due_at), Date.parse(p.json.taskRecord.planned_at) + 1);
+  // Y sobrevive al archivo: la consulta de otro proceso tiene que poder leerlo.
+  const s = run(["status", "--root", root, "--id", id]);
+  assert.ok(s.json.ok, s.err);
+});
+
+test("RC2: status declara vencida la tarea con el plazo vencido y dice su edad", async (t) => {
+  const { root, id } = await conOperacion(t);
+  run(["plan", "--root", root, "--id", id, "--json", j(encargoVencido(root))]);
+  // Nadie observo nada: el rojo es justamente que la vencimiento se vea SIN que alguien la mire.
+  const s = run(["status", "--root", root, "--id", id]);
+  assert.equal(s.json.tasks[0].overdue, true, "la tarea vencida no aparece vencida");
+  assert.equal(s.json.muro.length, 1, `el muro no se declara: ${JSON.stringify(s.json)}`);
+  assert.equal(s.json.muro[0].task, "t1");
+  assert.ok(s.json.muro[0].age_ms > 0, "un muro sin edad no dice cuanto lleva ahi");
+});
+
+test("RC2: entry declara el mismo muro: la puerta lo nombra, no solo el comando de estado", async (t) => {
+  const { root, id } = await conOperacion(t);
+  run(["plan", "--root", root, "--id", id, "--json", j(encargoVencido(root))]);
+  const e = run(["entry", "--root", root]);
+  assert.equal(e.json.muro.length, 1, `la puerta no nombra el muro: ${JSON.stringify(e.json)}`);
+  assert.equal(e.json.muro[0].task, "t1");
+  assert.match(e.json.instruction, /vencid/i, "el muro tiene que decirselo a quien lee, no solo al JSON");
+});
+
+test("RC2: un plazo que todavia no vence no declara muro", async (t) => {
+  const { root, id } = await conOperacion(t);
+  run(["plan", "--root", root, "--id", id, "--json", j({ ...encargoDaimon(root), deadlineMs: 600_000 })]);
+  const s = run(["status", "--root", root, "--id", id]);
+  assert.equal(s.json.tasks[0].overdue, false);
+  assert.equal(s.json.muro, undefined, "un plazo por vencer no es un muro");
+});
+
+test("RC2: una tarea ya integrada no es un muro, porque su plazo dejo de informar", async (t) => {
+  const { root, id } = await conOperacion(t);
+  const spec = encargoVencido(root);
+  run(["plan", "--root", root, "--id", id, "--json", j(spec)]);
+  run(["dispatch", "--root", root, "--id", id, "--task", "t1", "--tools", "execute", "--json", j({ hostName: "opencode", model: "m", effort: "low" })]);
+  await writeFile(spec.output.path, "evidencia: ...\n");
+  run(["receive", "--root", root, "--id", id, "--task", "t1"]);
+  run(["review", "--root", root, "--id", id, "--task", "t1", "--json", j({ reviewer: "coordinador", checked: ["scope", "sources", "risks"], notes: "ok" })]);
+  run(["verify", "--root", root, "--id", id, "--task", "t1", "--json", j({ verifier: "coordinador", observed: true, evidence: "releido" })]);
+  const ig = run(["integrate", "--root", root, "--id", id, "--task", "t1", "--json", j({ destination: "notas/cotejo.md" })]);
+  assert.equal(ig.json.task.state, "integrated");
+  const s = run(["status", "--root", root, "--id", id]);
+  assert.equal(s.json.muro, undefined, "una tarea integrada ya no esta vencida: su plazo no informa");
+});
+
+test("RC2: el reloj INFORMA y no juzga — una tarea vencida se integra igual", async (t) => {
+  // Lo que la revision adversarial quito de la primera redaccion: `integrate` no rechaza
+  // vencidas. Eso no seria consultar el reloj, seria ejecutar juicio con el reloj, y el kernel
+  // declara que los plazos informan solo cuando los consultas. Un muro declarado es capacidad
+  // prometida; que la vencimiento tenga consecuencia la decide el host.
+  const { root, id } = await conOperacion(t);
+  const spec = encargoVencido(root);
+  run(["plan", "--root", root, "--id", id, "--json", j(spec)]);
+  run(["dispatch", "--root", root, "--id", id, "--task", "t1", "--tools", "execute", "--json", j({ hostName: "opencode", model: "m", effort: "low" })]);
+  await writeFile(spec.output.path, "evidencia: ...\n");
+  run(["receive", "--root", root, "--id", id, "--task", "t1"]);
+  run(["review", "--root", root, "--id", id, "--task", "t1", "--json", j({ reviewer: "coordinador", checked: ["scope", "sources", "risks"], notes: "ok" })]);
+  run(["verify", "--root", root, "--id", id, "--task", "t1", "--json", j({ verifier: "coordinador", observed: true, evidence: "releido" })]);
+  // El plazo sigue vencido ahi —la tarea lleva su due_at en el pasado— y aun asi integra.
+  const ig = run(["integrate", "--root", root, "--id", id, "--task", "t1", "--json", j({ destination: "notas/cotejo.md" })]);
+  assert.equal(ig.code, 0, `una tarea vencida no se bloquea: ${ig.json?.error}`);
+  assert.equal(ig.json.task.state, "integrated");
+});
+
+test("RC2: plan rechaza un deadlineMs que no sea un entero positivo y no escribe nada", async (t) => {
+  const { root, id } = await conOperacion(t);
+  const antes = await readFile(join(root, "FASES.md"), "utf8");
+  for (const malo of [0, -1, 1.5, "600000", null]) {
+    const rc = run(["plan", "--root", root, "--id", id, "--json", j({ ...encargoDaimon(root), deadlineMs: malo })]);
+    assert.notEqual(rc.code, 0, `deadlineMs ${JSON.stringify(malo)} deberia rechazarse`);
+    assert.match(rc.json.error, /deadlineMs/);
+  }
+  assert.equal(await readFile(join(root, "FASES.md"), "utf8"), antes);
+});
+
 test("status inexistente indica raíz, id y comando de recuperación sin crear archivos", async (t) => {
   const root = await proyecto(t);
   const rc = run(["status", "--root", root, "--id", "op-inexistente"]);
