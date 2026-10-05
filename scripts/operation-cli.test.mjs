@@ -12,6 +12,7 @@ import test from "node:test";
 import { observeTask } from "../skills/vespi/core/coordinator.mjs";
 
 const CLI = resolve(dirname(fileURLToPath(import.meta.url)), "lore-plugin.mjs");
+const MODULO = resolve(dirname(fileURLToPath(import.meta.url)), "operation-cli.mjs");
 
 function run(args, { input } = {}) {
   const r = spawnSync(process.execPath, [CLI, "operation", ...args], { encoding: "utf8", input });
@@ -22,6 +23,16 @@ function run(args, { input } = {}) {
 }
 const j = (o) => JSON.stringify(o);
 const futuro = (ms = 600_000) => new Date(Date.now() + ms).toISOString();
+
+// El mismo `run`, pero con el modulo de la operacion como proceso: sin la facade por delante.
+// Es la via que dice el `usage()` y la que cualquiera copiaba del codigo.
+function directo(args) {
+  const r = spawnSync(process.execPath, [MODULO, ...args], { encoding: "utf8" });
+  let json = null;
+  const line = r.stdout.trim().split(/\r?\n/).filter(Boolean).pop();
+  try { json = line ? JSON.parse(line) : null; } catch { json = null; }
+  return { code: r.status, out: r.stdout, err: r.stderr, json };
+}
 
 async function proyecto(t) {
   const root = await mkdtemp(join(tmpdir(), "vespi-opcli-"));
@@ -447,4 +458,55 @@ test("entry delega el veredicto en el mismo camino que resume", async (t) => {
   assert.equal(entry.allowed, resume.allowed);
   assert.equal(entry.reason, resume.reason);
   assert.equal(entry.state, resume.state);
+});
+
+// --- el modulo tiene que poder ejecutarse a si mismo ------------------------------
+//
+// `operation-cli.mjs` exportaba `runOperationCli` y no se llamaba: invocado como comando
+// —la forma que su propio `usage()` anuncia— no imprimia nada y salia 0. Un ok vacio es peor
+// que un fallo: quien lo copiaba se iba con la certeza de haber preguntado. Y la puerta que
+// acababa de construirse quedaba sin usar justo por ese camino.
+
+test("invocado directo, el modulo responde: la capacidad central no devuelve un ok vacio", async (t) => {
+  const root = await proyecto(t);
+  const e = directo(["entry", "--root", root]);
+  assert.equal(e.code, 0, `sin linea JSON: ${JSON.stringify({ code: e.code, out: e.out, err: e.err })}`);
+  assert.notEqual(e.json, null, `stdout vacio y salida 0: ${JSON.stringify(e.out)}`);
+  assert.equal(e.json.gate, "operation_entry");
+  assert.equal(e.json.open, false);
+});
+
+test("invocado directo, la puerta sale distinto de cero igual que por la facade", async (t) => {
+  const { root, id } = await conOperacion(t);
+  run(["plan", "--root", root, "--id", id, "--json", j(encargoDaimon(root))]);
+  const e = directo(["entry", "--root", root]);
+  assert.notEqual(e.code, 0, "una operacion abierta no puede salir 0 por el camino directo");
+  assert.equal(e.json.ok, false);
+  assert.equal(e.json.id, id);
+  assert.match(e.err, new RegExp(`FASES\\.md#${id}`));
+});
+
+test("invocado directo, un subcomando desconocido sale con 2 y el uso", () => {
+  const r = directo(["bogus"]);
+  assert.equal(r.code, 2, `salio ${r.code} sin decir nada: ${JSON.stringify(r)}`);
+  assert.match(r.err, /hold/);
+  assert.match(r.err, /dispatch/);
+});
+
+test("invocado directo, un error sale con 1 y su motivo, no con un silencio", async (t) => {
+  const root = await proyecto(t);
+  const e = directo(["status", "--root", root, "--id", "op-inexistente"]);
+  assert.equal(e.code, 1);
+  assert.equal(e.json.ok, false);
+  assert.match(e.json.error, /op-inexistente/);
+  assert.match(e.err, /op-inexistente/);
+});
+
+test("la facade y el modulo directo dicen exactamente lo mismo", async (t) => {
+  const { root, id } = await conOperacion(t);
+  run(["plan", "--root", root, "--id", id, "--json", j(encargoDaimon(root))]);
+  const porFacade = run(["status", "--root", root, "--id", id]);
+  const porModulo = directo(["status", "--root", root, "--id", id]);
+  assert.equal(porModulo.code, porFacade.code);
+  assert.deepEqual(porModulo.json, porFacade.json);
 });
