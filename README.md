@@ -410,7 +410,7 @@ What 2.4.9 adds:
 - **An operation survives the session.** Its state is one block in your project's `FASES.md`, not a second file, and resuming asks the operation, not you.
 - **Work split by role** (read, advise, do a piece). Each task passes through received, reviewed, verified and integrated; the record needs distinct executor and verifier labels, and host and coordinator check real independence. If the host lacks a tool, the task returns blocked with its exit; nothing is simulated.
 - **Authority with three limits at once** (until when, how much, to whom). The agent never signs for you, every receipt says what was verified and what was not, and an external effect of uncertain result is never retried blindly.
-- **A written method for the coordinator** ([`skills/vespi/method.md`](./skills/vespi/method.md), [also in the kernel](https://github.com/andresanemic/vespi/blob/master/docs/METHOD.md)) that depends on no installed skill, and `lore-plugin operation …` to drive a whole operation from the command line.
+- **A written method for the coordinator** ([`skills/vespi/method.md`](./skills/vespi/method.md), [also in the kernel](https://github.com/andresanemic/vespi/blob/master/docs/METHOD.md)) needing no installed skill, and `lore-plugin operation …` records an operation's lifecycle; the host and coordinator do the work.
 - **A read-only hygiene scan** – `lore-plugin hygiene [path]` reports selected cleanup candidates and its coverage; it proposes review but changes and deletes nothing.
 - **A stop-and-search wall** – after the same failure repeats three times without a success, `operation status` reports the attempts and says to stop and search with the host's tools; the CLI does not search.
 
@@ -1012,7 +1012,7 @@ Lo que agrega el 2.4.9:
 - **Una operación sobrevive a la sesión.** Su estado es un bloque del `FASES.md` de tu proyecto, no un segundo archivo, y retomarla se le pregunta a la operación, no a ti.
 - **El trabajo se reparte por rol** (leer, asesorar, una pieza). Cada tarea pasa por recibida, revisada, verificada e integrada; el registro exige etiquetas distintas de ejecutor y verificador, y el host y el coordinador comprueban su independencia real. Sin la herramienta, la tarea vuelve bloqueada con su salida; nada se simula.
 - **Autoridad con tres límites a la vez** (hasta cuándo, cuánto y a quién). El agente nunca firma por ti, cada recibo dice qué se verificó y qué no, y un efecto externo de resultado incierto no se reintenta a ciegas.
-- **Un método escrito para el coordinador** ([`skills/vespi/method.md`](./skills/vespi/method.md), [también en el kernel](https://github.com/andresanemic/vespi/blob/master/docs/METHOD.md)) que no depende de ninguna skill instalada, y `lore-plugin operation …` para llevar una operación completa desde la línea de comandos.
+- **Un método escrito para el coordinador** ([`skills/vespi/method.md`](./skills/vespi/method.md), [también en el kernel](https://github.com/andresanemic/vespi/blob/master/docs/METHOD.md)) sin skill instalada, y `lore-plugin operation …` registra el ciclo de una operación; el trabajo lo hacen host y coordinador.
 - **Un escaneo de higiene de solo lectura** – `lore-plugin hygiene [ruta]` informa candidatos de limpieza seleccionados y su cobertura; propone revisarlos, pero no modifica ni borra nada.
 - **Un muro para detenerse y buscar** – si el mismo fallo se repite tres veces sin un éxito, `operation status` informa los intentos e indica detenerse y buscar con las herramientas del host; la CLI no busca.
 
