@@ -16,7 +16,7 @@
 
 <p align="center">
   <b>Stop explaining your project to the AI every morning.</b><br>
-  Lore is the operating system for working with AI: it keeps your criterion, runs the method silently, and executes with Vespi.
+  Lore is the AI work layer: it keeps your criterion, runs the method silently, and hands bounded work to experimental Vespi.
 </p>
 
 ---
@@ -577,7 +577,7 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 
 <p align="center">
   <b>Deja de explicarle tu proyecto a la IA todas las mañanas.</b><br>
-  Lore es el sistema operativo del trabajo con IA: guarda tu criterio, corre el método en silencio y ejecuta con Vespi.
+  Lore es la capa de trabajo con IA: guarda tu criterio, corre el método y pasa lo acotado al Vespi experimental.
 </p>
 
 ---
