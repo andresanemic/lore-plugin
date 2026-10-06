@@ -181,3 +181,8 @@ que lo demuestra es que alguien lo use sin que nadie le diga.**
 Y no promete nada sobre la vara que el benchmark no reemplaza: *«una persona que no sabe nada de
 vibe coding pueda entrar, se emocione, sienta que sí podía, y quiera recomendarlo»*. Esa necesita
 personas que no saben, y **no se puede simular.**
+
+**Obligación de aftermath (Andrés, 2026-10-06):** los hooks hoy son de OpenCode. Al empezar a
+coordinar desde OpenChamber cuando Claude Code o Codex estén sin tokens, el kit tiene que traer
+los mismos hooks (o un adaptador equivalente) para OpenChamber. No se publica 2.5 sin declararlo
+explícitamente en el plan de aftermath; se implementa antes del corte que reemplace a 2.5.
