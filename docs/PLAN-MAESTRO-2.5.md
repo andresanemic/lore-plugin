@@ -126,7 +126,7 @@ sonda y deriva, `party grande`, vespiqueen.
 
 ### La frase que decide
 
-> **No se publica 2.5 si una operación ordinaria no deja recibo con verificador distinto del ejecutor.**
+> **No se publica 2.5 si una operación que se abre no deja recibo con verificador distinto del ejecutor.** Lo efímero de un paso no abre operación (sparse) y no entra en esta frase.
 
 Sobre **la persona**, no sobre la carga del kit: *«si el modelo pasa diez minutos produciendo sin
 decir qué sigue, no se publica».*

@@ -57,7 +57,7 @@ Prepare → authorize → perform → verify/reconcile → receipt → checkpoin
 
 ## Sparse operation — a simple operation stays simple
 
-A single-step ephemeral operation with no external effect leaves a one-line receipt (outcome plus persistence owner `none`) and skips the rest: no lateral probe, no certification block, no human-context or provenance-role fields. Those appear only when material — a route that no longer reaches, an effect that crossed a border, a wait someone else depends on. What no future session needs in order to decide legitimately is omitted, not defaulted.
+Sparse opens no operation and closes nothing: a single-step ephemeral deed with no external effect is reported in one line (outcome plus persistence owner `none`) and skips the rest: no lateral probe, no certification block, no human-context or provenance-role fields. If it has to continue, be resumed, or cross an effect, it is not sparse: open a bounded operation and its receipt carries a verifier distinct from the executor. Those appear only when material — a route that no longer reaches, an effect that crossed a border, a wait someone else depends on. What no future session needs in order to decide legitimately is omitted, not defaulted.
 
 ## Rules that decide real branches
 
