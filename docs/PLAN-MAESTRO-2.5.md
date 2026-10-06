@@ -89,7 +89,7 @@ RC3 no agrega capacidad. **Agrega el paso que nombra las que ya están.** §31, 
 que gobierna continuamente no tiene paso que la nombre, así que el instrumento no la ve.»*
 
 **Tres piezas, y solo tres:**
-1. `recordatorio()` tiene una quinta ranura: **el *para qué***, leído del árbol de quien lo usa, emitido aunque no haya acuerdo, apagable con `nivel off`.
+1. `recordatorio()` tiene una quinta ranura: **el *para qué***, leído del árbol de quien lo usa, emitido aunque no haya acuerdo **al abrir** (en turno calla por costo R40: el suelo ya está cargado), apagable con `nivel off`.
 2. El *qué hacer* del coordinador deja de estar solo en `method.md` y **gana el paso que lo nombra.**
 3. `SKILL.md` deja de decir que una operación ordinaria no es una operación.
 
