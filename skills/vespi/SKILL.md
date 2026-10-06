@@ -21,6 +21,7 @@ When the person asks to coordinate existing work across projects, use the bounde
 
 ## Coordination when the work already has a shape
 
+0. Name the procedure that governs this operation: the loop in [`method.md`](./method.md) — classify, define done, gather evidence, decide, act surgically, verify by observation, report outcome first. State the next step and the file where it lives before doing anything else.
 1. Receive the current agreement and evidence. Separate what the person decided from what an agent merely proposed.
 2. Break only the unresolved work into verifiable outputs, dependencies and human gates. Name the owner of each output.
 3. Choose the existing skill, tool or delegate that fits each output. Use the least effort that can meet its evidence standard; do not create parallel jobs just because resources are available.
