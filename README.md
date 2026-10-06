@@ -386,7 +386,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** An Area 
 | `save-to-lore` | Distills a lesson, or mines a loose-notes inbox, and decides whether it rises to the Area | every day |
 | `transmute-lore` | Migrates, cleans, translates, upgrades, prunes or exports a safe snapshot of Lore | inheriting, maintaining, updating or sharing Lore |
 | `create-bot` | One place to open a session and work across several Areas at once | from zero, or once there is Lore to federate |
-| `vespi` | Bounded operation under authority (experimental): continues across sessions, moves laterally, revalidates before continuing | when the work is a live operation under pressure |
+| `vespi` | The kernel that keeps a bounded operation alive across sessions: continues, moves laterally, revalidates before continuing | whenever an operation must stay alive; pressure is one case, not the gate |
 
 **Day one needs two of these:** `use-lore` routes you to whatever comes next, and `save-to-lore` is the one you will actually type — *"save to lore"*, after solving something that cost you. **Getting started, day-to-day use and the full mechanism for every skill and mode** live in one place: [`REFERENCE_en.md`](./docs/REFERENCE_en.md).
 
