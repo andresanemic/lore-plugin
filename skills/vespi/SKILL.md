@@ -13,7 +13,7 @@ description: >-
 
 > Invoke with the Skill tool as `vespi` when the coordinator, in role, takes on a strained or continuing operation. A person's sentence never invokes it directly: those sentences route through the canonical table in `use-lore`.
 
-An ordinary operation is still an operation: work with criterion, owner and gate leaves its one-line receipt, verification distinct from execution, and the next step. Vespi's full weight is for bounded operations under authority — cross-session, insufficient route, authority effects, or silent resume that would pretend nothing changed.
+An ordinary operation is still an operation: work with criterion, owner and gate leaves its one-line receipt, distinct verification, and the next step. Vespi's full weight is for bounded operations under authority — cross-session, insufficient route, authority effects, or silent resume.
 
 **How the coordinator works.** The loop the coordinator follows — classify the ask, define done, gather evidence, decide, act surgically, verify by observation, report the outcome first — is written in [`method.md`](./method.md). It depends on no installed skill. Under an operation, the coordinator’s report and the operation’s receipt are the same act seen from two sides: what was observed, what was covered, and what was not.
 
@@ -21,7 +21,7 @@ When the person asks to coordinate existing work across projects, use the bounde
 
 ## Coordination when the work already has a shape
 
-0. Name the governing procedure ([`method.md`](./method.md)) and state the next step and its file first.
+0. Name the governing procedure ([`method.md`](./method.md)), plus the next step and its file.
 1. Receive the current agreement and evidence. Separate what the person decided from what an agent merely proposed.
 2. Break only the unresolved work into verifiable outputs, dependencies and human gates. Name the owner of each output.
 3. Choose the existing skill, tool or delegate that fits each output. Use the least effort that can meet its evidence standard; do not create parallel jobs just because resources are available.
@@ -57,7 +57,7 @@ Prepare → authorize → perform → verify/reconcile → receipt → checkpoin
 
 ## Sparse operation — a simple operation stays simple
 
-Sparse opens no operation and closes nothing: a single-step ephemeral deed with no external effect is reported in one line (outcome plus persistence owner `none`) and skips the rest: no lateral probe, no certification block, no human-context or provenance-role fields. If it has to continue, be resumed, or cross an effect, it is not sparse: open a bounded operation and its receipt carries a verifier distinct from the executor. Those appear only when material — a route that no longer reaches, an effect that crossed a border, a wait someone else depends on. What no future session needs in order to decide legitimately is omitted, not defaulted.
+Sparse opens no operation: a single step with no external effect is reported in one line (outcome plus persistence owner `none`) and skips the rest: no lateral probe, no human-context or provenance-role fields. What continues is not sparse: open a bounded operation, whose receipt carries a verifier distinct from the executor. Those appear only when material — a route that no longer reaches, an effect that crossed a border, a wait someone else depends on. What no future session needs is omitted, not defaulted.
 
 ## Rules that decide real branches
 
