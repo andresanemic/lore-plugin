@@ -256,11 +256,14 @@ export function semillaDePuerta({ raiz } = {}) {
     if (!leerAcuerdo(raiz)) return null;
     const veredicto = puertaDeOperacion(raiz);
     return veredicto === PUNTERO ? null : veredicto;
-  } catch {
-    // El techo de este mecanismo es no romper nada, y no se cambia: la puerta volvera a decir su
-    // motivo en la inyeccion del turno. aqui solo hay una garantia —la de la apertura—, y perder
-    // la semilla no tira la sesion.
-    return null;
+  } catch (error) {
+    // El techo de este mecanismo es no romper nada, y no se cambia: esto no lanza.
+    // Lo que cambia es que el silencio no es una de las respuestas posibles: el motivo
+    // viaja como motivo —distinguible del veredicto— y la fábrica lo encola a la apertura.
+    const motivo = typeof error?.message === "string" && error.message !== ""
+      ? error.message
+      : String(error);
+    return `la puerta no pudo sembrar su veredicto: ${motivo} · la inyección del turno lo dirá`;
   }
 }
 
