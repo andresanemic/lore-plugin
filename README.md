@@ -1008,7 +1008,7 @@ Lore Plugin es el terreno: tu criterio escrito una vez y el enrutamiento que abr
 Lo que agrega el 2.4.9:
 
 - **Una operación sobrevive a la sesión.** Su estado es un bloque del `FASES.md` de tu proyecto, no un segundo archivo, y retomarla se le pregunta a la operación, no a ti.
-- **El trabajo se reparte por rol** (leer, asesorar, una pieza). Cada tarea pasa por recibida, revisada, verificada e integrada; el registro exige etiquetas distintas de ejecutor y verificador, y el host y el coordinador comprueban su independencia real. Sin la herramienta, la tarea vuelve bloqueada con su salida; nada se simula.
+- **El trabajo se reparte por rol** (leer, asesorar, una pieza). Cada tarea pasa por recibida, revisada, verificada e integrada; el registro exige etiquetas distintas de ejecutor y verificador, y el host y el coordinador exigen etiquetas distintas (la independencia real no está mecanizada: es un límite declarado). Sin la herramienta, la tarea vuelve bloqueada con su salida; nada se simula.
 - **Autoridad con tres límites a la vez** (hasta cuándo, cuánto y a quién). El agente nunca firma por ti, cada recibo dice qué se verificó y qué no, y un efecto externo de resultado incierto no se reintenta a ciegas.
 - **Un método escrito para el coordinador** ([`skills/vespi/method.md`](./skills/vespi/method.md), [también en el kernel](https://github.com/andresanemic/vespi/blob/master/docs/METHOD.md)) sin skill instalada, y `lore-plugin operation …` registra el ciclo de una operación; el trabajo lo hacen host y coordinador.
 - **Un escaneo de higiene de solo lectura** – `lore-plugin hygiene [ruta]` informa candidatos de limpieza seleccionados y su cobertura; propone revisarlos, pero no modifica ni borra nada.

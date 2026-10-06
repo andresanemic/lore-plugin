@@ -13,7 +13,7 @@ description: >-
 
 > Invoke with the Skill tool as `vespi` when the coordinator, in role, takes on a strained or continuing operation. A person's sentence never invokes it directly: those sentences route through the canonical table in `use-lore`.
 
-An ordinary operation is still an operation. Work that fits a known criterion, an owner, and a gate runs directly — and still leaves its one-line receipt, verification distinct from execution, and the next step. Invoke Vespi's full weight when the coordinator, in role, carries a bounded operation under authority: one that must continue across sessions, whose route may not suffice, whose effects carry authority, or whose silent resume would pretend nothing changed. A loose phrase never invokes it — those route through use-lore's canonical table — and the skill stops when direct execution is enough.
+An ordinary operation is still an operation: work with criterion, owner and gate leaves its one-line receipt, verification distinct from execution, and the next step. Vespi's full weight is for bounded operations under authority — cross-session, insufficient route, authority effects, or silent resume that would pretend nothing changed.
 
 **How the coordinator works.** The loop the coordinator follows — classify the ask, define done, gather evidence, decide, act surgically, verify by observation, report the outcome first — is written in [`method.md`](./method.md). It depends on no installed skill. Under an operation, the coordinator’s report and the operation’s receipt are the same act seen from two sides: what was observed, what was covered, and what was not.
 
@@ -21,7 +21,7 @@ When the person asks to coordinate existing work across projects, use the bounde
 
 ## Coordination when the work already has a shape
 
-0. Name the procedure that governs this operation: the loop in [`method.md`](./method.md) — classify, define done, gather evidence, decide, act surgically, verify by observation, report outcome first. State the next step and the file where it lives before doing anything else.
+0. Name the governing procedure ([`method.md`](./method.md)) and state the next step and its file first.
 1. Receive the current agreement and evidence. Separate what the person decided from what an agent merely proposed.
 2. Break only the unresolved work into verifiable outputs, dependencies and human gates. Name the owner of each output.
 3. Choose the existing skill, tool or delegate that fits each output. Use the least effort that can meet its evidence standard; do not create parallel jobs just because resources are available.
@@ -29,11 +29,11 @@ When the person asks to coordinate existing work across projects, use the bounde
 5. Arbitrate conflicts between sources and territories. Keep a scientific finding separate from a product decision, and a simulated result separate from a real effect.
 6. Show a short, truthful checkpoint: completed, running, pending, blocked, next decision and its owner. Bring a changed scope or authority back to the person; do not silently approve it.
 
-When several authorized operations are ready, give each a bounded stretch before repeating one. At the existing checkpoint, name the operation just served and the next ready operation. Repeat a turn only for a recorded dependency, an authorized urgent exception, or because no other operation is ready. A worker's claimed urgency is not authority. Waiting operations do not consume a turn and are not failures. This rule coordinates turns; it does not promise CPU shares, deadlines, background monitoring, or a scheduler.
+When several authorized operations are ready, give each a bounded stretch before repeating one. At the existing checkpoint, name the operation just served and the next ready operation. Repeat a turn only for a recorded dependency, an authorized urgent exception, or because no other operation is ready. A worker's claimed urgency is not authority. Waiting operations do not consume a turn and are not failures. This rule coordinates turns, not schedules.
 
 Pausing and resuming keep the same operation identity and the record of its last served stretch. They never reset spent budget, attempts, pending review, or uncertain effects. Recheck the existing authority and continuity gates before resuming. A new name or a fresh worker does not grant a fresh budget or priority.
 
-This is an invocable way to run a multi-step operation, not a permanent mode or a new agent. It stops when direct execution is enough.
+This is an invocable way to run a multi-step operation, not a permanent mode or a new agent.
 
 Before running work concurrently, you may call `node skills/vespi/core/host-resources.mjs` from the installed kit to measure time, free/total memory and available parallelism. Its result is a local snapshot, not a quota or an authorization; if it is unavailable, say “not measured” and choose a conservative sequence. Do not run the probe by default on every turn or copy private host details into public Lore.
 
@@ -97,7 +97,7 @@ The state lives as one block in the `## Operaciones` section of `FASES.md` under
 
 ## Tasks inside an operation: the coordinator flow
 
-An operation can carry tasks, each with one role and its own commission: **daimon** (reads the sources and returns evidence and limits), **advisor** (answers one question from the context it was given) and **worker** (does a scoped piece against a done criterion and a proof). A task is born with its whole commission, a timeout and the time it will be observed again, or it is not born. It then moves `proposed → running → received → reviewed → verified → integrated`, and each step is a different fact: a file that arrived is not a file that was reviewed, and a reviewed file is not a verified one. The record requires different executor and verifier labels; the host and coordinator must establish their actual independence and check the observed evidence. Closing names every task that is neither integrated nor blocked with its reason.
+An operation can carry tasks, each with one role and its own commission: **daimon** (reads the sources and returns evidence and limits), **advisor** (answers one question from the context it was given) and **worker** (does a scoped piece against a done criterion and a proof). A task is born with its whole commission, a timeout and the time it will be observed again, or it is not born. It then moves `proposed → running → received → reviewed → verified → integrated`, and each step is a different fact: a file that arrived is not a file that was reviewed, and a reviewed file is not a verified one. The record requires different executor and verifier labels; actual independence is declared, not verified — check the evidence yourself. Closing names every task that is neither integrated nor blocked with its reason.
 
 Record elapsed time and adjust your next estimate from measured calibration. Under three samples say “not measured”; a dated initial reference may orient you earlier, never a promise or a limit.
 

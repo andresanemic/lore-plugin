@@ -171,7 +171,7 @@ test("la prosa de rc9 limita las garantías del registro y preserva las decision
   assert.doesNotMatch(use, /guard keeps blocking another owner's criterion|guard blocking someone else's code is the guard working/i);
   assert.match(agreement, /The guard records writes into another owner's tree; the host's permissions decide whether they proceed, and the owning governance remains in force\./);
   assert.doesNotMatch(agreement, /Blocking another owner's criterion is one of|guard doing that is the guard working/i);
-  assert.match(vespi, /The record requires different executor and verifier labels; the host and coordinator must establish their actual independence and check the observed evidence\./);
+  assert.match(vespi, /The record requires different executor and verifier labels; actual independence is declared, not verified — check the evidence yourself\./);
   assert.doesNotMatch(vespi, /The verifier is never whoever executed it/);
   assert.match(vespi, /so there is one place to look; resuming still requires reconciliation of changed authority, evidence and effects\./);
   assert.match(vespi, /The receipt carries the path written at that checkpoint; the host and coordinator must reread and compare it before relying on it later\./);
