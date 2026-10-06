@@ -13,7 +13,7 @@ description: >-
 
 > Invoke with the Skill tool as `vespi` when the coordinator, in role, takes on a strained or continuing operation. A person's sentence never invokes it directly: those sentences route through the canonical table in `use-lore`.
 
-Ordinary work does not need this skill. If the task fits known criterion, an owner, and a gate, do that work directly. Reach for Vespi only when the operation itself is under pressure: it must continue across sessions, the route may not suffice, effects carry authority, or resuming silently would pretend nothing changed.
+An ordinary operation is still an operation. Work that fits a known criterion, an owner, and a gate runs directly — and still leaves its one-line receipt, verification distinct from execution, and the next step. Invoke Vespi's full weight when the coordinator, in role, carries a bounded operation under authority: one that must continue across sessions, whose route may not suffice, whose effects carry authority, or whose silent resume would pretend nothing changed. A loose phrase never invokes it — those route through use-lore's canonical table — and the skill stops when direct execution is enough.
 
 **How the coordinator works.** The loop the coordinator follows — classify the ask, define done, gather evidence, decide, act surgically, verify by observation, report the outcome first — is written in [`method.md`](./method.md). It depends on no installed skill. Under an operation, the coordinator’s report and the operation’s receipt are the same act seen from two sides: what was observed, what was covered, and what was not.
 
