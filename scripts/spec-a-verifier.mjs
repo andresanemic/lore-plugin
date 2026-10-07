@@ -8,6 +8,7 @@ const DESTINATIONS = new Map([
   ["hooks/lore-state.mjs", "tree-or-session-temp"],
   ["hooks/lore-turno.mjs", "person-level-choice"],
   ["scripts/installer.mjs", "explicit-host-install"],
+  ["skills/vespi/core/verification-execution.mjs", "commissioned-proof-output-and-person-execution-key"],
   ["scripts/install-claude-statusline.mjs", "explicit-host-install"],
   ["scripts/rc8-verificar-hosts.mjs", "explicit-user-output"],
   ["scripts/opencode-permissions.mjs", "explicit-project-config"],

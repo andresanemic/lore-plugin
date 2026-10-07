@@ -312,3 +312,18 @@ test("guard: foreign structured write denied with proposal path", async () => {
   }
   assert.equal(jurisdictionBlock(root, "Write", { file_path: "/definitely-elsewhere/canon.md" }), null);
 });
+
+test('opening makes the first-answer file obligation explicit', async t => {
+  const {mkdtempSync,mkdirSync,writeFileSync,rmSync}=await import('node:fs');
+  const {tmpdir}=await import('node:os');const {join}=await import('node:path');
+  const root=mkdtempSync(join(tmpdir(),'opening-first-answer-'));t.after(()=>rmSync(root,{recursive:true,force:true}));
+  mkdirSync(join(root,'lore'));writeFileSync(join(root,'lore/identidad.md'),'# Identity');
+  const {elegir,registrar}=await import('../skills/use-lore/scripts/acuerdo.mjs');
+  registrar(elegir({porque:'Probar continuidad.',trabajo:'Sonda.',ritmo:'normal',intensidad:'cercana'}),{raiz:root,aprobado:true,recapitulacion:'Fixture controlled agreement.'});
+  const {holdOperation,saveOperationState,transitionArtifact}=await import(V);
+  const held=await holdOperation({root,goal:'Observe opening',owner:'fixture',authority:{spend:[]}});
+  await saveOperationState(root,transitionArtifact(held.artifact,{state:'authorized',note:'fixture authorization'}));
+  const {inyeccion}=await import('../hooks/lore-turno.mjs');const out=inyeccion({raiz:root,turno:null,nivel:'full'});
+  assert.match(out.texto,/primera respuesta[^\n]*archivo[^\n]*siguiente paso/i);
+  assert.match(out.texto,/FASES\.md/);assert.match(out.texto,/siguiente decide/);
+});

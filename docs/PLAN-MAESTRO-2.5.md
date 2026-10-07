@@ -1,5 +1,7 @@
 # Plan maestro — 2.5 «el enunciado del salto»
 
+> Vigencia 2026-10-06, instrucciones posteriores de Andrés: el benchmark grande con/sin Lore queda aplazado por falta de tokens y herramientas; no condiciona este lanzamiento. El resultado pequeño ya ejecutado conserva su alcance. Andrés pidió corregir y ejercer la operación real antes de lanzar 2.5; la reparación de verificación ejecutada y recuperación forma parte de ese alcance autorizado. Las exigencias históricas de benchmark en este documento no reintroducen el ensayo aplazado. La publicación pública sigue requiriendo su decisión sobre el corte concreto.
+
 > Sustituye al roadmap del 2026-10-04 para el corte 2.5. Nace de la sesión del 2026-10-05, donde
 > 2.4.9 se publicó sin ejercitar su capacidad central y eso se~~
 > encontró ejecutando, no leyendo.

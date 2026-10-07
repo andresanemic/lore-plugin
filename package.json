@@ -1,6 +1,6 @@
 {
   "name": "@andresanemic/lore-plugin",
-  "version": "2.4.9",
+  "version": "2.5.0",
   "description": "Provider-neutral project criterion that persists across AI agents and sessions.",
   "type": "module",
   "license": "Apache-2.0",
@@ -36,5 +36,12 @@
     "test": "node --test bench/*.test.mjs bench/upgrade/*.test.mjs bench/effect-2.3.2/*.test.mjs scripts/*.test.mjs skills/transmute-lore/scripts/*.test.mjs",
     "test:release": "node scripts/test-release.mjs"
   },
-  "keywords": ["lore", "ai", "skills", "codex", "claude-code", "context-engineering"]
+  "keywords": [
+    "lore",
+    "ai",
+    "skills",
+    "codex",
+    "claude-code",
+    "context-engineering"
+  ]
 }

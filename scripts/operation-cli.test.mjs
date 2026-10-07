@@ -1,3 +1,4 @@
+import { proofAt } from "../bench/verification-fixture.mjs";
 // RC7 - la CLI de la operacion: lo que el coordinador hace con la mano, comando por comando, contra FASES.md.
 // Contrato: `node scripts/lore-plugin.mjs operation <sub> --root <dir> [--id <op>] [--task <t>] [--json '<obj>' | --file <ruta>]`.
 // Cada comando imprime UNA linea JSON en stdout ({ok, ...}); un error sale con codigo 1 y {ok:false, error}.
@@ -100,14 +101,43 @@ test("plan rechaza el encargo incompleto y no escribe nada", async (t) => {
   assert.equal(await readFile(join(root, "FASES.md"), "utf8"), antes);
 });
 
-test("dispatch con la herramienta observada deja la tarea running con su ejecutor real", async (t) => {
+// La ruta no se abre por escribir un nombre. Este proceso no expone `execute` —no tiene con quien
+// llamarlo— y `--tools execute` no lo cambia: antes se fabricaba una funcion por cada nombre para que
+// `routeOperation` la diera por expuesta, y la tarea quedaba `running` con un ejecutor que no
+// existe, esperando un archivo que nadie iba a escribir. Ahora el nombre queda como DECLARACION y la
+// tarea como NO ejecutada.
+test("dispatch con la herramienta declarada deja la tarea bloqueada y marcada como no ejecutada", async (t) => {
   const { root, id } = await conOperacion(t);
   run(["plan", "--root", root, "--id", id, "--json", j(encargoDaimon(root))]);
   const d = run(["dispatch", "--root", root, "--id", id, "--task", "t1", "--tools", "execute",
     "--json", j({ hostName: "opencode", model: "space-bunny-free", effort: "low", process: 4242 })]);
   assert.equal(d.json.ok, true);
-  assert.equal(d.json.task.state, "running");
-  assert.equal(d.json.task.executor.by, "opencode/space-bunny-free");
+  assert.equal(d.json.task.state, "blocked", "una declaracion no lanza nada");
+  assert.equal(d.json.task.executor, null, "no hay ejecutor: no se inventa");
+  assert.equal(d.json.task.blocked.executed, false);
+  assert.match(d.json.task.blocked.cause, /does not expose execute/);
+  // Lo que si se conserva es el nombre del que declara, y como declaracion: `executed: false`.
+  assert.equal(d.json.task.declared_route.tools.includes("execute"), true);
+  assert.equal(d.json.task.declared_route.by, "opencode/space-bunny-free");
+  assert.equal(d.json.task.declared_route.executed, false);
+  assert.ok(Date.parse(d.json.task.declared_route.at));
+  assert.match(d.json.task.blocked.next_action, /no se ejecuto/);
+  // Y nada de eso se escribe como `running` en FASES.md, que es donde el sucesor lo lee.
+  const fases = await readFile(join(root, "FASES.md"), "utf8");
+  assert.match(fases, /"executed": false/);
+  assert.doesNotMatch(fases, /"executor": \{[^}]*"by"/);
+});
+
+test("una tarea declarada y no ejecutada se puede observar: el muro vive ahi", async (t) => {
+  const { root, id } = await conOperacion(t);
+  run(["plan", "--root", root, "--id", id, "--json", j(encargoDaimon(root))]);
+  run(["dispatch", "--root", root, "--id", id, "--task", "t1", "--tools", "execute", "--json", j({ hostName: "opencode", model: "m" })]);
+  const visto = run(["observe", "--root", root, "--id", id, "--task", "t1", "--json", j({ text: "aun no hay archivo", alive: false })]);
+  assert.equal(visto.json.ok, true);
+  assert.equal(visto.json.task.observations.at(-1).alive, false);
+  // Observar no inventa un ejecutor ni un plazo: nadie lanzo esta tarea.
+  assert.equal(visto.json.task.executor, null);
+  assert.equal(visto.json.task.deadline, null);
 });
 
 test("dispatch sin la herramienta queda blocked con su salida y NO simula un ejecutor", async (t) => {
@@ -118,6 +148,8 @@ test("dispatch sin la herramienta queda blocked con su salida y NO simula un eje
   assert.equal(d.json.task.state, "blocked");
   assert.equal(d.json.task.executor, null);
   assert.match(d.json.task.blocked.next_action, /\S/);
+  // La ruta de daimon pide `execute`: declarar `delegate` no es declararla a ella.
+  assert.match(d.json.task.blocked.next_action, /exponga execute/);
 });
 
 test("dispatch sin --tools declara que la herramienta no fue observada: bloquea, no supone", async (t) => {
@@ -149,7 +181,7 @@ test("el ciclo completo: receive, review, verify, integrate y close, con la veri
   const propio = run(["verify", "--root", root, "--id", id, "--task", "t1", "--json", j({ verifier: "opencode/m", observed: true, evidence: "x" })]);
   assert.equal(propio.code, 1, "quien ejecuto no verifica");
   assert.match(propio.json.error, /independent/);
-  const vf = run(["verify", "--root", root, "--id", id, "--task", "t1", "--json", j({ verifier: "coordinador", observed: true, evidence: "releido el archivo" })]);
+  const vf = run(["verify", "--root", root, "--id", id, "--task", "t1", "--json", j({ verifier: "coordinador", observed: true, evidence: proofAt(root, id) })]);
   assert.equal(vf.json.task.state, "verified");
   const ig = run(["integrate", "--root", root, "--id", id, "--task", "t1", "--json", j({ destination: "notas/cotejo.md" })]);
   assert.equal(ig.json.task.state, "integrated");
@@ -175,7 +207,7 @@ test("receive de un archivo que no existe dice does not exist y no marca recibid
   const rc = run(["receive", "--root", root, "--id", id, "--task", "t1"]);
   assert.equal(rc.code, 1);
   assert.match(rc.json.error, /does not exist/);
-  assert.equal(run(["status", "--root", root, "--id", id]).json.tasks[0].state, "running");
+  assert.equal(run(["status", "--root", root, "--id", id]).json.tasks[0].state, "blocked");
 });
 
 test("receive registra blocked si el delegado reporta un proveedor rechazado aunque haya archivo", async (t) => {
@@ -189,14 +221,16 @@ test("receive registra blocked si el delegado reporta un proveedor rechazado aun
   assert.equal(rc.json.task.blocked.cause, "proveedor-gratuito");
 });
 
-test("status resume el estado en una linea por tarea y marca la tarea vencida", async (t) => {
+test("status distingue una ruta declarada de una tarea ejecutada y vencida", async (t) => {
   const { root, id } = await conOperacion(t);
   run(["plan", "--root", root, "--id", id, "--json", j({ ...encargoDaimon(root), timeoutMs: 1 })]);
   run(["dispatch", "--root", root, "--id", id, "--task", "t1", "--tools", "execute", "--json", j({ hostName: "opencode", model: "m" })]);
   const ob = run(["observe", "--root", root, "--id", id, "--task", "t1", "--json", j({ text: "sigue vivo", alive: true, at: new Date(Date.now() + 60_000).toISOString() })]);
-  assert.equal(ob.json.task.overdue, true);
+  assert.equal(ob.json.ok, true);
   const s = run(["status", "--root", root, "--id", id]);
   assert.equal(s.json.state, "running");
+  assert.equal(s.json.tasks[0].state, "blocked", "la ruta declarada no acredita ejecución");
+  assert.equal(s.json.tasks[0].overdue, false, "timeoutMs no empezó porque nadie ejecutó la tarea");
   assert.deepEqual(Object.keys(s.json.tasks[0]).sort(), ["by", "id", "nextCheckAt", "overdue", "role", "state"]);
   assert.match(s.json.calibrationNote, /calibraci[oó]n no medida/);
   assert.equal(s.json.suggestions, undefined);
@@ -419,7 +453,7 @@ test("RC2: una tarea ya integrada no es un muro, porque su plazo dejo de informa
   await writeFile(spec.output.path, "evidencia: ...\n");
   run(["receive", "--root", root, "--id", id, "--task", "t1"]);
   run(["review", "--root", root, "--id", id, "--task", "t1", "--json", j({ reviewer: "coordinador", checked: ["scope", "sources", "risks"], notes: "ok" })]);
-  run(["verify", "--root", root, "--id", id, "--task", "t1", "--json", j({ verifier: "coordinador", observed: true, evidence: "releido" })]);
+  run(["verify", "--root", root, "--id", id, "--task", "t1", "--json", j({ verifier: "coordinador", observed: true, evidence: proofAt(root, id) })]);
   const ig = run(["integrate", "--root", root, "--id", id, "--task", "t1", "--json", j({ destination: "notas/cotejo.md" })]);
   assert.equal(ig.json.task.state, "integrated");
   const s = run(["status", "--root", root, "--id", id]);
@@ -438,7 +472,7 @@ test("RC2: el reloj INFORMA y no juzga — una tarea vencida se integra igual", 
   await writeFile(spec.output.path, "evidencia: ...\n");
   run(["receive", "--root", root, "--id", id, "--task", "t1"]);
   run(["review", "--root", root, "--id", id, "--task", "t1", "--json", j({ reviewer: "coordinador", checked: ["scope", "sources", "risks"], notes: "ok" })]);
-  run(["verify", "--root", root, "--id", id, "--task", "t1", "--json", j({ verifier: "coordinador", observed: true, evidence: "releido" })]);
+  run(["verify", "--root", root, "--id", id, "--task", "t1", "--json", j({ verifier: "coordinador", observed: true, evidence: proofAt(root, id) })]);
   // El plazo sigue vencido ahi —la tarea lleva su due_at en el pasado— y aun asi integra.
   const ig = run(["integrate", "--root", root, "--id", id, "--task", "t1", "--json", j({ destination: "notas/cotejo.md" })]);
   assert.equal(ig.code, 0, `una tarea vencida no se bloquea: ${ig.json?.error}`);

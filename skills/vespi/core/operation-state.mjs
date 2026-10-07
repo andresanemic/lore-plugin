@@ -186,7 +186,11 @@ export function transitionArtifact(artifact, { state, note, validity = {}, delta
     const reason = state === "closed" ? "verified state required" : `transition ${artifact.state} -> ${state} not allowed`;
     throw new Error(reason);
   }
-  if (state === "closed" && (artifact.state !== "verified" || artifact.verification?.verified !== true)) {
+  const recordedPartial = artifact.verification?.completion === "partial"
+    && artifact.verification?.observed === true
+    && Array.isArray(artifact.verification?.notCovered) && artifact.verification.notCovered.length > 0
+    && (artifact.tasks ?? []).every(task => task.state === "integrated" || (task.state === "blocked" && typeof task.blocked?.cause === "string" && task.blocked.cause.trim()));
+  if (state === "closed" && (artifact.state !== "verified" || (artifact.verification?.verified !== true && !recordedPartial))) {
     throw new Error("verified state required before closure");
   }
   const next = appendCheckpoint(artifact, { note, validity, delta });
@@ -302,7 +306,7 @@ function renderBlock(artifact, eol) {
         "",
         `- Objetivo: ${inline(artifact.working_goal) || "(sin especificar)"}`,
         `- Responsable: ${inline(artifact.owner) || "(sin asignar)"}`,
-        `- Verificación: ${artifact.verification?.verified === true ? "observada" : "no registrada"}${artifact.last_receipt?.digest ? ` · recibo ${String(artifact.last_receipt.digest).slice(0, 12)}…` : ""}`,
+        `- Verificación: ${artifact.verification?.verified === true ? "observada" : artifact.verification?.completion === "partial" && artifact.verification?.observed === true ? "parcial observada" : "no registrada"}${artifact.last_receipt?.digest ? ` · recibo ${String(artifact.last_receipt.digest).slice(0, 12)}…` : ""}`,
       ]
     : [
         `### Operación ${artifact.id} — ${inline(artifact.working_goal) || "(sin objetivo)"}`,

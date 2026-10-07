@@ -80,10 +80,14 @@ function recordatorioDe(turno) {
   }
 }
 
-function emite(turno) {
+function emite(turno, aviso = null) {
   const r = recordatorioDe(turno);
-  if (!r.inyectar || !r.texto) return;
+  if (!r.inyectar || !r.texto) {
+    if (aviso) process.stdout.write(JSON.stringify({ systemMessage: aviso }));
+    return;
+  }
   process.stdout.write(JSON.stringify({
+    ...(aviso ? { systemMessage: aviso } : {}),
     hookSpecificOutput: {
       hookEventName: turno === null ? "SessionStart" : "UserPromptSubmit",
       additionalContext: r.texto,
@@ -206,7 +210,7 @@ if (event === "session_start") {
   }
   try {
     const line = federatedRedLine(root);
-    if (line) process.stdout.write(line + "\n");
+    emite(null, line);
   } catch {
     /* fail open */
   }

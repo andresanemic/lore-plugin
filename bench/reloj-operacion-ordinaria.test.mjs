@@ -1,3 +1,4 @@
+import { proofAt } from "./verification-fixture.mjs";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
@@ -28,7 +29,7 @@ function command(args, envExtra = {}) {
 }
 
 function seedRoot(root) {
-  writeFileSync(join(root, "CLAUDE.md"), "# Contrato fixture\n");
+  // Mechanical clock/state fixture: this genuine root has no owner criterion.
   writeFileSync(join(root, "FASES.md"), ["# Fases", "", "## Operaciones", ""].join("\n"));
 }
 
@@ -61,7 +62,7 @@ test("E1 abrir: entry con operacion abierta nombra siguiente paso y archivo", ()
 
 // Escenario 2: operar deja recibo con verificador distinto del ejecutor y next_step no vacío.
 // Flujo ordinario completo hold→authorize→plan→dispatch→receive→review→verify→integrate→close.
-test("E2 operar: recibo existe, verificador distinto del ejecutor", () => {
+test("E2 operar mecánica sin criterio propietario: recibo y verificador distinto", () => {
   const root = mkdtempSync(join(tmpdir(), "e2-"));
   const { held, envExtra } = holdAuth(root, "B");
   assert.equal(held.body?.ok, true, `hold: ${held.err} ${held.out}`);
@@ -74,7 +75,9 @@ test("E2 operar: recibo existe, verificador distinto del ejecutor", () => {
   const tid = p.body?.task?.id ?? p.body?.taskRecord?.id;
   assert.ok(tid, `plan sin task: ${p.out}`);
   const d = command(["dispatch", ...aids, "--task", tid, "--tools", "delegate", "--json", json({ hostName: "h-worker", model: "m-worker" })], envExtra);
-  assert.equal(d.body?.ok, true, `dispatch: ${d.out} ${d.err}`);
+  assert.equal(d.body?.task?.state, "blocked", "declarar no ejecuta: la tarea queda bloqueada");
+  assert.equal(d.body?.task?.executor, null, "no hay ejecutor inventado");
+  // El ejecutor escribe el artefacto; el coordinador lo recibe con root
   writeFileSync(outPath, "criterio\nfuente\nriesgo\n");
   const r = command(["receive", ...aids, "--task", tid, "--json", json({})], envExtra);
   assert.equal(r.body?.ok, true, `receive: ${r.out} ${r.err}`);
@@ -82,7 +85,8 @@ test("E2 operar: recibo existe, verificador distinto del ejecutor", () => {
   assert.equal(rv.body?.ok, true, `review: ${rv.out} ${rv.err}`);
   const bad = command(["verify", ...aids, "--task", tid, "--json", json({ verifier: "h-worker/m-worker", observed: true })], envExtra);
   assert.notEqual(bad.body?.ok, true, "autoverify debió rechazarse");
-  const v = command(["verify", ...aids, "--task", tid, "--json", json({ verifier: "coordinadora", observed: true, evidence: "releí worker.md" })], envExtra);
+  proofAt(root, id, tid); // Commission fixture; CLI executes in its own person environment.
+  const v = command(["verify", ...aids, "--task", tid, "--json", json({ verifier: "coordinadora" })], envExtra);
   assert.equal(v.body?.ok, true, `verify: ${v.out} ${v.err}`);
   const it = command(["integrate", ...aids, "--task", tid, "--json", json({ destination: "revisado.md" })], envExtra);
   assert.equal(it.body?.ok, true, `integrate: ${it.out} ${it.err}`);

@@ -1,10 +1,11 @@
-Lore Plugin kit suite result
-Date (UTC): 2026-10-05T16:58:20.084Z
+Lore Plugin 2.5.0 local candidate suite result
+Date (UTC): 2026-10-06T21:03:35.644Z
 Node version: v24.15.0
-HEAD SHA: cd93ac9e67039d1a4a65fe283e9545cbb3062df8
-The HEAD SHA is the parent commit of the commit that stores this file.
-Command: npm test
-Tests: 863
-Passed: 858
+Base HEAD SHA: 3779b0ea581401fba41cd7e481ba3b5825ea2c87
+Working tree with uncommitted repairs; final manifest identifies exact distributed bytes.
+Command: node scripts/test-release.mjs
+Tests: 965
+Passed: 960
 Failed: 0
 Skipped: 5
+Mandatory canonical regression: 15/15 passed. Fixture session IDs isolated by run UUID; prior failing full logs preserved.

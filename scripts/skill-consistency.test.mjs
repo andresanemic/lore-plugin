@@ -436,7 +436,7 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.4.9"]));
+  assert.deepEqual(new Set(versions), new Set(["2.5.0"]));
 });
 
 // andamiaje/lore-plugin/lore/principios.md #12: la nota sirve al usuario que actualiza el producto.
@@ -514,10 +514,10 @@ test("2.4.6 conserva el intento fallido y su aporte real", () => {
   assert.match(release, /deferred arming|armado diferido/i);
 });
 
-test("2.4.9 sincroniza badges, paquete y release", () => {
+test("2.5.0 sincroniza badges y conserva la nota de 2.4.9", () => {
   const readme = readFileSync(join(root, "README.md"), "utf8");
   const releasePath = join(root, "docs", "RELEASE_2.4.9.md");
-  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.4\.9-/g) ?? []).length, 2);
+  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.5\.0-/g) ?? []).length, 2);
   assert.ok(existsSync(join(root, "docs", "RELEASE_2.4.8.md")), "la nota de 2.4.8 se conserva como historia");
   // Decisión de Andrés 2026-10-05: el badge writing-skills sale de la portada (vuelta al 2.4.8); la disciplina sigue en la prosa.
   assert.doesNotMatch(readme, /writing--skills-/);

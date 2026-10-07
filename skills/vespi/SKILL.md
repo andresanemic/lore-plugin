@@ -103,7 +103,7 @@ Record elapsed time and adjust your next estimate from measured calibration. Und
 
 If the host does not expose the tool a role needs, the task comes back `blocked` with the missing tool and the next action; nothing is simulated. The operation also declares its effect up front: `none`, or `external` with its economy (cost, grant, settlement) and whether it goes on chain; an on-chain placement without a reason of distrust is recorded as a defect, not rejected silently.
 
-From the command line, in the project root: `node scripts/lore-plugin.mjs operation <hold|authorize|plan|dispatch|observe|receive|review|verify|integrate|close|status|resume> --root <dir> --id <op> [--task <t>] [--tools <observed host tools>] --json <payload>`. `authorize` records who authorized and their own words; it cannot prove who said them, so the words are the person's and never the agent's. `dispatch` takes only the tools the operator actually observed. Each command prints one JSON line and writes nothing when it fails.
+CLI: `node scripts/operation-cli.mjs <command> --root <dir> --id <op> [--task <t>] --json <payload>`. Commission pinned Node tests or authorized Luna medium/high; see `docs/VERIFICATION-EXECUTION.md`. `verify` executes after review. Owner criterion needs native judgment, including Node-check adequacy; missing sources or authority stops verification. Rejection persists in FASES. Integration/closure recheck signed inputs; uncovered work stays partial. Labels do not prove identity.
 
 ## Handoff
 

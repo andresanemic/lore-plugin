@@ -19,6 +19,7 @@ import {
   verifyTask,
 } from "../skills/vespi/core/vespi.mjs";
 import { attemptWall, operationStatePath, saveOperationState, transitionArtifact } from "../skills/vespi/core/operation-state.mjs";
+import { assertExecuted, executeVerification } from "../skills/vespi/core/verification-execution.mjs";
 import { readCalibrationSeed } from "../skills/vespi/core/calibration-seed.mjs";
 
 const COMMANDS = [
@@ -53,9 +54,9 @@ function usage() {
     "  authorize  {by, words}               las palabras citadas, o no hay autorizacion",
     "  pause      {note}                    deja el checkpoint durable en pausa",
     "  plan       <spec de tarea>           agrega la tarea con su encargo completo",
-    "  dispatch   --task <t> --tools <a,b>  lanza por una ruta que el host expuso",
+    "  dispatch   --task <t> --tools <a,b>  declara la ruta observada; este proceso no ejecuta",
     "  observe    {text, alive, at}         deja escrito que se vio",
-    "  receive    {path}                    lee el archivo que el ejecutor dejo",
+    "  receive    {path}                    lee, dentro de root, el archivo que el ejecutor dejo",
     "  review     {reviewer, checked, notes}",
     "  verify     {verifier, observed, evidence}",
     "  integrate  {destination}",
@@ -150,15 +151,14 @@ function requiredTask(flags) {
   return flags.task;
 }
 
-function observedHost(names) {
-  if (!present(names)) return {};
-  const host = {};
-  for (const name of String(names).split(",").map((each) => each.trim()).filter((each) => each.length > 0)) {
-    host[name] = function observedHostTool() {
-      throw new Error(`the tool ${name} was declared as observed and this CLI never runs it: --tools declares what the operator saw, not a simulation`);
-    };
-  }
-  return host;
+// `--tools` declara lo que el operador OBSERVO en el host. Antes esta funcion fabricaba una por
+// cada nombre —una que solo lanzaba al ser llamada— para que `routeOperation` la diera por expuesta:
+// con eso la tarea pasaba a `running` con un ejecutor que este proceso no tiene, y el FASES.md
+// guardaba un trabajo que nadie iba a hacer. Ahora no se fabrica nada: los nombres se pasan como
+// declaracion, `host` queda vacio y la ruta se bloquea en la entrada con su motivo.
+function declaredTools(names) {
+  if (!present(names)) return [];
+  return String(names).split(",").map((each) => each.trim()).filter((each) => each.length > 0);
 }
 
 async function load(sub, flags) {
@@ -264,6 +264,9 @@ async function execute(sub, flags, stdout) {
 
   if (sub === "hold") {
     const root = requiredRoot(flags);
+    if (Array.isArray(payload.authority?.spend) && payload.authority.spend.length > 0) {
+      return emit(stdout, { ok: false, error: "hold no acepta authority.spend: el gasto real pide credencial externa y se declara en otra ruta" });
+    }
     const { artifact, file } = await holdOperation({
       root,
       goal: payload.goal,
@@ -304,8 +307,11 @@ async function execute(sub, flags, stdout) {
 
   if (sub === "dispatch") {
     const taskId = requiredTask(flags);
+    // Sin `host`: este proceso no expone ninguna herramienta del host y no va a fingir que si. Lo
+    // que `--tools` trae es la declaracion de quien opera, que queda escrita como tal.
     const artifact = dispatchTask(context.artifact, taskId, {
-      host: observedHost(flags.tools),
+      host: {},
+      declaredTools: declaredTools(flags.tools),
       hostName: payload.hostName,
       model: payload.model,
       effort: payload.effort,
@@ -326,7 +332,9 @@ async function execute(sub, flags, stdout) {
 
   if (sub === "receive") {
     const taskId = requiredTask(flags);
-    const artifact = await receiveTask(context.artifact, taskId, payload);
+    // `root` viaja porque sin el no hay contra que comparar: la huella que se sella en FASES.md tiene
+    // que ser la de un archivo de este proyecto, y una ruta de fuera no se lee.
+    const artifact = await receiveTask(context.artifact, taskId, { ...payload, root: context.root });
     await persist(context, artifact);
     return emit(stdout, { ok: true, task: recordOf(artifact, taskId) });
   }
@@ -340,7 +348,24 @@ async function execute(sub, flags, stdout) {
 
   if (sub === "verify") {
     const taskId = requiredTask(flags);
-    const artifact = verifyTask(context.artifact, taskId, payload);
+    const task = recordOf(context.artifact, taskId);
+    if (task.state !== "reviewed") throw new Error("verify needs a reviewed task before executing any check");
+    const executor = task.executor?.by ?? task.declared_route?.by ?? "";
+    if (!payload.verifier || String(payload.verifier).trim().toLowerCase() === String(executor).trim().toLowerCase()) throw new Error("verification must be independent");
+    const evidence = payload.evidence?.execution_receipt
+      ? payload.evidence
+      : await executeVerification(context.artifact, taskId, { root: context.root });
+    const execution = assertExecuted(context.artifact, task, evidence, { requirePass: false });
+    if (execution.passed !== true) {
+      const rejectedTask = { ...task, state: "reviewed", verification: {
+        by: payload.verifier, executed: true, observed: true, passed: false, evidence,
+        execution, independence: "labels_only", at: new Date().toISOString(),
+      } };
+      await persist(context, { ...context.artifact, tasks: context.artifact.tasks.map(item => item.id === taskId ? rejectedTask : item) });
+      emit(stdout, { ok: false, task: rejectedTask, next_action: "correct the result, receive it again, review it, then run verify", reason: "executed verification rejected the result" });
+      return 1;
+    }
+    const artifact = verifyTask(context.artifact, taskId, { verifier: payload.verifier, observed: true, evidence });
     await persist(context, artifact);
     return emit(stdout, { ok: true, task: recordOf(artifact, taskId) });
   }
@@ -378,7 +403,10 @@ async function execute(sub, flags, stdout) {
     const measuredKeys = new Set(Object.entries(calibration).filter(([, value]) => value.measured !== false).map(([key]) => key));
     const calibrationLines = [];
     for (const task of context.artifact.tasks ?? []) {
-      const key = `${task.role ?? "unknown"}|host=${task.executor?.host ?? "unspecified"}|model=${task.executor?.model ?? "unspecified"}`;
+      // Misma clave que la calibracion: ejecutor cuando lo hay, declaracion cuando no. Preguntar por
+      // una clave distinta daria la referencia inicial a una tarea que ya tiene su propia medicion.
+      const loHizo = task.executor ?? task.declared_route ?? null;
+      const key = `${task.role ?? "unknown"}|host=${loHizo?.host ?? "unspecified"}|model=${loHizo?.model ?? "unspecified"}`;
       if (measuredKeys.has(key)) continue;
       const entry = typeof task.kind === "string" ? seedByKind.get(task.kind) : null;
       const line = entry

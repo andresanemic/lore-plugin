@@ -224,12 +224,18 @@ function puertaDeOperacion(raiz) {
     return `la puerta no pudo leer el estado: ${motivo} · revisa ${join(raiz, "FASES.md")} a mano antes de coordinar`;
   }
   if (!entrada?.open) return PUNTERO;
+  const limpieza = (valor, max = 80) => String(valor ?? "")
+    .replace(/[\r\n\t\v\f\0]+/g, " ")
+    .replace(/\s{2,}/g, " ")
+    .trim()
+    .slice(0, max);
   const pendiente = (entrada.pending_by_role ?? [])
-    .map(({ role, tasks }) => `${role}: ${tasks.map((task) => `${task.id} (${task.state})`).join(", ")}`)
+    .map(({ role, tasks }) => `${limpieza(role)}: ${tasks.map((task) => `${limpieza(task.id)} (${limpieza(task.state)})`).join(", ")}`)
     .join("; ");
-  return `operacion ${entrada.id} abierta en ${entrada.file} · estado ${entrada.state} · veredicto ${entrada.reason}`
-    + ` · siguiente ${entrada.next_step}`
+  return `operacion ${limpieza(entrada.id)} abierta en ${entrada.file} · estado ${limpieza(entrada.state)} · veredicto ${limpieza(entrada.reason)}`
+    + ` · siguiente ${limpieza(entrada.next_step)}`
     + (pendiente ? ` · pendiente ${pendiente}` : "")
+    + ` · primera respuesta: nombra este archivo y el siguiente paso en menos de diez palabras, sin afirmar una acción aún no ejecutada`
     + ` · antes de coordinar, abre ${entrada.file}`;
 }
 
@@ -307,7 +313,7 @@ export function inyeccion({ raiz, turno = null, nivel: n = DEFECTO_NIVEL, hoy = 
   // el suelo ya está cargado; callar el para qué no lo era, porque no lo estaba en ninguna parte.
   if (!acuerdo) {
     if (paraQue.texto) {
-      return { inyectar: true, por: "para-que", texto: paraQue.texto, nivel: nivelActual, turno, acuerdo: false, paraQue };
+      return { inyectar: true, por: "para-que", texto: `[para qué del árbol: ${paraQue.texto}]`, nivel: nivelActual, turno, acuerdo: false, paraQue };
     }
     return { ...SIN_LORE, por: "sin-acuerdo", nivel: nivelActual, turno, paraQue };
   }

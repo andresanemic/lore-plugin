@@ -4,7 +4,10 @@
 // cada funcion devuelve uno nuevo y el recibido no se toca. La unica excepcion es receiveTask, que lee
 // el archivo que el ejecutor dejo de verdad: recibida es un hecho del disco, no una declaracion.
 import { createHash } from "node:crypto";
+import { existsSync, realpathSync, readFileSync } from "node:fs";
 import { readFile } from "node:fs/promises";
+import { dirname, relative, resolve } from "node:path";
+import { assertExecuted } from "./verification-execution.mjs";
 import { classifyDelegateOutput } from "./host-resources.mjs";
 import { appendCheckpoint, statePath, transitionArtifact } from "./operation-state.mjs";
 import { routeOperation } from "./vespi.mjs";
@@ -169,6 +172,7 @@ export function planTask(artifact, spec = {}) {
     received: null,
     review: null,
     verification: null,
+    ...(spec.proof_runner ? { proof_runner: structuredClone(spec.proof_runner) } : {}),
     integration: null,
     blocked: null,
     planned_at: plannedAt,
@@ -182,26 +186,58 @@ export function planTask(artifact, spec = {}) {
   return { artifact: { ...artifact, tasks: [...tasks, task] }, task };
 }
 
+// Una declaracion no es una ejecucion. Quien llama desde otro proceso —la CLI— no puede llamar la
+// herramienta del host aunque la declare: fabricar la funcion para que `routeOperation` la diera
+// por expuesta es la mentira de mas peso, porque deja una tarea `running` con un ejecutor que no
+// existe, esperando un archivo que nadie va a escribir. Asi que la declaracion se guarda como
+// declaracion y la tarea queda marcada como NO ejecutada —sin ejecutor, sin plazo de ejecucion y sin
+// estado `running`— esperando a que la ruta corra donde de verdad hay una herramienta.
+function declaredRouteOf({ declaredTools = [], hostName = null, model = null, effort = null, now = null } = {}) {
+  const tools = (Array.isArray(declaredTools) ? declaredTools : [])
+    .map((name) => String(name ?? "").trim())
+    .filter((name) => name.length > 0);
+  if (tools.length === 0) return null;
+  return {
+    tools,
+    by: `${hostName ?? "unknown"}/${model ?? "unknown"}`,
+    host: hostName ?? "unknown",
+    model: model ?? "unknown",
+    effort: effort ?? "unknown",
+    at: clockIso(now),
+    executed: false,
+  };
+}
+
 // dispatchTask: o corre por una ruta que el host expone, o queda bloqueada con la razon de la
 // herramienta que falta. Nunca inventan un ejecutor para que la tarea parezca viva.
-export function dispatchTask(artifact, taskId, { host = {}, hostName = null, model = null, effort = null, process = null, now = null } = {}) {
+export function dispatchTask(artifact, taskId, { host = {}, hostName = null, model = null, effort = null, process = null, now = null, declaredTools = [] } = {}) {
   if (!DISPATCHABLE.has(artifact?.state)) {
     throw new Error(`dispatch needs an authorized operation: state ${String(artifact?.state)} authorizes nobody to run`);
   }
   const task = taskById(artifact, taskId);
   const route = routeOperation({ intent: INTENT_BY_ROLE[task.role], host });
+  const declared = declaredRouteOf({ declaredTools, hostName, model, effort, now });
   if (!route.available) {
-    return replaceTask(artifact, {
+    const declaradaAqui = declared !== null && declared.tools.includes(route.tool);
+    const bloqueada = replaceTask(artifact, {
       ...task,
       state: "blocked",
       by: "coordinador",
       executor: null,
+      ...(declared !== null ? { declared_route: declared } : {}),
       blocked: {
         cause: route.reason,
-        next_action: `esperar a que el host exponga ${route.tool} y lanzar ${taskId}; sin esa herramienta no se ejecuta ni se simula`,
+        next_action: declaradaAqui
+          ? `${taskId} no se ejecuto: ${declared.by} declaro ${route.tool} y este proceso no lo llama; deja el artefacto en ${task.output?.path ?? "la ruta declarada"} y dale receive a ${taskId}`
+          : `esperar a que el host exponga ${route.tool} y lanzar ${taskId}; sin esa herramienta no se ejecuta ni se simula`,
         owner: "coordinador",
+        executed: false,
       },
     });
+    // La OPERACION si queda en marcha: el encargo existe y alguien lo esta esperando. Lo que no se
+    // afirma es que una tarea corra —eso vive en la tarea, que no tiene ejecutor— y sin este paso la
+    // operacion se quedaria en `authorized` sin camino legal hasta `closed`.
+    return advanceTo(bloqueada, "running", `tarea ${taskId} declarada por ${declared?.by ?? "nadie"} y no ejecutada por este proceso`);
   }
   const startedAt = clockIso(now);
   const executor = {
@@ -225,9 +261,17 @@ export function dispatchTask(artifact, taskId, { host = {}, hostName = null, mod
 
 // observeTask: deja escrito que se vio, cuando, y si seguia viva. Una hora posterior al deadline
 // con esa observacion nueva deja la tarea vencida: no se marca viva por no mirar.
+//
+// Se observa una tarea CORRIENDO y tambien una que se declaro y quedo sin ejecutar. La segunda no
+// tiene ejecutor ni plazo de ejecucion —nadie la lanzo— y por eso lo que se escribe ahi no afirma
+// que algo corra: es lo que el coordinador vio mientras insistir. El muro de tres fallos iguales
+// vive justamente en esa insistencia, asi que excluirla dejaria al coordinador sin forma de decir
+// "lo intente tres veces y fallo las tres".
 export function observeTask(artifact, taskId, { text = null, alive = null, at, signature = null, outcome = null } = {}) {
   const task = taskById(artifact, taskId);
-  if (task.state !== "running") throw new Error(`observeTask needs a running task: ${taskId} is ${task.state}`);
+  if (task.state !== "running" && !(task.state === "blocked" && present(task.blocked?.cause))) {
+    throw new Error(`observeTask needs a running task, or one declared and not executed: ${taskId} is ${task.state}`);
+  }
   if (signature !== null && signature !== undefined && typeof signature !== "string") {
     throw new Error("observe signature must be a string");
   }
@@ -260,14 +304,75 @@ function validObservationTime(at) {
     && Number(day) >= 1 && Number(day) <= new Date(Date.UTC(Number(year), Number(month), 0)).getUTCDate();
 }
 
-// receiveTask: recibida significa que el archivo existe de verdad, con su huella real. Sin archivo,
-// la tarea sigue corriendo y el llamador se lleva el motivo.
-export async function receiveTask(artifact, taskId, { path = null, exitCode = null, text = "", now = null } = {}) {
+// receiveTask: recibida significa que el archivo existe de verdad, con su huella real, DENTRO del
+// proyecto. Sin archivo, la tarea sigue corriendo y el llamador se lleva el motivo.
+//
+// La contencion no es un extra: lo que se sella en FASES.md es la huella de un archivo de este
+// proyecto, y un `receive` que aceptara cualquier ruta escribiria en el checkpoint de una operacion
+// la voz de un archivo de otro arbol —con su ruta y su sha256— sin que nada diga que entro de
+// fuera. Por eso `root` es obligatorio: sin el contra el que comparar, no hay frontera que
+// comprobar, y lo que no se puede comprobar no se acepta. Se mira la ruta LEXICA (el `..` escrito a
+// mano y la barra ajena) y la FISICA (la junction o el enlace en un directorio intermedio): las
+// dos, porque una comparacion de cadenas no ve un enlace y un enlace si se ve.
+//
+// `output.path` y la ruta que se lee se comprueban las dos, para que el encargo no seDeclare fuera
+// y luego se lea un archivo de dentro: el bloqueo tiene que caer en el encargo, no solo en la
+// entrega.
+function fueraDe(root, candidate) {
+  if (!present(root) || !present(candidate)) return false;
+  const base = resolve(root);
+  const abs = resolve(base, String(candidate));
+  if (!contiene(base, abs)) return true;
+  const fisicaBase = rutaFisica(base);
+  return !contiene(fisicaBase, rutaFisica(abs));
+}
+
+function contiene(base, target) {
+  const rel = relative(base, target);
+  return rel === "" || (!rel.startsWith("..") && !/^[a-zA-Z]:/.test(rel));
+}
+
+// El ultimo ancestro que existe, resuelto: asi una ruta que todavia no se creo tambien sale por donde
+// tiene que salir, y no solo la que ya esta en disco.
+function rutaFisica(path) {
+  let cursor = resolve(path);
+  const tail = [];
+  while (!existsSync(cursor)) {
+    const parent = dirname(cursor);
+    if (parent === cursor) return resolve(path);
+    tail.unshift(cursor.slice(parent.length + 1));
+    cursor = parent;
+  }
+  try {
+    return resolve(realpathSync.native(cursor), ...tail);
+  } catch {
+    return resolve(path);
+  }
+}
+
+export async function receiveTask(artifact, taskId, { path = null, exitCode = null, text = "", now = null, root = null } = {}) {
   const task = taskById(artifact, taskId);
   const file = path ?? task.output?.path ?? null;
   if (!present(file)) throw new Error(`receiveTask needs a path for ${taskId}`);
-  if (task.state !== "running" && !(task.state === "blocked" && present(task.blocked?.cause))) {
+  const correctingRejected = task.state === "reviewed" && task.verification?.executed === true && task.verification?.passed === false;
+  const reconcilingLegacy = task.state === "reviewed" && task.received && !task.received.root;
+  if (task.state !== "running" && !correctingRejected && !reconcilingLegacy && !(task.state === "blocked" && present(task.blocked?.cause))) {
     throw new Error(`receiveTask needs a running task: ${taskId} is ${task.state}`);
+  }
+  if (!present(root)) throw new Error(`receiveTask needs the operation root to check the delivered path stays inside it: ${taskId} has none`);
+  const escapada = [task.output?.path, file].find((candidate) => fueraDe(root, candidate));
+  if (present(escapada)) {
+    return replaceTask(artifact, {
+      ...task,
+      state: "blocked",
+      by: "coordinador",
+      executor: task.executor ?? null,
+      blocked: {
+        cause: "out-of-root",
+        next_action: `copia la entrega dentro de ${resolve(root)} y vuelve a receive: una huella de fuera del proyecto no se sella en su FASES.md`,
+        owner: "coordinador",
+      },
+    });
   }
   let bytes;
   try {
@@ -290,18 +395,21 @@ export async function receiveTask(artifact, taskId, { path = null, exitCode = nu
     });
   }
   const finishedAt = clockIso(now);
-  const startedAt = task.executor?.startedAt;
+  const loHizo = task.executor ?? task.declared_route ?? null;
+  const startedAt = loHizo?.at ?? loHizo?.startedAt;
   const actualMs = Number.isFinite(Date.parse(finishedAt)) && Number.isFinite(Date.parse(startedAt))
     ? Date.parse(finishedAt) - Date.parse(startedAt)
     : null;
   return replaceTask(artifact, {
     ...task,
     state: "received",
+    ...((correctingRejected || reconcilingLegacy) ? { review: null, verification: null, integration: null } : {}),
     by: task.executor?.by ?? task.by ?? "coordinador",
     blocked: null,
     finishedAt,
     ...(actualMs !== null ? { actualMs } : {}),
     received: {
+      root: realpathSync(root),
       path: file,
       sha256: createHash("sha256").update(bytes).digest("hex"),
       bytes: bytes.length,
@@ -312,16 +420,22 @@ export async function receiveTask(artifact, taskId, { path = null, exitCode = nu
 
 // Calibration is intentionally descriptive: each exact role/host/model key stands on its own.
 // Percentiles use nearest rank, and fewer than three valid durations never produce a ratio.
+//
+// El reloj que se mide es el del ejecutor cuando hay uno, y el de la declaracion cuando no: una
+// tarea que solo se declaro no la ejecuto nadie, pero su espera —de la declaracion a la entrega— si
+// es un tiempo real de este proyecto, y callarse ese dato seria tirar la medida que si existe. La
+// clave sigue siendo rol + host + modelo, y ninguna de las dos cambia por usar el otro reloj.
 export function calibrateEstimates(tasks = []) {
   const groups = new Map();
   for (const task of Array.isArray(tasks) ? tasks : []) {
     if (!Number.isInteger(task?.estimateMs) || task.estimateMs <= 0) continue;
-    const host = task.executor?.host ?? null;
-    const model = task.executor?.model ?? null;
+    const loHizo = task.executor ?? task.declared_route ?? null;
+    const host = loHizo?.host ?? null;
+    const model = loHizo?.model ?? null;
     const key = `${task.role ?? "unknown"}|host=${host ?? "unspecified"}|model=${model ?? "unspecified"}`;
     if (!groups.has(key)) groups.set(key, { ratios: [], ignoredNonPositive: 0 });
     const group = groups.get(key);
-    const start = Date.parse(task.executor?.startedAt);
+    const start = Date.parse(loHizo?.startedAt ?? loHizo?.at);
     const finish = Date.parse(task.finishedAt);
     if (!Number.isFinite(start) || !Number.isFinite(finish)) continue;
     const actualMs = finish - start;
@@ -361,20 +475,59 @@ export function reviewTask(artifact, taskId, { reviewer, checked = [], notes = "
 
 // verifyTask: verificada exige que quien verifica no sea quien ejecuto, que haya observado el criterio
 // y que diga con que evidencia. Las tres cosas o ninguna.
+//
+// Quien lo ejecuto se busca en el ejecutor y, cuando no hay ninguno, en la ruta declarada: una tarea
+// que solo se declaro no la ejecuto nadie, pero el nombre que quedo escrito es el de quien iba a
+// hacerlo, y dejar que ese mismo nombre certificase el trabajo seria abrir la puerta que esta regla
+// existe para cerrar.
+function verifyReference(reference, label) {
+  if (!reference || typeof reference.path !== "string" || !/^[a-f0-9]{64}$/.test(reference.sha256 ?? "")) {
+    throw new Error(`${label} requires an evidence path and sha256`);
+  }
+  const digest = createHash("sha256").update(readFileSync(reference.path)).digest("hex");
+  if (digest !== reference.sha256) throw new Error(`${label} digest changed; receive and check the current bytes again`);
+}
+
+function verifyCoverage(task, evidence) {
+  if (!evidence || typeof evidence !== "object" || Array.isArray(evidence)) {
+    throw new Error("verification evidence must bind the criterion, proof and received artifact");
+  }
+  if (evidence.criterion !== (task.done_criterion ?? task.question)) throw new Error("verification criterion does not match the commission");
+  if (evidence.proof !== (task.proof ?? task.question)) throw new Error("verification proof does not match the agreed proof");
+  verifyReference(task.received, "received artifact");
+  if (evidence.artifact_sha256 !== task.received.sha256) throw new Error("verification artifact digest does not match the delivery");
+  if (!Array.isArray(evidence.notCovered) || evidence.notCovered.length > 0) throw new Error("verification has incomplete coverage (notCovered)");
+  if (!Array.isArray(evidence.checks) || evidence.checks.length === 0) throw new Error("verification needs observed checks");
+  for (const check of evidence.checks) {
+    if (check?.passed !== true || typeof check.observation !== "string" || !check.observation.trim()) throw new Error("verification check must have passed with an observation");
+    verifyReference(check.evidence, "check evidence");
+  }
+  if (!Array.isArray(evidence.sources)) throw new Error("verification must declare source coverage");
+  for (const source of task.sources ?? []) {
+    const covered = evidence.sources.find(item => item?.ref === source);
+    if (!covered || typeof covered.observation !== "string" || !covered.observation.trim()) throw new Error(`verification is missing source coverage: ${source}`);
+    verifyReference(covered.evidence, "source evidence");
+  }
+}
+
 export function verifyTask(artifact, taskId, { verifier, observed, evidence } = {}) {
   const task = taskById(artifact, taskId);
   if (task.state !== "reviewed") throw new Error(`verifyTask needs a reviewed task: ${taskId} is ${task.state}`);
-  const executorBy = task.executor?.by ?? "its own executor";
-  if (!present(verifier) || verifier === task.executor?.by) {
-    throw new Error(`verification must be independent: ${String(verifier) ?? "nobody"} cannot verify a task executed by ${executorBy}`);
+  const loHizo = task.executor?.by ?? task.declared_route?.by ?? "";
+  const executorBy = String(loHizo).trim().toLowerCase();
+  const verifierNormalized = String(verifier ?? "").trim().toLowerCase();
+  if (!present(verifier) || (executorBy.length > 0 && verifierNormalized === executorBy)) {
+    throw new Error(`verification must be independent: ${String(verifier) ?? "nobody"} cannot verify a task executed by ${loHizo}`);
   }
   if (observed !== true) throw new Error("verification requires observed: true, the criterion checked with one's own eyes");
   if (!present(evidence)) throw new Error("verification requires evidence: what was opened, read and compared");
+  verifyCoverage(task, evidence);
+  const execution = assertExecuted(artifact, task, evidence);
   return replaceTask(artifact, {
     ...task,
     state: "verified",
     by: verifier,
-    verification: { by: verifier, observed: true, evidence, at: new Date().toISOString() },
+    verification: { by: verifier, observed: true, evidence: structuredClone(evidence), executed: true, execution: structuredClone(execution), independence: "labels_only", at: new Date().toISOString() },
   });
 }
 
@@ -383,6 +536,8 @@ export function integrateTask(artifact, taskId, { destination } = {}) {
   const task = taskById(artifact, taskId);
   if (task.state !== "verified") throw new Error(`integrateTask needs a verified task: ${taskId} is ${task.state}`);
   if (!present(destination)) throw new Error("integration needs a destination: where the verified output lands");
+  verifyCoverage(task, task.verification?.evidence);
+  assertExecuted(artifact, task, task.verification?.evidence);
   return replaceTask(artifact, {
     ...task,
     state: "integrated",
@@ -403,9 +558,27 @@ export function closeOperation(artifact, { verification } = {}) {
     );
   }
   if (verification?.verified !== true) throw new Error("closure requires a verified observation: verification.verified must be true");
+  for (const task of artifact?.tasks ?? []) {
+    if (task.state === "integrated") {
+      verifyCoverage(task, task.verification?.evidence);
+      assertExecuted(artifact, task, task.verification?.evidence);
+    }
+  }
   if (verification?.observed !== true) throw new Error("closure requires a verification observed by whoever certifies");
   if (!present(verification?.by)) throw new Error("closure requires a verification by a named certifier");
-  let next = { ...artifact, verification: { ...verification } };
+  const integratedIds = (artifact.tasks ?? []).filter(task => task.state === "integrated").map(task => task.id);
+  if ((verification.verified_tasks ?? []).some(id => !integratedIds.includes(id))) throw new Error("closure cannot claim an unverified task in verified_tasks");
+  const notCovered = [...new Set([...(verification.notCovered ?? []),
+    ...(artifact.tasks ?? []).filter(task => task.state !== "integrated").map(task => `task:${task.id}`),
+    ...(verification.unverified_effects ?? []).map(id => `effect:${id}`),
+    ...(artifact.effects ?? []).filter(effect => effect.status !== "verified" && effect.reconciliation !== "reconciled-absent").map((effect, index) => `effect:${effect.id ?? index}`),
+    ...(artifact.uncertainty ?? []).map(item => `uncertainty:${typeof item === "string" ? item : JSON.stringify(item)}`),
+    ...((artifact.tasks ?? []).length === 0 ? ["no verified tasks"] : []),
+  ])];
+  let next = { ...artifact, verification: { ...verification,
+    verified: notCovered.length === 0, verified_tasks: integratedIds,
+    completion: notCovered.length === 0 ? "complete" : "partial", notCovered,
+  } };
   const already = CLOSURE_LADDER.indexOf(next.state);
   for (const state of already === -1 ? CLOSURE_LADDER : CLOSURE_LADDER.slice(already + 1)) {
     next = transitionArtifact(next, { state, note: `cierre: ${state}` });

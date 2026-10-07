@@ -319,10 +319,10 @@ test("Claude Code NO recibe el recordatorio por prompt: la ley de 2.4.7 sigue", 
   assert.equal(hooks.hooks?.UserPromptSubmit, undefined,
     "UserPromptSubmit en hooks.json devuelve a Claude Code el recordatorio que el agente narra");
   assert.equal(hooks.hooks?.Stop, undefined, "el hook Stop quedó atrás: ahí el campo es visible");
-  // Y la sesion de Claude Code no pide nada al abrir: el arranque calla (2.4.7).
+  // La apertura entrega ahora el estado; UserPromptSubmit y Stop siguen sin registrarse.
   const dir = arbol();
   acuerdoAprobado(dir);
-  assert.equal(corre(dir, "session_start", { estadoDir: estadoTmp(), source: "startup" }), "");
+  assert.match(contexto(corre(dir, "session_start", { estadoDir: estadoTmp(), source: "startup" }), "SessionStart"), /FASES\.md/);
 });
 
 test("el guard contesta user_prompt_submit para el host con forma Codex", () => {
@@ -377,9 +377,10 @@ test("el nivel se resuelve desde el env, y el env manda sobre el archivo", () =>
 import { LorePlugin } from "../hooks/opencode-plugin.js";
 
 let sesiones = 0;
+const fixtureRun = (await import("node:crypto")).randomUUID();
 
 function idOpenCode() {
-  return `opencode-probe-${process.pid}-${++sesiones}`;
+  return `opencode-probe-${process.pid}-${fixtureRun}-${++sesiones}`;
 }
 
 // Corre el plugin como lo corre el host: la fabrica una vez, y despues un transform

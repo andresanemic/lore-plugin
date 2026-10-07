@@ -1,3 +1,4 @@
+import { proofFor } from "./verification-fixture.mjs";
 // RC7 - el flujo del coordinador: tareas por rol dentro de una operacion, con lo que exige la Spec 014 (estado,
 // responsables reales, timeout y proxima observacion antes de lanzar, recibida/revisada/verificada/integrada
 // como hechos distintos) y la Spec 015 (Daimon, Advisor y trabajador con su encargo; una herramienta ausente es
@@ -131,7 +132,7 @@ test("estimateMs is optional and dispatch plus receipt retain observed duration"
   const running = f.dispatchTask(artifact, "t1", { host: HOST_CON_EJECUTOR, hostName: "oc", model: "m", now: start });
   assert.equal(running.tasks[0].executor.startedAt, start);
   await writeFile(join(root, "daimon.md"), "evidencia");
-  const received = await f.receiveTask(running, "t1", { now: "2026-10-05T10:00:00.250Z" });
+  const received = await f.receiveTask(running, "t1", { now: "2026-10-05T10:00:00.250Z", root });
   assert.equal(received.tasks[0].finishedAt, "2026-10-05T10:00:00.250Z");
   assert.equal(received.tasks[0].actualMs, 250);
   assert.equal(f.planTask(a, daimon(root)).task.estimateMs, undefined);
@@ -226,16 +227,16 @@ test("recibida significa que el artefacto existe en la ruta declarada, con su hu
   const { f, a } = await autorizada();
   let art = f.planTask(a, daimon(root)).artifact;
   art = f.dispatchTask(art, "t1", { host: HOST_CON_EJECUTOR, hostName: "opencode", model: "m", effort: "e" });
-  await assert.rejects(() => f.receiveTask(art, "t1", {}), /does not exist|ENOENT|no existe/i);
+  await assert.rejects(() => f.receiveTask(art, "t1", { root }), /does not exist|ENOENT|no existe/i);
   const contenido = "# hallazgos\n- uno\n";
   await writeFile(join(root, "daimon.md"), contenido);
-  const recibida = await f.receiveTask(art, "t1", {});
+  const recibida = await f.receiveTask(art, "t1", { root });
   const t1 = recibida.tasks[0];
   assert.equal(t1.state, "received");
   assert.equal(t1.received.sha256, createHash("sha256").update(contenido).digest("hex"));
   assert.equal(t1.received.bytes, Buffer.byteLength(contenido));
   assert.equal(t1.received.path, join(root, "daimon.md"));
-  assert.deepEqual(Object.keys(t1.received).sort(), ["at", "bytes", "path", "sha256"]);
+  assert.deepEqual(Object.keys(t1.received).sort(), ["at", "bytes", "path", "root", "sha256"]);
 });
 
 // D - revisada, verificada, integrada: tres hechos y ninguno se infiere del anterior
@@ -244,7 +245,7 @@ async function recibidaDe(f, a, root) {
   let art = f.planTask(a, daimon(root)).artifact;
   art = f.dispatchTask(art, "t1", { host: HOST_CON_EJECUTOR, hostName: "opencode", model: "space-bunny-free", effort: "e" });
   await writeFile(join(root, "daimon.md"), "salida");
-  return f.receiveTask(art, "t1", {});
+  return f.receiveTask(art, "t1", { root });
 }
 
 test("revisar exige haber cotejado alcance, fuentes y riesgos", async (t) => {
@@ -264,7 +265,7 @@ test("verificar no lo hace quien ejecuto, y exige haber observado el criterio", 
   assert.throws(() => f.verifyTask(revisada, "t1", { verifier: "opencode/space-bunny-free", observed: true, evidence: "x" }), /independent/i);
   assert.throws(() => f.verifyTask(revisada, "t1", { verifier: "coordinador", observed: false, evidence: "x" }), /observed/i);
   assert.throws(() => f.verifyTask(revisada, "t1", { verifier: "coordinador", observed: true, evidence: "" }), /evidence/i);
-  const verificada = f.verifyTask(revisada, "t1", { verifier: "coordinador", observed: true, evidence: "volvi a abrir las dos fuentes citadas" });
+  const verificada = f.verifyTask(revisada, "t1", { verifier: "coordinador", observed: true, evidence: proofFor(revisada) });
   assert.equal(verificada.tasks[0].state, "verified");
   assert.equal(verificada.tasks[0].verification.by, "coordinador");
 });
@@ -276,7 +277,7 @@ test("no se salta un paso: verificar sin revisar, integrar sin verificar", async
   assert.throws(() => f.verifyTask(recibida, "t1", { verifier: "coordinador", observed: true, evidence: "x" }), /reviewed/i);
   const revisada = f.reviewTask(recibida, "t1", { reviewer: "coordinador", checked: ["scope", "sources", "risks"] });
   assert.throws(() => f.integrateTask(revisada, "t1", { destination: "tramos/0/fuentes.md" }), /verified/i);
-  const verificada = f.verifyTask(revisada, "t1", { verifier: "coordinador", observed: true, evidence: "e" });
+  const verificada = f.verifyTask(revisada, "t1", { verifier: "coordinador", observed: true, evidence: proofFor(revisada) });
   assert.throws(() => f.integrateTask(verificada, "t1", {}), /destination/i);
   assert.equal(f.integrateTask(verificada, "t1", { destination: "tramos/0/fuentes.md" }).tasks[0].state, "integrated");
 });
@@ -289,7 +290,7 @@ test("no se cierra con una tarea abierta; con todo integrado y verificado por qu
   const recibida = await recibidaDe(f, a, root);
   assert.throws(() => f.closeOperation(recibida, { verification: { verified: true, by: "coordinador", observed: true } }), /t1/);
   let art = f.reviewTask(recibida, "t1", { reviewer: "coordinador", checked: ["scope", "sources", "risks"] });
-  art = f.verifyTask(art, "t1", { verifier: "coordinador", observed: true, evidence: "e" });
+  art = f.verifyTask(art, "t1", { verifier: "coordinador", observed: true, evidence: proofFor(art) });
   art = f.integrateTask(art, "t1", { destination: "tramos/0/fuentes.md" });
   assert.throws(() => f.closeOperation(art, { verification: { verified: false, by: "coordinador", observed: true } }), /verified/i);
   const cerrada = f.closeOperation(art, { verification: { verified: true, by: "coordinador", observed: true } });

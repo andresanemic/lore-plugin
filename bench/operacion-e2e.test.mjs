@@ -1,3 +1,4 @@
+import { proofAt } from "./verification-fixture.mjs";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
@@ -39,12 +40,12 @@ const tasks = [
   { role: "advisor", question: "¿La evidencia responde el propósito?", context: "hoja y evidencia del fixture", output: "advisor.md" },
 ];
 
-test("una operación completa se conserva en FASES, sobrevive compactación y entrega propuesta", async (t) => {
+// This root intentionally has no owner criterion: only state, byte checks and recovery are covered.
+test("flujo mecánico sin criterio propietario conserva FASES, compactación y propuesta", async (t) => {
   mkdirSync(HOME_TEST, { recursive: true });
   const root = mkdtempSync(join(HOME_TEST, "operacion-"));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   const fasesPath = join(root, "FASES.md");
-  writeFileSync(join(root, "CLAUDE.md"), "# Contrato de prueba\n");
   writeFileSync(fasesPath, [
     "# Fases del fixture", "", "## Operaciones", "", "### Hoja: cotejo ficticio",
     "- Propósito: decidir si el artefacto de prueba cumple el criterio.",
@@ -81,7 +82,9 @@ test("una operación completa se conserva en FASES, sobrevive compactación y en
   for (let i = 0; i < tasks.length; i++) {
     const task = tasks[i];
     const dispatched = call(opArgs("dispatch", root, id, ["--task", `t${i + 1}`, "--tools", routeTools[task.role], "--json", json({ hostName: "fixture-host", model: `${task.role}-model`, effort: "low" })]));
-    assert.equal(dispatched.task.state, "running");
+    assert.equal(dispatched.task.state, "blocked", "declarar no ejecuta: la tarea queda bloqueada");
+    assert.equal(dispatched.task.executor, null, "no hay ejecutor inventado");
+    assert.equal(dispatched.task.declared_route.executed, false);
     const observed = call(opArgs("observe", root, id, ["--task", `t${i + 1}`, "--json", json({ text: `${task.role} responde`, alive: true })]));
     assert.equal(observed.task.observations.at(-1).alive, true);
   }
@@ -96,17 +99,20 @@ test("una operación completa se conserva en FASES, sobrevive compactación y en
   assert.equal(wall.wall.attempts.length, 3);
 
   writeFileSync(tasks[0].outputPath, "criterio observado: sí\nfuente: fixture\nriesgo: límite local\n");
-  assert.equal(call(opArgs("receive", root, id, ["--task", "t1"])).task.state, "received");
+  // t1 quedó bloqueada (declarada, no ejecutada): receive con root la marca received
+  const rc1 = call(opArgs("receive", root, id, ["--task", "t1"]));
+  assert.equal(rc1.task.state, "received", "receive con root acepta la entrega dentro del proyecto");
   assert.equal(call(opArgs("review", root, id, ["--task", "t1", "--json", json({ reviewer: "coordinador", checked: ["scope", "sources", "risks"], notes: "evidencia local releída" })])).task.state, "reviewed");
   artifact = JSON.parse(readFileSync(fasesPath, "utf8").match(/```json\s*([\s\S]*?)\s*```/)[1]);
-  const executor = artifact.tasks[0].executor.by;
+  const executor = artifact.tasks[0].executor?.by ?? artifact.tasks[0].declared_route?.by ?? "unknown";
   const selfVerify = command(opArgs("verify", root, id, ["--task", "t1", "--json", json({ verifier: executor, observed: true, evidence: "observación" })]));
   assert.equal(selfVerify.code, 1);
   assert.match(selfVerify.body.error, /independent/);
   const unseen = command(opArgs("verify", root, id, ["--task", "t1", "--json", json({ verifier: "coordinador", observed: false, evidence: "no observado" })]));
   assert.equal(unseen.code, 1);
-  assert.match(unseen.body.error, /observed: true/);
-  assert.equal(call(opArgs("verify", root, id, ["--task", "t1", "--json", json({ verifier: "coordinador", observed: true, evidence: "releí el archivo y cotejé el criterio" })])).task.state, "verified");
+  assert.match(unseen.body.error, /proof_runner|adapter|commission/i);
+  proofAt(root, id);
+  assert.equal(call(opArgs("verify", root, id, ["--task", "t1", "--json", json({ verifier: "coordinador" })])).task.state, "verified");
   assert.equal(call(opArgs("integrate", root, id, ["--task", "t1", "--json", json({ destination: "fixture/revisado.md" })])).task.state, "integrated");
 
   // Simula el registro de una incertidumbre material que ya existe antes de la pausa.
@@ -132,7 +138,7 @@ test("una operación completa se conserva en FASES, sobrevive compactación y en
   assert.equal(existsSync(markPath), true, "la marca silenciosa debe quedar en disco");
   const mark = JSON.parse(readFileSync(markPath, "utf8"));
   assert.equal(mark.raiz, root);
-  assert.deepEqual(mark.triplete, ["CLAUDE.md", "FASES.md"]);
+  assert.deepEqual(mark.triplete, ["FASES.md"]);
   rmSync(markPath, { force: true });
 
   const resumed = call(opArgs("resume", root, id));
@@ -148,10 +154,12 @@ test("una operación completa se conserva en FASES, sobrevive compactación y en
   for (const [index, task] of tasks.slice(1).entries()) {
     const taskId = `t${index + 2}`;
     writeFileSync(task.outputPath, `${task.role}: evidencia y límites del fixture\n`);
-    call(opArgs("receive", root, id, ["--task", taskId]));
-    call(opArgs("review", root, id, ["--task", taskId, "--json", json({ reviewer: "coordinador", checked: ["scope", "sources", "risks"], notes: "cotejado" })]));
-    call(opArgs("verify", root, id, ["--task", taskId, "--json", json({ verifier: "coordinador", observed: true, evidence: `leído ${task.output}` })]));
-    call(opArgs("integrate", root, id, ["--task", taskId, "--json", json({ destination: `fixture/${task.output}` })]));
+    // Recibir una entrega externa no inventa su ejecución; sí permite cotejarla.
+    assert.equal(call(opArgs("receive", root, id, ["--task", taskId])).task.state, "received");
+    call(opArgs("review", root, id, ["--task", taskId, "--json", json({ reviewer: "coordinador", checked: ["scope", "sources", "risks"] })]));
+    proofAt(root, id, taskId);
+    call(opArgs("verify", root, id, ["--task", taskId, "--json", json({ verifier: "coordinador" })]));
+    call(opArgs("integrate", root, id, ["--task", taskId, "--json", json({ destination: task.output })]));
   }
   const closed = call(opArgs("close", root, id, ["--json", json({ verification: {
     verified: true, observed: true, by: "coordinador", evidence: "tres tareas verificadas; fx-1 sigue incierto",
@@ -159,10 +167,31 @@ test("una operación completa se conserva en FASES, sobrevive compactación y en
   } })]));
   assert.equal(closed.state, "closed");
   artifact = JSON.parse(readFileSync(fasesPath, "utf8").match(/```json\s*([\s\S]*?)\s*```/)[1]);
-  assert.equal(artifact.verification.verified, true);
+  assert.equal(artifact.verification.verified, false, "unverified effect prevents claiming complete verification");
+  assert.equal(artifact.verification.completion, "partial");
   assert.deepEqual(artifact.verification.unverified_effects, ["fx-1"]);
   const handoff = proposeHandoff({ kind: "proposal", evidence: artifact.verification, provenance: { operation: id, path: "FASES.md" }, source: `FASES.md#${id}` });
   assert.equal(handoff.kind, "proposal");
   assert.equal(handoff.writesLore, false);
   assert.equal(existsSync(join(root, "lore")), false);
+});
+
+
+test("compactación conserva contrato y FASES sin certificar una entrega", (t) => {
+  mkdirSync(HOME_TEST, { recursive: true });
+  const root = mkdtempSync(join(HOME_TEST, "compact-contract-"));
+  t.after(() => rmSync(root, { recursive: true, force: true }));
+  writeFileSync(join(root, "CLAUDE.md"), "# No publicar sin revisión humana\n");
+  writeFileSync(join(root, "FASES.md"), "# Fases\n\n## Operaciones\n");
+  const sessionId = "contract-" + process.pid + "-" + Date.now();
+  const hook = spawnSync(process.execPath, [join(REPO, "hooks", "codex-guard.mjs"), "pre_compact"], {
+    encoding: "utf8", env: ENV, input: json({ cwd: root, session_id: sessionId, trigger: "auto" }),
+  });
+  assert.equal(hook.status, 0);
+  assert.equal(hook.stdout, "");
+  const markPath = join(HOME_TEST, "lore-plugin-sessions", "compactacion-" + sessionId + ".json");
+  const mark = JSON.parse(readFileSync(markPath, "utf8"));
+  assert.equal(mark.raiz, root);
+  assert.deepEqual(mark.triplete, ["CLAUDE.md", "FASES.md"]);
+  rmSync(markPath, { force: true });
 });
