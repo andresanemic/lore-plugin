@@ -1,5 +1,5 @@
 // Vendored copy — canonical source is founder/proyectos/vespi/kernel/src/receipt.js
-// (kernel 0.1.4, release/0.1.4-prep branch, commit 221bfa0). Edit the canonical source, then re-copy here;
+// (kernel 0.1.5, release/0.1.5-prep branch, commit ed559e8). Edit the canonical source, then re-copy here;
 // this file is not the source of truth.
 'use strict';
 
@@ -179,7 +179,9 @@ function finishAnchor(base, prevNotCovered, submitted, confirmed) {
     base.anchor = { status: 'submitted', network: submitted.network, txHash: submitted.txHash };
     base.notCovered = withExternalAnchor(prevNotCovered, false);
   } else {
-    base.anchor = { ...PENDING_ANCHOR };
+    const pendingNetwork = ANCHOR_NETWORKS.has(base.anchor && base.anchor.network)
+      ? base.anchor.network : DEFAULT_NETWORK;
+    base.anchor = { ...PENDING_ANCHOR, network: pendingNetwork };
     base.notCovered = withExternalAnchor(prevNotCovered, false);
   }
   try {
@@ -369,7 +371,11 @@ function validExercisedEntry(item) {
   }
 }
 
-function buildReceipt({ operation, capabilityId, authority, outcome, evidence, verification, decidedBy, at }) {
+function buildReceipt({ operation, capabilityId, authority, outcome, evidence, verification, decidedBy, at,
+  anchorNetwork = DEFAULT_NETWORK }) {
+  if (!ANCHOR_NETWORKS.has(anchorNetwork)) {
+    throw new TypeError('anchorNetwork must be stellar:testnet or stellar:pubnet');
+  }
   const grants = Array.isArray(authority && authority.spend) ? authority.spend : [];
   const rawExercised = outcome && outcome.exercised;
   const exercised = Array.isArray(rawExercised) ? rawExercised : [];
@@ -426,7 +432,7 @@ function buildReceipt({ operation, capabilityId, authority, outcome, evidence, v
     verification: safeVerification,
     coverage,
     notCovered: [...failedChecks, 'external anchor'],
-    anchor: { ...PENDING_ANCHOR },
+    anchor: { ...PENDING_ANCHOR, network: anchorNetwork },
     detail,
     ...(reason ? { reason } : {}),
     ...(exit ? { exit } : {}),
