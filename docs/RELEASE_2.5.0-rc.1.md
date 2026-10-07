@@ -1,4 +1,4 @@
-# Lore Plugin 2.5.0 — Know what comes next and verify what was done
+# Lore Plugin 2.5.0-rc.1 — Know what comes next and verify what was done
 
 > [README](https://github.com/andresanemic/lore-plugin#readme) · [Español](#español)
 
@@ -8,7 +8,7 @@ Verification now runs a commissioned check before a reviewed result can be certi
 
 Lore Plugin is tested on Claude Code, Codex and OpenCode at the repository adapter level and has been exercised through the installed Codex operation workflow; while live activation coverage is recorded separately and must not be inferred from those tests. Existing Lore needs no migration. Previously declared verification is not silently converted into executed proof: continuing operations require reconciliation and a fresh commissioned check. The small operation benchmark remains evidence of its stated conditions; the larger comparison with and without Lore is postponed. Neither benchmark nor these checks establish a scientific result about LUS or guarantee independent verifier identity. Installation, verification limits and measured coverage accompany this release.
 
-# Lore Plugin 2.5.0 — Saber qué sigue y verificar lo que se hizo
+# Lore Plugin 2.5.0-rc.1 — Saber qué sigue y verificar lo que se hizo
 
 > [README](https://github.com/andresanemic/lore-plugin#readme) · [English](#lore-plugin-250--know-what-comes-next-and-verify-what-was-done)
 

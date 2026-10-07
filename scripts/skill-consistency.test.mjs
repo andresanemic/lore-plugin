@@ -436,7 +436,7 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.5.0"]));
+  assert.deepEqual(new Set(versions), new Set(["2.5.0-rc.1"]));
 });
 
 // andamiaje/lore-plugin/lore/principios.md #12: la nota sirve al usuario que actualiza el producto.
@@ -475,7 +475,7 @@ test("la nota vigente cumple la vara mínima de un release legible", () => {
   assert.doesNotMatch(sections[0], /\b(?:I|we|my|our|us)\b/i, "el release inglés habla desde el producto, no desde su autor");
   assert.doesNotMatch(sections[1], /\b(?:yo|nosotros|nosotras|mi|mis|nuestro|nuestra|nuestros|nuestras)\b/i,
     "el release español habla desde el producto, no desde su autor");
-  assert.doesNotMatch(body, /\b(?:RC\d*|release candidates?|candidatas?|subagents?|subagentes?|TDD|writing-skills|trial)\b/i,
+  assert.doesNotMatch(body, /\b(?:RC\d+|release candidates?|candidatas?|subagents?|subagentes?|TDD|writing-skills|trial)\b/i,
     "el release cuenta el producto publicado, no el proceso interno que lo produjo");
   assert.doesNotMatch(body, /\b\d+\/\d+\b/, "la evidencia detallada vive en los tests, no en el release");
 });

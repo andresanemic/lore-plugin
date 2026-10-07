@@ -338,7 +338,7 @@ Versión de campo redactada el 2026-10-06. Las interfaces, los modelos gratuitos
 - Superpowers, instalación por host y guía OpenCode: https://github.com/obra/superpowers y https://github.com/obra/superpowers/blob/main/docs/README.opencode.md (consultado 2026-10-05).
 - Git for Windows, WinGet, Visual Studio Code y Obsidian: https://git-scm.com/install/windows, https://learn.microsoft.com/windows/package-manager/winget/install, https://code.visualstudio.com/Download y https://obsidian.md/help/Getting%2Bstarted/Download%2Band%2Binstall%2BObsidian (consultado 2026-10-05).
 - Lore Plugin, fuente de instalación, comandos y ocho skills: `README.md`, `scripts/installer.mjs`, `scripts/lore-plugin.mjs` y `skills/` de este kit. El repositorio remoto debe contener 2.5 para que los comandos públicos instalen esta versión **[verificar al publicar]**. La octava skill, `stale-lore`, se describe en `skills/stale-lore/SKILL.md`.
-- Vespi 0.1.5 y evidencia: `skills/vespi/SKILL.md`, `skills/vespi/capabilities.md`, `docs/RELEASE_2.5.0.md` de este kit y el `README.md`, `docs/CAPABILITIES.md`, `docs/RELEASE_0.1.5_KERNEL.md`, `docs/WALKTHROUGH.md` y `docs/TESTNET_EVIDENCE.md` del repositorio del kernel. No implica una conexión en vivo desde el kit.
+- Vespi 0.1.5 y evidencia: `skills/vespi/SKILL.md`, `skills/vespi/capabilities.md`, `docs/RELEASE_2.5.0-rc.1.md` de este kit y el `README.md`, `docs/CAPABILITIES.md`, `docs/RELEASE_0.1.5_KERNEL.md`, `docs/WALKTHROUGH.md` y `docs/TESTNET_EVIDENCE.md` del repositorio del kernel. No implica una conexión en vivo desde el kit.
 
 ## Nota de procedencia
 

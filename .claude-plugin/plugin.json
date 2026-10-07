@@ -1,6 +1,6 @@
 {
   "name": "lore",
-  "version": "2.5.0",
+  "version": "2.5.0-rc.1",
   "description": "Provider-neutral project criterion that persists across agents, models, and sessions - written by you, one constraint at a time. Nine skills operate it: use-lore, brainstorming-lore, create-area, create-project, create-bot, save-to-lore, transmute-lore, stale-lore, vespi (experimental).",
   "author": {
     "name": "andresanemic"
