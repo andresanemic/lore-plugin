@@ -73,7 +73,7 @@ async function t03() {
       verify: async () => ({
         verified: true,
         checks: { "tres-fuentes-leidas": true, "escrito-en-el-arbol": false },
-        reason: "la operación额外的 efecto fue leer; la verificación mira que no se haya escrito",
+        reason: "la operación cuyo efecto fue leer; la verificación mira que no se haya escrito",
       }),
     },
   );

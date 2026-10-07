@@ -87,7 +87,7 @@ Archivos: `caso-2-estado.md` (34 líneas), `caso-2-recibo.json`.
 
 ### 1. ¿El resultado es usable?
 
-**Sí, y es el más utilizable de los tres como交接 humano, con una condición fuerte y declarada.**
+**Sí, y es el más utilizable de los tres como handoff humano, con una condición fuerte y declarada.**
 
 La nota se dirige explícitamente a quien tome el turno, se autolimita («No reemplaza al expediente: lo acompaña. Si el expediente y esta nota se contradicen, manda el expediente»), y hace bien esa autolimita.
 
@@ -202,7 +202,7 @@ Las marcas a favor:
 
 **El recibo tiene dos problemas, y uno es serio.**
 
-**(a) El campo de incertidumbre está vacío donde la prosa está llena.** `lo_que_el_recibo_dice_que_no_sabe: null`. La sección 4 de la nota enumera cuatro desconocimientos y los系 de ordered. El JSON dice `null`. Es la divergencia más limpia de los tres casos: el lado estructurado afirma, por omisión, que no hay nada que no se sepa, en el mismo caso cuya prosa declara que casi todo lo importante no se sabe. Un lector de JSON que no lea la prosa se lleva la impresión contraria de la que el documento quiere dejar.
+**(a) El campo de incertidumbre está vacío donde la prosa está llena.** `lo_que_el_recibo_dice_que_no_sabe: null`. La sección 4 de la nota enumera cuatro desconocimientos y los saca de ordered. El JSON dice `null`. Es la divergencia más limpia de los tres casos: el lado estructurado afirma, por omisión, que no hay nada que no se sepa, en el mismo caso cuya prosa declara que casi todo lo importante no se sabe. Un lector de JSON que no lea la prosa se lleva la impresión contraria de la que el documento quiere dejar.
 
 **(b) Los campos de delegación no significan nada fuera de este paquete.** `estado_tras_el_primer_resultado: "out_of_bounds"`, `violaciones_tras_la_entrega_limpia: 1`, `integracion_limpio` (clave con un `_limpio` que no sigue el nombre de los otros campos), y un valor que es texto de error crudo, con un punto y coma y dos cláusulas. `quien_verifico_fuera_de_la_accion: "el orquestador, comparando \`touched\` con lo que él mismo puede observar"` nombra un término —`touched`— que no aparece en ningún otro lugar del paquete. Todo esto es inverificable desde acá y, además, no es reproducible: no hay forma de reconstruir qué se comparó ni contra qué.
 

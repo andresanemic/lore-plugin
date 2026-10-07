@@ -58,7 +58,7 @@ Cada uno: qué le presta a 2.5, **dónde pierde**, o «sin perturbación pertine
 |---|---|---|
 | **`plugins/lore/principios.md` §31** | El salto se autoriza por su enunciado, no por su volumen; y la causa de que el kit se quedara en Mini | Pierde si el enunciado necesita taxonomía: ahí es capa y manda #24. El enunciado de 2.5 no la necesita |
 | **`plugins/lore/principios.md` #31 (cláusula del Mini)** | Un salto no degrada a pregunta en lenguaje llano: el cuerpo viejo nunca se reporta como roto | — |
-| **`andamiaje` #18 — se ejerce antes de publicar** | La ley que ordena este corte: benchmark antes de publicar, no al revés | `n=0`. Ningún corte salió por esta vía. **Este es el primero y por eso su失敗 sería el más caro** |
+| **`andamiaje` #18 — se ejerce antes de publicar** | La ley que ordena este corte: benchmark antes de publicar, no al revés | `n=0`. Ningún corte salió por esta vía. **Este es el primero y por eso sufallo sería el más caro** |
 | **`andamiaje` #19 — definición escrita** | Cada pieza se juzga por si alguien puede escribir hoy qué hace | Pierde si la definición se escribe después de encolarla |
 | **LUS, `el-tiempo-en-lus.md`** | *«La memoria existe para seguir colaborando.»* El presente es donde dialogan pasado y futuro | **Pierde como spec:** es una nota de investigación, no un protocolo. Presta el marco, no el método |
 | **LUS, Maturana y Varela** (`conjecture`, 1.26) | **El texto perturba y el receptor reconstruye; selecciona, nunca instruye.** Por eso un mensaje corto no es pérdida | Pierde fuera del Entre humano-IA: la autopoiesis está definida para lo vivo y no está demostrado aquí |

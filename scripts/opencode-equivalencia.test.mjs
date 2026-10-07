@@ -61,7 +61,7 @@ async function cargarComoOpenCode(configDir) {
   return funciones;
 }
 
-// ---蒙特aje -----------------------------------------------------------------------------
+// --- montaje -----------------------------------------------------------------------------
 
 function arbolConLore(base, nombre) {
   const dir = join(base, nombre);

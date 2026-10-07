@@ -168,7 +168,7 @@ test("el recordatorio cabe en un presupuesto de tokens que se puede leer de un v
   acuerdoAprobado(dir, { limites: [{ familia: "opus", nivel: "alto" }] });
   const context = contexto(corre(dir, "turno", { estadoDir: estadoTmp() }));
   assert.ok(Buffer.byteLength(context) <= 400,
-    `el turno超出了 su presupuesto: ${Buffer.byteLength(context)} bytes`);
+    `el turno excedió su presupuesto: ${Buffer.byteLength(context)} bytes`);
 });
 
 test("el recordatorio no repite ninguna linea de un cuerpo de Lore ya cargado", () => {
