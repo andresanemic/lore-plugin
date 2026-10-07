@@ -1,7 +1,11 @@
 ---
 name: save-to-lore
 description: >-
-  Use when saving a lesson to the Lore after a worthwhile fix, distilling an external body of criteria, or reviewing loose notes. Trigger on "save to lore", "distill this skill", "destila esta skill", "revisa mis notas", or after a friction passes the Lore bar (constraint + signal + executability + genericity). Not yours: designing a new shape for the work belongs to brainstorming-lore or use-lore; operating an existing Lore method belongs to transmute-lore.
+  Use when saving a lesson to the Lore after a worthwhile fix, distilling an external body of
+  criteria, or reviewing loose notes. Trigger on "save to lore", "distill this skill", "destila esta
+  skill", "revisa mis notas", or after a friction produced a reusable lesson. Not yours: designing a
+  new shape for the work belongs to brainstorming-lore or use-lore; operating an existing Lore method
+  belongs to transmute-lore.
 ---
 
 # save-to-lore — Incremental capture and promotion

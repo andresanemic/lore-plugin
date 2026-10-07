@@ -1,11 +1,10 @@
 ---
 name: stale-lore
 description: >-
-  Use when verifying which published kit capabilities have gone unexercised and withdrawing them
-  declaratively. Trigger on "stale-lore", "retira capacidades", "capacidades sin ejercicio",
-  "purge unused skills", or when the kit's published surface needs to be reconciled against actual
-  usage in the user's tree. Not yours: operating a project's criteria body belongs to transmute-lore;
-  saving one lesson belongs to save-to-lore.
+  Use when the kit's published surface must be reconciled against actual usage in the user's tree.
+  Trigger on "stale-lore", "retira capacidades", "capacidades sin ejercicio", "purge unused skills",
+  or after a major refactoring that renames or replaces published capabilities. Not yours: operating a
+  project's criteria body belongs to transmute-lore; saving one lesson belongs to save-to-lore.
 ---
 
 # stale-lore — Retiro declarativo de capacidades sin ejercicio

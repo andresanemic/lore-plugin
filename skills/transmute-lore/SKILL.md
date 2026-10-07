@@ -1,7 +1,11 @@
 ---
 name: transmute-lore
 description: >-
-  Use when a project's existing criteria must be operated as a whole: migrate, clean, translate, upgrade, prune, leave Lore, crystallize, export as Markdown, or run MYCELIUM. Also for scattered criteria, duplicated project modules, mixed languages, older skills, or checking whether Lore is connected. Trigger on "transmute", "poda en lore", "prune-lore", "crystallize Lore", "run MYCELIUM", or "corre el micelio". Not yours: adding one lesson belongs to save-to-lore; designing new Lore belongs to brainstorming-lore.
+  Use when a project's existing criteria must be operated as a whole, or when criteria are scattered,
+  duplicated, in mixed languages, or possibly disconnected. Also for older skills that need migration.
+  Trigger on "transmute", "poda en lore", "prune-lore", "crystallize Lore", "run MYCELIUM", "corre el
+  micelio", or "leave Lore". Not yours: adding one lesson belongs to save-to-lore; designing new Lore
+  belongs to brainstorming-lore.
 ---
 
 # Transmute Lore
