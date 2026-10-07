@@ -206,7 +206,7 @@ test("SessionStart establishes a silent baseline before the first tool", () => {
 test("SessionStart is silent even when the receipt was already stale from before", () => {
   const dir = tree();
   writeFileSync(join(dir, receipt),
-    `${JSON.stringify({ version: 2, digest: "0".repeat(64), alwaysOnBytes: 0 })}\n`);
+    `${JSON.stringify({ version: 2, digest: "0".repeat(64), alwaysOnBytes: 0, sweepType: "structural" })}\n`);
   assert.equal(run(dir, "session_start"), "");
   // no evalúa en el arranque: no reescribe el recibo desfasado
   assert.equal(JSON.parse(readFileSync(join(dir, receipt), "utf8")).digest, "0".repeat(64));
@@ -241,7 +241,7 @@ test("SessionStart stays silent on a packaged bot with the rule and no canon", (
 test("a receipt stale from before the session stays silent until an in-session change", () => {
   const dir = tree();
   writeFileSync(join(dir, receipt),
-    `${JSON.stringify({ version: 2, digest: "0".repeat(64), alwaysOnBytes: 0 })}\n`);
+    `${JSON.stringify({ version: 2, digest: "0".repeat(64), alwaysOnBytes: 0, sweepType: "structural" })}\n`);
   run(dir, "session_start");
   assert.equal(run(dir, "post_tool_use"), "");
   write(dir, "lore/principios.md", "# Principios\n\n## Nueva\n");

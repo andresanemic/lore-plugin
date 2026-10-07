@@ -146,7 +146,7 @@ test("CLI migrates a current v1 receipt with write authority but without expansi
   const result = spawnSync("node", [cli, "mycelium", "receipt", "--tree", dir, "--accept-always-on"], { encoding: "utf8" });
   assert.equal(result.status, 0, result.stderr);
   assert.deepEqual(readReceipt(dir), {
-    version: 2, digest: current.digest, alwaysOnBytes: 0,
+    version: 2, digest: current.digest, alwaysOnBytes: 0, sweepType: "structural",
   });
 });
 

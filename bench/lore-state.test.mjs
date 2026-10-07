@@ -76,6 +76,7 @@ test("readReceipt accepts valid v2", () => {
     version: 2,
     digest: "b".repeat(64),
     alwaysOnBytes: 28418,
+    sweepType: "structural",
   });
 });
 

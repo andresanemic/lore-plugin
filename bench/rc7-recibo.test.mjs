@@ -640,7 +640,7 @@ test("la entrada local escribe un recibo real sin npm, y su huella se recalcula 
   assert.equal(recibo.digest, huellaLore(tree), "la huella debe ser la del contenido del Lore");
   assert.ok(Number.isInteger(recibo.alwaysOnBytes) && recibo.alwaysOnBytes > 0, "alwaysOnBytes debe estar grabado");
 
-  const permitidos = new Set(["version", "digest", "alwaysOnBytes", "announce"]);
+  const permitidos = new Set(["version", "digest", "alwaysOnBytes", "announce", "sweepType"]);
   for (const clave of Object.keys(recibo)) {
     assert.ok(permitidos.has(clave), `"${clave}" no es un hecho derivado del contenido: un recibo no certifica una revisión`);
   }
