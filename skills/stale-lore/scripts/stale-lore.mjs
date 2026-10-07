@@ -4,174 +4,170 @@
  *
  * Funciones puras que la skill invoca como procedimiento; sin efectos laterales
  * salvo escribir el changelog de retiros y leer el arbol para comprobar rastro.
- * Cubiertas por scripts/stale-lore.test.mjs.
+ *
+ * Diseno corregido el 2026-10-07 tras la primera corrida real (ver
+ * `stale-lore.red.test.mjs` y el recibo `PRUEBA-EN-VIVO-2.5.md`). La version de 2.5
+ * media una *mencion textual* y por eso daba falso-rojo sobre el kit (nadie menciona
+ * las capacidades ahi) y falso-verde si un FASES las nombraba. Ahora mide *artefacto*:
+ * el rastro es la forma de lo que la capacidad produce en el arbol del usuario.
+ *
+ * Regla de honestidad: una capacidad sin detector declarado no se puede declarar
+ * `stale` — se reporta como `sinDetector` y no se retira. No se afirma lo que no
+ * se midio.
  *
  * El campo `ejercido` que este modulo escribe en el recibo del kernel
  * sera leido por el kernel 0.1.5 cuando este exponga el contrato.
- * Hora funciona como extension compatible con 0.1.4.
  */
 
-import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs';
-import { join, resolve, basename } from 'node:path';
+import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
 
 export const STALE_POR_DEFECTO_DIAS = 7;
 
-// --- 1. Derivar capacidades centrales ---
+// La capacidad que mide no es la capacidad medida: no se retira a si misma.
+const CAPACIDAD_MEDIDORA = 'stale-lore';
 
-const CAPACIDADES_DESCRIPCIONES = {
-  'create-area': ['create-area', 'area'],
-  'create-project': ['create-project', 'proyecto'],
-  'create-bot': ['create-bot', 'bot'],
-  'use-lore': ['use-lore', 'mapa'],
-  'save-to-lore': ['save-to-lore', 'captura', 'destila'],
-  'transmute-lore': ['transmute-lore', 'transmute', 'poda', 'micelio'],
-  'brainstorming-lore': ['brainstorming-lore', 'brainstorm'],
-  'vespi': ['vespi', 'operacion bajo presion'],
-  'stale-lore': ['stale-lore', 'retira capacidades'],
-};
+// --- 1. Derivar capacidades centrales del arbol ---
 
 /**
- * Deriva la lista de capacidades centrales del kit desde:
- * - Skills con frontmatter en el arbol (directorio skills/<nombre>/SKILL.md)
- * - README que anuncie las skills del kit
- * - Contratos (CLAUDE.md, AGENTS.md) con el bloque lore:always-on
+ * Deriva la lista de capacidades centrales del arbol: una skill es una capacidad.
+ * La fuente es `skills/<nombre>/SKILL.md`. No hay lista hardcodeada: si el arbol
+ * no tiene skills, no declara capacidades.
  */
 export function leeCapacidadesCentrales(raiz) {
-  const capacidades = new Set();
-
-  // Leer skills del arbol
+  const capacidades = [];
   const skillsDir = join(raiz, 'skills');
-  if (existsSync(skillsDir)) {
-    try {
-      const entries = readFileSync(skillsDir, 'utf8');
-    } catch {}
-    try {
-      const { readdirSync } = require('node:fs');
-      for (const name of readdirSync(skillsDir)) {
-        const skillMd = join(skillsDir, name, 'SKILL.md');
-        if (existsSync(skillMd)) capacidades.add(name);
-      }
-    } catch {}
+  if (!existsSync(skillsDir) || !statSync(skillsDir).isDirectory()) return capacidades;
+  for (const name of readdirSync(skillsDir)) {
+    if (existsSync(join(skillsDir, name, 'SKILL.md'))) capacidades.push(name);
   }
-
-  // Leer README.md
-  const readmePath = join(raiz, 'README.md');
-  if (existsSync(readmePath)) {
-    try {
-      const readme = readFileSync(readmePath, 'utf8').toLowerCase();
-      for (const [capacidad, terminos] of Object.entries(CAPACIDADES_DESCRIPCIONES)) {
-        for (const termino of terminos) {
-          if (readme.includes(termino.toLowerCase())) {
-            capacidades.add(capacidad);
-            break;
-          }
-        }
-      }
-    } catch {}
-  }
-
-  // Leer contratos con lore:always-on
-  for (const contrato of ['CLAUDE.md', 'AGENTS.md']) {
-    const path = join(raiz, contrato);
-    if (existsSync(path)) {
-      try {
-        const contenido = readFileSync(path, 'utf8');
-        if (contenido.includes('<!-- lore:always-on -->')) {
-          // Extraer menciones de skills
-          for (const capacidad of Object.keys(CAPACIDADES_DESCRIPCIONES)) {
-            if (contenido.toLowerCase().includes(capacidad.toLowerCase())) {
-              capacidades.add(capacidad);
-            }
-          }
-        }
-      } catch {}
-    }
-  }
-
-  // Siempre incluir las capacidades canonicas del kit
-  for (const cap of Object.keys(CAPACIDADES_DESCRIPCIONES)) {
-    capacidades.add(cap);
-  }
-
-  return [...capacidades].sort();
+  return capacidades.sort();
 }
 
-// --- 2. Buscar rastro de uso ---
+// --- 2. Mapa de rastros: que artefacto deja cada capacidad y donde ---
+
+const esDirectorio = (p) => {
+  try { return statSync(p).isDirectory(); } catch { return false; }
+};
+const esArchivo = (p) => {
+  try { return statSync(p).isFile(); } catch { return false; }
+};
+
+/** Recorre un directorio y devuelve los archivos cuyo contenido cumple `predicado`. */
+function archivosCon(raiz, subdir, predicado, limite = 400) {
+  const base = join(raiz, subdir);
+  const hallados = [];
+  if (!esDirectorio(base)) return hallados;
+  const pila = [base];
+  while (pila.length && hallados.length < limite) {
+    const actual = pila.pop();
+    let entradas;
+    try { entradas = readdirSync(actual, { withFileTypes: true }); } catch { continue; }
+    for (const e of entradas) {
+      const p = join(actual, e.name);
+      if (e.isDirectory()) { if (!e.name.startsWith('.')) pila.push(p); continue; }
+      if (!e.isFile() || !e.name.endsWith('.md')) continue;
+      try { if (predicado(readFileSync(p, 'utf8'))) hallados.push(p); } catch {}
+    }
+  }
+  return hallados;
+}
+
+/**
+ * Rastro por capacidad: la forma de lo que produce, buscada donde el usuario trabaja.
+ * `null` = sin detector declarado (no se puede afirmar stale).
+ * Cada detector devuelve las fuentes halladas (vacío = no ejercida).
+ */
+const RASTROS = {
+  'save-to-lore': (raiz) => {
+    const pistas = archivosCon(raiz, 'lore', (t) => /\*\*Pista\b/.test(t));
+    return pistas.length ? ['lore:Pista'] : [];
+  },
+  'use-lore': (raiz) => {
+    const fuentes = [];
+    for (const contrato of ['CLAUDE.md', 'AGENTS.md']) {
+      const p = join(raiz, contrato);
+      if (esArchivo(p)) {
+        try { if (readFileSync(p, 'utf8').includes('<!-- lore:always-on -->')) fuentes.push(`contrato:${contrato}`); } catch {}
+      }
+    }
+    return fuentes;
+  },
+  'transmute-lore': (raiz) => {
+    const fuentes = [];
+    const changelog = join(raiz, 'CHANGELOG.md');
+    if (esArchivo(changelog)) {
+      try { if (/## Capacidades retiradas/.test(readFileSync(changelog, 'utf8'))) fuentes.push('changelog:retiros'); } catch {}
+    }
+    return fuentes;
+  },
+  'brainstorming-lore': (raiz) => {
+    const acuerdos = archivosCon(raiz, 'specs', (t) => /^# .*acuerdo/im.test(t) || /acuerdo de/i.test(t));
+    return acuerdos.length ? ['specs:acuerdo'] : [];
+  },
+  'create-area': (raiz) => {
+    const fuentes = [];
+    if (esDirectorio(join(raiz, 'lore')) && (esDirectorio(join(raiz, 'proyectos')) || esDirectorio(join(raiz, 'projects')))) {
+      fuentes.push('area:lore+proyectos');
+    }
+    return fuentes;
+  },
+  'create-bot': (raiz) => {
+    const fuentes = [];
+    if (esDirectorio(join(raiz, 'canon')) && esDirectorio(join(raiz, 'lore')) && esArchivo(join(raiz, 'CLAUDE.md'))) {
+      fuentes.push('bot:canon+lore+contrato');
+    }
+    return fuentes;
+  },
+  'vespi': (raiz) => {
+    const fuentes = [];
+    const recibos = join(raiz, '.lore', 'receipts');
+    if (esDirectorio(recibos)) {
+      try { if (readdirSync(recibos).some((f) => f.endsWith('.json'))) fuentes.push('recibos:kernel'); } catch {}
+    }
+    const operaciones = archivosCon(raiz, 'operations', (t) => /^#\s.*recibo/im.test(t));
+    if (operaciones.length) fuentes.push('operations:recibo');
+    return fuentes;
+  },
+  // Sin detector declarado todavia: no se afirma nada sobre ellas.
+  'create-project': null,
+  [CAPACIDAD_MEDIDORA]: null,
+};
+
+// --- 3. Buscar rastro de uso ---
 
 /**
  * Busca rastro de que una capacidad se ejercio en el arbol del usuario.
- * Fuentes de rastro:
- * - Recibos del kernel (.lore/receipts/<capacidad>.json)
- * - FASES.md (menciones en operaciones)
- * - Archivos del arbol (menciones en contenido)
- * Retorna { encontrado, ultimoUso, fuentes }.
+ * Retorna { encontrado, ultimoUso, fuentes, sinDetector }.
+ * `ultimoUso` es null salvo que una fuente traiga fecha propia; no se fabrica.
  */
 export function buscaRastroCapacidad(capacidad, raiz, opciones = {}) {
-  const ahora = opciones.ahora || new Date();
-  const fuentes = [];
-  let ultimoUso = null;
-
-  // Recibos del kernel
-  const receiptsDir = join(raiz, '.lore', 'receipts');
-  const receiptFile = join(receiptsDir, `${capacidad}.json`);
-  if (existsSync(receiptFile)) {
-    try {
-      const raw = readFileSync(receiptFile, 'utf8');
-      const recibos = JSON.parse(raw);
-      if (Array.isArray(recibos) && recibos.length > 0) {
-        // Ordenar por fecha descendiente
-        const ordenados = [...recibos]
-          .filter(r => r.at || r.fecha)
-          .sort((a, b) => new Date(b.at || b.fecha) - new Date(a.at || a.fecha));
-        if (ordenados.length > 0) {
-          ultimoUso = ordenados[0].at || ordenados[0].fecha;
-          fuentes.push('recibo');
-        }
-      }
-    } catch {}
+  const detector = Object.prototype.hasOwnProperty.call(RASTROS, capacidad) ? RASTROS[capacidad] : null;
+  if (!detector) {
+    return { encontrado: false, ultimoUso: null, fuentes: [], sinDetector: true };
   }
-
-  // FASES.md
-  for (const fasesFile of ['FASES.md', 'fases.md']) {
-    const fasesPath = join(raiz, fasesFile);
-    if (existsSync(fasesPath)) {
-      try {
-        const contenido = readFileSync(fasesPath, 'utf8');
-        if (contenido.toLowerCase().includes(capacidad.toLowerCase())) {
-          fuentes.push('fases');
-          // No extraemos fecha de FASES.md; el mero hecho de mencion es rastro reciente
-          if (!ultimoUso) ultimoUso = ahora.toISOString();
-        }
-      } catch {}
-    }
-  }
-
-  return {
-    encontrado: fuentes.length > 0,
-    ultimoUso,
-    fuentes,
-  };
+  const fuentes = detector(raiz) || [];
+  return { encontrado: fuentes.length > 0, ultimoUso: null, fuentes, sinDetector: false };
 }
 
-// --- 3. Calculo de dias sin rastro ---
+// --- 4. Calculo de dias sin rastro ---
 
 /**
  * Calcula los dias entre la ultima fecha de uso y ahora.
- * Retorna null si no hay fecha de uso (nunca se ejercio).
+ * Retorna null si no hay fecha de uso (nunca se ejercio). Nunca inventa una cifra.
  */
 export function diasSinRastro(ultimoUso, ahora) {
   if (!ultimoUso) return null;
   const ultimo = new Date(ultimoUso);
-  const diff = ahora.getTime() - ultimo.getTime();
-  return Math.floor(diff / 86400000);
+  if (Number.isNaN(ultimo.getTime())) return null;
+  return Math.floor((ahora.getTime() - ultimo.getTime()) / 86400000);
 }
 
-// --- 4. Marcar campo ejercido en recibo ---
+// --- 5. Marcar campo ejercido en recibo ---
 
 /**
  * Actualiza el campo `ejercido` en un recibo del kernel.
  * Estados validos: 'ejercido' | 'no-ejercido' | 'stale'.
- * El kernel 0.1.5 leera este campo; en 0.1.4 se escribe como extension compatible.
  * Retorna una copia del recibo con el campo actualizado (no muta el original).
  */
 export function marcaEjercido(recibo, estado) {
@@ -179,91 +175,75 @@ export function marcaEjercido(recibo, estado) {
   if (!estadosValidos.has(estado)) {
     throw new Error(`estado ejercido invalido: ${estado}. Validos: ${[...estadosValidos].join(', ')}`);
   }
-  return {
-    ...recibo,
-    ejercido: estado,
-    ejercido_en: new Date().toISOString(),
-  };
+  return { ...recibo, ejercido: estado, ejercido_en: new Date().toISOString() };
 }
 
-// --- 5. Verificar si una capacidad esta stale ---
+// --- 6. Verificar si una capacidad esta stale ---
 
 /**
- * Determina si una capacidad esta stale (sin rastro en el umbral configurado).
- * Retorna { stale, dias, nuncaEjercida, umbral }.
+ * Determina si una capacidad esta stale. Una capacidad sin detector no es stale:
+ * no se afirma lo que no se midio.
+ * Retorna { stale, dias, nuncaEjercida, umbral, sinDetector }.
  */
 export function verificaStale(capacidad, opciones = {}) {
   const ahora = opciones.ahora || new Date();
   const umbral = opciones.umbralDias || STALE_POR_DEFECTO_DIAS;
-  const ultimoUso = opciones.ultimoUso;
+  const { ultimoUso = null, encontrado = false, sinDetector = false } = opciones;
 
-  if (!ultimoUso) {
-    return { stale: true, dias: null, nuncaEjercida: true, umbral, capacidad };
+  if (sinDetector) {
+    return { stale: false, dias: null, nuncaEjercida: false, umbral, capacidad, sinDetector: true };
   }
-
+  if (!encontrado && !ultimoUso) {
+    return { stale: true, dias: null, nuncaEjercida: true, umbral, capacidad, sinDetector: false };
+  }
   const dias = diasSinRastro(ultimoUso, ahora);
-  return {
-    stale: dias > umbral,
-    dias,
-    nuncaEjercida: false,
-    umbral,
-    capacidad,
-  };
+  if (dias === null) {
+    // Hay rastro sin fecha propia: ejercida, sin dias que medir.
+    return { stale: false, dias: null, nuncaEjercida: false, umbral, capacidad, sinDetector: false };
+  }
+  return { stale: dias > umbral, dias, nuncaEjercida: false, umbral, capacidad, sinDetector: false };
 }
 
-// --- 6. Ejecutar retiro con rastro declarativo ---
+// --- 7. Ejecutar retiro con rastro declarativo ---
 
 /**
  * Escribe entradas de retiro en el CHANGELOG del arbol.
- * Cada entrada tiene: capacidad, fecha, diasSinUso, razon, reemplazo (o null).
- * Secciones: "## Capacidades retiradas".
+ * Cada entrada: capacidad, fecha, diasSinUso (null = nunca), razon, reemplazo (o null).
  */
 export function ejecutaRetiro(raiz, entradas) {
   if (!Array.isArray(entradas) || entradas.length === 0) return;
-
   const changelogPath = join(raiz, 'CHANGELOG.md');
-  let contenido = '';
-  if (existsSync(changelogPath)) {
-    contenido = readFileSync(changelogPath, 'utf8');
-  }
+  let contenido = existsSync(changelogPath) ? readFileSync(changelogPath, 'utf8') : '';
 
-  const retiradas = entradas
-    .map(e => {
-      const mig = e.reemplazo
-        ? `**Migracion:** usar ${e.reemplazo}\n`
-        : `**Estado:** sin soporte\n`;
-      return `- **${e.capacidad}** — retirada el ${e.fecha}. Sin rastro de uso en ${e.diasSinUso} dias. Razon: ${e.razon}\n${mig}`;
-    })
-    .join('\n');
+  const retiradas = entradas.map((e) => {
+    const cuando = e.diasSinUso === null || e.diasSinUso === undefined
+      ? 'nunca se ejercio'
+      : `sin rastro de uso en ${e.diasSinUso} dias`;
+    const mig = e.reemplazo ? `**Migracion:** usar ${e.reemplazo}\n` : `**Estado:** sin soporte\n`;
+    return `- **${e.capacidad}** — retirada el ${e.fecha}. ${cuando}. Razon: ${e.razon}\n${mig}`;
+  }).join('\n');
 
   const seccion = `\n## Capacidades retiradas\n\n${retiradas}\n`;
-
-  // Insertar seccion despues del primer H1 si existe
   if (!contenido.includes('## Capacidades retiradas')) {
-    const h1Index = contenido.indexOf('\n# ');
-    if (h1Index !== -1) {
-      const insertPoint = contenido.indexOf('\n', h1Index + 1);
-      contenido = contenido.slice(0, insertPoint) + '\n' + seccion + contenido.slice(insertPoint);
+    const h1 = contenido.indexOf('\n# ');
+    if (h1 !== -1) {
+      const punto = contenido.indexOf('\n', h1 + 1);
+      contenido = contenido.slice(0, punto) + '\n' + seccion + contenido.slice(punto);
     } else {
       contenido = contenido + seccion;
     }
   } else {
-    // Anadir a la seccion existente
-    contenido = contenido.replace(
-      /## Capacidades retiradas\n/,
-      `## Capacidades retiradas\n\n${retiradas}\n`
-    );
+    contenido = contenido.replace(/## Capacidades retiradas\n/, `## Capacidades retiradas\n\n${retiradas}\n`);
   }
-
   writeFileSync(changelogPath, contenido);
 }
 
-// --- 7. Flujo completo (orquestador) ---
+// --- 8. Flujo completo (orquestador) ---
 
 /**
- * Ejecuta el ciclo completo: deriva capacidades, busca rastro, verifica stale,
- * retira las que pasaron el umbral. Retira en el changelog y marca recibos.
- * Solo modo lectura si opciones.dryRun es true.
+ * Ciclo completo: deriva capacidades, busca rastro, verifica stale, retira las que
+ * pasaron el umbral. Nunca retira la capacidad medidora ni una sin detector.
+ * Solo lectura si opciones.dryRun es true.
  */
 export function ejecutaStaleLore(raiz, opciones = {}) {
   const umbral = opciones.umbralDias || STALE_POR_DEFECTO_DIAS;
@@ -274,7 +254,13 @@ export function ejecutaStaleLore(raiz, opciones = {}) {
 
   for (const cap of capacidades) {
     const rastro = buscaRastroCapacidad(cap, raiz, { ahora });
-    const stale = verificaStale(cap, { ultimoUso: rastro.ultimoUso, umbralDias: umbral, ahora });
+    const stale = verificaStale(cap, {
+      ultimoUso: rastro.ultimoUso,
+      encontrado: rastro.encontrado,
+      sinDetector: rastro.sinDetector,
+      umbralDias: umbral,
+      ahora,
+    });
 
     evaluadas.push({
       capacidad: cap,
@@ -283,26 +269,20 @@ export function ejecutaStaleLore(raiz, opciones = {}) {
       ...stale,
     });
 
-    if (stale.stale) {
+    if (stale.stale && cap !== CAPACIDAD_MEDIDORA) {
       retiros.push({
         capacidad: cap,
         fecha: ahora.toISOString().slice(0, 10),
-        diasSinUso: stale.dias || 999,
+        diasSinUso: stale.dias,
         razon: stale.nuncaEjercida
-          ? 'sin rastro de uso en el arbol; nunca se ejercio'
+          ? 'sin artefacto que pruebe ejercicio en el arbol'
           : `sin rastro de uso en ${stale.dias} dias`,
         reemplazo: opciones.reemplazos?.[cap] || null,
       });
     }
   }
 
-  if (!opciones.dryRun && retiros.length > 0) {
-    ejecutaRetiro(raiz, retiros);
-  }
+  if (!opciones.dryRun && retiros.length > 0) ejecutaRetiro(raiz, retiros);
 
-  return {
-    evaluadas,
-    retiros,
-    dryRun: !!opciones.dryRun,
-  };
+  return { evaluadas, retiros, dryRun: !!opciones.dryRun };
 }

@@ -10,6 +10,7 @@ import {
   marcaEjercido,
   verificaStale,
   ejecutaRetiro,
+  ejecutaStaleLore,
   STALE_POR_DEFECTO_DIAS,
 } from './stale-lore.mjs';
 
@@ -34,10 +35,12 @@ test('STALE_POR_DEFECTO_DIAS es 7', () => {
   assert.equal(STALE_POR_DEFECTO_DIAS, 7);
 });
 
-test('leeCapacidadesCentrales deriva capacidades del README', () => {
+test('leeCapacidadesCentrales deriva capacidades de las skills del arbol', () => {
   const { root, cleanup } = arbolTemporal();
   test.after(cleanup);
-  escribe(root, 'README.md', `# Lore Kit\n\n## The eight skills\n\nLas ocho skills del kit son:\n- create-area: inicia un area de trabajo\n- create-project: inicia un proyecto\n- create-bot: construye un bot\n- use-lore: el mapa\n- save-to-lore: captura lecciones\n- transmute-lore: opera el cuerpo de criterio\n- brainstorming-lore: disena formas de trabajo\n- vespi: opera bajo presion\n`);
+  escribe(root, 'skills/create-area/SKILL.md', `---\nname: create-area\n---\n# Create Area\n`);
+  escribe(root, 'skills/use-lore/SKILL.md', `---\nname: use-lore\n---\n# Use Lore\n`);
+  escribe(root, 'skills/vespi/SKILL.md', `---\nname: vespi\n---\n# Vespi\n`);
   const caps = leeCapacidadesCentrales(root);
   assert.ok(caps.includes('create-area'), 'create-area debe estar en capacidades centrales');
   assert.ok(caps.includes('use-lore'), 'use-lore debe estar en capacidades centrales');
@@ -55,30 +58,28 @@ test('leeCapacidadesCentrales lee skills con lore:always-on', () => {
   assert.ok(caps.length > 0, 'debe encontrar al menos una capacidad derivada del arbol');
 });
 
-test('buscaRastroCapacidad encuentra rastro en recibos del kernel', () => {
+test('buscaRastroCapacidad encuentra rastro en recibos del kernel (vespi)', () => {
   const { root, cleanup } = arbolTemporal();
   test.after(cleanup);
   const recibo = {
-    capability: 'use-lore',
+    capability: 'vespi',
     at: new Date().toISOString(),
     status: 'verified',
     operation: { id: 'op-1', goal: 'resolver conflicto' },
   };
-  escribe(root, '.lore/receipts/use-lore.json', JSON.stringify([recibo]));
-  const rastro = buscaRastroCapacidad('use-lore', root, { ahora: new Date() });
+  escribe(root, '.lore/receipts/vespi.json', JSON.stringify([recibo]));
+  const rastro = buscaRastroCapacidad('vespi', root, { ahora: new Date() });
   assert.equal(rastro.encontrado, true);
-  assert.equal(rastro.fuentes.includes('recibo'), true);
-  assert.equal(rastro.ultimoUso, recibo.at);
+  assert.equal(rastro.fuentes.includes('recibos:kernel'), true);
 });
 
-test('buscaRastroCapacidad encuentra rastro en FASES.md', () => {
+test('buscaRastroCapacidad NO cuenta una mencion en FASES.md como uso', () => {
   const { root, cleanup } = arbolTemporal();
   test.after(cleanup);
-  const hace3Dias = new Date(Date.now() - 3 * 86400000).toISOString().slice(0, 10);
-  escribe(root, 'FASES.md', `# Estado\n\n## Operaciones\n\n- [${hace3Dias}] op: invoco use-lore para resolver conflicto\n`);
+  escribe(root, 'FASES.md', `# Estado\n\nPendiente: revisar use-lore en algun momento.\n`);
   const rastro = buscaRastroCapacidad('use-lore', root, { ahora: new Date() });
-  assert.equal(rastro.encontrado, true);
-  assert.equal(rastro.fuentes.includes('fases'), true);
+  assert.equal(rastro.encontrado, false, 'una mencion textual no es un artefacto de uso');
+  assert.deepEqual(rastro.fuentes, []);
 });
 
 test('buscaRastroCapacidad no encuentra rastro cuando no existe', () => {
@@ -181,29 +182,13 @@ test('ejecutaRetiro declara migracion cuando hay reemplazo', () => {
   assert.match(changelog, /20 dias/);
 });
 
-test('end-to-end: detecta capacidad stale y la retira con rastro', () => {
+test('end-to-end: un arbol con Pista en lore/ deja save-to-lore como ejercida', () => {
   const { root, cleanup } = arbolTemporal();
   test.after(cleanup);
-  // capacidad que se ejercio hace 30 dias
-  const hace30Dias = new Date(Date.now() - 30 * 86400000).toISOString();
-  const recibo = { capability: 'transmute-lore', at: hace30Dias, status: 'verified', operation: { id: 'op-old', goal: 'limpiar' } };
-  escribe(root, '.lore/receipts/transmute-lore.json', JSON.stringify([recibo]));
-  // buscar rastro
-  const rastro = buscaRastroCapacidad('transmute-lore', root, { ahora: new Date() });
-  assert.equal(rastro.encontrado, true);
-  // verificar stale
-  const stale = verificaStale('transmute-lore', { ultimoUso: rastro.ultimoUso, ahora: new Date() });
-  assert.equal(stale.stale, true);
-  assert.ok(stale.dias >= 30);
-  // retirar
-  escribe(root, 'CHANGELOG.md', `# Changelog\n`);
-  ejecutaRetiro(root, [{
-    capacidad: 'transmute-lore',
-    fecha: new Date().toISOString().slice(0, 10),
-    diasSinUso: stale.dias,
-    razon: `sin rastro en ${stale.dias} dias`,
-    reemplazo: null,
-  }]);
-  const changelog = readFileSync(join(root, 'CHANGELOG.md'), 'utf8');
-  assert.match(changelog, /transmute-lore/);
+  escribe(root, 'skills/save-to-lore/SKILL.md', `---\nname: save-to-lore\n---\n# Save\n`);
+  escribe(root, 'lore/principios.md', `# Principios\n\n## Una leccion — \`confirmed\`\n\n**Pista.** ...\n`);
+  const r = ejecutaStaleLore(root, { dryRun: true });
+  const evaluada = r.evaluadas.find((x) => x.capacidad === 'save-to-lore');
+  assert.equal(evaluada.nuncaEjercida, false);
+  assert.equal(evaluada.encontrado, true);
 });
