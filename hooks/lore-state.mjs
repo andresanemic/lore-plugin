@@ -51,6 +51,12 @@ const MAX_BYTES = 2_000_000;
 
 export const RECEIPT = ".lore-mycelium";
 
+// El receipt distingue entre escaneo estructural (bodies/federated) y escaneo completo
+// (cada pista con su paso). El cierre de MYCELIUM no se da por hecho tras correr solo
+// los escaneos estructurales: el receipt registra qué tipo de escaneo se hizo.
+export const SWEEP_TYPES = ["structural", "full"];
+export const SWEEP_TYPE_DEFAULT = "structural";
+
 export function loreFiles(root, { maxDepth = MAX_DEPTH } = {}) {
   const found = [];
   const walk = (dir, depth) => {
@@ -168,6 +174,7 @@ export function readReceipt(root) {
       version: 2,
       digest: receipt.digest,
       alwaysOnBytes: receipt.alwaysOnBytes,
+      sweepType: SWEEP_TYPES.includes(receipt.sweepType) ? receipt.sweepType : SWEEP_TYPE_DEFAULT,
     };
     // El pool solo aparece si está: un recibo sin Anuncio y uno con el pool en
     // cero no son el mismo hecho, y la clave ausente es la que dice «nunca hubo».
@@ -187,10 +194,13 @@ export function writeReceipt(root, state = snapshot(root)) {
     throw new TypeError("Invalid Lore snapshot");
   }
 
+  const sweepType = SWEEP_TYPES.includes(state.sweepType) ? state.sweepType : SWEEP_TYPE_DEFAULT;
+
   const receipt = {
     version: 2,
     digest: state.digest,
     alwaysOnBytes: state.alwaysOnBytes,
+    sweepType,
   };
   // El pool del Anuncio sobrevive al barrido. Sin esto se borraría en cada
   // recibo, que es lo mismo que no llevar estado: el pool nunca se agotaría.

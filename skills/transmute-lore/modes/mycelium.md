@@ -273,6 +273,8 @@ the connection review that precedes it. When the review was performed and the re
 written, say exactly that — both halves, in one sentence. When the receipt was written, say the
 digest, not "reviewed".
 
+**It records which scan ran, and the two are not the same — 2.5.0.** `receipt` takes `--sweep-type structural|full` (default: `structural`). A `structural` receipt records that `mycelium bodies` and/or `mycelium federated` ran — the index reaches each module, the triplete rule is declared — and says so in its output: it does **not** certify that the full MYCELIUM sweep ran. A `full` receipt records that the complete pass ran (every clue getting a step, a junction written or declined with its reason). The defect corrected here: the bot reported «the MYCELIUM sweep passed» after running only the structural scans, and the full sweep had not run. The receipt now carries the distinction, and its output says what it does not certify.
+
 It writes receipt v2 to `.lore-mycelium` at the tree root: a digest of the **content** of every Lore
 file the tree holds plus `alwaysOnBytes`, the normalized size of criterion bodies loaded for every
 task. The Claude Code `Stop` hook and the Codex `SessionStart` + `PostToolUse` pair compare that state

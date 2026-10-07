@@ -34,7 +34,7 @@ const tree = args.includes("--tree") ? resolve(args[args.indexOf("--tree") + 1])
 
 function usage(stream = process.stderr) {
   stream.write([
-    "Usage: lore-cli mycelium receipt   [--tree <dir>] [--accept-always-on]",
+    "Usage: lore-cli mycelium receipt   [--tree <dir>] [--sweep-type structural|full] [--accept-always-on]",
     "       lore-cli mycelium bodies    [--tree <dir>]",
     "       lore-cli mycelium federated [--tree <dir>]",
     "       lore-cli mycelium announce  [--tree <dir>]",
@@ -58,6 +58,16 @@ if (command === "mycelium") {
   const sub = args[1];
   if (!["receipt", "bodies", "announce", "federated"].includes(sub)) {
     usage();
+    process.exit(2);
+  }
+
+  // The receipt distinguishes between structural scan (bodies/federated) and full scan
+  // (every clue with its step). MYCELIUM closure is not taken for granted after running only
+  // the structural scans: the receipt records which type of scan was performed.
+  const sweepTypeIndex = args.indexOf("--sweep-type");
+  const sweepType = sweepTypeIndex === -1 ? "structural" : args[sweepTypeIndex + 1];
+  if (!["structural", "full"].includes(sweepType)) {
+    console.error(`Invalid --sweep-type: ${sweepType}. Must be "structural" or "full".`);
     process.exit(2);
   }
 
@@ -148,12 +158,22 @@ if (command === "mycelium") {
     console.log(`Would record ${current.fileCount} Lore file(s) in ${tree}; digest ${current.digest.slice(0, 12)}...`);
     if (guard.requiresApproval) console.log(formatIntervention({ ...guard, pendingLore: false }));
     console.log("Missing: --accept-always-on — the acceptance of this tree's state. Nothing was written and nothing was changed.");
-    console.log("This records the state of the tree; it does not certify that the sweep ran (every clue getting a step, a junction written or declined with its reason).");
+    if (sweepType === "full") {
+      console.log("This records the state of the tree after the FULL MYCELIUM sweep.");
+    } else {
+      console.log("This records the state of the tree after a STRUCTURAL scan (bodies/federated).");
+      console.log("It does not certify that the full MYCELIUM sweep ran (every clue getting a step, a junction written or declined with its reason).");
+    }
     process.exit(2);
   }
-  const value = writeReceipt(tree, current);
+  const value = writeReceipt(tree, { ...current, sweepType });
   console.log(`MYCELIUM state recorded for ${current.fileCount} Lore file(s) in ${tree}`);
-  console.log("This records the state of the tree; it does not certify that the sweep ran (every clue getting a step, a junction written or declined with its reason).");
+  if (sweepType === "full") {
+    console.log("This records the state of the tree after the FULL MYCELIUM sweep.");
+  } else {
+    console.log("This records the state of the tree after a STRUCTURAL scan (bodies/federated).");
+    console.log("It does not certify that the full MYCELIUM sweep ran (every clue getting a step, a junction written or declined with its reason).");
+  }
   console.log(`${RECEIPT}: ${value.digest.slice(0, 12)}...`);
   process.exit(0);
 }

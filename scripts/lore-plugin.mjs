@@ -27,7 +27,7 @@ function usage(stream = process.stdout) {
     "       lore-plugin hygiene [ruta] [--json]",
     "       lore-plugin opencode-permissions [--project <dir>] [--from-routing] [--allow <path>...] [--write]",
     "       lore-plugin opencode-sandbox <dir> [--json]",
-    "       lore-plugin mycelium receipt [--tree <dir>]",
+    "       lore-plugin mycelium receipt [--tree <dir>] [--sweep-type structural|full]",
     "       lore-plugin mycelium bodies|announce|federated [--tree <dir>]",
     "       lore-plugin --help",
     "",
@@ -124,6 +124,16 @@ if (command === "mycelium") {
   const treeIndex = args.indexOf("--tree");
   const tree = treeIndex === -1 ? process.cwd() : resolve(args[treeIndex + 1]);
 
+  // El receipt distingue entre escaneo estructural (bodies/federated) y escaneo completo
+  // (cada pista con su paso). El cierre de MYCELIUM no se da por hecho tras correr solo
+  // los escaneos estructurales: el receipt registra qué tipo de escaneo se hizo.
+  const sweepTypeIndex = args.indexOf("--sweep-type");
+  const sweepType = sweepTypeIndex === -1 ? "structural" : args[sweepTypeIndex + 1];
+  if (!["structural", "full"].includes(sweepType)) {
+    console.error(`Invalid --sweep-type: ${sweepType}. Must be "structural" or "full".`);
+    process.exit(2);
+  }
+
   // ¿El cuerpo de criterio de este árbol se carga? Reporta datos, no veredicto: un
   // cuerpo no nombrado se repara conectándolo O declarándolo fuera del universo, y
   // cuál corresponde no lo sabe un recorrido de archivos.
@@ -216,12 +226,22 @@ if (command === "mycelium") {
     // después de escribir: la intervención y el registro no pueden contradecirse.
     if (guard.requiresApproval) console.log(formatIntervention({ ...guard, pendingLore: false }));
     console.log("Missing: --accept-always-on — the acceptance of this tree's state. Nothing was written and nothing was changed.");
-    console.log("This records the state of the tree; it does not certify that the sweep ran (every clue getting a step, a junction written or declined with its reason).");
+    if (sweepType === "full") {
+      console.log("This records the state of the tree after the FULL MYCELIUM sweep.");
+    } else {
+      console.log("This records the state of the tree after a STRUCTURAL scan (bodies/federated).");
+      console.log("It does not certify that the full MYCELIUM sweep ran (every clue getting a step, a junction written or declined with its reason).");
+    }
     process.exit(2);
   }
-  const value = writeReceipt(tree, current);
+  const value = writeReceipt(tree, { ...current, sweepType });
   console.log(`MYCELIUM state recorded for ${current.fileCount} Lore file(s) in ${tree}`);
-  console.log("This records the state of the tree; it does not certify that the sweep ran (every clue getting a step, a junction written or declined with its reason).");
+  if (sweepType === "full") {
+    console.log("This records the state of the tree after the FULL MYCELIUM sweep.");
+  } else {
+    console.log("This records the state of the tree after a STRUCTURAL scan (bodies/federated).");
+    console.log("It does not certify that the full MYCELIUM sweep ran (every clue getting a step, a junction written or declined with its reason).");
+  }
   console.log(`${RECEIPT}: ${value.digest.slice(0, 12)}...`);
   process.exit(0);
 }

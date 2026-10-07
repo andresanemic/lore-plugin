@@ -23,12 +23,12 @@ function arbol(files) {
   }
   return dir;
 }
-const correr = (cli, sub, dir) => {
+const correr = (cli, sub, dir, ...extra) => {
   // La opcion de aceptacion es la que autoriza a escribir, y desde R4 la escritura la exige
   // siempre: un comando cuyo nombre es un chequeo no puede tener el efecto de una escritura.
   // Las diez pruebas de este archivo no cambian —c bodies y federated la ignoran— lo que
   // cambia es que el helper dice con qué autoridad se invoca.
-  const r = spawnSync("node", [cli, "mycelium", sub, "--tree", dir, "--accept-always-on"], { encoding: "utf8" });
+  const r = spawnSync("node", [cli, "mycelium", sub, "--tree", dir, "--accept-always-on", ...extra], { encoding: "utf8" });
   return { status: r.status, out: (r.stdout || "") + (r.stderr || "") };
 };
 const correrSinAceptar = (cli, sub, dir) => {
@@ -39,7 +39,7 @@ const correrSinAceptar = (cli, sub, dir) => {
 test.after(() => { for (const d of dirs) rmSync(d, { recursive: true, force: true }); });
 
 const NO_CIERRA = /does not close the sweep/i;
-const LIMITE_RECIBO = /does not certify that the sweep ran/i;
+const LIMITE_RECIBO = /does not certify that the full MYCELIUM sweep ran/i;
 
 const contrato = (extra = "") => `# CLAUDE.md\n\n<!-- lore:always-on -->\n- \`lore/identidad.md\`\n- \`lore/principios.md\`\n- \`lore/index.md\`\n${extra}<!-- /lore:always-on -->\n`;
 const base = (extra = {}) => ({
@@ -135,5 +135,49 @@ for (const cli of entradas) {
     const r = correr(cli, "receipt", dir);
     assert.equal(existsSync(join(dir, ".lore-mycelium")), true, "con la opción explícita sí escribe");
     assert.match(r.out, LIMITE_RECIBO);
+  });
+}
+
+// --- sweepType: el receipt distingue entre escaneo estructural y escaneo completo ---
+//
+// El defecto corregido: el cierre de MYCELIUM no puede darse por hecho tras correr solo los
+// escaneos estructurales. El receipt ahora registra qué tipo de escaneo se hizo, y su
+// salida dice lo que no certifica.
+for (const cli of entradas) {
+  const nombre = cli.split(/[\\/]/).pop();
+
+  test(`${nombre}: receipt --sweep-type structural registra sweepType structural y dice que no certifica el barrido completo`, () => {
+    const dir = arbol(base());
+    const r = correr(cli, "receipt", dir, "--sweep-type", "structural");
+    assert.equal(r.status, 0);
+    const receipt = JSON.parse(readFileSync(join(dir, ".lore-mycelium"), "utf8"));
+    assert.equal(receipt.sweepType, "structural");
+    assert.match(r.out, /STRUCTURAL scan/);
+    assert.match(r.out, /does not certify that the full MYCELIUM sweep ran/);
+  });
+
+  test(`${nombre}: receipt --sweep-type full registra sweepType full y dice que el barrido completo corrio`, () => {
+    const dir = arbol(base());
+    const r = correr(cli, "receipt", dir, "--sweep-type", "full");
+    assert.equal(r.status, 0);
+    const receipt = JSON.parse(readFileSync(join(dir, ".lore-mycelium"), "utf8"));
+    assert.equal(receipt.sweepType, "full");
+    assert.match(r.out, /FULL MYCELIUM sweep/);
+    assert.doesNotMatch(r.out, /does not certify that the full MYCELIUM sweep ran/);
+  });
+
+  test(`${nombre}: receipt sin --sweep-type default a structural`, () => {
+    const dir = arbol(base());
+    const r = correr(cli, "receipt", dir);
+    assert.equal(r.status, 0);
+    const receipt = JSON.parse(readFileSync(join(dir, ".lore-mycelium"), "utf8"));
+    assert.equal(receipt.sweepType, "structural");
+  });
+
+  test(`${nombre}: receipt --sweep-type invalid sale con error`, () => {
+    const dir = arbol(base());
+    const r = correr(cli, "receipt", dir, "--sweep-type", "invalid");
+    assert.notEqual(r.status, 0);
+    assert.match(r.out, /Invalid --sweep-type/);
   });
 }
