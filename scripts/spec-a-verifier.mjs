@@ -18,6 +18,7 @@ const DESTINATIONS = new Map([
   ["skills/create-bot/plantillas/sync.js", "created-bot-tree"],
   ["skills/transmute-lore/scripts/crystallize.mjs", "explicit-user-output"],
   ["skills/use-lore/scripts/acuerdo.mjs", "approved-agreement-at-tree-root"],
+  ["skills/stale-lore/scripts/stale-lore.mjs", "explicit-user-output"],
 ]);
 const WRITE = /\b(?:writeFileSync|appendFileSync|renameSync|copyFileSync|cpSync|mkdirSync|rmSync|unlinkSync)\s*\(/;
 
