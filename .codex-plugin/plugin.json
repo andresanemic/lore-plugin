@@ -1,7 +1,7 @@
 {
   "name": "lore",
   "version": "2.5.0",
-  "description": "Provider-neutral project criterion that persists across agents, models, and sessions.",
+  "description": "Provider-neutral project criterion that persists across agents, models, and sessions - written by you, one constraint at a time.",
   "author": {
     "name": "andresanemic",
     "url": "https://github.com/andresanemic"

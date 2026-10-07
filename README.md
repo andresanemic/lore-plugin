@@ -15,7 +15,7 @@
 
 <p align="center">
   <b>Stop explaining your project to the AI every morning.</b><br>
-  Lore is the AI work layer: it keeps your criterion, runs the method silently, and hands bounded work to experimental Vespi.
+  Lore keeps the criterion you wrote - one constraint at a time, in plain text you own - and hands bounded work to experimental Vespi. It does not promise the deploy holds; it promises there is a next step.
 </p>
 
 ---
@@ -569,7 +569,7 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 
 <p align="center">
   <b>Deja de explicarle tu proyecto a la IA todas las mañanas.</b><br>
-  Lore es la capa de trabajo con IA: guarda tu criterio, corre el método y pasa lo acotado al Vespi experimental.
+  Lore guarda el criterio que escribiste -una restricción a la vez, en texto plano que es tuyo- y pasa lo acotado al Vespi experimental. No promete que el despliegue aguante; promete que hay un paso siguiente.
 </p>
 
 ---
