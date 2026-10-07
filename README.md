@@ -62,7 +62,7 @@ It is a loop of re-explanations and mediocre solutions you had already rejected.
 **Use it**
 
 [Architecture](#architecture) ·
-[The eight skills](#the-eight-skills) ·
+[The nine skills](#the-nine-skills) ·
 [Loose notes](#loose-notes) ·
 [Documentation](#documentation)
 
@@ -94,7 +94,7 @@ A fine-tune conditions a model on thousands of examples until it stops answering
 Three things:
 
 - a simple convention for organizing a project's criteria;
-- eight skills that operate that convention;
+- nine skills that operate that convention;
 - and a continuous loop for distilling experience into reusable criteria.
 
 Spec-driven is not a label here: one contract per project (`CLAUDE.md` or `AGENTS.md`, whichever your host reads), `FASES.md` for where the work stands, `lore/` for what constrains how it gets built.
@@ -288,7 +288,7 @@ You just shipped a landing page and the feedback is: "I didn't know what to do o
 
 Three months later, another project in the same Area ships a landing page. The criteria is already loaded, so that mistake does not happen again.
 
-> None of it was written without a human saying yes. The same gate governs all eight skills.
+> None of it was written without a human saying yes. The same gate governs all nine skills.
 
 ---
 
@@ -371,7 +371,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** An Area 
 
 ---
 
-## The eight skills
+## The nine skills
 
 **This kit moves with Superpowers' `writing-skills` discipline, not past it.** Every changed skill is checked against it before it ships; the latest record is [`bench/writing-skills-2.4.1/README.md`](./bench/writing-skills-2.4.1/README.md), with the 2.4.0 loose-note and 2.3.3 audit records.
 
@@ -387,6 +387,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** An Area 
 | `transmute-lore` | Migrates, cleans, translates, upgrades, prunes or exports a safe snapshot of Lore | inheriting, maintaining, updating or sharing Lore |
 | `create-bot` | One place to open a session and work across several Areas at once | from zero, or once there is Lore to federate |
 | `vespi` | The kernel that keeps a bounded operation alive across sessions: continues, moves laterally, revalidates before continuing | whenever an operation must stay alive; pressure is one case, not the gate |
+| `stale-lore` | Verifies which published kit capabilities have gone unexercised and withdraws them declaratively — with a changelog so the withdrawal itself is auditable | reconciling promise against evidence; when the kit's published surface needs to shrink |
 
 **Day one needs two of these:** `use-lore` routes you to whatever comes next, and `save-to-lore` is the one you will actually type — *"save to lore"*, after solving something that cost you. **Getting started, day-to-day use and the full mechanism for every skill and mode** live in one place: [`REFERENCE_en.md`](./docs/REFERENCE_en.md).
 
@@ -420,7 +421,7 @@ Add a `notes/`, `notas/` or `apuntes/` folder inside any project, Area or bot; a
 
 ## Shared invariants
 
-All eight skills follow the same rules:
+All nine skills follow the same rules:
 
 - Lore is written **in your language**.
 - **Criteria is never invented.** Everything comes from real experience.
@@ -611,7 +612,7 @@ Es un bucle de reexplicaciones y soluciones mediocres que ya habías descartado.
 **Usarlo**
 
 [Arquitectura](#arquitectura) ·
-[Las ocho skills](#las-ocho-skills) ·
+[Las nueve skills](#las-nueve-skills) ·
 [Notas sueltas](#notas-sueltas) ·
 [Documentación](#documentación)
 
@@ -965,7 +966,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 ---
 
-## Las ocho skills
+## Las nueve skills
 
 **Este kit avanza junto a la disciplina `writing-skills` de Superpowers, no por delante de ella.** Cada skill modificada se revisa antes de publicarse; el registro más reciente vive en [`bench/writing-skills-2.4.1/README.md`](./bench/writing-skills-2.4.1/README.md), con los de notas sueltas 2.4.0 y la auditoría 2.3.3.
 
@@ -981,6 +982,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 | `transmute-lore` | Migra, limpia, traduce, actualiza, poda o exporta una fotografía segura del Lore | al heredar, mantener, actualizar o compartir Lore |
 | `create-bot` | Un lugar donde abrir sesión y trabajar sobre varias Áreas a la vez | desde cero, o cuando ya hay Lore que federar |
 | `vespi` | Cuida que lo acordado siga en pie. Operación acotada bajo autoridad (experimental): continúa entre sesiones, se mueve lateralmente y revalida antes de seguir | cuando dices «esto me está complicando», «se está perdiendo lo que decidimos» o «sigamos mañana»: el trabajo es una operación viva bajo presión |
+| `stale-lore` | Verifica qué capacidades publicadas del kit no se ejercieron y las retira de forma declarativa — con un changelog para que el retiro sea auditable | al reconciliar promesa con evidencia; cuando la superficie publicada del kit necesita reducirse |
 
 **El primer día necesitas dos de estas:** `use-lore` te enruta hacia lo que sigue, y `save-to-lore` es la que vas a escribir de verdad — *"guarda en lore"*, después de resolver algo que te costó. **Cómo empezar, el uso cotidiano y el mecanismo completo de cada skill y modo** viven en un solo lugar: [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
 

@@ -167,12 +167,27 @@ function anclaSeLee() {
 
 // El texto de un `SKILL.md` en el ancla. Si el ancla no se puede leer, ESTO FALLA en vez de
 // saltarse: un `skip` no rompe la corrida, y una ley que se salta no está probada.
+// Las piezas del salto de clase (ley #31) entran con «antes = 0»: no existían en el ancla, y la
+// decisión por escrito de Andrés (acuerdo-primer-corte-2.5.md) las declara mecanismos del salto, no
+// del bump. La ley del corte (delta <= 0) rigió los bumps; el salto de clase se mide con el umbral
+// cualitativo de Simondon, no con la resta.
+function piezasDelSaltoDeClase() {
+  try {
+    const d = declaracion();
+    return Array.isArray(d?.salto_de_clase?.piezas) ? d.salto_de_clase.piezas : [];
+  } catch {
+    return [];
+  }
+}
+
 function leerEnElAncla(ruta) {
   try {
     return execFileSync("git", ["-c", "safe.directory=*", "show", `${ANCLA}:${ruta}`], {
       cwd: repo, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"],
     }).replace(/\r\n/g, "\n");
   } catch {
+    // Una pieza del salto de clase no está en el ancla por diseño: entra con «antes = 0».
+    if (piezasDelSaltoDeClase().includes(ruta)) return "";
     // El ancla se lee pero no tiene esta pieza: la superficie creció con algo que no tiene «antes».
     if (anclaSeLee()) {
       assert.fail(
@@ -198,8 +213,12 @@ function leerEnElAncla(ruta) {
 // midiera con una cuenta y el «ahora» con otra, el delta sería ruido.
 function medir(rutaDeArchivo) {
   const leer = rutaDeArchivo === "ancla" ? leerEnElAncla : (rel) => readFileSync(join(repo, rel), "utf8");
+  const salto = new Set(piezasDelSaltoDeClase());
   const totales = superficie().reduce(
     (acc, rel) => {
+      // Las piezas del salto de clase se miden con su propia vara (el umbral cualitativo de
+      // Simondon), no con la resta del bump: entran por decisión escrita, no contra el ancla.
+      if (salto.has(rel)) return acc;
       const c = cifrasDe(leer(rel));
       acc.siempre += c.siempre;
       acc.bajoDemanda += c.bajoDemanda;
@@ -365,4 +384,11 @@ test("el criterio que carga al abrir sesión no crece sin que otra pieza lo quit
   const totalAntes = antes.siempre + antes.bajoDemanda;
   const totalAhora = ahora.siempre + ahora.bajoDemanda;
   t.diagnostic(`peso total del criterio del kit: ${totalAntes} B (${ANCLA}) -> ${totalAhora} B ahora | delta ${totalAhora - totalAntes >= 0 ? "+" : ""}${totalAhora - totalAntes} B`);
+
+  // Las piezas del salto de clase entran fuera de la resta: se declaran, no se comparan contra el
+  // ancla. Su peso se reporta para que la excepción quede visible en cada corrida, nunca oculta.
+  for (const rel of piezasDelSaltoDeClase()) {
+    const c = cifrasDe(readFileSync(join(repo, rel), "utf8"));
+    t.diagnostic(`pieza del salto de clase ${rel}: ${c.siempre + c.bajoDemanda} B (antes = 0; no entra en la resta)`);
+  }
 });

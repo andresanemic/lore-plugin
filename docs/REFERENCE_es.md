@@ -636,7 +636,17 @@ extraer la fotografía reconstruye la carpeta, y así viaja el trabajo a quien n
 
 Usa `create-bot` cuando quieras una sola sesión que trabaje sobre varios proyectos — con o sin Lore previo: sin él, orquesta la cadena de arriba; con él, lo federa. Nunca sustituye construir ese Lore en el Área que lo posee.
 
-### 3.9 `vespi`
+### 3.9 `stale-lore`
+
+**Rol:** verificar qué capacidades publicadas del kit no se ejercieron y retirarlas de forma declarativa. Deriva la lista de capacidades centrales de tres fuentes — el bloque `<!-- lore:always-on -->`, el README y las skills publicadas — y luego busca en el árbol del usuario prueba de ejercicio (recibos del kernel, menciones en `FASES.md`, contenido del árbol). Una capacidad sin rastro dentro del umbral (7 días por defecto) se marca `stale` y se retira con una entrada de changelog que nombra qué, cuándo, cuánto y por qué.
+
+**El retiro es declarativo, no quirúrgico:** escribe una entrada de changelog y marca el campo `ejercido` del recibo; nunca borra la skill ni edita el `lore/` del usuario. Una capacidad publicada pero nunca ejercida está **stale, no rota** — esta skill juzga ejercicio, no calidad. El kernel 0.1.5 lee `ejercido` de forma nativa; en 0.1.4 viaja como extensión compatible.
+
+**Úsala** en una pasada programada, antes de un release, o cuando las promesas publicadas del kit deban corresponder con su superficie ejercida. **Nunca:** edita contratos, guarda lecciones (eso es `save-to-lore`), ni edita el `lore/` del usuario (eso es `transmute-lore`).
+
+---
+
+### 3.10 `vespi`
 
 **Rol (experimental, RC3):** correr una **operación viva acotada** bajo autoridad a través del tiempo — continuar entre sesiones, moverse lateralmente cuando la ruta no alcanza, revalidar antes de seguir como la misma operación. La unidad es la operación, no el agente.
 

@@ -34,6 +34,10 @@ trace so the withdrawal itself is auditable.
 > uses (the kit is Spanish, so this skill's output is Spanish). The receipt field `ejercido` is
 > Spanish canonical — never rename it to English.
 
+> **External artifacts:** before delivering a user artifact, replace every internal label with the
+> audience's language while preserving its meaning; the final changelog, report or document
+> contains zero internal labels.
+
 ## The three sources of capability
 
 A capability is central when it appears in one of these three sources. A capability in none of them

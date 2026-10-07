@@ -13,6 +13,7 @@
     "skills/create-bot/SKILL.md",
     "skills/create-project/SKILL.md",
     "skills/save-to-lore/SKILL.md",
+    "skills/stale-lore/SKILL.md",
     "skills/transmute-lore/SKILL.md",
     "skills/use-lore/SKILL.md",
     "skills/vespi/SKILL.md"
@@ -20,7 +21,7 @@
   "carga_siempre_antes": 4536,
   "carga_bajo_demanda_antes": 260969,
   "cifras_por_que": "andamiaje/lore-plugin/lore/principios.md #30, textual: «El techo se expresa en los bytes cargados en el contexto, siempre y bajo demanda, con la cifra «antes» en la condición, su fecha y su archivo; toda reducción se prueba por identidad del artefacto.» De ahí que sean DOS cifras y no una, y que las dos paran aquí con su fecha y su archivo. La cuenta es la misma para el ancla y para hoy: frontmatter de ^--- a ^--- para la carga siempre, el resto del archivo para la carga bajo demanda, en bytes UTF-8, con CRLF normalizado a LF. Si el «antes» y el «ahora» se midieran con cuentas distintas, el delta no compararía nada.",
-  "norma": "delta <= 0 en cada cifra, contra el ancla. La resta es la ley del corte, no un techo nuevo.",
+  "norma": "delta <= 0 en cada cifra, contra el ancla, para las piezas que NO son del salto de clase. Las piezas del salto_de_clase entran con antes = 0 por decision escrita; la resta es la ley del corte, no un techo nuevo.",
   "absoluto": {
     "hay": false,
     "por_que": "No hay ningún techo ABSOLUTO para ninguna de las dos cifras, y no se inventa uno. andamiaje/lore-plugin/lore/principios.md #30 fija la unidad y las dos cifras, pero no da un número. Los dos números absolutos que el kit tiene —450 B en el cuerpo de use-lore y 400 B conjuntos entre use-lore y vespi— son decisiones de Andrés del 2026-10-04 sobre DOS archivos concretos, no sobre la superficie entera. Estirarlos a los ocho sería fabricar la vara.",
@@ -38,5 +39,11 @@
     "RIVAL 2 — «el árbol de la persona engordó». alwaysOnBytes (hooks/lore-state.mjs:150) es un número ejecutable que el kit produce, y mira el bloque siempre-activo del CLAUDE.md de la persona, no el criterio del kit. Confundir las dos superficies da un número que se mueve con una escritura de otra persona y se lee como una regresión del kit. Es la confusión que la causa raíz de #30 ya nombró — «la del paquete no exige abrir el kit» —, y por eso aquí las dos superficies se miden y se declaran por separado."
   ],
   "frontera_de_validez": "Rige el techo de este corte y sus copias vendorizadas; no mide lo que el host cargue. La afirmación de que los ocho frontmatter cargan en cada turno es del kit y es textual —bench/continuidad-2.4.9.test.mjs:199, «Ley #24: lo siempre cargado no cambia. Un byte de frontmatter es un byte por host, por turno.»—, y una prueba de repositorio no puede verificar una propiedad del host. Si un host dejara de cargar los encabezados, esta cifra seguiría siendo la del texto del kit y perdería valor como medida de lo que ese host carga — sin que nada de lo que hay aquí dejara de ser cierto.",
-  "no_afirmado": "Que el host cargue los ocho frontmatter en cada turno. Eso es una propiedad del host, no del repositorio, y queda fuera de la frontera de validez."
+  "no_afirmado": "Que el host cargue los ocho frontmatter en cada turno. Eso es una propiedad del host, no del repositorio, y queda fuera de la frontera de validez.",
+  "salto_de_clase": {
+    "piezas": [
+      "skills/stale-lore/SKILL.md"
+    ],
+    "por_que": "2.5 no es un bump, es el primer corte del salto de clase (andamiaje/lore-plugin/lore/principios.md #31: un bump no cambia de clase; una campana si). La ley del corte (#30, delta <= 0) rigio los bumps. El salto de clase agrega mecanismos de perturbacion (stale-lore, la baraja) por decision escrita de Andres (2026-10-06), registrada en operations/2026-10-06-publicaciones/acuerdo-primer-corte-2.5.md. La vara del salto de clase no es una cifra: es el umbral cualitativo de Simondon (de dato a instigacion). El antes de estas piezas es 0 bytes porque no existian en el ancla v2.4.9."
+  }
 }

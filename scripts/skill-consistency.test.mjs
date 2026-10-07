@@ -83,14 +83,14 @@ test("el contrato de proyecto de create-area alcanza el Lore del área", () => {
   assert.equal(resolve(project, pointer.replace("<module>", "identidad")), join(area, "lore", "identidad.md"));
 });
 
-test("las ocho skills declaran un nombre único y neutral al proveedor", () => {
-  assert.equal(skills.length, 8);
+test("las nueve skills declaran un nombre único y neutral al proveedor", () => {
+  assert.equal(skills.length, 9);
   const names = skills.map((entry) => {
     const text = skillText(join(skillsRoot, entry.name));
     assert.doesNotMatch(text, /Source of truth for Claude Code/i);
     return text.match(/^name:\s*(.+)$/m)?.[1]?.trim();
   });
-  assert.deepEqual(new Set(names).size, 8);
+  assert.deepEqual(new Set(names).size, 9);
   assert.deepEqual(names.sort(), skills.map((entry) => entry.name).sort());
 });
 
@@ -109,14 +109,14 @@ test("use-lore compara la version del proyecto contra el kit, y lo distingue de 
   assert.match(text, /Rule 3 is not MYCELIUM, and must not fold into it/);
 });
 
-test("use-lore gobierna entregables complejos sin crear una novena skill", () => {
+test("use-lore gobierna entregables complejos sin crear una décima skill", () => {
   const text = skillText(join(skillsRoot, "use-lore"));
   assert.match(text, /Complex deliverables/);
   assert.match(text, /approved precedent/);
   assert.match(text, /available tools, connectors or MCPs/);
   assert.match(text, /batch/i);
   assert.match(text, /human review/);
-  assert.equal(skills.length, 8);
+  assert.equal(skills.length, 9);
   // 2026-08-28 (poda 2.3.x): el mecanismo vive una vez, en REFERENCE. README y USAGE apuntan.
   for (const file of ["docs/REFERENCE_en.md", "docs/REFERENCE_es.md"]) {
     const doc = readFileSync(join(root, file), "utf8");
@@ -124,7 +124,7 @@ test("use-lore gobierna entregables complejos sin crear una novena skill", () =>
   }
 });
 
-test("las ocho skills y REFERENCE blindan los artefactos externos contra etiquetas internas", () => {
+test("las nueve skills y REFERENCE blindan los artefactos externos contra etiquetas internas", () => {
   for (const skill of skillNames) {
     const text = skillText(join(skillsRoot, skill));
     assert.match(text, /before delivering a user artifact.*replace every internal label/is, skill);
@@ -341,12 +341,12 @@ test("el README funciona como portada y no duplica las guías", () => {
   for (const required of [
     "## Installation",
     "## Architecture",
-    "## The eight skills",
+    "## The nine skills",
     "## Benchmark",
     "## Documentation",
     "## Instalación",
     "## Arquitectura",
-    "## Las ocho skills",
+    "## Las nueve skills",
     "## El benchmark",
     "## Documentación",
   ]) assert.match(readme, new RegExp(required.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));

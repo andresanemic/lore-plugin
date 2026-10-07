@@ -11,7 +11,7 @@
     {
       "name": "lore",
       "source": "./",
-      "description": "Local fine-tuning for your own tasks, except the one doing the training is you. Operate Lore with use-lore, brainstorming-lore, create-area, create-project, create-bot, save-to-lore, transmute-lore, and vespi (experimental)."
+      "description": "Local fine-tuning for your own tasks, except the one doing the training is you. Operate Lore with use-lore, brainstorming-lore, create-area, create-project, create-bot, save-to-lore, transmute-lore, stale-lore, and vespi (experimental)."
     }
   ]
 }

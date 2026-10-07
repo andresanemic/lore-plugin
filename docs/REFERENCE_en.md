@@ -662,7 +662,17 @@ does not have your tree.
 
 Use `create-bot` when you want one session that works across several projects — with or without existing Lore: none, it orchestrates the chain above; some, it federates it. It never substitutes for building that Lore in the Area that owns it.
 
-### 3.9 `vespi`
+### 3.9 `stale-lore`
+
+**Role:** verify which published kit capabilities have gone unexercised and withdraw them declaratively. It derives the list of central capabilities from three sources — the `<!-- lore:always-on -->` block, the README, and the published skills — then searches the user's tree for proof of exercise (kernel receipts, `FASES.md` mentions, tree content). A capability with no trace within the threshold (default 7 days) is marked `stale` and withdrawn with a changelog entry naming what, when, how long, and why.
+
+**The withdrawal is declarative, not surgical:** it writes a changelog entry and marks the receipt's `ejercido` field; it never deletes the skill or edits the user's `lore/`. A capability published but never exercised is **stale, not broken** — this skill judges exercise, not quality. Kernel 0.1.5 reads `ejercido` natively; in 0.1.4 it travels as a compatible extension.
+
+**Reach for it** on a scheduled pass, before a release, or when the kit's published promises need to match its exercised surface. **Never:** edit contracts, save lessons (that is `save-to-lore`), or edit the user's `lore/` (that is `transmute-lore`).
+
+---
+
+### 3.10 `vespi`
 
 **Role (experimental, RC3):** run a **live bounded operation** under authority across time — continue across sessions, move laterally when the route is insufficient, revalidate before continuing as the same operation. The unit is the operation, not the agent.
 
