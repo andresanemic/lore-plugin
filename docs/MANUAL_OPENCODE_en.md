@@ -3,7 +3,7 @@
 # From a new machine to the first project with portable criteria
 
 **Field version 0.2 · Windows x64 · Written: 2026-10-04**  
-**Candidate cut for version 2.4.9 with kernel 0.1.4; publication date pending.** Interfaces, free models, and installation methods change. Check the sources before following this walkthrough.
+**Candidate cut for version 2.5.0-rc.1 with kernel 0.1.4; publication date pending.** Interfaces, free models, and installation methods change. Check the sources before following this walkthrough.
 
 ## The idea
 

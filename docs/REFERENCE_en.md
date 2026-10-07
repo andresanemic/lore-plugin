@@ -5,7 +5,7 @@ use, core concepts, the exact spec for every skill, mode and artifact, and how t
 project. For the motivation, the architecture at a glance and the index of every document, see the
 main [`README.md`](../README.md); for the 90-second version, [`90_SECONDS_en.md`](./90_SECONDS_en.md).
 
-This reference describes the Lore Plugin 2.4.9 candidate cut, publication date pending, with the fixed Vespi kernel 0.1.4 copy from commit `221bfa02fe277281d50b6141ec10299eea3426f3`. It includes ten modules, with optional emergency, skill provenance, x402 and ZK surfaces; it excludes `zk-bn254-reference.js`, an experimental cryptographic reference, and the SDK-backed x402 bridge. See [`RELEASE_2.4.9.md`](./RELEASE_2.4.9.md) for the summary.
+This reference describes the Lore Plugin 2.5.0-rc.1 candidate cut, publication date pending, with the fixed Vespi kernel 0.1.4 copy from commit `221bfa02fe277281d50b6141ec10299eea3426f3`. It includes ten modules, with optional emergency, skill provenance, x402 and ZK surfaces; it excludes `zk-bn254-reference.js`, an experimental cryptographic reference, and the SDK-backed x402 bridge. See [`RELEASE_2.4.9.md`](./RELEASE_2.4.9.md) for the summary.
 
 ---
 
