@@ -1,52 +1,56 @@
-# Arbitraje de la baraja de perturbaciones
+# Arbitraje de la baraja de perturbaciones (corregido)
 
-> Fecha: 2026-10-08. Decisión del coordinador.
+> Fecha: 2026-10-08. Corrección del arbitraje anterior, que fue hipócrita.
 
-## Las 45 cartas
+## El error del arbitraje anterior
 
-La baraja tiene 45 cartas de 13 fuentes. Son germenes que fuerzan la transducción (Simondon), no ruido.
+Hice una lista de "cuándo usar" sin probar si funciona. Eso fue hipócrita: una lista de condiciones no es un arbitraje.
 
-| Fuente | Cartas | Cuándo usar |
-|---|---|---|
-| Eno | 18 | Estancamiento creativo, bloqueo de decisión |
-| Schmidt | 10 | Análisis sistémico, pregunta correcta |
-| Simondon | 4 | Transducción, germen, resonancia interna |
-| Séneca | 1 | Honestidad, límite, testigo |
-| Berman | 2 | Construcción que destruye |
-| Camus | 1 | Absurdo, frontera, lo que no se pudo decidir |
-| Debord | 2 | Espectáculo vs vida |
-| Chéjov | 2 | Chejov's gun, eliminar lo superfluo |
-| Althusser | 1 | Interpelación, sujeto |
-| Dialéctica | 1 | Negación, superación |
-| Picantes | 1 | Operación común vs protagonismo |
-| Gamificación | 1 | Reglas sin premio |
-| Deporte | 1 | Marcador vs juego |
+## ¿Cuándo una carta es germen?
 
-## Cuándo tirar una carta
+Una carta es germen cuando, después de ofrecerla, la situación cambia: el agente toma una decisión diferente, abre un camino nuevo, o resuelve la tensión.
 
-**No se tira al azar.** Se tira cuando:
+Una carta es ruido cuando, después de ofrecerla, la situación sigue igual: el agente la ignora, o la tensión persiste.
 
-1. **Estancamiento detectado:** el mismo error se repite 3 veces o más.
-2. **Loop identificado:** el agente dice "me perdí", "estoy en loop", "no sé qué hacer".
-3. **Cierre de un trabajo largo:** para abrir la siguiente pregunta.
-4. **Dominio metaestable:** hay tensión sin resolver, pero el dominio no está cerrado.
+## Prueba de arbitraje
 
-**No se tira cuando:**
+### Caso 1: La carta SÍ funciona (germen)
 
-1. **Dominio cerrado:** la tarea es mecánica y no hay tensión.
-2. **Primer intento:** no hay suficiente información para perturbar.
-3. **Tarea urgente:** la perturbación puede esperar.
+**Situación:** El agente está en un loop: dice "me perdí", "estoy en loop", "no sé qué hacer".
 
-## Cómo se tira
+**Carta ofrecida:** *"No eres maestro, eres testigo. Habla desde el hospital."* (Séneca)
 
-1. Detectar estancamiento (palabras clave: "loop", "stuck", "atascado", etc.).
-2. Seleccionar fuente según el tipo de estancamiento.
-3. Tirar una carta de esa fuente (con semilla si se quiere determinismo).
-4. Ofrecerla como sugerencia, no como requisito.
+**Resultado esperado:** El agente deja de buscar la solución "correcta" y empieza a describir lo que ve. La tensión se resuelve.
 
-## Punto de entrada
+**Verificación:** Después de ofrecer la carta, el agente dice "hasta aquí llegó nuestro acuerdo" o similar. La situación cambió.
 
-`hooks/baraja-entry.mjs` ofrece:
-- `detectarEstancamiento(texto)` → boolean
-- `ofrecerCarta({ semilla, fuente })` → carta
-- `inyectarCartaEnPrompt({ historial, maxIntentos })` → mensaje para el prompt o null
+### Caso 2: La carta NO funciona (ruido)
+
+**Situación:** El agente está en una tarea mecánica: escribe un README, corrige un error de formato.
+
+**Carta ofrecida:** *"Lo sólido se desvanece en el aire. ¿Qué estás destruyendo al construir?"* (Berman)
+
+**Resultado esperado:** El agente ignora la carta y sigue con la tarea.
+
+**Verificación:** La carta no cambia la situación.
+
+## Regla de arbitrajo
+
+**Ofrecer una carta es una operación con su propio recibo.** Después de ofrecerla, verificar:
+1. ¿La situación cambió?
+2. ¿El agente tomó una decisión diferente?
+3. ¿La tensión se resolvió?
+
+Si la respuesta es "sí" a las tres: la carta fue germen.
+Si la respuesta es "no" a alguna: la carta fue ruido, y se registra como tal.
+
+## Cuándo NO ofrecer una carta
+
+1. **Dominio cerrado:** La tarea es mecánica y no hay tensión.
+2. **Primer intento:** No hay suficiente información para perturbar.
+3. **Tarea urgente:** La perturbación puede esperar.
+4. **Ya se ofreció una carta y fue ruido:** No ofrecer otra hasta que la situación cambie.
+
+## Punto de entrada corregido
+
+`hooks/baraja-entry.mjs` ahora verifica si la carta fue germen o ruido, y registra el resultado.
