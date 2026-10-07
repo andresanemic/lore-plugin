@@ -215,9 +215,10 @@ test("los encabezados de use-lore y Vespi no cambian y su crecimiento conjunto n
   const actuales = nombres.map((nombre) => readFileSync(join(repo, nombre), "utf8").replace(/\r\n/g, "\n"));
   const frontmatter = (texto) => /^---\n[\s\S]*?\n---\n/.exec(texto)?.[0] ?? "";
 
-  for (let i = 0; i < nombres.length; i += 1) {
-    assert.equal(frontmatter(actuales[i]), frontmatter(originales[i]), `${nombres[i]}: el frontmatter debe conservarse byte por byte`);
-  }
+  // use-lore se conserva byte por byte. Vespi cambio en 2.5 a proposito: su description
+  // resumia el procedimiento (violaba la SDO de writing-skills) y pasa a decir cuando.
+  assert.equal(frontmatter(actuales[0]), frontmatter(originales[0]), `${nombres[0]}: el frontmatter debe conservarse byte por byte`);
+  assert.match(frontmatter(actuales[1]), /^---\nname: vespi\ndescription: >-\n  Use when an operation is under pressure/, `${nombres[1]}: la description dice cuando, no el procedimiento`);
   const bytes = (textos) => textos.reduce((total, texto) => total + Buffer.byteLength(texto, "utf8"), 0);
   const antes = bytes(originales);
   const despues = bytes(actuales);

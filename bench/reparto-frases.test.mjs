@@ -353,7 +353,7 @@ test("2a: cada description arranca como disparador y no resume el procedimiento"
   for (const nombre of LAS_TRES) {
     const d = aplanar(descripcion(nombre));
     // vespi es un protocolo que el coordinador invoca en rol: su description arranca diciendo cuándo se invoca, no por una frase.
-    const patron = nombre === "vespi" ? /^invoke to run a bounded operation\b/ : /^use (?:only )?when\b/;
+    const patron = /^use (?:only )?when\b/;
     assert.match(d, patron, `${nombre}: la description no arranca como disparador`);
     // El techo de la especificacion de skills: `name` + `description` no pasan de 1024 caracteres.
     // El `description` es lo que entra en el prompt de cada sesion, y ahi cada caracter se paga.
@@ -670,7 +670,7 @@ test("6c: el description de vespi sobrevive al round-trip, con la forma que S3 r
   // `scripts/yaml-frontmatter.test.mjs`; acá se comprueba que el archivo vivo sigue siendo
   // parseable y que su description no se truncó.
   const { data } = skill("vespi");
-  assert.match(data.description, /^invoke to run a bounded operation/i, "la description de vespi no arranca como disparador");
+  assert.match(data.description, /^use (?:only )?when/i, "la description de vespi no arranca como disparador");
   // La forma que S3 rompió es un escalar PLANO con «: » dentro. Un escalar de bloque (>-, >, |) o entre comillas es YAML válido
   // con dos puntos; el parser de arriba ya lo parseó, así que lo que se comprueba es que, si los tiene, no sea un escalar plano.
   const crudo = readFileSync(join(raiz, "skills", "vespi", "SKILL.md"), "utf8").replace(/\r\n/g, "\n");

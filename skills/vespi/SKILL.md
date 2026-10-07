@@ -1,9 +1,9 @@
 ---
 name: vespi
 description: >-
-  Invoke to run a bounded operation under authority: declare its effect, prove authority
-  before the border, perform once, verify separately, return a truthful receipt, checkpoint
-  durable state, and revalidate when a material premise falls. Called by the coordinator
+  Use when an operation is under pressure: it must continue across sessions, the
+  route may not suffice, effects carry authority, or resuming silently would pretend
+  nothing changed. Called by the coordinator
   in role, never by parsing human phrases — strain phrases route through use-lore's
   canonical table. Not yours: no way of working yet belongs to use-lore; designing a
   Lore-owned artifact belongs to brainstorming-lore. Only save-to-lore writes Lore.
