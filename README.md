@@ -453,6 +453,7 @@ This README covers motivation and architecture. Everything else lives in its own
 | Document | What it's for |
 |---|---|
 | [`90_SECONDS_en.md`](./docs/90_SECONDS_en.md) | **Start here.** The whole mechanism, short enough to read before deciding whether to install anything. |
+| [`WHY_LORE_IS_AN_OS_en.md`](./docs/WHY_LORE_IS_AN_OS_en.md) | Why this is called an operating system, and the limits it declares: not a computer OS, no mainnet, no production claim. |
 | [`REFERENCE_en.md`](./docs/REFERENCE_en.md) | **The technical document.** Getting started, day-to-day use, core concepts, the exact spec for each skill, mode and artifact, and how to migrate an existing project. |
 | [`CASES_en.md`](./docs/CASES_en.md) | The nineteen case studies, each with its declared boundary. |
 | [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md) | Lore alongside GitHub's spec-kit: who governs what. Optional — Lore never depends on it. |
@@ -1046,6 +1047,7 @@ El benchmark fue diseñado y prerregistrado con **GPT-5.6 Sol medium**, y despu�
 | Documento | Para qué sirve |
 |---|---|
 | [`90_SECONDS_es.md`](./docs/90_SECONDS_es.md) | **Empieza acá.** El mecanismo completo, corto como para leerlo antes de decidir si instalas algo. |
+| [`POR_QUE_LORE_ES_UN_SO_es.md`](./docs/POR_QUE_LORE_ES_UN_SO_es.md) | Por qué esto se llama sistema operativo, y los límites que declara: no es un SO de computador, sin mainnet, sin afirmación de producción. |
 | [`REFERENCE_es.md`](./docs/REFERENCE_es.md) | **El documento técnico.** Cómo empezar, uso cotidiano, conceptos, la especificación exacta de cada *skill*, modo y artefacto, y cómo migrar un proyecto existente. |
 | [`CASES_es.md`](./docs/CASES_es.md) | Los diecinueve casos de estudio, cada uno con su frontera declarada. |
 | [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md) | Lore junto a spec-kit de GitHub: quién gobierna qué. Opcional — Lore no depende de él. |

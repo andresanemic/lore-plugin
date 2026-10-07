@@ -35,7 +35,7 @@ Loops are work cycles with an exit condition; TDD can organize part of software 
 
 ## Status and limits
 
-Lore Plugin 2.4.9 and Vespi Kernel 0.1.4 were published on 2026-10-05. The kernel release prep suite passed 277/277 tests; six simulated independent verification passes are recorded, and they are not an external audit. The real superreview is still pending. TDD was used with red-first tests to fix reproduced kernel defects; this does not claim every product change follows TDD. QA has automated tests and those simulated passes, but is not presented as certification or a real independent evaluation.
+Lore Plugin 2.4.9 and Vespi Kernel 0.1.4 were published on 2026-10-05. Lore Plugin 2.5.0 and Vespi Kernel 0.1.5 are candidate cuts with publication date pending; the kernel candidate suite passed 1,220 tests (1,196 passed, 0 failed, 24 declared todo); six simulated independent verification passes are recorded, and they are not an external audit. The real superreview is still pending. TDD was used with red-first tests to fix reproduced kernel defects; this does not claim every product change follows TDD. QA has automated tests and those simulated passes, but is not presented as certification or a real independent evaluation.
 
 Vespi does not claim mainnet, production availability, a stable protocol, or a production runtime. Lore Plugin and the kernel also do not promise that AI will always be right, that receipts are identity signatures, or that the system replaces your judgment. The published limits for kernel 0.1.4 describe a verifiable demo without external connectivity inside the kernel; do not mistake evidence from a specific test for general production readiness.
 
