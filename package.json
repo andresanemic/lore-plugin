@@ -16,21 +16,22 @@
   "files": [
     ".claude-plugin/",
     ".codex-plugin/",
+    "LICENSE",
+    "NOTICE",
+    "README.md",
     "assets/",
     "commands/nivel.md",
     "docs/",
     "hooks/",
-    "skills/",
+    "scripts/baraja.mjs",
+    "scripts/hygiene.mjs",
     "scripts/install-claude-statusline.mjs",
     "scripts/installer.mjs",
-    "scripts/hygiene.mjs",
     "scripts/lore-cli.mjs",
     "scripts/lore-plugin.mjs",
     "scripts/opencode-permissions.mjs",
     "scripts/operation-cli.mjs",
-    "README.md",
-    "LICENSE",
-    "NOTICE"
+    "skills/"
   ],
   "scripts": {
     "test": "node --test bench/*.test.mjs bench/upgrade/*.test.mjs bench/effect-2.3.2/*.test.mjs scripts/*.test.mjs skills/transmute-lore/scripts/*.test.mjs",

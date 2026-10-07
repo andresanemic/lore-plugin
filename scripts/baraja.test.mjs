@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { tirarCarta, tirarMultiples, listarFuentes, cargarBaraja } from './tirar.js';
+import { tirarCarta, tirarMultiples, listarFuentes, cargarBaraja } from './baraja.mjs';
 
 test('cargarBaraja devuelve las cartas', () => {
   const baraja = cargarBaraja();
@@ -27,11 +27,11 @@ test('tirarCarta con semilla es determinista', () => {
   assert.equal(a.id, b.id);
 });
 
-test('tirarMultiples devuelve la cantidad solicitada', () => {
+test('tirarMultiples devuelve la cantidad solicitada sin duplicados', () => {
   const cartas = tirarMultiples(3);
   assert.equal(cartas.length, 3);
   const ids = new Set(cartas.map((c) => c.id));
-  assert.equal(ids.size, 3, 'no hay duplicados');
+  assert.equal(ids.size, 3);
 });
 
 test('tirarMultiples no excede el total de cartas', () => {
