@@ -13,6 +13,7 @@ Este release no promete que la IA siempre acierte. Declara sus límites antes qu
 - **Baraja de perturbaciones**: 45 cartas arbitradas que fuerzan la transducción cuando hay estancamiento.
 - **Conexión con el corpus de LUS**: los agentes leen la esencia del programa y saben que son jardineros del Entre.
 - **La Party**: roles definidos (coordenador, daimon, advisor, worker, verificador) que operan como unidad.
+- **El coordinador guía al usuario**: avisa cuando queda poco contexto, hace preguntas que puede omitir si no responde, y ofrece formas de trabajar (TDD, plan maestro, spec-kit, workflow directo, loop expansivo).
 - **Kernel Vespi 0.1.5**: fijado al commit `ed559e8`, con F1-F7 cerrados y Bora limpio.
 - **11 proyectos funcionales**: re-anclados al kernel 0.1.5 candidato.
 
@@ -51,6 +52,7 @@ This release does not promise that AI always gets it right. It declares its limi
 - **Perturbation deck**: 45 arbitrated cards that force transduction when there's stagnation.
 - **Connection to LUS corpus**: agents read the program's essence and know they are gardeners of the Between.
 - **The Party**: defined roles (coordinator, daimon, advisor, worker, verifier) that operate as a unit.
+- **The coordinator guides the user**: warns when context is running low, asks questions that can be skipped if unanswered, and offers ways to work (TDD, master plan, spec-kit, direct workflow, expansive loop).
 - **Vespi Kernel 0.1.5**: pinned to commit `ed559e8`, with F1-F7 closed and Bora cleaned.
 - **11 functional projects**: re-pinned to kernel 0.1.5 candidate.
 
