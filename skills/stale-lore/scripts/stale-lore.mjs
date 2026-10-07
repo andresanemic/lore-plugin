@@ -95,10 +95,10 @@ const RASTROS = {
   },
   'transmute-lore': (raiz) => {
     const fuentes = [];
-    const changelog = join(raiz, 'CHANGELOG.md');
-    if (esArchivo(changelog)) {
-      try { if (/## Capacidades retiradas/.test(readFileSync(changelog, 'utf8'))) fuentes.push('changelog:retiros'); } catch {}
-    }
+    // Sus modos dejan artefactos: cristalizacion (CRYSTALLIZE) y MYCELIUM.
+    const cristalizaciones = archivosCon(raiz, 'cristalizaciones', () => true);
+    if (cristalizaciones.length) fuentes.push('cristalizaciones');
+    if (esArchivo(join(raiz, '.lore-mycelium'))) fuentes.push('mycelium');
     return fuentes;
   },
   'brainstorming-lore': (raiz) => {

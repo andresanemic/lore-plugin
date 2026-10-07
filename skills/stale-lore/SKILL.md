@@ -38,34 +38,45 @@ trace so the withdrawal itself is auditable.
 > audience's language while preserving its meaning; the final changelog, report or document
 > contains zero internal labels.
 
-## The three sources of capability
+## Where the capability list comes from
 
-A capability is central when it appears in one of these three sources. A capability in none of them
-is not a published promise, and this skill does not touch it.
+A capability is central when the kit publishes it as a skill: `skills/<nombre>/SKILL.md`. The
+directory is the source — a skill that exists on disk is a published promise. The list is derived
+from the tree, never hardcoded: a new skill enters the list the day its `SKILL.md` lands, and no
+list has to be updated by hand.
 
-| Source | Where | What it proves |
-|---|---|---|
-| `<!-- lore:always-on -->` | Contract (`CLAUDE.md` / `AGENTS.md`) | The kit governs this tree, and the contract names the skills |
-| README / `README.md` | Kit root | What the kit publicly announces as a capability |
-| `skills/<nombre>/SKILL.md` | Skills directory | A published skill with frontmatter |
+The contract's `<!-- lore:always-on -->` block and the README announce the kit, but they do not
+define the capability list — they are the surface the list is reconciled *against*, not its source.
 
-This skill derives the list from all three. It does not trust autodeclaration: a skill that exists
-on disk but never left a receipt is a promise, not an exercise.
+This skill does not trust autodeclaration: a skill that exists on disk but never left its artifact
+is a promise, not an exercise.
 
-## The three sources of exercise
+## What proves exercise
 
-A capability is exercised when it leaves a trace in the user's tree. No trace means no exercise,
-regardless of what the capability's documentation claims.
+A capability is exercised when it leaves **the artifact it produces** in the user's tree. A mention
+is not an artifact. A name that appears in active documentation, in a `FASES.md` line, or in the
+capability's own `SKILL.md` proves nothing about use — the kit's own README names all nine skills
+and exercises none of them. Reading a name is not running a capability.
 
-| Source | Where | What it proves |
-|---|---|---|
-| Kernel receipts | `.lore/receipts/<capacidad>.json` | The capability ran under Vespi and sealed a receipt |
-| `FASES.md` | Tree root | The capability was invoked as part of a named operation |
-| Tree content | Any file in the tree | The capability's name appears in active documentation (counts as recent trace) |
+| Capability | The artifact that proves it was exercised |
+|---|---|
+| `save-to-lore` | a Pista (`**Pista**`) in `lore/` |
+| `use-lore` | the `<!-- lore:always-on -->` block in a contract |
+| `transmute-lore` | a crystallization in `cristalizaciones/`, or a `.lore-mycelium` marker |
+| `brainstorming-lore` | an agreement in `specs/` |
+| `create-area` | a tree with `lore/` and `proyectos/` |
+| `create-bot` | a tree with `canon/`, `lore/` and `CLAUDE.md` |
+| `vespi` | a receipt in `.lore/receipts/` or a `recibo` in `operations/` |
+| `create-project` | **no detector declared** |
+| `stale-lore` | **no detector declared** — it measures; it is not measured |
 
-Receipts are the strongest signal. `FASES.md` mentions count as trace but carry no date — the mere
-mention is taken as recent exercise. Tree-content matches are weak and only set the timestamp to
-"now" when no receipt exists.
+**A capability without a declared detector is never declared `stale`.** This skill does not assert
+what it did not measure. Reporting `sinDetector` is a result, not a gap: it says «the kit has not
+decided what artifact this capability leaves», which is a decision for the kit's owner, not a
+verdict from this skill.
+
+**A `FASES.md` mention is not exercise.** It is the exact false green this skill exists to avoid:
+a tree can name every capability in its state file and have exercised none.
 
 ## The `ejercido` field
 
@@ -87,21 +98,22 @@ The default threshold is **7 days** (`STALE_POR_DEFECTO_DIAS`). Configurable per
 
 ### Move 1 — Derive central capabilities
 
-Run `leeCapacidadesCentrales(raiz)` against the kit root. This scans the three sources above and
-returns a de-duplicated, sorted list. If a capability appears in none of the three sources, it is
-not a published promise and is not evaluated.
+Run `leeCapacidadesCentrales(raiz)` against the kit root. This reads `skills/<nombre>/SKILL.md` and
+returns a sorted list. If the tree has no `skills/`, the list is empty — no capability is invented.
 
 ### Move 2 — Search exercise trace
 
-For each capability, run `buscaRastroCapacidad(capacidad, raiz, { ahora })`. This searches the three
-trace sources above and returns `{ encontrado, ultimoUso, fuentes }`. A capability with `encontrado:
-false` and `ultimoUso: null` was **never exercised**.
+For each capability, run `buscaRastroCapacidad(capacidad, raiz, { ahora })`. This runs the
+capability's detector against the user's tree and returns `{ encontrado, ultimoUso, fuentes,
+sinDetector }`. A capability with `encontrado: false` and `sinDetector: false` was **never
+exercised**; one with `sinDetector: true` has no detector and is not evaluated.
 
 ### Move 3 — Verify stale state
 
-For each capability, run `verificaStale(capacidad, { ultimoUso, umbralDias, ahora })`. Returns `{
- stale, dias, nuncaEjercida, umbral }`. A capability is stale when `dias > umbral`, or when
-`nuncaEjercida` is true.
+For each capability, run `verificaStale(capacidad, { encontrado, ultimoUso, sinDetector, umbralDias, ahora })`.
+Returns `{ stale, dias, nuncaEjercida, umbral, sinDetector }`. A capability is stale when its detector
+ran, found no artifact, and the threshold has passed. It is **not** stale when `sinDetector` is true —
+there is nothing to measure against.
 
 ### Move 4 — Mark receipts
 
@@ -151,11 +163,16 @@ before committing the withdrawal.
 
 | Condition | Action |
 |---|---|
-| No trace in any source, ever | Withdraw with `nunca-ejercida: true` |
-| Last trace > 7 days (or configured threshold) | Withdraw with days count |
+| Detector ran, no artifact ever | Withdraw with `nunca-ejercida: true` |
+| Detector ran, last artifact > threshold | Withdraw with days count |
 | Replacement capability exists | Withdraw with migration path |
 | Replacement does not exist | Withdraw with `sin soporte` |
-| Within threshold, receipt exists | Mark `ejercido`, no withdrawal |
+| Detector found the artifact | Mark `ejercido`, no withdrawal |
+| **No detector declared** | **Report `sinDetector`; never withdraw** |
+| **The capability is `stale-lore` itself** | **Never withdraw** — it measures, it is not measured |
+
+The `diasSinUso` of a withdrawal is a **measured** number or `null`. It is never a placeholder: an
+invented figure (`999`) is the same lie this skill exists to catch.
 
 ## The contract with kernel 0.1.5
 
