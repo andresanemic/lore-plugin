@@ -88,7 +88,7 @@ test('missing source and missing adapter fail before any certification', async t
 });
 test('a suite with every check skipped cannot certify a result', t => {
   const { artifact, root, runner } = fixture(t);
-  const body = "import test from 'node:test';test.skip('three commissioned literal requirements',()=>{});";
+  const body = "import test from 'node:test';import assert from 'node:assert/strict';import{readFileSync}from'node:fs';const packet=JSON.parse(readFileSync(process.env.LORE_VERIFICATION_INPUT_FILE,'utf8'));test.skip('three commissioned literal requirements',()=>{assert.ok(packet.sources.some(s=>s.ref==='source.txt'));});";
   writeFileSync(runner, body); artifact.tasks[0].proof_runner.sha256 = sha(body);
   const evidence = executeNodeVerification(artifact, 't1', { root });
   assert.equal(evidence.execution_receipt.execution.passed, false);

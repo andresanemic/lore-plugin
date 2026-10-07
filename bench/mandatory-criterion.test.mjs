@@ -23,8 +23,8 @@ test('alias to complete owner index cannot avoid semantic authorization',async t
   writeFileSync(join(f.root,'lore/voice.md'),'Explain the reader benefit.');
   f.task.sources=['owner-alias'];
   f.task.proof_runner.source_files={'owner-alias':'lore/index.md'};
-  assert.throws(()=>executeNodeVerification(f.artifact,'t1',{root:f.root}),/semantic verification/);
-  await assert.rejects(executeVerification(f.artifact,'t1',{root:f.root}),/authorized semantic verification/);
+  assert.throws(()=>executeNodeVerification(f.artifact,'t1',{root:f.root}),/semantic verification|cover declared sources/);
+  await assert.rejects(executeVerification(f.artifact,'t1',{root:f.root}),/authorized semantic verification|cover declared sources/);
 });
 
 test('relative commissioned runner resolves before the no-model packet budget gate',async t=>{
@@ -54,7 +54,7 @@ test('received operation root cannot be replaced by a criterion-free delivery su
 test('owner criterion written only in a heading still requires semantic review',t=>{
   const f=fixture(t);
   writeFileSync(join(f.root,'CLAUDE.md'),'# Never publish without human review\n');
-  assert.throws(()=>executeNodeVerification(f.artifact,'t1',{root:f.root}),/semantic verification/);
+  assert.throws(()=>executeNodeVerification(f.artifact,'t1',{root:f.root}),/semantic verification|cover declared sources/);
 });
 
 
@@ -93,7 +93,7 @@ test('existing mandatory module cannot be replaced by a declared mapped copy',t=
   assert.throws(()=>executeNodeVerification(f.artifact,'t1',{root:f.root}),/ENOENT|mandatory owner criterion/);
 });
 
-test('external source absent from the operation root keeps its local snapshot mapping',t=>{
+test('external source absent from the operation root keeps its local snapshot mapping',async t=>{
   const f=fixture(t);
   const external=mkdtempSync(join(tmpdir(),'external-criterion-'));
   t.after(()=>rmSync(external,{recursive:true,force:true}));
@@ -102,6 +102,12 @@ test('external source absent from the operation root keeps its local snapshot ma
   writeFileSync(join(f.root,'external-snapshot.md'),'External source outside the operation root.');
   f.task.sources=[ref];
   f.task.proof_runner.source_files={[ref]:'external-snapshot.md'};
+  const coverBody="import test from 'node:test';import assert from 'node:assert/strict';import{readFileSync}from'node:fs';const p=JSON.parse(readFileSync(process.env.LORE_VERIFICATION_INPUT_FILE,'utf8'));test('covers external source',()=>assert.ok(p.sources.length>0));";
+  const coverPath=join(f.root,'cover.test.mjs');
+  writeFileSync(coverPath,coverBody);
+  f.task.proof_runner.path=coverPath;
+  f.task.proof_runner.sha256=createHash('sha256').update(coverBody).digest('hex');
+  f.task.proof_runner.required_tests=['covers external source'];
   const evidence=executeNodeVerification(f.artifact,'t1',{root:f.root});
   assert.equal(evidence.execution_receipt.execution.passed,true);
   assert.ok(evidence.execution_receipt.execution.inputs.some(input=>input.ref===ref&&input.path===join(f.root,'external-snapshot.md')));

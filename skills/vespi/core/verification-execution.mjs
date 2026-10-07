@@ -149,6 +149,25 @@ function runNodeVerification(artifact, taskId, { root } = {}, semanticAuthorized
   const imports = [...runnerBody.matchAll(/(?:from\s*|import\s*\(\s*|require\s*\(\s*|import\s*)['"]([^'"]+)['"]/g)].map(match => match[1]);
   if (imports.some(name => !name.startsWith('node:'))) throw new Error('proof runner local or package imports are not supported by this adapter; inputs must be supplied as identified data');
   const packet = packetFor(artifact, task, root, spec);
+  // Adecuación del encargo: un runner Node debe cubrir las fuentes declaradas por el usuario.
+  // Si el runner no accede a esas fuentes, no puede certificar su cobertura.
+  // Esta verificación es mecánica: analiza el cuerpo del runner para confirmar que
+  // declara acceso a las fuentes (p.sources, packet.sources o por ref explícita).
+  // Solo aplica a las fuentes declaradas en task.sources, no a las resueltas automáticamente
+  // del owner criterion o del índice, que el runner puede no referenciar explícitamente.
+  const declaredSources = (task.sources ?? []).map(ref => {
+    const resolved = packet.sources.find(s => s.ref === ref);
+    return resolved ?? { ref, path: resolve(root, ref) };
+  });
+  if (declaredSources.length > 0) {
+    const accessesSources = runnerBody.includes('p.sources') ||
+                            runnerBody.includes('packet.sources') ||
+                            runnerBody.includes('p.artifact.sources') ||
+                            declaredSources.some(source => runnerBody.includes(source.ref));
+    if (!accessesSources) {
+      throw new Error(`runner does not cover declared sources: ${declaredSources.map(s => s.ref).join(', ')}`);
+    }
+  }
   if (packet.ownerCriterion && !semanticAuthorized) throw new Error('owner criterion requires authorized semantic verification; configure Luna model and effort or use the codex adapter');
   packet.inputs.push({ ref: 'commissioned proof runner', path, sha256: spec.sha256 });
   const runId = randomBytes(12).toString('hex');
