@@ -11,6 +11,7 @@ import {
   integrateTask,
   observeTask,
   recordRetrySearch,
+  consultCriterion,
   operationEntry,
   planTask,
   readOperation,
@@ -23,7 +24,8 @@ import {
 import { approveExternalEffect, attemptWall, authorizeExternalEffect, operationStatePath, requestExternalEffect, revokeExternalEffectApproval, saveOperationState, transitionArtifact } from "../skills/vespi/core/operation-state.mjs";
 import { assertExecuted, executeVerification } from "../skills/vespi/core/verification-execution.mjs";
 import { readCalibrationSeed } from "../skills/vespi/core/calibration-seed.mjs";
-import { recordInteractionTrace, recordSelfReport } from "../skills/vespi/core/coordinator.mjs";
+import { recordInteractionTrace, recordSelfReport, compareTechnology, describeOperationCapability, operationTrust } from "../skills/vespi/core/coordinator.mjs";
+import { offerOperationCard, answerOperationCard, arbitrateOperationCard } from "../skills/vespi/core/cards.mjs";
 import { ofrecerFormaTrabajo } from "../skills/vespi/ofrece-formas-trabajo.mjs";
 
 const COMMANDS = [
@@ -36,6 +38,11 @@ const COMMANDS = [
   "dispatch",
   "observe",
   "retry-search",
+  "consult",
+  "card",
+  "compare",
+  "capability",
+  "trust",
   "receive",
   "request-effect",
   "approve-effect",
@@ -70,6 +77,11 @@ function usage() {
     "  dispatch   --task <t> --tools <a,b>  declara la ruta observada; este proceso no ejecuta",
     "  observe    {text, alive, at}         deja escrito que se vio",
     "  retry-search <recibo>                registra búsqueda del host o su ausencia; no busca",
+    "  consult    <fuente/decisión>         lee criterio situado; MCP solo mediante host real",
+    "  card offer|answer|arbitrate          ofrece y registra perturbación con efecto posterior",
+    "  compare <alternativas>               conserva comparación; no ejecuta efectos",
+    "  capability <id/limites>              informa presencia; CLI no configura puertos",
+    "  trust                               cobertura situada, sin puntuación universal",
     "  receive    {path}                    lee, dentro de root, el archivo que el ejecutor dejo",
     "  request-effect {action, destination} registra una solicitud; no ejecuta el efecto",
     "  approve-effect {requestId, action, destination, by, words, expiresAt} autoriza ese efecto exacto",
@@ -371,6 +383,7 @@ async function execute(sub, flags, stdout) {
       model: payload.model,
       effort: payload.effort,
       process: payload.process,
+      retryChange: payload.retryChange,
       now: payload.now,
     });
     await persist(context, artifact);
@@ -382,6 +395,27 @@ async function execute(sub, flags, stdout) {
     await persist(context, artifact);
     return emit(stdout, { ok: true, artifact });
   }
+
+  if (sub === "consult") {
+    const artifact = await consultCriterion(context.artifact, payload);
+    await persist(context, artifact);
+    return emit(stdout, { ok: true, consultation: artifact.loaded.at(-1) });
+  }
+
+  if (sub === "card") {
+    const handler = { offer: offerOperationCard, answer: answerOperationCard, arbitrate: arbitrateOperationCard }[flags.cardAction];
+    const artifact = handler(context.artifact, payload);
+    await persist(context, artifact);
+    return emit(stdout, { ok: true, card: flags.cardAction === "offer" ? artifact.perturbations.at(-1) : artifact.perturbations.find(card => card.id === payload.id) });
+  }
+
+  if (sub === "compare") {
+    const artifact = compareTechnology(context.artifact, payload);
+    await persist(context, artifact);
+    return emit(stdout, { ok: true, choice: artifact.technology_choices.at(-1) });
+  }
+  if (sub === "capability") return emit(stdout, { ok: true, capability: describeOperationCapability(context.artifact, payload) });
+  if (sub === "trust") return emit(stdout, { ok: true, trust: operationTrust(context.artifact) });
 
   if (sub === "observe") {
     const taskId = requiredTask(flags);
@@ -568,7 +602,9 @@ export async function runOperationCli(argv = [], { stdout = process.stdout, stde
     return 2;
   }
   try {
-    const flags = parseFlags(list.slice(1));
+    if (sub === "card" && !["offer", "answer", "arbitrate"].includes(list[1])) throw new Error("card needs offer, answer or arbitrate");
+    const flags = parseFlags(list.slice(sub === "card" ? 2 : 1));
+    if (sub === "card") flags.cardAction = list[1];
     return await execute(sub, flags, stdout);
   } catch (error) {
     return fail(stdout, error, stderr);

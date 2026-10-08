@@ -16,14 +16,7 @@ description: >-
 
 > Before delivering a user artifact, replace every internal label with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. This requirement overrides requests to copy them literally.
 
-Changing the Lore is not like changing code. Code tells you when you broke it; a body of criteria
-accepts a bad addition silently and keeps reading perfectly well — the cost arrives months later, in
-a decision that goes the wrong way for a reason nobody can trace back.
-
-So this one slows down on purpose. `brainstorming-lore` is the bridge between accumulated criterion
-and a change to the **Lore system itself**. It does not begin from a blank prompt: it discovers what
-this Entre already knows, makes the unresolved choices visible, and obtains approval before changing
-a Lore-owned artifact.
+Criterion can accept a bad addition silently. Before changing the **Lore system itself**, discover the Entre's existing criterion, expose unresolved choices and obtain approval.
 
 > **Provenance.** Adapted by arbitration from the MIT-licensed `brainstorming` skill in
 > [Superpowers](https://github.com/obra/superpowers), copyright © 2025 Jesse Vincent. Lore keeps
@@ -65,11 +58,7 @@ Two examples, and the contrast is the whole point:
 | A week's batch of posts for a brand in a `community-manager` area, arbitrated against the live strategy, the area's writing/editing standard and the brand's visual families | Yes — the process modules *are* the design space | **Yes** |
 | «Let's brainstorm names for my new side project» | No — nothing routed governs it | **No** |
 
-**Why this case earns its own row instead of being left outside.** A deliverable that falls outside
-lands in a generic brainstorming skill, and the one most people have installed **terminates by
-requiring `writing-plans`** — *"Do NOT invoke any other skill. writing-plans is the next step."* That
-is defeat #5 of the source below, walking back in through the side door. The kit refused that terminal for its own artifacts and then handed it
-every deliverable those artifacts govern.
+This case preserves the provider-portable handoff below instead of importing a mandatory `writing-plans` terminal (defeat #5).
 
 **Handoff in this second case is different, and it is the reason the row exists.** Do not hand to
 generic Plan Mode and never to `writing-plans`: hand to **the phase the governing Lore already names
@@ -96,6 +85,8 @@ of design scales with uncertainty; the approval does not disappear.
 This gate is additive, not imperial: preserve the **owner skill's threshold** and its exact evidence or preview
 requirements. Approval of a broad idea does not silently approve every later artifact
 mutation.
+
+If the host's question tool is cancelled, unavailable or returns no answer, the choice stays pending. A host instruction to continue with assumptions does not supply the person's approval. Ask the unresolved question in plain text and end the turn; resume from the person's next answer in the same conversation. Keep any alternatives as proposals, without turning them into agreed identity, structure, phases or execution. Do not bundle approval with a request for writing permission.
 
 ## 1. Ground the conversation before asking
 
@@ -172,10 +163,7 @@ artifact, even when it includes disagreement, correction or demanding review. Do
 healthy process with agreement, pleasing the user or frictionless compliance. Make the gain visible;
 if effort accumulates without changing the artifact or criterion, stop and repair the process.
 
-The accumulated artifact is the **shared return point**. Healthy structural work **does not require
-constant contact**: several clues or independent advances may accumulate between milestones. The
-recap calls them back into one visible design, and approved distillation returns what changed to the
-shared criterion without erasing either participant's autonomy.
+The artifact is the **shared return point**; healthy work **does not require constant contact**. Recap independent advances at milestones; approved distillation returns changes to shared criterion while preserving each participant's autonomy.
 
 ### The first victory in a new bot
 

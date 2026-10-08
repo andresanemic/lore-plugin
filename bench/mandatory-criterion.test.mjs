@@ -30,7 +30,7 @@ test('alias to complete owner index cannot avoid semantic authorization',async t
 
 test('relative commissioned runner resolves before the no-model packet budget gate',async t=>{
   const f=fixture(t);
-  writeFileSync(f.index,'Owner criterion applies.\n'+'x'.repeat(65000));
+  writeFileSync(f.index,'Owner criterion applies.\n'+'x'.repeat(129000));
   f.task.proof_runner.path='weak.test.mjs';
   f.task.proof_runner.model='gpt-6-luna';
   f.task.proof_runner.effort='medium';

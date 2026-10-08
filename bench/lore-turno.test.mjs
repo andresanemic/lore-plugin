@@ -374,7 +374,8 @@ test("el nivel se resuelve desde el env, y el env manda sobre el archivo", () =>
 // el trigger con `{sessionID, model}` y `{system}`, y lo que se empuje ahi entra en la
 // peticion. El mismo binario lista el evento entre los hooks que dispara.
 
-import { LorePlugin } from "../hooks/opencode-plugin.js";
+import OpenCodePlugin from "../hooks/opencode-plugin.js";
+const LorePlugin = OpenCodePlugin.server;
 
 let sesiones = 0;
 const fixtureRun = (await import("node:crypto")).randomUUID();
@@ -511,7 +512,7 @@ test("el aviso de la guardia y el registro del turno salen juntos, no se pisan",
   try {
     // Una escritura fuera del arbol con Lore: la guardia encola su aviso.
     await plugin["tool.execute.before"](
-      { sessionID: idOpenCode(), tool: "write" },
+      { sessionID, tool: "write" },
       { args: { filePath: join(dir, "..", "fuera.txt"), content: "x" } },
     );
     await plugin["chat.message"]({ sessionID, messageID: "human-first" }, { message: { role: "user" }, parts: [] });

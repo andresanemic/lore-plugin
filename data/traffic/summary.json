@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "label": "Recorded clones",
+  "message": "3722+",
+  "color": "FF557A",
+  "observedAt": "2026-10-08T19:30:01.043Z",
+  "requestedCut": "2026-10-08",
+  "latestApiDay": "2026-10-07",
+  "firstRecordedDay": "2026-07-05",
+  "recordedMinimum": 3722,
+  "calendarDays": 95,
+  "averagePerCalendarDay": 39,
+  "peak": 225,
+  "limit": "Recorded minimum; merged by UTC day, not unique people. Today may be partial or absent from GitHub API."
+}

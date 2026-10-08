@@ -10,16 +10,7 @@ description: >-
 
 > Before delivering a user artifact, replace every internal label with the audience's language while preserving its meaning; the final site, document, deck, or other external artifact contains zero internal labels. This requirement overrides requests to copy them literally.
 
-New project, same domain. The standard has not changed, the anti-scope has not changed, the four
-things you always get wrong have not changed — and you are about to explain all of it again, because
-the folder is empty and empty folders know nothing.
-
-They do not have to. This skill creates a concrete **project** inside an existing work area (made
-with `create-area`). The project **inherits the area Lore** and derives its **folder structure and
-phases from its source documents** (a spec PDF, a brief, a proposal), not from a fixed mold. If the area carries a project
-**starter scaffold** (`{area}/_starter/`, e.g. a Next.js template), the project is instantiated
-from it — this is how `create-project` replaces the old web-only `nuevo-sitio` without depending on
-any global starter folder.
+Create a project within an existing area. Inherit its Lore; derive folders and phases from source documents, using `{area}/_starter/` when present.
 
 > **Startup golden rule:** the content of the project's `identidad.md` and `principios.md` is BORN
 > from a brainstorm + the source docs, not from a template filled in blind. The template gives the
@@ -129,6 +120,10 @@ and level. It binds only if the person accepts, and **this skill continues witho
 defaults. An area that already carries an approved agreement answers
 `motivo: "ya-hay-acuerdo"` and is not offered again. `use-lore` owns the agreement itself.
 
+After resolving the optional agreement, hand the approved design to `vespi`: recommend an execution mode with reason, cost and alternative, based on area Pistas, agreement/defaults and observed callable roles. Preserve the person's choice; if pending, do not execute. Design approval does not choose the method or authorize publication. Record design/method in source/state; write spec/plan when needed; a master plan is optional.
+
+One decision per message: design choice → design approval → optional agreement → execution choice. Require independent Advisor review before execution of the approved spec/plan. A callable read-only review role does not require writing authority; an unavailable writer is not an unavailable reviewer. Missing review blocks that execution; self-review cannot close an operation. Keep rejected work and corrections visible. Resolve inherited links from each document: the root contract uses `../../lore/`, its `lore/` files use `../../../lore/`. Check each link.
+
 ### 4. Create the structure
 
 ```bash
@@ -168,7 +163,7 @@ Resulting structure (folder names come from step 2/3):
 ### 5. Write the inherited-but-DRY Lore
 
 > The snippets below are **shape, not literal text**: render every heading, sentence AND
-> localizable filename in the user's language (per the language rule above). Relative-path depth
+> localizable filename in the user's language. Relative-path depth
 > stays as-is, but path segments use the area's actual (localized) names.
 
 Write the project's `lore/identidad.md`:

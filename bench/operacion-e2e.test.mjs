@@ -99,6 +99,10 @@ test("flujo mecánico sin criterio propietario conserva FASES, compactación y p
   assert.equal(wall.wall.instruction, "stop_and_search");
   assert.equal(wall.wall.attempts.length, 3);
 
+  // Synthetic host lookup: clear the wall through the real API before delivery/verification.
+  call(opArgs("retry-search", root, id, ["--json", json({ available: true, observedBy: "fixture-coordinator", tool: "fixture-search", query: "fixture failure", findings: [{ source: "fixture://manual", finding: "use corrected fixture input", limit: "synthetic lookup only", applies: true }], change: "use corrected fixture input", same_scope: true })]));
+  call(opArgs("dispatch", root, id, ["--task", "t1", "--tools", "delegate", "--json", json({ retryChange: "use corrected fixture input" })]));
+
   writeFileSync(tasks[0].outputPath, "criterio observado: sí\nfuente: fixture\nriesgo: límite local\n");
   // t1 quedó bloqueada (declarada, no ejecutada): receive con root la marca received
   const rc1 = call(opArgs("receive", root, id, ["--task", "t1"]));

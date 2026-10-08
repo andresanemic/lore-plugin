@@ -35,9 +35,8 @@
 //     cada sesión por `session.created`, que no es la línea federada sino el anclaje del
 //     `session_start` de los otros dos hosts.
 //
-// Exporta UNA sola función. El runtime de OpenCode recorre `Object.values(módulo)` y tira
-// `TypeError("Plugin export is not a function")` ante cualquier export que no sea función o
-// un objeto con `server`: un `export const VERSION` tumba el plugin entero.
+// Una sola definición default: v1.18.29+ llama server; v2 llama setup.
+// Se conserva el núcleo de criterio; cada API registra y traduce sus propios eventos.
 
 import {
   anotarDesconocidos,
@@ -60,7 +59,7 @@ import {
 import { inyeccion, nivel, semillaDePuerta } from "./lore-turno.mjs";
 import { alVocabularioDelKit } from "./opencode-input.mjs";
 
-export const LorePlugin = async ({ directory, worktree } = {}) => {
+const LorePlugin = async ({ directory, worktree } = {}) => {
   const raiz = typeof directory === "string" && directory ? directory : process.cwd();
 
   // SessionStart: la fábrica del plugin es lo más cerca de una apertura que la v1 ofrece.
@@ -79,10 +78,13 @@ export const LorePlugin = async ({ directory, worktree } = {}) => {
 
   // Una línea, una vez. El aviso de lo desconocido y la intervención del Lore no tienen
   // canal propio en la v1, y el prompt es el que el modelo lee de verdad.
-  let pendiente = null;
-  const encolar = (texto) => {
+  const pendientes = new Map();
+  const semillasConsumidas = new Set();
+  const encolar = (sessionID, texto) => {
+    if (typeof sessionID !== "string" || !sessionID) return;
     if (typeof texto !== "string" || texto === "") return;
-    pendiente = pendiente === null ? texto : `${pendiente}\n${texto}`;
+    const previo = pendientes.get(sessionID);
+    pendientes.set(sessionID, previo ? `${previo}\n${texto}` : texto);
   };
 
   // La puerta se siembra AQUÍ, al abrir, y no en el primer turno. `experimental.chat.system.transform`
@@ -99,7 +101,6 @@ export const LorePlugin = async ({ directory, worktree } = {}) => {
   let veredictoSemilla = null;
   try {
     veredictoSemilla = semillaDePuerta({ raiz });
-    if (veredictoSemilla) encolar(veredictoSemilla);
   } catch {
     /* el techo no se cambia: la puerta vuelve a decir su motivo en la inyección del turno */
   }
@@ -171,9 +172,15 @@ export const LorePlugin = async ({ directory, worktree } = {}) => {
     event(carga) {
       try {
         const ev = carga && carga.event;
-        if (!ev || ev.type !== "session.created") return;
+        if (!ev || !["session.created", "session.deleted"].includes(ev.type)) return;
         const id = ev.properties && ev.properties.info && ev.properties.info.id;
         if (typeof id !== "string" || id === "") return;
+        if (ev.type === "session.deleted") {
+          pendientes.delete(id);
+          semillasConsumidas.delete(id);
+          turnosHumanos.delete(id);
+          return;
+        }
         const raizSesion = ancla(id);
         armar(id, raizSesion);
       } catch {
@@ -181,6 +188,8 @@ export const LorePlugin = async ({ directory, worktree } = {}) => {
         // se lleva por delante el bus entero, que es la parte compartida. Fallo abierto, siempre.
       }
     },
+
+    dispose() { pendientes.clear(); semillasConsumidas.clear(); turnosHumanos.clear(); },
 
     "tool.execute.before"(input, output) {
       let carga;
@@ -213,7 +222,7 @@ export const LorePlugin = async ({ directory, worktree } = {}) => {
       if (bloquea) return;
       if (desconocidos.length === 0) return;
       anotarDesconocidos(jurisdiccion, carga.tool, desconocidos);
-      encolar(`Lore Plugin: escritura fuera de un árbol con Lore, permitida y anotada: ${listaDeDatos(desconocidos)}`);
+      encolar(input?.sessionID, `Lore Plugin: escritura fuera de un árbol con Lore, permitida y anotada: ${listaDeDatos(desconocidos)}`);
     },
 
     "tool.execute.after"(input) {
@@ -247,7 +256,7 @@ export const LorePlugin = async ({ directory, worktree } = {}) => {
           if (registrado.version === 1) writeReceipt(jurisdiccion, actual);
           return;
         }
-        encolar(formatIntervention(resultado));
+        encolar(sessionID, formatIntervention(resultado));
       } catch {
         /* abierto: un guard que se cae no puede ser el que frena el trabajo */
       }
@@ -255,8 +264,13 @@ export const LorePlugin = async ({ directory, worktree } = {}) => {
 
     "experimental.chat.system.transform"(input, output) {
       if (!output || !Array.isArray(output.system)) return;
-      const aviso = pendiente;
-      pendiente = null;
+      const sessionID = input?.sessionID;
+      let aviso = pendientes.get(sessionID) ?? null;
+      pendientes.delete(sessionID);
+      if (typeof sessionID === "string" && !semillasConsumidas.has(sessionID)) {
+        semillasConsumidas.add(sessionID);
+        if (veredictoSemilla) aviso = aviso ? `${veredictoSemilla}\n${aviso}` : veredictoSemilla;
+      }
 
       // Lo que esta peticion va a decir de la semilla, y que arbol es el suyo. Tres formas de
       // callarla, y las tres se deciden aqui y no en la fabrica: el turno ya la dijo, la sesion no
@@ -324,4 +338,33 @@ export const LorePlugin = async ({ directory, worktree } = {}) => {
       alSistema(sinSemilla(aviso));
     },
   };
+};
+
+// API v2 documentada: https://opencode.ai/v2/docs/build/plugins/migrate-v1
+export default {
+  id: "lore-plugin",
+  server: LorePlugin,
+  async setup(ctx) {
+    const hooks = await LorePlugin({ directory: ctx.location.directory });
+    const controller = new AbortController();
+    await ctx.session.hook("prompt", event => {
+      hooks.event({ event: { type: "session.created", properties: { info: { id: event.sessionID } } } });
+      hooks["chat.message"]({ sessionID: event.sessionID, messageID: event.messageID }, { message: { role: "user" } });
+    });
+    await ctx.session.hook("context", event => {
+      const output = { system: [] };
+      hooks["experimental.chat.system.transform"]({ sessionID: event.sessionID }, output);
+      for (const text of output.system) event.system.push({ type: "text", text });
+    });
+    await ctx.tool.hook("execute.before", event => hooks["tool.execute.before"](
+      { sessionID: event.sessionID, tool: event.tool }, { args: event.input }));
+    await ctx.tool.hook("execute.after", event => hooks["tool.execute.after"](
+      { sessionID: event.sessionID, tool: event.tool }));
+    const subscription = (async () => {
+      for await (const event of ctx.event.subscribe({ signal: controller.signal })) hooks.event({ event });
+    })().catch(error => {
+      if (!controller.signal.aborted) process.stderr.write("Lore Plugin: event subscription unavailable; session baseline uses prompt admission.\n");
+    });
+    return async () => { controller.abort(); await subscription; hooks.dispose(); };
+  },
 };

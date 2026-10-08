@@ -41,6 +41,21 @@ test("tres fallos frenan dispatch y el bloqueo sobrevive a FASES", async t => {
   assert.equal(calls, 0);
 });
 
+test("una búsqueda antigua no cubre fallos observados después del freno", async t => {
+  const { op } = await stopped(t);
+  const later = coordinator.observeTask(op, "t1", { signature: "HTTP 503 timeout", text: "late failure report", at: "2026-10-07T10:07:00Z" });
+  assert.throws(() => coordinator.recordRetrySearch(later, search), /predates/i);
+});
+
+test("ni éxito ni firma nueva borran un freno pendiente", async t => {
+  const { op } = await stopped(t);
+  for (const extra of [{ outcome: "success" }, { signature: "another failure" }]) {
+    const next = coordinator.observeTask(op, "t1", { ...extra, text: "late observation", at: "2026-10-07T10:07:00Z" });
+    assert.equal(state.retryGate(next).blocked, true);
+    assert.equal(coordinator.dispatchTask(next, "t1", { host }).tasks[0].state, "blocked");
+  }
+});
+
 test("sin búsqueda disponible se preservan intentos y condición de reanudación", async t => {
   const { op } = await stopped(t);
   assert.equal(typeof coordinator.recordRetrySearch, "function");
@@ -63,11 +78,59 @@ test("hallazgo pertinente abre un reintento acotado, no borra historial ni cubre
   assert.equal(ready.retry_searches[0].findings[0].source, findings[0].source);
   assert.equal(ready.retry_searches[0].executed_by_cli, false);
   assert.equal(ready.id, op.id);
-  const retry = coordinator.dispatchTask(ready, "t1", { host, hostName: "fixture-host", model: "worker" });
+  const retry = coordinator.dispatchTask(ready, "t1", { host, hostName: "fixture-host", model: "worker", retryChange: search.change });
   assert.equal(retry.tasks[0].state, "running");
   const failed = coordinator.observeTask(retry, "t1", { signature: "HTTP 503 timeout", text: "documented transport also failed", at: "2026-10-07T10:06:00Z" });
   assert.equal(failed.retry_stop.status, "requires_search");
   assert.equal(failed.tasks[0].observations.length, 4);
+});
+
+test("reintento exige la tarea detenida y el cambio aplicado al encargo", async t => {
+  const { op } = await stopped(t);
+  const ready = coordinator.recordRetrySearch(op, search);
+  assert.throws(() => coordinator.dispatchTask(ready, "t1", { host }), /retry change/i);
+  const withOther = { ...ready, tasks: [...ready.tasks, { ...ready.tasks[0], id: "other" }] };
+  assert.throws(() => coordinator.dispatchTask(withOther, "other", { host, retryChange: search.change }), /stopped task/i);
+  const applied = coordinator.dispatchTask(ready, "t1", { host, retryChange: search.change });
+  assert.equal(applied.tasks[0].retry_execution.change, search.change);
+  assert.equal(applied.tasks[0].retry_execution.search_digest, ready.retry_stop.digest);
+  assert.ok(applied.tasks[0].question.includes(search.change));
+  assert.notEqual(applied.tasks[0].retry_execution.commission_before_sha256, applied.tasks[0].retry_execution.commission_after_sha256);
+  assert.throws(() => coordinator.dispatchTask(applied, "t1", { host }), /already running/i);
+  for (const terminal of ["reviewed", "verified", "integrated"]) {
+    const completed = { ...applied, tasks: [{ ...applied.tasks[0], state: terminal }] };
+    assert.throws(() => coordinator.dispatchTask(completed, "t1", { host }), /dispatch.*state|completed/i);
+  }
+});
+
+test("búsqueda con fecha futura se rechaza", async t => {
+  const { op } = await stopped(t);
+  assert.throws(() => coordinator.recordRetrySearch(op, { ...search, at: "2099-01-01T00:00:00Z" }), /future/i);
+  assert.throws(() => coordinator.observeTask(op, "t1", { signature: "E", at: "2099-01-01T00:00:00Z" }), /future/i);
+});
+
+test("búsqueda resuelta no permite evadir dispatch por la capacidad durable", async t => {
+  const { root, op } = await stopped(t);
+  const ready = coordinator.recordRetrySearch(op, search);
+  await state.saveOperationState(root, ready);
+  const { runDurableOperation } = await import("../skills/vespi/core/vespi.mjs");
+  let performed = 0;
+  await assert.rejects(() => runDurableOperation({ root, id: ready.id, capability: { id: "fixture", required: () => ({ spend: [] }), perform: async () => { performed++; return {}; } } }), /retry.*dispatch/i);
+  assert.equal(performed, 0);
+});
+
+test("el freno pendiente no se convierte en cierre parcial", async t => {
+  const { op } = await stopped(t);
+  assert.throws(() => coordinator.closeOperation(op, {}), /stop_and_search/i);
+  assert.throws(() => state.transitionArtifact(op, { state: "verified" }), /stop_and_search/i);
+});
+
+test("observar otra tarea no reasigna el origen del freno", async t => {
+  const { op } = await stopped(t);
+  const withOther = { ...op, tasks: [...op.tasks, { ...op.tasks[0], id: "other" }] };
+  const observed = coordinator.observeTask(withOther, "other", { text: "diagnostic report" });
+  assert.equal(observed.retry_stop.task_id, "t1");
+  assert.throws(() => coordinator.recordRetrySearch(op, { ...search, change: " " }), /change/i);
 });
 
 test("un conflicto con Lore no se auto-aplica ni se borra con otra búsqueda", async t => {

@@ -13,6 +13,8 @@ description: >-
 
 # Using Lore
 
+For a decision needing LUS, read `../vespi/lus-method.md`: source, interpretation, influence and limits; MCP is optional. No unread source counts as criterion.
+
 > Invoke with the Skill tool as `use-lore`, or with the person's sentence «quiero hacer esto y no sé cómo» / «todavía no hay forma de trabajo» when no shape of working exists yet.
 
 Yesterday you and an agent solved something hard. You argued about the edges, you threw away two

@@ -271,8 +271,8 @@ test("observar registra que se vio y cuando; una fecha pasada sin observacion nu
   const root = await proyecto(t);
   const { f, a } = await autorizada();
   let art = f.planTask(a, daimon(root, { timeoutMs: 1000 })).artifact;
-  art = f.dispatchTask(art, "t1", { host: HOST_CON_EJECUTOR, hostName: "opencode", model: "m", effort: "e" });
-  const luego = new Date(Date.now() + 60_000).toISOString();
+  art = f.dispatchTask(art, "t1", { host: HOST_CON_EJECUTOR, hostName: "opencode", model: "m", effort: "e", now: Date.now() - 60_000 });
+  const luego = new Date().toISOString();
   const obs = f.observeTask(art, "t1", { text: "el proceso sigue sin salida", alive: false, at: luego });
   assert.equal(obs.tasks[0].observations.at(-1).at, luego);
   assert.equal(obs.tasks[0].overdue, true);

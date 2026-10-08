@@ -5,7 +5,7 @@ import { proofAt } from "../bench/verification-fixture.mjs";
 // Las tareas se despachan declarando las herramientas del host que quien opera OBSERVO (--tools); la CLI no las simula.
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { cp, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -17,8 +17,8 @@ import { createArtifact, saveOperationState, transitionArtifact } from "../skill
 const CLI = resolve(dirname(fileURLToPath(import.meta.url)), "lore-plugin.mjs");
 const MODULO = resolve(dirname(fileURLToPath(import.meta.url)), "operation-cli.mjs");
 
-function run(args, { input } = {}) {
-  const r = spawnSync(process.execPath, [CLI, "operation", ...args], { encoding: "utf8", input });
+function run(args, { input, cli = CLI } = {}) {
+  const r = spawnSync(process.execPath, [cli, "operation", ...args], { encoding: "utf8", input });
   let json = null;
   const line = r.stdout.trim().split(/\r?\n/).filter(Boolean).pop();
   try { json = line ? JSON.parse(line) : null; } catch { json = null; }
@@ -185,6 +185,25 @@ test("el ciclo completo: receive, review, verify, integrate y close, con la veri
   assert.match(propio.json.error, /independent/);
   const vf = run(["verify", "--root", root, "--id", id, "--task", "t1", "--json", j({ verifier: "coordinador", observed: true, evidence: proofAt(root, id) })]);
   assert.equal(vf.json.task.state, "verified");
+  const trust = run(["trust", "--root", root, "--id", id]);
+  assert.equal(trust.code, 0, trust.out);
+  assert.ok(trust.json.trust.coverage.length >= 1, JSON.stringify(trust.json));
+  assert.equal(trust.json.trust.observations[0].execution.completed, true);
+  const valid = await readOperation({ root, id });
+  const { operationTrust } = await import("../skills/vespi/core/coordinator.mjs");
+  const alteredEvidence = structuredClone(valid);
+  alteredEvidence.tasks[0].verification.evidence.checks[0].observation = "forged observation";
+  assert.equal(operationTrust(alteredEvidence).coverage.length, 0);
+  const alteredSignature = structuredClone(valid);
+  alteredSignature.tasks[0].verification.evidence.execution_receipt.signature = "0".repeat(64);
+  assert.equal(operationTrust(alteredSignature).coverage.length, 0);
+  const alteredSummary = structuredClone(valid);
+  alteredSummary.tasks[0].verification.execution.adapter = "forged adapter";
+  assert.deepEqual(operationTrust(alteredSummary).observations[0].execution,
+    { ...valid.tasks[0].verification.evidence.execution_receipt.execution, certifiesCurrentState: true, currentStateWitness: null });
+  await writeFile(spec.output.path, "changed after verification");
+  assert.equal(operationTrust(valid).coverage.length, 0);
+  await writeFile(spec.output.path, "evidencia: ...\nlimites: ...\n");
   const ig = run(["integrate", "--root", root, "--id", id, "--task", "t1", "--json", j({ destination: "notas/cotejo.md" })]);
   assert.equal(ig.json.task.state, "integrated");
   const sinVerificar = run(["close", "--root", root, "--id", id, "--json", j({ verification: { verified: false } })]);
@@ -227,7 +246,7 @@ test("status distingue una ruta declarada de una tarea ejecutada y vencida", asy
   const { root, id } = await conOperacion(t);
   run(["plan", "--root", root, "--id", id, "--json", j({ ...encargoDaimon(root), timeoutMs: 1 })]);
   run(["dispatch", "--root", root, "--id", id, "--task", "t1", "--tools", "execute", "--json", j({ hostName: "opencode", model: "m" })]);
-  const ob = run(["observe", "--root", root, "--id", id, "--task", "t1", "--json", j({ text: "sigue vivo", alive: true, at: new Date(Date.now() + 60_000).toISOString() })]);
+  const ob = run(["observe", "--root", root, "--id", id, "--task", "t1", "--json", j({ text: "sigue vivo", alive: true, at: new Date().toISOString() })]);
   assert.equal(ob.json.ok, true);
   const s = run(["status", "--root", root, "--id", id]);
   assert.equal(s.json.state, "running");
@@ -269,17 +288,24 @@ test("status imprime referencia inicial por tipo y la medición propia con 3 mue
 test("una semilla ausente o corrupta no rompe el estado: sale sin referencia", async (t) => {
   const { root, id } = await conOperacion(t);
   run(["plan", "--root", root, "--id", id, "--json", j({ ...encargoDaimon(root), timeoutMs: 60000, kind: "build" })]);
-  const semilla = resolve(dirname(fileURLToPath(import.meta.url)), "..", "skills", "vespi", "core", "calibration-seed.json");
-  const original = await readFile(semilla, "utf8");
-  t.after(() => writeFile(semilla, original));
+  // Mutate an isolated CLI tree, never the source concurrently copied by installer tests.
+  const repo = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+  const isolated = join(root, 'isolated-kit');
+  await cp(join(repo, 'scripts'), join(isolated, 'scripts'), { recursive: true });
+  await cp(join(repo, 'hooks'), join(isolated, 'hooks'), { recursive: true });
+  await cp(join(repo, 'skills'), join(isolated, 'skills'), { recursive: true });
+  await cp(join(repo, 'package.json'), join(isolated, 'package.json'));
+  const semilla = join(isolated, 'skills', 'vespi', 'core', 'calibration-seed.json');
+  const isolatedRun = args => run(args, { cli: join(isolated, 'scripts', 'lore-plugin.mjs') });
   // El top es proteccion contra colgados (ley #53), no una estimacion: la semilla no lo toca.
-  const conSemilla = run(["status", "--root", root, "--id", id]);
+  const conSemilla = isolatedRun(["status", "--root", root, "--id", id]);
+  assert.equal(conSemilla.code, 0, conSemilla.err + conSemilla.out);
   assert.match(conSemilla.json.calibrationLines[0].line, /^referencia inicial \(no medida en tu máquina\)/);
   assert.match(conSemilla.json.calibrationLines[0].line, /del orden de 22 min, hasta unos 32 min/);
   assert.equal(conSemilla.json.calibrationLines[0].line.includes(String(conSemilla.json.tasks[0].timeoutMs)), false);
   for (const cuerpo of ["{ corrupt", "[]", "null", JSON.stringify({ entries: [{ kind: "build", samples: 1, medianMinutes: 1, p80Minutes: 1, minMinutes: 1, maxMinutes: 1 }] })]) {
     await writeFile(semilla, cuerpo);
-    const status = run(["status", "--root", root, "--id", id]);
+    const status = isolatedRun(["status", "--root", root, "--id", id]);
     assert.equal(status.code, 0, `${cuerpo}: el estado se cae`);
     assert.equal(status.json.ok, true);
     assert.deepEqual(status.json.calibrationLines.map(({ line }) => line), ["sin referencia"], cuerpo);
@@ -323,6 +349,113 @@ test("status expone el muro y stop_and_search tras tres fallos iguales", async (
   assert.equal(status.json.wall.instruction, "stop_and_search");
   assert.equal(status.json.wall.attempted.length, 3);
   assert.match(status.json.wall.attempted[0], /intenté el paso 1/);
+});
+
+test("consult conecta lectura LUS situada con decisión y conserva procedencia", async t => {
+  const { root, id } = await conOperacion(t);
+  const source = join(root, "lus-fixture.md");
+  await writeFile(source, "Synthetic criterion: distinguish claim from observation.\n");
+  const input = { sourceRoot: root, sourceRootObservedBy: "fixture-coordinator", source: "lus-fixture.md", reference: "fixture criterion", pertinent: true, interpretation: "require observed proof", limit: "synthetic source; product interpretation, not scientific result", decision: { id: "choose-proof", before: "trust exit", after: "read evidence", reason: "criterion distinguishes claims" }, mcpConfigured: true };
+  const result = run(["consult", "--root", root, "--id", id, "--json", j(input)]);
+  assert.equal(result.code, 0, result.err + result.out);
+  let stored = await readOperation({ root, id });
+  const entry = stored.loaded.at(-1);
+  assert.equal(entry.transport, "local");
+  assert.equal(entry.status, "consulted");
+  assert.equal(entry.requested_source, "lus-fixture.md");
+  assert.equal(entry.source, source);
+  assert.equal(entry.decision.after, "read evidence");
+  assert.match(entry.digest, /^[a-f0-9]{64}$/);
+  assert.match(entry.transport_limit, /MCP.*unavailable/i);
+  assert.equal(stored.provenance.consultations.at(-1).digest, entry.digest);
+  assert.equal(entry.source_root.source, "coordinator-attestation");
+  assert.equal(await readFile(source, "utf8"), "Synthetic criterion: distinguish claim from observation.\n");
+  const ignored = run(["consult", "--root", root, "--id", id, "--json", j({ ...input, pertinent: false, discardReason: "different domain" })]);
+  assert.equal(ignored.code, 0);
+  stored = await readOperation({ root, id });
+  assert.equal(stored.loaded.at(-1).status, "discarded");
+  const missing = run(["consult", "--root", root, "--id", id, "--json", j({ ...input, source: join(root, "missing.md"), mcpConfigured: false })]);
+  assert.equal(missing.code, 0);
+  stored = await readOperation({ root, id });
+  assert.equal(stored.loaded.at(-1).status, "unavailable");
+  assert.equal(stored.loaded.at(-1).digest, null);
+});
+
+test("consult usa MCP solo con herramienta real y rechaza escapes de raíz", async t => {
+  const { root, id } = await conOperacion(t);
+  const api = await import("../skills/vespi/core/coordinator.mjs");
+  assert.equal(typeof api.consultCriterion, "function");
+  const op = await readOperation({ root, id });
+  const input = { source: "lus://fixture/criterion", reference: "fixture section", pertinent: true, interpretation: "interpretation", limit: "synthetic MCP only", decision: { id: "d", before: "a", after: "b", reason: "applied criterion" }, mcpConfigured: true };
+  let calls = 0;
+  const consulted = await api.consultCriterion(op, input, { readMcp: async uri => { calls++; assert.equal(uri, input.source); return { text: "fixture criterion", source: uri }; } });
+  assert.equal(calls, 1);
+  assert.equal(consulted.loaded.at(-1).transport, "mcp");
+  await assert.rejects(() => api.consultCriterion(op, { ...input, source: join(root, "..", "escape.md"), sourceRoot: root, sourceRootObservedBy: "fixture", mcpConfigured: false }), /outside|root/i);
+  await assert.rejects(() => api.consultCriterion(op, { ...input, source: join(root, "f.md"), sourceRoot: root, mcpConfigured: false }), /observer/i);
+});
+
+test("compare conserva elección tecnológica situada y trust enumera omisiones", async t => {
+  const { root, id } = await conOperacion(t);
+  const option = { benefit: "local project assistance", cost: "local compute", authority: "project owner", privacy: "local fixture", reversibility: "restore file", expected_effect: "none", source: "fixture://observed-run", limit: "simulation only" };
+  const options = [{ ...option, id: "ia", technology: "ia" }, { ...option, id: "chain", technology: "blockchain", benefit: "shared ordered commitment record", cost: "coordination and consensus overhead", reversibility: "append a correction" }];
+  // Executed local simulation: independent mutable views diverge; one ordered registry exposes both events.
+  const ownerView = [{ actor: "a", delivered: true }];
+  const peerView = [{ actor: "b", delivered: false }];
+  assert.notDeepEqual(ownerView, peerView);
+  const sharedRegistry = [];
+  for (const event of [...ownerView, ...peerView]) sharedRegistry.push(Object.freeze({ sequence: sharedRegistry.length + 1, ...event }));
+  const readView = () => structuredClone(sharedRegistry);
+  assert.deepEqual(readView(), readView());
+  assert.deepEqual(readView().map(event => event.sequence), [1, 2]);
+  await writeFile(join(root, "comparison-fixture.json"), j({ ownerView, peerView, registryView: readView(), limit: "central local registry, no decentralized consensus" }));
+  for (const selected of ["ia", "chain"]) {
+    const comparison = run(["compare", "--root", root, "--id", id, "--json", j({ options, selected, reason: selected === "ia" ? "single owner needs no shared registry" : "disputed local logs need a shared ordering under fixture assumptions", observations: [{ id: "local", source: "fixture://separate-logs", result: "contradictory records" }, { id: "shared", source: "fixture://shared-order", result: "same ordered records" }], mode: "simulation", limit: "no real blockchain; not proof of necessity, consensus or economic security" })]);
+    assert.equal(comparison.code, 0, comparison.err + comparison.out);
+    assert.equal(comparison.json.choice.selected, selected);
+    assert.equal(comparison.json.choice.mode, "simulation");
+  }
+  const trust = run(["trust", "--root", root, "--id", id]);
+  assert.equal(trust.code, 0, trust.err + trust.out);
+  assert.equal(trust.json.trust.operation_id, id);
+  assert.equal(trust.json.trust.score, undefined);
+  assert.ok(trust.json.trust.notCovered.includes("no executed domain verification"));
+  assert.deepEqual(trust.json.trust.authority, (await readOperation({ root, id })).authority);
+  const bad = run(["compare", "--root", root, "--id", id, "--json", j({ options: options.map(x => ({ ...x, privacy: "" })), selected: "chain" })]);
+  assert.equal(bad.code, 1);
+});
+
+test("capability distingue puerto configurado de presencia del módulo", async t => {
+  const { root, id } = await conOperacion(t);
+  const api = await import("../skills/vespi/core/coordinator.mjs");
+  assert.equal(typeof api.describeOperationCapability, "function");
+  const input = { id: "zk", observedBy: "fixture-coordinator", privacy: "local fixture only", limit: "backend function observed, not audited or invoked" };
+  const op = await readOperation({ root, id });
+  const configured = api.describeOperationCapability(op, input, { capabilities: { zk: () => {} } });
+  assert.equal(configured.configured, true);
+  assert.equal(configured.executed, false);
+  const absent = run(["capability", "--root", root, "--id", id, "--json", j(input)]);
+  assert.equal(absent.code, 0, absent.err + absent.out);
+  assert.equal(absent.json.capability.configured, false);
+  assert.equal(absent.json.capability.status, "not-integrated");
+});
+
+test("card offer answer arbitrate conserva recibo entre procesos", async t => {
+  const { root, id } = await conOperacion(t);
+  const point = { dimension: "sequence", options: [{ id: "a", viable: true, consequence: "write then check" }, { id: "b", viable: true, consequence: "check then write" }] };
+  const offered = run(["card", "offer", "--root", root, "--id", id, "--json", j({ decisionPoint: point, decisionBefore: "write then check", semilla: 19 })]);
+  assert.equal(offered.code, 0, offered.err + offered.out);
+  const card = offered.json.card;
+  assert.equal(card.classification, null);
+  const answer = run(["card", "answer", "--root", root, "--id", id, "--json", j({ id: card.id, response: "accepted" })]);
+  assert.equal(answer.code, 0, answer.err + answer.out);
+  const arbitrated = run(["card", "arbitrate", "--root", root, "--id", id, "--json", j({ id: card.id, evidence: { cardId: card.id, source: "fixture://decision", by: "fixture-verifier", at: new Date().toISOString(), decisionBefore: "write then check", decisionAfter: "check then write", kind: "opening", distinction: "check assumptions before acting", description: "changed order after evaluating the offered option" } })]);
+  assert.equal(arbitrated.code, 0, arbitrated.err + arbitrated.out);
+  assert.equal(arbitrated.json.card.classification, "germen");
+  const stored = await readOperation({ root, id });
+  assert.equal(stored.perturbations[0].response_status, "accepted");
+  assert.equal(stored.id, id);
+  assert.equal(run(["card", "offer", "--root", root, "--id", id, "--json", j({ decisionPoint: point, decisionBefore: "a" })]).code, 1);
 });
 
 test("retry-search guarda la búsqueda del host sin atribuirla al CLI", async (t) => {

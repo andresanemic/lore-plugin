@@ -6,7 +6,7 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.5.0-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.5.1-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/AI_provider-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="AI provider: neutral"></a>
   <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Local fine-tuning"></a>
@@ -397,7 +397,7 @@ Version 2.4.9 retires four things: encryption, the `lore-ecosistema/` copy, `cre
 
 ## Vespi
 
-**Vespi is the kernel under Lore Plugin. This cut carries frozen kernel 0.1.4.**
+**Vespi is the kernel under Lore Plugin. This cut carries frozen kernel 0.1.5.**
 
 <p align="center">
   <img src="./assets/vespi-B.png" alt="Vespi" width="100%">
@@ -405,7 +405,7 @@ Version 2.4.9 retires four things: encryption, the `lore-ecosistema/` copy, `cre
 
 Lore Plugin is the ground: your criterion, written once, and the routing that opens the right one for each task. Vespi is what runs on that ground: an operation under an authority you grant, checked apart from whoever carries it out, that leaves a receipt anyone can verify. It does not write your Lore and it does not decide for you: it says what it sees, states its assumptions as assumptions, and the choice is yours.
 
-Version 2.5 makes the next action explicit when a session opens. Coordinated ordinary work leaves an operation record, and verification runs a commissioned check before certification. Rejected results remain visible and require fresh review after correction. Deterministic checks and explicitly authorized semantic review have different limits; execution does not guarantee judgment. [Release notes](./docs/RELEASE_2.5.0-rc.1.md) · [Execution and limits](./docs/VERIFICATION-EXECUTION.md).
+Version 2.5.1 makes the next action explicit when a session opens. Coordinated ordinary work leaves an operation record, and verification runs a commissioned check before certification. Rejected results remain visible and require fresh review after correction. Deterministic checks and explicitly authorized semantic review have different limits; execution does not guarantee judgment. [Release notes](./docs/RELEASE_2.5.1.md) · [Execution and limits](./docs/VERIFICATION-EXECUTION.md).
 
 Earlier operation features and their limits remain documented in [the 2.4.9 release](./docs/RELEASE_2.4.9.md).
 
@@ -485,13 +485,13 @@ Lore was not designed ahead of time: every decision came from applying it to rea
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/3541+-clones_through_2026.10.04-FF557A?style=for-the-badge&labelColor=0B0B12" alt="3,541+ clones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/92-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="92 days"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~38-a_day-F94F79?style=for-the-badge&labelColor=0B0B12" alt="38 a day"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/static/v1?label=3722%2B&amp;message=recorded+clones&amp;color=FF557A&amp;style=for-the-badge&amp;labelColor=0B0B12" alt="3,722+ clones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/95-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="95 days"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~39-a_day-F94F79?style=for-the-badge&labelColor=0B0B12" alt="39 a day"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-peak-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 peak"></a>
 </p>
 
-GitHub traffic windows preserved in [`data/traffic/clones.json`](./data/traffic/clones.json). A **minimum, cut at 2026-10-04**.
+GitHub traffic windows preserved in [`data/traffic/clones.json`](./data/traffic/clones.json). A **recorded minimum, consulted on 2026-10-08; latest API day: 2026-10-07 (UTC)**. Today is not a completed day in the API response.
 
 Lore Plugin is the technical arm of LUS, not a productivity system with philosophy attached. The benchmark tests a narrow product claim; it does not validate LUS as a whole. [The research boundary is explicit here.](./docs/LUS_en.md)
 
@@ -500,6 +500,12 @@ Morin gives this work its ethical north: in UNESCO's [*Seven Complex Lessons in 
 > **A reach signal, not a demonstration.** Nobody knows what anyone did with their copy — installed, distilled, opened once? It is no case, and answers none of the questions the [case studies](./docs/CASES_en.md) do. And the API's "unique cloners" are unique **per day**, not people: they cannot be summed into a headcount.
 
 ---
+
+### Vespi Meridian Edition 1.0
+
+[Website — vespi.xyz](https://vespi.xyz) · [Tutorial in English](https://docs.google.com/document/d/1gwu3gBIJwgevCrGPyMv-J1UfjegggYDu/edit?usp=sharing&ouid=113358117411001923633&rtpof=true&sd=true) · [Deck in English](https://drive.google.com/file/d/1lG5DOOS6z4Kzz6PfZIPP2RXW_LXN_U1g/view?usp=drive_link)
+
+Materials supplied by Andrés. Website deployment was not verified in this review; these links do not extend the kernel’s verified scope.
 
 ## The deck
 
@@ -561,7 +567,7 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.5.0-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.5.1-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/proveedor_IA-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Proveedor IA: neutral"></a>
   <a href="./docs/SPEC_KIT_es.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/fine--tuning-local-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Fine-tuning local"></a>
@@ -993,7 +999,7 @@ La versión 2.4.9 retira cuatro cosas: el cifrado, la copia `lore-ecosistema/`, 
 
 ## Vespi
 
-**Vespi es el kernel de Lore Plugin. Este corte lleva el kernel 0.1.4 congelado.**
+**Vespi es el kernel de Lore Plugin. Este corte lleva el kernel 0.1.5 congelado.**
 
 <p align="center">
   <img src="./assets/vespi-B.png" alt="Vespi" width="100%">
@@ -1001,7 +1007,7 @@ La versión 2.4.9 retira cuatro cosas: el cifrado, la copia `lore-ecosistema/`, 
 
 Lore Plugin es el terreno: tu criterio escrito una vez y el enrutamiento que abre el correcto para cada tarea. Vespi es lo que corre sobre ese terreno: una operación bajo una autoridad que tú otorgas, verificada aparte de quien la ejecuta, que deja un recibo que cualquiera puede comprobar. No escribe tu Lore ni decide por ti: te dice lo que ve, dice sus suposiciones como suposiciones, y la elección es tuya.
 
-La versión 2.5 hace explícita la siguiente acción al abrir una sesión. El trabajo ordinario que requiere coordinación deja un registro de operación y la verificación ejecuta una prueba comisionada antes de certificar. Los rechazos quedan visibles y corregir exige una revisión nueva. Las comprobaciones deterministas y la revisión semántica autorizada tienen límites distintos; ejecutar no garantiza comprender. [Nota de versión](./docs/RELEASE_2.5.0-rc.1.md#español) · [Ejecución y límites](./docs/VERIFICATION-EXECUTION.md).
+La versión 2.5.1 hace explícita la siguiente acción al abrir una sesión. El trabajo ordinario que requiere coordinación deja un registro de operación y la verificación ejecuta una prueba comisionada antes de certificar. Los rechazos quedan visibles y corregir exige una revisión nueva. Las comprobaciones deterministas y la revisión semántica autorizada tienen límites distintos; ejecutar no garantiza comprender. [Nota de versión](./docs/RELEASE_2.5.1.md) · [Ejecución y límites](./docs/VERIFICATION-EXECUTION.md).
 
 Las funciones anteriores de operaciones y sus límites se conservan en [la nota de 2.4.9](./docs/RELEASE_2.4.9.md).
 
@@ -1079,13 +1085,13 @@ Lore no se diseñó de antemano: cada decisión salió de aplicarlo a proyectos 
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/3541+-clonaciones_hasta_2026.10.04-FF557A?style=for-the-badge&labelColor=0B0B12" alt="3.541+ clonaciones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/92-d%C3%ADas-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="92 días"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~38-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="38 al día"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/static/v1?label=3722%2B&amp;message=clonaciones+registradas&amp;color=FF557A&amp;style=for-the-badge&amp;labelColor=0B0B12" alt="3.722+ clonaciones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/95-d%C3%ADas-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="95 días"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~39-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="39 al día"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-pico-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 pico"></a>
 </p>
 
-Ventanas GitHub preservadas en [`data/traffic/clones.json`](./data/traffic/clones.json). Un **mínimo, con corte al 2026-10-04**.
+Ventanas GitHub preservadas en [`data/traffic/clones.json`](./data/traffic/clones.json). Un **mínimo registrado, consultado el 2026-10-08; último día de la API: 2026-10-07 (UTC)**. La respuesta aún no contiene un día completo de hoy.
 
 Lore Plugin es el brazo técnico de LUS, no un sistema de productividad con filosofía agregada. El benchmark prueba una afirmación acotada de producto; no valida LUS como conjunto. [La frontera de investigación está explícita acá.](./docs/LUS_es.md)
 
@@ -1094,6 +1100,12 @@ Morin le da a este trabajo su norte ético: en la edición de UNESCO de [*Los si
 > **Una señal de alcance, no una demostración.** Nadie sabe qué hizo cada quien con su copia — ¿instalada, destilada, abierta una vez? No es un caso y no responde lo que responden los [casos de estudio](./docs/CASES_es.md). Y los «clonadores únicos» de la API son únicos **por día**, no personas: no se pueden sumar para contar cabezas.
 
 ---
+
+### Vespi Meridian Edition 1.0
+
+[Sitio — vespi.xyz](https://vespi.xyz) · [Tutorial en español](https://docs.google.com/document/d/1wj3yfr0Iyi8e3szUawJ4Q-mNb7EmySM-/edit?usp=drive_link&ouid=113358117411001923633&rtpof=true&sd=true) · [Deck en español](https://drive.google.com/file/d/1LkcSXeVLxstZiNhiVpq8zU1_Kn-61qUl/view?usp=drive_link)
+
+Materiales proporcionados por Andrés. El despliegue del sitio no se verificó en esta revisión; estos enlaces no amplían el alcance verificado del kernel.
 
 ## El deck
 

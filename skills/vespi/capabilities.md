@@ -109,6 +109,8 @@ humana.
 
 ## Reporting / Informe
 
+[Situated choice and trust / Elección y confianza](choices-method.md).
+
 Four editorial labels, not kernel states: proven by the cited test, refuted, not measured, out of scope.
 Keep native `status`, `code` and `reason`. Test ports and backends support only that run, not a
 certification. `not_verified` never means an event did not happen.

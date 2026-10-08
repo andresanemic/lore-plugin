@@ -13,7 +13,7 @@ description: >-
 
 Invoke `vespi` with the Skill tool. Human phrases route through `use-lore`. An ordinary operation is still an operation: retain criterion, owner, gate, receipt, distinct verification and next step. Sparse work skips the bounded wrapper below.
 
-**How the coordinator works.** Read [`method.md`](./method.md): classify, define done, gather evidence, decide, act surgically, verify by observation, report outcome first. Report/receipt name the same observation, coverage and limits.
+**How the coordinator works.** Read [`method.md`](./method.md): classify, define done, gather evidence, decide, act surgically, verify by observation, report outcome first. Retry: [`retry-method.md`](./retry-method.md). Choice/trust: [`capabilities.md`](./capabilities.md).
 
 ## Recommending the work mode
 
@@ -21,7 +21,7 @@ Before tasks or dispatch, read the agreement, pertinent Pistas and observed host
 
 Run `node scripts/operation-cli.mjs recommend --root <project> --json <payload>`. The offer changes no operation. Supply the actual instruction, Pista reference/passage/pertinence/reason (or why none applies), observed skill inventory and its source, and suggested IDs/purposes. Never claim unread criterion or invent a skill. The CLI checks IDs against this inventory and hashes passage, inventory and instruction to detect material changes; it does not authenticate the host catalog. Keep the user's mode and accept/correct/decline skill choices in the operation.
 
-Suggest only useful skills: `use-lore` loads criterion, `vespi` coordinates authority/continuity, `brainstorming-lore` forms an agreement, `save-to-lore` arbitrates capture. A simple task with a working route needs no wrapper; reading sibling trees grants no write authority.
+Suggest fitting skills; reading siblings grants no write authority. LUS: [`lus-method.md`](./lus-method.md). Cards: [`cards-method.md`](./cards-method.md).
 
 ## Coordination when the work already has a shape
 

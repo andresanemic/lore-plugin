@@ -109,9 +109,9 @@ const antes = (tool, args) => [{ tool, sessionID: SESION, callID: "llamada-1" },
 const armarSesion = (hooks, montaje) =>
   hooks["tool.execute.before"](...antes("read", { filePath: join(montaje.propio, "lore", "principios.md") }));
 
-function avisoEnCola(hooks) {
+function avisoEnCola(hooks, sessionID = SESION) {
   const salida = [];
-  hooks["experimental.chat.system.transform"]({}, { system: salida });
+  hooks["experimental.chat.system.transform"]({ sessionID }, { system: salida });
   return salida.join("\n");
 }
 
@@ -128,7 +128,7 @@ test("el target opencode instala un plugin que el glob de OpenCode sí encuentra
     `OpenCode v1 carga {plugin,plugins}/*.{ts,js}; se esperaba 1 archivo .js/.ts y hay ${encontrados.length}: ${encontrados.join(", ")}`);
 });
 
-test("el plugin exporta una sola función: OpenCode tira TypeError ante cualquier otro export", async (t) => {
+test("el plugin exporta una sola definición compatible con los cargadores v1 y v2", async (t) => {
   const montaje = montar();
   t.after(() => rmSync(montaje.base, { recursive: true, force: true }));
 
@@ -136,7 +136,65 @@ test("el plugin exporta una sola función: OpenCode tira TypeError ante cualquie
   const modulo = await import(pathToFileURL(archivo).href);
   const exports = Object.values(modulo);
   assert.equal(exports.length, 1, `un segundo export tumba el plugin entero: ${Object.keys(modulo).join(", ")}`);
-  assert.equal(typeof exports[0], "function");
+  assert.equal(exports[0], modulo.default);
+  assert.equal(typeof modulo.default.id, "string");
+  assert.equal(typeof modulo.default.server, "function");
+  assert.equal(typeof modulo.default.setup, "function");
+});
+
+test("avisos de dos sesiones intercaladas no cruzan contexto", async t => {
+  const montaje = montar();
+  t.after(() => rmSync(montaje.base, { recursive: true, force: true }));
+  const hooks = await abrir(montaje);
+  const a = SESION + '-a', b = SESION + '-b';
+  hooks.event({ event: { type: 'session.created', properties: { info: { id: a } } } });
+  hooks.event({ event: { type: 'session.created', properties: { info: { id: b } } } });
+  const destination = join(montaje.base, 'sin-lore-A', 'nota.md');
+  mkdirSync(join(montaje.base, 'sin-lore-A'));
+  hooks['tool.execute.before']({ tool: 'write', sessionID: a }, { args: { filePath: destination } });
+  const outputB = { system: [] };
+  hooks['experimental.chat.system.transform']({ sessionID: b }, outputB);
+  assert.doesNotMatch(outputB.system.join('\n'), /sin-lore-A/);
+  const outputA = { system: [] };
+  hooks['experimental.chat.system.transform']({ sessionID: a }, outputA);
+  assert.match(outputA.system.join('\n'), /sin-lore-A/);
+  hooks['tool.execute.before']({ tool: 'write', sessionID: a }, { args: { filePath: destination } });
+  hooks.event({ event: { type: 'session.deleted', properties: { info: { id: a } } } });
+  const deleted = { system: [] };
+  hooks['experimental.chat.system.transform']({ sessionID: a }, deleted);
+  assert.doesNotMatch(deleted.system.join('\n'), /sin-lore-A/);
+  hooks.dispose();
+});
+
+test("v2 registra hooks, traduce contexto y limpia suscripción", async t => {
+  const montaje = montar();
+  t.after(() => rmSync(montaje.base, { recursive: true, force: true }));
+  const [archivo] = archivosPlugin(montaje.configDir);
+  const plugin = (await import(pathToFileURL(archivo).href)).default;
+  const registrations = new Map();
+  const domain = name => ({ hook: async (event, callback) => {
+    const key = `${name}.${event}`;
+    assert.equal(registrations.has(key), false);
+    registrations.set(key, callback);
+  } });
+  let aborted = false;
+  const cleanup = await plugin.setup({ location: { directory: montaje.propio }, session: domain('session'), tool: domain('tool'),
+    event: { async *subscribe({ signal }) {
+      await new Promise(resolve => signal.addEventListener('abort', () => { aborted = true; resolve(); }, { once: true }));
+    } } });
+  assert.deepEqual([...registrations.keys()], ['session.prompt', 'session.context', 'tool.execute.before', 'tool.execute.after']);
+  await registrations.get('session.prompt')({ sessionID: SESION, messageID: 'human-1', prompt: { text: 'petición sintética' } });
+  assert.equal(readSessionRoot(SESION), montaje.propio);
+  await registrations.get('tool.execute.before')({ sessionID: SESION, tool: 'read', input: { path: montaje.propio } });
+  writeFileSync(join(montaje.propio, 'lore', 'principios.md'), '# criterio cambiado\n\nUna ley nueva requiere arbitraje.\n');
+  await registrations.get('tool.execute.after')({ sessionID: SESION, tool: 'write' });
+  const event = { sessionID: SESION, system: [] };
+  await registrations.get('session.context')(event);
+  assert.ok(event.system.length > 0);
+  assert.ok(event.system.every(part => part.type === 'text' && typeof part.text === 'string'));
+  assert.ok(event.system.map(part => part.text).join('\n').trim().length > 0);
+  await cleanup();
+  assert.equal(aborted, true);
 });
 
 test("los módulos compartidos viajan como .mjs, fuera del glob, y el runtime no los carga de plugin", async (t) => {
@@ -464,7 +522,7 @@ test("CIEGO apertura: `session.created` llega al plugin y sin él la segunda ses
   writeFileSync(join(montaje.propio, "lore", "principios.md"), "# lo toco otro dueño, después de que abriera\n");
   await hooks["tool.execute.after"]({ tool: "write", sessionID: OTRA, callID: "l1" }, {});
 
-  const aviso = avisoEnCola(hooks);
+  const aviso = avisoEnCola(hooks, OTRA);
   assert.match(aviso, /Mensaje del hook, no del usuario/,
     "la base se fijó en el primer evento, ya posterior al cambio: el desfase queda tragado y la sesión nunca lo ve");
 });

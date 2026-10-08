@@ -6,6 +6,7 @@
 // plus RC3 truthfulness wrappers. No scheduler, no router, no managers.
 import { createRequire } from "node:module";
 import { isDeepStrictEqual } from "node:util";
+export { evaluateCampaignEvidence, linkConsultationToDecision, applyCardCriterionDecision } from "./campaign.mjs";
 
 // The durable operation state, imported and re-exported whole rather than half: an agent is told to
 // import one module, and a surface split across two files is a surface it will not find. Nothing
@@ -69,11 +70,22 @@ import {
   integrateTask,
   observeTask,
   recordRetrySearch,
+  consultCriterion,
   planTask,
   receiveTask,
   reviewTask,
   taskSummary,
   verifyTask,
+} from "./coordinator.mjs";
+
+export {
+  distillCriterion,
+  resolveDistilledCriterion,
+  applyCriterionDecision,
+  evaluateCriterionReturn,
+  compareTechnology,
+  describeOperationCapability,
+  operationTrust,
 } from "./coordinator.mjs";
 
 export {
@@ -85,6 +97,7 @@ export {
   integrateTask,
   observeTask,
   recordRetrySearch,
+  consultCriterion,
   planTask,
   receiveTask,
   reviewTask,
@@ -598,6 +611,7 @@ export async function runDurableOperation({
   // Gate B must stop before capability negotiation or execution, not after its receipt.
   validateGateBContract(artifact);
   if (retryGate(artifact).blocked) throw new Error("stop_and_search: search before retrying this recorded failure stretch");
+  if (artifact.retry_stop?.status === "resolved") throw new Error("retry requires the stopped task dispatch, not direct durable capability execution");
   if (resumed) {
     for (const [label, supplied, saved] of [
       ["effect", effect, artifact.effect ?? artifact.expected_effect?.kind],

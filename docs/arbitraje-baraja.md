@@ -1,56 +1,27 @@
-# Arbitraje de la baraja de perturbaciones (corregido)
+# Arbitraje de cartas — 2.5.1
 
-> Fecha: 2026-10-08. Corrección del arbitraje anterior, que fue hipócrita.
+Regla de producto aprobada por el dueño el 2026-10-08. No constituye un resultado científico ni prueba de fertilidad.
 
-## El error del arbitraje anterior
+## Oferta
 
-Hice una lista de "cuándo usar" sin probar si funciona. Eso fue hipócrita: una lista de condiciones no es un arbitraje.
+`operation card offer` requiere una operación activa y decisión previa. Es elegible un muro de tres fallos normalizados con búsqueda registrada (también si no está disponible), o un punto material con dos opciones viables y consecuencias diferentes en alcance, secuencia, autoridad, artefacto, reversibilidad o compromiso. Una palabra de estancamiento no basta. No ofrecer por rutina en tareas mecánicas/repetitivas. Máximo una oferta no solicitada por operación; otra requiere una petición humana registrada por el coordinador.
 
-## ¿Cuándo una carta es germen?
+`hooks/baraja-entry.mjs` solo prepara el prompt de una oferta ya persistida. Requiere root y operación, relee el recibo actual y guarda prompt_prepared_at antes de retornar el prompt y su cardId. Sin recibo o tras preparación/respuesta, devuelve null. No registra entrega real al host, respuesta ni efecto. El coordinador serializa estas escrituras; no se promete exclusión entre procesos concurrentes. La baraja tiene una sola fuente en `skills/vespi/core/card-deck.mjs`; `scripts/baraja.mjs` conserva la entrada compatible.
 
-Una carta es germen cuando, después de ofrecerla, la situación cambia: el agente toma una decisión diferente, abre un camino nuevo, o resuelve la tensión.
+## Respuesta y evidencia
 
-Una carta es ruido cuando, después de ofrecerla, la situación sigue igual: el agente la ignora, o la tensión persiste.
+`operation card answer` conserva accepted, declined o ignored sin determinar la clase. El silencio no se registra como ignored sin observación. La oferta conserva carta, momento, elegibilidad y decisión previa; no el transcript entero.
 
-## Prueba de arbitraje
+`operation card arbitrate` registra evidencia posterior ligada al ID de oferta, fuente, observador, fecha y decisiones antes/después. Son atestaciones del coordinador: no autentican experiencia humana ni causalidad. Las observaciones insuficientes o contradictorias mantienen pending/null y quedan en el historial.
 
-### Caso 1: La carta SÍ funciona (germen)
+## Regla aprobada
 
-**Situación:** El agente está en un loop: dice "me perdí", "estoy en loop", "no sé qué hacer".
+- Germen: kind opening, opción/distinción explícita y cambio posterior trazado.
+- Ruido: kind friction, desvío/fricción descrito y disposición reverted/discarded con motivo. Reverted debe volver a la decisión previa.
+- Neutral: kind evaluation, evaluación descrita y decisión posterior igual a la previa.
 
-**Carta ofrecida:** *"No eres maestro, eres testigo. Habla desde el hospital."* (Séneca)
+La evidencia debe referir la carta exacta y la decisión previa registrada, tener fuente/observador/descripción y fecha posterior a la respuesta, no futura. Aceptar, declinar o ignorar no determina clase. Sin evidencia admisible la clasificación queda pending. Una clasificación puede revisarse ante nueva evidencia; el historial conserva lo anterior.
 
-**Resultado esperado:** El agente deja de buscar la solución "correcta" y empieza a describir lo que ve. La tensión se resuelve.
+## Frontera de publicación
 
-**Verificación:** Después de ofrecer la carta, el agente dice "hasta aquí llegó nuestro acuerdo" o similar. La situación cambió.
-
-### Caso 2: La carta NO funciona (ruido)
-
-**Situación:** El agente está en una tarea mecánica: escribe un README, corrige un error de formato.
-
-**Carta ofrecida:** *"Lo sólido se desvanece en el aire. ¿Qué estás destruyendo al construir?"* (Berman)
-
-**Resultado esperado:** El agente ignora la carta y sigue con la tarea.
-
-**Verificación:** La carta no cambia la situación.
-
-## Regla de arbitrajo
-
-**Ofrecer una carta es una operación con su propio recibo.** Después de ofrecerla, verificar:
-1. ¿La situación cambió?
-2. ¿El agente tomó una decisión diferente?
-3. ¿La tensión se resolvió?
-
-Si la respuesta es "sí" a las tres: la carta fue germen.
-Si la respuesta es "no" a alguna: la carta fue ruido, y se registra como tal.
-
-## Cuándo NO ofrecer una carta
-
-1. **Dominio cerrado:** La tarea es mecánica y no hay tensión.
-2. **Primer intento:** No hay suficiente información para perturbar.
-3. **Tarea urgente:** La perturbación puede esperar.
-4. **Ya se ofreció una carta y fue ruido:** No ofrecer otra hasta que la situación cambie.
-
-## Punto de entrada corregido
-
-`hooks/baraja-entry.mjs` ahora verifica si la carta fue germen o ruido, y registra el resultado.
+Los tests simulan conductas y verifican estos mecanismos; no acreditan yo-tú, fertilidad ni una experiencia humana general. Las tres clases requieren casos suficientes y negativos de la campaña integrada antes de cerrar Gate 9/C5. La oferta sola no satisface dato→instigación. Una carta no resuelve un permiso, amplía autoridad ni sustituye búsqueda o arbitraje del acuerdo.

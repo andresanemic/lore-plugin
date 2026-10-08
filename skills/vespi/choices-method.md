@@ -1,0 +1,7 @@
+## Situated choice and trust / Elección y confianza situadas
+
+`operation compare` records alternatives with benefit, cost, authority, privacy, reversibility, expected effect, source and limit, plus a selected path, reason and sourced observations. Mark simulation explicitly. The comparison changes no scope, authority, grant or effect, and is a coordinator attestation until independently checked. A local shared registry can show consistent ordering when separate views disagree; it does not prove blockchain necessary, decentralized consensus, censorship resistance or economic security. A real chain benefit remains not covered by that fixture.
+
+`operation capability` distinguishes a present vendored module from a host configured callable. CLI supplies no host ports and reports not-integrated; it cannot activate a backend or turn claimed configuration into execution. The API checks actual callable presence but does not authenticate its code or safety. Name observer, privacy and limit.
+
+`operation trust` names this operation, provenance, authority, coverage, observed verification and omissions. Only signed executed verification revalidated against the current input can populate coverage. Missing/changed/failed evidence remains notCovered. No universal score, real effect guarantee, role authentication or interoperability claim. A terminal snapshot without executable task evidence cannot regain coverage just from its summary.

@@ -310,7 +310,7 @@ export function retryGate(artifact) {
   const current = wall.stop ? { signature: wall.signature, attempts: wall.attempts,
     digest: createHash("sha256").update(JSON.stringify({ signature: wall.signature, attempts: wall.attempts })).digest("hex") } : null;
   const saved = artifact?.retry_stop;
-  if (["requires_search", "requires_arbitration"].includes(saved?.status)) return { blocked: true, stop: saved };
+  if (["requires_search", "requires_arbitration"].includes(saved?.status)) return { blocked: true, stop: current ? { ...saved, ...current } : saved };
   if (current && !(saved?.status === "resolved" && saved.digest === current.digest)) return { blocked: true, stop: { ...current, status: "requires_search", reason: wall.reason } };
   return { blocked: false, stop: saved ?? null };
 }
@@ -335,6 +335,7 @@ function assertOperationId(id) {
 // Transition evidence is appended rather than replacing the preceding state.
 // A terminal success requires an explicit observed verification record.
 export function transitionArtifact(artifact, { state, note, validity = {}, delta = null }) {
+  if (["running", "finished", "verified", "certified", "closed"].includes(state) && retryGate(artifact).blocked) throw new Error("stop_and_search: pending retry gate prevents advancement");
   if (!VALID_STATES.has(state)) throw new Error(`invalid operation state: ${state}`);
   if (!VALID_STATES.has(artifact?.state)) throw new Error("Gate B missing required field: state");
   if (!TRANSITIONS[artifact.state]?.has(state)) {
@@ -444,6 +445,14 @@ function closureOf(artifact) {
     declared_effect: artifact.declared_effect ?? null,
     retry_stop: artifact.retry_stop ?? null,
     retry_searches: artifact.retry_searches ?? [],
+    loaded: artifact.loaded ?? [],
+    provenance: artifact.provenance ?? {},
+    perturbations: artifact.perturbations ?? [],
+    technology_choices: artifact.technology_choices ?? [],
+    distilled_criteria: artifact.distilled_criteria ?? [],
+    resolved_criteria: artifact.resolved_criteria ?? [],
+    criterion_events: artifact.criterion_events ?? [],
+    decisions: artifact.decisions ?? [],
     done: artifact.done,
     roles: artifact.roles,
     verifier: artifact.verifier,

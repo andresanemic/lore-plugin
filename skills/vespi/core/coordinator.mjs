@@ -9,8 +9,8 @@ import { readFile } from "node:fs/promises";
 import { dirname, relative, resolve } from "node:path";
 import { assertExecuted } from "./verification-execution.mjs";
 import { classifyDelegateOutput } from "./host-resources.mjs";
-import { appendCheckpoint, nextLegitimateAction, retryGate, statePath, transitionArtifact, validateGateBContract } from "./operation-state.mjs";
-import { routeOperation } from "./vespi.mjs";
+import { appendCheckpoint, nextLegitimateAction, retryGate, statePath, transitionArtifact, validateGateBContract, saveOperationState, loadOperationState } from "./operation-state.mjs";
+import { routeOperation, OPTIONAL_CAPABILITIES } from "./vespi.mjs";
 
 // La ruta no se decide aqui: sale de lo que el host expone (routeOperation). Cada rol pide la suya, y
 // una herramienta ausente es un bloqueo con nombre, nunca una invocacion simulada.
@@ -47,6 +47,230 @@ const CHAIN_CLASSES = new Set([
 
 function present(value) {
   return value !== undefined && value !== null && value !== "";
+}
+
+const criterionDigest = content => createHash('sha256').update(content).digest('hex');
+const criterionText = (value, field) => {
+  if (typeof value !== 'string' || !value.trim()) throw new Error(`criterion needs ${field}`);
+  return value.trim();
+};
+const criterionEvent = (artifact, event) => ({ ...artifact,
+  criterion_events: [...(artifact.criterion_events ?? []), { ...event, at: new Date().toISOString() }] });
+
+// Product criterion is accepted explicitly from an observed, locally verified delivery.
+// Acceptance and interpretation are coordinator attestations; this is not scientific promotion.
+export async function distillCriterion(artifact, { root, taskId, content, acceptedBy, words, limit } = {}) {
+  if (['closed', 'cancelled'].includes(artifact.state)) throw new Error('distill needs active producer');
+  const task = taskById(artifact, taskId);
+  if (!['verified', 'integrated'].includes(task.state)) throw new Error('distill needs verified producer delivery');
+  const execution = assertExecuted(artifact, task, task.verification?.evidence);
+  content = criterionText(content, 'content');
+  const digest = criterionDigest(content);
+  const criterion = { id: `${artifact.id}-criterion-${(artifact.distilled_criteria ?? []).length + 1}`,
+    content, digest, source: task.received.path, sourceDigest: task.received.sha256,
+    producerOperationId: artifact.id, producerTaskId: taskId, producerTask: structuredClone(task), execution: structuredClone(execution),
+    acceptance: { by: criterionText(acceptedBy, 'acceptedBy'), words: criterionText(words, 'words'), source: 'coordinator-attestation' },
+    limit: criterionText(limit, 'limit'), status: 'accepted' };
+  let next = { ...artifact, distilled_criteria: [...(artifact.distilled_criteria ?? []), criterion] };
+  next = criterionEvent(next, { type: 'criterion.distilled', producerOperationId: artifact.id,
+    criterionId: criterion.id, digest, source: criterion.source, criterion: structuredClone(criterion) });
+  await saveOperationState(root, next);
+  return next;
+}
+
+export async function resolveDistilledCriterion(artifact, { root, producerOperationId, criterionId, digest } = {}) {
+  if (['closed', 'cancelled'].includes(artifact.state)) throw new Error('resolve needs active consumer');
+  if (artifact.id === producerOperationId) throw new Error('return requires a second operation');
+  const producer = await loadOperationState(root, producerOperationId);
+  const criterion = producer?.distilled_criteria?.find(item => item.id === criterionId);
+  if (!criterion || criterion.producerOperationId !== producerOperationId || criterion.status !== 'accepted'
+    || criterion.digest !== digest || criterionDigest(criterion.content) !== digest) throw new Error('criterion resolver cannot match accepted ID/digest');
+  const event = producer.criterion_events?.find(item => item.type === 'criterion.distilled' && item.criterionId === criterionId);
+  if (!event || event.digest !== digest || event.source !== criterion.source) throw new Error('criterion has no matching production event');
+  const producerTask = producer.tasks?.find(item => item.id === criterion.producerTaskId) ?? criterion.producerTask;
+  assertExecuted(producer, producerTask, producerTask?.verification?.evidence);
+  let next = { ...artifact, resolved_criteria: [...(artifact.resolved_criteria ?? []), structuredClone(criterion)] };
+  next = criterionEvent(next, { type: 'criterion.resolved', secondOperationId: artifact.id,
+    producerOperationId, criterionId, digest, source: criterion.source });
+  await saveOperationState(root, next);
+  return next;
+}
+
+// Executes a local decision function twice, with/without the resolved criterion. It causes no I/O.
+// The callback's domain judgment remains the caller's responsibility; trace is not authentication.
+export function applyCriterionDecision(artifact, { criterionId, input, decide, card = null } = {}) {
+  if (['closed', 'cancelled'].includes(artifact.state)) throw new Error('decision needs active consumer');
+  input = criterionText(input, 'decision input');
+  if (typeof decide !== 'function') throw new Error('decision needs executable local evaluator');
+  const criterion = artifact.resolved_criteria?.find(item => item.id === criterionId);
+  if (!criterion || criterionDigest(criterion.content) !== criterion.digest) throw new Error('decision needs resolved criterion');
+  if (!artifact.criterion_events?.some(event => event.type === 'criterion.resolved' && event.secondOperationId === artifact.id
+    && event.criterionId === criterionId && event.digest === criterion.digest && event.producerOperationId === criterion.producerOperationId))
+    throw new Error('decision needs matching resolver event');
+  let baseline, evaluated, cardEvidence = null;
+  if (card) {
+    if (!card.id || !Array.isArray(card.options) || card.options.length < 2 || !card.beforeId || !card.afterId
+      || card.beforeId === card.afterId) throw new Error('card decision needs distinct recorded options');
+    const before = card.options.find(option => option.id === card.beforeId && option.viable === true);
+    const after = card.options.find(option => option.id === card.afterId && option.viable === true);
+    if (!before || !after) throw new Error('card decision needs viable options');
+    const noCriterionBefore = decide(input, null, structuredClone(before));
+    const criterionBefore = decide(input, structuredClone(criterion), structuredClone(before));
+    baseline = decide(input, null, structuredClone(after));
+    evaluated = decide(input, structuredClone(criterion), structuredClone(after));
+    const originalOutput = criterionText(noCriterionBefore?.output, 'original option output');
+    const criterionBeforeOutput = criterionText(criterionBefore?.output, 'criterion original option output');
+    const baselineAfterOutput = criterionText(baseline?.output, 'alternative baseline output');
+    const finalOutput = criterionText(evaluated?.output, 'decision output');
+    cardEvidence = { cardId: card.id, beforeId: card.beforeId, afterId: card.afterId,
+      optionsDigest: criterionDigest(JSON.stringify(card.options)),
+      matrix: { noCriterionBefore: originalOutput, criterionBefore: criterionBeforeOutput,
+        noCriterionAfter: baselineAfterOutput, criterionAfter: finalOutput },
+      criterionContrast: { without: baselineAfterOutput, with: finalOutput, changed: baselineAfterOutput !== finalOutput },
+      cardContrast: { without: criterionBeforeOutput, with: finalOutput, changed: criterionBeforeOutput !== finalOutput },
+      method: 'executed-local-two-factor',
+      limit: 'same callback contrasts outcomes; semantic correctness and causation remain coordinator attestations' };
+  } else { baseline = decide(input, null); evaluated = decide(input, structuredClone(criterion)); }
+  const output = criterionText(evaluated?.output, 'decision output');
+  const baselineOutput = criterionText(baseline?.output, 'baseline output');
+  if (!['used', 'discarded'].includes(evaluated?.disposition)) throw new Error('decision needs used/discarded disposition');
+  const decision = { type: 'decision.recorded', secondOperationId: artifact.id, criterionId, digest: criterion.digest,
+    input, output, disposition: evaluated.disposition, reason: criterionText(evaluated.reason, 'decision reason'),
+    influenceEvidence: { baselineOutput, criterionOutput: output, changed: baselineOutput !== output,
+      method: 'executed-local-counterfactual', limit: 'callback contrast does not certify semantic correctness or causation',
+      ...(cardEvidence ? { card: cardEvidence, criterionContrast: cardEvidence.criterionContrast,
+        cardContrast: cardEvidence.cardContrast } : {}) }, ...(cardEvidence ? { cardId: card.id } : {}) };
+  return criterionEvent({ ...artifact, decisions: [...(artifact.decisions ?? []), structuredClone(decision)] }, decision);
+}
+
+export async function evaluateCriterionReturn(trace, { root } = {}) {
+  const fail = reason => ({ passed: false, reason });
+  if (!Array.isArray(trace) || !root) return fail('return needs trace and persisted operation root');
+  try {
+  for (const [index, produced] of trace.entries()) {
+    if (produced?.type !== 'criterion.distilled') continue;
+    const criterion = produced.criterion;
+    if (!criterion || criterion.status !== 'accepted' || !criterion.acceptance?.words || !criterion.execution?.completed
+      || criterion.producerOperationId !== produced.producerOperationId || criterion.id !== produced.criterionId
+      || criterionDigest(criterion.content) !== produced.digest || criterion.digest !== produced.digest || criterion.source !== produced.source) continue;
+    const producer = await loadOperationState(root, produced.producerOperationId);
+    const persisted = producer?.distilled_criteria?.find(item => item.id === produced.criterionId);
+    if (JSON.stringify(persisted) !== JSON.stringify(criterion)
+      || !producer?.criterion_events?.some(item => JSON.stringify(item) === JSON.stringify(produced))) continue;
+    const producerTask = producer.tasks?.find(item => item.id === criterion.producerTaskId) ?? criterion.producerTask;
+    assertExecuted(producer, producerTask, producerTask?.verification?.evidence);
+    const resolvedIndex = trace.findIndex((item, n) => n > index && item?.type === 'criterion.resolved'
+      && item.criterionId === produced.criterionId && item.digest === produced.digest
+      && item.producerOperationId === produced.producerOperationId && item.secondOperationId !== produced.producerOperationId);
+    if (resolvedIndex < 0) continue;
+    const resolved = trace[resolvedIndex];
+    const consumer = await loadOperationState(root, resolved.secondOperationId);
+    if (!consumer?.criterion_events?.some(item => JSON.stringify(item) === JSON.stringify(resolved))) continue;
+    const decision = trace.find((item, n) => n > resolvedIndex && item?.type === 'decision.recorded'
+      && item.secondOperationId === resolved.secondOperationId && item.criterionId === resolved.criterionId && item.digest === resolved.digest);
+    const evidence = decision?.influenceEvidence;
+    if (decision && consumer?.criterion_events?.some(item => JSON.stringify(item) === JSON.stringify(decision))
+      && ['used', 'discarded'].includes(decision.disposition) && decision.reason?.trim() && decision.input?.trim()
+      && decision.output?.trim() && evidence?.method === 'executed-local-counterfactual'
+      && evidence.baselineOutput !== decision.output && evidence.criterionOutput === decision.output)
+      return { passed: true, criterionId: criterion.id, digest: criterion.digest,
+        limit: 'local mechanism and recorded contrast; not experiential evidence or authenticated participants' };
+  }
+  } catch (error) { return fail(`return evidence unavailable or invalid: ${error.message}`); }
+  return fail('missing production, resolution or observable decision influence');
+}
+
+// Situated read only consultation. Interpretations/decision influence remain coordinator claims.
+export async function consultCriterion(artifact, input = {}, host = {}) {
+  const textField = (value, name) => {
+    if (typeof value !== "string" || !value.trim()) throw new Error(`consult needs ${name}`);
+    return value.trim();
+  };
+  if (["closed", "cancelled"].includes(artifact?.state)) throw new Error("consult needs an active operation");
+  const source = textField(input.source, "source");
+  const reference = textField(input.reference, "reference");
+  const limit = textField(input.limit, "limit");
+  if (typeof input.pertinent !== "boolean") throw new Error("consult needs explicit pertinence");
+  const entry = { source, requested_source: source, reference, limit, at: new Date().toISOString(), digest: null, interpretation_source: "coordinator-attestation", boundary: "scientific source read only; product interpretation by coordinator", transport: null };
+  if (!input.pertinent) {
+    entry.status = "discarded";
+    entry.discard_reason = textField(input.discardReason, "discard reason");
+  } else {
+    entry.interpretation = textField(input.interpretation, "interpretation");
+    entry.decision = Object.fromEntries(["id", "before", "after", "reason"].map(key => [key, textField(input.decision?.[key], `decision.${key}`)]));
+    let content = null;
+    if (input.mcpConfigured === true && typeof host.readMcp === "function") {
+      try {
+        const result = await host.readMcp(source);
+        if (typeof result?.text !== "string" || result.source !== source) throw new Error("MCP returned absent or mismatched source");
+        content = result.text;
+        entry.transport = "mcp";
+        entry.transport_limit = "host MCP reader provenance is an adapter claim";
+      } catch (error) { entry.transport_limit = `MCP unavailable: ${error.message}; local fallback required`; }
+    } else entry.transport_limit = input.mcpConfigured ? "MCP unavailable in this process; explicit local fallback" : "MCP not configured; local read only";
+    if (content === null) {
+      if (typeof input.sourceRoot !== "string" || !input.sourceRoot.trim()) {
+        entry.status = "unavailable";
+        entry.unavailable_reason = "no configured local source root or usable MCP reader";
+      } else {
+        const observer = textField(input.sourceRootObservedBy, "source root observer");
+        entry.source_root = { root: rutaFisica(input.sourceRoot), observed_by: observer, source: "coordinator-attestation", limit: "configured root and its authority are not authenticated by this API" };
+        const path = resolve(input.sourceRoot, source);
+        if (fueraDe(input.sourceRoot, path) || !contiene(rutaFisica(input.sourceRoot), rutaFisica(path))) throw new Error("consult source is outside configured root");
+        try { content = await readFile(path, "utf8"); entry.transport = "local"; entry.source = rutaFisica(path); }
+        catch (error) { entry.status = "unavailable"; entry.unavailable_reason = `local source unavailable: ${error.code ?? "read error"}`; }
+      }
+    }
+    if (content !== null) {
+      if (!content.trim()) { entry.status = "unavailable"; entry.unavailable_reason = "source contains no criterion"; }
+      else { entry.status = "consulted"; entry.digest = createHash("sha256").update(content).digest("hex"); }
+    }
+    if (entry.status === "unavailable") { delete entry.interpretation; delete entry.decision; }
+  }
+  return { ...artifact, loaded: [...(artifact.loaded ?? []), entry], provenance: { ...(artifact.provenance ?? {}), consultations: [...(artifact.provenance?.consultations ?? []), structuredClone(entry)] } };
+}
+
+export function compareTechnology(artifact, input = {}) {
+  if (["closed", "cancelled"].includes(artifact.state)) throw new Error("comparison needs an active operation");
+  const fields = ["id", "technology", "benefit", "cost", "authority", "privacy", "reversibility", "expected_effect", "source", "limit"];
+  const text = value => typeof value === "string" && value.trim().length > 0;
+  if (!Array.isArray(input.options) || input.options.length < 2) throw new Error("comparison requires two alternatives");
+  for (const option of input.options) for (const field of fields) if (!text(option[field])) throw new Error(`comparison option needs ${field}`);
+  if (new Set(input.options.map(option => option.id)).size !== input.options.length) throw new Error("comparison option IDs must be distinct");
+  if (!input.options.some(option => option.id === input.selected) || !text(input.reason) || !text(input.limit)) throw new Error("comparison needs selected alternative, reason and limit");
+  if (!["simulation", "observed"].includes(input.mode)) throw new Error("comparison needs simulation or observed mode");
+  if (!Array.isArray(input.observations) || !input.observations.length || input.observations.some(item => !text(item.id) || !text(item.source) || !text(item.result))) throw new Error("comparison requires sourced observations");
+  const choice = { ...structuredClone(input), at: new Date().toISOString(), source: "coordinator-attestation", executed: false,
+    operation_id: artifact.id, boundary: "comparison changes no authority or effect; simulated ledger does not establish real blockchain utility" };
+  return { ...artifact, technology_choices: [...(artifact.technology_choices ?? []), choice] };
+}
+
+export function describeOperationCapability(artifact, input = {}, host = {}) {
+  for (const key of ["id", "observedBy", "privacy", "limit"]) if (typeof input[key] !== "string" || !input[key].trim()) throw new Error(`capability description needs ${key}`);
+  const module = Object.hasOwn(OPTIONAL_CAPABILITIES, input.id) ? OPTIONAL_CAPABILITIES[input.id] : null;
+  const configured = module?.present === true && typeof host.capabilities?.[input.id] === "function";
+  return { id: input.id, operation_id: artifact.id, module_present: module?.present === true, configured, executed: false,
+    status: configured ? "configured-not-executed" : "not-integrated", privacy: input.privacy, limit: input.limit, observed_by: input.observedBy,
+    configuration_source: "host-object-observation", boundary: "callable presence is not authenticated configuration, safety or interoperability" };
+}
+
+export function operationTrust(artifact) {
+  const coverage = [], observations = [], notCovered = [];
+  for (const task of artifact.tasks ?? []) {
+    if (!task.verification?.executed) { notCovered.push(`${task.id}: no executed domain verification`); continue; }
+    try {
+      const execution = assertExecuted(artifact, task, task.verification.evidence);
+      for (const check of task.verification.evidence.checks ?? []) {
+        coverage.push({ task: task.id, observation: check.observation, source: check.evidence, passed: check.passed === true });
+      }
+      observations.push({ task: task.id, execution: structuredClone(execution) });
+    } catch (error) { notCovered.push(`${task.id}: ${error.message}`); }
+  }
+  if (!coverage.length) notCovered.push("no executed domain verification");
+  notCovered.push("human experience not inferred", "external effects not independently authenticated", "role identities are labels");
+  return { operation_id: artifact.id, authority: structuredClone(artifact.authority), state: artifact.state,
+    provenance: structuredClone(artifact.provenance ?? {}), coverage, observations, notCovered,
+    receipt: structuredClone(artifact.receipt ?? null), boundary: "situated evidence, not a universal trust score or certification" };
 }
 
 function taskById(artifact, taskId) {
@@ -215,13 +439,26 @@ function declaredRouteOf({ declaredTools = [], hostName = null, model = null, ef
 
 // dispatchTask: o corre por una ruta que el host expone, o queda bloqueada con la razon de la
 // herramienta que falta. Nunca inventan un ejecutor para que la tarea parezca viva.
-export function dispatchTask(artifact, taskId, { host = {}, hostName = null, model = null, effort = null, process = null, now = null, declaredTools = [] } = {}) {
+export function dispatchTask(artifact, taskId, { host = {}, hostName = null, model = null, effort = null, process = null, now = null, declaredTools = [], retryChange = null } = {}) {
   const retry = retryGate(artifact);
   if (retry.blocked) return stopForSearch(artifact, taskId, retry.stop);
   if (!DISPATCHABLE.has(artifact?.state) && !(artifact.state === "blocked" && artifact.retry_stop?.status === "resolved")) {
     throw new Error(`dispatch needs an authorized operation: state ${String(artifact?.state)} authorizes nobody to run`);
   }
-  const task = taskById(artifact, taskId);
+  let task = taskById(artifact, taskId);
+  if (task.state === "running") throw new Error(`task ${taskId} is already running; observe and receive its outcome before another dispatch`);
+  if (!["proposed", "blocked"].includes(task.state) && !(task.state === "reviewed" && task.verification?.executed === true && task.verification?.passed === false)) throw new Error(`dispatch cannot reopen completed task state ${task.state}; commission a new task`);
+  let retryExecution = null;
+  if (artifact.retry_stop?.status === "resolved" && (task.blocked?.cause === "retry-ready" || artifact.state === "blocked")) {
+    if (taskId !== artifact.retry_stop.task_id) throw new Error("retry must dispatch the stopped task");
+    const lookup = artifact.retry_searches?.at(-1);
+    if (!present(retryChange) || retryChange !== lookup?.change) throw new Error("retry change must match the recorded lookup and be applied to this commission");
+    const before = task.question;
+    const after = `${before}\nRetry instruction: ${retryChange}`;
+    retryExecution = { change: retryChange, search_digest: artifact.retry_stop.digest, source: "coordinator-attestation",
+      commission_before_sha256: createHash("sha256").update(before).digest("hex"), commission_after_sha256: createHash("sha256").update(after).digest("hex") };
+    task = { ...task, question: after };
+  }
   if (task.received && !task.review) {
     throw new Error(`dispatch blocked: ${taskId} has a delivery pending review; resolve that delivery before commissioning another execution`);
   }
@@ -231,6 +468,7 @@ export function dispatchTask(artifact, taskId, { host = {}, hostName = null, mod
     const declaradaAqui = declared !== null && declared.tools.includes(route.tool);
     const bloqueada = replaceTask(artifact, {
       ...task,
+      ...(retryExecution ? { retry_execution: retryExecution } : {}),
       state: "blocked",
       by: "coordinador",
       executor: null,
@@ -260,6 +498,7 @@ export function dispatchTask(artifact, taskId, { host = {}, hostName = null, mod
   };
   const running = replaceTask(artifact, {
     ...task,
+    ...(retryExecution ? { retry_execution: retryExecution } : {}),
     state: "running",
     by: executor.by,
     blocked: null,
@@ -290,6 +529,7 @@ export function observeTask(artifact, taskId, { text = null, alive = null, at, s
   }
   const when = at === undefined ? new Date().toISOString() : at;
   const observedAt = typeof when === "number" ? when : Date.parse(when);
+  if (observedAt > Date.now()) throw new Error("observe cannot claim a future observation");
   const overdue = present(task.deadline) ? observedAt > Date.parse(task.deadline) : task.overdue === true;
   const updated = replaceTask(artifact, {
     ...task,
@@ -312,7 +552,7 @@ function stopForSearch(artifact, taskId, stop) {
     cause: "repeated-failure", owner: artifact.owner,
     next_action: "stop_and_search: use an observed host tool; unavailable search keeps this operation blocked",
   } });
-  const stopped = { ...next, retry_stop: { ...structuredClone(stop), task_id: taskId } };
+  const stopped = { ...next, retry_stop: { ...structuredClone(stop), task_id: stop.task_id ?? taskId } };
   return stopped.state === "blocked" ? { ...stopped, next_legitimate_action: nextLegitimateAction(stopped) }
     : transitionArtifact(stopped, { state: "blocked", note: "stop_and_search after repeated failure" });
 }
@@ -324,6 +564,7 @@ export function recordRetrySearch(artifact, input = {}) {
   if (!present(input.observedBy)) throw new Error("retry search needs the host observer");
   const at = input.at ?? new Date().toISOString();
   if (!validObservationTime(at)) throw new Error("retry search needs a valid observation time");
+  if ((typeof at === "number" ? at : Date.parse(at)) > Date.now()) throw new Error("retry search cannot claim a future observation");
   const base = { digest: gate.stop.digest, signature: gate.stop.signature, at, observed_by: input.observedBy,
     executed_by_cli: false, source: "coordinator-attestation" };
   let receipt, stop;
@@ -337,7 +578,7 @@ export function recordRetrySearch(artifact, input = {}) {
     for (const finding of input.findings) {
       if (!present(finding.source) || !present(finding.finding) || !present(finding.limit) || finding.applies !== true) throw new Error("each finding needs a source, applicable observation and limit");
     }
-    if (!present(input.change)) throw new Error("retry search must name the change before retrying");
+    if (typeof input.change !== "string" || !input.change.trim()) throw new Error("retry search must name the change before retrying");
     if (input.same_scope !== true) throw new Error("retry change must preserve scope; a new scope returns to the owner");
     const conflicts = input.conflicts ?? [];
     if (!Array.isArray(conflicts) || conflicts.some(item => !present(item.source) || !present(item.conflict) || !present(item.proposal))) throw new Error("conflicts require source, disagreement and arbitration proposal");
@@ -665,6 +906,7 @@ export function integrateTask(artifact, taskId, { destination } = {}) {
 // closeOperation: no se cierra con una tarea abierta. Una tarea bloqueada con su razon si puede: su
 // bloqueo ya dice que falta y quien lo resuelve.
 export function closeOperation(artifact, { verification } = {}) {
+  if (retryGate(artifact).blocked) throw new Error("stop_and_search: resolve search or owner arbitration before closure");
   validateGateBContract({ ...artifact, next_action: artifact?.next_legitimate_action });
   const abiertas = (artifact?.tasks ?? []).filter(
     (task) => task.state !== "integrated" && !(task.state === "blocked" && present(task.blocked?.cause)),
