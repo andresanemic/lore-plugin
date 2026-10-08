@@ -25,6 +25,7 @@ function usage(stream = process.stdout) {
     "       lore-plugin crystallize pack --bot <dir> --out <file.md>",
     "       lore-plugin crystallize extract --from <file.md> --out <dir>",
     "       lore-plugin hygiene [ruta] [--json]",
+    "       lore-plugin operation <command> --root <dir> [--id <op>] [--json <payload>]",
     "       lore-plugin opencode-permissions [--project <dir>] [--from-routing] [--allow <path>...] [--write]",
     "       lore-plugin opencode-sandbox <dir> [--json]",
     "       lore-plugin mycelium receipt [--tree <dir>] [--sweep-type structural|full]",

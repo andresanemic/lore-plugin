@@ -36,6 +36,8 @@ function fixture(t) {
       required_tests: ['length only'],
     },
   };
+  // Synthetic accepted review isolates the weak-checker gate under test.
+  task.review = { by: 'fixture-advisor', verdict: 'accepted', artifact_sha256: task.received.sha256 };
   return { root, task, artifact: { id: 'op-adv250', state: 'reviewed', tasks: [task] } };
 }
 

@@ -11,7 +11,7 @@ test("operation state: a new session reloads the durable block in FASES.md", asy
   t.after(() => rm(root, { recursive: true, force: true }));
 
   const { createArtifact, transitionArtifact, saveOperationState, loadOperationState } = await import(S);
-  let artifact = createArtifact({ goal: "review a candidate", owner: "coordinator" });
+  let artifact = createArtifact({ goal: "review a candidate", owner: "coordinator", scope: "candidate only", expected_effect: { kind: "none" }, done: "evidence observed", roles: ["worker", "advisor", "verifier"], verifier: "verifier" });
   artifact = transitionArtifact(artifact, { state: "authorized", note: "scope checked" });
   artifact = transitionArtifact(artifact, { state: "blocked", note: "provider unavailable" });
   await saveOperationState(root, artifact);
@@ -24,7 +24,7 @@ test("operation state: a new session reloads the durable block in FASES.md", asy
 
 test("operation state: transitions append checkpoints and reject illegal transitions", async () => {
   const { createArtifact, transitionArtifact } = await import(S);
-  const artifact = createArtifact({ goal: "g", owner: "coordinator" });
+  const artifact = createArtifact({ goal: "g", owner: "coordinator", scope: "fixture", expected_effect: { kind: "none" }, done: "fixture evidence", roles: ["worker", "advisor", "verifier"], verifier: "verifier" });
   const authorized = transitionArtifact(artifact, { state: "authorized", note: "grant checked" });
   assert.equal(authorized.state, "authorized");
   assert.equal(authorized.checkpoints.length, 2);
@@ -33,19 +33,19 @@ test("operation state: transitions append checkpoints and reject illegal transit
 
 test("operation state: closure requires an observed independent verification", async () => {
   const { createArtifact, transitionArtifact } = await import(S);
-  const artifact = createArtifact({ goal: "g", owner: "coordinator" });
-  const verified = { ...artifact, state: "verified", verification: { verified: true, reason: "independent check" } };
+  const artifact = createArtifact({ goal: "g", owner: "coordinator", scope: "fixture", expected_effect: { kind: "none" }, done: "fixture evidence", roles: ["worker", "advisor", "verifier"], verifier: "verifier" });
+  const verified = { ...artifact, tasks: [{ id: "t1", state: "integrated", review: { by: "advisor/model" }, verification: { by: "verifier", executed: true, evidence: {} } }], state: "verified", verification: { verified: true, by: "owner", observed: true, reason: "independent check" } };
   const closed = transitionArtifact(verified, { state: "closed", note: "verified output delivered" });
   assert.equal(closed.state, "closed");
   assert.throws(
-    () => transitionArtifact({ ...artifact, state: "verified", verification: { verified: false } }, { state: "closed", note: "done" }),
+    () => transitionArtifact({ ...artifact, tasks: [{ id: "t1", state: "integrated" }], state: "verified", verification: { verified: false } }, { state: "closed", note: "done" }),
     /verified/,
   );
 });
 
 test("operation state: stale premises block resume but fresh blocked work can resume", async () => {
   const { createArtifact, resumeArtifact } = await import(S);
-  const artifact = createArtifact({ goal: "g", owner: "coordinator" });
+  const artifact = createArtifact({ goal: "g", owner: "coordinator", scope: "fixture", expected_effect: { kind: "none" }, done: "fixture evidence", roles: ["worker", "advisor", "verifier"], verifier: "verifier" });
   const blocked = { ...artifact, state: "blocked", freshness: [{ subject: "provider", result: "fresh" }] };
   assert.deepEqual(resumeArtifact(blocked), { allowed: true, reason: "fresh" });
   assert.deepEqual(

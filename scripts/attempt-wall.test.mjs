@@ -3,6 +3,81 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import test from "node:test";
 import { attemptWall } from "../skills/vespi/core/operation-state.mjs";
+import * as state from "../skills/vespi/core/operation-state.mjs";
+import * as coordinator from "../skills/vespi/core/coordinator.mjs";
+import { mkdtemp, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+
+const host = { delegate: async () => ({}) };
+async function stopped(t, count = 3) {
+  const root = await mkdtemp(join(tmpdir(), "retry-wall-"));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  let op = state.createArtifact({ goal: "Recover the local check", owner: "fixture-owner", scope: "local fixture", expected_effect: { kind: "none" }, done: "observed check", roles: ["worker", "advisor", "verifier"], verifier: "verifier" });
+  op = state.transitionArtifact(op, { state: "authorized", note: "fixture authorization" });
+  op = coordinator.planTask(op, { role: "worker", question: "Run check", scope: "local", done_criterion: "check observed", proof: "read result", output: { path: join(root, "result.txt") }, timeoutMs: 1000, nextCheckAt: "2026-10-07T10:05:00Z" }).artifact;
+  op = coordinator.dispatchTask(op, "t1", { host, hostName: "fixture-host", model: "worker" });
+  for (let i = 0; i < count; i++) op = coordinator.observeTask(op, "t1", { signature: "HTTP 503 timeout", text: `attempt ${i + 1}: local check`, at: `2026-10-07T10:0${i}:00Z` });
+  return { root, op };
+}
+const findings = [{ source: "local official adapter guide", finding: "The adapter accepts an explicit transport", limit: "fixture observation, not live endpoint evidence", applies: true }];
+const search = { available: true, tool: "host-search", observedBy: "coordinator", query: "HTTP 503 adapter transport", findings, change: "Use the documented transport instead of the failing default", same_scope: true, at: "2026-10-07T10:04:00Z" };
+
+test("tres fallos frenan dispatch y el bloqueo sobrevive a FASES", async t => {
+  const { root, op } = await stopped(t);
+  assert.equal(op.state, "blocked");
+  assert.equal(op.tasks[0].state, "blocked");
+  assert.equal(op.next_legitimate_action, "stop_and_search");
+  await state.saveOperationState(root, op);
+  const reread = await state.loadOperationState(root, op.id);
+  const denied = coordinator.dispatchTask(reread, "t1", { host, hostName: "other-host", model: "other-worker" });
+  assert.equal(denied.state, "blocked");
+  assert.equal(denied.tasks[0].state, "blocked");
+  assert.deepEqual(denied.tasks[0].observations, op.tasks[0].observations);
+  assert.equal(denied.tasks[0].executor.startedAt, op.tasks[0].executor.startedAt);
+  const f = await import("../skills/vespi/core/vespi.mjs");
+  let calls = 0;
+  await assert.rejects(() => f.runDurableOperation({ root, id: op.id, capability: { id: "local", required: () => { calls++; return { spend: [] }; }, perform: async () => { calls++; return {}; } } }), /stop_and_search|search before retry/i);
+  assert.equal(calls, 0);
+});
+
+test("sin búsqueda disponible se preservan intentos y condición de reanudación", async t => {
+  const { op } = await stopped(t);
+  assert.equal(typeof coordinator.recordRetrySearch, "function");
+  const blocked = coordinator.recordRetrySearch(op, { available: false, observedBy: "coordinator", reason: "host has no search tool" });
+  assert.equal(blocked.state, "blocked");
+  assert.equal(blocked.retry_stop.status, "requires_search");
+  assert.match(blocked.retry_stop.reason, /search.*unavailable|no search/i);
+  assert.deepEqual(blocked.tasks[0].observations, op.tasks[0].observations);
+  assert.equal(blocked.retry_searches.at(-1).executed_by_cli, false);
+});
+
+test("hallazgo pertinente abre un reintento acotado, no borra historial ni cubre otro fallo", async t => {
+  const { op } = await stopped(t);
+  assert.equal(typeof coordinator.recordRetrySearch, "function");
+  for (const invalid of [{ ...search, findings: [] }, { ...search, change: "" }, { ...search, same_scope: false }, { ...search, findings: [{ ...findings[0], limit: "" }] }]) {
+    assert.throws(() => coordinator.recordRetrySearch(op, invalid), /finding|change|scope|limit/i);
+  }
+  const ready = coordinator.recordRetrySearch(op, search);
+  assert.equal(ready.retry_stop.status, "resolved");
+  assert.equal(ready.retry_searches[0].findings[0].source, findings[0].source);
+  assert.equal(ready.retry_searches[0].executed_by_cli, false);
+  assert.equal(ready.id, op.id);
+  const retry = coordinator.dispatchTask(ready, "t1", { host, hostName: "fixture-host", model: "worker" });
+  assert.equal(retry.tasks[0].state, "running");
+  const failed = coordinator.observeTask(retry, "t1", { signature: "HTTP 503 timeout", text: "documented transport also failed", at: "2026-10-07T10:06:00Z" });
+  assert.equal(failed.retry_stop.status, "requires_search");
+  assert.equal(failed.tasks[0].observations.length, 4);
+});
+
+test("un conflicto con Lore no se auto-aplica ni se borra con otra búsqueda", async t => {
+  const { op } = await stopped(t);
+  assert.equal(typeof coordinator.recordRetrySearch, "function");
+  const conflicted = coordinator.recordRetrySearch(op, { ...search, conflicts: [{ source: "owner Lore", conflict: "suggested transport widens scope", proposal: "ask owning governance to arbitrate" }] });
+  assert.equal(conflicted.retry_stop.status, "requires_arbitration");
+  assert.equal(coordinator.recordRetrySearch(conflicted, search).retry_stop.status, "requires_arbitration");
+  assert.equal(coordinator.dispatchTask(conflicted, "t1", { host }).tasks[0].state, "blocked");
+});
 
 const observation = (signature, text, outcome = "failure") => ({ signature, text, outcome });
 const artifact = (...observations) => ({ tasks: [{ observations }] });

@@ -9,7 +9,7 @@ import { readFile } from "node:fs/promises";
 import { dirname, relative, resolve } from "node:path";
 import { assertExecuted } from "./verification-execution.mjs";
 import { classifyDelegateOutput } from "./host-resources.mjs";
-import { appendCheckpoint, statePath, transitionArtifact } from "./operation-state.mjs";
+import { appendCheckpoint, nextLegitimateAction, retryGate, statePath, transitionArtifact, validateGateBContract } from "./operation-state.mjs";
 import { routeOperation } from "./vespi.mjs";
 
 // La ruta no se decide aqui: sale de lo que el host expone (routeOperation). Cada rol pide la suya, y
@@ -56,7 +56,9 @@ function taskById(artifact, taskId) {
 }
 
 function replaceTask(artifact, task) {
-  return { ...artifact, tasks: (artifact?.tasks ?? []).map((each) => (each.id === task.id ? task : each)) };
+  if (artifact?.state !== "prepared" && artifact?.state !== "cancelled") validateGateBContract({ ...artifact, next_action: artifact?.next_legitimate_action });
+  const replaced = { ...artifact, tasks: (artifact?.tasks ?? []).map((each) => (each.id === task.id ? task : each)) };
+  return { ...replaced, next_legitimate_action: nextLegitimateAction(replaced) };
 }
 
 function clockIso(value) {
@@ -116,6 +118,7 @@ export function declareEffect(artifact, { effect, economy = null, chain = null }
 // planTask: la tarea nace con su encargo completo o no nace. Un encargo al que le falta el alcance,
 // el criterio de terminado o la prueba es un encargo que vuelve como opinion.
 export function planTask(artifact, spec = {}) {
+  if (artifact?.state !== "prepared" && artifact?.state !== "cancelled") validateGateBContract({ ...artifact, next_action: artifact?.next_legitimate_action });
   const role = spec.role;
   const required = Object.prototype.hasOwnProperty.call(REQUIRED_BY_ROLE, role) ? REQUIRED_BY_ROLE[role] : null;
   if (required === null) throw new Error(`unknown task role: ${String(role)} (daimon, advisor or worker)`);
@@ -183,7 +186,9 @@ export function planTask(artifact, spec = {}) {
     ...(spec.proof ? { proof: spec.proof } : {}),
     ...(MUST_DECLARE_BY_ROLE[role] ? { must_declare: [...MUST_DECLARE_BY_ROLE[role]] } : {}),
   };
-  return { artifact: { ...artifact, tasks: [...tasks, task] }, task };
+  const planned = { ...artifact, tasks: [...tasks, task] };
+  planned.next_legitimate_action = nextLegitimateAction(planned);
+  return { artifact: planned, task };
 }
 
 // Una declaracion no es una ejecucion. Quien llama desde otro proceso —la CLI— no puede llamar la
@@ -211,10 +216,15 @@ function declaredRouteOf({ declaredTools = [], hostName = null, model = null, ef
 // dispatchTask: o corre por una ruta que el host expone, o queda bloqueada con la razon de la
 // herramienta que falta. Nunca inventan un ejecutor para que la tarea parezca viva.
 export function dispatchTask(artifact, taskId, { host = {}, hostName = null, model = null, effort = null, process = null, now = null, declaredTools = [] } = {}) {
-  if (!DISPATCHABLE.has(artifact?.state)) {
+  const retry = retryGate(artifact);
+  if (retry.blocked) return stopForSearch(artifact, taskId, retry.stop);
+  if (!DISPATCHABLE.has(artifact?.state) && !(artifact.state === "blocked" && artifact.retry_stop?.status === "resolved")) {
     throw new Error(`dispatch needs an authorized operation: state ${String(artifact?.state)} authorizes nobody to run`);
   }
   const task = taskById(artifact, taskId);
+  if (task.received && !task.review) {
+    throw new Error(`dispatch blocked: ${taskId} has a delivery pending review; resolve that delivery before commissioning another execution`);
+  }
   const route = routeOperation({ intent: INTENT_BY_ROLE[task.role], host });
   const declared = declaredRouteOf({ declaredTools, hostName, model, effort, now });
   if (!route.available) {
@@ -281,7 +291,7 @@ export function observeTask(artifact, taskId, { text = null, alive = null, at, s
   const when = at === undefined ? new Date().toISOString() : at;
   const observedAt = typeof when === "number" ? when : Date.parse(when);
   const overdue = present(task.deadline) ? observedAt > Date.parse(task.deadline) : task.overdue === true;
-  return replaceTask(artifact, {
+  const updated = replaceTask(artifact, {
     ...task,
     observations: [...task.observations, {
       at: when,
@@ -292,6 +302,57 @@ export function observeTask(artifact, taskId, { text = null, alive = null, at, s
     }],
     overdue,
   });
+  const retry = retryGate(updated);
+  return retry.blocked ? stopForSearch(updated, taskId, retry.stop) : updated;
+}
+
+function stopForSearch(artifact, taskId, stop) {
+  const task = taskById(artifact, taskId);
+  const next = replaceTask(artifact, { ...task, state: "blocked", blocked: {
+    cause: "repeated-failure", owner: artifact.owner,
+    next_action: "stop_and_search: use an observed host tool; unavailable search keeps this operation blocked",
+  } });
+  const stopped = { ...next, retry_stop: { ...structuredClone(stop), task_id: taskId } };
+  return stopped.state === "blocked" ? { ...stopped, next_legitimate_action: nextLegitimateAction(stopped) }
+    : transitionArtifact(stopped, { state: "blocked", note: "stop_and_search after repeated failure" });
+}
+
+// A host/coordinator attestation of a lookup already performed. This function never searches.
+export function recordRetrySearch(artifact, input = {}) {
+  const gate = retryGate(artifact);
+  if (!gate.blocked) throw new Error("no stopped failure stretch needs a retry search");
+  if (!present(input.observedBy)) throw new Error("retry search needs the host observer");
+  const at = input.at ?? new Date().toISOString();
+  if (!validObservationTime(at)) throw new Error("retry search needs a valid observation time");
+  const base = { digest: gate.stop.digest, signature: gate.stop.signature, at, observed_by: input.observedBy,
+    executed_by_cli: false, source: "coordinator-attestation" };
+  let receipt, stop;
+  if (input.available !== true) {
+    if (!present(input.reason)) throw new Error("unavailable retry search needs its reason");
+    receipt = { ...base, status: "unavailable", reason: input.reason };
+    stop = { ...gate.stop, status: gate.stop.status === "requires_arbitration" ? "requires_arbitration" : "requires_search", reason: `search unavailable: ${input.reason}` };
+  } else {
+    if (!present(input.tool) || !present(input.query)) throw new Error("retry search needs the observed tool and query");
+    if (!Array.isArray(input.findings) || !input.findings.length) throw new Error("retry search requires findings with source, applicability and limit");
+    for (const finding of input.findings) {
+      if (!present(finding.source) || !present(finding.finding) || !present(finding.limit) || finding.applies !== true) throw new Error("each finding needs a source, applicable observation and limit");
+    }
+    if (!present(input.change)) throw new Error("retry search must name the change before retrying");
+    if (input.same_scope !== true) throw new Error("retry change must preserve scope; a new scope returns to the owner");
+    const conflicts = input.conflicts ?? [];
+    if (!Array.isArray(conflicts) || conflicts.some(item => !present(item.source) || !present(item.conflict) || !present(item.proposal))) throw new Error("conflicts require source, disagreement and arbitration proposal");
+    const lastAttempt = Math.max(...gate.stop.attempts.map(item => typeof item.at === "number" ? item.at : Date.parse(item.at)));
+    const searchedAt = typeof at === "number" ? at : Date.parse(at);
+    if (Number.isFinite(lastAttempt) && searchedAt < lastAttempt) throw new Error("retry search predates the stopped attempts");
+    const arbitration = gate.stop.status === "requires_arbitration" || conflicts.length > 0;
+    receipt = { ...base, status: arbitration ? "requires_arbitration" : "resolved", tool: input.tool, query: input.query,
+      findings: structuredClone(input.findings), change: input.change, conflicts: structuredClone(conflicts) };
+    stop = { ...gate.stop, status: receipt.status, reason: arbitration ? "owner arbitration required for recorded Lore/agreement conflict" : "pertinent lookup recorded; retry only the named change" };
+  }
+  let next = { ...artifact, retry_stop: stop, retry_searches: [...(artifact.retry_searches ?? []), receipt] };
+  const task = taskById(next, stop.task_id);
+  next = replaceTask(next, { ...task, state: "blocked", blocked: { cause: stop.status === "resolved" ? "retry-ready" : "repeated-failure", owner: artifact.owner, next_action: stop.reason } });
+  return { ...next, next_legitimate_action: nextLegitimateAction(next) };
 }
 
 function validObservationTime(at) {
@@ -355,6 +416,7 @@ export async function receiveTask(artifact, taskId, { path = null, exitCode = nu
   const file = path ?? task.output?.path ?? null;
   if (!present(file)) throw new Error(`receiveTask needs a path for ${taskId}`);
   const correctingRejected = task.state === "reviewed" && task.verification?.executed === true && task.verification?.passed === false;
+  const correctingAdvisor = ["rejected", "changes_requested"].includes(task.review?.verdict);
   const reconcilingLegacy = task.state === "reviewed" && task.received && !task.received.root;
   if (task.state !== "running" && !correctingRejected && !reconcilingLegacy && !(task.state === "blocked" && present(task.blocked?.cause))) {
     throw new Error(`receiveTask needs a running task: ${taskId} is ${task.state}`);
@@ -381,6 +443,23 @@ export async function receiveTask(artifact, taskId, { path = null, exitCode = nu
     if (error?.code === "ENOENT") throw new Error(`the declared output does not exist: ${file}`);
     throw new Error(`the declared output could not be read: ${file} (${error?.code ?? "unreadable"})`);
   }
+  const advisorRecovery = task.state === "blocked" && task.received && !task.review;
+  if (advisorRecovery) {
+    const sha256 = createHash("sha256").update(bytes).digest("hex");
+    if (!task.received?.sha256 || sha256 !== task.received.sha256
+        || resolve(file) !== resolve(task.received.path ?? task.output.path)) {
+      return replaceTask(artifact, {
+        ...task,
+        state: "blocked",
+        blocked: {
+          cause: "advisor-delivery-changed",
+          next_action: `restaurar la entrega recibida de ${taskId} o declarar una nueva ejecucion/entrega antes de revisar; la huella anterior se conserva`,
+          owner: "coordinador",
+          executed: false,
+        },
+      });
+    }
+  }
   const delivery = classifyDelegateOutput({
     exitCode,
     text,
@@ -394,6 +473,7 @@ export async function receiveTask(artifact, taskId, { path = null, exitCode = nu
       blocked: { cause: delivery.cause, next_action: delivery.nextStep, owner: "coordinador" },
     });
   }
+  if (advisorRecovery) return replaceTask(artifact, { ...task, state: "received", blocked: null });
   const finishedAt = clockIso(now);
   const loHizo = task.executor ?? task.declared_route ?? null;
   const startedAt = loHizo?.at ?? loHizo?.startedAt;
@@ -403,7 +483,10 @@ export async function receiveTask(artifact, taskId, { path = null, exitCode = nu
   return replaceTask(artifact, {
     ...task,
     state: "received",
-    ...((correctingRejected || reconcilingLegacy) ? { review: null, verification: null, integration: null } : {}),
+    ...((correctingRejected || correctingAdvisor || reconcilingLegacy) ? {
+      review: null, verification: null, integration: null,
+      review_history: [...(task.review_history ?? []), { received: structuredClone(task.received), review: structuredClone(task.review), verification: structuredClone(task.verification) }],
+    } : {}),
     by: task.executor?.by ?? task.by ?? "coordinador",
     blocked: null,
     finishedAt,
@@ -457,19 +540,48 @@ export function calibrateEstimates(tasks = []) {
 
 // reviewTask: revisada es un hecho del revisor, con lo que cotejo dicho. Cotejar es revisar; sin las
 // tres cotejadas no hay revision.
-export function reviewTask(artifact, taskId, { reviewer, checked = [], notes = "" } = {}) {
+export function blockReviewTask(artifact, taskId) {
   const task = taskById(artifact, taskId);
+  if (task.state !== "received") throw new Error(`blockReviewTask needs a received task: ${taskId} is ${task.state}`);
+  return replaceTask(artifact, {
+    ...task,
+    state: "blocked",
+    by: "coordinador",
+    blocked: {
+      cause: "advisor-unavailable: host does not expose decide",
+      next_action: `esperar a que el coordinador observe decide; luego volver a receive ${taskId} sobre la misma entrega y revisar el mismo acuerdo`,
+      owner: "coordinador",
+      executed: false,
+    },
+  });
+}
+
+export function reviewTask(artifact, taskId, { reviewer, checked = [], notes = "", advisorRoute = null, verdict } = {}) {
+  const task = taskById(artifact, taskId);
+  if (advisorRoute?.available !== true || advisorRoute?.tool !== "decide" || !present(advisorRoute?.observedBy)) {
+    throw new Error("review blocked: coordinator has not observed the host Advisor tool decide");
+  }
   if (task.state !== "received") throw new Error(`reviewTask needs a received task: ${taskId} is ${task.state}`);
   if (!present(reviewer)) throw new Error("review needs a reviewer");
+  const executor = task.executor?.by ?? task.declared_route?.by ?? "";
+  if (executor && String(reviewer).trim().toLowerCase() === String(executor).trim().toLowerCase()) {
+    throw new Error(`review must be independent: ${String(reviewer)} executed ${taskId}`);
+  }
   const missing = REVIEW_CHECKS.filter((check) => !checked.includes(check));
   if (missing.length > 0) {
     throw new Error(`review must check scope, sources and risks; missing: ${missing.join(", ")}`);
   }
+  if (!["accepted", "changes_requested", "rejected"].includes(verdict)) {
+    throw new Error("review needs an explicit verdict: accepted, changes_requested or rejected");
+  }
+  if (verdict !== "accepted" && !present(notes)) throw new Error("a non-accepted review needs its findings in notes");
+  const review = { by: reviewer, verdict, checked: [...checked], notes: notes ?? "", artifact_sha256: task.received?.sha256, advisor_route: { tool: advisorRoute.tool, observed_by: advisorRoute.observedBy, source: "coordinator-attestation" }, at: new Date().toISOString() };
   return replaceTask(artifact, {
     ...task,
-    state: "reviewed",
+    state: verdict === "accepted" ? "reviewed" : "blocked",
     by: reviewer,
-    review: { by: reviewer, checked: [...checked], notes: notes ?? "", at: new Date().toISOString() },
+    review,
+    blocked: verdict === "accepted" ? null : { cause: `advisor-${verdict}`, next_action: `corregir ${taskId} segun el veredicto y recibir la entrega para una nueva revision; un cambio de acuerdo vuelve a su dueno`, owner: "coordinador" },
   });
 }
 
@@ -513,10 +625,14 @@ function verifyCoverage(task, evidence) {
 export function verifyTask(artifact, taskId, { verifier, observed, evidence } = {}) {
   const task = taskById(artifact, taskId);
   if (task.state !== "reviewed") throw new Error(`verifyTask needs a reviewed task: ${taskId} is ${task.state}`);
+  if (task.review?.verdict !== "accepted") throw new Error("verification requires an accepted Advisor verdict");
+  if (!task.received?.sha256 || task.review.artifact_sha256 !== task.received.sha256) throw new Error("Advisor verdict does not match the received artifact");
   const loHizo = task.executor?.by ?? task.declared_route?.by ?? "";
   const executorBy = String(loHizo).trim().toLowerCase();
   const verifierNormalized = String(verifier ?? "").trim().toLowerCase();
-  if (!present(verifier) || (executorBy.length > 0 && verifierNormalized === executorBy)) {
+  const reviewerNormalized = String(task.review?.by ?? "").trim().toLowerCase();
+  if (!present(verifier) || (executorBy.length > 0 && verifierNormalized === executorBy)
+      || (reviewerNormalized.length > 0 && verifierNormalized === reviewerNormalized)) {
     throw new Error(`verification must be independent: ${String(verifier) ?? "nobody"} cannot verify a task executed by ${loHizo}`);
   }
   if (observed !== true) throw new Error("verification requires observed: true, the criterion checked with one's own eyes");
@@ -549,6 +665,7 @@ export function integrateTask(artifact, taskId, { destination } = {}) {
 // closeOperation: no se cierra con una tarea abierta. Una tarea bloqueada con su razon si puede: su
 // bloqueo ya dice que falta y quien lo resuelve.
 export function closeOperation(artifact, { verification } = {}) {
+  validateGateBContract({ ...artifact, next_action: artifact?.next_legitimate_action });
   const abiertas = (artifact?.tasks ?? []).filter(
     (task) => task.state !== "integrated" && !(task.state === "blocked" && present(task.blocked?.cause)),
   );
@@ -556,6 +673,9 @@ export function closeOperation(artifact, { verification } = {}) {
     throw new Error(
       `closeOperation needs every task integrated or blocked with a reason: ${abiertas.map((task) => `${task.id} (${task.state})`).join(", ")}`,
     );
+  }
+  if (!(artifact?.tasks ?? []).some((task) => task.state === "integrated")) {
+    throw new Error("closure requires at least one integrated task with independent verification");
   }
   if (verification?.verified !== true) throw new Error("closure requires a verified observation: verification.verified must be true");
   for (const task of artifact?.tasks ?? []) {
@@ -595,6 +715,89 @@ export function taskSummary(artifact) {
     by: task.by ?? null,
     nextCheckAt: task.nextCheckAt ?? null,
   }));
+}
+
+function relationalTime(value) {
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (typeof value === "string") return Date.parse(value);
+  return Number.NaN;
+}
+
+function normalizedText(value) {
+  return String(value ?? "").normalize("NFKC").toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+}
+
+// La traza acredita transformaciones observables de la conversación; no es el recibo de trabajo
+// ni una declaración de experiencia. El usuario puede corregir la distinción propuesta por el agente
+// y el agente puede corregir la propuesta del usuario: quien corrige debe diferir de quien propuso.
+export function validateRelationalTrace(events) {
+  if (!Array.isArray(events)) throw new Error("relational trace must be an event sequence");
+  const types = ["mismatch.observed", "correction.received", "response.revised", "distinction.proposed", "distinction.corrected", "decision.applied"];
+  const selected = new Map();
+  const ids = new Set();
+  for (const event of events) {
+    if (!event || typeof event !== "object" || typeof event.id !== "string" || !event.id.trim() || typeof event.type !== "string") {
+      throw new Error("relational trace event needs id and type");
+    }
+    if (ids.has(event.id)) throw new Error("relational trace has duplicate event id: " + event.id);
+    ids.add(event.id);
+    const at = relationalTime(event.at);
+    if (!Number.isFinite(at)) throw new Error("relational trace event " + event.id + " needs an ordered timestamp");
+    if (types.includes(event.type)) {
+      if (selected.has(event.type)) throw new Error("relational trace needs one " + event.type + " event");
+      selected.set(event.type, { event, at });
+    }
+  }
+  const ordered = types.map((type) => selected.get(type));
+  if (ordered.some((entry) => !entry)) throw new Error("relational trace is missing a required event in the six-step sequence");
+  if ([...selected.keys()].some((type, index) => type !== types[index])) throw new Error("relational trace events are out of sequence");
+  for (let index = 0; index < ordered.length; index += 1) {
+    if (typeof ordered[index].event.by !== "string" || !ordered[index].event.by.trim()) {
+      throw new Error("relational trace " + types[index] + " needs a participant");
+    }
+    if (index > 0 && ordered[index].at <= ordered[index - 1].at) throw new Error("relational trace events must be chronological");
+  }
+  const [mismatch, correction, response, proposed, corrected, applied] = ordered.map((entry) => entry.event);
+  if (!normalizedText(mismatch.content)) throw new Error("relational trace mismatch needs observable content");
+  if (correction.ref !== mismatch.id || !normalizedText(correction.content)) throw new Error("relational trace correction must refer to the observed mismatch and contain its correction");
+  const before = normalizedText(response.before);
+  const after = normalizedText(response.after);
+  if (response.ref !== correction.id || !before || !after || before === after || after === normalizedText(correction.content)) {
+    throw new Error("relational trace response.revised must change recognizably without literal echo");
+  }
+  if (!normalizedText(proposed.content) || corrected.ref !== proposed.id || corrected.by === proposed.by || !normalizedText(corrected.content)
+      || normalizedText(corrected.content) === normalizedText(proposed.content)) {
+    throw new Error("relational trace distinction must be proposed, then corrected by the other participant");
+  }
+  if (applied.ref !== corrected.id || !normalizedText(applied.input) || !normalizedText(applied.output)
+      || normalizedText(applied.input) === normalizedText(applied.output) || !normalizedText(applied.evidence)) {
+    throw new Error("relational trace decision.applied must use the corrected distinction and show its influence");
+  }
+  return { valid: true, sequence: types, eventIds: ordered.map((entry) => entry.event.id) };
+}
+
+export function recordInteractionTrace(artifact, events) {
+  validateRelationalTrace(events);
+  return { ...artifact, interaction_trace: structuredClone(events) };
+}
+
+const SELF_REPORT_VALUES = new Set(["affirmative", "negative", "absent", "uncertain", "not_declared"]);
+const SELF_REPORT_FIELDS = ["yo_tu", "fertility", "simplicity", "recommend"];
+
+export function recordSelfReport(artifact, report) {
+  if (report === null || report === undefined) return artifact;
+  if (!report || typeof report !== "object" || Array.isArray(report) || report.reported_by !== "user") {
+    throw new Error("self-report must be an explicit user declaration");
+  }
+  for (const field of SELF_REPORT_FIELDS) {
+    if (report[field] !== undefined && !SELF_REPORT_VALUES.has(report[field])) {
+      throw new Error("self-report " + field + " must be affirmative, negative, absent, uncertain or not_declared");
+    }
+  }
+  if (report.raw_quote !== undefined && typeof report.raw_quote !== "string") {
+    throw new Error("self-report raw_quote must preserve the user's literal words as text");
+  }
+  return { ...artifact, self_report: { ...structuredClone(report), source: "coordinator-attestation" } };
 }
 
 // --- la puerta de entrada vive en operation-state.mjs ------------------------

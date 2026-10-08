@@ -321,7 +321,7 @@ test('opening makes the first-answer file obligation explicit', async t => {
   const {elegir,registrar}=await import('../skills/use-lore/scripts/acuerdo.mjs');
   registrar(elegir({porque:'Probar continuidad.',trabajo:'Sonda.',ritmo:'normal',intensidad:'cercana'}),{raiz:root,aprobado:true,recapitulacion:'Fixture controlled agreement.'});
   const {holdOperation,saveOperationState,transitionArtifact}=await import(V);
-  const held=await holdOperation({root,goal:'Observe opening',owner:'fixture',authority:{spend:[]}});
+  const held=await holdOperation({root,goal:'Observe opening',owner:'fixture',authority:{spend:[]},scope:'fixture opening',expected_effect:{kind:'none'},done:'opening observed',roles:['worker','advisor','verifier'],verifier:'verifier'});
   await saveOperationState(root,transitionArtifact(held.artifact,{state:'authorized',note:'fixture authorization'}));
   const {inyeccion}=await import('../hooks/lore-turno.mjs');const out=inyeccion({raiz:root,turno:null,nivel:'full'});
   assert.match(out.texto,/primera respuesta[^\n]*archivo[^\n]*siguiente paso/i);

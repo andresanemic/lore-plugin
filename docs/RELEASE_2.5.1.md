@@ -1,25 +1,19 @@
-# Lore Plugin 2.5.1 — Corrección de tests
+# Lore Plugin 2.5.1 — Keep the agreement through each correction
 
 > [README](https://github.com/andresanemic/lore-plugin#readme) · [Español](#español)
 
-Lore Plugin 2.5.1 es una corrección de tests sobre el corte 2.5.0. No entra nada nuevo; arregla lo que se rompió después del corte.
+Draft for Lore Plugin 2.5.1; publication is pending. The coordinator recommends a way to work from the agreement, relevant criteria and observed skills, then preserves the person's choice when the operation resumes. A change in agent or model does not grant new authority.
 
-Lo que se corrigió:
+Review requires an explicit verdict about the delivered bytes. Rejection blocks verification; a corrected delivery keeps the previous verdict and its evidence. Closing requires independently verified, integrated work. Interaction records and the person's experience remain separate from a successful check.
 
-- 5 tests que fallaban por el campo `sweepType` agregado en la corrección de MYCELIUM (el recibo ahora incluye `sweepType` como metadato de la revisión, no del contenido).
-- 2 tests que fallaban por el release notes (párrafos hardwrap, falta de "prueba por hosts", orden de secciones EN/ES).
+This work is tested in local repository fixtures for Claude Code, Codex and OpenCode; these checks do not certify installed use or the complete release. Migration guidance and the final coverage report remain pending. Preserve existing operation files and evidence; this draft performs no automatic migration and does not authorize installation or publication.
 
-Este release se prueba en Claude Code, Codex y OpenCode a nivel de adaptador de repositorio. La instalación, los límites de verificación y la cobertura medida acompañan este release.
+# Lore Plugin 2.5.1 — Conservar el acuerdo en cada corrección
 
-# Lore Plugin 2.5.1 — Test fixes
+> [README](https://github.com/andresanemic/lore-plugin#readme) · [English](#lore-plugin-251--keep-the-agreement-through-each-correction)
 
-> [README](https://github.com/andresanemic/lore-plugin#readme) · [English](#lore-plugin-251--test-fixes)
+Borrador de Lore Plugin 2.5.1; publicación pendiente. El coordinador recomienda una forma de trabajar desde el acuerdo, el criterio pertinente y las skills observadas; conserva la elección de la persona al retomar la operación. Cambiar agente o modelo no concede autoridad nueva.
 
-Lore Plugin 2.5.1 is a test fix over the 2.5.0 cut. Nothing new enters; it fixes what broke after the cut.
+La revisión exige un veredicto explícito sobre los bytes entregados. El rechazo bloquea la verificación; una corrección conserva el veredicto y la evidencia anteriores. Cerrar exige trabajo verificado de manera independiente e integrado. La interacción y la experiencia declarada por la persona quedan separadas del resultado de una prueba.
 
-What was fixed:
-
-- 5 tests failing on the `sweepType` field added in the MYCELIUM correction (the receipt now includes `sweepType` as review metadata, not content).
-- 2 tests failing on the release notes (hardwrap paragraphs, missing "tested by hosts", EN/ES section order).
-
-This release is tested on Claude Code, Codex and OpenCode at the repository adapter level. Installation, verification limits and measured coverage accompany this release.
+Este trabajo se prueba en fixtures locales de repositorio para Claude Code, Codex y OpenCode; eso no certifica el uso instalado ni el release completo. La guía de migración y el informe final de cobertura siguen pendientes. Conserva los archivos de operación y su evidencia; este borrador no realiza una migración automática ni autoriza instalación o publicación.

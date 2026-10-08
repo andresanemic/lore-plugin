@@ -26,6 +26,127 @@ const S = "../skills/vespi/core/operation-state.mjs";
 const OBJETIVO = "Mapear el criterio disperso de portal-clientes antes de mover nada";
 const MANDATO = { spend: [{ asset: "lectura", maxAmount: "1", to: "portal-clientes" }] };
 const VERIFICA = { verify: async () => ({ verified: true, checks: { leido: true }, reason: "tres fuentes leidas" }) };
+const CONTRATO = { scope: "Fixture local de persistencia", expected_effect: { kind: "none" }, done: "Conservar el recibo real y estado durable", roles: ["worker", "advisor", "verifier"], verifier: "fixture-verifier" };
+const TERMS = { asset: "lectura", amount: "1", to: "portal-clientes" };
+const ECONOMY = { cost: { amount: "1", asset: "lectura" }, grant: "lectura", settlement: "synthetic fixture" };
+const CHAIN = { placement: "off", class: "money_moved", reason: "local fixture" };
+
+async function externalOperation(t) {
+  const root = await proyecto(t), f = await import(V);
+  const held = await f.holdOperation({ ...CONTRATO, expected_effect: { kind: "external", terms: TERMS }, root, goal: OBJETIVO, owner: "noren", authority: MANDATO });
+  const artifact = { ...f.declareEffect(held.artifact, { effect: "external", economy: ECONOMY, chain: CHAIN }), declared_effect: TERMS };
+  await f.saveOperationState(root, artifact);
+  return { root, f, artifact };
+}
+
+for (const [name, override] of [
+  ["kind", { effect: "none" }],
+  ["economy", { economy: { ...ECONOMY, settlement: "different" } }],
+  ["chain", { chain: { ...CHAIN, placement: "on" } }],
+  ["terms", { declaredEffect: { ...TERMS, to: "another-destination" } }],
+]) test(`resume rejects changed external ${name} before execution`, async (t) => {
+  const { root, f, artifact } = await externalOperation(t), { capability, calls } = espia({ effectiveTerms: () => TERMS });
+  const before = await readFile(join(root,"FASES.md"),"utf8");
+  await assert.rejects(() => f.runDurableOperation({ root, id: artifact.id, capability, io: VERIFICA, ...override }), /effect.*agreement|declaration|terms/i);
+  assert.equal(calls.perform, 0);
+  assert.equal(await readFile(join(root,"FASES.md"),"utf8"), before);
+});
+
+test("resume derives external terms from state and rejects divergent actual terms", async (t) => {
+  const { root, f, artifact } = await externalOperation(t);
+  const { capability, calls } = espia({ effectiveTerms: () => ({ ...TERMS, to: "another-destination" }) });
+  const out = await f.runDurableOperation({ root, id: artifact.id, capability, io: VERIFICA });
+  assert.equal(out.receipt.status, "failed");
+  assert.match(out.receipt.detail, /terms.*diverge/i);
+  assert.equal(calls.perform, 0);
+});
+
+test("missing actual terms cannot count as agreement with declared terms", async (t) => {
+  const { root, f, artifact } = await externalOperation(t), { capability, calls } = espia({ effectiveTerms: () => ({ asset: "lectura" }) });
+  const out = await f.runDurableOperation({ root, id: artifact.id, capability, io: VERIFICA });
+  assert.equal(out.receipt.status, "failed");
+  assert.equal(calls.perform, 0);
+});
+
+test("external effect requires inspectable agreed terms, while identical resumed effect succeeds", async (t) => {
+  const { root, f, artifact } = await externalOperation(t);
+  const missing = espia();
+  await assert.rejects(() => f.runDurableOperation({ root, id: artifact.id, capability: missing.capability }), /effective.*terms|inspectable/i);
+  assert.equal(missing.calls.perform, 0);
+  const ok = espia({ effectiveTerms: () => TERMS });
+  const out = await f.runDurableOperation({ root, id: artifact.id, capability: ok.capability, io: VERIFICA });
+  assert.equal(ok.calls.perform, 1);
+  assert.equal(out.receipt.status,"verified");
+  assert.deepEqual(out.receipt.economy, ECONOMY);
+});
+
+test("reanudar no sustituye autoridad ni propósito persistidos", async (t) => {
+  const root = await proyecto(t), facade = await import(V);
+  const held = await facade.holdOperation({ ...CONTRATO, root, goal: OBJETIVO, owner: "noren", authority: MANDATO });
+  const before = await readFile(join(root, "FASES.md"), "utf8");
+  for (const overrides of [
+    { authority: { spend: [{ asset: "lectura", maxAmount: "100", to: "portal-clientes" }] } },
+    { goal: "Otro objetivo no acordado" },
+  ]) {
+    const { capability, calls } = espia();
+    await assert.rejects(() => facade.runDurableOperation({ root, id: held.artifact.id, capability, io: VERIFICA, ...overrides }), /persisted.*agreement|agreement.*persisted/i);
+    assert.equal(calls.perform, 0);
+    assert.equal(await readFile(join(root, "FASES.md"), "utf8"), before);
+  }
+  const { capability, calls } = espia();
+  await facade.runDurableOperation({ root, id: held.artifact.id, authority: structuredClone(MANDATO), capability, io: VERIFICA });
+  assert.equal(calls.perform, 1, "the same authority by value remains valid");
+});
+
+test("un efecto externo sin estado durable no alcanza perform", async () => {
+  const facade = await import(V), { capability, calls } = espia();
+  await assert.rejects(() => facade.runDurableOperation({ goal: OBJETIVO, owner: "noren", authority: MANDATO, capability, io: VERIFICA,
+    effect: "external", economy: { cost: { amount: "0.01", asset: "USDC" }, grant: "lectura", settlement: "fixture" }, chain: { placement: "off", class: "money_moved", reason: "local synthetic effect" } }), /external.*durable|durable.*external/i);
+  assert.equal(calls.required, 0);
+  assert.equal(calls.perform, 0);
+});
+
+for (const [label, declaration] of [
+  ["expected effect only", { expected_effect: { kind: "external", terms: TERMS } }],
+  ["declared terms only", { declaredEffect: TERMS }],
+  ["contradictory none", { effect: "none", expected_effect: { kind: "external", terms: TERMS } }],
+  ["nested io terms", { io: { ...VERIFICA, declaredEffect: TERMS } }],
+  ["terms in expected none", { expected_effect: { kind: "none", terms: TERMS } }],
+  ["economy without kind", { economy: ECONOMY }],
+  ["chain without kind", { chain: CHAIN }],
+  ["textual external", { expected_effect: "external" }],
+  ["unclassified expectation", { expected_effect: { description: "external" } }],
+]) test(`ephemeral route rejects ${label} before negotiating capability`, async () => {
+  const f = await import(V), { capability, calls } = espia({ effectiveTerms: () => TERMS });
+  await assert.rejects(() => f.runDurableOperation({ goal: OBJETIVO, owner: "noren", authority: MANDATO, capability, io: VERIFICA, ...declaration }), /durable/i);
+  assert.equal(calls.required, 0);
+  assert.equal(calls.perform, 0);
+});
+
+test("durable textual external cannot silently become a no-effect operation", async (t) => {
+  const root = await proyecto(t), f = await import(V), { capability, calls } = espia();
+  await assert.rejects(() => f.runDurableOperation({ ...CONTRATO, expected_effect: "external", root, goal: OBJETIVO, owner: "noren", authority: MANDATO, capability, io: VERIFICA }), /external.*terms|terms.*declaration/i);
+  assert.equal(calls.perform,0);
+});
+
+test("durable execution refuses an unclassified expected effect", async (t) => {
+  const root = await proyecto(t), f = await import(V), { capability, calls } = espia();
+  await assert.rejects(() => f.runDurableOperation({ ...CONTRATO, expected_effect: { description: "external" }, root, goal: OBJETIVO, owner: "noren", authority: MANDATO, capability, io: VERIFICA }), /expected effect.*kind|kind.*expected effect/i);
+  assert.equal(calls.required, 0);
+  assert.equal(calls.perform, 0);
+});
+
+test("Gate B incompleto impide perform antes de cualquier efecto", async (t) => {
+  const root = await proyecto(t);
+  const facade = await import(V);
+  for (const field of ["scope", "expected_effect", "done", "roles", "verifier"]) {
+    const contract = { ...CONTRATO, [field]: undefined };
+    const { capability, calls } = espia();
+    await assert.rejects(() => facade.runDurableOperation({ ...contract, root, goal: OBJETIVO, owner: "noren", authority: MANDATO, capability, io: VERIFICA }), /Gate B/);
+    assert.equal(calls.required, 0, `missing ${field} must stop before capability negotiation`);
+    assert.equal(calls.perform, 0, `missing ${field} must stop before execution`);
+  }
+});
 
 async function proyecto(t) {
   const root = await mkdtemp(join(tmpdir(), "vespi-durable-"));
@@ -85,6 +206,7 @@ test("un dueno de persistencia declarado se vuelve un archivo real", async (t) =
   const { capability, calls } = espia();
 
   const out = await facade.runDurableOperation({
+    ...CONTRATO,
     root,
     goal: OBJETIVO,
     owner: "noren",
@@ -96,8 +218,9 @@ test("un dueno de persistencia declarado se vuelve un archivo real", async (t) =
   assert.equal(calls.perform, 1);
   assert.equal(out.receipt.status, "verified");
   assert.equal(out.receipt.persistence.owner, `FASES.md#${out.artifact.id}`);
+  assert.deepEqual(out.artifact.receipt, out.receipt, "durable state stores the actual returned receipt");
   assert.equal(out.artifact.state, "verified");
-  assert.equal(out.artifact.next_legitimate_action, "certify");
+  assert.equal(out.artifact.next_legitimate_action, "plan", "a verified capability receipt does not substitute for task review and integration");
   assert.equal(existsSync(out.file), true, "el recibo declara un dueno y el archivo no existe");
 
   const escrito = await readFile(out.file, "utf8");
@@ -114,6 +237,7 @@ test("sin raiz no hay dueno: el recibo declara none y no se escribe nada", async
   const { capability } = espia();
 
   const out = await facade.runDurableOperation({
+    ...CONTRATO,
     goal: OBJETIVO,
     owner: "noren",
     authority: MANDATO,
@@ -136,6 +260,7 @@ test("una ruta declarada sin herramienta en el host vuelve bloqueada, no simulad
   const { capability, calls } = espia();
 
   const out = await facade.runDurableOperation({
+    ...CONTRATO,
     root,
     goal: OBJETIVO,
     owner: "noren",
@@ -163,6 +288,7 @@ test("una herramienta del host no es un aprobador: sin ask no hay aprobacion", a
   let delegada = 0;
 
   const out = await facade.runDurableOperation({
+    ...CONTRATO,
     root,
     goal: OBJETIVO,
     owner: "noren",
@@ -207,6 +333,7 @@ test("la ruta delegada llama al contrato del adaptador y el kernel revisa la evi
   };
 
   const out = await facade.runDurableOperation({
+    ...CONTRATO,
     root,
     goal: OBJETIVO,
     owner: "noren",
@@ -245,6 +372,7 @@ test("la ruta delegada bloquea el efecto declarado si el adaptador reporta térm
   delegate.effectiveTerms = async () => ({ asset: "escritura", amount: "1", to: "portal-clientes" });
 
   const out = await facade.runDurableOperation({
+    ...CONTRATO,
     root,
     goal: OBJETIVO,
     owner: "noren",
@@ -269,6 +397,7 @@ test("con la herramienta presente, la ruta entra por ella y la persona decide", 
   let consultada = 0;
 
   const out = await facade.runDurableOperation({
+    ...CONTRATO,
     root,
     goal: OBJETIVO,
     owner: "noren",
@@ -310,6 +439,7 @@ test("una ruta que no existe es un bloqueo con nombre, no un direct silencioso",
   assert.match(route.reason, /unknown execution route/);
 
   const out = await facade.runDurableOperation({
+    ...CONTRATO,
     root,
     goal: OBJETIVO,
     owner: "noren",
@@ -341,6 +471,7 @@ test("una segunda sesion retoma desde el archivo y sigue la misma operacion", as
   const facade = await import(V);
 
   const primera = await facade.runDurableOperation({
+    ...CONTRATO,
     root,
     goal: OBJETIVO,
     owner: "noren",
@@ -357,6 +488,7 @@ test("una segunda sesion retoma desde el archivo y sigue la misma operacion", as
   assert.equal(vista.persistence.owner, `FASES.md#${primera.artifact.id}`);
 
   const segunda = await facade.runDurableOperation({
+    ...CONTRATO,
     root,
     id: primera.artifact.id,
     authority: MANDATO,
@@ -388,6 +520,7 @@ test("una premisa caida detiene la reanudacion silenciosa y no escribe", async (
   const facade = await import(V);
 
   const primera = await facade.runDurableOperation({
+    ...CONTRATO,
     root,
     goal: OBJETIVO,
     owner: "noren",
@@ -414,6 +547,7 @@ test("una corrida sobre una operacion que no se puede reanudar no ejecuta nada",
   const facade = await import(V);
 
   const primera = await facade.runDurableOperation({
+    ...CONTRATO,
     root,
     goal: OBJETIVO,
     owner: "noren",
@@ -426,6 +560,7 @@ test("una corrida sobre una operacion que no se puede reanudar no ejecuta nada",
   const { capability, calls } = espia();
 
   const reintento = await facade.runDurableOperation({
+    ...CONTRATO,
     root,
     id: primera.artifact.id,
     goal: OBJETIVO,
@@ -455,12 +590,13 @@ test("una operacion que no existe en disco falla de frente, no arranca otra", as
 
 // E - lo que un recibo verificado todavia no cierra.
 
-test("un recibo verificado no cierra la operacion: cerrar es de quien certifica", async (t) => {
+test("un recibo verificado no cierra la operacion: aún requiere tareas revisadas e integradas", async (t) => {
   const root = await proyecto(t);
   const facade = await import(V);
   const { certify } = await import(S);
 
   const out = await facade.runDurableOperation({
+    ...CONTRATO,
     root,
     goal: OBJETIVO,
     owner: "noren",
@@ -470,7 +606,8 @@ test("un recibo verificado no cierra la operacion: cerrar es de quien certifica"
   });
 
   assert.equal(out.artifact.state, "verified");
-  assert.equal(out.artifact.next_legitimate_action, "certify");
+  assert.equal(out.artifact.next_legitimate_action, "plan");
+  assert.throws(() => facade.closeOperation(out.artifact, { verification: { verified: true, observed: true, by: "fixture-verifier" } }), /at least one integrated task/);
   assert.equal(certify({ finished: true, verified: true, authority: {} }), "finished_verified_uncertified");
 });
 
@@ -503,7 +640,7 @@ const MARCA = (id) => `<!-- vespi:operacion ${id} -->`;
 test("el estado de una operacion es un bloque de FASES.md y nunca crea operations/", async (t) => {
   const root = await proyecto(t);
   const facade = await import(V);
-  const { artifact, persistence } = await facade.holdOperation({ root, goal: OBJETIVO, owner: "noren", authority: MANDATO });
+  const { artifact, persistence } = await facade.holdOperation({ ...CONTRATO, root, goal: OBJETIVO, owner: "noren", authority: MANDATO });
   const fases = await readFile(join(root, "FASES.md"), "utf8");
   assert.ok(fases.includes(MARCA(artifact.id)), "FASES.md no trae el bloque de la operacion");
   assert.ok(fases.includes(`<!-- /vespi:operacion ${artifact.id} -->`));
@@ -516,8 +653,8 @@ test("el bloque se actualiza en su lugar y el resto de FASES.md no cambia; dos o
   const facade = await import(V);
   const antes = "# FASES - proyecto\n\n## Activo\n\nLo que ya habia, que no se toca.\n\n## Cierre\n\nOtra seccion.\n";
   await writeFile(join(root, "FASES.md"), antes);
-  const a = await facade.holdOperation({ root, goal: "primera", owner: "noren", authority: MANDATO });
-  const b = await facade.holdOperation({ root, goal: "segunda", owner: "noren", authority: MANDATO });
+  const a = await facade.holdOperation({ ...CONTRATO, root, goal: "primera", owner: "noren", authority: MANDATO });
+  const b = await facade.holdOperation({ ...CONTRATO, root, goal: "segunda", owner: "noren", authority: MANDATO });
   const { capability } = espia();
   await facade.runDurableOperation({ root, id: a.artifact.id, goal: "primera", owner: "noren", authority: MANDATO, capability, io: VERIFICA });
   const fases = await readFile(join(root, "FASES.md"), "utf8");
@@ -535,7 +672,7 @@ test("un FASES.md con finales de linea CRLF los conserva", async (t) => {
   const root = await proyecto(t);
   const facade = await import(V);
   await writeFile(join(root, "FASES.md"), "# FASES\r\n\r\nUna linea.\r\n");
-  await facade.holdOperation({ root, goal: OBJETIVO, owner: "noren", authority: MANDATO });
+  await facade.holdOperation({ ...CONTRATO, root, goal: OBJETIVO, owner: "noren", authority: MANDATO });
   const fases = await readFile(join(root, "FASES.md"), "utf8");
   assert.ok(!/(^|[^\r])\n/.test(fases), "aparecio un salto de linea LF en un archivo CRLF");
 });
@@ -543,11 +680,13 @@ test("un FASES.md con finales de linea CRLF los conserva", async (t) => {
 test("al cerrar, el bloque se vuelve un cierre breve sin la copia del progreso, y ya no se reanuda", async (t) => {
   const root = await proyecto(t);
   const facade = await import(V);
-  const { artifact } = await facade.holdOperation({ root, goal: OBJETIVO, owner: "noren", authority: MANDATO });
+  const { artifact } = await facade.holdOperation({ ...CONTRATO, root, goal: OBJETIVO, owner: "noren", authority: MANDATO });
   let a = artifact;
   for (const state of ["authorized", "running", "received", "reviewed"]) a = facade.transitionArtifact(a, { state, note: state });
   a = { ...a, verification: { verified: true } };
   a = facade.transitionArtifact(a, { state: "verified", note: "verificada" });
+  // Serialization-only fixture, not a claim of an executed domain verification.
+  a.tasks = [{ id: "serialized-task", state: "integrated", review: { by: "fixture-advisor", verdict: "accepted" }, verification: { by: "fixture-verifier", executed: true } }];
   a = facade.transitionArtifact(a, { state: "closed", note: "cerrada" });
   await facade.saveOperationState(root, a);
   const fases = await readFile(join(root, "FASES.md"), "utf8");

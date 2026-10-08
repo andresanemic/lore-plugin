@@ -25,7 +25,7 @@ async function proyecto(t) {
 
 async function autorizada() {
   const f = await import(V);
-  let a = f.createArtifact({ goal: OBJETIVO, owner: "coordinador", authority: MANDATO });
+  let a = f.createArtifact({ goal: OBJETIVO, owner: "coordinador", authority: MANDATO, scope: "propuesta y fuentes listadas", expected_effect: { kind: "none" }, done: "cotejo observado", roles: ["daimon", "advisor", "worker", "verifier"], verifier: "verificador" });
   a = f.transitionArtifact(a, { state: "authorized", note: "la persona autorizo correr" });
   return { f, a };
 }
@@ -41,6 +41,64 @@ const daimon = (root, extra = {}) => ({
   ...extra,
 });
 const HOST_CON_EJECUTOR = { execute: async () => ({}) };
+
+test("Advisor sin veredicto no aprueba y un rechazo persiste hasta una nueva revision", async (t) => {
+  const root = await proyecto(t);
+  const { f, a } = await autorizada();
+  let art = f.planTask(a, daimon(root)).artifact;
+  art = f.dispatchTask(art, "t1", { host: HOST_CON_EJECUTOR, hostName: "host", model: "worker" });
+  await writeFile(join(root, "daimon.md"), "entrega cuestionada");
+  const received = await f.receiveTask(art, "t1", { root });
+  const review = { verdict: "accepted", reviewer: "advisor", checked: ["scope", "sources", "risks"], advisorRoute: { available: true, tool: "decide", observedBy: "coordinator" } };
+  for (const verdict of [undefined, "unknown"]) {
+    assert.throws(() => f.reviewTask(received, "t1", { ...review, verdict }), /verdict/i);
+  }
+  for (const verdict of ["rejected", "changes_requested"]) {
+    const blocked = f.reviewTask(received, "t1", { ...review, verdict, notes: "La fuente no respalda la conclusion" });
+    assert.equal(blocked.tasks[0].state, "blocked");
+    assert.equal(blocked.tasks[0].review.verdict, verdict);
+    assert.equal(blocked.tasks[0].review.artifact_sha256, received.tasks[0].received.sha256);
+    assert.throws(() => f.verifyTask(blocked, "t1", { verifier: "verificador", observed: true, evidence: {} }), /reviewed/i);
+    for (const host of [{}, HOST_CON_EJECUTOR]) {
+      const rerunning = f.dispatchTask(blocked, "t1", { host, hostName: "host", model: "correction-worker" });
+      await writeFile(join(root, "daimon.md"), "correccion tras nuevo despacho");
+      const redelivered = await f.receiveTask(rerunning, "t1", { root });
+      assert.equal(redelivered.tasks[0].review, null, "un despacho nuevo no conserva la revision de bytes anteriores");
+      assert.equal(redelivered.tasks[0].review_history.at(-1).review.verdict, verdict);
+      assert.deepEqual(redelivered.tasks[0].review_history.at(-1).received, received.tasks[0].received);
+    }
+    await writeFile(join(root, "daimon.md"), "entrega corregida con la fuente");
+    const corrected = await f.receiveTask(blocked, "t1", { root });
+    assert.equal(corrected.tasks[0].review, null);
+    assert.equal(corrected.tasks[0].review_history.at(-1).review.verdict, verdict);
+    assert.deepEqual(corrected.tasks[0].review_history.at(-1).received, received.tasks[0].received);
+    const accepted = f.reviewTask(corrected, "t1", { ...review, verdict: "accepted", notes: "Cotejo corregido" });
+    assert.equal(accepted.tasks[0].state, "reviewed");
+    assert.equal(accepted.tasks[0].review.verdict, "accepted");
+    const { executeNodeVerification } = await import("../skills/vespi/core/verification-execution.mjs");
+    for (const badVerdict of [undefined, "rejected", "changes_requested"]) {
+      const forgedState = structuredClone(accepted);
+      forgedState.tasks[0].review.verdict = badVerdict;
+      assert.throws(() => f.verifyTask(forgedState, "t1", { verifier: "verificador", observed: true, evidence: {} }), /accepted.*verdict|verdict.*accepted/i);
+      assert.throws(() => executeNodeVerification(forgedState, "t1", { root }), /accepted.*verdict|verdict.*accepted/i);
+    }
+  }
+});
+
+test("una entrega pendiente de Advisor no se sustituye con un nuevo dispatch", async (t) => {
+  const root = await proyecto(t);
+  const { f, a } = await autorizada();
+  let art = f.planTask(a, daimon(root)).artifact;
+  art = f.dispatchTask(art, "t1", { host: HOST_CON_EJECUTOR, hostName: "host", model: "worker" });
+  await writeFile(join(root, "daimon.md"), "entrega original");
+  art = await f.receiveTask(art, "t1", { root });
+  art = f.blockReviewTask(art, "t1");
+  const before = structuredClone(art);
+  for (const host of [{}, HOST_CON_EJECUTOR]) {
+    assert.throws(() => f.dispatchTask(art, "t1", { host, hostName: "host", model: "nuevo" }), /pending.*review|review.*pending/i);
+    assert.deepEqual(art, before, "rechazar dispatch conserva recibo y toda la identidad del acuerdo");
+  }
+});
 
 test("la fachada expone el flujo del coordinador", async () => {
   const f = await import(V);
@@ -252,8 +310,8 @@ test("revisar exige haber cotejado alcance, fuentes y riesgos", async (t) => {
   const root = await proyecto(t);
   const { f, a } = await autorizada();
   const recibida = await recibidaDe(f, a, root);
-  assert.throws(() => f.reviewTask(recibida, "t1", { reviewer: "coordinador", checked: ["scope"] }), /scope|sources|risks/i);
-  const revisada = f.reviewTask(recibida, "t1", { reviewer: "coordinador", checked: ["scope", "sources", "risks"], notes: "coincide con el encargo" });
+  assert.throws(() => f.reviewTask(recibida, "t1", { verdict: "accepted", reviewer: "advisor/model", advisorRoute: { available: true, tool: "decide", observedBy: "coordinator" }, checked: ["scope"] }), /scope|sources|risks/i);
+  const revisada = f.reviewTask(recibida, "t1", { verdict: "accepted", reviewer: "advisor/model", advisorRoute: { available: true, tool: "decide", observedBy: "coordinator" }, checked: ["scope", "sources", "risks"], notes: "coincide con el encargo" });
   assert.equal(revisada.tasks[0].state, "reviewed");
 });
 
@@ -261,7 +319,7 @@ test("verificar no lo hace quien ejecuto, y exige haber observado el criterio", 
   const root = await proyecto(t);
   const { f, a } = await autorizada();
   const recibida = await recibidaDe(f, a, root);
-  const revisada = f.reviewTask(recibida, "t1", { reviewer: "coordinador", checked: ["scope", "sources", "risks"] });
+  const revisada = f.reviewTask(recibida, "t1", { verdict: "accepted", reviewer: "advisor/model", advisorRoute: { available: true, tool: "decide", observedBy: "coordinator" }, checked: ["scope", "sources", "risks"] });
   assert.throws(() => f.verifyTask(revisada, "t1", { verifier: "opencode/space-bunny-free", observed: true, evidence: "x" }), /independent/i);
   assert.throws(() => f.verifyTask(revisada, "t1", { verifier: "coordinador", observed: false, evidence: "x" }), /observed/i);
   assert.throws(() => f.verifyTask(revisada, "t1", { verifier: "coordinador", observed: true, evidence: "" }), /evidence/i);
@@ -275,7 +333,7 @@ test("no se salta un paso: verificar sin revisar, integrar sin verificar", async
   const { f, a } = await autorizada();
   const recibida = await recibidaDe(f, a, root);
   assert.throws(() => f.verifyTask(recibida, "t1", { verifier: "coordinador", observed: true, evidence: "x" }), /reviewed/i);
-  const revisada = f.reviewTask(recibida, "t1", { reviewer: "coordinador", checked: ["scope", "sources", "risks"] });
+  const revisada = f.reviewTask(recibida, "t1", { verdict: "accepted", reviewer: "advisor/model", advisorRoute: { available: true, tool: "decide", observedBy: "coordinator" }, checked: ["scope", "sources", "risks"] });
   assert.throws(() => f.integrateTask(revisada, "t1", { destination: "tramos/0/fuentes.md" }), /verified/i);
   const verificada = f.verifyTask(revisada, "t1", { verifier: "coordinador", observed: true, evidence: proofFor(revisada) });
   assert.throws(() => f.integrateTask(verificada, "t1", {}), /destination/i);
@@ -289,7 +347,7 @@ test("no se cierra con una tarea abierta; con todo integrado y verificado por qu
   const { f, a } = await autorizada();
   const recibida = await recibidaDe(f, a, root);
   assert.throws(() => f.closeOperation(recibida, { verification: { verified: true, by: "coordinador", observed: true } }), /t1/);
-  let art = f.reviewTask(recibida, "t1", { reviewer: "coordinador", checked: ["scope", "sources", "risks"] });
+  let art = f.reviewTask(recibida, "t1", { verdict: "accepted", reviewer: "advisor/model", advisorRoute: { available: true, tool: "decide", observedBy: "coordinator" }, checked: ["scope", "sources", "risks"] });
   art = f.verifyTask(art, "t1", { verifier: "coordinador", observed: true, evidence: proofFor(art) });
   art = f.integrateTask(art, "t1", { destination: "tramos/0/fuentes.md" });
   assert.throws(() => f.closeOperation(art, { verification: { verified: false, by: "coordinador", observed: true } }), /verified/i);
@@ -339,13 +397,14 @@ test("runDurableOperation se niega a correr un efecto externo sin economia y la 
   const root = await proyecto(t);
   const f = await import(V);
   let corrio = 0;
-  const capability = { id: "pago", required: () => ({ spend: [{ asset: "lectura", amount: "1", to: "portal-clientes" }] }), perform: async () => { corrio += 1; return { ok: true, evidence: { status: "ok" } }; } };
+  const terms = { asset: "lectura", amount: "1", to: "portal-clientes" };
+  const capability = { id: "pago", effectiveTerms: () => terms, required: () => ({ spend: [terms] }), perform: async () => { corrio += 1; return { ok: true, evidence: { status: "ok" } }; } };
   const io = { verify: async () => ({ verified: true, checks: { ok: true }, reason: "ok" }) };
-  await assert.rejects(() => f.runDurableOperation({ root, goal: OBJETIVO, owner: "c", authority: MANDATO, capability, io, effect: "external" }), /economy/i);
+  await assert.rejects(() => f.runDurableOperation({ root, goal: OBJETIVO, owner: "c", authority: MANDATO, capability, io, effect: "external", scope: "fixture de pago", expected_effect: { kind: "external" }, done: "recibo verificado", roles: ["worker", "advisor", "verifier"], verifier: "coordinator" }), /economy/i);
   assert.equal(corrio, 0, "corrio un efecto sin economia declarada");
   const economy = { cost: { amount: "0.01", asset: "USDC" }, grant: "lectura:1", settlement: "x402 testnet" };
   const chain = { placement: "on", class: "money_moved", reason: "pago entre partes que no se conocen" };
-  const out = await f.runDurableOperation({ root, goal: OBJETIVO, owner: "c", authority: MANDATO, capability, io, effect: "external", economy, chain });
+  const out = await f.runDurableOperation({ root, goal: OBJETIVO, owner: "c", authority: MANDATO, capability, io, effect: "external", economy, chain, declaredEffect: terms, scope: "fixture de pago", expected_effect: { kind: "external", terms }, done: "recibo verificado", roles: ["worker", "advisor", "verifier"], verifier: "coordinator" });
   assert.equal(corrio, 1);
   assert.deepEqual(out.receipt.economy, economy);
   assert.deepEqual(out.receipt.chain.class, "money_moved");

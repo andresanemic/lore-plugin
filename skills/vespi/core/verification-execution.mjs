@@ -56,6 +56,8 @@ export function assertExecuted(artifact, task, evidence, { requirePass = true } 
 }
 function preflight(artifact, task) {
   if (!task || task.state !== 'reviewed') throw new Error('verification execution needs a reviewed task');
+  if (task.review?.verdict !== 'accepted') throw new Error('verification execution requires an accepted Advisor verdict');
+  if (!task.received?.sha256 || task.review.artifact_sha256 !== task.received.sha256) throw new Error('Advisor verdict does not match the received artifact');
   if (!['running', 'received', 'reviewed', 'verified', 'integrated'].includes(artifact.state)) throw new Error('verification execution needs an authorized active operation');
 }
 function localFile(root, path, label) {

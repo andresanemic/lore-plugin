@@ -10,7 +10,9 @@ import { tmpdir } from "node:os";
 import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
-import { observeTask } from "../skills/vespi/core/coordinator.mjs";
+import { closeOperation, observeTask } from "../skills/vespi/core/coordinator.mjs";
+import { readOperation } from "../skills/vespi/core/vespi.mjs";
+import { createArtifact, saveOperationState, transitionArtifact } from "../skills/vespi/core/operation-state.mjs";
 
 const CLI = resolve(dirname(fileURLToPath(import.meta.url)), "lore-plugin.mjs");
 const MODULO = resolve(dirname(fileURLToPath(import.meta.url)), "operation-cli.mjs");
@@ -43,7 +45,7 @@ async function proyecto(t) {
 
 async function conOperacion(t, { autorizar = true } = {}) {
   const root = await proyecto(t);
-  const h = run(["hold", "--root", root, "--json", j({ goal: "Cotejar la propuesta", owner: "coordinador", authority: { spend: [] } })]);
+  const h = run(["hold", "--root", root, "--json", j({ goal: "Cotejar la propuesta", intent: "Cotejar la propuesta", owner: "coordinador", authority: { spend: [] }, scope: "solo el arbol temporal", expected_effect: { kind: "none" }, done: "evidencia observada y recibo persistido", roles: ["worker", "advisor", "verifier"], verifier: "coordinador" })]);
   assert.equal(h.code, 0, h.err);
   assert.equal(h.json.ok, true);
   const id = h.json.id;
@@ -176,7 +178,7 @@ test("el ciclo completo: receive, review, verify, integrate y close, con la veri
   const rc = run(["receive", "--root", root, "--id", id, "--task", "t1"]);
   assert.equal(rc.json.task.state, "received");
   assert.match(rc.json.task.received.sha256, /^[0-9a-f]{64}$/);
-  const rv = run(["review", "--root", root, "--id", id, "--task", "t1", "--json", j({ reviewer: "coordinador", checked: ["scope", "sources", "risks"], notes: "ok" })]);
+  const rv = run(["review", "--root", root, "--id", id, "--task", "t1", "--json", j({ verdict: "accepted", reviewer: "advisor/model", advisorRoute: { available: true, tool: "decide", observedBy: "coordinator" }, checked: ["scope", "sources", "risks"], notes: "ok" })]);
   assert.equal(rv.json.task.state, "reviewed");
   const propio = run(["verify", "--root", root, "--id", id, "--task", "t1", "--json", j({ verifier: "opencode/m", observed: true, evidence: "x" })]);
   assert.equal(propio.code, 1, "quien ejecuto no verifica");
@@ -323,6 +325,25 @@ test("status expone el muro y stop_and_search tras tres fallos iguales", async (
   assert.match(status.json.wall.attempted[0], /intenté el paso 1/);
 });
 
+test("retry-search guarda la búsqueda del host sin atribuirla al CLI", async (t) => {
+  const { root, id } = await conOperacion(t);
+  run(["plan", "--root", root, "--id", id, "--json", j(encargoDaimon(root))]);
+  run(["dispatch", "--root", root, "--id", id, "--task", "t1", "--tools", "execute"]);
+  for (let n = 1; n <= 3; n++) run(["observe", "--root", root, "--id", id, "--task", "t1", "--json", j({ signature: "same failure", text: `attempt ${n}`, at: new Date().toISOString() })]);
+  const unavailable = run(["retry-search", "--root", root, "--id", id, "--json", j({ available: false, observedBy: "fixture-coordinator", reason: "host has no search" })]);
+  assert.equal(unavailable.code, 0, unavailable.err + unavailable.out);
+  let stored = await readOperation({ root, id });
+  assert.equal(stored.retry_stop.status, "requires_search");
+  assert.equal(stored.retry_searches.at(-1).executed_by_cli, false);
+  const searched = run(["retry-search", "--root", root, "--id", id, "--json", j({ available: true, observedBy: "fixture-coordinator", tool: "fixture-search", query: "same failure", findings: [{ source: "fixture://manual", finding: "change local timeout", limit: "synthetic test only", applies: true }], change: "adjust local timeout", same_scope: true })]);
+  assert.equal(searched.code, 0, searched.err + searched.out);
+  stored = await readOperation({ root, id });
+  assert.equal(stored.id, id);
+  assert.equal(stored.retry_stop.status, "resolved");
+  assert.equal(stored.tasks[0].observations.length, 3);
+  assert.equal(stored.retry_searches.at(-1).findings[0].limit, "synthetic test only");
+});
+
 test("--file lee el JSON de un archivo y un JSON invalido falla sin tocar FASES.md", async (t) => {
   const root = await proyecto(t);
   const f = join(root, "payload.json");
@@ -367,7 +388,7 @@ test("observe rechaza firmas no textuales antes de persistir y status sigue legi
 });
 
 test("observe rechaza at inválido por API y CLI sin alterar el estado", async (t) => {
-  const running = { tasks: [{ id: "t1", state: "running", observations: [], deadline: "2020-01-01T00:00:00.000Z", overdue: true }] };
+  const running = { id: "op-observe-test", intent: "observar fixture", owner: "coordinator", authority: { spend: [] }, scope: "fixture local", expected_effect: { kind: "none" }, done: "observacion guardada", roles: ["worker", "advisor", "verifier"], verifier: "coordinator", receipt: { status: "pending" }, state: "running", next_legitimate_action: "observe t1", uncertainty: [], tasks: [{ id: "t1", state: "running", observations: [], deadline: "2020-01-01T00:00:00.000Z", overdue: true }] };
   for (const at of ["", "not-a-date", 17.5, [], {}, NaN]) {
     assert.throws(() => observeTask(running, "t1", { at, signature: "E" }), /at.*(ISO|fecha|tiempo|inválid)/i);
   }
@@ -452,7 +473,7 @@ test("RC2: una tarea ya integrada no es un muro, porque su plazo dejo de informa
   run(["dispatch", "--root", root, "--id", id, "--task", "t1", "--tools", "execute", "--json", j({ hostName: "opencode", model: "m", effort: "low" })]);
   await writeFile(spec.output.path, "evidencia: ...\n");
   run(["receive", "--root", root, "--id", id, "--task", "t1"]);
-  run(["review", "--root", root, "--id", id, "--task", "t1", "--json", j({ reviewer: "coordinador", checked: ["scope", "sources", "risks"], notes: "ok" })]);
+  run(["review", "--root", root, "--id", id, "--task", "t1", "--json", j({ verdict: "accepted", reviewer: "advisor/model", advisorRoute: { available: true, tool: "decide", observedBy: "coordinator" }, checked: ["scope", "sources", "risks"], notes: "ok" })]);
   run(["verify", "--root", root, "--id", id, "--task", "t1", "--json", j({ verifier: "coordinador", observed: true, evidence: proofAt(root, id) })]);
   const ig = run(["integrate", "--root", root, "--id", id, "--task", "t1", "--json", j({ destination: "notas/cotejo.md" })]);
   assert.equal(ig.json.task.state, "integrated");
@@ -471,7 +492,7 @@ test("RC2: el reloj INFORMA y no juzga — una tarea vencida se integra igual", 
   run(["dispatch", "--root", root, "--id", id, "--task", "t1", "--tools", "execute", "--json", j({ hostName: "opencode", model: "m", effort: "low" })]);
   await writeFile(spec.output.path, "evidencia: ...\n");
   run(["receive", "--root", root, "--id", id, "--task", "t1"]);
-  run(["review", "--root", root, "--id", id, "--task", "t1", "--json", j({ reviewer: "coordinador", checked: ["scope", "sources", "risks"], notes: "ok" })]);
+  run(["review", "--root", root, "--id", id, "--task", "t1", "--json", j({ verdict: "accepted", reviewer: "advisor/model", advisorRoute: { available: true, tool: "decide", observedBy: "coordinator" }, checked: ["scope", "sources", "risks"], notes: "ok" })]);
   run(["verify", "--root", root, "--id", id, "--task", "t1", "--json", j({ verifier: "coordinador", observed: true, evidence: proofAt(root, id) })]);
   // El plazo sigue vencido ahi —la tarea lleva su due_at en el pasado— y aun asi integra.
   const ig = run(["integrate", "--root", root, "--id", id, "--task", "t1", "--json", j({ destination: "notas/cotejo.md" })]);
@@ -643,4 +664,536 @@ test("la facade y el modulo directo dicen exactamente lo mismo", async (t) => {
   const porModulo = directo(["status", "--root", root, "--id", id]);
   assert.equal(porModulo.code, porFacade.code);
   assert.deepEqual(porModulo.json, porFacade.json);
+});
+
+test("recommend ofrece modalidad y pregunta sin crear ni mutar una operación", async (t) => {
+  const root = await proyecto(t);
+  const oferta = run(["recommend", "--root", root, "--json", j({
+    modalidad: "secuencial-party-checkpoints",
+    motivo: "cruza dos repositorios y exige gates",
+    tradeoff: "requiere checkpoints antes de avanzar",
+    alternativas: ["acompanada"],
+    capacidades: { daimon: true, advisor: true, worker: true, verifier: true },
+    contexto: { instruccion: "Retomar una campaña entre repositorios", pistas: [], motivoSinPistas: "La consulta no incluyó una Pista pertinente para esta prueba", catalogoSkills: [], catalogoSkillsOrigen: "fixture T1", skillsSugeridas: [] },
+  })]);
+  assert.equal(oferta.code, 0, oferta.err);
+  assert.equal(oferta.json.ok, true);
+  assert.equal(oferta.json.offer.modalidad, "secuencial-party-checkpoints");
+  assert.equal(oferta.json.offer.requiere_eleccion, true);
+  assert.deepEqual(await import("node:fs/promises").then(({ readdir }) => readdir(root)), []);
+});
+
+test("recommend exige el rastro de contexto antes de ofrecer una modalidad", async (t) => {
+  const root = await proyecto(t);
+  const resultado = run(["recommend", "--root", root, "--json", j({
+    modalidad: "secuencial-party-checkpoints",
+    motivo: "cruza dos repositorios y exige gates",
+    tradeoff: "requiere checkpoints antes de avanzar",
+    alternativas: ["acompanada"],
+    capacidades: { daimon: true, advisor: true, worker: true, verifier: true },
+  })]);
+  assert.equal(resultado.code, 1);
+  assert.match(resultado.json.error, /contexto/i);
+});
+
+test("recommend muestra la Pista usada y skills sugeridas verificadas en el catálogo", async (t) => {
+  const root = await proyecto(t);
+  const resultado = run(["recommend", "--root", root, "--json", j({
+    modalidad: "secuencial-party-checkpoints",
+    motivo: "cruza dos repositorios y exige gates",
+    tradeoff: "requiere checkpoints antes de avanzar",
+    alternativas: ["acompanada"],
+    capacidades: { daimon: true, advisor: true, worker: true, verifier: true },
+    contexto: {
+      instruccion: "Construir 2.5.1 con TDD y autorización específica",
+      pistas: [{ referencia: "plugins/andamiaje/lore-plugin/lore/principios.md#4", pertinente: true, razon: "la regla se coloca en la skill donde se toma la decisión", contenido: "Cuando una regla se incumple, la pregunta no es dónde más escribirla sino qué skill está corriendo en el momento en que se toma esa decisión — la guardia va ahí. Escribirla en un cuarto sitio es el mismo error una vez más, con más prosa. Y una skill que delega en otra declara el retorno: una entrega sin vuelta deja abierta la petición original mientras el primer artefacto sale con aspecto de terminado." }],
+      motivoSinPistas: null,
+      catalogoSkillsOrigen: "Catálogo de skills de Codex observado en esta sesión (2026-10-07)",
+      catalogoSkills: [
+        { id: "lore:vespi", nombre: "Vespi" },
+        { id: "lore:use-lore", nombre: "use-lore" },
+        { id: "lore:brainstorming-lore", nombre: "brainstorming-lore" },
+        { id: "lore:save-to-lore", nombre: "save-to-lore" },
+      ],
+      skillsSugeridas: [{ id: "lore:vespi", proposito: "mantener la operación y sus gates" }, { id: "lore:use-lore", proposito: "enrutar las Pistas pertinentes" }],
+    },
+  })]);
+  assert.equal(resultado.code, 0, resultado.err);
+  assert.ok(resultado.json.offer.fundamento, "la oferta expone el fundamento consultado");
+  assert.equal(resultado.json.offer.fundamento.pistas.length, 1);
+  assert.equal(resultado.json.offer.fundamento.pistas[0].referencia, "plugins/andamiaje/lore-plugin/lore/principios.md#4");
+  assert.deepEqual(resultado.json.offer.skillsSugeridas.map(({ id }) => id), ["lore:vespi", "lore:use-lore"]);
+  assert.match(resultado.json.offer.mensaje, /Vamos paso a paso/);
+  assert.match(resultado.json.offer.mensaje, /Vespi/);
+  assert.match(resultado.json.offer.mensaje, /¿Cómo prefieres avanzar\?$/);
+  assert.doesNotMatch(resultado.json.offer.mensaje, /\.\./);
+});
+
+test("recommend no presenta una Pista explícitamente irrelevante como fundamento", async (t) => {
+  const root = await proyecto(t);
+  const resultado = run(["recommend", "--root", root, "--json", j({
+    modalidad: "secuencial-checkpoints",
+    motivo: "la instrucción pide una sola entrega local",
+    tradeoff: "se detiene en cada revisión",
+    alternativas: ["acompanada"],
+    capacidades: {},
+    contexto: {
+      instruccion: "Preparar una entrega local simple",
+      pistas: [{ referencia: "plugins/andamiaje/lore-plugin/lore/principios.md#22", pertinente: false, razon: "trata la adopción del kernel, no la entrega solicitada" }],
+      motivoSinPistas: "La Pista encontrada no aplica a esta tarea",
+      catalogoSkillsOrigen: "fixture: inventario de skills disponible",
+      catalogoSkills: [],
+      skillsSugeridas: [],
+    },
+  })]);
+  assert.equal(resultado.code, 0, resultado.err);
+  assert.ok(resultado.json.offer.fundamento, "la oferta distingue que no aplicó la Pista");
+  assert.equal(resultado.json.offer.fundamento.pistas.length, 0);
+  assert.equal(resultado.json.offer.fundamento.motivoSinPistas, "La Pista encontrada no aplica a esta tarea");
+});
+
+test("recommend rechaza una skill que no existe en el catálogo disponible", async (t) => {
+  const root = await proyecto(t);
+  const resultado = run(["recommend", "--root", root, "--json", j({
+    modalidad: "acompanada",
+    motivo: "la tarea cabe en una operación",
+    tradeoff: "menos revisión separada",
+    alternativas: ["secuencial-checkpoints"],
+    capacidades: {},
+    contexto: {
+      instruccion: "Empezar una tarea pequeña",
+      pistas: [],
+      motivoSinPistas: "No hay Pista pertinente para este caso",
+      catalogoSkillsOrigen: "fixture: inventario de skills disponible",
+      catalogoSkills: [{ id: "vespi", nombre: "Vespi" }],
+      skillsSugeridas: [{ id: "acompanar", proposito: "seguir al usuario" }],
+    },
+  })]);
+  assert.equal(resultado.code, 1);
+  assert.match(resultado.json.error, /catálogo|catalogo/i);
+});
+
+test("hold conserva modalidad y decisiones de skills al releer el artifact", async (t) => {
+  const root = await proyecto(t);
+  const coordinacion = {
+    modalidad: "secuencial-party-checkpoints",
+    skills: [
+      { sugerida: "vespi", decision: "accepted", elegida: "vespi" },
+      { sugerida: "use-lore", decision: "corrected", elegida: "brainstorming-lore" },
+      { sugerida: "save-to-lore", decision: "declined", elegida: null },
+    ],
+  };
+  const creado = run(["hold", "--root", root, "--json", j({
+    goal: "Retomar la campaña acordada",
+    owner: "coordinador",
+    authority: { spend: [] },
+    coordinacion,
+  })]);
+  assert.equal(creado.code, 0, creado.err);
+  const artefacto = await readOperation({ root, id: creado.json.id });
+  assert.deepEqual(artefacto.coordinacion, coordinacion);
+});
+test("el cierre conserva coordinacion en el snapshot terminal de FASES", async (t) => {
+  const root = await proyecto(t);
+  const coordinacion = { modalidad: "secuencial-party-checkpoints", skills: [{ sugerida: "vespi", decision: "accepted", elegida: "vespi" }] };
+  let artifact = createArtifact({ goal: "Cerrar sin perder el acuerdo", owner: "coordinador", coordinacion, scope: "cotejo local", expected_effect: { kind: "none" }, done: "recibo verificado", roles: ["worker", "advisor", "verifier"], verifier: "coordinador" });
+  for (const state of ["authorized", "running", "received", "reviewed", "verified"]) {
+    artifact = transitionArtifact(artifact, { state, note: `avanza a ${state}` });
+  }
+  artifact = {
+    ...artifact,
+    tasks: [{ id: "t1", state: "integrated", executor: { by: "worker/model" }, review: { by: "advisor/model" }, verification: { by: "verifier/model", executed: true, evidence: {} } }],
+    verification: { verified: true, by: "verificador", observed: true },
+  };
+  artifact = transitionArtifact(artifact, { state: "closed", note: "cierre verificado" });
+  await saveOperationState(root, artifact);
+  const reread = await readOperation({ root, id: artifact.id });
+  assert.equal(reread.state, "closed");
+  assert.deepEqual(reread.coordinacion, coordinacion);
+});
+test("recommend retoma la preferencia de la misma operación desde FASES", async (t) => {
+  const root = await proyecto(t);
+  const crearContexto = (instruccion, { contenido = "Cuando una regla se incumple, la pregunta no es dónde más escribirla sino qué skill está corriendo en el momento en que se toma esa decisión — la guardia va ahí. Escribirla en un cuarto sitio es el mismo error una vez más, con más prosa. Y una skill que delega en otra declara el retorno: una entrega sin vuelta deja abierta la petición original mientras el primer artefacto sale con aspecto de terminado.", razon = "la Pista ubica la regla en la skill que decide", catalogoSkills = [{ id: "lore:vespi", nombre: "Vespi" }, { id: "lore:use-lore", nombre: "use-lore" }, { id: "lore:brainstorming-lore", nombre: "brainstorming-lore" }, { id: "lore:save-to-lore", nombre: "save-to-lore" }] } = {}) => ({
+    instruccion,
+    pistas: [{ referencia: "plugins/andamiaje/lore-plugin/lore/principios.md#4", pertinente: true, razon, contenido }],
+    motivoSinPistas: null,
+    catalogoSkillsOrigen: "Catálogo de skills de Codex observado en esta sesión (2026-10-07)",
+    catalogoSkills,
+    skillsSugeridas: [{ id: "lore:vespi", proposito: "coordinar la operación" }, { id: "lore:use-lore", proposito: "consultar el routing" }],
+  });
+  const recomendar = (contexto) => run(["recommend", "--root", root, "--json", j({
+    modalidad: "secuencial-party-checkpoints",
+    motivo: "la operación cruza áreas y tiene gates",
+    tradeoff: "más checkpoints",
+    alternativas: ["acompanada"],
+    capacidades: { daimon: true, advisor: true, worker: true, verifier: true },
+    contexto,
+  })]);
+  const primera = recomendar(crearContexto("Continuar la misma operación Stradale 33"));
+  assert.equal(primera.code, 0, primera.err);
+  const huellaContexto = primera.json.offer.fundamento.huellaContexto;
+  assert.match(huellaContexto, /^[0-9a-f]{64}$/);
+  const coordinacion = {
+    modalidad: primera.json.offer.modalidad,
+    huellaContexto,
+    skills: [
+      { sugerida: "lore:vespi", decision: "accepted", elegida: "lore:vespi" },
+      { sugerida: "lore:use-lore", decision: "accepted", elegida: "lore:use-lore" },
+    ],
+  };
+  const hold = run(["hold", "--root", root, "--json", j({ goal: "Continuar Stradale 33", owner: "coordinador", authority: { spend: [] }, coordinacion })]);
+  assert.equal(hold.code, 0, hold.err);
+
+  const estable = run(["recommend", "--root", root, "--id", hold.json.id, "--json", j({
+    modalidad: "acompanada",
+    motivo: "la tarea solo requiere acompañamiento directo",
+    tradeoff: "sin Advisor, Daimon o checkpoints",
+    alternativas: ["secuencial-checkpoints"],
+    capacidades: { daimon: true, advisor: true, worker: true, verifier: true },
+    contexto: {
+      ...crearContexto("Continuar la misma operación Stradale 33", {
+        razon: "la fuente ubica la regla junto a quien decide",
+      }),
+    },
+  })]);
+  assert.equal(estable.code, 0, estable.err);
+  assert.equal(estable.json.offer.modalidad, "secuencial-party-checkpoints");
+  assert.equal(estable.json.offer.requiere_eleccion, false);
+  assert.equal(estable.json.offer.reanudada, true);
+  assert.equal(estable.json.offer.motivo, null);
+  assert.equal(estable.json.offer.tradeoff, null);
+  assert.doesNotMatch(estable.json.offer.mensaje, /solo requiere acompañamiento|sin Advisor/i);
+  assert.match(estable.json.offer.mensaje, /ya elegida para esta operación/i);
+  assert.deepEqual(estable.json.offer.preferencia.skills, coordinacion.skills);
+
+  const cambiado = run(["recommend", "--root", root, "--id", hold.json.id, "--json", j({
+    modalidad: "secuencial-party-checkpoints",
+    motivo: "la tarea ahora despliega un efecto externo",
+    tradeoff: "más checkpoints y revisión de autoridad",
+    alternativas: ["acompanada"],
+    capacidades: { daimon: true, advisor: true, worker: true, verifier: true },
+    contexto: crearContexto("Continuar la misma operación Stradale 33", {
+      contenido: "el criterio operativo cambió bajo la misma referencia",
+    }),
+  })]);
+  assert.equal(cambiado.code, 0, cambiado.err);
+  assert.equal(cambiado.json.offer.requiere_eleccion, true);
+  assert.match(cambiado.json.offer.mensaje, /contexto cambió materialmente/i);
+  assert.notEqual(cambiado.json.offer.fundamento.huellaContexto, huellaContexto);
+
+  const catalogoCambio = run(["recommend", "--root", root, "--id", hold.json.id, "--json", j({
+    modalidad: "secuencial-party-checkpoints",
+    motivo: "la operación cruza áreas y tiene gates",
+    tradeoff: "más checkpoints",
+    alternativas: ["acompanada"],
+    capacidades: { daimon: true, advisor: true, worker: true, verifier: true },
+    contexto: crearContexto("Continuar la misma operación Stradale 33", {
+      catalogoSkills: [{ id: "lore:vespi", nombre: "Vespi" }, { id: "lore:use-lore", nombre: "use-lore" }, { id: "lore:brainstorming-lore", nombre: "brainstorming-lore" }, { id: "lore:save-to-lore", nombre: "save-to-lore" }, { id: "lore:create-area", nombre: "create-area" }],
+    }),
+  })]);
+  assert.equal(catalogoCambio.code, 0, catalogoCambio.err);
+  assert.equal(catalogoCambio.json.offer.requiere_eleccion, true);
+  assert.notEqual(catalogoCambio.json.offer.fundamento.huellaContexto, huellaContexto);
+});
+test("la revision del Advisor debe ser independiente y la proxima accion sigue el gate", async (t) => {
+  const { root, id } = await conOperacion(t);
+  const spec = encargoDaimon(root);
+  run(["plan", "--root", root, "--id", id, "--json", j(spec)]);
+  run(["dispatch", "--root", root, "--id", id, "--task", "t1", "--tools", "execute", "--json", j({ hostName: "opencode", model: "m" })]);
+  await writeFile(spec.output.path, "evidencia: entregada\n");
+  run(["receive", "--root", root, "--id", id, "--task", "t1"]);
+
+  const advisorAusente = run(["review", "--root", root, "--id", id, "--task", "t1", "--json", j({ verdict: "accepted", reviewer: "advisor/model", checked: ["scope", "sources", "risks"], advisorRoute: { available: false, tool: "decide", observedBy: "coordinator" } })]);
+  assert.equal(advisorAusente.code, 1);
+  assert.match(advisorAusente.json.error, /blocked|decide/i);
+  const bloqueada = await readOperation({ root, id });
+  assert.equal(bloqueada.tasks[0].state, "blocked");
+  assert.match(bloqueada.tasks[0].blocked.cause, /advisor.*unavailable|decide/i);
+  assert.equal(bloqueada.next_legitimate_action, "resolve t1");
+  const entregaOriginal = bloqueada.tasks[0].received;
+  await writeFile(spec.output.path, "evidencia: alterada mientras faltaba Advisor\n");
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    const alterada = run(["receive", "--root", root, "--id", id, "--task", "t1"]);
+    assert.equal(alterada.json.task.state, "blocked", "bytes nuevos no sustituyen la entrega pendiente de revision");
+    const conservada = await readOperation({ root, id });
+    assert.deepEqual(conservada.tasks[0].received, entregaOriginal);
+    assert.match(conservada.tasks[0].blocked.cause, /advisor.*delivery.*changed/);
+    assert.equal(conservada.next_legitimate_action, "resolve t1");
+  }
+  await writeFile(spec.output.path, "evidencia: entregada\n");
+  const reporteFallido = run(["receive", "--root", root, "--id", id, "--task", "t1", "--json", j({ text: "Upstream request failed", exitCode: 0 })]);
+  assert.equal(reporteFallido.json.task.state, "blocked", "una entrega identica no borra el fallo informado");
+  assert.deepEqual(reporteFallido.json.task.received, entregaOriginal);
+  const recibidaDeNuevo = run(["receive", "--root", root, "--id", id, "--task", "t1"]);
+  assert.equal(recibidaDeNuevo.code, 0, recibidaDeNuevo.err);
+  assert.deepEqual(recibidaDeNuevo.json.task.received, entregaOriginal);
+  assert.equal((await readOperation({ root, id })).next_legitimate_action, "review t1");
+
+  const autoRevision = run(["review", "--root", root, "--id", id, "--task", "t1", "--json", j({ verdict: "accepted", reviewer: "opencode/m", checked: ["scope", "sources", "risks"], notes: "listo", advisorRoute: { available: true, tool: "decide", observedBy: "coordinator" } })]);
+  assert.equal(autoRevision.code, 1);
+  assert.match(autoRevision.json.error, /independent/i);
+
+  const recibida = await readOperation({ root, id });
+  assert.equal(recibida.next_legitimate_action, "review t1");
+
+  const revision = run(["review", "--root", root, "--id", id, "--task", "t1", "--json", j({ verdict: "accepted", reviewer: "advisor/model", checked: ["scope", "sources", "risks"], notes: "revisado", advisorRoute: { available: true, tool: "decide", observedBy: "coordinator" } })]);
+  assert.equal(revision.json.task.state, "reviewed");
+  assert.equal((await readOperation({ root, id })).next_legitimate_action, "verify t1");
+
+  const mismoAdvisor = run(["verify", "--root", root, "--id", id, "--task", "t1", "--json", j({ verifier: "advisor/model", observed: true, evidence: proofAt(root, id) })]);
+  assert.equal(mismoAdvisor.code, 1);
+  assert.match(mismoAdvisor.json.error, /independent/i);
+
+  const verificacion = run(["verify", "--root", root, "--id", id, "--task", "t1", "--json", j({ verifier: "coordinador", observed: true, evidence: proofAt(root, id) })]);
+  assert.equal(verificacion.json.task.state, "verified");
+  assert.equal((await readOperation({ root, id })).next_legitimate_action, "integrate t1");
+
+  run(["integrate", "--root", root, "--id", id, "--task", "t1", "--json", j({ destination: "notas/cotejo.md" })]);
+  assert.equal((await readOperation({ root, id })).next_legitimate_action, "close");
+});
+
+test("Gate B exige cada campo estructural y no confunde estructura con cierre", async () => {
+  const { validateGateBContract } = await import("../skills/vespi/core/operation-state.mjs");
+  const contract = {
+    intent: "Completar la operacion",
+    owner: "coordinador",
+    authority: { spend: [] },
+    scope: "solo el arbol local",
+    expected_effect: "none",
+    done: "evidencia observada y recibo guardado",
+    roles: ["worker", "advisor", "verifier"],
+    verifier: "verifier/model",
+    receipt: { status: "pending" },
+    state: "verified",
+    next_action: "close",
+  };
+  assert.equal(typeof validateGateBContract, "function");
+  assert.deepEqual(validateGateBContract(contract), { valid: true, missing: [] });
+  for (const [field, label] of [
+    ["intent", "intent"], ["owner", "owner"], ["authority", "authority"], ["scope", "scope"],
+    ["expected_effect", "expected_effect"], ["done", "done"], ["roles", "tasks/roles"],
+    ["verifier", "verifier"], ["receipt", "receipt"], ["state", "state"], ["next_action", "next_action"],
+  ]) {
+    const incomplete = { ...contract };
+    delete incomplete[field];
+    assert.throws(() => validateGateBContract(incomplete), new RegExp(label.replace("/", "\\/")));
+    const advancing = { ...incomplete, state: "prepared", checkpoints: [], next_legitimate_action: "authorize" };
+    if (field === "state") delete advancing.state;
+    if (field === "next_action") delete advancing.next_legitimate_action;
+    assert.throws(() => transitionArtifact(advancing, { state: "authorized", note: "authorize" }), new RegExp(label.replace("/", "\\/")));
+  }
+  const incompleteAuthorized = { ...contract, state: "authorized", next_legitimate_action: "dispatch", checkpoints: [] };
+  for (const [field, label] of [
+    ["intent", "intent"], ["owner", "owner"], ["authority", "authority"], ["scope", "scope"],
+    ["expected_effect", "expected_effect"], ["done", "done"], ["roles", "tasks/roles"],
+    ["verifier", "verifier"], ["receipt", "receipt"], ["state", "state"], ["next_action", "next_action"],
+  ]) {
+    const incomplete = { ...incompleteAuthorized };
+    delete incomplete[field];
+    if (field === "next_action") delete incomplete.next_legitimate_action;
+    assert.throws(() => transitionArtifact(incomplete, { state: "running", note: "advance" }), new RegExp(label.replace("/", "\\/")));
+  }
+  assert.throws(() => closeOperation({
+    ...contract, id: "op-gate-b", working_goal: contract.intent, tasks: [], effects: [], uncertainty: [], checkpoints: [],
+    verification: null, state: "verified", next_legitimate_action: "close",
+  }, { verification: { verified: true, by: "verifier/model", observed: true } }), /integrated task with independent verification/i);
+});
+
+test("la traza relacional se valida aparte del recibo y conserva el auto-reporte literal", async () => {
+  const coordinator = await import("../skills/vespi/core/coordinator.mjs");
+  const state = await import("../skills/vespi/core/operation-state.mjs");
+  assert.equal(typeof coordinator.validateRelationalTrace, "function");
+  assert.equal(typeof coordinator.recordInteractionTrace, "function");
+  assert.equal(typeof coordinator.recordSelfReport, "function");
+  const trace = [
+    { id: "m1", type: "mismatch.observed", by: "assistant", at: 1, content: "La respuesta perdió la distinción." },
+    { id: "c1", type: "correction.received", by: "user", at: 2, ref: "m1", content: "Separa picor e intensidad de velocidad." },
+    { id: "r1", type: "response.revised", by: "assistant", at: 3, ref: "c1", before: "La velocidad sube con el picor.", after: "El picor acumula intensidad; la velocidad responde al último tramo." },
+    { id: "d1", type: "distinction.proposed", by: "assistant", at: 4, content: "El picor se acumula; la velocidad no." },
+    { id: "d2", type: "distinction.corrected", by: "user", at: 5, ref: "d1", content: "El picor se acumula; la velocidad no se acumula." },
+    { id: "a1", type: "decision.applied", by: "assistant", at: 6, ref: "d2", input: "Elegir el ritmo de respuesta.", output: "Responder al último tramo de velocidad.", evidence: "La regla cambió la recomendación." },
+  ];
+  assert.equal(coordinator.validateRelationalTrace(trace).valid, true);
+  for (let index = 0; index < trace.length; index += 1) {
+    const broken = trace.filter((_, candidate) => candidate !== index);
+    assert.throws(() => coordinator.validateRelationalTrace(broken), /trace|event|sequence|relation/i);
+  }
+  assert.throws(() => coordinator.validateRelationalTrace([...trace].reverse()), /trace|event|sequence|relation/i);
+  assert.throws(() => coordinator.validateRelationalTrace(trace.map((event) => event.id === "r1" ? { ...event, after: trace[1].content } : event)), /echo|revised|response/i);
+  assert.throws(() => coordinator.validateRelationalTrace(trace.map((event) => event.id === "d2" ? { ...event, ref: "missing" } : event)), /distinction|reference|relation/i);
+  const otherPartyCanCorrect = trace.map((event) => event.id === "d1" ? { ...event, by: "user" } : event).map((event) => event.id === "d2" ? { ...event, by: "assistant" } : event);
+  assert.equal(coordinator.validateRelationalTrace(otherPartyCanCorrect).valid, true);
+
+  const artifact = state.createArtifact({ goal: "Relational trace", owner: "coordinator" });
+  const traced = coordinator.recordInteractionTrace(artifact, trace);
+  assert.deepEqual(traced.interaction_trace, trace);
+  assert.deepEqual(traced.receipt, artifact.receipt);
+  assert.equal(traced.verification, null);
+  assert.equal(traced.self_report, null);
+  const selfReport = coordinator.recordSelfReport(traced, {
+    reported_by: "user",
+    yo_tu: "uncertain",
+    fertility: "negative",
+    simplicity: "not_declared",
+    recommend: "absent",
+    raw_quote: "el entre fértil es aquel en el que uno desea volver",
+  });
+  assert.equal(selfReport.self_report.raw_quote, "el entre fértil es aquel en el que uno desea volver");
+  assert.equal(selfReport.self_report.fertility, "negative");
+  assert.equal(selfReport.self_report.yo_tu, "uncertain");
+  assert.deepEqual(coordinator.recordSelfReport(selfReport, null).self_report, selfReport.self_report);
+  assert.throws(() => coordinator.validateRelationalTrace(trace.map((event) => event.id === "m1" ? { ...event, content: "" } : event)), /mismatch|content/i);
+  assert.equal(selfReport.id, artifact.id);
+  assert.equal(coordinator.recordSelfReport(artifact, null).self_report, null);
+});
+
+
+test("la traza CLI conserva identidad y separación al guardar y reanudar", async (t) => {
+  const { root, id } = await conOperacion(t);
+  const trace = [
+    { id: "m1", type: "mismatch.observed", by: "assistant", at: 1, content: "Se perdió la distinción." },
+    { id: "c1", type: "correction.received", by: "user", at: 2, ref: "m1", content: "Separa el acuerdo de la ejecución." },
+    { id: "r1", type: "response.revised", by: "assistant", at: 3, ref: "c1", before: "El plan ya ejecuta.", after: "El plan acuerda; el recibo demuestra ejecución." },
+    { id: "d1", type: "distinction.proposed", by: "assistant", at: 4, content: "Acuerdo y ejecución tienen registros distintos." },
+    { id: "d2", type: "distinction.corrected", by: "user", at: 5, ref: "d1", content: "El acuerdo fija límites; el recibo muestra qué se ejecutó." },
+    { id: "a1", type: "decision.applied", by: "assistant", at: 6, ref: "d2", input: "Definir el cierre.", output: "Exigir recibo de ejecución independiente.", evidence: "La regla añadió un gate al cierre." },
+  ];
+  const traced = run(["trace", "--root", root, "--id", id, "--json", j({ events: trace })]);
+  assert.equal(traced.code, 0, traced.err);
+  const report = { reported_by: "user", yo_tu: "uncertain", fertility: "negative", raw_quote: "el entre fértil es aquel en el que uno desea volver" };
+  const reported = run(["self-report", "--root", root, "--id", id, "--json", j({ report })]);
+  assert.equal(reported.code, 0, reported.err);
+  const firstSession = await readOperation({ root, id });
+  const resumedSession = await readOperation({ root, id });
+  assert.equal(resumedSession.id, id);
+  assert.equal(resumedSession.state, firstSession.state);
+  assert.deepEqual(resumedSession.authority, firstSession.authority);
+  assert.equal(resumedSession.scope, firstSession.scope);
+  assert.equal(resumedSession.next_legitimate_action, firstSession.next_legitimate_action);
+  assert.deepEqual(resumedSession.interaction_trace, trace);
+  assert.equal(resumedSession.receipt.status, "pending");
+  assert.equal(resumedSession.verification, null);
+  assert.deepEqual(resumedSession.self_report, { ...report, source: "coordinator-attestation" });
+});
+
+
+test("el snapshot terminal conserva Gate B y la identidad de la operacion", async (t) => {
+  const root = await proyecto(t);
+  let artifact = createArtifact({ goal: "Preservar el acuerdo", intent: "cerrar sin perder contexto", owner: "coordinador", authority: { spend: [], approvals: [] }, scope: "solo fixture", expected_effect: { kind: "none" }, done: "recibo observado", roles: ["worker", "advisor", "verifier"], verifier: "coordinador", receipt: { status: "observed", digest: "sha256:fixture" } });
+  artifact.uncertainty = ["resultado externo no probado"];
+  artifact.interaction_trace = [{ id: "event-1", type: "mismatch.observed", by: "assistant", at: 1 }];
+  artifact.self_report = { reported_by: "user", fertility: "uncertain", raw_quote: "cita literal" };
+  artifact.effect = "external";
+  artifact.economy = { cost: { asset: "fixture", amount: "1" }, grant: "fixture-grant", settlement: "fixture-settlement" };
+  artifact.chain = { placement: "off", class: "fixture", reason: "serialization only" };
+  artifact.declared_effect = { asset: "fixture", amount: "1", to: "fixture-target" };
+  const identity = artifact.id;
+  for (const state of ["authorized", "running", "received", "reviewed", "verified"]) artifact = transitionArtifact(artifact, { state, note: state });
+  artifact.tasks = [{ id: "t1", state: "integrated", executor: { by: "worker/model" }, review: { by: "advisor/model" }, verification: { by: "verifier/model", executed: true, evidence: {} } }];
+  // Serialization fixture only: these records do not claim an executed review.
+  artifact.tasks[0].received = { path: "fixture/result.md", sha256: "corrected-fixture" };
+  artifact.tasks[0].review = { by: "advisor/model", verdict: "accepted", artifact_sha256: "corrected-fixture" };
+  artifact.tasks[0].review_history = [{ received: { sha256: "rejected-fixture" }, review: { by: "advisor/model", verdict: "rejected", notes: "criterion not met", artifact_sha256: "rejected-fixture" }, verification: null }];
+  artifact.verification = { verified: true, by: "verifier/model", observed: true };
+  artifact = transitionArtifact(artifact, { state: "closed", note: "cierre" });
+  await saveOperationState(root, artifact);
+  const closed = await readOperation({ root, id: identity });
+  assert.equal(closed.id, identity);
+  assert.deepEqual(closed.authority, artifact.authority);
+  assert.equal(closed.scope, artifact.scope);
+  assert.deepEqual(closed.uncertainty, artifact.uncertainty);
+  assert.equal(closed.next_legitimate_action, artifact.next_legitimate_action);
+  assert.deepEqual(closed.receipt, artifact.receipt);
+  assert.deepEqual(closed.interaction_trace, artifact.interaction_trace);
+  assert.deepEqual(closed.self_report, artifact.self_report);
+  for (const key of ["effect", "economy", "chain", "declared_effect"]) assert.deepEqual(closed[key], artifact[key], `terminal state keeps ${key}`);
+  assert.deepEqual(closed.task_reviews, artifact.tasks.map(task => ({ task_id: task.id, received: task.received, review: task.review, review_history: task.review_history })));
+});
+
+
+test("un efecto externo exige permiso vigente para accion y destino exactos", async () => {
+  const state = await import("../skills/vespi/core/operation-state.mjs");
+  assert.equal(typeof state.requestExternalEffect, "function");
+  assert.equal(typeof state.approveExternalEffect, "function");
+  assert.equal(typeof state.revokeExternalEffectApproval, "function");
+  assert.equal(typeof state.authorizeExternalEffect, "function");
+  const requestedAt = "2026-10-07T12:00:00.000Z";
+  const now = "2026-10-07T12:05:00.000Z";
+  const artifact = createArtifact({ goal: "Gate externo", owner: "Andres", authority: { spend: [], generic: "avancemos" } });
+  const request = state.requestExternalEffect(artifact, { action: "commit", destination: "lore-plugin:release/2.5-prep", at: requestedAt });
+  assert.equal(state.authorizeExternalEffect(request, { requestId: request.external_effect_requests[0].id, action: "commit", destination: "lore-plugin:release/2.5-prep", now }).allowed, false);
+  const approved = state.approveExternalEffect(request, { requestId: request.external_effect_requests[0].id, action: "commit", destination: "lore-plugin:release/2.5-prep", by: "Andres", words: "Autorizo solo commit en release/2.5-prep", approvedAt: "2026-10-07T12:01:00.000Z", expiresAt: "2026-10-07T12:10:00.000Z" });
+  assert.equal(state.authorizeExternalEffect(approved, { requestId: request.external_effect_requests[0].id, action: "push", destination: "lore-plugin:release/2.5-prep", now }).allowed, false);
+  assert.equal(state.authorizeExternalEffect(approved, { requestId: request.external_effect_requests[0].id, action: "commit", destination: "lore-plugin:main", now }).allowed, false);
+  assert.equal(state.authorizeExternalEffect(approved, { requestId: request.external_effect_requests[0].id, action: "commit", destination: "lore-plugin:release/2.5-prep", requestedAt: "2026-10-07T12:02:00.000Z", now }).allowed, false);
+  const permission = state.authorizeExternalEffect(approved, { requestId: request.external_effect_requests[0].id, action: "commit", destination: "lore-plugin:release/2.5-prep", now });
+  assert.equal(permission.allowed, true);
+  const receivedByAdapter = [];
+  const adapter = (input) => receivedByAdapter.push(input);
+  adapter(permission.adapterInput);
+  assert.deepEqual(receivedByAdapter, [{ action: "commit", destination: "lore-plugin:release/2.5-prep" }]);
+  const revoked = state.revokeExternalEffectApproval(approved, { approvalId: permission.approvalId, at: "2026-10-07T12:04:00.000Z" });
+  assert.equal(state.authorizeExternalEffect(revoked, { requestId: request.external_effect_requests[0].id, action: "commit", destination: "lore-plugin:release/2.5-prep", now }).allowed, false);
+  assert.equal(state.authorizeExternalEffect(approved, { requestId: request.external_effect_requests[0].id, action: "commit", destination: "lore-plugin:release/2.5-prep", now: "2026-10-07T12:11:00.000Z" }).allowed, false);
+});
+
+
+test("la CLI solo devuelve permiso exacto y vigente sin ejecutar el efecto", async (t) => {
+  const { root, id } = await conOperacion(t);
+  const request = run(["request-effect", "--root", root, "--id", id, "--json", j({ action: "commit", destination: "lore-plugin:release/2.5-prep", at: "2026-10-07T12:00:00.000Z" })]);
+  assert.equal(request.code, 0, request.err);
+  const requestId = request.json.request.id;
+  const before = run(["effect-permission", "--root", root, "--id", id, "--json", j({ requestId, action: "commit", destination: "lore-plugin:release/2.5-prep", now: "2026-10-07T12:05:00.000Z" })]);
+  assert.equal(before.json.allowed, false);
+  const approval = run(["approve-effect", "--root", root, "--id", id, "--json", j({ requestId, action: "commit", destination: "lore-plugin:release/2.5-prep", by: "Andres", words: "Autorizo solo commit en release/2.5-prep", approvedAt: "2026-10-07T12:01:00.000Z", expiresAt: "2026-10-07T12:10:00.000Z" })]);
+  assert.equal(approval.code, 0, approval.err);
+  const permission = run(["effect-permission", "--root", root, "--id", id, "--json", j({ requestId, action: "commit", destination: "lore-plugin:release/2.5-prep", now: "2026-10-07T12:05:00.000Z" })]);
+  assert.equal(permission.json.allowed, true);
+  assert.deepEqual(permission.json.adapterInput, { action: "commit", destination: "lore-plugin:release/2.5-prep" });
+  const mismatch = run(["effect-permission", "--root", root, "--id", id, "--json", j({ requestId, action: "push", destination: "lore-plugin:release/2.5-prep", now: "2026-10-07T12:05:00.000Z" })]);
+  assert.equal(mismatch.json.allowed, false);
+  assert.equal(mismatch.json.effect, undefined);
+});
+
+
+test("el reporte ausente no borra una declaracion previa", async (t) => {
+  const { root, id } = await conOperacion(t);
+  const report = run(["self-report", "--root", root, "--id", id, "--json", j({ report: { reported_by: "user", fertility: "affirmative" } })]);
+  assert.equal(report.code, 0, report.err);
+  const absent = run(["self-report", "--root", root, "--id", id, "--json", j({})]);
+  assert.equal(absent.code, 1);
+  const saved = await readOperation({ root, id });
+  assert.equal(saved.self_report.fertility, "affirmative");
+});
+
+
+test("cambiar de rol, modelo y herramienta declarados conserva el artifact y su gate", async (t) => {
+  const root = await proyecto(t);
+  const coordinacion = { modalidad: "secuencial-party-checkpoints", skills: [{ sugerida: "lore:vespi", decision: "accepted", elegida: "lore:vespi" }, { sugerida: "lore:use-lore", decision: "accepted", elegida: "lore:use-lore" }] };
+  const held = run(["hold", "--root", root, "--json", j({ goal: "Misma operación", owner: "coordinador", authority: { spend: [] }, scope: "solo fixture", expected_effect: { kind: "none" }, done: "recibo observado", roles: ["worker", "advisor", "verifier"], verifier: "coordinador", coordinacion })]);
+  const id = held.json.id;
+  run(["authorize", "--root", root, "--id", id, "--json", j({ by: "Andres", words: "corre el cotejo local" })]);
+  const worker = { role: "worker", scope: "fixture local", question: "producir evidencia", output: { path: join(root, "worker.md") }, timeoutMs: 600000, nextCheckAt: futuro(60000), done_criterion: "evidencia", proof: "digest" };
+  const advisor = { role: "advisor", scope: "fixture local", context: "artefacto local y acuerdo", question: "contrastar el artefacto", output: { path: join(root, "advisor.md") }, timeoutMs: 600000, nextCheckAt: futuro(60000), done_criterion: "veredicto", proof: "respuesta de revisión" };
+  const planWorker = run(["plan", "--root", root, "--id", id, "--json", j(worker)]);
+  assert.equal(planWorker.json.ok, true, planWorker.err);
+  const dispatchWorker = run(["dispatch", "--root", root, "--id", id, "--task", "t1", "--tools", "delegate", "--json", j({ hostName: "opencode", model: "zen-model-a", effort: "medium" })]);
+  assert.equal(dispatchWorker.json.ok, true, dispatchWorker.err);
+  const before = await readOperation({ root, id });
+  const planAdvisor = run(["plan", "--root", root, "--id", id, "--json", j(advisor)]);
+  assert.equal(planAdvisor.json.ok, true, planAdvisor.err);
+  const dispatchAdvisor = run(["dispatch", "--root", root, "--id", id, "--task", "t2", "--tools", "decide", "--json", j({ hostName: "codex", model: "zen-model-b", effort: "high" })]);
+  assert.equal(dispatchAdvisor.json.ok, true, dispatchAdvisor.err);
+  const after = await readOperation({ root, id });
+  assert.equal(after.id, before.id);
+  assert.equal(after.state, before.state);
+  assert.deepEqual(after.uncertainty, before.uncertainty);
+  assert.deepEqual(after.authority, before.authority);
+  assert.equal(after.scope, before.scope);
+  assert.equal(after.next_legitimate_action, before.next_legitimate_action);
+  assert.deepEqual(after.coordinacion, before.coordinacion);
+  assert.equal(after.tasks[0].declared_route.model, "zen-model-a");
+  assert.equal(after.tasks[1].declared_route.model, "zen-model-b");
+  assert.equal(after.tasks[0].executor, null);
+  assert.equal(after.tasks[1].executor, null);
 });

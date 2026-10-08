@@ -11,31 +11,27 @@ description: >-
 
 # Vespi — bounded operation under authority (experimental)
 
-> Invoke with the Skill tool as `vespi` when the coordinator, in role, takes on a strained or continuing operation. A person's sentence never invokes it directly: those sentences route through the canonical table in `use-lore`.
+Invoke `vespi` with the Skill tool. Human phrases route through `use-lore`. An ordinary operation is still an operation: retain criterion, owner, gate, receipt, distinct verification and next step. Sparse work skips the bounded wrapper below.
 
-An ordinary operation is still an operation: work with criterion, owner and gate leaves its one-line receipt, distinct verification, and the next step. Vespi's full weight is for bounded operations under authority — cross-session, insufficient route, authority effects, or silent resume.
+**How the coordinator works.** Read [`method.md`](./method.md): classify, define done, gather evidence, decide, act surgically, verify by observation, report outcome first. Report/receipt name the same observation, coverage and limits.
 
-**How the coordinator works.** The loop the coordinator follows — classify the ask, define done, gather evidence, decide, act surgically, verify by observation, report the outcome first — is written in [`method.md`](./method.md). It depends on no installed skill. Under an operation, the coordinator’s report and the operation’s receipt are the same act seen from two sides: what was observed, what was covered, and what was not.
+## Recommending the work mode
 
-When the person asks to coordinate existing work across projects, use the bounded sequence below. Reading across the garden grants no write authority; a simple task with a working route needs no coordination wrapper.
+Before tasks or dispatch, read the agreement, pertinent Pistas and observed host capabilities. Recommend a viable mode with reason, cost and a real alternative; await the person's choice, without a default. Missing roles make a mode unavailable. TDD/loops are practices, specs/plans are artifacts; Plan Maestro is optional.
+
+Run `node scripts/operation-cli.mjs recommend --root <project> --json <payload>`. The offer changes no operation. Supply the actual instruction, Pista reference/passage/pertinence/reason (or why none applies), observed skill inventory and its source, and suggested IDs/purposes. Never claim unread criterion or invent a skill. The CLI checks IDs against this inventory and hashes passage, inventory and instruction to detect material changes; it does not authenticate the host catalog. Keep the user's mode and accept/correct/decline skill choices in the operation.
+
+Suggest only useful skills: `use-lore` loads criterion, `vespi` coordinates authority/continuity, `brainstorming-lore` forms an agreement, `save-to-lore` arbitrates capture. A simple task with a working route needs no wrapper; reading sibling trees grants no write authority.
 
 ## Coordination when the work already has a shape
 
-0. Name the governing procedure ([`method.md`](./method.md)), plus the next step and its file.
-1. Receive the current agreement and evidence. Separate what the person decided from what an agent merely proposed.
-2. Break only the unresolved work into verifiable outputs, dependencies and human gates. Name the owner of each output.
-3. Choose the existing skill, tool or delegate that fits each output. Use the least effort that can meet its evidence standard; do not create parallel jobs just because resources are available.
-4. Verify each delivered artifact independently. A delegate's “done,” a green exit code and a plausible summary are claims until their relevant evidence is checked.
-5. Arbitrate conflicts between sources and territories. Keep a scientific finding separate from a product decision, and a simulated result separate from a real effect.
-6. Show a short, truthful checkpoint: completed, running, pending, blocked, next decision and its owner. Bring a changed scope or authority back to the person; do not silently approve it.
+Name `method.md`, next step and file. Receive agreement/evidence, separating human decisions from agent proposals. Split unresolved work into owned outputs, dependencies and gates. Choose fitting skills/tools and the least sufficient effort; spare resources do not justify parallelism. Independently check deliveries; “done” and exit 0 are claims. Arbitrate conflicts, separating scientific findings from product decisions and simulation from effects. Checkpoint completed/running/pending/blocked work, next decision and owner; changed scope/authority returns to the person.
 
-When several authorized operations are ready, give each a bounded stretch before repeating one. At the existing checkpoint, name the operation just served and the next ready operation. Repeat a turn only for a recorded dependency, an authorized urgent exception, or because no other operation is ready. A worker's claimed urgency is not authority. Waiting operations do not consume a turn and are not failures. This rule coordinates turns, not schedules.
+Give each ready, authorized operation a bounded stretch; name the served and next one at its checkpoint. Repeat only for a recorded dependency, authorized urgency or no other ready operation. Waiting consumes no turn and is no failure. This is turn coordination, not scheduling or a permanent agent mode.
 
-Pausing and resuming keep the same operation identity and the record of its last served stretch. They never reset spent budget, attempts, pending review, or uncertain effects. Recheck the existing authority and continuity gates before resuming. A new name or a fresh worker does not grant a fresh budget or priority.
+Pause/resume retains operation identity, served stretch, budget, attempts, pending review and uncertain effects. Recheck authority/continuity; a fresh name/worker grants no fresh budget or priority.
 
-This is an invocable way to run a multi-step operation, not a permanent mode or a new agent.
-
-Before running work concurrently, you may call `node skills/vespi/core/host-resources.mjs` from the installed kit to measure time, free/total memory and available parallelism. Its result is a local snapshot, not a quota or an authorization; if it is unavailable, say “not measured” and choose a conservative sequence. Do not run the probe by default on every turn or copy private host details into public Lore.
+Before concurrent work, optionally run `node skills/vespi/core/host-resources.mjs` for local time/memory/parallelism. It is not quota or permission; if unavailable say “not measured” and sequence conservatively. No default per-turn probe or private host details in public Lore.
 
 The unit is not the agent. The unit is the operation.
 
@@ -47,7 +43,7 @@ A live bounded operation: declare its effect, prove authority before the border,
 
 Lore, universal routing, learning, schedulers, persistence engines, wallets, migration, or any foreign Lore. Vespi proposes with evidence and provenance; only `save-to-lore` arbitrates the path to Lore, and only the owning governance writes it. Vespi never writes Lore directly — not foreign Lore, not its own.
 
-## ## Invocation — who calls, and what arrives
+## Invocation — who calls, and what arrives
 
 The coordinator in role calls this protocol with a strained or continuing operation: its mandate, authority, state, and what changed. Human phrases never invoke it directly — they route through use-lore’s canonical table ("Three ordinary phrases, three owners"): no way of working yet is `use-lore`’s, and designing a Lore-owned artifact is `brainstorming-lore`’s. Under an active agreement that already covers the piece, this protocol stays quiet: the silent check runs first, silently. Under every invocation, the five R2 conditions run as the internal test — the full list lives in `use-lore`, and this skill applies the same law.
 
@@ -72,9 +68,7 @@ Sparse opens no operation: a single step with no external effect is reported in 
 
 ## Delegation — what the host gives, and what it does not
 
-Where the host offers a subagent, the delegation goes through the kernel's `createDelegation` with a `medium`: the area the delegate was given, and what in it it must not touch. A file the delegate reports outside that area is a violation, and a violation is a fact about the delegation, not about its last delivery.
-
-The host returns one message. It is not a receipt, and it is not verification. What the delegate says it touched is a claim, so the orchestrator fills `touched` from what it can observe itself, and a delegate that could not read its assignment is relaunched, never resumed. Nothing here delegates by itself, and no host is assumed to police the medium. A spark the delegate leaves on the way out is at most twenty words; over that it is a report, and the report is the result.
+Use the kernel's `createDelegation` with a `medium`: granted area and forbidden material. The host's message is a claim, not a receipt/verification. Fill `touched` from observed evidence; outside-area work is a violation that survives later clean answers. Relaunch a delegate unable to read its assignment rather than resume it. This protocol neither delegates automatically nor assumes the host polices the medium. Exit spark: at most twenty words; longer is a result/report.
 
 ### Launching a delegate on OpenCode
 
@@ -82,14 +76,9 @@ For a non-interactive OpenCode delegate, prepare its directory with `lore-plugin
 
 ## Holding an operation that outlives the session
 
-`operation-state.mjs` writes and reloads an operation artifact; `vespi.mjs` is the module an agent imports, and it carries that surface too, so a declared persistence owner is either a file that exists or the explicit `none`. Four calls, all through the facade:
+Import `vespi.mjs`: its `operation-state.mjs` surface exposes `holdOperation({root,goal,owner,authority,scope,expected_effect,done,roles,verifier})`, `runDurableOperation({root,goal,owner,authority,capability,io,intent,host,id,effect,economy,chain,...contract})`, `resumeOperation({root,id,freshness})` and `readOperation({root,id})`. Hold writes prepared state; run executes one step with a complete Gate B contract. No root means ephemeral receipt owner `none`; id resumes disk state, not a new identity. Resume returns the artifact verdict; terminal, stale or invalid-authority refusal writes nothing. Read attaches no verdict.
 
-- `holdOperation({ root, goal, owner, authority })` declares the operation and writes its state before anything runs.
-- `runDurableOperation({ root, goal, owner, authority, capability, io, intent, host, id, effect, economy, chain })` runs one step and leaves the operation readable afterwards. With no `root` there is nowhere to write, so the receipt says `none` and the operation stays ephemeral. With an `id` it resumes from disk instead of declaring a new one.
-- `resumeOperation({ root, id, freshness })` reads the state back and returns the artifact's own verdict. A refused resume writes nothing: a terminal, stale or invalid-authority operation stops here rather than continuing silently.
-- `readOperation({ root, id })` reads one artifact with no verdict attached.
-
-The state lives as one block in the `## Operaciones` section of `FASES.md` under the root the caller passes: a single checkpoint, no second copy. Where a project keeps its folders is the person's policy and the host's permission; this names a file inside the root it is handed and adds no rule of its own about where a write may land. The receipt carries the path written at that checkpoint; the host and coordinator must reread and compare it before relying on it later. A verified step ends the artifact at `verified` with `certify` pending: finishing, verifying and closing are three different things, and closing is the owner's.
+State is one block in the `## Operaciones` section of `FASES.md`, inside the supplied root under host permissions. No second checkpoint or folder policy is imposed. The receipt carries the path written at that checkpoint; the host and coordinator must reread and compare it before relying on it later. A capability's verified receipt cannot close work without reviewed, verified, integrated tasks; closure belongs to the owner. Resume preserves authority/goal/effect; external effects need durable, agreed and inspectable terms.
 
 ## Routes follow the host, not a provider's willingness
 
@@ -99,11 +88,21 @@ The state lives as one block in the `## Operaciones` section of `FASES.md` under
 
 An operation can carry tasks, each with one role and its own commission: **daimon** (reads the sources and returns evidence and limits), **advisor** (answers one question from the context it was given) and **worker** (does a scoped piece against a done criterion and a proof). A task is born with its whole commission, a timeout and the time it will be observed again, or it is not born. It then moves `proposed → running → received → reviewed → verified → integrated`, and each step is a different fact: a file that arrived is not a file that was reviewed, and a reviewed file is not a verified one. The record requires different executor and verifier labels; actual independence is declared, not verified — check the evidence yourself. Closing names every task that is neither integrated nor blocked with its reason.
 
-Record elapsed time and adjust your next estimate from measured calibration. Under three samples say “not measured”; a dated initial reference may orient you earlier, never a promise or a limit.
+Record time; calibrate after three samples. Earlier, say “not measured”; dated references orient, never promise or limit. Effect inspectors report adapter claims, not independently authenticated effects.
 
 If the host does not expose the tool a role needs, the task comes back `blocked` with the missing tool and the next action; nothing is simulated. The operation also declares its effect up front: `none`, or `external` with its economy (cost, grant, settlement) and whether it goes on chain; an on-chain placement without a reason of distrust is recorded as a defect, not rejected silently.
 
 CLI: `node scripts/operation-cli.mjs <command> --root <dir> --id <op> [--task <t>] --json <payload>`. Commission pinned Node tests or authorized Luna medium/high; see `docs/VERIFICATION-EXECUTION.md`. `verify` executes after review. Owner criterion needs native judgment, including Node-check adequacy; missing sources or authority stops verification. Rejection persists in FASES. Integration/closure recheck signed inputs; uncovered work stays partial. Labels do not prove identity.
+
+## The relational trace is not the operation receipt
+
+Gate B requires intent, owner, authority, scope, expected effect, done, roles/tasks, verifier, receipt, state and next action before execution/advance. Missing fields block by name. Closure needs reviewed, independently verified, integrated work; all-blocked work cannot close. Terminal state preserves identity, agreement, uncertainty, coordination, receipt and evidence channels.
+
+Record the observed Advisor `decide` route and observer. Absence durably blocks the same task with cause/recovery, never a fabricated review. On return, `receive` requires the original path/SHA-256, preserves the receipt and checks delivery failures; dispatch cannot replace an unreviewed delivery. Review requires `accepted`, `changes_requested` or `rejected`; negatives need reasons and block verification. Only acceptance of the received SHA permits verification. Corrections, including after redispatch, archive rejected bytes/review in `review_history`; closure keeps `task_reviews`. Route, identity and verdict are coordinator attestations, not authenticated Advisor invocation or domain proof.
+
+Record linked, ordered interaction events separately: mismatch → correction received → response revised without echo → distinction proposed → distinction corrected by the other party → later decision applied. Effect/verification/receipt and optional literal user `self-report` are separate. Absent, negative, uncertain and undeclared reports are valid; never infer yo–tú, fertility, simplicity or recommendation from success or the trace.
+
+For external effects, `request-effect` names exact action/destination. Record the person's explicit words for that current request with `approve-effect` and expiry; never invent/paraphrase approval. `effect-permission` checks identity, action/destination, recency, expiry and revocation, returning only action/destination to the adapter. Generic authority, “avancemos” or GREEN never authorizes commit/push/tag/Release/deployment. Commands record/check authority, do not execute effects or authenticate who typed approval.
 
 ## Handoff
 
@@ -115,8 +114,8 @@ Before delivering a user artifact, replace every internal label with the audienc
 
 ## Core provenance
 
-Fixed copy of the Vespi kernel **0.1.5**, a candidate cut with publication date pending, inside Lore Plugin 2.5.0-rc.1. Canonical source: `founder/proyectos/vespi/kernel/src/`, branch `release/0.1.5-prep`, commit `ed559e83c976dd6e6a379a5510db776206f670b4`. Lore Plugin carries a fixed kernel version; adopting a newer one is decided by Andrés (the plugin framework's principle 22). The ten vendored files in `core/kernel/` are `authority.js`, `continuity.js`, `delegation.js`, `emergency.js`, `operation.js`, `receipt.js`, `skill-provenance.js`, `time.js`, `x402.js` and `zk.js`; `zk-bn254-reference.js`, an experimental cryptographic reference, is NOT vendored. Each file has a three-line provenance header followed by exact source bytes; verify with the table in `core/kernel/SOURCE.md`, whose bodies the provenance test compares with the pinned Git source. Never edit a copy in place: edit the canonical source, then re-copy. The experimental wrappers around it (`vespi.mjs`, `operation-state.mjs`, `probe.mjs`, `resource.mjs`, `envelope.mjs`) remain subject to evidence from actual use.
+Pinned Vespi kernel **0.1.5**, publication date pending: `founder/proyectos/vespi/kernel/src/`, branch `release/0.1.5-prep`, commit `ed559e83c976dd6e6a379a5510db776206f670b4`. Andrés decides adoption. Copies have three provenance lines then exact source bytes; the table/test in `core/kernel/SOURCE.md` checks identity. Never edit vendor: change canonical source then re-copy. Vendored: `authority.js`, `continuity.js`, `delegation.js`, `emergency.js`, `operation.js`, `receipt.js`, `skill-provenance.js`, `time.js`, `x402.js`, `zk.js`. Experimental `zk-bn254-reference.js` is not vendored. Wrappers remain experimental and require evidence from use.
 
 ## Delegating to Codex and OpenCode on Windows
 
-With Codex `-s workspace-write`, it can write only to directories it creates or directories granted with `--add-dir`; it cannot edit existing files in a directory that already existed under other Windows permissions, so use a new Git worktree or folder and copy the files it must edit there. Codex cannot read outside its working directory, so copy reference files and images inside it. Put a long prompt in a file and pass it through stdin or a file tool, never in a shell heredoc or quoted inline. Under PowerShell, `npm test` can be blocked by execution policy; run `npm.cmd test`. Git Bash paths such as `/c/Users/...` and `/tmp/...` are not native paths for Node or PowerShell: convert them with `cygpath -w` or use forward-slash paths such as `C:/work/file`. Git's “LF will be replaced by CRLF” notices on Windows are normalization noise; `.gitattributes` prevents them. A worker exiting with code 0 does not prove delivery: check the expected artifact and verify it separately.
+Use the host's actual sandbox/granted directories; if an existing checkout is unwritable, use an authorized worktree or new folder. Copy only permitted references. Pass long prompts by file/stdin. PowerShell may require `npm.cmd test`; Node/PowerShell need native or forward-slash Windows paths, not `/c/...` or `/tmp/...`. Use `cygpath -w` when converting Git Bash paths. Normalization notices are not test results; `.gitattributes` governs line endings. Exit 0 never proves delivery: inspect the artifact and verify separately.

@@ -7,6 +7,7 @@ import { join } from 'node:path';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { verifyTask, integrateTask, closeOperation } from '../skills/vespi/core/coordinator.mjs';
+import { createArtifact } from '../skills/vespi/core/operation-state.mjs';
 
 const sha = text => createHash('sha256').update(text).digest('hex');
 function delivery(t) {
@@ -25,7 +26,10 @@ function delivery(t) {
     checks: [{ passed: true, observation: 'The draft states the mechanism and retains the limitation.', evidence: reference }],
     sources: task.sources.map(ref => ({ ref, observation: `Compared ${ref} with the draft in the saved comparison.`, evidence: reference })),
     notCovered: [] };
-  return { artifact: { state: 'reviewed', tasks: [task] }, task, evidence, path, proofPath };
+  // Synthetic review attestation; proofFor executes the actual local checker.
+  task.review = { by: 'fixture-advisor', verdict: 'accepted', artifact_sha256: task.received.sha256 };
+  const artifact = { ...createArtifact({ goal: task.question, owner: 'fixture-owner', scope: 'Local coverage checks', expected_effect: { kind: 'none' }, done: task.done_criterion, roles: ['worker','advisor','verifier'], verifier: 'reader' }), state: 'reviewed', tasks: [task] };
+  return { artifact, task, evidence, path, proofPath };
 }
 for (const invalid of ['', 'I read everything', {}, []]) {
   test(`verification rejects unbound evidence ${JSON.stringify(invalid)}`, t => {

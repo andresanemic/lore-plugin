@@ -5,6 +5,7 @@
 // digests in ./kernel/SOURCE.md; pinned snapshot, never edited in place)
 // plus RC3 truthfulness wrappers. No scheduler, no router, no managers.
 import { createRequire } from "node:module";
+import { isDeepStrictEqual } from "node:util";
 
 // The durable operation state, imported and re-exported whole rather than half: an agent is told to
 // import one module, and a surface split across two files is a surface it will not find. Nothing
@@ -25,10 +26,12 @@ import {
   reconcileForeign,
   resumeAllowed,
   resumeArtifact,
+  retryGate,
   saveOperationState,
   statePath,
   successor,
   transitionArtifact,
+  validateGateBContract,
   viableWithOpen,
 } from "./operation-state.mjs";
 
@@ -60,10 +63,12 @@ export {
 import {
   closeOperation,
   calibrateEstimates,
+  blockReviewTask,
   declareEffect,
   dispatchTask,
   integrateTask,
   observeTask,
+  recordRetrySearch,
   planTask,
   receiveTask,
   reviewTask,
@@ -74,10 +79,12 @@ import {
 export {
   closeOperation,
   calibrateEstimates,
+  blockReviewTask,
   declareEffect,
   dispatchTask,
   integrateTask,
   observeTask,
+  recordRetrySearch,
   planTask,
   receiveTask,
   reviewTask,
@@ -265,7 +272,7 @@ export const {
 function sameTerms(declared, effective) {
   if (!declared || !effective) return false;
   for (const k of ["asset", "amount", "to", "network", "contract", "scheme"]) {
-    if (declared[k] !== undefined && effective[k] !== undefined && declared[k] !== effective[k]) return false;
+    if (declared[k] !== undefined && declared[k] !== effective[k]) return false;
   }
   return true;
 }
@@ -480,11 +487,13 @@ function stampDeclaration(receipt, declared) {
   return receipt;
 }
 
-export async function holdOperation({ root, goal, owner, authority }) {
+export async function holdOperation({
+  root, goal, intent = goal, owner, authority, coordinacion = null, scope, expected_effect, done, roles, verifier, receipt,
+}) {
   if (typeof root !== "string" || root.length === 0) {
     throw new Error("holdOperation needs a root: state written nowhere is not durable");
   }
-  const artifact = createArtifact({ goal, owner, authority });
+  const artifact = createArtifact({ goal, intent, owner, authority, coordinacion, scope, expected_effect, done, roles, verifier, receipt });
   const { directory, file, relative } = operationStatePath(root, artifact.id);
   await saveOperationState(directory, artifact);
   return { artifact, file, persistence: { owner: relative } };
@@ -531,15 +540,24 @@ export async function runDurableOperation({
   effect = null,
   economy = null,
   chain = null,
+  scope = null,
+  expected_effect = null,
+  done = null,
+  roles = [],
+  verifier = null,
 } = {}) {
   // Primero la declaracion: un efecto externo sin economia declarada, o sin decir que va en cadena,
   // no llega a pedir capacidad ni a escribir un byte. Se declara sobre un artefacto vacio porque aqui
   // todavia no existe el suyo, y lo que importa es que falle antes de correr.
-  const declared = effect === null ? null : declareEffect({}, { effect, economy, chain });
+  declaredEffect ??= io.declaredEffect ?? null;
+  let declared = effect === null ? null : declareEffect({}, { effect, economy, chain });
   const route = routeOperation({ intent, host });
   const durable = typeof root === "string" && root.length > 0;
+  const suppliedKind = typeof expected_effect === "string" ? expected_effect : expected_effect?.kind;
 
   if (!durable) {
+    if (effect === "external" || (expected_effect !== null && suppliedKind !== "none") || expected_effect?.terms != null
+        || declaredEffect !== null || economy !== null || chain !== null) throw new Error("external effects or declared terms require a durable operation artifact");
     if (id !== null) {
       throw new Error("resuming needs a root: there is no state to resume from");
     }
@@ -556,7 +574,7 @@ export async function runDurableOperation({
   let artifact = null;
   let resumed = false;
   if (id === null) {
-    artifact = (await holdOperation({ root, goal, owner, authority: authority ?? undefined })).artifact;
+    artifact = (await holdOperation({ root, goal, owner, authority: authority ?? undefined, scope, expected_effect, done, roles, verifier })).artifact;
   } else {
     const vista = await resumeOperation({ root, id, freshness });
     if (!vista.allowed) {
@@ -574,7 +592,34 @@ export async function runDurableOperation({
     }
     artifact = vista.artifact;
     resumed = true;
+    if (authority !== null && !isDeepStrictEqual(authority, artifact.authority)) throw new Error("authority differs from the persisted agreement; reconcile it before resuming");
+    if (goal && goal !== artifact.working_goal) throw new Error("goal differs from the persisted agreement; reconcile it before resuming");
   }
+  // Gate B must stop before capability negotiation or execution, not after its receipt.
+  validateGateBContract(artifact);
+  if (retryGate(artifact).blocked) throw new Error("stop_and_search: search before retrying this recorded failure stretch");
+  if (resumed) {
+    for (const [label, supplied, saved] of [
+      ["effect", effect, artifact.effect ?? artifact.expected_effect?.kind],
+      ["economy", economy, artifact.economy],
+      ["chain", chain, artifact.chain],
+      ["terms", declaredEffect, artifact.declared_effect ?? artifact.expected_effect?.terms],
+    ]) {
+      if (supplied !== null && !isDeepStrictEqual(supplied, saved)) throw new Error(`${label} declaration differs from the persisted effect agreement; reconcile before resuming`);
+    }
+  }
+  const expectedKind = typeof artifact.expected_effect === "string" ? artifact.expected_effect : artifact.expected_effect?.kind;
+  if (!["none", "external"].includes(expectedKind)) throw new Error("expected effect kind must be none or external before execution");
+  const effectiveKind = effect ?? artifact.effect ?? expectedKind ?? "none";
+  if (expectedKind && effectiveKind !== expectedKind) throw new Error("effect declaration differs from the expected effect agreement");
+  declaredEffect ??= artifact.declared_effect ?? artifact.expected_effect?.terms ?? null;
+  if (artifact.expected_effect?.terms && !isDeepStrictEqual(declaredEffect, artifact.expected_effect.terms)) throw new Error("terms declaration differs from the expected effect agreement");
+  if (effectiveKind === "external") {
+    if (!declaredEffect || ["asset", "amount", "to"].some(key => typeof declaredEffect[key] !== "string" || !declaredEffect[key].trim())) throw new Error("external effect requires an agreed terms declaration with asset, amount and destination");
+    if (typeof runner.effectiveTerms !== "function") throw new Error("external effect requires inspectable effective terms before execution");
+  }
+  declared = declareEffect(artifact, { effect: effectiveKind, economy: economy ?? artifact.economy ?? null, chain: chain ?? artifact.chain ?? null });
+  artifact = { ...declared, ...(declaredEffect ? { declared_effect: structuredClone(declaredEffect) } : {}) };
   // El artefacto que se escribe lleva la declaracion dentro, no solo el recibo: es la misma verdad
   // en los dos sitios y uno de los dos se puede perder con el archivo.
   if (declared) artifact = declareEffect(artifact, { effect: declared.effect, economy: declared.economy, chain: declared.chain });
@@ -592,6 +637,7 @@ export async function runDurableOperation({
   const exercised = receipt?.authority?.exercised ?? [];
   const updated = {
     ...artifact,
+    receipt: structuredClone(receipt),
     verification: receipt?.verification ?? artifact.verification ?? null,
     last_receipt: {
       status,

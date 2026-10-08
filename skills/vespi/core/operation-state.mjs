@@ -13,19 +13,93 @@ export const OPERATIONS_HEADING = "## Operaciones";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
+import { createHash } from "node:crypto";
 
 let seq = 0;
 
-export function createArtifact({ goal, owner, authority = { spend: [] } }) {
+function validateCoordination(coordinacion) {
+  if (coordinacion === null || coordinacion === undefined) return null;
+  if (!coordinacion || typeof coordinacion !== "object" || Array.isArray(coordinacion)) {
+    throw new Error("coordinacion debe contener modalidad y decisiones de skills");
+  }
+  if (typeof coordinacion.modalidad !== "string" || !coordinacion.modalidad.trim()) {
+    throw new Error("coordinacion.modalidad no puede estar vacía");
+  }
+  if (coordinacion.huellaContexto !== undefined
+      && (typeof coordinacion.huellaContexto !== "string" || !/^[0-9a-f]{64}$/.test(coordinacion.huellaContexto))) {
+    throw new Error("coordinacion.huellaContexto debe ser una huella SHA-256 hexadecimal");
+  }
+  if (!Array.isArray(coordinacion.skills)) throw new Error("coordinacion.skills debe ser una lista");
+  const decisiones = new Set(["accepted", "corrected", "declined"]);
+  const skills = coordinacion.skills.map((skill, index) => {
+    if (!skill || typeof skill.sugerida !== "string" || !skill.sugerida.trim()) {
+      throw new Error(`coordinacion.skills[${index}].sugerida no puede estar vacía`);
+    }
+    if (!decisiones.has(skill.decision)) throw new Error(`coordinacion.skills[${index}].decision no es válida`);
+    if (skill.decision === "accepted" && skill.elegida?.trim() !== skill.sugerida.trim()) {
+      throw new Error(`coordinacion.skills[${index}] debe conservar la skill aceptada`);
+    }
+    if (skill.decision === "corrected" && (typeof skill.elegida !== "string" || !skill.elegida.trim() || skill.elegida.trim() === skill.sugerida.trim())) {
+      throw new Error(`coordinacion.skills[${index}] debe nombrar la skill corregida`);
+    }
+    if (skill.decision === "declined" && skill.elegida !== null) {
+      throw new Error(`coordinacion.skills[${index}] declinada debe tener elegida null`);
+    }
+    return { sugerida: skill.sugerida.trim(), decision: skill.decision, elegida: typeof skill.elegida === "string" ? skill.elegida.trim() : skill.elegida };
+  });
+  return { modalidad: coordinacion.modalidad.trim(), ...(coordinacion.huellaContexto ? { huellaContexto: coordinacion.huellaContexto } : {}), skills };
+}
+
+const GATE_B_FIELDS = [
+  ["intent", "intent"], ["owner", "owner"], ["authority", "authority"], ["scope", "scope"],
+  ["expected_effect", "expected_effect"], ["done", "done"], ["roles", "tasks/roles"],
+  ["verifier", "verifier"], ["receipt", "receipt"], ["state", "state"], ["next_action", "next_action"],
+];
+
+// La forma completa acredita estructura, no ejecución ni cierre.
+export function validateGateBContract(contract) {
+  if (!contract || typeof contract !== "object" || Array.isArray(contract)) {
+    throw new Error("Gate B contract must be an object");
+  }
+  const missing = [];
+  for (const [field, label] of GATE_B_FIELDS) {
+    const value = field === "next_action" ? (contract.next_action ?? contract.next_legitimate_action) : contract[field];
+    const text = typeof value === "string" && value.trim().length > 0;
+    const object = value !== null && typeof value === "object" && !Array.isArray(value);
+    const roles = field === "roles" && Array.isArray(value) && value.length > 0
+      && value.every((role) => (typeof role === "string" && role.trim()) || (role && typeof role.role === "string" && role.role.trim()));
+    if (!(text || object || roles)) missing.push(label);
+  }
+  if (missing.length > 0) throw new Error(`Gate B missing required fields: ${missing.join(", ")}`);
+  return { valid: true, missing: [] };
+}
+
+export function createArtifact({
+  goal, intent = goal, owner, authority = { spend: [] }, coordinacion = null,
+  scope = null, expected_effect = null, done = null, roles = [], verifier = null, receipt = { status: "pending" },
+}) {
+  const coordinacionValidada = validateCoordination(coordinacion);
   const now = new Date().toISOString();
   return {
     artifact_schema_version: ARTIFACT_SCHEMA_VERSION,
     created_by_vespi_version: "2.4.9-rc.3",
     id: `op-${Date.now().toString(36)}-${seq++}`,
     working_goal: goal ?? "",
+    intent: intent ?? "",
     owner: owner ?? "",
     state: "prepared",
     authority,
+    scope,
+    expected_effect,
+    done,
+    roles: Array.isArray(roles) ? structuredClone(roles) : roles,
+    verifier,
+    receipt: receipt && typeof receipt === "object" ? structuredClone(receipt) : receipt,
+    interaction_trace: [],
+    self_report: null,
+    external_effect_requests: [],
+    external_effect_approvals: [],
+    ...(coordinacionValidada ? { coordinacion: coordinacionValidada } : {}),
     loaded: [],
     latest_authorized_delta: null,
     effects: [],
@@ -37,6 +111,74 @@ export function createArtifact({ goal, owner, authority = { spend: [] } }) {
     provenance: {},
     checkpoints: [{ id: "R1-genesis", at: now, note: "R1-genesis", validity: {} }],
   };
+}
+
+let externalEffectSeq = 0;
+function effectTime(value, label) {
+  const parsed = typeof value === "number" ? value : Date.parse(value);
+  if (!Number.isFinite(parsed)) throw new Error(label + " must be a valid timestamp");
+  return parsed;
+}
+function effectText(value, label) {
+  if (typeof value !== "string" || !value.trim()) throw new Error(label + " is required");
+  return value.trim();
+}
+
+// A generic operation GREEN never authorizes an external effect. The approval is bound to a
+// request id, one action, one destination and a validity window; this module never runs the effect.
+export function requestExternalEffect(artifact, { action, destination, at = new Date().toISOString() } = {}) {
+  const requested = {
+    id: "fx-" + Date.now().toString(36) + "-" + externalEffectSeq++,
+    action: effectText(action, "external effect action"),
+    destination: effectText(destination, "external effect destination"),
+    requested_at: new Date(effectTime(at, "external effect request at")).toISOString(),
+  };
+  return { ...artifact, external_effect_requests: [...(artifact.external_effect_requests ?? []), requested] };
+}
+
+export function approveExternalEffect(artifact, { requestId, action, destination, by, words, approvedAt = new Date().toISOString(), expiresAt } = {}) {
+  const request = (artifact.external_effect_requests ?? []).find((item) => item.id === requestId);
+  if (!request) throw new Error("external effect request does not exist");
+  const approval = {
+    id: "approval-" + Date.now().toString(36) + "-" + externalEffectSeq++,
+    request_id: requestId,
+    action: effectText(action, "approval action"),
+    destination: effectText(destination, "approval destination"),
+    by: effectText(by, "approval authority"),
+    words: effectText(words, "approval words"),
+    approved_at: new Date(effectTime(approvedAt, "approval time")).toISOString(),
+    expires_at: new Date(effectTime(expiresAt, "approval expiry")).toISOString(),
+    revoked_at: null,
+  };
+  if (approval.action !== request.action || approval.destination !== request.destination) throw new Error("approval must name the exact requested action and destination");
+  if (Date.parse(approval.approved_at) < Date.parse(request.requested_at)) throw new Error("approval predates the current external effect request");
+  if (Date.parse(approval.expires_at) <= Date.parse(approval.approved_at)) throw new Error("approval expiry must follow its issue time");
+  return { ...artifact, external_effect_approvals: [...(artifact.external_effect_approvals ?? []), approval] };
+}
+
+export function revokeExternalEffectApproval(artifact, { approvalId, at = new Date().toISOString() } = {}) {
+  const approvals = artifact.external_effect_approvals ?? [];
+  const approval = approvals.find((item) => item.id === approvalId);
+  if (!approval) throw new Error("external effect approval does not exist");
+  if (approval.revoked_at) throw new Error("external effect approval is already revoked");
+  const revokedAt = new Date(effectTime(at, "revocation time")).toISOString();
+  return { ...artifact, external_effect_approvals: approvals.map((item) => item.id === approvalId ? { ...item, revoked_at: revokedAt } : item) };
+}
+
+export function authorizeExternalEffect(artifact, { requestId, action, destination, requestedAt = null, now = new Date().toISOString() } = {}) {
+  const request = (artifact.external_effect_requests ?? []).find((item) => item.id === requestId);
+  const exactAction = effectText(action, "external effect action");
+  const exactDestination = effectText(destination, "external effect destination");
+  const time = effectTime(now, "effect execution time");
+  const denied = (reason) => ({ allowed: false, reason, adapterInput: null });
+  if (!request || request.action !== exactAction || request.destination !== exactDestination) return denied("no exact current request");
+  const currentRequestAt = requestedAt === null ? Date.parse(request.requested_at) : effectTime(requestedAt, "current request time");
+  const approval = (artifact.external_effect_approvals ?? []).find((item) => item.request_id === requestId && item.action === exactAction && item.destination === exactDestination);
+  if (!approval) return denied("no specific approval");
+  if (Date.parse(approval.approved_at) < currentRequestAt) return denied("approval predates current request");
+  if (Date.parse(approval.approved_at) > time || Date.parse(approval.expires_at) < time) return denied("approval is not currently valid");
+  if (approval.revoked_at && Date.parse(approval.revoked_at) <= time) return denied("approval was revoked");
+  return { allowed: true, approvalId: approval.id, adapterInput: Object.freeze({ action: exactAction, destination: exactDestination }) };
 }
 
 export function appendCheckpoint(artifact, { note, validity = {}, delta = null }) {
@@ -70,6 +212,7 @@ const TRANSITIONS = {
 };
 
 const VALID_STATES = new Set(Object.keys(TRANSITIONS));
+const ADVANCING_STATES = new Set(["authorized", "queued", "running", "received", "reviewed", "verified", "integrated", "closed"]);
 const OPERATION_ID = /^op-[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 function normalizedFailureSignature(signature) {
@@ -161,6 +304,17 @@ export function attemptWall(artifact, { threshold = 3 } = {}) {
   };
 }
 
+// A resolved lookup covers only the exact recorded failure stretch, never later failures.
+export function retryGate(artifact) {
+  const wall = attemptWall(artifact);
+  const current = wall.stop ? { signature: wall.signature, attempts: wall.attempts,
+    digest: createHash("sha256").update(JSON.stringify({ signature: wall.signature, attempts: wall.attempts })).digest("hex") } : null;
+  const saved = artifact?.retry_stop;
+  if (["requires_search", "requires_arbitration"].includes(saved?.status)) return { blocked: true, stop: saved };
+  if (current && !(saved?.status === "resolved" && saved.digest === current.digest)) return { blocked: true, stop: { ...current, status: "requires_search", reason: wall.reason } };
+  return { blocked: false, stop: saved ?? null };
+}
+
 function sortableTime(at) {
   if (typeof at === "number" && Number.isInteger(at) && Number.isFinite(at) && Number.isFinite(new Date(at).getTime())) return at;
   if (typeof at === "string" && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/i.test(at)) {
@@ -182,9 +336,14 @@ function assertOperationId(id) {
 // A terminal success requires an explicit observed verification record.
 export function transitionArtifact(artifact, { state, note, validity = {}, delta = null }) {
   if (!VALID_STATES.has(state)) throw new Error(`invalid operation state: ${state}`);
+  if (!VALID_STATES.has(artifact?.state)) throw new Error("Gate B missing required field: state");
   if (!TRANSITIONS[artifact.state]?.has(state)) {
     const reason = state === "closed" ? "verified state required" : `transition ${artifact.state} -> ${state} not allowed`;
     throw new Error(reason);
+  }
+  if (ADVANCING_STATES.has(state)) validateGateBContract(artifact);
+  if (state === "closed" && !(artifact?.tasks ?? []).some((task) => task.state === "integrated")) {
+    throw new Error("closed operation requires at least one integrated task with independent verification");
   }
   const recordedPartial = artifact.verification?.completion === "partial"
     && artifact.verification?.observed === true
@@ -194,7 +353,8 @@ export function transitionArtifact(artifact, { state, note, validity = {}, delta
     throw new Error("verified state required before closure");
   }
   const next = appendCheckpoint(artifact, { note, validity, delta });
-  return { ...next, state };
+  const transitioned = { ...next, state };
+  return { ...transitioned, next_legitimate_action: nextLegitimateAction(transitioned) };
 }
 
 export function resumeArtifact(artifact) {
@@ -274,10 +434,37 @@ function closureOf(artifact) {
     id: artifact.id,
     working_goal: artifact.working_goal,
     owner: artifact.owner,
+    intent: artifact.intent,
+    authority: artifact.authority,
+    scope: artifact.scope,
+    expected_effect: artifact.expected_effect,
+    effect: artifact.effect ?? null,
+    economy: artifact.economy ?? null,
+    chain: artifact.chain ?? null,
+    declared_effect: artifact.declared_effect ?? null,
+    retry_stop: artifact.retry_stop ?? null,
+    retry_searches: artifact.retry_searches ?? [],
+    done: artifact.done,
+    roles: artifact.roles,
+    verifier: artifact.verifier,
+    receipt: artifact.receipt,
+    uncertainty: artifact.uncertainty ?? [],
+    next_legitimate_action: artifact.next_legitimate_action,
+    interaction_trace: artifact.interaction_trace ?? [],
+    self_report: artifact.self_report ?? null,
+    external_effect_requests: artifact.external_effect_requests ?? [],
+    external_effect_approvals: artifact.external_effect_approvals ?? [],
+    ...(artifact.coordinacion ? { coordinacion: artifact.coordinacion } : {}),
     state: artifact.state,
     closed_at: artifact.checkpoints?.at(-1)?.at ?? null,
     verification: artifact.verification ?? null,
     last_receipt: artifact.last_receipt ?? null,
+    task_reviews: (artifact.tasks ?? []).map(task => ({
+      task_id: task.id,
+      received: task.received ?? null,
+      review: task.review ?? null,
+      review_history: task.review_history ?? [],
+    })),
   };
 }
 
@@ -473,6 +660,7 @@ function esTerminal(verdict) {
 const NEXT_FOR_TASK = {
   proposed: "dispatch",
   running: "receive",
+  blocked: "resolve",
   received: "review",
   reviewed: "verify",
   verified: "integrate",
@@ -511,6 +699,21 @@ function nextStep(artifact, pending) {
   // Nada pendiente y tampoco nada que cerrar: la operacion esta esperando una decision de quien
   // coordina, y nombrarla asi es mas honesto que inventar un paso.
   return (artifact.tasks ?? []).length > 0 ? "close" : "decide";
+}
+
+// La próxima acción durable se deriva del mismo arreglo que alimenta operationEntry.
+export function nextLegitimateAction(artifact) {
+  if (["closed", "cancelled"].includes(artifact?.state)) return "none";
+  if (artifact?.state === "prepared") return "authorize";
+  const retry = retryGate(artifact);
+  if (retry.blocked) return retry.stop.status === "requires_arbitration" ? "arbitrate_retry_search" : "stop_and_search";
+  const pending = pendingByRole(artifact);
+  const first = pending[0]?.tasks?.[0];
+  if (first?.blocked?.cause === "retry-ready" && artifact.retry_stop?.status === "resolved") return `dispatch ${first.id}`;
+  if (first) return `${NEXT_FOR_TASK[first.state] ?? "decide"} ${first.id}`;
+  if (artifact?.state === "unknown") return "reconcile";
+  if (artifact?.state === "blocked") return "decide";
+  return (artifact?.tasks ?? []).length > 0 ? "close" : "plan";
 }
 
 // Lo que hay abierto bajo `root`, o que no hay nada. Nunca lanza por no encontrar una operacion:

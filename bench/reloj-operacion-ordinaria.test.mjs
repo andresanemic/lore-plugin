@@ -42,6 +42,7 @@ function holdAuth(root, brazo) {
   const held = command(["hold", "--root", root, "--json", json({
     goal: "Operacion ordinaria sin presion", owner: "coordinador",
     authority: { spend: [], granted_by: "persona", scope: "solo fixture", valid: true },
+    scope: "Fixture de reloj local", expected_effect: { kind: "none" }, done: "Estado y recibo conservados", roles: ["worker", "advisor", "verifier"], verifier: "coordinador",
   })], envExtra);
   const dt = Date.now() - t0;
   return { held, dt, envExtra, h };
@@ -81,7 +82,7 @@ test("E2 operar mecánica sin criterio propietario: recibo y verificador distint
   writeFileSync(outPath, "criterio\nfuente\nriesgo\n");
   const r = command(["receive", ...aids, "--task", tid, "--json", json({})], envExtra);
   assert.equal(r.body?.ok, true, `receive: ${r.out} ${r.err}`);
-  const rv = command(["review", ...aids, "--task", tid, "--json", json({ reviewer: "revisora", checked: ["scope", "sources", "risks"] })], envExtra);
+  const rv = command(["review", ...aids, "--task", tid, "--json", json({ verdict: "accepted", reviewer: "revisora", advisorRoute: { available: true, tool: "decide", observedBy: "coordinator" }, checked: ["scope", "sources", "risks"] })], envExtra);
   assert.equal(rv.body?.ok, true, `review: ${rv.out} ${rv.err}`);
   const bad = command(["verify", ...aids, "--task", tid, "--json", json({ verifier: "h-worker/m-worker", observed: true })], envExtra);
   assert.notEqual(bad.body?.ok, true, "autoverify debió rechazarse");

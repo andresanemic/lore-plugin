@@ -4,11 +4,13 @@ import { fileURLToPath } from "node:url";
 import {
   closeOperation,
   calibrateEstimates,
+  blockReviewTask,
   delegationStatus,
   dispatchTask,
   holdOperation,
   integrateTask,
   observeTask,
+  recordRetrySearch,
   operationEntry,
   planTask,
   readOperation,
@@ -18,19 +20,29 @@ import {
   taskSummary,
   verifyTask,
 } from "../skills/vespi/core/vespi.mjs";
-import { attemptWall, operationStatePath, saveOperationState, transitionArtifact } from "../skills/vespi/core/operation-state.mjs";
+import { approveExternalEffect, attemptWall, authorizeExternalEffect, operationStatePath, requestExternalEffect, revokeExternalEffectApproval, saveOperationState, transitionArtifact } from "../skills/vespi/core/operation-state.mjs";
 import { assertExecuted, executeVerification } from "../skills/vespi/core/verification-execution.mjs";
 import { readCalibrationSeed } from "../skills/vespi/core/calibration-seed.mjs";
+import { recordInteractionTrace, recordSelfReport } from "../skills/vespi/core/coordinator.mjs";
+import { ofrecerFormaTrabajo } from "../skills/vespi/ofrece-formas-trabajo.mjs";
 
 const COMMANDS = [
   "entry",
+  "recommend",
   "hold",
   "authorize",
   "pause",
   "plan",
   "dispatch",
   "observe",
+  "retry-search",
   "receive",
+  "request-effect",
+  "approve-effect",
+  "revoke-effect",
+  "effect-permission",
+  "trace",
+  "self-report",
   "review",
   "verify",
   "integrate",
@@ -50,13 +62,23 @@ function usage() {
   return [
     "operation <sub> --root <dir> [--id <op>] [--task <t>] [--tools <a,b>] [--json '<obj>' | --file <ruta>]",
     "  entry                              que operacion hay abierta y cual es el primer paso",
+    "  recommend  <oferta>                recomienda una modalidad y espera elección",
     "  hold       {goal, owner, authority}  deja la operacion preparada en FASES.md",
     "  authorize  {by, words}               las palabras citadas, o no hay autorizacion",
     "  pause      {note}                    deja el checkpoint durable en pausa",
     "  plan       <spec de tarea>           agrega la tarea con su encargo completo",
     "  dispatch   --task <t> --tools <a,b>  declara la ruta observada; este proceso no ejecuta",
     "  observe    {text, alive, at}         deja escrito que se vio",
+    "  retry-search <recibo>                registra búsqueda del host o su ausencia; no busca",
     "  receive    {path}                    lee, dentro de root, el archivo que el ejecutor dejo",
+    "  request-effect {action, destination} registra una solicitud; no ejecuta el efecto",
+    "  approve-effect {requestId, action, destination, by, words, expiresAt} autoriza ese efecto exacto",
+    "  revoke-effect {approvalId} revoca un permiso",
+    "  effect-permission {requestId, action, destination} comprueba vigencia; no ejecuta el efecto",
+    "  trace      {events}                  guarda la traza relacional validada por separado",
+    "  self-report {report|null}            registra solo declaracion explicita del usuario",
+    "  trace      {events}                  guarda la traza relacional validada por separado",
+    "  self-report {report|null}            registra solo declaracion explicita del usuario",
     "  review     {reviewer, checked, notes}",
     "  verify     {verifier, observed, evidence}",
     "  integrate  {destination}",
@@ -262,6 +284,31 @@ async function execute(sub, flags, stdout) {
     return PUERTA_CERRADA;
   }
 
+  if (sub === "recommend") {
+    const root = requiredRoot(flags);
+    if (!payload.contexto) throw new Error("recommend requiere contexto verificable de tarea, Pistas y skills del host");
+    let offer = ofrecerFormaTrabajo(payload);
+    if (flags.id) {
+      const prior = await readOperation({ root, id: flags.id });
+      if (["closed", "cancelled"].includes(prior.state)) {
+        throw new Error("recommend no retoma preferencias de una operación terminal");
+      }
+      if (prior.coordinacion) {
+        const savedFingerprint = prior.coordinacion.huellaContexto;
+        const currentFingerprint = offer.fundamento?.huellaContexto;
+        offer = ofrecerFormaTrabajo({
+          ...payload,
+          preferencia: {
+            modalidad: prior.coordinacion.modalidad,
+            skills: prior.coordinacion.skills,
+            mismaOperacion: true,
+            contextoCambioMaterial: !savedFingerprint || savedFingerprint !== currentFingerprint,
+          },
+        });
+      }
+    }
+    return emit(stdout, { ok: true, offer });
+  }
   if (sub === "hold") {
     const root = requiredRoot(flags);
     if (Array.isArray(payload.authority?.spend) && payload.authority.spend.length > 0) {
@@ -270,8 +317,16 @@ async function execute(sub, flags, stdout) {
     const { artifact, file } = await holdOperation({
       root,
       goal: payload.goal,
+      intent: payload.intent ?? payload.goal,
       owner: payload.owner,
       authority: payload.authority,
+      coordinacion: payload.coordinacion ?? null,
+      scope: payload.scope,
+      expected_effect: payload.expected_effect,
+      done: payload.done,
+      roles: payload.roles,
+      verifier: payload.verifier,
+      receipt: payload.receipt,
     });
     return emit(stdout, { ok: true, id: artifact.id, state: artifact.state, file });
   }
@@ -322,6 +377,12 @@ async function execute(sub, flags, stdout) {
     return emit(stdout, { ok: true, task: recordOf(artifact, taskId) });
   }
 
+  if (sub === "retry-search") {
+    const artifact = recordRetrySearch(context.artifact, payload);
+    await persist(context, artifact);
+    return emit(stdout, { ok: true, artifact });
+  }
+
   if (sub === "observe") {
     const taskId = requiredTask(flags);
     const artifact = observeTask(context.artifact, taskId, payload);
@@ -339,8 +400,49 @@ async function execute(sub, flags, stdout) {
     return emit(stdout, { ok: true, task: recordOf(artifact, taskId) });
   }
 
+  if (sub === "request-effect") {
+    const artifact = requestExternalEffect(context.artifact, payload);
+    await persist(context, artifact);
+    return emit(stdout, { ok: true, id: context.id, request: artifact.external_effect_requests.at(-1) });
+  }
+
+  if (sub === "approve-effect") {
+    const artifact = approveExternalEffect(context.artifact, payload);
+    await persist(context, artifact);
+    return emit(stdout, { ok: true, id: context.id, approval: artifact.external_effect_approvals.at(-1) });
+  }
+
+  if (sub === "revoke-effect") {
+    const artifact = revokeExternalEffectApproval(context.artifact, payload);
+    await persist(context, artifact);
+    return emit(stdout, { ok: true, id: context.id, approval: artifact.external_effect_approvals.find((item) => item.id === payload.approvalId) });
+  }
+
+  if (sub === "effect-permission") {
+    const permission = authorizeExternalEffect(context.artifact, payload);
+    return emit(stdout, { ok: true, id: context.id, ...permission });
+  }
+
+  if (sub === "trace") {
+    const artifact = recordInteractionTrace(context.artifact, payload.events);
+    await persist(context, artifact);
+    return emit(stdout, { ok: true, id: context.id, state: artifact.state, interaction_events: artifact.interaction_trace.length });
+  }
+
+  if (sub === "self-report") {
+    if (!Object.hasOwn(payload, "report")) throw new Error("self-report needs an explicit report field; leave it absent when the user has not declared one");
+    const artifact = recordSelfReport(context.artifact, payload.report);
+    await persist(context, artifact);
+    return emit(stdout, { ok: true, id: context.id, state: artifact.state, self_report: artifact.self_report });
+  }
+
   if (sub === "review") {
     const taskId = requiredTask(flags);
+    if (payload.advisorRoute?.available !== true || payload.advisorRoute?.tool !== "decide" || !present(payload.advisorRoute?.observedBy)) {
+      const blocked = blockReviewTask(context.artifact, taskId);
+      await persist(context, blocked);
+      throw new Error(`review blocked: coordinator has not observed the host Advisor tool decide; task ${taskId} is durably blocked, then receive ${taskId} again after the tool is observed`);
+    }
     const artifact = reviewTask(context.artifact, taskId, payload);
     await persist(context, artifact);
     return emit(stdout, { ok: true, task: recordOf(artifact, taskId) });

@@ -57,6 +57,7 @@ test("flujo mecánico sin criterio propietario conserva FASES, compactación y p
   const held = call(["hold", "--root", root, "--json", json({
     goal: "Cotejar un artefacto ficticio contra su criterio", owner: "coordinador",
     authority: { spend: [], granted_by: "persona", scope: "solo fixture", valid: true },
+    scope: "Cotejo local del fixture", expected_effect: { kind: "none" }, done: "Entrega cotejada con evidencia", roles: ["daimon", "advisor", "worker", "verifier"], verifier: "coordinador",
   })]);
   const id = held.id;
   let disk = readFileSync(fasesPath, "utf8");
@@ -102,7 +103,7 @@ test("flujo mecánico sin criterio propietario conserva FASES, compactación y p
   // t1 quedó bloqueada (declarada, no ejecutada): receive con root la marca received
   const rc1 = call(opArgs("receive", root, id, ["--task", "t1"]));
   assert.equal(rc1.task.state, "received", "receive con root acepta la entrega dentro del proyecto");
-  assert.equal(call(opArgs("review", root, id, ["--task", "t1", "--json", json({ reviewer: "coordinador", checked: ["scope", "sources", "risks"], notes: "evidencia local releída" })])).task.state, "reviewed");
+  assert.equal(call(opArgs("review", root, id, ["--task", "t1", "--json", json({ verdict: "accepted", reviewer: "advisor", advisorRoute: { available: true, tool: "decide", observedBy: "coordinador" }, checked: ["scope", "sources", "risks"], notes: "evidencia local releída" })])).task.state, "reviewed");
   artifact = JSON.parse(readFileSync(fasesPath, "utf8").match(/```json\s*([\s\S]*?)\s*```/)[1]);
   const executor = artifact.tasks[0].executor?.by ?? artifact.tasks[0].declared_route?.by ?? "unknown";
   const selfVerify = command(opArgs("verify", root, id, ["--task", "t1", "--json", json({ verifier: executor, observed: true, evidence: "observación" })]));
@@ -156,7 +157,7 @@ test("flujo mecánico sin criterio propietario conserva FASES, compactación y p
     writeFileSync(task.outputPath, `${task.role}: evidencia y límites del fixture\n`);
     // Recibir una entrega externa no inventa su ejecución; sí permite cotejarla.
     assert.equal(call(opArgs("receive", root, id, ["--task", taskId])).task.state, "received");
-    call(opArgs("review", root, id, ["--task", taskId, "--json", json({ reviewer: "coordinador", checked: ["scope", "sources", "risks"] })]));
+    call(opArgs("review", root, id, ["--task", taskId, "--json", json({ verdict: "accepted", reviewer: "advisor", advisorRoute: { available: true, tool: "decide", observedBy: "coordinador" }, checked: ["scope", "sources", "risks"] })]));
     proofAt(root, id, taskId);
     call(opArgs("verify", root, id, ["--task", taskId, "--json", json({ verifier: "coordinador" })]));
     call(opArgs("integrate", root, id, ["--task", taskId, "--json", json({ destination: task.output })]));

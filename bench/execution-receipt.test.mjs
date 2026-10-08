@@ -7,7 +7,8 @@ import { execFileSync, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { executeNodeVerification, executeVerification } from '../skills/vespi/core/verification-execution.mjs';
-import { verifyTask, integrateTask, closeOperation } from '../skills/vespi/core/coordinator.mjs';
+import { reviewTask, verifyTask, integrateTask, closeOperation } from '../skills/vespi/core/coordinator.mjs';
+import { createArtifact } from '../skills/vespi/core/operation-state.mjs';
 const sha = content => createHash('sha256').update(content).digest('hex');
 function fixture(t, { good = true, failing = false } = {}) {
   const root = mkdtempSync(join(tmpdir(), 'execution-receipt-'));
@@ -17,12 +18,14 @@ function fixture(t, { good = true, failing = false } = {}) {
   writeFileSync(path, text); writeFileSync(source, 'Debe explicar Lore Plugin, Vespi y Find Your Way.');
   const code = `import test from 'node:test';import assert from 'node:assert/strict';import{readFileSync}from'node:fs';const packet=JSON.parse(readFileSync(process.env.LORE_VERIFICATION_INPUT_FILE,'utf8'));test('three commissioned literal requirements',()=>{assert.ok(packet.sources.some(s=>s.ref==='source.txt'));for(const required of ['Lore Plugin','Vespi','Find Your Way'])assert.ok(packet.artifact.content.includes(required),required);${failing ? 'assert.fail("rejected deliberately");' : ''}});`;
   writeFileSync(runner, code);
-  const task = { id: 't1', state: 'reviewed', role: 'worker', question: 'Explain three named concepts',
+  const task = { id: 't1', state: 'received', role: 'worker', question: 'Explain three named concepts',
     done_criterion: 'Name Lore Plugin, Vespi and Find Your Way', proof: 'Execute the literal coverage check', sources: ['source.txt'],
     executor: { by: 'writer' }, received: { root, path, sha256: sha(text) },
     proof_runner: { adapter: 'node-test', path: runner, sha256: sha(code), required_tests: ['three commissioned literal requirements'] } };
-  const artifact = { id: 'op-local-proof', state: 'reviewed', tasks: [task], checkpoints: [], uncertainty: [], effects: [] };
-  return { root, task, artifact, source, path, runner };
+  // Local fixture attests review; the commissioned checker below really executes.
+  let artifact = { ...createArtifact({ goal: 'Explain three named concepts', owner: 'fixture-owner', authority: { spend: [], local: true }, scope: 'Local literal coverage fixture', expected_effect: { kind: 'none' }, done: task.done_criterion, roles: ['worker', 'advisor', 'verifier'], verifier: 'reader' }), id: 'op-local-proof', state: 'received', tasks: [task] };
+  artifact = reviewTask(artifact, 't1', { reviewer: 'advisor', verdict: 'accepted', checked: ['scope', 'sources', 'risks'], advisorRoute: { available: true, tool: 'decide', observedBy: 'fixture-coordinator' } });
+  return { root, task: artifact.tasks[0], artifact, source, path, runner };
 }
 const verify = (artifact, evidence) => verifyTask(artifact, 't1', { verifier: 'reader', observed: true, evidence });
 test('a complete fabricated report cannot certify a task', t => {
@@ -117,16 +120,19 @@ test('a completed checker that omits a required test cannot certify a result', t
   assert.equal(evidence.execution_receipt.execution.passed, false);
   assert.match(evidence.notCovered.join(' '), /missing independent check/);
 });
-test('closing with blocked tasks records partial completion, not verified success', t => {
-  const { artifact } = fixture(t);
-  artifact.tasks[0].state = 'blocked'; artifact.tasks[0].blocked = { cause: 'no execution' };
-  const closed = closeOperation(artifact, { verification: { verified: true, observed: true, by: 'reader' } });
+test('closing with blocked tasks records partial completion only alongside proven integrated work', t => {
+  const { artifact, root } = fixture(t);
+  const integrated = integrateTask(verify(artifact, executeNodeVerification(artifact, 't1', { root })), 't1', { destination: 'result' });
+  integrated.tasks.push({ id: 't2', state: 'blocked', blocked: { cause: 'no execution' } });
+  const closed = closeOperation(integrated, { verification: { verified: true, observed: true, by: 'reader' } });
   assert.equal(closed.state, 'closed');
   assert.equal(closed.verification.verified, false);
   assert.equal(closed.verification.completion, 'partial');
-  assert.deepEqual(closed.verification.verified_tasks, []);
-  assert.ok(closed.verification.notCovered.includes('task:t1'));
-  assert.throws(() => closeOperation(artifact, { verification: { verified: true, observed: true, by: 'reader', verified_tasks: ['t1'] } }), /unverified task/i);
+  assert.deepEqual(closed.verification.verified_tasks, ['t1']);
+  assert.ok(closed.verification.notCovered.includes('task:t2'));
+  assert.throws(() => closeOperation(integrated, { verification: { verified: true, observed: true, by: 'reader', verified_tasks: ['t2'] } }), /unverified task/i);
+  artifact.tasks[0].state = 'blocked'; artifact.tasks[0].blocked = { cause: 'no execution' };
+  assert.throws(() => closeOperation(artifact, { verification: { verified: true, observed: true, by: 'reader' } }), /at least one integrated task/i);
 });
 
  test('actual pending effects cannot be hidden by a complete caller report', t => {
@@ -157,7 +163,7 @@ test('CLI persists rejection and allows a corrected delivery with fresh review',
   assert.equal(received.status,0,received.stdout+received.stderr);
   assert.equal(JSON.parse(received.stdout).task.verification,null);
   assert.equal(run('verify',{verifier:'reader'}).status,1,'fresh review required');
-  const reviewed=run('review',{reviewer:'reader',checked:['scope','sources','risks'],notes:'fresh corrected result'});
+  const reviewed=run('review',{verdict: "accepted", reviewer:'advisor',advisorRoute:{available:true,tool:'decide',observedBy:'fixture-coordinator'},checked:['scope','sources','risks'],notes:'fresh corrected result'});
   assert.equal(reviewed.status,0,reviewed.stdout+reviewed.stderr);
   const verified=run('verify',{verifier:'reader'});
   assert.equal(verified.status,0,verified.stdout+verified.stderr);

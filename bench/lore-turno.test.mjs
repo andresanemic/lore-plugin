@@ -557,6 +557,7 @@ function operacionAbierta(dir) {
   const op = (...args) => execFileSync("node", [cli, "operation", ...args], { encoding: "utf8" });
   const hold = JSON.parse(op("hold", "--root", dir, "--json", JSON.stringify({
     goal: "Retomar el cotejo", owner: "coordinador", authority: { spend: [] },
+    scope: "Solo apertura del fixture", expected_effect: { kind: "none" }, done: "La apertura indica la tarea pendiente", roles: ["daimon", "advisor", "verifier"], verifier: "fixture-verifier",
   })));
   op("authorize", "--root", dir, "--id", hold.id, "--json", JSON.stringify({ by: "Andres", words: "corre el cotejo" }));
   const plan = JSON.parse(op("plan", "--root", dir, "--id", hold.id, "--json", JSON.stringify({
