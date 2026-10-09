@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 /**
  * save-to-lore — salvaguardas verificables de S5 ("lo aprendido", RC4).
  *

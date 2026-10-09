@@ -10,8 +10,7 @@ const kitRoot = resolve(__dirname, "..");
 const esenciaPath = join(kitRoot, "..", "..", "..", "investigacion-cientifica", "proyectos", "LUS", "esencia", "esencia.md");
 
 function leeEsencia() {
-  try { return readFileSync(esenciaPath, "utf8"); }
-  return null;
+  try { return readFileSync(esenciaPath, "utf8"); } catch { return null; }
 }
 
 export function inyectaLus({ skill = null } = {}) {
