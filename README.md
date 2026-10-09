@@ -572,7 +572,7 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 
 <p align="center">
   <b>Deja de explicarle tu proyecto a la IA todas las mañanas.</b><br>
-  Lore guarda el criterio que escribiste -una restricción a la vez, en texto plano que es tuyo- y pasa lo acotado al Vespi experimental. No promete que el despliegue aguante; promete que hay un paso siguiente.
+  Nueve skills que instalas para trabajar con IA. La IA aprende de tus errores, guarda tu criterio y recuerda cómo te gusta trabajar.
 </p>
 
 ---
