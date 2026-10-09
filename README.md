@@ -14,8 +14,8 @@
 </p>
 
 <p align="center">
-  Nueve skills que instalas para trabajar con IA. La IA aprende de tus errores, guarda tu criterio y recuerda cómo te gusta trabajar.<br>
-  Tus archivos, tu idioma, tu aprobación.
+  Nine skills you install to work with AI. The AI learns from your mistakes, saves your criteria, and remembers how you like to work.<br>
+  Your files, your language, your approval.
 </p>
 
 ---
