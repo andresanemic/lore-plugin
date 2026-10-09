@@ -2,17 +2,17 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-test('nota 2.5.1 presenta candidato y fronteras de evidencia sin declarar release terminado', () => {
+test('nota 2.5.1 describe el release publicado y sus fronteras de evidencia', () => {
   const note = readFileSync(new URL('../docs/RELEASE_2.5.1.md', import.meta.url), 'utf8');
-  assert.match(note, /publication is pending/i);
-  assert.match(note, /publicación pendiente/i);
+  assert.match(note, /published at `v2\.5\.1`/i);
+  assert.match(note, /está publicado en `v2\.5\.1`/i);
   assert.match(note, /OpenCode 2/i);
-  assert.match(note, /coordinator attestations/i);
-  assert.match(note, /atestaciones del coordinador/i);
-  assert.match(note, /signed JSON was rejected and signed XDR was accepted/i);
-  assert.match(note, /not settlement, consensus or superiority/i);
-  assert.match(note, /JSON firmado válido fue rechazado y XDR firmado fue aceptado/i);
-  assert.match(note, /no liquidación, consenso ni superioridad/i);
+  assert.match(note, /receipts attest to recorded execution/i);
+  assert.match(note, /los recibos firmados acreditan ejecución registrada/i);
+  assert.match(note, /signed-JSON versus signed-XDR format difference/i);
+  assert.match(note, /did not establish payment, ledger settlement or superiority/i);
+  assert.match(note, /diferencia local de formato entre JSON y XDR firmados/i);
+  assert.match(note, /no acreditó pago, liquidación en ledger ni superioridad/i);
   assert.doesNotMatch(note, /test fix|all gates passed|ready to publish|listo para publicar/i);
 });
 
@@ -21,10 +21,10 @@ test('badges bilingües pertenecen al candidato 2.5.1 y Claude conserva límite 
  assert.doesNotMatch(readme,/badge\/(?:version|versi%C3%B3n)-2\.5\.0-/);
  assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.5\.1-/g)||[]).length,2);
  const note=readFileSync(new URL('../docs/RELEASE_2.5.1.md',import.meta.url),'utf8');
- assert.match(note,/Claude[\s\S]*weekly quota[\s\S]*compatibility remains unverified/i);
- assert.match(note,/Claude[\s\S]*límite semanal[\s\S]*compatibilidad sigue sin comprobarse/i);
- assert.match(note,/does not authorize installation or publication/i);
- assert.match(note,/(?:no|ni) autoriza instalación o publicación/i);
+ assert.match(note,/Claude[\s\S]*quota 429[\s\S]*installed bytes do not establish conversational reception/i);
+ assert.match(note,/Claude[\s\S]*cuota 429[\s\S]*tener los bytes instalados no acredita recepción conversacional/i);
+ assert.match(note,/No native Codex PreToolUse, PreCompact or Skill invocation is claimed/i);
+ assert.match(note,/No se declara invocación nativa de PreToolUse, PreCompact ni Skill en Codex/i);
 });
 
 test('documentación vigente refleja kernel fijo y límite semántico acordados',()=>{

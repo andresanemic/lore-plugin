@@ -34,7 +34,8 @@
     "skills/"
   ],
   "scripts": {
-    "test": "node --test bench/*.test.mjs bench/upgrade/*.test.mjs bench/effect-2.3.2/*.test.mjs scripts/*.test.mjs skills/transmute-lore/scripts/*.test.mjs",
+    "test:syntax": "node scripts/check-syntax.mjs",
+    "test": "npm run test:syntax && node --test bench/*.test.mjs bench/upgrade/*.test.mjs bench/effect-2.3.2/*.test.mjs scripts/*.test.mjs skills/transmute-lore/scripts/*.test.mjs",
     "test:release": "node scripts/test-release.mjs"
   },
   "keywords": [
