@@ -14,8 +14,8 @@
 </p>
 
 <p align="center">
-  Nine skills you install to work with AI. The AI learns from your mistakes, saves your criteria, and remembers how you like to work.<br>
-  Your files, your language, your approval.
+  <b>Stop explaining your project to the AI every morning.</b><br>
+  Nine skills you install to work with AI. The AI learns from your mistakes, saves your criteria, and remembers how you like to work.
 </p>
 
 ---
