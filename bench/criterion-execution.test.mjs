@@ -1,7 +1,7 @@
 import { proofFor } from "./verification-fixture.mjs";
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createHash } from 'node:crypto';
@@ -66,6 +66,15 @@ test('a bound proof is accepted but changing the result prevents integration', t
   assert.equal(verified.tasks[0].verification.independence, 'labels_only');
   writeFileSync(path, 'Changed after verification');
   assert.throws(() => integrateTask(verified, 't1', { destination: 'draft' }), /artifact|digest|changed/i);
+});
+test('the verification fixture keeps untrusted source names out of executable checker code', t => {
+  const { artifact, task } = delivery(t);
+  const untrustedRef = "source');process.exit(23);//";
+  task.sources = [untrustedRef];
+  const result = proofFor(artifact);
+  const runner = readFileSync(task.proof_runner.path, 'utf8');
+  assert.equal(result.execution_receipt.execution.passed, true);
+  assert.equal(runner.includes(untrustedRef), false);
 });
 test('Codex SessionStart delivers the tree purpose through additionalContext', t => {
   const root = mkdtempSync(join(tmpdir(), 'criterion-start-'));
