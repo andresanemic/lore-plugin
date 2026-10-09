@@ -47,6 +47,16 @@ export function detectarFormaTrabajo({ modalidad = null } = {}) {
   return FORMAS_TRABAJO.find((forma) => forma.id === modalidad) ?? null;
 }
 
+function sinPuntuacionFinal(texto) {
+  let fin = texto.length;
+  while (fin > 0) {
+    const ultimo = texto[fin - 1];
+    if (ultimo !== "." && ultimo !== "!" && ultimo !== "?") break;
+    fin--;
+  }
+  return texto.slice(0, fin);
+}
+
 function capacidadesFaltantes(forma, capacidades = {}) {
   return forma.capacidades.filter((capacidad) => capacidades[capacidad] !== true);
 }
@@ -176,8 +186,8 @@ export function ofrecerFormaTrabajo({
   const retomaSinPregunta = preferencia?.mismaOperacion === true
     && retomarModalidad
     && !contextoCambioMaterial;
-  const motivoTexto = motivo.trim().replace(/[.!?]+$/u, "");
-  const costeTexto = tradeoff.trim().replace(/[.!?]+$/u, "");
+  const motivoTexto = sinPuntuacionFinal(motivo.trim());
+  const costeTexto = sinPuntuacionFinal(tradeoff.trim());
   const mensajeBase = "Para esta tarea recomiendo " + propuesta.nombre + " porque " + motivoTexto
     + ". Coste: " + costeTexto + ". Alternativas: " + nombresAlternativas.join(", ") + ". "
     + fundamentoTexto + skillsTexto;

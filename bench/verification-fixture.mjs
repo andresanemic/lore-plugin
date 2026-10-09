@@ -15,7 +15,7 @@ export function proofFor(artifact, taskId = 't1') {
     writeFileSync(sourcePath, `Fixture source ${i}: ${ref}. This fixture tests completed local execution, not semantic judgment.`);
     source_files[ref] = sourcePath;
   }
-  const body = `import test from 'node:test';import assert from 'node:assert/strict';import{readFileSync}from'node:fs';import{createHash}from'node:crypto';const p=JSON.parse(readFileSync(process.env.LORE_VERIFICATION_INPUT_FILE,'utf8'));test('fixture delivery is the commissioned byte sequence',()=>{assert.equal(createHash('sha256').update(p.artifact.content).digest('hex'),${JSON.stringify(task.received.sha256)});assert.ok(p.artifact.content.length>0);});test('fixture sources were actually supplied to the checker',()=>{for(const ref of ${JSON.stringify(task.sources ?? [])})assert.ok(p.sources.some(s=>s.ref===ref&&s.content.length>0));});`;
+  const body = `import test from 'node:test';import assert from 'node:assert/strict';import{readFileSync}from'node:fs';import{createHash}from'node:crypto';const p=JSON.parse(readFileSync(process.env.LORE_VERIFICATION_INPUT_FILE,'utf8'));test('fixture delivery is the commissioned byte sequence',()=>{assert.equal(createHash('sha256').update(p.artifact.content).digest('hex'),p.binding.artifact_sha256);assert.ok(p.artifact.content.length>0);});test('fixture sources were actually supplied to the checker',()=>{for(const ref of p.binding.sources)assert.ok(p.sources.some(s=>s.ref===ref&&s.content.length>0));});`;
   writeFileSync(path, body);
   task.proof_runner = { adapter: 'node-test', path, sha256: hash(body), source_files,
     required_tests: ['fixture delivery is the commissioned byte sequence', 'fixture sources were actually supplied to the checker'] };

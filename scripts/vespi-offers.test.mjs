@@ -131,3 +131,16 @@ test("un cambio material de contexto pide confirmar una preferencia anterior", (
   assert.equal(oferta.requiere_eleccion, true);
   assert.match(oferta.mensaje, /contexto cambió/i);
 });
+
+test("la puntuación adversarial conserva el mensaje sin búsquedas cuadráticas", () => {
+  const motivo = "razón " + "!".repeat(50_000) + "x";
+  const inicio = performance.now();
+  const oferta = ofertas.ofrecerFormaTrabajo({
+    ...recomendacion,
+    motivo,
+    tradeoff: "cuesta tiempo?!",
+  });
+  assert.ok(performance.now() - inicio < 1_000, "la limpieza de puntuación debe ser lineal");
+  assert.ok(oferta.mensaje.includes(motivo));
+  assert.match(oferta.mensaje, /Coste: cuesta tiempo\. Alternativas:/);
+});
