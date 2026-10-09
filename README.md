@@ -14,8 +14,11 @@
 </p>
 
 <p align="center">
-  <b>Stop explaining your project to the AI every morning.</b><br>
-  Lore keeps the criterion you wrote - one constraint at a time, in plain text you own - and hands bounded work to experimental Vespi. It does not promise the deploy holds; it promises there is a next step.
+  <b>Lore Plugin 2.5.1</b> — a kit that saves what you learn working with AI, so every session starts from there, not from zero.<br>
+  <b>Lore Plugin 2.5.1</b> — un kit que guarda lo que aprendes trabajando con IA, para que cada sesión empiece desde ahí, no desde cero.<br>
+  You write the criteria; the kit loads it before the work starts. / Tú escribes el criterio; el kit lo carga antes de empezar.<br>
+  Nine skills, one loop: propose, approve, write. / Nueve skills, un ciclo: proponer, aprobar, escribir.<br>
+  Your files, your language, your approval. / Tus archivos, tu idioma, tu aprobación.
 </p>
 
 ---
@@ -27,11 +30,9 @@
 
 ## The problem
 
-Every session starts blank: everything you taught the agent yesterday — every correction, every back-and-forth — gets erased, and you open the next one explaining the project again. Your Lore is where that stays.
+Every session starts blank: everything you taught the agent yesterday — every correction, every back-and-forth — gets erased, and you open the next one explaining the project again.
 
-In *Groundhog Day* (Harold Ramis, 1993), Phil Connors wakes up to the same radio every February 2nd and nobody in town remembers a thing about yesterday — only him. Your agent is the town, not Phil: every session opens on that same morning, and the one who walks in carrying the memory is you.
-
-It is a loop of re-explanations and mediocre solutions you had already rejected. Lore calls this **ephemeral experience**: the facts may survive, but the learning never became a reusable structure.
+You end up repeating the same explanations and accepting mediocre solutions you had already rejected. Lore is where your learning stays.
 
 ---
 
@@ -83,11 +84,9 @@ It is a loop of re-explanations and mediocre solutions you had already rejected.
 
 ## What is Lore?
 
-A lightweight, provider-neutral **Spec-Driven Development** kit for AI agents. Or, in one line: **local fine-tuning for your own tasks, and the one doing the training is you.**
+Nine skills you install to work with AI. The AI learns from your mistakes, saves your criteria, and remembers how you like to work.
 
-#### The same destination as a fine-tune, by the other road
-
-A fine-tune conditions a model on thousands of examples until it stops answering like a generalist. Lore gets to the same place from the other side: one written constraint per thing that went wrong. No training happens and no weights move, so your criteria stays as plain text you can read, correct in one line, and carry to a different model tomorrow. A fine-tune stops asking things of you the day it ships; Lore never stops — one distillation, every time something breaks. That is the cost, and it is worth knowing before you install anything.
+Every time something goes wrong, you write one line of criteria. The kit loads it before the next session starts. Your criteria stays as plain text you can read, correct, and carry to a different model tomorrow.
 
 #### What it provides
 
@@ -651,7 +650,7 @@ Un fine-tune condiciona un modelo con miles de ejemplos hasta que deja de respon
 Tres cosas:
 
 - una convención sencilla para organizar el criterio de un proyecto;
-- ocho *skills* que operan esa convención;
+- nueve *skills* que operan esa convención;
 - y un ciclo continuo para destilar experiencia en criterio reutilizable.
 
 Lo de *spec-driven* no es una etiqueta: un contrato por proyecto (`CLAUDE.md` o `AGENTS.md`, el que lea tu host), `FASES.md` para dónde está el trabajo, `lore/` para lo que restringe cómo se construye.
