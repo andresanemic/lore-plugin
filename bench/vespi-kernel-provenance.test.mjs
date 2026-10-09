@@ -32,8 +32,8 @@ const VENDORED = kernelModules(kernelDir);
 
 // Dónde vive la fuente canónica, para leer los bytes EN el commit fijado y no desde el directorio
 // de trabajo, que puede estar adelantado, atrasado o sucio. Es relativo a propósito: nada de rutas
-// absolutas de una máquina en un archivo que se distribuye. Se puede anular con VESPI_KERNEL_ROOT.
-const kernelRoot = [process.env.VESPI_KERNEL_ROOT, resolve(kit, "..", "..", "..", "founder", "proyectos", "vespi", "kernel")]
+// absolutas de una máquina en un archivo que se distribuye. Se puede anular con VESPI_KERNEL_ROOT o VESPI_KERNEL_DIR (la misma variable que usa method-provenance).
+const kernelRoot = [process.env.VESPI_KERNEL_ROOT, process.env.VESPI_KERNEL_DIR, resolve(kit, "..", "..", "..", "founder", "proyectos", "vespi", "kernel")]
   .find((candidate) => candidate && existsSync(join(candidate, ".git")));
 
 // H18: sin la fuente canonica, estas tres preguntas no tienen respuesta, y un `t.skip` callado
