@@ -54,6 +54,83 @@ const CARTAS = [
   { id: "deporte-1", fuente: "Deporte", texto: "El marcador no es el juego. ¿Qué estás midiendo en vez de jugando?" },
 ];
 
+// Baraja del Entre acordada — acuerdo 013 (decisiones 1 a 11), cerrado el
+// 2026-09-28 en `bot-lus-lore/specs/013-acuerdo-vespi/baraja/`. Escrita por Muse
+// Spark 1.3 free desde el jardín y curada por el bot: 48 cartas en las cuatro
+// familias de la decisión 4 (mestros y obras, decisiones de acuerdos, casos
+// reales, derivas), dichas a medias para que la persona las termine, sin nombrar
+// su fuente (decisión 2).
+//
+// Estado: pasa la prueba de la decisión 8 el 2026-10-09 — baraja propia 61% de
+// reconocimiento (14/23) contra 42% de Eno (5/12) y 17% de sin carta (2/12),
+// con la cuota de ruido más baja de las tres. Recibo, cohortes y veredicto con
+// su inestabilidad declarada: `bot-lus-lore/operations/2026-10-09-baraja-prueba-
+// decision-8/resultado.md`. La activación de la tirada silenciosa fue palabra de
+// Andrés.
+//
+// Silenciosa (decisión 11): la saca un hook, nunca el agente, y ninguna persona
+// usuaria la ve. Convive con el mazo anterior y con la carta de brainstorming-
+// lore; no las reemplaza (decisión 6). La versión 0 del acuerdo queda congelada
+// como control y no viaja aquí.
+//
+// Observación registrada, no corregida aquí: las entradas eno-* y schmidt-* de
+// arriba son traducciones locales guardadas; las decisiones 6 y 9 piden consultar
+// a Eno en vivo en su página pública y no guardar el mazo. Queda anotada para la
+// campaña de compatibilidad kernel-proyectos.
+const BARAJA_ENTRE = [
+  { id: "entre-1", familia: "1 maestros y obras", texto: "¿Qué quieres controlar que puedes soltar hoy?" },
+  { id: "entre-2", familia: "1 maestros y obras", texto: "¿Dónde puede rozar sin romperse ni fundirse?" },
+  { id: "entre-3", familia: "1 maestros y obras", texto: "Pregunta quién es hoy, no quién era." },
+  { id: "entre-4", familia: "1 maestros y obras", texto: "Lanza algo pequeño antes de dar el paso." },
+  { id: "entre-5", familia: "1 maestros y obras", texto: "¿Qué aprendiste que no se borra al repetir?" },
+  { id: "entre-6", familia: "1 maestros y obras", texto: "¿Qué mínimo necesitas hoy para poder decidir?" },
+  { id: "entre-7", familia: "1 maestros y obras", texto: "Empieza siempre por lo mismo y luego varía." },
+  { id: "entre-8", familia: "1 maestros y obras", texto: "¿Cuándo vuelven a ponerse al día contigo?" },
+  { id: "entre-9", familia: "1 maestros y obras", texto: "¿Qué bueno conservas aunque esto se acabe?" },
+  { id: "entre-10", familia: "1 maestros y obras", texto: "Nombra tú si esto cierra o continúa." },
+  { id: "entre-11", familia: "1 maestros y obras", texto: "Muestra el desgaste y corta la explicación." },
+  { id: "entre-12", familia: "1 maestros y obras", texto: "¿Qué objeto dice el adiós por ti?" },
+  { id: "entre-13", familia: "2 decisiones", texto: "¿Quién puede decir que no, hasta cuándo, y a quién se le avisa?" },
+  { id: "entre-14", familia: "2 decisiones", texto: "¿Qué miraste, y qué dejaste sin mirar?" },
+  { id: "entre-15", familia: "2 decisiones", texto: "Toma la idea y pide permiso para el resto." },
+  { id: "entre-16", familia: "2 decisiones", texto: "¿Puedes probarlo sin que te lo crean?" },
+  { id: "entre-17", familia: "2 decisiones", texto: "¿Qué te aprieta hoy, y por dónde entrarías?" },
+  { id: "entre-18", familia: "2 decisiones", texto: "¿Qué cambió de verdad antes de anotarlo?" },
+  { id: "entre-19", familia: "2 decisiones", texto: "¿Puedes repetirlo antes de darlo por acordado?" },
+  { id: "entre-20", familia: "2 decisiones", texto: "¿Esto te complica o aún no sabes cómo?" },
+  { id: "entre-21", familia: "2 decisiones", texto: "¿Qué guardarías ahora, antes de que se pierda?" },
+  { id: "entre-22", familia: "2 decisiones", texto: "¿Te emociona, te enorgullece y lo recomendarías?" },
+  { id: "entre-23", familia: "2 decisiones", texto: "Devuélvelo trabado con lo que salió." },
+  { id: "entre-24", familia: "2 decisiones", texto: "¿Esto te ayuda a cerrar o te retiene?" },
+  { id: "entre-25", familia: "3 casos", texto: "¿Miraste lo tuyo, o solo lo de los demás?" },
+  { id: "entre-26", familia: "3 casos", texto: "¿En qué momento se complicó lo que era simple?" },
+  { id: "entre-27", familia: "3 casos", texto: "¿Lo mostraste antes de que te dieran permiso?" },
+  { id: "entre-28", familia: "3 casos", texto: "¿Te dieron el qué, o también el cómo?" },
+  { id: "entre-29", familia: "3 casos", texto: "¿Quién decidió esto, de verdad?" },
+  { id: "entre-30", familia: "3 casos", texto: "¿Volviste a la fuente, o al resumen?" },
+  { id: "entre-31", familia: "3 casos", texto: "¿El límite se aplica, o solo se dice?" },
+  { id: "entre-32", familia: "3 casos", texto: "¿Lo ya acordado se hizo antes de renegociar?" },
+  { id: "entre-33", familia: "3 casos", texto: "¿Qué se pierde si cierras ahora mismo?" },
+  { id: "entre-34", familia: "3 casos", texto: "¿Quedó algo abierto antes de cambiar de tema?" },
+  { id: "entre-35", familia: "3 casos", texto: "¿Quien retome sabrá cómo trabajan, o solo qué sigue?" },
+  { id: "entre-36", familia: "3 casos", texto: "¿Qué podrías soltar en otras manos, y quién mira?" },
+  { id: "entre-37", familia: "4 derivas", texto: "¿Qué distancia necesita para poder acercarse?" },
+  { id: "entre-38", familia: "4 derivas", texto: "¿Habitas el lugar o solo lo recorres?" },
+  { id: "entre-39", familia: "4 derivas", texto: "¿Aquí podrías vivir un día común?" },
+  { id: "entre-40", familia: "4 derivas", texto: "¿Puedes querer varios lugares sin romperte?" },
+  { id: "entre-41", familia: "4 derivas", texto: "¿Qué harías sin la excusa que te duele?" },
+  { id: "entre-42", familia: "4 derivas", texto: "¿Te tratan como eras o como eres?" },
+  { id: "entre-43", familia: "4 derivas", texto: "Quédate igual aunque cambiar te convenga." },
+  { id: "entre-44", familia: "4 derivas", texto: "Cierra opciones para que exista una elección." },
+  { id: "entre-45", familia: "4 derivas", texto: "Deja el misterio sin querer resolverlo." },
+  { id: "entre-46", familia: "4 derivas", texto: "¿Vas lento, o vas a tu ritmo?" },
+  { id: "entre-47", familia: "4 derivas", texto: "¿A quién cuidas y quién te cuida a ti?" },
+  { id: "entre-48", familia: "4 derivas", texto: "Obedece solo si puedes hacerlo tuyo." },
+];
+for (const carta of BARAJA_ENTRE) {
+  if (!CARTAS.some((c) => c.id === carta.id)) CARTAS.push({ ...carta, fuente: "baraja-entre" });
+}
+
 export function tirarCarta({ semilla = null, fuente = null } = {}) {
   let cartas = CARTAS;
   if (fuente) {
