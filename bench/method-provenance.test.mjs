@@ -32,13 +32,18 @@ test('el kernel lleva el mismo texto en inglés que la skill', {
   assert.equal(verifyMethodCopy(skill, en), true);
 });
 
-test('la ruta predeterminada encuentra el kernel externo desde la raíz del repositorio', () => {
-  const root = new URL('../', import.meta.url);
-  const candidates = ['../../../founder/proyectos/vespi/kernel', '../../../founder/proyectos/vespi/kernel-cdx'];
-  assert.ok(candidates.some((candidate) => existsSync(new URL(`${candidate}/docs/METHOD.md`, root))), 'ningún candidato predeterminado resuelve el kernel');
+// Prueba la lógica de la ruta predeterminada con un sistema de archivos simulado: no depende de que
+// esta máquina tenga el kernel en una carpeta hermana (en un clon limpio o en CI no la tiene).
+test('la ruta predeterminada apunta al kernel externo desde la raíz del repositorio', () => {
+  const esperado = resolve(repoRoot, '../../../founder/proyectos/vespi/kernel');
+  const encontrado = resolveKernelDir({ repoRoot, exists: (candidate) => candidate === resolve(esperado, 'docs', 'METHOD.md') });
+  assert.equal(encontrado, esperado);
+  assert.equal(resolveKernelDir({ repoRoot, exists: () => false }), undefined, 'sin kernel en ninguna ruta, no inventa una');
 });
 
-test('la ruta que usa la comparación predeterminada también resuelve el kernel', () => {
+test('la ruta que usa la comparación predeterminada también resuelve el kernel', {
+  todo: !kernelDir && !releaseRequired ? coverageMessage : false,
+}, () => {
   if (configuredKernel) return;
   assert.ok(kernelDir, 'la comparación sigue apuntando a una ruta inexistente');
 });
