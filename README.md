@@ -14,11 +14,15 @@
 </p>
 
 <p align="center">
-  <b>Lore Plugin 2.5.1</b> — a kit that saves what you learn working with AI, so every session starts from there, not from zero.<br>
-  <b>Lore Plugin 2.5.1</b> — un kit que guarda lo que aprendes trabajando con IA, para que cada sesión empiece desde ahí, no desde cero.<br>
-  You write the criteria; the kit loads it before the work starts. / Tú escribes el criterio; el kit lo carga antes de empezar.<br>
-  Nine skills, one loop: propose, approve, write. / Nueve skills, un ciclo: proponer, aprobar, escribir.<br>
-  Your files, your language, your approval. / Tus archivos, tu idioma, tu aprobación.
+  <b>Lore Plugin 2.5.1</b><br>
+  Nine skills you install to work with AI. The AI learns from your mistakes, saves your criteria, and remembers how you like to work.<br>
+  Your files, your language, your approval.
+</p>
+
+<p align="center">
+  <b>Lore Plugin 2.5.1</b><br>
+  Nueve skills que instalas para trabajar con IA. La IA aprende de tus errores, guarda tu criterio y recuerda cómo te gusta trabajar.<br>
+  Tus archivos, tu idioma, tu aprobación.
 </p>
 
 ---
