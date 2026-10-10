@@ -407,7 +407,7 @@ This README covers motivation and architecture. Everything else lives in its own
 | [`OBSERVER_en.md`](./docs/OBSERVER_en.md) | Observer provenance: the third registry — its method is published, its content does not travel. |
 | [`CONTRIBUTING_en.md`](./docs/CONTRIBUTING_en.md) | How to contribute product changes, cases, refutations and research questions. |
 | [`CODE_OF_CONDUCT.md`](./docs/CODE_OF_CONDUCT.md) | Participation standards and reporting route. |
-| [`LICENSE`](./LICENSE) · [`NOTICE`](./NOTICE) | Apache License 2.0; authorship in `NOTICE`. |
+| [`LICENSE`](./LICENSE) · [`NOTICE`](./NOTICE) | Apache License 2.0, and it stays open source: the commitment is in `NOTICE`, with authorship. |
 | [Read the benchmark →](./bench/effect-2.3.2/) | Method, evidence, limits, and reviewable results. |
 
 ---
@@ -948,7 +948,7 @@ El criterio queda en tus archivos. El kit no lo escribe ni lo confirma sin tu ap
 | [`OBSERVER_es.md`](./docs/OBSERVER_es.md) | Procedencia del observador: el tercer registro — se publica su método, su contenido no viaja. |
 | [`CONTRIBUTING_es.md`](./docs/CONTRIBUTING_es.md) | Cómo contribuir cambios de producto, casos, refutaciones y preguntas de investigación. |
 | [`CODE_OF_CONDUCT.md`](./docs/CODE_OF_CONDUCT.md) | Normas de participación y vía de reporte. |
-| [`LICENSE`](./LICENSE) · [`NOTICE`](./NOTICE) | Licencia Apache 2.0; autoría en `NOTICE`. |
+| [`LICENSE`](./LICENSE) · [`NOTICE`](./NOTICE) | Licencia Apache 2.0, y seguirá siendo de código abierto: el compromiso está en `NOTICE`, con la autoría. |
 | [Lee el benchmark →](./bench/effect-2.3.2/) | Método, evidencia, límites y resultados revisables. |
 
 ---
