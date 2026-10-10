@@ -19,13 +19,18 @@ jobs:
         with:
           # Several regression tests compare the current tree with published tag anchors.
           fetch-depth: 0
-      - uses: actions/checkout@v5
-        with:
-          # Provenance checks compare the vendored kernel with its canonical source commit.
-          repository: andresanemic/vespi
-          ref: ed559e83c976dd6e6a379a5510db776206f670b4
-          path: .ci/vespi-kernel
-          fetch-depth: 1
+      - name: Fetch the canonical Vespi kernel source
+        shell: pwsh
+        run: |
+          $kernel = Join-Path $env:RUNNER_TEMP "vespi-kernel"
+          git init $kernel
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          git -C $kernel remote add origin https://github.com/andresanemic/vespi.git
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          git -C $kernel fetch --depth=1 origin ed559e83c976dd6e6a379a5510db776206f670b4
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          git -C $kernel checkout --detach FETCH_HEAD
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - uses: actions/setup-node@v5
         with:
           node-version: 22
@@ -33,8 +38,8 @@ jobs:
         run: npm test
         env:
           # Keep synthetic HOME fixtures and perimeter checks on one physical temp path.
-          TEMP: ${{ runner.temp }}
-          TMP: ${{ runner.temp }}
-          TMPDIR: ${{ runner.temp }}
-          VESPI_KERNEL_DIR: ${{ github.workspace }}/.ci/vespi-kernel
-          VESPI_KERNEL_ROOT: ${{ github.workspace }}/.ci/vespi-kernel
+          TEMP: ${{ runner.os == 'Windows' && runner.temp || '' }}
+          TMP: ${{ runner.os == 'Windows' && runner.temp || '' }}
+          TMPDIR: ${{ runner.os == 'macOS' && runner.temp || '' }}
+          VESPI_KERNEL_DIR: ${{ runner.temp }}/vespi-kernel
+          VESPI_KERNEL_ROOT: ${{ runner.temp }}/vespi-kernel

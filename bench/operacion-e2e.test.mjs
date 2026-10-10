@@ -13,7 +13,7 @@ const REPO = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const CLI = join(REPO, "scripts", "lore-plugin.mjs");
 const HOME_TEST = mkdtempSync(join(tmpdir(), "lore-operation-e2e-home-"));
 test.after(() => rmSync(HOME_TEST, { recursive: true, force: true }));
-const ENV = { ...process.env, HOME: HOME_TEST, USERPROFILE: HOME_TEST, TEMP: HOME_TEST, TMP: HOME_TEST };
+const ENV = { ...process.env, HOME: HOME_TEST, USERPROFILE: HOME_TEST, TEMP: HOME_TEST, TMP: HOME_TEST, TMPDIR: HOME_TEST };
 const json = (value) => JSON.stringify(value);
 const later = () => new Date(Date.now() + 60_000).toISOString();
 
