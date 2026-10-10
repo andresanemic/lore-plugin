@@ -16,8 +16,16 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v5
+        with:
+          # Several regression tests compare the current tree with published tag anchors.
+          fetch-depth: 0
       - uses: actions/setup-node@v5
         with:
           node-version: 22
       - name: Run complete test suite
         run: npm test
+        env:
+          # Windows may expose TEMP through an 8.3 alias while USERPROFILE uses its long
+          # path. Keep synthetic HOME fixtures and the perimeter checks on one spelling.
+          TEMP: ${{ runner.temp }}
+          TMP: ${{ runner.temp }}

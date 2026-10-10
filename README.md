@@ -369,6 +369,8 @@ Version 2.5.1 makes the next action explicit when a session opens. Coordinated o
 
 Earlier operation features and their limits remain documented in [the 2.4.9 release](./docs/RELEASE_2.4.9.md).
 
+**Vespi Meridian Edition 1.0:** [Website — vespi.xyz](https://vespi.xyz) · [Tutorial in English](https://docs.google.com/document/d/1gwu3gBIJwgevCrGPyMv-J1UfjegggYDu/edit?usp=sharing&ouid=113358117411001923633&rtpof=true&sd=true) · [Deck in English](https://drive.google.com/file/d/1lG5DOOS6z4Kzz6PfZIPP2RXW_LXN_U1g/view?usp=drive_link). Materials supplied by Andrés; website deployment was not verified in this review, so these links do not extend the kernel’s verified scope.
+
 ## Loose notes
 
 Create a `notes/`, `notas/`, or `apuntes/` folder in a project, Area, or bot, then ask the AI to review it. `save-to-lore` separates criteria from tasks and noise, proposes where each lesson belongs, waits for your approval, and marks used notes without deleting them. **A note is a source, never criteria.**
@@ -441,13 +443,8 @@ Morin gives this work its ethical north: in UNESCO's [*Seven Complex Lessons in 
 
 > **A reach signal, not a demonstration.** Nobody knows what anyone did with their copy — installed, distilled, opened once? It is no case, and answers none of the questions the [case studies](./docs/CASES_en.md) do. And the API's "unique cloners" are unique **per day**, not people: they cannot be summed into a headcount.
 
+
 ---
-
-### Vespi Meridian Edition 1.0
-
-[Website — vespi.xyz](https://vespi.xyz) · [Tutorial in English](https://docs.google.com/document/d/1gwu3gBIJwgevCrGPyMv-J1UfjegggYDu/edit?usp=sharing&ouid=113358117411001923633&rtpof=true&sd=true) · [Deck in English](https://drive.google.com/file/d/1lG5DOOS6z4Kzz6PfZIPP2RXW_LXN_U1g/view?usp=drive_link)
-
-Materials supplied by Andrés. Website deployment was not verified in this review; these links do not extend the kernel’s verified scope.
 
 ## The deck
 
@@ -907,6 +904,8 @@ La versión 2.5.1 hace explícita la siguiente acción al abrir una sesión. El 
 
 Las funciones anteriores de operaciones y sus límites se conservan en [la nota de 2.4.9](./docs/RELEASE_2.4.9.md).
 
+**Vespi Meridian Edition 1.0:** [Sitio — vespi.xyz](https://vespi.xyz) · [Tutorial en español](https://docs.google.com/document/d/1wj3yfr0Iyi8e3szUawJ4Q-mNb7EmySM-/edit?usp=drive_link&ouid=113358117411001923633&rtpof=true&sd=true) · [Deck en español](https://drive.google.com/file/d/1LkcSXeVLxstZiNhiVpq8zU1_Kn-61qUl/view?usp=drive_link). Materiales proporcionados por Andrés; el despliegue del sitio no se verificó en esta revisión, por lo que estos enlaces no amplían el alcance verificado del kernel.
+
 ## Notas sueltas
 
 Agrega una carpeta `notas/`, `notes/` o `apuntes/` dentro del proyecto, Área o bot donde estés trabajando; cualquier editor sirve. Para que la IA la lea, pide:
@@ -985,13 +984,8 @@ Morin le da a este trabajo su norte ético: en la edición de UNESCO de [*Los si
 
 > **Una señal de alcance, no una demostración.** Nadie sabe qué hizo cada quien con su copia — ¿instalada, destilada, abierta una vez? No es un caso y no responde lo que responden los [casos de estudio](./docs/CASES_es.md). Y los «clonadores únicos» de la API son únicos **por día**, no personas: no se pueden sumar para contar cabezas.
 
+
 ---
-
-### Vespi Meridian Edition 1.0
-
-[Sitio — vespi.xyz](https://vespi.xyz) · [Tutorial en español](https://docs.google.com/document/d/1wj3yfr0Iyi8e3szUawJ4Q-mNb7EmySM-/edit?usp=drive_link&ouid=113358117411001923633&rtpof=true&sd=true) · [Deck en español](https://drive.google.com/file/d/1LkcSXeVLxstZiNhiVpq8zU1_Kn-61qUl/view?usp=drive_link)
-
-Materiales proporcionados por Andrés. El despliegue del sitio no se verificó en esta revisión; estos enlaces no amplían el alcance verificado del kernel.
 
 ## El deck
 

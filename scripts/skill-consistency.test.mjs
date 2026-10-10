@@ -249,8 +249,7 @@ test("el perfil profesional es opcional, progresivo y viaja como puntero", () =>
   }
 
   const readme = readFileSync(join(root, "README.md"), "utf8");
-  assert.match(readme, /professional criterion.*refines.*real work/is);
-  assert.match(readme, /criterio profesional.*afina.*uso real/is);
+  // The overview stays an invitation; profile mechanics belong to the skills and reference.
   assert.doesNotMatch(readme, /upload your (?:CV|résumé)|sube tu (?:CV|currículum)/i);
   assert.doesNotMatch(readme, /\.perfil-profesional\.md/);
 });
@@ -342,14 +341,14 @@ test("el README funciona como portada y no duplica las guías", () => {
     "## Installation",
     "## Architecture",
     "## The nine skills",
-    "## Benchmark",
     "## Documentation",
     "## Instalación",
     "## Arquitectura",
     "## Las nueve skills",
-    "## El benchmark",
     "## Documentación",
   ]) assert.match(readme, new RegExp(required.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  assert.match(readme, /\[Read the benchmark →\]\(\.\/bench\/effect-2\.3\.2\/\)/);
+  assert.match(readme, /\[Lee el benchmark →\]\(\.\/bench\/effect-2\.3\.2\/\)/);
   assert.equal((readme.match(/^### OpenCode$/gm) ?? []).length, 2);
   assert.equal((readme.match(/\.opencode\/skills\//g) ?? []).length >= 2, true);
 });
@@ -637,15 +636,15 @@ test("el cierre de create-bot no exige Lore previo", () => {
 
 test("el README identifica el modelo del benchmark en ambos idiomas", () => {
   const text = readFileSync(join(root, "README.md"), "utf8");
-  assert.equal((text.match(/GPT-5\.6 Sol medium/g) ?? []).length >= 2, true);
-  assert.equal((text.match(/GPT-5\.6 Terra medium/g) ?? []).length >= 2, true);
-  // 2026-08-24: la seccion ## Benchmark tenia su propia tabla con las mismas cuatro cifras que
-  // ya estan en la tabla hero de arriba -- duplicacion real, no dos hechos distintos. Se corto
-  // esa segunda tabla (poda de README, permiso de Andres); ya no hay invariante que la exija.
+  const benchmark = readFileSync(join(root, "bench", "effect-2.3.2", "README.md"), "utf8");
+  assert.match(benchmark, /GPT-5\.6 Sol medium/);
+  assert.match(benchmark, /GPT-5\.6 Terra medium/);
+  // The README points readers to the complete benchmark instead of repeating its methods/results.
+  assert.match(text, /\[Read the benchmark →\]\(\.\/bench\/effect-2\.3\.2\/\)/);
+  assert.match(text, /\[Lee el benchmark →\]\(\.\/bench\/effect-2\.3\.2\/\)/);
   assert.equal((text.match(/NotebookLM/g) ?? []).length >= 2, true);
-  // La frase se movio a la seccion "Who is this for?" con otra redaccion, mismo contenido.
-  assert.match(text, /what changes when a person and an AI accumulate criteria together/i);
-  assert.match(text, /qué cambia cuando una persona y una IA acumulan criterio juntas/i);
+  assert.match(text, /\[LUS explains the research questions and their evidence boundaries\]/);
+  assert.match(text, /\[LUS explica sus preguntas y los límites de su evidencia\]/);
 });
 
 test("las superficies públicas de 2.2.0 conservan una definición precisa", () => {
@@ -657,8 +656,8 @@ test("las superficies públicas de 2.2.0 conservan una definición precisa", () 
   assert.match(surfaces, /persists across (?:AI )?agents/i);
 });
 
-test("la documentación presenta ADD como entrada y CRYSTALLIZE como memory card portable", () => {
-  // 2026-08-28 (poda 2.3.x): README lo introduce como portada; REFERENCE lo especifica. USAGE apunta.
+test("la referencia explica ADD y CRYSTALLIZE; el README los presenta sin duplicar su mecánica", () => {
+  // The reference carries the complete technical explanation; the README names the entry points.
   // 2026-08-28 (2.4.0): la portada explica «aprender de lo que ya tienes» en palabras llanas y nombra
   // `transmute-lore`; el token de modo ADD baja al registro que lo especifica —REFERENCE—, por
   // `plugins/lore/principios.md` #26 (una obra/jargon que hay que explicar antes de ilustrar no va al cuerpo).
@@ -671,7 +670,9 @@ test("la documentación presenta ADD como entrada y CRYSTALLIZE como memory card
   const readme = readFileSync(join(root, "README.md"), "utf8");
   assert.match(readme, /transmute-lore/);
   assert.match(readme, /CRYSTALLIZE/);
-  assert.match(readme, /memory card/i);
+  assert.match(readme, /REFERENCE_en\.md/);
+  assert.match(readme, /REFERENCE_es\.md/);
+  assert.doesNotMatch(readme, /memory card/i);
 });
 
 test("la documentación viva conserva la frontera de secretos de CRYSTALLIZE", () => {
