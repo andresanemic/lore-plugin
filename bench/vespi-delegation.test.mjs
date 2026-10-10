@@ -4,6 +4,8 @@
 // que el corte RC5 trae (la revisión previa, la violación permanente, la carta silenciosa) siguen
 // en pie después de pasar por la fachada.
 import assert from "node:assert/strict";
+import { tmpdir } from "node:os";
+import { resolve } from "node:path";
 import { test } from "node:test";
 
 const V = "../skills/vespi/core/vespi.mjs";
@@ -66,11 +68,12 @@ test("una violación ya registrada no la borra una entrega limpia", async () => 
   const { facade } = await kit();
   const d = delegation(facade);
   facade.recordStart(d, { readTask: true });
-  facade.recordResult(d, { output: "primero", touched: ["C:/Users/andre/.ssh/id_rsa"] });
-  assert.deepEqual(d.violations, ["C:/Users/andre/.ssh/id_rsa"]);
+  const outside = resolve(tmpdir(), "private-key-fixture");
+  facade.recordResult(d, { output: "primero", touched: [outside] });
+  assert.deepEqual(d.violations, [outside]);
   assert.equal(d.state, "out_of_bounds");
   facade.recordResult(d, { output: "segundo", touched: ["skills/vespi/core/x.test.mjs"] });
-  assert.deepEqual(d.violations, ["C:/Users/andre/.ssh/id_rsa"], "una segunda entrega limpia borró la violación");
+  assert.deepEqual(d.violations, [outside], "una segunda entrega limpia borró la violación");
   assert.equal(d.state, "out_of_bounds");
 });
 

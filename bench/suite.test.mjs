@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { join } from "node:path";
 import test from "node:test";
 
 import { resolveSuite } from "./suite.mjs";
@@ -10,12 +11,12 @@ test("usa el benchmark principal cuando no se elige una suite", () => {
 
 test("aísla tareas, fixtures y resultados de una suite nombrada", () => {
   const config = resolveSuite("C:\\repo\\bench", "writing");
-  assert.equal(config.root, "C:\\repo\\bench\\writing");
+  assert.equal(config.root, join("C:\\repo\\bench", "writing"));
 });
 
 test("acepta una suite con versión semántica en el nombre", () => {
   const config = resolveSuite("C:\\repo\\bench", "effect-2.3.2");
-  assert.equal(config.root, "C:\\repo\\bench\\effect-2.3.2");
+  assert.equal(config.root, join("C:\\repo\\bench", "effect-2.3.2"));
 });
 
 test("rechaza nombres de suite que puedan escapar de bench", () => {

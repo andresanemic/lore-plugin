@@ -2,6 +2,7 @@ import { proofAt } from "./verification-fixture.mjs";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
@@ -10,7 +11,8 @@ import { proposeHandoff } from "../skills/vespi/core/vespi.mjs";
 
 const REPO = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const CLI = join(REPO, "scripts", "lore-plugin.mjs");
-const HOME_TEST = "C:/Users/andre/AppData/Local/Temp/claude/C--Claude-bots-proyectos-bot-lus-lore/cb64e85b-ef54-40fb-b1ef-58412e18e892/scratchpad/jobs/home-prueba-e2e";
+const HOME_TEST = mkdtempSync(join(tmpdir(), "lore-operation-e2e-home-"));
+test.after(() => rmSync(HOME_TEST, { recursive: true, force: true }));
 const ENV = { ...process.env, HOME: HOME_TEST, USERPROFILE: HOME_TEST, TEMP: HOME_TEST, TMP: HOME_TEST };
 const json = (value) => JSON.stringify(value);
 const later = () => new Date(Date.now() + 60_000).toISOString();

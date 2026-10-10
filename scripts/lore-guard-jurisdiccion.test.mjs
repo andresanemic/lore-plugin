@@ -19,7 +19,7 @@ import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdtempSync, mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { homedir, tmpdir } from "node:os";
-import { join, relative, resolve, sep } from "node:path";
+import { join, relative, resolve, sep, win32 } from "node:path";
 import test from "node:test";
 import { classifyWrite, jurisdictionBlock, structuredWritePaths, unknownWrites } from "../hooks/lore-guard.mjs";
 
@@ -32,16 +32,17 @@ const projects = resolve(homedir(), ".claude", "projects");
 // mundo: estos dos casos se leyeron de proyectos reales que Claude había creado en esta
 // máquina. Corroborada contra 42 raíces reales, cero discrepancias, con `:`, `\`, `-` y `ñ`
 // entre los caracteres ejercitados.
-function slugDe(ruta) {
-  return resolve(ruta).replace(/[^A-Za-z0-9]/g, "-");
+function slugDe(ruta, plataforma = process.platform) {
+  const resuelta = plataforma === "win32" ? win32.resolve(ruta) : resolve(ruta);
+  return resuelta.replace(/[^A-Za-z0-9]/g, "-");
 }
 
 test("la regla del nombre de proyecto de Claude Code, contra dos proyectos reales", () => {
-  assert.equal(slugDe("C:\\Claude\\plugins\\proyectos\\lore-plugin"),
+  assert.equal(slugDe("C:\\Claude\\plugins\\proyectos\\lore-plugin", "win32"),
     "C--Claude-plugins-proyectos-lore-plugin");
   // El segundo lleva una `ñ`, que Claude convierte en `-` como cualquier otro carácter no
   // alfanumérico: `diseño` -> `dise-o`. No es una excepción al reemplazo, es el reemplazo.
-  assert.equal(slugDe("C:\\Claude\\bots\\proyectos\\bot-diseño-grafico"),
+  assert.equal(slugDe("C:\\Claude\\bots\\proyectos\\bot-diseño-grafico", "win32"),
     "C--Claude-bots-proyectos-bot-dise-o-grafico");
 });
 
@@ -160,7 +161,7 @@ test("NC-B-2.5: el scratchpad de la sesión y su estado siguen siendo propios", 
 
 // --- la junction: la identidad no cambia, el destino sí (S5, puerta de Andrés) ----------
 
-test("S5: una junction dentro de la raíz propia no evade el control", () => {
+test("S5: una junction dentro de la raíz propia no evade el control", { skip: process.platform !== "win32" }, () => {
   // `classifyWrite` compara rutas LÉXICAS y nunca resuelve enlaces: una junction colocada
   // dentro de la raíz propia que apunte a un árbol ajeno se clasifica `own` y la escritura
   // aterriza en el árbol de otro dueño. Reproducido aquí con un árbol real y una junction

@@ -19,13 +19,22 @@ jobs:
         with:
           # Several regression tests compare the current tree with published tag anchors.
           fetch-depth: 0
+      - uses: actions/checkout@v5
+        with:
+          # Provenance checks compare the vendored kernel with its canonical source commit.
+          repository: andresanemic/vespi
+          ref: ed559e83c976dd6e6a379a5510db776206f670b4
+          path: .ci/vespi-kernel
+          fetch-depth: 1
       - uses: actions/setup-node@v5
         with:
           node-version: 22
       - name: Run complete test suite
         run: npm test
         env:
-          # Windows may expose TEMP through an 8.3 alias while USERPROFILE uses its long
-          # path. Keep synthetic HOME fixtures and the perimeter checks on one spelling.
+          # Keep synthetic HOME fixtures and perimeter checks on one physical temp path.
           TEMP: ${{ runner.temp }}
           TMP: ${{ runner.temp }}
+          TMPDIR: ${{ runner.temp }}
+          VESPI_KERNEL_DIR: ${{ github.workspace }}/.ci/vespi-kernel
+          VESPI_KERNEL_ROOT: ${{ github.workspace }}/.ci/vespi-kernel

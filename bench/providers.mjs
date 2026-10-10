@@ -1,10 +1,10 @@
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
-import { basename, dirname, join, resolve, sep } from "node:path";
+import { basename, dirname, join, resolve, sep, win32 } from "node:path";
 
 export function resolveCodexBin(platform = process.platform, env = process.env, exists = existsSync) {
   if (env.CODEX_BIN) return env.CODEX_BIN;
   if (platform === "win32" && env.APPDATA) {
-    const npmBin = join(env.APPDATA, "npm", "codex.cmd");
+    const npmBin = win32.join(env.APPDATA, "npm", "codex.cmd");
     if (exists(npmBin)) return npmBin;
   }
   return "codex";
@@ -13,7 +13,7 @@ export function resolveCodexBin(platform = process.platform, env = process.env, 
 export function resolveCodexInvocation(platform = process.platform, env = process.env, exists = existsSync) {
   const bin = resolveCodexBin(platform, env, exists);
   if (platform !== "win32" || !env.APPDATA || env.CODEX_BIN) return { command: bin, prefix: [] };
-  const cli = join(env.APPDATA, "npm", "node_modules", "@openai", "codex", "bin", "codex.js");
+  const cli = win32.join(env.APPDATA, "npm", "node_modules", "@openai", "codex", "bin", "codex.js");
   return exists(cli) ? { command: process.execPath, prefix: [cli] } : { command: bin, prefix: [] };
 }
 

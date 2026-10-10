@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { join } from "node:path";
 
 import { adjudicate, resolveAdjudicationPaths } from "./adjudicate.mjs";
 
@@ -19,9 +20,9 @@ test("reveals frozen binary judgments into their raw run", () => {
 
 test("routes repair adjudication to the repair artifacts", () => {
   assert.deepEqual(resolveAdjudicationPaths("C:\\suite", true), {
-    blindRoot: "C:\\suite\\results\\repair-blind",
-    rawRoot: "C:\\suite\\results\\codex\\repair\\raw",
-    reviewPath: "C:\\suite\\results\\repair-blind-review.csv",
-    resultsPath: "C:\\suite\\results\\codex\\repair\\results.csv",
+    blindRoot: join("C:\\suite", "results", "repair-blind"),
+    rawRoot: join("C:\\suite", "results", "codex", "repair", "raw"),
+    reviewPath: join("C:\\suite", "results", "repair-blind-review.csv"),
+    resultsPath: join("C:\\suite", "results", "codex", "repair", "results.csv"),
   });
 });
