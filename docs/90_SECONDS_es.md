@@ -4,24 +4,21 @@
 
 ## El problema
 
-Resuelves algo difícil con una IA. A la semana siguiente, en un chat nuevo, se lo explicas otra vez.
-La IA no empeoró: simplemente nunca recibió lo que aprendiste. La experiencia fue real y no dejó una
-huella que restrinja nada.
-
-Acumular notas no lo arregla. Una nota responde *qué pasó*. Lo que necesitas respondido es *qué
-cambió en cómo decidimos, a raíz de lo que pasó*.
+Resuelves algo difícil con IA y la semana siguiente vuelves a explicarlo en un chat nuevo. La IA no
+empeoró: le falta la lección anterior. Acumular notas no ayuda si no dicen qué debe cambiar en una
+decisión futura. Una nota puede describir lo que pasó; un criterio conserva la lección que cambia lo
+que harás después. Lore guarda esa lección, no la conversación completa.
 
 ## El mecanismo
 
-Tres movimientos, y el del medio es un acto, no una carpeta:
+Tres movimientos. El del medio es deliberado: expresas una lección, la apruebas y la escribes como criterio:
 
 ```text
 experiencia (una fricción vivida)  →  destilación (un paso explícito, con puerta)  →  criterio (lore/)
 ```
 
-La destilación es donde una cicatriz se vuelve regla. Es deliberada: algo tiene que decirse en voz
-alta, aprobarse y escribirse. Nada entra solo — un contenedor que se llena a sí mismo satisface el
-impulso de preservar sin producir nada que restrinja una decisión.
+La destilación vuelve una lección una regla. Nada entra solo: expresas la lección, revisas el cambio
+y lo apruebas.
 
 ## Qué sale
 
@@ -33,34 +30,32 @@ Una **Pista Invariante** — `Contexto → Causa raíz → Pista → Confianza`.
 > *Pista:* **el estado inicial va en el markup; la librería lo confirma con `fromTo`, nunca lo crea.**
 > *Confianza:* `confirmed`.
 
-El examen de admisión es una sola pregunta: **¿esto restringe una decisión futura?** Si no, es
-descripción y se queda fuera. Es la parte que la gente se salta, y saltársela es como un `lore/` se
-convierte en una carpeta que nadie lee.
+La Pista debe servir más allá del error original: conserva el contexto necesario para aplicar la regla, no el relato completo del incidente.
+
+Conserva una lección solo si restringe una decisión futura. Si no, es descripción, no Lore. El
+contexto ayuda a reconocer cuándo aplica la Pista; la confianza indica cuánto se ha comprobado.
 
 ## Dónde vive
 
-El criterio que persiste va en `lore/`. El estado que avanza —la fase actual, el plan— va en
-`FASES.md`, fuera. Mezclarlos es la forma más común de que un Lore se pudra: el estado se agita, y la
-agitación entierra el criterio.
+El criterio persistente va en `lore/`; el estado que cambia, como la fase o el plan, va en `FASES.md`.
+Separarlos evita que los cambios de estado entierren el criterio estable.
 
-El criterio genérico vive **una sola vez**, en el área madre, y todos los proyectos lo heredan.
-Corriges una Pista en un lugar y lo ve todo.
+El criterio compartido vive una sola vez en el Área madre y sus proyectos lo heredan. El contrato del
+agente —`CLAUDE.md` o `AGENTS.md`— es un puntero breve a los archivos que el host debe cargar al
+abrir la sesión, así no tienes que copiar el criterio en cada conversación.
 
-Y una pieza carga antes que todas las demás. El contrato de tu agente —`CLAUDE.md` o `AGENTS.md`— es
-el único archivo que los dos hosts leen sin que nadie se lo pida, así que el kit le estampa un bloque
-delimitado que apunta a dónde vive el Lore. Ese bloque es la razón por la que algo de esto llega a la
-sesión: sin un ancla que cargue siempre primero, un `lore/` es una carpeta que el agente nunca abre.
+El criterio también puede quedar obsoleto. Revísalo y retira las reglas cuya validez terminó.
 
 ## Qué no es
 
-No es un README, no es un changelog, no es un documento de diseño. Esos describen. Lore restringe.
-
-Y la mayor parte de lo que pasa no sobrevive. Eso es el diseño: un Lore vale lo que cambia en
-decisiones futuras, nunca lo que guarda.
+Usa el README, changelog o documento de diseño para explicar el proyecto; usa Lore para reglas que
+guíen decisiones futuras.
 
 ## Y ahora también ejecuta
 
-Lore Plugin es el sistema operativo del trabajo con IA: guarda tu criterio, corre el método en silencio y ejecuta con Vespi. No necesitas saber qué es TDD, una spec o un plan maestro: trabajas y el kit aplica la disciplina sin que tengas que pedirla. (Identidad arbitrada 2026-10-02.)
+Lore Plugin mantiene el criterio del proyecto disponible entre sesiones y puede ejecutar operaciones
+acotadas con Vespi. Puedes empezar sin saber TDD ni spec-kit; la [referencia técnica](./REFERENCE_es.md)
+explica las herramientas.
 
 ## Empezar
 

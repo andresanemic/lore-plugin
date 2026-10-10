@@ -4,24 +4,21 @@
 
 ## The problem
 
-You solve something hard with an AI. Next week, in a new chat, you explain it again. The AI is not
-worse — it simply never received what you learned. The experience was real and it left no trace that
-constrains anything.
-
-Piling up notes does not fix it. A note answers *what happened*. What you need answered is *what
-changed in how we decide because of what happened*.
+You solve something hard with AI, then explain it again in a new chat next week. The AI did not get
+worse; it lacks the lesson from last time. More notes will not help unless they show what should
+change in a future decision. A note can describe the event; a criterion keeps the lesson that changes
+what you do next. Lore stores the lesson, not the whole conversation.
 
 ## The mechanism
 
-Three moves, and the middle one is an act, not a folder:
+Three moves. The middle one is deliberate: you state a lesson, approve it, and write it as criteria:
 
 ```text
 experience (a friction you lived)  →  distillation (an explicit pass, with a gate)  →  criteria (lore/)
 ```
 
-Distillation is where a scar becomes a rule. It is deliberate: something has to be said out loud,
-approved, and written. Nothing gets in automatically — a container that fills itself satisfies the
-urge to preserve without producing anything that constrains a decision.
+Distillation turns a lesson into a rule. Nothing enters automatically: you state it, review it, and
+approve the change.
 
 ## What comes out
 
@@ -32,34 +29,33 @@ An **invariant clue** — `Context → Root cause → Clue → Confidence`. A re
 > hydration, so the browser paints the final state first. *Clue:* **the initial state goes in the
 > markup; the library confirms it with `fromTo`, it never creates it.** *Confidence:* `confirmed`.
 
-The test for admission is one question: **does this constrain a future decision?** If not, it is
-description, and it stays out. This is the part people skip, and skipping it is how a `lore/` turns
-into a folder nobody reads.
+A clue should help beyond the original bug: keep the context needed to apply the rule, not the incident’s full story.
+
+Keep a lesson only if it constrains a future decision. Otherwise, it is a description, not Lore.
+Context helps a future reader recognize when the clue applies; confidence says how well it has been
+checked.
 
 ## Where it lives
 
-Criteria that persists goes in `lore/`. State that advances — the current phase, the plan — goes in
-`FASES.md`, outside it. Mixing the two is the most common way a Lore rots: the state churns, and the
-churn buries the criteria.
+Persistent criteria goes in `lore/`; changing state, such as the current phase or plan, goes in
+`FASES.md`. Keep them separate so changing plans do not bury stable criteria.
 
-Generic criteria lives **once**, in the mother area, and every project inherits it. Fix a clue in one
-place, everything sees it.
+Shared criteria lives once in the mother Area and is inherited by its projects. The agent's contract
+— `CLAUDE.md` or `AGENTS.md` — is a small pointer to the Lore files its host should load at session
+start, so you do not have to paste criteria into every conversation.
 
-And one piece loads before all the rest. Your agent's contract — `CLAUDE.md` or `AGENTS.md` — is the
-only file both hosts read without being asked, so the kit stamps a small delimited block into it
-pointing at where the Lore lives. That block is why any of this reaches the session at all: without an
-anchor that always loads first, a `lore/` is a folder the agent never opens.
+Criteria can become stale, too. Review them and remove rules whose validity has expired.
 
 ## What it is not
 
-Not a README, not a changelog, not a design doc. Those describe. Lore constrains.
-
-And most of what happens does not survive it. That is the design: a Lore is worth what it changes in
-future decisions, never what it holds.
+Use a README, changelog, or design doc to explain the project; use Lore for rules that guide future
+decisions.
 
 ## And now it also executes
 
-Lore Plugin is the operating system for working with AI: it keeps your criterion, runs the method silently, and executes with Vespi. You do not need to know what TDD, a spec, or a master plan is: you work and the kit applies the discipline without being asked. (Identity arbitrated 2026-10-02.)
+Lore Plugin keeps project criteria available across AI sessions and can run bounded operations with
+Vespi. You can begin without knowing TDD or spec-kit; the [technical reference](./REFERENCE_en.md)
+explains the tools.
 
 ## Start
 
