@@ -633,6 +633,7 @@ export function installClaude({ home, packageRoot }) {
 const CODEX_DEFAULT_SHIPPED = [
   ".claude-plugin/", ".codex-plugin/", "assets/", "commands/", "docs/", "hooks/", "skills/",
   "scripts/install-claude-statusline.mjs", "scripts/installer.mjs", "scripts/hygiene.mjs",
+  "scripts/vigilante.mjs", "scripts/fases-pre-commit.mjs",
   "scripts/lore-cli.mjs", "scripts/lore-plugin.mjs", "scripts/opencode-permissions.mjs",
   "scripts/operation-cli.mjs", "README.md", "LICENSE", "NOTICE",
 ];

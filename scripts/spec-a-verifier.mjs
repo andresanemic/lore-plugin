@@ -8,6 +8,12 @@ const DESTINATIONS = new Map([
   ["hooks/lore-state.mjs", "tree-or-session-temp"],
   ["hooks/lore-turno.mjs", "person-level-choice"],
   ["scripts/installer.mjs", "explicit-host-install"],
+  // 2.5.2: el vigilante escribe su recibo en la raíz que se le pide (`--escribir`); el pre-commit solo
+  // añade una línea de constancia al saltar la regla; `lore-plugin` instala el hook en un repo que
+  // la persona nombra. Ninguno escribe sin orden o sin un commit en curso.
+  ["scripts/vigilante.mjs", "explicit-root-receipt"],
+  ["scripts/fases-pre-commit.mjs", "repo-root-skip-log"],
+  ["scripts/lore-plugin.mjs", "explicit-repo-hook-install"],
   ["skills/vespi/core/verification-execution.mjs", "commissioned-proof-output-and-person-execution-key"],
   ["scripts/install-claude-statusline.mjs", "explicit-host-install"],
   ["scripts/rc8-verificar-hosts.mjs", "explicit-user-output"],

@@ -10,6 +10,7 @@ import { evaluateState, formatIntervention } from "../hooks/lore-guard.mjs";
 import { claimAnnounce, unnamedBodies, readReceipt, snapshot, writeReceipt, RECEIPT } from "../hooks/lore-state.mjs";
 import { DEFECTO_NIVEL, NIVELES, estado, estadoDir, marca } from "../hooks/lore-turno.mjs";
 import { scanHygiene, salidaHygiene } from "./hygiene.mjs";
+import { RECIBO, escribirRecibo, informe, verificar, verificarRecibo } from "./vigilante.mjs";
 
 const args = process.argv.slice(2);
 const command = args[0];
@@ -25,6 +26,9 @@ function usage(stream = process.stdout) {
     "       lore-plugin crystallize pack --bot <dir> --out <file.md>",
     "       lore-plugin crystallize extract --from <file.md> --out <dir>",
     "       lore-plugin hygiene [ruta] [--json]",
+    "       lore-plugin vigilante [raiz] [--json] [--escribir]   verifica desde afuera que cada FASES siga al trabajo",
+    "       lore-plugin vigilante verify <recibo>                recalcula el digest de un recibo",
+    "       lore-plugin fases install-hook [repo]                 pre-commit: sin FASES.md del arbol no entra el commit",
     "       lore-plugin operation <command> --root <dir> [--id <op>] [--json <payload>]",
     "       lore-plugin opencode-permissions [--project <dir>] [--from-routing] [--allow <path>...] [--write]",
     "       lore-plugin opencode-sandbox <dir> [--json]",
@@ -67,6 +71,45 @@ if (command === "hygiene") {
   // La redaccion vive en `hygiene.mjs` y no aca: la entrada local imprime el mismo escaneo
   // con la misma forma, y dos redacciones del mismo hecho son dos verdades.
   for (const linea of salidaHygiene(result, { json: args.includes("--json") })) console.log(linea);
+  process.exit(0);
+}
+
+// El vigilante (2.5.2): un proceso aparte del que trabaja. Sale con 1 si hay FASES desfasadas, y con
+// `--escribir` deja el recibo sellado en `.lore-vigilante.json`.
+if (command === "vigilante") {
+  if (args[1] === "verify") {
+    const r = verificarRecibo(resolve(args[2] ?? RECIBO));
+    console.log(r.ok ? `recibo íntegro: ${r.veredicto} (${r.arboles} árbol(es))` : `recibo NO verifica: ${r.motivo}`);
+    process.exit(r.ok ? 0 : 1);
+  }
+  const raiz = resolve(args.slice(1).find((a) => !a.startsWith("--")) ?? process.cwd());
+  const recibo = verificar(raiz);
+  if (args.includes("--escribir")) escribirRecibo(raiz, recibo);
+  console.log(args.includes("--json") ? JSON.stringify(recibo, null, 2) : informe(recibo));
+  process.exit(recibo.veredicto === "al-dia" ? 0 : 1);
+}
+
+// Instala el pre-commit que obliga a llevar FASES.md en el mismo commit que el trabajo del árbol.
+if (command === "fases" && args[1] === "install-hook") {
+  const { chmodSync, mkdirSync, writeFileSync, existsSync: hay, readFileSync: lee } = await import("node:fs");
+  const { execFileSync } = await import("node:child_process");
+  const repo = resolve(args[2] ?? process.cwd());
+  let top;
+  try { top = execFileSync("git", ["-C", repo, "rev-parse", "--show-toplevel"], { encoding: "utf8" }).trim(); }
+  catch { console.error(`${repo} no es un repositorio git: sin git no hay pre-commit que instalar (el vigilante sí corre).`); process.exit(2); }
+  const hooksDir = execFileSync("git", ["-C", top, "rev-parse", "--git-path", "hooks"], { encoding: "utf8" }).trim();
+  const dir = resolve(top, hooksDir);
+  mkdirSync(dir, { recursive: true });
+  const destino = join(dir, "pre-commit");
+  const MARCA = "# lore-plugin: fases-pre-commit";
+  if (hay(destino) && !lee(destino, "utf8").includes(MARCA)) {
+    console.error(`Ya hay un pre-commit propio en ${destino}; no lo piso. Añade esta línea a tu hook: node "${join(packageRoot, "scripts", "fases-pre-commit.mjs")}" || exit 1`);
+    process.exit(2);
+  }
+  const guion = join(packageRoot, "scripts", "fases-pre-commit.mjs").split("\\").join("/");
+  writeFileSync(destino, ["#!/bin/sh", MARCA, `node "${guion}" || exit 1`, ""].join("\n"));
+  try { chmodSync(destino, 0o755); } catch { /* en Windows el bit no aplica */ }
+  console.log(`pre-commit de FASES instalado en ${destino}`);
   process.exit(0);
 }
 

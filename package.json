@@ -25,6 +25,8 @@
     "hooks/",
     "scripts/baraja.mjs",
     "scripts/hygiene.mjs",
+    "scripts/vigilante.mjs",
+    "scripts/fases-pre-commit.mjs",
     "scripts/install-claude-statusline.mjs",
     "scripts/installer.mjs",
     "scripts/lore-cli.mjs",
