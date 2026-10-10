@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
+import { randomUUID } from "node:crypto";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
@@ -154,7 +155,7 @@ test("la jurisdicción se ancla en la raíz donde abrió la sesión, no en el cw
   for (const dir of [own, other]) mkdirSync(dir, { recursive: true });
   write(own, "lore/principios.md", "# Propio\n");
   write(other, "lore/principios.md", "# Ajeno\n");
-  const sessionId = `drift-${Date.now()}`;
+  const sessionId = `drift-${randomUUID()}`;
 
   assert.equal(run(own, "session_start", { session_id: sessionId }), "");
   // el cwd derivó al árbol ajeno; el propio sigue permitido y el ajeno se delega al host (nunca deny ni ask)
@@ -172,7 +173,7 @@ test("una compactación con el cwd derivado no re-ancla la jurisdicción", () =>
   for (const dir of [own, drifted]) mkdirSync(dir, { recursive: true });
   write(own, "lore/principios.md", "# Propio\n");
   write(drifted, "lore/principios.md", "# Ajeno\n");
-  const sessionId = `compact-${Date.now()}`;
+  const sessionId = `compact-${randomUUID()}`;
 
   assert.equal(run(own, "session_start", { session_id: sessionId, source: "startup" }), "");
   run(drifted, "session_start", { session_id: sessionId, source: "compact" });
