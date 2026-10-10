@@ -196,7 +196,7 @@ if (command === "hygiene") {
 // person, not the project, and has to hold in an area, in a bot and in a tree with no Lore.
 if (command === "nivel") {
   const pedido = args[1];
-  if (pedido === undefined || pedido === true) {
+  if (pedido === undefined) {
     console.log(`nivel: ${estado(estadoDir()).nivel} (${NIVELES.join(" | ")}; por defecto ${DEFECTO_NIVEL})`);
     process.exit(0);
   }

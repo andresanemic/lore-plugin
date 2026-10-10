@@ -125,6 +125,14 @@ export default {
       try {
         const sessionID = input && input.sessionID;
         const raizSesion = (typeof sessionID === "string" ? readSessionRoot(sessionID) : null) ?? raiz;
+        // Los avisos encolados (semilla de la puerta, escrituras desconocidas, intervenciones) salen
+        // aquí: sin esta lectura `pendiente` solo se escribía y el aviso no llegaba a nadie.
+        while (pendiente.length > 0) {
+          const aviso = pendiente.shift();
+          if (output && Array.isArray(output.system)) output.system.push(aviso);
+          else process.stderr.write(`[Lore Plugin] ${aviso}
+`);
+        }
         const turno = turnosHumanos.get(sessionID)?.turno;
         if (!turno) return;
         const r = inyeccion({ raiz: raizSesion, turno: turno === 1 ? null : turno, nivel: nivel() });

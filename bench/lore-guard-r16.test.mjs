@@ -72,7 +72,7 @@ test("R16: en una colmena con intercambio/, el hermano sin Lore también es ajen
   assert.equal(classifyWrite(own, join(hive, "agentes", "cliente", "canon", "f.md")), "foreign");
 });
 
-test("R16: el hook deja pasar lo desconocido con aviso y constancia en el registro", () => {
+test("R16: el hook deja pasar lo desconocido sin aviso y con constancia en el registro", () => {
   const own = mk("r16-own-"); put(own, "lore/principios.md");
   const logDir = mk("r16-log-");
   const loose = join(mk("r16-suelto-"), "x.md");
@@ -81,9 +81,8 @@ test("R16: el hook deja pasar lo desconocido con aviso y constancia en el regist
     encoding: "utf8",
     env: { ...process.env, LORE_GUARD_LOG_DIR: logDir },
   });
-  const parsed = JSON.parse(out);
-  assert.equal(parsed.hookSpecificOutput, undefined, "lo desconocido no se deniega");
-  assert.match(parsed.systemMessage, /fuera de un árbol con Lore/);
+  // 2.5.2: sin salida. Un systemMessage de PreToolUse se ve en rojo como error en Claude Code móvil.
+  assert.equal(out, "", "lo desconocido ni se deniega ni se anuncia");
   const log = join(logDir, "desconocidos.log");
   assert.ok(existsSync(log));
   assert.ok(readFileSync(log, "utf8").includes(loose), "la constancia nombra la ruta");

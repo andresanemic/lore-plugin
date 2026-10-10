@@ -121,6 +121,10 @@ if (event === "user_prompt_submit") {
     /* sin tmp: el numero no avanza y el recordatorio sigue llegando */
   }
   emite(turno);
+  // Este evento no evalúa nada del Lore y no bloquea nunca: termina aquí. Sin esta salida,
+  // cuando no había recordatorio que inyectar la ejecución seguía hasta el código de
+  // PostToolUse y armaba la línea base de la sesión desde un turno humano.
+  OK();
 }
 
 
@@ -157,20 +161,17 @@ if (event === "pre_tool_use") {
   // ask: un segundo veto de Lore sobre una ruta que la persona ya concedió obligaba a un humano
   // a hacer de mensajero o paraba una operación legítima (NC del 2026-10-02).
   const foreign = foreignWrites(jurisdiction, data.tool_name, data.tool_input);
+  // 2.5.2: la constancia queda en disco (`anotarDesconocidos`) y el aviso se retira. Una escritura
+  // permitida no es un fallo, y en Claude Code móvil (Remote Control) un `systemMessage` de
+  // PreToolUse se pinta en rojo como `PreToolUse:Write says: …`, igual que un error.
   if (foreign.length > 0) {
     anotarDesconocidos(jurisdiction, data.tool_name, foreign);
-    process.stdout.write(JSON.stringify({
-      systemMessage: `Lore Plugin: escritura en otro árbol con Lore, la decide el permiso de tu host y queda anotada: ${foreign.join(", ")}`,
-    }));
     OK();
   }
-  // R16: lo desconocido pasa con aviso y constancia; nunca se bloquea.
+  // R16: lo desconocido pasa con constancia y sin aviso; nunca se bloquea.
   const unknown = unknownWrites(jurisdiction, data.tool_name, data.tool_input);
   if (unknown.length > 0) {
     anotarDesconocidos(jurisdiction, data.tool_name, unknown);
-    process.stdout.write(JSON.stringify({
-      systemMessage: `Lore Plugin: escritura fuera de un árbol con Lore, permitida y anotada: ${unknown.join(", ")}`,
-    }));
   }
   OK();
 }

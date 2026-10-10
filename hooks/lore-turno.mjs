@@ -235,6 +235,9 @@ function puertaDeOperacion(raiz) {
   return `operacion ${limpieza(entrada.id)} abierta en ${entrada.file} · estado ${limpieza(entrada.state)} · veredicto ${limpieza(entrada.reason)}`
     + ` · siguiente ${limpieza(entrada.next_step)}`
     + (pendiente ? ` · pendiente ${pendiente}` : "")
+    + (Array.isArray(entrada.also_open) && entrada.also_open.length > 0
+      ? ` · tambien abiertas ${entrada.also_open.map((id) => limpieza(id)).join(", ")}`
+      : "")
     + ` · primera respuesta: nombra este archivo y el siguiente paso en menos de diez palabras, sin afirmar una acción aún no ejecutada`
     + ` · antes de coordinar, abre ${entrada.file}`;
 }

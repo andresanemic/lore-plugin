@@ -89,8 +89,6 @@ function usage() {
     "  effect-permission {requestId, action, destination} comprueba vigencia; no ejecuta el efecto",
     "  trace      {events}                  guarda la traza relacional validada por separado",
     "  self-report {report|null}            registra solo declaracion explicita del usuario",
-    "  trace      {events}                  guarda la traza relacional validada por separado",
-    "  self-report {report|null}            registra solo declaracion explicita del usuario",
     "  review     {reviewer, checked, notes}",
     "  verify     {verifier, observed, evidence}",
     "  integrate  {destination}",

@@ -118,11 +118,11 @@ function preMove(cwd, source, target, sessionId = freshSession()) {
 
 // RC7: la guardia identifica y anota una escritura en otro árbol, pero no decide. La decisión
 // es del permiso nativo del host (allow, ask o deny), que ya recoge lo que la persona concedió.
-function delega(salida, ruta) {
-  const r = JSON.parse(salida);
-  assert.equal(r.hookSpecificOutput, undefined, "la guardia no decide: delega en el permiso del host");
-  assert.match(r.systemMessage, /la decide el permiso de tu host/);
-  if (ruta) assert.ok(r.systemMessage.includes(ruta), "nombra la ruta escrita");
+// 2.5.2: delegar al host es callar. La guardia no decide (ni deny ni ask) y tampoco avisa: una
+// escritura permitida no es un fallo, y el `systemMessage` de PreToolUse se pinta en rojo en
+// Claude Code móvil. La constancia queda en el log de desconocidos, no en pantalla.
+function delega(salida, _ruta) {
+  assert.equal(salida, "", "la guardia no decide ni avisa: delega en el permiso del host");
 }
 
 test("PreToolUse permite el scratchpad de la sesión aunque esté fuera del árbol", () => {
@@ -192,8 +192,8 @@ test("el aviso de una escritura en otro árbol no manda a un lugar inexistente n
   mkdirSync(join(otherTree, "lore"), { recursive: true });
   const outside = join(otherTree, "x.md");
   delega(claudePreWrite(own, outside), outside);
-  const aviso = JSON.parse(claudePreWrite(own, outside)).systemMessage;
-  assert.doesNotMatch(aviso, /intercambio|propón el cambio/i);
+  // Sin aviso no hay nada que mande a un lugar inexistente ni pida abstenerse.
+  assert.equal(claudePreWrite(own, outside), "");
 });
 
 test.after(() => {
