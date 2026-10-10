@@ -11,6 +11,7 @@ const repo = join(dirname(fileURLToPath(import.meta.url)), "..");
 const hook = join(repo, "hooks", "codex-guard.mjs");
 const receipt = ".lore-mycelium";
 const roots = [];
+const sessionIdsByCwd = new Map();
 
 function tree(files = { "lore/principios.md": "# Principios\n" }) {
   const dir = mkdtempSync(join(tmpdir(), "codex-lore-"));
@@ -26,10 +27,12 @@ function write(dir, rel, body) {
 }
 
 function run(cwd, event, payload = {}) {
+  const sessionId = payload.session_id ?? sessionIdsByCwd.get(cwd) ?? `probe-${randomUUID()}`;
+  sessionIdsByCwd.set(cwd, sessionId);
   const input = {
     cwd,
     hook_event_name: event === "session_start" ? "SessionStart" : "PostToolUse",
-    session_id: "probe-session",
+    session_id: sessionId,
     transcript_path: join(cwd, "transcript.jsonl"),
     model: "probe-model",
     permission_mode: "never",
