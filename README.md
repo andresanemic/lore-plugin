@@ -470,6 +470,8 @@ Morin gives this work its ethical north: in UNESCO's [*Seven Complex Lessons in 
 
 The full **LUS + Lore Plugin** talk — what Lore Plugin is, the LUS research behind it, and how a project goes from zero to its first useful Lore: **[open the deck →](https://drive.google.com/file/d/1lG5DOOS6z4Kzz6PfZIPP2RXW_LXN_U1g/view?usp=sharing)**
 
+Watch the **Vespi demo video**: **[open on YouTube →](https://www.youtube.com/watch?v=uJMd11gs3KE)**
+
 ---
 
 
@@ -1026,6 +1028,8 @@ Morin le da a este trabajo su norte ético: en la edición de UNESCO de [*Los si
 </p>
 
 La charla completa de **LUS + Lore Plugin** — qué es Lore Plugin, la investigación LUS que hay detrás y cómo un proyecto va de cero a su primer Lore útil: **[abrir el deck →](https://drive.google.com/file/d/1LkcSXeVLxstZiNhiVpq8zU1_Kn-61qUl/view?usp=drive_link)**
+
+Mira el **video de la demo de Vespi**: **[abrir en YouTube →](https://www.youtube.com/watch?v=uJMd11gs3KE)**
 
 ---
 
