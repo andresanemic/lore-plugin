@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Pre-commit de git: un commit que cambia el trabajo de un árbol con Lore no entra sin el FASES.md
 // de ese árbol en el mismo commit. Es la mitad que obliga; la otra, `vigilante`, verifica desde afuera.
+// Corre `plugins/lore/principios.md` §52 (una regla que depende de que alguien se acuerde no gobierna) y la pista «Lo que Andrés pide se escribe en FASES en el mismo turno» de `bot-lus-lore/lore/principios.md`.
 //
 // Va en git y no en un hook del host a propósito: corre igual desde Claude Code, Codex, OpenCode o
 // una persona, y lo que muestra es la salida de `git commit`, no un mensaje del host que el agente

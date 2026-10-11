@@ -1,4 +1,5 @@
 // El vigilante de las FASES — Lore Plugin 2.5.2.
+// Corre `plugins/lore/principios.md` §52: el tercero que vigila una regla puesta en el camino.
 //
 // Verifica desde afuera, con un proceso aparte del que trabaja, que el estado de cada árbol con Lore
 // (área, proyecto, bot: cualquier directorio con `FASES.md`) siga a su trabajo. Toma de Farolero que
