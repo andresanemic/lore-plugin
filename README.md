@@ -357,7 +357,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** An Area 
 
 ## Vespi
 
-**Vespi is the kernel under Lore Plugin. This cut carries frozen kernel 0.1.6.**
+**Vespi is the kernel under Lore Plugin. This cut carries frozen kernel 0.1.6.** Reviewed, not audited: the only reviews so far are our own superreviews with Claude Code, and there is no independent external security audit.
 
 <p align="center">
   <img src="./assets/vespi-B.png" alt="Vespi" width="100%">
@@ -892,7 +892,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 ## Vespi
 
-**Vespi es el kernel de Lore Plugin. Este corte lleva el kernel 0.1.6 congelado.**
+**Vespi es el kernel de Lore Plugin. Este corte lleva el kernel 0.1.6 congelado.** Revisado, no auditado: las únicas revisiones hasta ahora son nuestras propias superreviews con Claude Code, y no hay auditoría de seguridad externa independiente.
 
 <p align="center">
   <img src="./assets/vespi-B.png" alt="Vespi" width="100%">

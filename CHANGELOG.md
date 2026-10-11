@@ -11,6 +11,7 @@ Lo que entra: los commits locales posteriores a 2.5.1.
 - **CI:** run full suite across platforms; make CI suite portable across hosted runners; keep CI source fixtures outside the scanned tree; fix CI and keep Meridian links under Vespi.
 - **Fix:** parse the shipped code again, two CodeQL-unreadable files; remove CodeQL flagged code construction and regex.
 - **Hero:** simplify bilingual guides for 2.5.1; hero Spanish matches English; hero outside expandable; clean hero: separate languages, no mixed noise.
-- **Kernel fijado:** 0.1.6 (commit 7767daa369e464b486ddf16b08b8985e59ec107d).
+- **Revisión:** superreview con la revisión de código multiagente de Claude Code, ocho hallazgos y tres normales corregidos; no hay auditoría de seguridad externa independiente.
+- **Kernel fijado:** 0.1.6 (commit 98a33280fb35cb1fc7feda483e7dd57b97362c49).
 
 Suite (Windows, `npm test`, 2026-10-11): 1109 pruebas, 1103 aprobadas, 0 fallas, 6 omitidas.
