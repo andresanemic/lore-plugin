@@ -1,5 +1,5 @@
 // Vendored copy — canonical source is founder/proyectos/vespi/kernel/src/receipt.js
-// (kernel 0.1.5, release/0.1.5-prep branch, commit ed559e8). Edit the canonical source, then re-copy here;
+// (kernel 0.1.6, master branch, commit 95f2d61). Edit the canonical source, then re-copy here;
 // this file is not the source of truth.
 'use strict';
 

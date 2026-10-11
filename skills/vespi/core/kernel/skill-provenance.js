@@ -1,5 +1,5 @@
 // Vendored copy — canonical source is founder/proyectos/vespi/kernel/src/skill-provenance.js
-// (kernel 0.1.5, release/0.1.5-prep branch, commit ed559e8). Edit the canonical source, then re-copy here;
+// (kernel 0.1.6, master branch, commit 95f2d61). Edit the canonical source, then re-copy here;
 // this file is not the source of truth.
 'use strict';
 
@@ -386,7 +386,8 @@ function grantedList(value, label) {
   for (let index = 0; index < capture.names.length; index += 1) {
     const name = capabilityName(capture.names[index]);
     if (name === null) throw new Error(`${label} must hold capability names without wildcards`);
-    if (!listedIn(names, name)) names[index] = name;
+    // push, not names[index]: a duplicate that precedes a unique name must not leave a hole.
+    if (!listedIn(names, name)) names.push(name);
   }
   return names;
 }

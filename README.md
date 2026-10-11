@@ -6,7 +6,7 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.5.1-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.5.2-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/AI_provider-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="AI provider: neutral"></a>
   <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#what-is-lore"><img src="https://img.shields.io/badge/criteria-approved-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Criteria are written with your approval"></a>
@@ -357,7 +357,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** An Area 
 
 ## Vespi
 
-**Vespi is the kernel under Lore Plugin. This cut carries frozen kernel 0.1.5.**
+**Vespi is the kernel under Lore Plugin. This cut carries frozen kernel 0.1.6.**
 
 <p align="center">
   <img src="./assets/vespi-B.png" alt="Vespi" width="100%">
@@ -365,7 +365,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** An Area 
 
 Lore Plugin is the ground: your criterion, written once, and the routing that opens the right one for each task. Vespi is what runs on that ground: an operation under an authority you grant, checked apart from whoever carries it out, that leaves a receipt anyone can verify. It does not write your Lore and it does not decide for you: it says what it sees, states its assumptions as assumptions, and the choice is yours.
 
-Version 2.5.1 makes the next action explicit when a session opens. Coordinated ordinary work leaves an operation record, and verification runs a commissioned check before certification. Rejected results remain visible and require fresh review after correction. Deterministic checks and explicitly authorized semantic review have different limits; execution does not guarantee judgment. [Release notes](./docs/RELEASE_2.5.1.md) · [Execution and limits](./docs/VERIFICATION-EXECUTION.md).
+Version 2.5.2 makes the next action explicit when a session opens. Coordinated ordinary work leaves an operation record, and verification runs a commissioned check before certification. Rejected results remain visible and require fresh review after correction. Deterministic checks and explicitly authorized semantic review have different limits; execution does not guarantee judgment. [Release notes](./docs/RELEASE_2.5.2.md) · [Execution and limits](./docs/VERIFICATION-EXECUTION.md).
 
 Earlier operation features and their limits remain documented in [the 2.4.9 release](./docs/RELEASE_2.4.9.md).
 
@@ -506,7 +506,7 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.5.1-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
+  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.5.2-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
   <a href="#instalación"><img src="https://img.shields.io/badge/proveedor_IA-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Proveedor IA: neutral"></a>
   <a href="./docs/SPEC_KIT_es.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#qué-es-lore"><img src="https://img.shields.io/badge/criteria-approved-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="El criterio se escribe con tu aprobación"></a>
@@ -892,7 +892,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 ## Vespi
 
-**Vespi es el kernel de Lore Plugin. Este corte lleva el kernel 0.1.5 congelado.**
+**Vespi es el kernel de Lore Plugin. Este corte lleva el kernel 0.1.6 congelado.**
 
 <p align="center">
   <img src="./assets/vespi-B.png" alt="Vespi" width="100%">
@@ -900,7 +900,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 Lore Plugin es el terreno: tu criterio escrito una vez y el enrutamiento que abre el correcto para cada tarea. Vespi es lo que corre sobre ese terreno: una operación bajo una autoridad que tú otorgas, verificada aparte de quien la ejecuta, que deja un recibo que cualquiera puede comprobar. No escribe tu Lore ni decide por ti: te dice lo que ve, dice sus suposiciones como suposiciones, y la elección es tuya.
 
-La versión 2.5.1 hace explícita la siguiente acción al abrir una sesión. El trabajo ordinario que requiere coordinación deja un registro de operación y la verificación ejecuta una prueba comisionada antes de certificar. Los rechazos quedan visibles y corregir exige una revisión nueva. Las comprobaciones deterministas y la revisión semántica autorizada tienen límites distintos; ejecutar no garantiza comprender. [Nota de versión](./docs/RELEASE_2.5.1.md) · [Ejecución y límites](./docs/VERIFICATION-EXECUTION.md).
+La versión 2.5.2 hace explícita la siguiente acción al abrir una sesión. El trabajo ordinario que requiere coordinación deja un registro de operación y la verificación ejecuta una prueba comisionada antes de certificar. Los rechazos quedan visibles y corregir exige una revisión nueva. Las comprobaciones deterministas y la revisión semántica autorizada tienen límites distintos; ejecutar no garantiza comprender. [Nota de versión](./docs/RELEASE_2.5.2.md) · [Ejecución y límites](./docs/VERIFICATION-EXECUTION.md).
 
 Las funciones anteriores de operaciones y sus límites se conservan en [la nota de 2.4.9](./docs/RELEASE_2.4.9.md).
 

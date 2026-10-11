@@ -3,7 +3,7 @@
 # From a new machine to the first project with portable criteria
 
 **Field version 0.2 · Windows x64 · Written: 2026-10-04**  
-**Lore Plugin 2.5.1 with the pinned Vespi kernel 0.1.5; published 2026-10-08.** Interfaces, free models, and installation methods change. Check the sources before following this walkthrough.
+**Lore Plugin 2.5.2 (local cut, not yet published) with the pinned Vespi kernel 0.1.6.** Interfaces, free models, and installation methods change. Check the sources before following this walkthrough.
 
 ## The idea
 
@@ -132,7 +132,7 @@ After restarting, ask the agent which Superpowers skills it detects and check th
 
 ### 5. Install Lore Plugin in OpenCode
 
-In OpenCode, use the kit installer from a repository clone. You need Git and Node.js. Use the public `v2.5.1` clone for this walkthrough. From a local clone of this branch:
+In OpenCode, use the kit installer from a repository clone. You need Git and Node.js. Use the public `v2.5.2` clone for this walkthrough. From a local clone of this branch:
 
 ```powershell
 git clone https://github.com/andresanemic/lore-plugin.git "$env:USERPROFILE\Tools\lore-plugin"
@@ -150,7 +150,7 @@ Install Lore Plugin from my local clone with node scripts/lore-plugin.mjs instal
 
 **Gate 5 — GREEN: Lore installed**
 
-Restart OpenCode. Ask the host to list its Lore skills without running any. The kit contains eight main Lore skills: `use-lore`, `brainstorming-lore`, `create-area`, `create-project`, `save-to-lore`, `transmute-lore`, `create-bot`, and `stale-lore`. Version 2.5.1 also includes the experimental `vespi` skill. `obsidian-lore` is not part of the kit. Check paths, duplicates, and successful installer verification. If `obsidian-lore` appears, note its path and confirm whether it is left over from another install before removing it. Do not create Lore yet: this is the right point to end the first day.
+Restart OpenCode. Ask the host to list its Lore skills without running any. The kit contains eight main Lore skills: `use-lore`, `brainstorming-lore`, `create-area`, `create-project`, `save-to-lore`, `transmute-lore`, `create-bot`, and `stale-lore`. Version 2.5.2 also includes the experimental `vespi` skill. `obsidian-lore` is not part of the kit. Check paths, duplicates, and successful installer verification. If `obsidian-lore` appears, note its path and confirm whether it is left over from another install before removing it. Do not create Lore yet: this is the right point to end the first day.
 
 **We tell the agent:**
 
@@ -170,7 +170,7 @@ Claude Code is another host and does not inherit OpenCode skills. On Windows, us
 Install Claude Code on Windows with `irm https://claude.ai/install.ps1 | iex`. Explain the command and wait for my approval. Do not use my credentials or sign in. Check claude --version and claude doctor, record the result, and stop before login.
 ```
 
-From the same `v2.5.1` clone you used for OpenCode, run Claude's installer. It calls Claude Code's official marketplace, installs the kit's local CLI, and connects the status mark. It depends on the `v2.5.1` release being available in the public repository:
+From the same `v2.5.2` clone you used for OpenCode, run Claude's installer. It calls Claude Code's official marketplace, installs the kit's local CLI, and connects the status mark. It depends on the `v2.5.2` release being available in the public repository:
 
 ```powershell
 node scripts/lore-plugin.mjs install --target claude
@@ -179,7 +179,7 @@ node scripts/lore-plugin.mjs install --target claude
 **We tell the agent:**
 
 ```text
-Run node scripts/lore-plugin.mjs install --target claude from the `v2.5.1` clone. Before changing anything, explain the marketplace commands and local paths you will touch. Do not use my credentials. Open a new session and confirm the eight main Lore skills and `vespi`. Do not delete existing installs without showing their paths.
+Run node scripts/lore-plugin.mjs install --target claude from the `v2.5.2` clone. Before changing anything, explain the marketplace commands and local paths you will touch. Do not use my credentials. Open a new session and confirm the eight main Lore skills and `vespi`. Do not delete existing installs without showing their paths.
 ```
 
 Open a new session as Claude Code directs.
@@ -190,7 +190,7 @@ Confirm that Claude Code starts a session and its skill selector shows the eight
 
 ### 7. Codex, if you need it
 
-Codex is optional. From a local clone, `node scripts/lore-plugin.mjs install --target codex` copies the package and prepares the personal marketplace. Then run `codex plugin add lore@personal` and enable it in Codex. Public commands use the `v2.5.1` release.
+Codex is optional. From a local clone, `node scripts/lore-plugin.mjs install --target codex` copies the package and prepares the personal marketplace. Then run `codex plugin add lore@personal` and enable it in Codex. Public commands use the `v2.5.2` release.
 
 **We tell the agent:**
 
@@ -283,11 +283,11 @@ I want to create <project-path>/vespi-demo.md and continue after this session. C
 
 The block appears under `## Operaciones` in `FASES.md`; permission matches the declared effect; the check observed the file; and the receipt separates coverage from limits. End the session, return to the project, and ask to continue. Before proceeding, the coordinator rereads the contract, `FASES.md`, receipt, and authority. If a material premise changed or evidence is insufficient, it stops and asks for the missing decision.
 
-### What 0.1.5 includes and does not include
+### What 0.1.6 includes and does not include
 
-The kit pins the frozen Vespi 0.1.5 cut from commit `ed559e83c976dd6e6a379a5510db776206f670b4`, with operations, granted authority, human decisions, receipts, bounded delegations, and resuming. The facade `skills/vespi/core/vespi.mjs` declares, from the vendored copy, the four optional surfaces present (`capabilities.md` only describes them): emergency permission, skill provenance, x402 payments, and ZK verification. `zk-bn254-reference.js`, an experimental cryptographic reference, and the SDK-backed x402 bridge are excluded; the surfaces are not connected automatically and remain in field validation.
+The kit pins the frozen Vespi 0.1.6 cut from commit `95f2d614f4492056c8bb2cd951f08d1089027d4f`, with operations, granted authority, human decisions, receipts, bounded delegations, and resuming. The facade `skills/vespi/core/vespi.mjs` declares, from the vendored copy, the four optional surfaces present (`capabilities.md` only describes them): emergency permission, skill provenance, x402 payments, and ZK verification. `zk-bn254-reference.js`, an experimental cryptographic reference, and the SDK-backed x402 bridge are excluded; the surfaces are not connected automatically and remain in field validation.
 
-The kernel documentation includes historical testnet evidence; this walkthrough does not run transactions, and that evidence is not an audit. Version 0.1.5 lacks receipt chaining with `prev`, intent recorded before effects, accumulated budgets, `narrow(parent, child)`, and a resume epoch. The host supplies the clock; injected ports are trusted code, not a sandbox. A digest protects integrity, not approval identity or external effects.
+The kernel documentation includes historical testnet evidence; this walkthrough does not run transactions, and that evidence is not an audit. Version 0.1.6 lacks receipt chaining with `prev`, intent recorded before effects, accumulated budgets, `narrow(parent, child)`, and a resume epoch. The host supplies the clock; injected ports are trusted code, not a sandbox. A digest protects integrity, not approval identity or external effects.
 
 ## Continuity after compaction
 
@@ -319,8 +319,8 @@ Field version written on 2026-10-04. Interfaces, free models, and installation m
 - Codex, plugins and marketplaces: https://developers.openai.com/plugins/build/plugins (checked 2026-10-05).
 - Superpowers, per-host installation and OpenCode guide: https://github.com/obra/superpowers and https://github.com/obra/superpowers/blob/main/docs/README.opencode.md (checked 2026-10-05).
 - Git for Windows, WinGet, Visual Studio Code, and Obsidian: https://git-scm.com/install/windows, https://learn.microsoft.com/windows/package-manager/winget/install, https://code.visualstudio.com/Download, and https://obsidian.md/help/Getting%2Bstarted/Download%2Band%2Binstall%2BObsidian (checked 2026-10-05).
-- Lore Plugin, install source, commands, and eight main skills: `README.md`, `scripts/installer.mjs`, `scripts/lore-plugin.mjs`, and `skills/` in this kit. Use the `v2.5.1` release for the public install commands.
-- Vespi 0.1.5 and evidence: `skills/vespi/SKILL.md`, `skills/vespi/capabilities.md`, `skills/vespi/core/kernel/SOURCE.md`, `docs/RELEASE_2.5.1.md` in this kit, and `README.md`, `docs/CAPABILITIES.md`, `docs/RELEASE_0.1.5_KERNEL.md`, `docs/WALKTHROUGH.md`, and `docs/TESTNET_EVIDENCE.md` in the kernel repository. This does not imply a live connection from the kit.
+- Lore Plugin, install source, commands, and eight main skills: `README.md`, `scripts/installer.mjs`, `scripts/lore-plugin.mjs`, and `skills/` in this kit. Use the `v2.5.2` release for the public install commands.
+- Vespi 0.1.6 and evidence: `skills/vespi/SKILL.md`, `skills/vespi/capabilities.md`, `skills/vespi/core/kernel/SOURCE.md`, `docs/RELEASE_2.5.2.md` in this kit, and `README.md`, `docs/CAPABILITIES.md`, `docs/RELEASE_0.1.5_KERNEL.md`, `docs/WALKTHROUGH.md`, and `docs/TESTNET_EVIDENCE.md` in the kernel repository. This does not imply a live connection from the kit.
 
 ## Provenance note
 

@@ -6,7 +6,7 @@ y cómo migrar un proyecto existente. Para la motivación, la arquitectura de un
 todos los documentos, consulta el [`README.md`](../README.md); para la versión de 90 segundos,
 [`90_SECONDS_es.md`](./90_SECONDS_es.md).
 
-Esta referencia describe el corte candidato de Lore Plugin 2.5.1, con fecha de publicación pendiente, y la copia fija del kernel Vespi 0.1.5 en el commit `ed559e83c976dd6e6a379a5510db776206f670b4`. Incluye diez módulos, con superficies opcionales de emergencia, procedencia de skills, x402 y ZK; excluye `zk-bn254-reference.js`, una referencia criptográfica experimental, y el puente x402 con el SDK real. Consulta [`RELEASE_2.4.9.md`](./RELEASE_2.4.9.md) para ver el resumen.
+Esta referencia describe el corte candidato de Lore Plugin 2.5.2, con fecha de publicación pendiente, y la copia fija del kernel Vespi 0.1.6 en el commit `95f2d614f4492056c8bb2cd951f08d1089027d4f`. Incluye diez módulos, con superficies opcionales de emergencia, procedencia de skills, x402 y ZK; excluye `zk-bn254-reference.js`, una referencia criptográfica experimental, y el puente x402 con el SDK real. Consulta [`RELEASE_2.4.9.md`](./RELEASE_2.4.9.md) para ver el resumen.
 
 ---
 
@@ -640,7 +640,7 @@ Usa `create-bot` cuando quieras una sola sesión que trabaje sobre varios proyec
 
 **Rol:** verificar qué capacidades publicadas del kit no se ejercieron y retirarlas de forma declarativa. Deriva la lista de capacidades centrales de tres fuentes — el bloque `<!-- lore:always-on -->`, el README y las skills publicadas — y luego busca en el árbol del usuario prueba de ejercicio (recibos del kernel, menciones en `FASES.md`, contenido del árbol). Una capacidad sin rastro dentro del umbral (7 días por defecto) se marca `stale` y se retira con una entrada de changelog que nombra qué, cuándo, cuánto y por qué.
 
-**El retiro es declarativo, no quirúrgico:** escribe una entrada de changelog y marca el campo `ejercido` del recibo; nunca borra la skill ni edita el `lore/` del usuario. Una capacidad publicada pero nunca ejercida está **stale, no rota** — esta skill juzga ejercicio, no calidad. El kernel 0.1.5 lee `ejercido` de forma nativa; en 0.1.4 viaja como extensión compatible.
+**El retiro es declarativo, no quirúrgico:** escribe una entrada de changelog y marca el campo `ejercido` del recibo; nunca borra la skill ni edita el `lore/` del usuario. Una capacidad publicada pero nunca ejercida está **stale, no rota** — esta skill juzga ejercicio, no calidad. El kernel 0.1.6 lee `ejercido` de forma nativa; en 0.1.4 viaja como extensión compatible.
 
 **Úsala** en una pasada programada, antes de un release, o cuando las promesas publicadas del kit deban corresponder con su superficie ejercida. **Nunca:** edita contratos, guarda lecciones (eso es `save-to-lore`), ni edita el `lore/` del usuario (eso es `transmute-lore`).
 

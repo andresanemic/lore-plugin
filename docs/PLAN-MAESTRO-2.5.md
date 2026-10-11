@@ -168,7 +168,7 @@ migración conceptual inmediata.»* **El cuerpo viejo nunca se reporta como roto
 | 3 | **Benchmark: se corre** | las dos filas de la tabla, y el resultado se guarda con comando y commit |
 | 4 | `security-review` real | **tú lo lanzas**, sobre lo congelado |
 | 5 | **Congelar y publicar 2.5 con el benchmark encima** | tu palabra |
-| 6 | 2.5.1 el sábado, con el segundo benchmark | si hay tokens |
+| 6 | 2.5.2 el sábado, con el segundo benchmark | si hay tokens |
 
 **Lo que no se publica sin tu palabra:** el tag, el release, y cualquier cosa en redes. Las cuatro
 piezas de comunicación siguen en `Diseñando`.

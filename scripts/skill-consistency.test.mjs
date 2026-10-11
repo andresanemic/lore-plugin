@@ -435,7 +435,7 @@ test("las cuatro fuentes de versión publicable coinciden", () => {
     JSON.parse(readFileSync(join(root, ".claude-plugin", "marketplace.json"), "utf8")).metadata.version,
     JSON.parse(readFileSync(join(root, ".codex-plugin", "plugin.json"), "utf8")).version,
   ];
-  assert.deepEqual(new Set(versions), new Set(["2.5.1"]));
+  assert.deepEqual(new Set(versions), new Set(["2.5.2"]));
 });
 
 // andamiaje/lore-plugin/lore/principios.md #12: la nota sirve al usuario que actualiza el producto.

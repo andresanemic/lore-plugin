@@ -38,4 +38,4 @@ En 2.5.0, la Party está implementada parcialmente:
 - El verificador existe como principio.
 - Falta: el contador de fallos y el arbitro explícito.
 
-En 2.5.1, la Party estará completa con el contador de fallos y el arbitro.
+En 2.5.2, la Party estará completa con el contador de fallos y el arbitro.

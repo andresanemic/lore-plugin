@@ -1,4 +1,4 @@
-# Arbitraje de cartas — 2.5.1
+# Arbitraje de cartas — 2.5.2
 
 Regla de producto aprobada por el dueño el 2026-10-08. No constituye un resultado científico ni prueba de fertilidad.
 
