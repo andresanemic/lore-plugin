@@ -26,7 +26,7 @@ console.log(`   resultado: ⚠️  ADVERTENCIA — la baraja no tiene punto de e
 
 // 4. Kernel 0.1.5 vendorizado
 console.log("4. Kernel 0.1.5 vendorizado:");
-console.log(`   SOURCE.md declara: 0.1.6, commit ed99f6e`);
+console.log(`   SOURCE.md declara: 0.1.6, commit 39d4573`);
 console.log(`   zk-bn254-reference.js: excluido`);
 console.log(`   resultado: ✅ PASA\n`);
 

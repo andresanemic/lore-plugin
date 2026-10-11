@@ -1,8 +1,8 @@
 # Vespi kernel copy provenance
 
-Fixed copy of the Vespi kernel **0.1.6** in Lore Plugin 2.5.2, published on 2026-10-11. Canonical source: `founder/proyectos/vespi/kernel/src/`, branch `master`, commit `ed99f6ef11c59552f48d0bb62ba575fa5d50c2fa`.
+Fixed copy of the Vespi kernel **0.1.6** in Lore Plugin 2.5.2, published on 2026-10-11. Canonical source: `founder/proyectos/vespi/kernel/src/`, branch `master`, commit `39d45733839d0a05f60248fc6e5b81c892c464f8`.
 
-Each module carries a three-line provenance header followed by the exact committed source bytes. The table below does not verify itself: `bench/vespi-kernel-provenance.test.mjs` compares the body with `git show ed99f6ef11c59552f48d0bb62ba575fa5d50c2fa:src/<file>`.
+Each module carries a three-line provenance header followed by the exact committed source bytes. The table below does not verify itself: `bench/vespi-kernel-provenance.test.mjs` compares the body with `git show 39d45733839d0a05f60248fc6e5b81c892c464f8:src/<file>`.
 
 | Module | SHA-256 of source bytes | Bytes |
 |---|---|---|

@@ -20,6 +20,16 @@
 
 <p align="center"><a href="./docs/90_SECONDS_en.md">Start with the 90-second guide →</a> · <a href="https://github.com/andresanemic/lore-plugin">Clone the repository</a></p>
 
+### Where this is going: Vespi Hive
+
+Lore Plugin is powerful and, today, it asks you to learn its vocabulary and work from a terminal. That entry barrier is what **Vespi Hive** removes: an app that runs on top of this kit and the Vespi kernel, with a graphical interface, so that nobody needs the commands, the terms or the files. What you see below is a proof of concept with fictional data. It is not the installable app; it is what we build next.
+
+![Vespi Hive proof of concept: companions with a limit written on each one, and medals earned only by verified operations](./assets/hive/hive-poc-en.jpg)
+
+**Not sure whether to try it?** Share this repository's link with your AI agent, ask what Lore Plugin and Vespi are, and let it tell you whether it recommends installing them in one of your projects.
+
+**In plain words.** *Lore*: your project's criteria, as plain Markdown files you approve. *Save to Lore*: turn a correction you made into a criterion for next time. *Prune*: retire rules that no longer apply. *Graft*: bring in an idea from outside only after checking where it loses against your criteria. *Transmute*: reorganize or migrate a Lore tree. *Crystallize*: pack a bot's criteria into one file to carry it elsewhere.
+
 ---
 
 <details>
@@ -529,6 +539,16 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 </p>
 
 <p align="center"><a href="./docs/90_SECONDS_es.md">Empieza con la guía de 90 segundos →</a> · <a href="https://github.com/andresanemic/lore-plugin">Clona el repositorio</a></p>
+
+### Hacia dónde va: Vespi Hive
+
+Lore Plugin es potente y, hoy, te pide aprender su vocabulario y trabajar desde una terminal. Esa barrera de entrada es lo que quita **Vespi Hive**: una app que corre sobre este kit y el kernel de Vespi, con interfaz gráfica, para que nadie necesite los comandos, los términos ni los archivos. Lo que ves abajo es una prueba de concepto con datos ficticios. No es la app instalable; es lo que construimos después.
+
+![Prueba de concepto de Vespi Hive: compañeras con un límite escrito en cada una y medallas que solo gana una operación verificada](./assets/hive/hive-poc-es.jpg)
+
+**¿No sabes si probarlo?** Comparte el enlace de este repositorio con tu agente de IA, pregúntale de qué tratan Lore Plugin y Vespi y deja que te diga si te recomienda instalarlos en alguno de tus proyectos.
+
+**En palabras simples.** *Lore*: los criterios de tu proyecto, como archivos Markdown que tú apruebas. *Guardar en Lore*: convertir una corrección tuya en un criterio para la próxima vez. *Podar*: retirar reglas que ya no aplican. *Injertar*: traer una idea de afuera solo después de ver dónde pierde frente a tus criterios. *Transmutar*: reorganizar o migrar un árbol de Lore. *Cristalizar*: empacar los criterios de un bot en un solo archivo para llevarlo a otro lado.
 
 ---
 
