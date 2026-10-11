@@ -385,7 +385,7 @@ Version 2.5.2 makes the next action explicit when a session opens. Coordinated o
 
 Earlier operation features and their limits remain documented in [the 2.4.9 release](./docs/RELEASE_2.4.9.md).
 
-**Vespi Meridian Edition 1.0:** [Website — vespi.xyz](https://vespi.xyz) · [Tutorial in English](https://docs.google.com/document/d/1gwu3gBIJwgevCrGPyMv-J1UfjegggYDu/edit?usp=sharing&ouid=113358117411001923633&rtpof=true&sd=true) · [Deck in English](https://drive.google.com/file/d/1lG5DOOS6z4Kzz6PfZIPP2RXW_LXN_U1g/view?usp=drive_link). Materials supplied by Andrés; website deployment was not verified in this review, so these links do not extend the kernel’s verified scope.
+**Vespi Meridian Edition 1.0:** [Website — vespi.xyz](https://vespi.xyz) · [Demo video](https://www.youtube.com/watch?v=uJMd11gs3KE) · [Tutorial in English](https://docs.google.com/document/d/1gwu3gBIJwgevCrGPyMv-J1UfjegggYDu/edit?usp=sharing&ouid=113358117411001923633&rtpof=true&sd=true) · [LUS + Lore Plugin deck in English](https://drive.google.com/file/d/1lG5DOOS6z4Kzz6PfZIPP2RXW_LXN_U1g/view?usp=drive_link). The website, the video and these materials are outside the reviewed scope of the frozen kernel.
 
 ## Loose notes
 
@@ -938,7 +938,7 @@ La versión 2.5.2 hace explícita la siguiente acción al abrir una sesión. El 
 
 Las funciones anteriores de operaciones y sus límites se conservan en [la nota de 2.4.9](./docs/RELEASE_2.4.9.md).
 
-**Vespi Meridian Edition 1.0:** [Sitio — vespi.xyz](https://vespi.xyz) · [Tutorial en español](https://docs.google.com/document/d/1wj3yfr0Iyi8e3szUawJ4Q-mNb7EmySM-/edit?usp=drive_link&ouid=113358117411001923633&rtpof=true&sd=true) · [Deck en español](https://drive.google.com/file/d/1LkcSXeVLxstZiNhiVpq8zU1_Kn-61qUl/view?usp=drive_link). Materiales proporcionados por Andrés; el despliegue del sitio no se verificó en esta revisión, por lo que estos enlaces no amplían el alcance verificado del kernel.
+**Vespi Meridian Edition 1.0:** [Sitio — vespi.xyz](https://vespi.xyz) · [Video de la demo](https://www.youtube.com/watch?v=uJMd11gs3KE) · [Tutorial en español](https://docs.google.com/document/d/1wj3yfr0Iyi8e3szUawJ4Q-mNb7EmySM-/edit?usp=drive_link&ouid=113358117411001923633&rtpof=true&sd=true) · [Deck LUS + Lore Plugin en español](https://drive.google.com/file/d/1LkcSXeVLxstZiNhiVpq8zU1_Kn-61qUl/view?usp=drive_link). El sitio, el video y estos materiales quedan fuera del alcance revisado del kernel congelado.
 
 ## Notas sueltas
 
