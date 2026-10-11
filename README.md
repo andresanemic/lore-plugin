@@ -1005,7 +1005,7 @@ Lore no se diseñó de antemano: cada decisión salió de aplicarlo a proyectos 
 
 <p align="center">
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/static/v1?label=4057%2B&amp;message=clonaciones+registradas&amp;color=FF557A&amp;style=for-the-badge&amp;labelColor=0B0B12" alt="4.057+ clonaciones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/static/v1?label=98&amp;message=d%C3%ADas&amp;color=22D9EE&amp;style=for-the-badge&amp;labelColor=0B0B12" alt="98 días"></a>
+  <a href="./data/traffic/clones.json"><img src="./assets/badge-98-dias.svg" alt="98 días"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~41-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="41 al día"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-pico-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 pico"></a>
 </p>
