@@ -518,8 +518,8 @@ test("la versión del paquete sincroniza badges y conserva la nota de 2.4.9", ()
   const releasePath = join(root, "docs", "RELEASE_2.4.9.md");
   const version = JSON.parse(readFileSync(join(root, "package.json"), "utf8")).version;
   const badges = [...readme.matchAll(/badge\/(?:version|versi%C3%B3n)-([^/]+?)-[A-Fa-f0-9]{6}/g)];
-  assert.equal(badges.length, 2);
-  assert.ok(badges.every(match => match[1] === version), "ambos idiomas deben mostrar la versión real del paquete");
+  assert.equal(badges.length, 1);
+  assert.ok(badges.every(match => match[1] === version), "el badge del hero inglés debe mostrar la versión real del paquete");
   assert.ok(existsSync(join(root, "docs", "RELEASE_2.4.8.md")), "la nota de 2.4.8 se conserva como historia");
   // Decisión de Andrés 2026-10-05: el badge writing-skills sale de la portada (vuelta al 2.4.8); la disciplina sigue en la prosa.
   assert.doesNotMatch(readme, /writing--skills-/);
