@@ -385,7 +385,7 @@ Version 2.5.2 makes the next action explicit when a session opens. Coordinated o
 
 Earlier operation features and their limits remain documented in [the 2.4.9 release](./docs/RELEASE_2.4.9.md).
 
-**Vespi Meridian Edition 1.0:** [Website — vespi.xyz](https://vespi.xyz) · [Demo video](https://www.youtube.com/watch?v=uJMd11gs3KE) · [Tutorial in English](https://docs.google.com/document/d/1gwu3gBIJwgevCrGPyMv-J1UfjegggYDu/edit?usp=sharing&ouid=113358117411001923633&rtpof=true&sd=true) · [LUS + Lore Plugin deck in English](https://drive.google.com/file/d/1lG5DOOS6z4Kzz6PfZIPP2RXW_LXN_U1g/view?usp=drive_link). The website, the video and these materials are outside the reviewed scope of the frozen kernel.
+**Vespi Meridian Edition 1.0:** [Website — vespi.xyz](https://vespi.xyz) · [Demo video](https://www.youtube.com/watch?v=g2iw29M6WI0) · [Tutorial in English](https://docs.google.com/document/d/1gwu3gBIJwgevCrGPyMv-J1UfjegggYDu/edit?usp=sharing&ouid=113358117411001923633&rtpof=true&sd=true) · [LUS + Lore Plugin deck in English](https://drive.google.com/file/d/1lG5DOOS6z4Kzz6PfZIPP2RXW_LXN_U1g/view?usp=drive_link). The website, the video and these materials are outside the reviewed scope of the frozen kernel.
 
 ## Loose notes
 
@@ -470,7 +470,7 @@ Morin gives this work its ethical north: in UNESCO's [*Seven Complex Lessons in 
 
 The full **LUS + Lore Plugin** talk — what Lore Plugin is, the LUS research behind it, and how a project goes from zero to its first useful Lore: **[open the deck →](https://drive.google.com/file/d/1lG5DOOS6z4Kzz6PfZIPP2RXW_LXN_U1g/view?usp=sharing)**
 
-Watch the **Vespi demo video**: **[open on YouTube →](https://www.youtube.com/watch?v=uJMd11gs3KE)**
+Watch the **Vespi demo video**: **[open on YouTube →](https://www.youtube.com/watch?v=g2iw29M6WI0)**
 
 ---
 
@@ -938,7 +938,7 @@ La versión 2.5.2 hace explícita la siguiente acción al abrir una sesión. El 
 
 Las funciones anteriores de operaciones y sus límites se conservan en [la nota de 2.4.9](./docs/RELEASE_2.4.9.md).
 
-**Vespi Meridian Edition 1.0:** [Sitio — vespi.xyz](https://vespi.xyz) · [Video de la demo](https://www.youtube.com/watch?v=uJMd11gs3KE) · [Tutorial en español](https://docs.google.com/document/d/1wj3yfr0Iyi8e3szUawJ4Q-mNb7EmySM-/edit?usp=drive_link&ouid=113358117411001923633&rtpof=true&sd=true) · [Deck LUS + Lore Plugin en español](https://drive.google.com/file/d/1LkcSXeVLxstZiNhiVpq8zU1_Kn-61qUl/view?usp=drive_link). El sitio, el video y estos materiales quedan fuera del alcance revisado del kernel congelado.
+**Vespi Meridian Edition 1.0:** [Sitio — vespi.xyz](https://vespi.xyz) · [Video de la demo](https://www.youtube.com/watch?v=g2iw29M6WI0) · [Tutorial en español](https://docs.google.com/document/d/1wj3yfr0Iyi8e3szUawJ4Q-mNb7EmySM-/edit?usp=drive_link&ouid=113358117411001923633&rtpof=true&sd=true) · [Deck LUS + Lore Plugin en español](https://drive.google.com/file/d/1LkcSXeVLxstZiNhiVpq8zU1_Kn-61qUl/view?usp=drive_link). El sitio, el video y estos materiales quedan fuera del alcance revisado del kernel congelado.
 
 ## Notas sueltas
 
@@ -1029,7 +1029,7 @@ Morin le da a este trabajo su norte ético: en la edición de UNESCO de [*Los si
 
 La charla completa de **LUS + Lore Plugin** — qué es Lore Plugin, la investigación LUS que hay detrás y cómo un proyecto va de cero a su primer Lore útil: **[abrir el deck →](https://drive.google.com/file/d/1LkcSXeVLxstZiNhiVpq8zU1_Kn-61qUl/view?usp=drive_link)**
 
-Mira el **video de la demo de Vespi**: **[abrir en YouTube →](https://www.youtube.com/watch?v=uJMd11gs3KE)**
+Mira el **video de la demo de Vespi**: **[abrir en YouTube →](https://www.youtube.com/watch?v=g2iw29M6WI0)**
 
 ---
 
