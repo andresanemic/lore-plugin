@@ -2,7 +2,7 @@
 
 ## 2.5.2 — Servine
 
-Lo que entra: los 24 commits locales posteriores a 2.5.1.
+Lo que entra: los commits locales posteriores a 2.5.1.
 
 - **Vigilante de FASES:** verificador externo de FASES y pre-commit que las obliga; el pre-commit de FASES y el vigilante nombran la ley 52 que corren.
 - **Hooks:** los tres hallazgos normales de la superreview y el aviso rojo de PreToolUse.
