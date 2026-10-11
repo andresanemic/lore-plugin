@@ -24,7 +24,7 @@
 
 **In plain words.** *Lore*: your project's criteria, as plain Markdown files you approve. *Save to Lore*: turn a correction you made into a criterion for next time. *Prune*: retire rules that no longer apply. *Graft*: bring in an idea from outside only after checking where it loses against your criteria. *Transmute*: reorganize or migrate a Lore tree. *Crystallize*: pack a bot's criteria into one file to carry it elsewhere.
 
-**Where this is going.** Today you run Lore Plugin from a terminal, and that is the entry barrier. **Vespi Hive** is the app we are building on top of this kit and the Vespi kernel so it keeps coming down: a graphical interface where nobody needs the command line, the vocabulary or the files. **And Vespi Hive will be built with Vespi.** It is not installable yet. [Try the interactive Hive POC](https://vespi.xyz/) on the site: prepared examples you can edit locally, without connecting to AI.
+**Where this is going.** Today you run Lore Plugin from a terminal, and that is the entry barrier. **Vespi Hive** is the app we are building on top of this kit and the Vespi kernel so it keeps coming down: a graphical interface where nobody needs the command line, the vocabulary or the files. **And Vespi Hive will be built with Vespi.** It is not installable yet. [Try the interactive Hive POC](https://vespi.xyz/) on the site: a UX/UI MVP where you can choose agents and save criteria and workflows in your browser, without connecting to AI.
 
 ---
 
@@ -542,7 +542,7 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 
 **En palabras simples.** *Lore*: los criterios de tu proyecto, como archivos Markdown que tú apruebas. *Guardar en Lore*: convertir una corrección tuya en un criterio para la próxima vez. *Podar*: retirar reglas que ya no aplican. *Injertar*: traer una idea de afuera solo después de ver dónde pierde frente a tus criterios. *Transmutar*: reorganizar o migrar un árbol de Lore. *Cristalizar*: empacar los criterios de un bot en un solo archivo para llevarlo a otro lado.
 
-**Hacia dónde va.** Hoy corres Lore Plugin desde una terminal, y esa es la barrera de entrada. **Vespi Hive** es la app que construimos sobre este kit y el kernel de Vespi para que siga bajando: una interfaz gráfica donde nadie necesita la línea de comandos, el vocabulario ni los archivos. **Y Vespi Hive será construida con Vespi.** Aún no es instalable. [Prueba el POC interactivo de Hive](https://vespi.xyz/) en el sitio: ejemplos preparados que puedes editar localmente, sin conectar con una IA.
+**Hacia dónde va.** Hoy corres Lore Plugin desde una terminal, y esa es la barrera de entrada. **Vespi Hive** es la app que construimos sobre este kit y el kernel de Vespi para que siga bajando: una interfaz gráfica donde nadie necesita la línea de comandos, el vocabulario ni los archivos. **Y Vespi Hive será construida con Vespi.** Aún no es instalable. [Prueba el POC interactivo de Hive](https://vespi.xyz/) en el sitio: un MVP UX/UI donde puedes elegir agentes y guardar criterios y workflows en tu navegador, sin conectar con una IA.
 
 ---
 
