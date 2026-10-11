@@ -20,15 +20,11 @@
 
 <p align="center"><a href="./docs/90_SECONDS_en.md">Start with the 90-second guide →</a> · <a href="https://github.com/andresanemic/lore-plugin">Clone the repository</a></p>
 
-### Where this is going: Vespi Hive
-
-Lore Plugin is powerful and, today, it asks you to learn its vocabulary and work from a terminal. That entry barrier is what **Vespi Hive** removes: an app that runs on top of this kit and the Vespi kernel, with a graphical interface, so that nobody needs the commands, the terms or the files. What you see below is a proof of concept with fictional data. It is not the installable app; it is what we build next.
-
-![Vespi Hive proof of concept: companions with a limit written on each one, and medals earned only by verified operations](./assets/hive/hive-poc-en.jpg)
-
 **Not sure whether to try it?** Share this repository's link with your AI agent, ask what Lore Plugin and Vespi are, and let it tell you whether it recommends installing them in one of your projects.
 
 **In plain words.** *Lore*: your project's criteria, as plain Markdown files you approve. *Save to Lore*: turn a correction you made into a criterion for next time. *Prune*: retire rules that no longer apply. *Graft*: bring in an idea from outside only after checking where it loses against your criteria. *Transmute*: reorganize or migrate a Lore tree. *Crystallize*: pack a bot's criteria into one file to carry it elsewhere.
+
+**Where this is going.** Today you run Lore Plugin from a terminal, and that is the entry barrier. **Vespi Hive** is the app we are building on top of this kit and the Vespi kernel so it keeps coming down: a graphical interface where nobody needs the command line, the vocabulary or the files. It is not installable yet.
 
 ---
 
@@ -472,7 +468,7 @@ Morin gives this work its ethical north: in UNESCO's [*Seven Complex Lessons in 
   <img src="./assets/deck-cover-en.png" alt="LUS + Lore Plugin deck — cover slide" width="100%">
 </p>
 
-The full **LUS + Lore Plugin** talk — what Lore Plugin is, the LUS research behind it, and how a project goes from zero to its first useful Lore: **[open the deck →](https://docs.google.com/presentation/d/1p1JoHTVL_A1EW3hG82E6rZpyysznmJbb/edit?usp=sharing)**
+The full **LUS + Lore Plugin** talk — what Lore Plugin is, the LUS research behind it, and how a project goes from zero to its first useful Lore: **[open the deck →](https://drive.google.com/file/d/1lG5DOOS6z4Kzz6PfZIPP2RXW_LXN_U1g/view?usp=sharing)**
 
 ---
 
@@ -540,15 +536,11 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 
 <p align="center"><a href="./docs/90_SECONDS_es.md">Empieza con la guía de 90 segundos →</a> · <a href="https://github.com/andresanemic/lore-plugin">Clona el repositorio</a></p>
 
-### Hacia dónde va: Vespi Hive
-
-Lore Plugin es potente y, hoy, te pide aprender su vocabulario y trabajar desde una terminal. Esa barrera de entrada es lo que quita **Vespi Hive**: una app que corre sobre este kit y el kernel de Vespi, con interfaz gráfica, para que nadie necesite los comandos, los términos ni los archivos. Lo que ves abajo es una prueba de concepto con datos ficticios. No es la app instalable; es lo que construimos después.
-
-![Prueba de concepto de Vespi Hive: compañeras con un límite escrito en cada una y medallas que solo gana una operación verificada](./assets/hive/hive-poc-es.jpg)
-
 **¿No sabes si probarlo?** Comparte el enlace de este repositorio con tu agente de IA, pregúntale de qué tratan Lore Plugin y Vespi y deja que te diga si te recomienda instalarlos en alguno de tus proyectos.
 
 **En palabras simples.** *Lore*: los criterios de tu proyecto, como archivos Markdown que tú apruebas. *Guardar en Lore*: convertir una corrección tuya en un criterio para la próxima vez. *Podar*: retirar reglas que ya no aplican. *Injertar*: traer una idea de afuera solo después de ver dónde pierde frente a tus criterios. *Transmutar*: reorganizar o migrar un árbol de Lore. *Cristalizar*: empacar los criterios de un bot en un solo archivo para llevarlo a otro lado.
+
+**Hacia dónde va.** Hoy corres Lore Plugin desde una terminal, y esa es la barrera de entrada. **Vespi Hive** es la app que construimos sobre este kit y el kernel de Vespi para que siga bajando: una interfaz gráfica donde nadie necesita la línea de comandos, el vocabulario ni los archivos. Aún no es instalable.
 
 ---
 
@@ -1006,7 +998,7 @@ Lore no se diseñó de antemano: cada decisión salió de aplicarlo a proyectos 
 ## Alcance
 
 <p align="center">
-  <img src="./assets/reach-es.png" alt="3.000+ clonaciones y sumando" width="100%">
+  <img src="./assets/reach-es.png" alt="4.000+ clonaciones desde el lanzamiento (registradas, no personas únicas)" width="100%">
 </p>
 
 <p align="center">
@@ -1033,7 +1025,7 @@ Morin le da a este trabajo su norte ético: en la edición de UNESCO de [*Los si
   <img src="./assets/deck-cover.png" alt="Deck LUS + Lore Plugin — portada" width="100%">
 </p>
 
-La charla completa de **LUS + Lore Plugin** — qué es Lore Plugin, la investigación LUS que hay detrás y cómo un proyecto va de cero a su primer Lore útil: **[abrir el deck →](https://docs.google.com/presentation/d/1eg0OBUwm86yMp3OYFBX_z9pyLrXPCKZV/edit?usp=sharing)**
+La charla completa de **LUS + Lore Plugin** — qué es Lore Plugin, la investigación LUS que hay detrás y cómo un proyecto va de cero a su primer Lore útil: **[abrir el deck →](https://drive.google.com/file/d/1LkcSXeVLxstZiNhiVpq8zU1_Kn-61qUl/view?usp=drive_link)**
 
 ---
 
