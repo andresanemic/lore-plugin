@@ -446,8 +446,8 @@ Lore was not designed ahead of time: every decision came from applying it to rea
 
 <p align="center">
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/static/v1?label=4057%2B&amp;message=recorded+clones&amp;color=FF557A&amp;style=for-the-badge&amp;labelColor=0B0B12" alt="4,057+ recorded clones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/95-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="95 days"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~39-a_day-F94F79?style=for-the-badge&labelColor=0B0B12" alt="39 a day"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/98-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="98 days"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~41-a_day-F94F79?style=for-the-badge&labelColor=0B0B12" alt="41 a day"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-peak-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 peak"></a>
 </p>
 
@@ -1005,8 +1005,8 @@ Lore no se diseñó de antemano: cada decisión salió de aplicarlo a proyectos 
 
 <p align="center">
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/static/v1?label=4057%2B&amp;message=clonaciones+registradas&amp;color=FF557A&amp;style=for-the-badge&amp;labelColor=0B0B12" alt="4.057+ clonaciones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/95-d%C3%ADas-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="95 días"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~39-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="39 al día"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/98-d%C3%ADas-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="98 días"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~41-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="41 al día"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-pico-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 pico"></a>
 </p>
 
