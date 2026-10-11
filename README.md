@@ -445,17 +445,17 @@ Lore was not designed ahead of time: every decision came from applying it to rea
 ## Reach
 
 <p align="center">
-  <img src="./assets/reach-en.png" alt="3,000+ clones and counting" width="100%">
+  <img src="./assets/reach-en.png" alt="4,000+ clones since launch (recorded, not unique people)" width="100%">
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/static/v1?label=3722%2B&amp;message=recorded+clones&amp;color=FF557A&amp;style=for-the-badge&amp;labelColor=0B0B12" alt="3,722+ clones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/static/v1?label=4057%2B&amp;message=recorded+clones&amp;color=FF557A&amp;style=for-the-badge&amp;labelColor=0B0B12" alt="4,057+ recorded clones"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/95-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="95 days"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~39-a_day-F94F79?style=for-the-badge&labelColor=0B0B12" alt="39 a day"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-peak-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 peak"></a>
 </p>
 
-GitHub traffic windows preserved in [`data/traffic/clones.json`](./data/traffic/clones.json). A **recorded minimum, consulted on 2026-10-08; latest API day: 2026-10-07 (UTC)**. Today is not a completed day in the API response.
+**4,000+ recorded clones since launch** (4,057 through 2026-10-10: 3,722 preserved through 2026-10-07 plus 335 from the GitHub API for 2026-10-08 to 10-10; clones, not unique people). GitHub traffic windows preserved in [`data/traffic/clones.json`](./data/traffic/clones.json). A **recorded minimum, consulted on 2026-10-08; latest API day: 2026-10-07 (UTC)**. Today is not a completed day in the API response.
 
 Lore Plugin is the technical arm of LUS, not a productivity system with philosophy attached. The product measure tests a narrow claim; it does not validate LUS as a whole. [The research boundary is explicit here.](./docs/LUS_en.md)
 
