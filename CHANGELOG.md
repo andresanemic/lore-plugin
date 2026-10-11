@@ -12,6 +12,7 @@ Lo que entra: los commits locales posteriores a 2.5.1.
 - **Fix:** parse the shipped code again, two CodeQL-unreadable files; remove CodeQL flagged code construction and regex.
 - **Hero:** simplify bilingual guides for 2.5.1; hero Spanish matches English; hero outside expandable; clean hero: separate languages, no mixed noise.
 - **Revisión:** superreview con la revisión de código multiagente de Claude Code, ocho hallazgos y tres normales corregidos; no hay auditoría de seguridad externa independiente.
-- **Kernel fijado:** 0.1.6 (commit 98a33280fb35cb1fc7feda483e7dd57b97362c49).
+- **Instalador:** el README dice qué toca `install` en OpenCode y en Codex y cómo volver atrás; se probó en un home aislado. Todavía no hay comando para desinstalar.
+- **Kernel fijado:** 0.1.6 (commit ed99f6ef11c59552f48d0bb62ba575fa5d50c2fa).
 
 Suite (Windows, `npm test`, 2026-10-11): 1109 pruebas, 1103 aprobadas, 0 fallas, 6 omitidas.

@@ -141,6 +141,16 @@ To target one host, replace `all`. OpenCode receives Lore's skills, hooks and TU
 
 If you already use a host plugin manager, these shorter routes install the same package without keeping a separate checkout.
 
+### What the installer touches, and how to go back
+
+`install` writes to your user directory, never to your projects. To see it first, run it with a throwaway home: `HOME=$(mktemp -d) node scripts/lore-plugin.mjs install --target opencode` (on Windows, point `HOME` and `USERPROFILE` at an empty folder).
+
+- **OpenCode:** `~/.config/opencode/skills/` (the Lore skills), `plugin/` and `plugins/` (the hook and the status mark), `lore-plugin.json` and one entry in `tui.json`; plus `~/.lore-plugin/`.
+- **Codex:** `~/.agents/plugins/plugins/lore/`, an entry in `~/.agents/plugins/marketplace.json` and `~/.lore-plugin/`; then `codex plugin add lore@personal` registers it in Codex.
+- **Claude Code:** the plugin goes through Claude Code's own marketplace; remove it with Claude Code's plugin commands.
+
+There is no uninstall command yet. To go back, delete the paths above, and remove the status mark with `node scripts/lore-plugin.mjs statusline uninstall`. If you keep your own configuration in `~/.config/opencode`, back it up first.
+
 ### Claude Code
 
 Run these commands inside Claude Code:
@@ -635,6 +645,16 @@ codex plugin add lore@personal
 Para un host, reemplaza `all`. OpenCode recibe las skills, hooks y marca TUI de Lore.
 
 Si ya usas el gestor de plugins de un host, estas rutas más cortas instalan el mismo paquete sin conservar un checkout separado.
+
+### Qué toca el instalador y cómo volver atrás
+
+`install` escribe en tu directorio de usuario, nunca en tus proyectos. Para verlo antes, corre con un home desechable: `HOME=$(mktemp -d) node scripts/lore-plugin.mjs install --target opencode` (en Windows, apunta `HOME` y `USERPROFILE` a una carpeta vacía).
+
+- **OpenCode:** `~/.config/opencode/skills/` (las skills de Lore), `plugin/` y `plugins/` (el hook y la marca de estado), `lore-plugin.json` y una entrada en `tui.json`; más `~/.lore-plugin/`.
+- **Codex:** `~/.agents/plugins/plugins/lore/`, una entrada en `~/.agents/plugins/marketplace.json` y `~/.lore-plugin/`; después `codex plugin add lore@personal` lo registra en Codex.
+- **Claude Code:** el plugin entra por el marketplace de Claude Code; se quita con los comandos de plugins de Claude Code.
+
+Todavía no hay un comando para desinstalar. Para volver atrás, borra las rutas de arriba y quita la marca de estado con `node scripts/lore-plugin.mjs statusline uninstall`. Si guardas tu propia configuración en `~/.config/opencode`, haz una copia antes.
 
 ### Claude Code
 

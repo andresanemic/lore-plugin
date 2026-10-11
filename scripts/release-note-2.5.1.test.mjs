@@ -31,5 +31,5 @@ test('documentación vigente refleja kernel fijo y límite semántico acordados'
  const readme=readFileSync(new URL('../README.md',import.meta.url),'utf8');
  assert.match(readme,/frozen kernel 0\.1\.6/); assert.match(readme,/kernel 0\.1\.6 congelado/);
  const verification=readFileSync(new URL('../docs/VERIFICATION-EXECUTION.md',import.meta.url),'utf8'); assert.match(verification,/128,000-byte/); assert.doesNotMatch(verification,/64 KiB/);
- for(const lang of ['en','es']){const ref=readFileSync(new URL('../docs/REFERENCE_'+lang+'.md',import.meta.url),'utf8');assert.match(ref.slice(0,1200),/Lore Plugin 2\.5\.2/);assert.match(ref.slice(0,1200),/98a33280fb35cb1fc7feda483e7dd57b97362c49/);}
+ for(const lang of ['en','es']){const ref=readFileSync(new URL('../docs/REFERENCE_'+lang+'.md',import.meta.url),'utf8');assert.match(ref.slice(0,1200),/Lore Plugin 2\.5\.2/);assert.match(ref.slice(0,1200),/ed99f6ef11c59552f48d0bb62ba575fa5d50c2fa/);}
 });
