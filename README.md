@@ -451,7 +451,7 @@ Lore was not designed ahead of time: every decision came from applying it to rea
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-peak-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 peak"></a>
 </p>
 
-**4,000+ recorded clones since launch** (4,057 through 2026-10-10: 3,722 preserved through 2026-10-07 plus 335 from the GitHub API for 2026-10-08 to 10-10; clones, not unique people). GitHub traffic windows preserved in [`data/traffic/clones.json`](./data/traffic/clones.json). A **recorded minimum, consulted on 2026-10-08; latest API day: 2026-10-07 (UTC)**. Today is not a completed day in the API response.
+**4,000+ recorded clones since launch** (4,057 through 2026-10-10: 3,722 preserved through 2026-10-07 plus 335 from the GitHub API for 2026-10-08 to 10-10; clones, not unique people). GitHub traffic windows preserved in [`data/traffic/clones.json`](./data/traffic/clones.json). A **recorded minimum, consulted on 2026-10-11; latest API day: 2026-10-10 (UTC)**. The current day is not a completed day in the API response.
 
 Lore Plugin is the technical arm of LUS, not a productivity system with philosophy attached. The product measure tests a narrow claim; it does not validate LUS as a whole. [The research boundary is explicit here.](./docs/LUS_en.md)
 
@@ -1010,7 +1010,7 @@ Lore no se diseñó de antemano: cada decisión salió de aplicarlo a proyectos 
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-pico-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 pico"></a>
 </p>
 
-Ventanas GitHub preservadas en [`data/traffic/clones.json`](./data/traffic/clones.json). Un **mínimo registrado, consultado el 2026-10-08; último día de la API: 2026-10-07 (UTC)**. La respuesta aún no contiene un día completo de hoy.
+Ventanas GitHub preservadas en [`data/traffic/clones.json`](./data/traffic/clones.json). Un **mínimo registrado, consultado el 2026-10-11; último día de la API: 2026-10-10 (UTC)**. La respuesta no contiene un día completo del día en curso.
 
 Lore Plugin es el brazo técnico de LUS, no un sistema de productividad con filosofía agregada. La medición del producto prueba una afirmación acotada; no valida LUS como conjunto. [La frontera de investigación está explícita acá.](./docs/LUS_es.md)
 
