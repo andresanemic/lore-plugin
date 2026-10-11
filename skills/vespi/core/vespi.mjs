@@ -1,6 +1,6 @@
 // vespi core facade — RC3 experimental.
 // Ported kernel (operation/authority/receipt/continuity/delegation/time: a 3-line provenance header,
-// then exact bytes from the pinned Vespi kernel 0.1.6, commit 95f2d614f4492056c8bb2cd951f08d1089027d4f,
+// then exact bytes from the pinned Vespi kernel 0.1.6, commit 7767daa369e464b486ddf16b08b8985e59ec107d,
 // branch release/0.1.4-prep, canonical source founder/proyectos/vespi/kernel/src/ —
 // digests in ./kernel/SOURCE.md; pinned snapshot, never edited in place)
 // plus RC3 truthfulness wrappers. No scheduler, no router, no managers.
