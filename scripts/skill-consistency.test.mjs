@@ -642,7 +642,9 @@ test("el README identifica el modelo del benchmark en ambos idiomas", () => {
   // The README points readers to the complete benchmark instead of repeating its methods/results.
   assert.match(text, /\[Read the benchmark →\]\(\.\/bench\/effect-2\.3\.2\/\)/);
   assert.match(text, /\[Lee el benchmark →\]\(\.\/bench\/effect-2\.3\.2\/\)/);
-  assert.equal((text.match(/NotebookLM/g) ?? []).length >= 2, true);
+  // Research introductions remain linked in each language; NotebookLM is no longer duplicated here.
+  assert.match(text, /\[LUS research overview\]\(\.\/docs\/LUS_en\.md\)/);
+  assert.match(text, /\[presentación de LUS\]\(\.\/docs\/LUS_es\.md\)/);
   assert.match(text, /\[LUS explains the research questions and their evidence boundaries\]/);
   assert.match(text, /\[LUS explica sus preguntas y los límites de su evidencia\]/);
 });

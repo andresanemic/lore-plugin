@@ -231,13 +231,59 @@ Claude Code does not receive routine hook context: its adapter is deliberately a
 
 </details>
 
-Then open a new CLI session. **If this is your first time, you need no command** — write *«I want to start using Lore Plugin, help me»* and the kit opens a **brainstorming, not a menu**: it receives you first, then looks at your tree, asks one question at a time, and ends with your **first artifact created**, never with a recommendation. If you already know what you want, `use-lore` routes you.
+Then open a new CLI session. **If this is your first time, you need no command** — write *«I want to start using Lore Plugin, help me»* and the kit opens a **brainstorming, not a menu**: it receives you first, then looks at your tree, asks one question at a time, and ends with your **first artifact created**, never with a recommendation. It also offers a collaboration agreement: choose a more reserved or warmer tone, a slow, normal or fast pace (warm and normal by default), and your usage limits: which model families or effort levels must never be used. Families are named without version numbers so a provider update does not tie you to an old model. If you already know what you want, `use-lore` routes you.
+
+If you used an earlier version, the update brings one short message, once: Vespi has arrived, what it can do for you, and an invitation to set your limits.
 
 One question at a time is not a courtesy, and a form would be faster. The questions are what keep you and the model two things instead of one — no fusion, and no sparing each other the friction — long enough for an answer neither of you had alone.
 
 ## What it looks like in practice
 
-You just shipped a landing page and the feedback is: "I didn't know what to do on the page." The CTA was below the fold and the headline talked about the product, not the outcome. You fixed it. Instead of closing the tab:
+You want a website for your pottery workshop and have never made one. You say it plainly:
+
+```text
+› I want to make a website for my workshop and don't know how
+```
+
+Before writing a line, Lore Plugin proposes an agreement:
+
+```text
+  Before we start, let's agree on a few things. It's short,
+  and you can change it whenever you want.
+
+  What it's for ············· people see your pieces and
+                             message you to order
+  I need your word to change your photos and prices
+  Where I have room ········· design and layout
+  What we try ··············· a gallery per collection;
+                             if you don't like it, we change it
+  Room to surprise you ······ how each piece is presented
+  How I speak to you ········ warmly, at a normal pace
+  I'll ask again ············ before publishing
+
+  Does that work for you?
+```
+
+You say yes, and it is written down. You can work calmly: the agreement holds without constant supervision, and anything new that falls outside it is brought to you first.
+
+Two weeks later the website has a store, a cart and shipping, and you find yourself writing:
+
+```text
+› this is getting too complicated for me
+```
+
+This time Vespi responds, the part of the kit that keeps the agreement in view:
+
+```text
+  According to the notes, we've spent three sessions on the
+  store, but the agreement said orders by message. I think
+  the store was added along the way.
+
+  Shall we add it to the agreement, or return to what we
+  agreed and leave it for later?
+```
+
+You decide. And when something goes wrong and you fix it, what you learned can be saved too. You just shipped a landing page and the feedback is: "I didn't know what to do on the page." The CTA was below the fold and the headline talked about the product, not the outcome. You fixed it. Instead of closing the tab:
 
 ```text
 › save to lore
@@ -388,7 +434,13 @@ Version 2.5.2 makes the next action explicit when a session opens. Coordinated o
 
 ## Loose notes
 
-Create a `notes/`, `notas/`, or `apuntes/` folder in a project, Area, or bot, then ask the AI to review it. `save-to-lore` separates criteria from tasks and noise, proposes where each lesson belongs, waits for your approval, and marks used notes without deleting them. **A note is a source, never criteria.**
+Create a `notes/`, `notas/`, or `apuntes/` folder in the project, Area or bot where you work; any editor works. To have the AI read it, ask:
+
+> “Review my notes and check whether anything can be saved to my Lore.”
+
+`save-to-lore` loads its notes procedure, reviews the whole folder, separates criteria from tasks and noise, proposes the owning Lore and waits for your approval. It marks each mined note with its date and destination and never deletes it. **A note is a source, never criteria**: nothing crosses without explicit distillation and an approved diff.
+
+The kit also leaves notes: what it offers to save is first written outside your Lore; what later carries weight is offered to `save-to-lore`, which remains the only gate. Vespi leaves notes in the same way. If its suggestion is technical (a hook, a cron or a handoff), it first asks whether you know what that is and explains it plainly if you do not.
 
 ## Shared invariants
 
@@ -508,14 +560,6 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 </p>
 
 <h1 align="center">Lore</h1>
-
-<p align="center">
-  <a href="#instalación"><img src="https://img.shields.io/badge/versi%C3%B3n-2.5.2-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versión"></a>
-  <a href="#instalación"><img src="https://img.shields.io/badge/proveedor_IA-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Proveedor IA: neutral"></a>
-  <a href="./docs/SPEC_KIT_es.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
-  <a href="#qué-es-lore"><img src="https://img.shields.io/badge/criteria-approved-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="El criterio se escribe con tu aprobación"></a>
-  <a href="#origen"><img src="https://img.shields.io/badge/investigaci%C3%B3n-activa-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Estado"></a>
-</p>
 
 <p align="center">
   <b>Deja de explicarle tu proyecto a la IA todas las mañanas.</b><br>
@@ -810,6 +854,8 @@ Tú eliges. Y cuando algo sale mal y lo arreglas, lo que aprendiste también se 
 
 Tres meses después, otro proyecto del Área publica una landing. El criterio ya está cargado y ese error no se repite.
 
+> Nada se escribió sin que una persona dijera que sí. La misma puerta gobierna las nueve skills.
+
 ---
 
 ## Arquitectura
@@ -821,10 +867,10 @@ Cada proyecto organiza su criterio y su estado en seis piezas estructurales. No 
 | Pieza | Qué guarda | Dónde |
 |---|---|---|
 | `identidad.md` | Qué es el proyecto, su propósito y su **piso de calidad** | `lore/` |
-| `principios.md` | Leyes invariantes, técnicas y de negocio | `lore/` |
-| Módulos temáticos | Cicatrices técnicas por dominio | `lore/` |
+| `principios.md` | Leyes invariantes, técnicas y de negocio: prohibiciones e imperativos | `lore/` |
+| Módulos temáticos | Cicatrices técnicas por dominio (animación, layout, scroll…) | `lore/` |
 | `index.md` | Mapa de navegación: una línea por patrón | `lore/` |
-| `FASES.md` | Estado y hoja de ruta | raíz |
+| `FASES.md` | Estado y hoja de ruta: fase actual y foco | raíz |
 | `CLAUDE.md` **o** `AGENTS.md` | Un contrato de colaboración, elegido por host principal y reducido a **punteros** | raíz |
 
 Cada uno tiene una responsabilidad. Ninguno duplica a otro.
@@ -883,7 +929,7 @@ Arreglas una Pista genérica una vez, en el Área, y todos los proyectos la ven.
 | Su Lore gobierna | el método del dominio | ese trabajo | **cómo se comporta el agente** |
 | Se abre para | ver el registro | avanzar eso | **trabajar en varios proyectos** |
 
-Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos.**
+Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos.** Un Área que acumula criterios que nunca ganó empieza a recibir promociones que pertenecen a otro lugar.
 
 ---
 
@@ -995,7 +1041,7 @@ Lore no se diseñó de antemano: cada decisión salió de aplicarlo a proyectos 
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/225-pico-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="225 pico"></a>
 </p>
 
-Ventanas GitHub preservadas en [`data/traffic/clones.json`](./data/traffic/clones.json). Un **mínimo registrado, consultado el 2026-10-11; último día de la API: 2026-10-10 (UTC)**. La respuesta no contiene un día completo del día en curso.
+**Más de 4.000 clonaciones registradas desde el lanzamiento** (4.057 hasta el 2026-10-10: 3.722 preservadas hasta el 2026-10-07 más 335 de la API de GitHub del 2026-10-08 al 10-10; clonaciones, no personas únicas). Ventanas GitHub preservadas en [`data/traffic/clones.json`](./data/traffic/clones.json). Un **mínimo registrado, consultado el 2026-10-11; último día de la API: 2026-10-10 (UTC)**. La respuesta no contiene un día completo del día en curso.
 
 Lore Plugin es el brazo técnico de LUS, no un sistema de productividad con filosofía agregada. La medición del producto prueba una afirmación acotada; no valida LUS como conjunto. [La frontera de investigación está explícita acá.](./docs/LUS_es.md)
 
@@ -1008,7 +1054,11 @@ Morin le da a este trabajo su norte ético: en la edición de UNESCO de [*Los si
 
 ## Origen
 
-Lore nació de **LUS (Lore User System)**, un programa de investigación sobre cómo la experiencia puede orientar decisiones futuras. Lore es un producto de ese trabajo, no una demostración de la investigación. Las observaciones del producto y los resultados científicos se mantienen separados; una hipótesis se vuelve regla de una skill solo después de contrastarla con evidencia.
+Lore nació de **LUS (Lore User System)**, un programa de investigación sobre relaciones que acumulan criterios capaces de participar en decisiones posteriores. Lore es una arquitectura operativa producida por ese trabajo, no una demostración del programa. Una idea los conecta:
+
+> **La experiencia solo crea valor cuando puede participar en una decisión futura.**
+
+Eso nos convierte en **jardineros del Entre**: conservamos las experiencias que merecen orientar otra decisión y podamos las que ya no condicionan nada. Investigación y software se mantienen separados: una observación del producto no es automáticamente un resultado científico, y una hipótesis no se vuelve regla de una skill sin evidencia y revisión.
 
 Lee la [presentación de LUS](./docs/LUS_es.md), su [bibliografía conceptual](./docs/BIBLIOGRAPHY_es.md) y la [genealogía afectiva](./docs/GENEALOGY_es.md).
 
