@@ -68,7 +68,7 @@ Every session starts blank. Yesterday’s corrections do not carry into the next
 
 [Shared invariants](#shared-invariants) ·
 [Case studies](./docs/CASES_en.md) ·
-[Reach](#reach) · [The deck](#the-deck) · [Origin](#origin)
+[Reach](#reach) · [Origin](#origin)
 
 </td>
 </tr>
@@ -383,9 +383,8 @@ Lore Plugin is the ground: your criterion, written once, and the routing that op
 
 Version 2.5.2 makes the next action explicit when a session opens. Coordinated ordinary work leaves an operation record, and verification runs a commissioned check before certification. Rejected results remain visible and require fresh review after correction. Deterministic checks and explicitly authorized semantic review have different limits; execution does not guarantee judgment. [Release notes](./docs/RELEASE_2.5.2.md) · [Execution and limits](./docs/VERIFICATION-EXECUTION.md).
 
-Earlier operation features and their limits remain documented in [the 2.4.9 release](./docs/RELEASE_2.4.9.md).
 
-**Vespi Meridian Edition 1.0:** [Website — vespi.xyz](https://vespi.xyz) · [Demo video](https://www.youtube.com/watch?v=g2iw29M6WI0) · [Tutorial in English](https://docs.google.com/document/d/1gwu3gBIJwgevCrGPyMv-J1UfjegggYDu/edit?usp=sharing&ouid=113358117411001923633&rtpof=true&sd=true) · [LUS + Lore Plugin deck in English](https://drive.google.com/file/d/1lG5DOOS6z4Kzz6PfZIPP2RXW_LXN_U1g/view?usp=drive_link). The website, the video and these materials are outside the reviewed scope of the frozen kernel.
+**Vespi Meridian Edition 1.0:** [Website — vespi.xyz](https://vespi.xyz) · [Demo video](https://www.youtube.com/watch?v=g2iw29M6WI0) · [Tutorial in English](https://docs.google.com/document/d/1gwu3gBIJwgevCrGPyMv-J1UfjegggYDu/edit?usp=sharing&ouid=113358117411001923633&rtpof=true&sd=true) · [LUS + Lore Plugin deck in English](https://drive.google.com/file/d/1lG5DOOS6z4Kzz6PfZIPP2RXW_LXN_U1g/view?usp=drive_link).
 
 ## Loose notes
 
@@ -462,19 +461,6 @@ Morin gives this work its ethical north: in UNESCO's [*Seven Complex Lessons in 
 
 ---
 
-## The deck
-
-<p align="center">
-  <img src="./assets/deck-cover-en.png" alt="LUS + Lore Plugin deck — cover slide" width="100%">
-</p>
-
-The full **LUS + Lore Plugin** talk — what Lore Plugin is, the LUS research behind it, and how a project goes from zero to its first useful Lore: **[open the deck →](https://drive.google.com/file/d/1lG5DOOS6z4Kzz6PfZIPP2RXW_LXN_U1g/view?usp=sharing)**
-
-Watch the **Vespi demo video**: **[open on YouTube →](https://www.youtube.com/watch?v=g2iw29M6WI0)**
-
----
-
-
 ## Origin
 
 Lore was born from **LUS (Lore User System)**, a research program about relations that accumulate criteria capable of participating in later decisions. Lore is one operational architecture produced by that work, not a demonstration of the program. One idea links them:
@@ -483,7 +469,7 @@ Lore was born from **LUS (Lore User System)**, a research program about relation
 
 That makes us **gardeners of the Between**: we preserve the experiences that deserve to orient another decision and prune those that no longer constrain anything. Research and software remain separate: a product observation is not automatically a scientific result, and a hypothesis does not become a skill rule without evidence and review.
 
-Read the full [LUS research overview](./docs/LUS_en.md), its [conceptual bibliography](./docs/BIBLIOGRAPHY_en.md), and the separate [affective genealogy](./docs/GENEALOGY_en.md). The public [LUS NotebookLM](https://notebooklm.google.com/notebook/6191db3f-3f9b-4412-b792-86a081b79450) is an accessible introduction, not the source of record.
+Read the full [LUS research overview](./docs/LUS_en.md), its [conceptual bibliography](./docs/BIBLIOGRAPHY_en.md), and the separate [affective genealogy](./docs/GENEALOGY_en.md).
 
 ### Why "Lore"?
 
@@ -581,7 +567,7 @@ Cada sesión arranca en blanco: vuelves a explicar correcciones que el agente ya
 
 [Invariantes](#invariantes-compartidas) ·
 [Casos de estudio](./docs/CASES_es.md) ·
-[Alcance](#alcance) · [El deck](#el-deck) · [Origen](#origen)
+[Alcance](#alcance) · [Origen](#origen)
 
 </td>
 </tr>
@@ -936,9 +922,8 @@ Lore Plugin es el terreno: tu criterio escrito una vez y el enrutamiento que abr
 
 La versión 2.5.2 hace explícita la siguiente acción al abrir una sesión. El trabajo ordinario que requiere coordinación deja un registro de operación y la verificación ejecuta una prueba comisionada antes de certificar. Los rechazos quedan visibles y corregir exige una revisión nueva. Las comprobaciones deterministas y la revisión semántica autorizada tienen límites distintos; ejecutar no garantiza comprender. [Nota de versión](./docs/RELEASE_2.5.2.md) · [Ejecución y límites](./docs/VERIFICATION-EXECUTION.md).
 
-Las funciones anteriores de operaciones y sus límites se conservan en [la nota de 2.4.9](./docs/RELEASE_2.4.9.md).
 
-**Vespi Meridian Edition 1.0:** [Sitio — vespi.xyz](https://vespi.xyz) · [Video de la demo](https://www.youtube.com/watch?v=g2iw29M6WI0) · [Tutorial en español](https://docs.google.com/document/d/1wj3yfr0Iyi8e3szUawJ4Q-mNb7EmySM-/edit?usp=drive_link&ouid=113358117411001923633&rtpof=true&sd=true) · [Deck LUS + Lore Plugin en español](https://drive.google.com/file/d/1LkcSXeVLxstZiNhiVpq8zU1_Kn-61qUl/view?usp=drive_link). El sitio, el video y estos materiales quedan fuera del alcance revisado del kernel congelado.
+**Vespi Meridian Edition 1.0:** [Sitio — vespi.xyz](https://vespi.xyz) · [Video de la demo](https://www.youtube.com/watch?v=g2iw29M6WI0) · [Tutorial en español](https://docs.google.com/document/d/1wj3yfr0Iyi8e3szUawJ4Q-mNb7EmySM-/edit?usp=drive_link&ouid=113358117411001923633&rtpof=true&sd=true) · [Deck LUS + Lore Plugin en español](https://drive.google.com/file/d/1LkcSXeVLxstZiNhiVpq8zU1_Kn-61qUl/view?usp=drive_link).
 
 ## Notas sueltas
 
@@ -1021,24 +1006,11 @@ Morin le da a este trabajo su norte ético: en la edición de UNESCO de [*Los si
 
 ---
 
-## El deck
-
-<p align="center">
-  <img src="./assets/deck-cover.png" alt="Deck LUS + Lore Plugin — portada" width="100%">
-</p>
-
-La charla completa de **LUS + Lore Plugin** — qué es Lore Plugin, la investigación LUS que hay detrás y cómo un proyecto va de cero a su primer Lore útil: **[abrir el deck →](https://drive.google.com/file/d/1LkcSXeVLxstZiNhiVpq8zU1_Kn-61qUl/view?usp=drive_link)**
-
-Mira el **video de la demo de Vespi**: **[abrir en YouTube →](https://www.youtube.com/watch?v=g2iw29M6WI0)**
-
----
-
-
 ## Origen
 
 Lore nació de **LUS (Lore User System)**, un programa de investigación sobre cómo la experiencia puede orientar decisiones futuras. Lore es un producto de ese trabajo, no una demostración de la investigación. Las observaciones del producto y los resultados científicos se mantienen separados; una hipótesis se vuelve regla de una skill solo después de contrastarla con evidencia.
 
-Lee la [presentación de LUS](./docs/LUS_es.md), su [bibliografía conceptual](./docs/BIBLIOGRAPHY_es.md) y la [genealogía afectiva](./docs/GENEALOGY_es.md). El NotebookLM público de LUS es una introducción, no la fuente de registro.
+Lee la [presentación de LUS](./docs/LUS_es.md), su [bibliografía conceptual](./docs/BIBLIOGRAPHY_es.md) y la [genealogía afectiva](./docs/GENEALOGY_es.md).
 
 ### ¿Por qué «Lore»?
 
