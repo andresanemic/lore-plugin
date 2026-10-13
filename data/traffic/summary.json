@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "label": "Recorded clones",
-  "message": "4057+",
+  "message": "4415+",
   "color": "FF557A",
-  "observedAt": "2026-10-11T00:00:00.000Z",
-  "requestedCut": "2026-10-10",
-  "latestApiDay": "2026-10-10",
+  "observedAt": "2026-10-13T14:09:06.784Z",
+  "requestedCut": "2026-10-12",
+  "latestApiDay": "2026-10-12",
   "firstRecordedDay": "2026-07-05",
-  "recordedMinimum": 4057,
-  "calendarDays": 98,
-  "averagePerCalendarDay": 41,
-  "peak": 225,
+  "recordedMinimum": 4415,
+  "calendarDays": 100,
+  "averagePerCalendarDay": 44,
+  "peak": 304,
   "limit": "Recorded minimum; merged by UTC day, not unique people. Today may be partial or absent from GitHub API."
 }
