@@ -9,7 +9,6 @@
   <a href="#installation"><img src="https://img.shields.io/badge/version-2.5.2-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/AI_provider-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="AI provider: neutral"></a>
   <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
-  <a href="#what-is-lore"><img src="https://img.shields.io/badge/criteria-approved-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="Criteria are written with your approval"></a>
   <a href="#origin"><img src="https://img.shields.io/badge/research-active-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Status"></a>
 </p>
 
