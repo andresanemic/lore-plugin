@@ -431,6 +431,17 @@ Version 2.5.2 makes the next action explicit when a session opens. Coordinated o
 
 **Vespi Meridian Edition 1.0:** [Website — vespi.xyz](https://vespi.xyz) · [Demo video](https://www.youtube.com/watch?v=g2iw29M6WI0) · [Tutorial in English](https://docs.google.com/document/d/1gwu3gBIJwgevCrGPyMv-J1UfjegggYDu/edit?usp=sharing&ouid=113358117411001923633&rtpof=true&sd=true) · [LUS + Lore Plugin deck in English](https://drive.google.com/file/d/1lG5DOOS6z4Kzz6PfZIPP2RXW_LXN_U1g/view?usp=drive_link).
 
+### Where the pieces fit
+
+| Project | Its focus | Lore Plugin + Vespi today |
+|---|---|---|
+| [TencentDB Agent Memory](https://github.com/TencentCloud/TencentDB-Agent-Memory) | Shared, governed agent memory, skills, wiki and code graphs | Human-approved project criteria plus bounded operations and receipts |
+| [Hermes Agent](https://github.com/NousResearch/hermes-agent) | An agent runtime with persistent memory and skills | Criteria carried across supported hosts; operation authority outside any one agent runtime |
+| [Obsidian](https://obsidian.md/help/data-storage) | Local Markdown notes and linked knowledge | A workflow for promoting experience into agent-readable criteria with approval |
+| [Graphify](https://github.com/Graphify-Labs/graphify) / [CodeGraph](https://github.com/colbymchenry/codegraph/blob/main/site/src/content/docs/getting-started/introduction.md) | Queryable code structure; Graphify also maps documents | Maintained project criteria and authority for concrete operations |
+
+This compares current scope, not head-to-head results. The Desktop end-to-end path remains to be demonstrated.
+
 ## Loose notes
 
 Create a `notes/`, `notas/`, or `apuntes/` folder in the project, Area or bot where you work; any editor works. To have the AI read it, ask:
@@ -969,6 +980,17 @@ La versión 2.5.2 hace explícita la siguiente acción al abrir una sesión. El 
 
 
 **Vespi Meridian Edition 1.0:** [Sitio — vespi.xyz](https://vespi.xyz) · [Video de la demo](https://www.youtube.com/watch?v=g2iw29M6WI0) · [Tutorial en español](https://docs.google.com/document/d/1wj3yfr0Iyi8e3szUawJ4Q-mNb7EmySM-/edit?usp=drive_link&ouid=113358117411001923633&rtpof=true&sd=true) · [Deck LUS + Lore Plugin en español](https://drive.google.com/file/d/1LkcSXeVLxstZiNhiVpq8zU1_Kn-61qUl/view?usp=drive_link).
+
+### Cómo encajan las piezas
+
+| Proyecto | Su foco | Lore Plugin + Vespi hoy |
+|---|---|---|
+| [TencentDB Agent Memory](https://github.com/TencentCloud/TencentDB-Agent-Memory) | Memoria, skills, wiki y grafos de código compartidos y gobernados | Criterio de proyecto aprobado por la persona, más operaciones acotadas y recibos |
+| [Hermes Agent](https://github.com/NousResearch/hermes-agent) | Un agente con memoria persistente y skills | Criterio portable entre hosts compatibles; autoridad de operación fuera de un agente concreto |
+| [Obsidian](https://obsidian.md/help/data-storage) | Notas Markdown locales y conocimiento enlazado | Un flujo que convierte experiencia en criterio legible por agentes, con aprobación |
+| [Graphify](https://github.com/Graphify-Labs/graphify) / [CodeGraph](https://github.com/colbymchenry/codegraph/blob/main/site/src/content/docs/getting-started/introduction.md) | Estructura de código consultable; Graphify también mapea documentos | Criterio de proyecto mantenido y autoridad para operaciones concretas |
+
+La tabla compara alcances actuales, no resultados de una prueba cara a cara. Falta demostrar el recorrido completo en Desktop.
 
 ## Notas sueltas
 
