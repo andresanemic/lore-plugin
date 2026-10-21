@@ -2,7 +2,7 @@
   <img src="https://i.imgur.com/DWYL7vz.png" alt="Lore" width="100%">
 </p>
 
-<h1 align="center>Lore</h1>
+<h1 align="center">Lore</h1>
 
 <p align="center">
   <a href="#installation"><img src="https://img.shields.io/badge/version-2.5.2-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
@@ -12,11 +12,9 @@
 </p>
 
 <p align="center">
- <b>Stop explaining your project to the AI every morning.</b><br>
+  <b>Stop explaining your project to the AI every morning.</b><br>
   With your approval, Lore turns lessons into project criteria the AI can use next time.
 </p>
-
-<p align="center"><a href="./docs/90_SECONDS_en.md">Start with the 90-second guide →</a> · <a href="https://github.com/andresanemic/lore-plugin">Clone the repository</a></p>
 
 **Not sure whether to try it?** Share this repository's link with your AI agent, ask what Lore Plugin and Vespi are, and let it tell you whether it recommends installing them in one of your projects.
 
