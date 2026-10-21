@@ -1,4 +1,4 @@
-
+**Languages:** [English](README.md) | [Español](README.es_md)  | [Português](README.pt-BR.md)
 <p align="center">
   <img src="https://i.imgur.com/DWYL7vz.png" alt="Lore" width="100%">
 </p>
