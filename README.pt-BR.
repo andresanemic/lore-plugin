@@ -554,3 +554,558 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 </p>
 
 </details>
+
+---
+
+<details>
+<summary><b>Leer en español</b></summary>
+
+<a id="español"></a>
+
+<p align="center">
+  <img src="https://i.imgur.com/AKHwfNa.png" alt="Lore" width="100%">
+</p>
+
+<h1 align="center">Lore</h1>
+
+<p align="center">
+  <b>Deja de explicarle tu proyecto a la IA todas las mañanas.</b><br>
+  Con tu aprobación, Lore convierte lo aprendido en criterios de proyecto que la IA puede usar después.
+</p>
+
+<p align="center"><a href="./docs/90_SECONDS_es.md">Empieza con la guía de 90 segundos →</a> · <a href="https://github.com/andresanemic/lore-plugin">Clona el repositorio</a></p>
+
+**¿No sabes si probarlo?** Comparte el enlace de este repositorio con tu agente de IA, pregúntale de qué tratan Lore Plugin y Vespi y deja que te diga si te recomienda instalarlos en alguno de tus proyectos.
+
+**En palabras simples.** *Lore*: los criterios de tu proyecto, como archivos Markdown que tú apruebas. *Guardar en Lore*: convertir una corrección tuya en un criterio para la próxima vez. *Podar*: retirar reglas que ya no aplican. *Injertar*: traer una idea de afuera solo después de ver dónde pierde frente a tus criterios. *Transmutar*: reorganizar o migrar un árbol de Lore. *Cristalizar*: empacar los criterios de un bot en un solo archivo para llevarlo a otro lado.
+
+**Hacia dónde va.** Hoy corres Lore Plugin desde una terminal. **Vespi Desktop** será el espacio de trabajo que reúna este kit y el kernel de Vespi, con **Hive como su taller de creación**. Para HackMeridian mostraremos esa dirección junto con lo que ya funciona; Desktop aún no es instalable. [Prueba el POC interactivo de Hive](https://vespi.xyz/) en el sitio: un MVP UX/UI donde puedes elegir agentes y guardar criterios y workflows en tu navegador, sin conectar con una IA.
+
+---
+
+## El problema
+
+Cada sesión arranca en blanco: vuelves a explicar correcciones que el agente ya recibió y puedes terminar otra vez en soluciones que habías descartado. Lore guarda las lecciones que apruebas en archivos de tu proyecto, listas para orientar el próximo trabajo.
+
+---
+
+<table>
+<tr>
+<td width="33%" valign="top">
+
+**Empezar**
+
+[El problema](#el-problema) ·
+[Qué es Lore](#qué-es-lore) ·
+[Quién puede usarlo](#quién-puede-usar-lore-plugin) ·
+[Comienza a construir](#comienza-a-construir-tu-lore) ·
+[Instalación](#instalación)
+
+</td>
+<td width="33%" valign="top">
+
+**Usarlo**
+
+[Arquitectura](#arquitectura) ·
+[Las nueve skills](#las-nueve-skills) ·
+[Notas sueltas](#notas-sueltas) ·
+[Documentación](#documentación)
+
+</td>
+<td width="33%" valign="top">
+
+**Entenderlo**
+
+[Invariantes](#invariantes-compartidas) ·
+[Casos de estudio](./docs/CASES_es.md) ·
+[Alcance](#alcance) · [Origen](#origen)
+
+</td>
+</tr>
+</table>
+
+---
+
+## ¿Qué es Lore?
+
+Lore es un kit neutral al proveedor, con nueve skills y una estructura sencilla para guardar el criterio de un proyecto. Tú decides qué se escribe; el kit carga ese criterio aprobado antes del trabajo siguiente. No entrena modelos ni aprende por su cuenta.
+
+#### Qué aporta
+
+- Una convención sencilla para organizar el criterio de un proyecto.
+- Nueve skills que operan esa convención.
+- Un proceso revisado para convertir experiencia en criterio reutilizable.
+
+Cada proyecto tiene un contrato (`CLAUDE.md` o `AGENTS.md`, según el host), `FASES.md` para el estado del trabajo y `lore/` para los criterios que guían cómo se construye.
+
+#### Puedes empezar desde lo que ya tienes
+
+`transmute-lore` puede leer carpetas, documentos, resúmenes de chats exportados y notas para ordenar criterios que ya usas. Tus archivos siguen como están: nada se vuelve Lore hasta que lees y apruebas el resultado.
+
+Cuando el criterio necesita viajar, **CRYSTALLIZE** crea una fotografía trazable en Markdown, portable entre modelos y recuperable en una carpeta de trabajo. Omite nombres de archivo sensibles, rechaza marcadores de secretos y nunca reemplaza el Lore vivo.
+
+#### Qué no promete
+
+Lore no garantiza que el trabajo salga bien ni decide cuándo un criterio dejó de servir. Te da una forma revisable de conservar y podar lecciones; ambas cosas siguen necesitando tu juicio y tiempo.
+
+#### El filtro
+
+Lore conserva lecciones que cambian decisiones futuras. **Si una frase no restringe una decisión futura, no es Lore.** Los demás hechos van en documentación o notas.
+
+## ¿Quién puede usar Lore Plugin?
+
+No necesitas saber de SDD ni manejar términos técnicos para empezar. Basta con tu proyecto y tus palabras.
+
+- **Si recién empiezas:** dices qué quieres hacer; las skills te guían y tú apruebas lo que se escribe.
+- **Si ya trabajas con IA:** llevas el criterio útil entre sesiones y proyectos, incluso si cambias de modelo.
+- **Si tu equipo usa spec-kit u otro flujo:** Lore mantiene vigentes los criterios del proyecto y funciona junto a esas herramientas. No las reemplaza. Ver [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md).
+- **Si te interesa la investigación:** [LUS explica sus preguntas y los límites de su evidencia](./docs/LUS_es.md).
+
+## Comienza a construir tu Lore
+
+Si el trabajo durará más de una sesión, el kit puede proponerte un acuerdo breve sobre su objetivo y sus límites; tú decides si usarlo. Cuando una tarea deja una lección que conviene recordar, Lore puede convertirla en una **Pista Invariante**: una regla breve para reutilizar.
+
+| En vez de recordar | Lore guarda |
+|---|---|
+| «La IA escribió un informe demasiado técnico para quien debía leerlo» | «Antes de redactar, identifica quién lo leerá y explica en lenguaje simple cada término poco familiar» |
+| «El resumen de una reunión omitió quién era responsable de cada tarea» | «Todo resumen de reunión termina con cada tarea, su responsable y su fecha límite» |
+
+### El ciclo
+
+<p align="center">
+  <img src="https://i.imgur.com/I7odxus.png" alt="Lore" width="100%">
+</p>
+
+Cada lección se propone, la lees y la apruebas antes de escribirla. Lore carga el criterio aprobado antes de empezar el trabajo. La idea de que la experiencia acumulada cambia decisiones futuras es una hipótesis de investigación, no un mecanismo demostrado; [LUS explica ese límite](./docs/LUS_es.md).
+
+---
+
+## Instalación
+
+La ruta neutral al proveedor más clara es clonar el repositorio: el código fuente queda visible, las actualizaciones siguen siendo operaciones normales de Git y el mismo checkout puede preparar Claude Code y Codex. Requiere Git y Node.js.
+
+### Recomendado — clona el repositorio
+
+```bash
+git clone https://github.com/andresanemic/lore-plugin.git
+cd lore-plugin
+node scripts/lore-plugin.mjs install --target all
+codex plugin add lore@personal
+```
+
+Para un host, reemplaza `all`. OpenCode recibe las skills, hooks y marca TUI de Lore.
+
+Si ya usas el gestor de plugins de un host, estas rutas más cortas instalan el mismo paquete sin conservar un checkout separado.
+
+### Qué toca el instalador y cómo volver atrás
+
+`install` escribe en tu directorio de usuario, nunca en tus proyectos. Para verlo antes, corre con un home desechable: `HOME=$(mktemp -d) node scripts/lore-plugin.mjs install --target opencode` (en Windows, apunta `HOME` y `USERPROFILE` a una carpeta vacía).
+
+- **OpenCode:** `~/.config/opencode/skills/` (las skills de Lore), `plugin/` y `plugins/` (el hook y la marca de estado), `lore-plugin.json` y una entrada en `tui.json`; más `~/.lore-plugin/`.
+- **Codex:** `~/.agents/plugins/plugins/lore/`, una entrada en `~/.agents/plugins/marketplace.json` y `~/.lore-plugin/`; después `codex plugin add lore@personal` lo registra en Codex.
+- **Claude Code:** el plugin entra por el marketplace de Claude Code; se quita con los comandos de plugins de Claude Code.
+
+Todavía no hay un comando para desinstalar. Para volver atrás, borra las rutas de arriba y quita la marca de estado con `node scripts/lore-plugin.mjs statusline uninstall`. Si guardas tu propia configuración en `~/.config/opencode`, haz una copia antes.
+
+### Claude Code
+
+Ejecuta estos comandos dentro de Claude Code:
+
+```bash
+/plugin marketplace add andresanemic/lore-plugin
+/plugin install lore@lore-plugin
+```
+
+O ejecuta sus equivalentes desde una terminal:
+
+```bash
+claude plugin marketplace add andresanemic/lore-plugin
+claude plugin install lore@lore-plugin
+```
+
+Para conectar la marca visible después de instalar desde el gestor de Claude, ejecútalo desde el clon del repositorio:
+
+```bash
+node scripts/lore-plugin.mjs statusline install
+```
+
+### Codex CLI
+
+Ejecuta estos comandos en tu terminal:
+
+```bash
+codex plugin marketplace add andresanemic/lore-plugin
+codex plugin add lore@lore-plugin
+```
+
+<details>
+<summary><b>Otros hosts — copia desde el mismo clon</b> (OpenCode, Cursor, Antigravity)</summary>
+
+<br>
+
+### OpenCode
+
+Instala las skills, hooks y marca TUI de Lore en OpenCode:
+
+```bash
+node scripts/lore-plugin.mjs install --target opencode
+```
+
+Reinicia OpenCode. Conserva otras entradas de `tui.json`; `tui.jsonc` queda intacto. Para un solo proyecto usa `.opencode/skills/`.
+
+- Para delegados sin interacción, configura el acceso enrutado con `lore-plugin opencode-permissions --project <dir> --from-routing [--write]` o prepara un perfil confinado con `lore-plugin opencode-sandbox <dir>`. La referencia explica el cierre de stdin, el orden de `-f` y la carpeta de temporales.
+
+### Cursor
+
+Cursor ya descubre las skills instaladas en `~/.codex/skills/` o `~/.agents/skills/`. Si prefieres
+una copia separada para Cursor, usa su directorio global y reinícialo:
+
+```bash
+mkdir -p ~/.cursor/skills
+cp -R skills/* ~/.cursor/skills/
+```
+
+### Google Antigravity
+
+Antigravity carga skills globales desde `~/.gemini/config/skills/` y skills del proyecto desde
+`.agents/skills/`. Desde un clon local:
+
+```bash
+mkdir -p ~/.gemini/config/skills
+cp -R skills/* ~/.gemini/config/skills/
+```
+
+Reinicia Antigravity después de copiarlas.
+
+Claude Code no recibe contexto rutinario del hook: el guard no entrega texto al modelo. Su `PreToolUse` solo-en-rojo clasifica destinos estructurados desde el árbol de sesión, un `intercambio/` compartido que ya exista, su scratchpad, los árboles hermanos enrutados y la memoria de sesión; ancla la jurisdicción en `SessionStart`, no en un `cwd` de shell que deriva. **Propio** pasa. **Ajeno** solicita aprobación al host antes de la operación estructurada: `ask` pregunta a la persona, `allow` puede ejecutar sin preguntar, `deny` bloquea. Elige `once` para una sola operación; el plugin no guarda `always`. Un `deny` del host sigue prevaleciendo. Shell y escrituras indirectas quedan bajo la política del host; esto no habilita shell. **Desconocido** pasa con aviso y queda anotado. Codex conserva su guardia local automática mediante `SessionStart` y `PostToolUse` silenciosos. OpenCode deja que los permisos nativos `external_directory` y `edit` decidan las escrituras estructuradas ajenas: `ask` pregunta, `allow` puede pasar en silencio, `deny` bloquea. Elige `once`; el hook no puede elegirlo ni guardar concesiones. Shell y escrituras indirectas siguen bajo la política del host. En todos los hosts, `use-lore` comprueba al abrir la integridad de carga de los cuerpos: un control limpio no dice nada y una conexión faltante nombra solo la decisión necesaria. Una excepción de apertura, en ambos hosts desde 2.4.8: dentro de un bot federado cuyo always-on no declara su carga, `SessionStart` nombra la reparación (`lore-plugin mycelium federated`) en exactamente una línea; el verde queda en cero bytes y todo falla abierto. `FASES.md` y `PHASES.md` siguen siendo estado y no entran al recibo.
+
+</details>
+
+Después abre una sesión nueva en la CLI. **Si es tu primera vez no necesitas comandos** — escribe *«quiero comenzar a usar Lore Plugin, ayúdame»* y el kit abre un **brainstorming, no un menú**: primero te recibe y ve qué vienes a hacer, después mira tu árbol, pregunta de a una cosa por vez y termina con **tu primer artefacto creado**, nunca con una recomendación. También te ofrece el acuerdo, y ahí eliges cómo quieres que te hablen —más sobrio o más cercano; despacio, normal o rápido; si no eliges, cercano y a ritmo normal— y tus límites de uso: qué modelos o qué niveles no quieres que se usen nunca. Se nombran por familia, no por número de versión, para que una actualización del proveedor no te deje atado a un modelo viejo. Si ya sabes qué quieres, `use-lore` te enruta.
+
+Si ya usabas una versión anterior, al actualizar recibes una sola vez un mensaje corto: llegó Vespi, qué puede hacer por ti y la invitación a fijar tus límites.
+
+Preguntar de a una cosa por vez no es cortesía, y un formulario sería más rápido. Las preguntas son lo que te mantiene a ti y al modelo siendo dos cosas y no una —sin fusión y sin ahorrarse la fricción—, el rato suficiente para que aparezca una respuesta que ninguno tenía por separado.
+
+## Así se ve en la práctica
+
+Quieres hacer la web de tu taller de cerámica y nunca has hecho una. Lo dices tal cual:
+
+```text
+› quiero hacer la web de mi taller y no sé cómo
+```
+
+Antes de escribir una sola línea, Lore Plugin te propone ponerse de acuerdo:
+
+```text
+  Antes de empezar, pongámonos de acuerdo. Es corto y lo
+  puedes cambiar cuando quieras.
+
+  Para qué es ·················· que la gente vea tus piezas
+                                 y te escriba para encargar
+  No lo muevo sin tu palabra ··· tus fotos y tus precios
+  Aquí tengo margen ············ el diseño y el orden
+  Lo que probamos ·············· una galería por colección;
+                                 si no te gusta, se cambia
+  Para sorprenderte ············ cómo se presenta cada pieza
+  Cómo te hablo ················ cercano, a ritmo normal
+  Te vuelvo a preguntar ········ antes de publicar
+
+  ¿Así está bien?
+```
+
+Dices que sí y queda escrito. Desde ahí trabajas con calma: lo acordado se sostiene sin que tengas que vigilarlo, y si algo nuevo no cabe en el acuerdo, te lo preguntan antes de hacerlo.
+
+Dos semanas después la web tiene tienda, carrito y envíos, y te sorprendes escribiendo:
+
+```text
+› esto me está complicando demasiado
+```
+
+Esta vez responde Vespi, la parte del kit que cuida que lo acordado siga en pie:
+
+```text
+  Según las notas, llevamos tres sesiones con la tienda, y el
+  acuerdo decía encargos por mensaje. Supongo que la tienda
+  se sumó en el camino.
+
+  ¿La sumamos al acuerdo, o volvemos a lo acordado y la
+  dejamos para después?
+```
+
+Tú eliges. Y cuando algo sale mal y lo arreglas, lo que aprendiste también se guarda. Acabas de publicar una landing y el feedback es: "No sabía qué hacer en la página". El CTA quedaba abajo y el titular hablaba del producto, no del resultado. Lo corregiste. En vez de cerrar la pestaña:
+
+```text
+› guarda en lore
+```
+
+```text
+  Destilé esto:
+
+  [cta] CTA poco visible — titular sin resultado
+
+  Contexto ······ la landing tenía el CTA debajo del pliegue
+  Causa raíz ···· el titular describía el producto, no el
+                  resultado para quien lee
+  Pista ········· poner el CTA principal arriba del pliegue y
+                  escribir el titular alrededor del resultado,
+                  no de la funcionalidad
+  Confianza ····· confirmada — corregido en la página publicada
+
+  → proyectos/cliente-a/lore/cta.md
+  → esta pista es genérica y confirmada: ¿la promuevo al Área
+    para que la vean los otros 3 proyectos?
+
+  ¿Escribo?
+```
+
+Tres meses después, otro proyecto del Área publica una landing. El criterio ya está cargado y ese error no se repite.
+
+> Nada se escribió sin que una persona dijera que sí. La misma puerta gobierna las nueve skills.
+
+---
+
+## Arquitectura
+
+### Las seis piezas
+
+Cada proyecto organiza su criterio y su estado en seis piezas estructurales. No son necesariamente seis archivos: los módulos temáticos son una sola pieza, repartida en tantos archivos enfocados como el trabajo requiera.
+
+| Pieza | Qué guarda | Dónde |
+|---|---|---|
+| `identidad.md` | Qué es el proyecto, su propósito y su **piso de calidad** | `lore/` |
+| `principios.md` | Leyes invariantes, técnicas y de negocio: prohibiciones e imperativos | `lore/` |
+| Módulos temáticos | Cicatrices técnicas por dominio (animación, layout, scroll…) | `lore/` |
+| `index.md` | Mapa de navegación: una línea por patrón | `lore/` |
+| `FASES.md` | Estado y hoja de ruta: fase actual y foco | raíz |
+| `CLAUDE.md` **o** `AGENTS.md` | Un contrato de colaboración, elegido por host principal y reducido a **punteros** | raíz |
+
+Cada uno tiene una responsabilidad. Ninguno duplica a otro.
+
+> **El Lore es criterio (persiste); `FASES.md` es estado (avanza).** Nunca se mezclan, y `FASES.md` nunca vive dentro de `lore/`.
+
+Se mantienen aparte porque envejecen a velocidades distintas: quién eres y cómo trabajas sigue siendo cierto el mes que viene; en qué fase está el proyecto, no. Mezclarlos significa releer un documento donde la mitad de las frases venció y nada dice cuál mitad.
+
+#### El bloque siempre-activo
+
+El contrato es el único artefacto que **los dos** hosts cargan sin que nadie se lo pida, y por eso
+Lore le estampa una sección de punteros delimitada — el canal siempre activo del kit hacia la sesión.
+
+<details>
+<summary><b>La mecánica exacta</b> (techo, variantes, cómo se estampa)</summary>
+
+<br>
+
+```markdown
+<!-- lore:always-on -->
+…qué Lore gobierna acá · dónde vive · dónde vive el estado · cuándo invocar en vez de escribir a mano…
+<!-- /lore:always-on -->
+```
+
+Cuatro elementos y no más, con un techo duro de **25 líneas**, apuntando a `lore/` y a `FASES.md`: el criterio y el estado viven separados, pero una sesión que recibe el criterio sin la fase propone lo correcto en el momento equivocado. Tres variantes: un **área** a su propio `lore/`, un **proyecto** al suyo y al del área madre, un **bot** a `canon/` y a su **tabla de enrutamiento**, nunca a los Lore federados uno por uno, y por eso un bot que alcanza veinte cuerpos de criterio sigue entrando. El bloque nunca reproduce una pista; las skills dueñas lo estampan de forma idempotente, y una divergencia editada a mano se reporta sin sobrescribirse.
+
+</details>
+
+### Herencia Área → Proyecto
+
+```text
+desarrollo-web/
+│
+├── lore/                      ← el criterio general vive UNA sola vez
+│     identidad · principios · index · animacion · scroll · layout
+│
+├── FASES.md                   ← registro de proyectos del Área
+├── CLAUDE.md o AGENTS.md      ← contrato único del Área, elegido por host
+│
+└── proyectos/
+    ├── cliente-a/
+    │   └── lore/              ← solo lo propio; el index apunta al Área
+    ├── cliente-b/
+    │   └── lore/
+    └── cliente-c/
+        └── lore/
+```
+
+Arreglas una Pista genérica una vez, en el Área, y todos los proyectos la ven.
+
+### La tercera forma: un bot
+
+| | Área | Proyecto | **Bot** |
+|---|---|---|---|
+| Contiene | proyectos | un trabajo | **una sesión de trabajo** |
+| Su Lore gobierna | el método del dominio | ese trabajo | **cómo se comporta el agente** |
+| Se abre para | ver el registro | avanzar eso | **trabajar en varios proyectos** |
+
+Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos.** Un Área que acumula criterios que nunca ganó empieza a recibir promociones que pertenecen a otro lugar.
+
+---
+
+## Las nueve skills
+
+**Este kit avanza junto a la disciplina `writing-skills` de Superpowers, no por delante de ella.** Cada skill modificada se revisa antes de publicarse; el registro más reciente vive en [`bench/writing-skills-2.4.1/README.md`](./bench/writing-skills-2.4.1/README.md), con los de notas sueltas 2.4.0 y la auditoría 2.3.3.
+
+> **Las skills están escritas en inglés y el Lore que producen, no** — contenido y nombres de archivo incluidos, en tu idioma. No abras uno para explicarle a alguien qué hace un modo (lo aprendimos en el Caso 12, en vivo) — para eso está la tabla y los dos docs de abajo.
+
+| Skill | Para qué | Cuándo |
+|---|---|---|
+| `use-lore` | Punto de entrada: explica el modelo y te manda a la skill correcta | primero, siempre; y cuando dices «quiero hacer esto y no sé cómo», te ofrece el acuerdo |
+| `brainstorming-lore` | Diseña artefactos Lore, o entregables gobernados por módulos de proceso enrutados, sin apropiarse de la ideación genérica; preserva la continuidad reconocible y el esfuerzo fértil | antes de un cambio Lore material o un diseño gobernado; o cuando dices «ayúdame a pensar el diseño» |
+| `create-area` | Crea un Área con su Lore compartido | al abrir un dominio nuevo |
+| `create-project` | Crea un proyecto que hereda del Área | al empezar un trabajo |
+| `save-to-lore` | Destila una lección, o mina una bandeja de notas sueltas, y decide si sube al Área | todos los días |
+| `transmute-lore` | Migra, limpia, traduce, actualiza, poda o exporta una fotografía segura del Lore | al heredar, mantener, actualizar o compartir Lore |
+| `create-bot` | Un lugar donde abrir sesión y trabajar sobre varias Áreas a la vez | desde cero, o cuando ya hay Lore que federar |
+| `vespi` | Cuida que lo acordado siga en pie. Operación acotada bajo autoridad (experimental): continúa entre sesiones, se mueve lateralmente y revalida antes de seguir | cuando dices «esto me está complicando», «se está perdiendo lo que decidimos» o «sigamos mañana»: el trabajo es una operación viva bajo presión |
+| `stale-lore` | Verifica qué capacidades publicadas del kit no se ejercieron y las retira de forma declarativa — con un changelog para que el retiro sea auditable | al reconciliar promesa con evidencia; cuando la superficie publicada del kit necesita reducirse |
+
+**El primer día necesitas dos de estas:** `use-lore` te enruta hacia lo que sigue, y `save-to-lore` es la que vas a escribir de verdad — *"guarda en lore"*, después de resolver algo que te costó. **Cómo empezar, el uso cotidiano y el mecanismo completo de cada skill y modo** viven en un solo lugar: [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
+
+
+---
+
+## Vespi
+
+**Vespi es el kernel de Lore Plugin. Este corte lleva el kernel 0.1.6 congelado.** Revisado, no auditado: las únicas revisiones hasta ahora son nuestras propias superreviews con Claude Code, y no hay auditoría de seguridad externa independiente.
+
+<p align="center">
+  <img src="./assets/vespi-B.png" alt="Vespi" width="100%">
+</p>
+
+Lore Plugin es el terreno: tu criterio escrito una vez y el enrutamiento que abre el correcto para cada tarea. Vespi es lo que corre sobre ese terreno: una operación bajo una autoridad que tú otorgas, verificada aparte de quien la ejecuta, que deja un recibo que cualquiera puede comprobar. No escribe tu Lore ni decide por ti: te dice lo que ve, dice sus suposiciones como suposiciones, y la elección es tuya.
+
+La versión 2.5.2 hace explícita la siguiente acción al abrir una sesión. El trabajo ordinario que requiere coordinación deja un registro de operación y la verificación ejecuta una prueba comisionada antes de certificar. Los rechazos quedan visibles y corregir exige una revisión nueva. Las comprobaciones deterministas y la revisión semántica autorizada tienen límites distintos; ejecutar no garantiza comprender. [Nota de versión](./docs/RELEASE_2.5.2.md) · [Ejecución y límites](./docs/VERIFICATION-EXECUTION.md).
+
+
+**Vespi Meridian Edition 1.0:** [Sitio — vespi.xyz](https://vespi.xyz) · [Video de la demo](https://www.youtube.com/watch?v=g2iw29M6WI0) · [Tutorial en español](https://docs.google.com/document/d/1wj3yfr0Iyi8e3szUawJ4Q-mNb7EmySM-/edit?usp=drive_link&ouid=113358117411001923633&rtpof=true&sd=true) · [Deck LUS + Lore Plugin en español](https://drive.google.com/file/d/1LkcSXeVLxstZiNhiVpq8zU1_Kn-61qUl/view?usp=drive_link).
+
+### Cómo encajan las piezas
+
+| Proyecto | Su foco | Lore Plugin + Vespi hoy |
+|---|---|---|
+| [TencentDB Agent Memory](https://github.com/TencentCloud/TencentDB-Agent-Memory) | Memoria, skills, wiki y grafos de código compartidos y gobernados | Criterio de proyecto aprobado por la persona, más operaciones acotadas y recibos |
+| [Hermes Agent](https://github.com/NousResearch/hermes-agent) | Un agente con memoria persistente y skills | Criterio portable entre hosts compatibles; autoridad de operación fuera de un agente concreto |
+| [Obsidian](https://obsidian.md/help/data-storage) | Notas Markdown locales y conocimiento enlazado | Un flujo que convierte experiencia en criterio legible por agentes, con aprobación |
+| [Graphify](https://github.com/Graphify-Labs/graphify) / [CodeGraph](https://github.com/colbymchenry/codegraph/blob/main/site/src/content/docs/getting-started/introduction.md) | Estructura de código consultable; Graphify también mapea documentos | Criterio de proyecto mantenido y autoridad para operaciones concretas |
+
+La tabla compara alcances actuales, no resultados de una prueba cara a cara. Falta demostrar el recorrido completo en Desktop.
+
+## Notas sueltas
+
+Agrega una carpeta `notas/`, `notes/` o `apuntes/` dentro del proyecto, Área o bot donde estés trabajando; cualquier editor sirve. Para que la IA la lea, pide:
+
+> «revisa mis notas y checa si algo se puede guardar en mi lore»
+
+`save-to-lore` carga su procedimiento de notas, hace el barrido completo, separa criterio de tareas y ruido, propone el Lore dueño y espera tu aprobación, marca cada nota minada con fecha y destino y nunca la borra. **Una nota es fuente, nunca criterio**: nada cruza sin destilación explícita y un diff aprobado.
+
+El kit también deja notas: lo que se ofrece guardar primero se anota fuera de tu Lore, y lo que ya pesa se te ofrece después a `save-to-lore`, que sigue siendo la única puerta. Vespi deja notas del mismo modo y, si lo que sugiere es técnico —un hook, un cron, un traspaso—, primero te pregunta si sabes qué es y, si no, te lo explica en llano.
+
+---
+
+## Invariantes compartidas
+
+Las nueve skills siguen las mismas reglas:
+
+- El Lore se escribe **en tu idioma**.
+- **El criterio no se inventa:** sale de la experiencia.
+- **Una nota es fuente, nunca criterio.**
+- **El ruido descartado se informa**, nunca se elimina en silencio.
+- Todo cambio pasa por un **umbral** antes de escribirse.
+- **Nada hace commit automáticamente.** Tú revisas el diff final.
+
+El criterio queda en tus archivos. El kit no lo escribe ni lo confirma sin tu aprobación.
+
+
+
+## Documentación
+
+| Documento | Para qué sirve |
+|---|---|
+| [`90_SECONDS_es.md`](./docs/90_SECONDS_es.md) | **Empieza acá.** El mecanismo completo, corto como para leerlo antes de decidir si instalas algo. |
+| [`POR_QUE_LORE_ES_UN_SO_es.md`](./docs/POR_QUE_LORE_ES_UN_SO_es.md) | Por qué esto se llama sistema operativo, y los límites que declara: no es un SO de computador, sin mainnet, sin afirmación de producción. |
+| [`REFERENCE_es.md`](./docs/REFERENCE_es.md) | **El documento técnico.** Cómo empezar, uso cotidiano, conceptos, la especificación exacta de cada *skill*, modo y artefacto, y cómo migrar un proyecto existente. |
+| [`CASES_es.md`](./docs/CASES_es.md) | Los diecinueve casos de estudio, cada uno con su frontera declarada. |
+| [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md) | Lore junto a spec-kit de GitHub: quién gobierna qué. Opcional — Lore no depende de él. |
+| [`LUS_es.md`](./docs/LUS_es.md) | El programa de investigación detrás de Lore, sus hipótesis vigentes y fronteras de evidencia. |
+| [`GENEALOGY_es.md`](./docs/GENEALOGY_es.md) | Genealogía afectiva: procedencia cultural separada de la teoría y las reglas de producto. |
+| [`BIBLIOGRAPHY_es.md`](./docs/BIBLIOGRAPHY_es.md) | Fuentes conceptuales: la regla de entrada, y dónde pierde cada una. |
+| [`OBSERVER_es.md`](./docs/OBSERVER_es.md) | Procedencia del observador: el tercer registro — se publica su método, su contenido no viaja. |
+| [`CONTRIBUTING_es.md`](./docs/CONTRIBUTING_es.md) | Cómo contribuir cambios de producto, casos, refutaciones y preguntas de investigación. |
+| [`CODE_OF_CONDUCT.md`](./docs/CODE_OF_CONDUCT.md) | Normas de participación y vía de reporte. |
+| [`LICENSE`](./LICENSE) · [`NOTICE`](./NOTICE) | Licencia Apache 2.0, y seguirá siendo de código abierto: el compromiso está en `NOTICE`, con la autoría. |
+| [Lee el benchmark →](./bench/effect-2.3.2/) | Método, evidencia, límites y resultados revisables. |
+
+---
+
+## Casos de estudio
+
+Lore no se diseñó de antemano: cada decisión salió de aplicarlo a proyectos reales y mirar qué se rompía — **diecinueve casos de estudio**, cada uno con su frontera declarada. El **Caso 12 es la primera instalación hecha por alguien que no es el autor**.
+
+> **Estatus:** casos, no demostraciones — n pequeño, y **dieciocho de los diecinueve vienen del mismo investigador**. La afirmación medida pertenece al Caso 08; los demás aportan evidencia cualitativa.
+
+**[Leer los diecinueve casos de estudio →](./docs/CASES_es.md)**
+
+---
+
+## Alcance
+
+<p align="center">
+  <img src="./assets/reach-es.png" alt="4.000+ clonaciones desde el lanzamiento (registradas, no personas únicas)" width="100%">
+</p>
+
+<p align="center">
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/static/v1?label=4415%2B&amp;message=clonaciones+registradas&amp;color=FF557A&amp;style=for-the-badge&amp;labelColor=0B0B12" alt="4.415+ clonaciones"></a>
+  <a href="./data/traffic/clones.json"><img src="./assets/badge-100-dias.svg" alt="100 días"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~44-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="44 al día"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/304-pico-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="304 pico"></a>
+</p>
+
+**Más de 4.000 clonaciones registradas desde el lanzamiento** (4.415 hasta el 2026-10-12: 4.057 preservadas hasta el 2026-10-10 más 358 de la API de GitHub del 11–12 de octubre; clonaciones, no personas únicas). Ventanas GitHub preservadas en [`data/traffic/clones.json`](./data/traffic/clones.json). Un **mínimo registrado, consultado el 2026-10-13; último día completo de la API: 2026-10-12 (UTC)**. [Respuesta fuente](./data/traffic/source-2026-10-13.json). El día en curso queda excluido.
+
+Lore Plugin es el brazo técnico de LUS, no un sistema de productividad con filosofía agregada. La medición del producto prueba una afirmación acotada; no valida LUS como conjunto. [La frontera de investigación está explícita acá.](./docs/LUS_es.md)
+
+Morin le da a este trabajo su norte ético: en la edición de UNESCO de [*Los siete saberes necesarios para la educación del futuro*](https://unesdoc.unesco.org/ark:/48223/pf0000378091) escribe que «la noción de apuesta se debe generalizar para cualquier fe». [La sensibilidad que volvió pensables esas preguntas vive acá.](./docs/GENEALOGY_es.md)
+
+> **Una señal de alcance, no una demostración.** Nadie sabe qué hizo cada quien con su copia — ¿instalada, destilada, abierta una vez? No es un caso y no responde lo que responden los [casos de estudio](./docs/CASES_es.md). Y los «clonadores únicos» de la API son únicos **por día**, no personas: no se pueden sumar para contar cabezas.
+
+
+---
+
+## Origen
+
+Lore nació de **LUS (Lore User System)**, un programa de investigación sobre relaciones que acumulan criterios capaces de participar en decisiones posteriores. Lore es una arquitectura operativa producida por ese trabajo, no una demostración del programa. Una idea los conecta:
+
+> **La experiencia solo crea valor cuando puede participar en una decisión futura.**
+
+Eso nos convierte en **jardineros del Entre**: conservamos las experiencias que merecen orientar otra decisión y podamos las que ya no condicionan nada. Investigación y software se mantienen separados: una observación del producto no es automáticamente un resultado científico, y una hipótesis no se vuelve regla de una skill sin evidencia y revisión.
+
+Lee la [presentación de LUS](./docs/LUS_es.md), su [bibliografía conceptual](./docs/BIBLIOGRAPHY_es.md) y la [genealogía afectiva](./docs/GENEALOGY_es.md).
+
+### ¿Por qué «Lore»?
+
+En los videojuegos, el *lore* es la historia y las reglas acumuladas que mantienen coherente un universo —qué puede y qué no puede pasar después. Tomamos esa imagen y cambiamos el peso: los hechos puntuales se desvanecen, y **lo que permanece es el criterio** que mantiene coherente el próximo trabajo. La deuda visual también es explícita: la paleta anime viene de ***Tales of Berseria*** (Bandai Namco, 2016), el juego favorito del autor.
+
+## Autor
+
+**Andrés Peña Mellado** — investigador principal de LUS.
+
+Construyendo en Web3: editor general del piloto de periodismo comunitario en **Tellus Cooperative**.
+Antes, parte del equipo editorial de **Polkadot Español** y editor en **BeInCrypto**.
+
+Docencia e investigación: integró el equipo que estableció las bases bibliográficas y metodológicas
+de la asignatura **Design Thinking** de la Escuela de Ingeniería en Informática de la UTEM (2023), y
+la dictó desde 2023 hasta 2025. **Speaker en [KCD El Salvador
+2023](https://www.credly.com/badges/ad17002a-16be-474b-ada4-d7ba0df3a0fd)**.
+
+<p>
+  <a href="https://github.com/andresanemic"><img src="https://img.shields.io/badge/GitHub-andresanemic-0B1320?style=for-the-badge&logo=github&logoColor=F4F0E8&labelColor=0B0B12" alt="GitHub"></a>
+  <a href="https://x.com/andresanemic"><img src="https://img.shields.io/badge/X-@andresanemic-FF557A?style=for-the-badge&logo=x&logoColor=0B0B12&labelColor=0B0B12" alt="X"></a>
+  <a href="https://www.linkedin.com/in/andresanemic/"><img src="https://img.shields.io/badge/LinkedIn-Andrés%20Peña%20Mellado-00DFF5?style=for-the-badge&logo=linkedin&logoColor=0B0B12&labelColor=0B0B12" alt="LinkedIn"></a>
+  <a href="https://t.me/andresanemic"><img src="https://img.shields.io/badge/Telegram-@andresanemic-22D9EE?style=for-the-badge&logo=telegram&logoColor=0B0B12&labelColor=0B0B12" alt="Telegram"></a>
+  <img src="https://img.shields.io/badge/Discord-andresanemic-F94F79?style=for-the-badge&logo=discord&logoColor=0B0B12&labelColor=0B0B12" alt="Discord">
+  <a href="mailto:a.leonardopm@gmail.com"><img src="https://img.shields.io/badge/Email-a.leonardopm@gmail.com-35E5F5?style=for-the-badge&logo=gmail&logoColor=0B0B12&labelColor=0B0B12" alt="Email"></a>
+</p>
+
+</details>
+
+
+
