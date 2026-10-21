@@ -2,7 +2,7 @@
   <img src="https://i.imgur.com/DWYL7vz.png" alt="Lore" width="100%">
 </p>
 
-<h1 align="center>**Languages:** [English](README.md) | [Español](README.es_md)  | [Português](README.pt-BR.md)</h1>
+**Languages:** [English](README.md) | [Español](README.es_md)  | [Português](README.pt-BR.md)
 
 <h1 align="center>Lore</h1>
 
