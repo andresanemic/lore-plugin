@@ -51,7 +51,7 @@ Toda sessão começa em branco. As correções de ontem não passam para a próx
 
 [Arquitetura](#arquitetura) ·
 [As nove skills](#as-nove-skills) ·
-[Anotações diversas](#anotações-diversas)·
+[Anotações diversas](#anotações-diversas) ·
 [Documentação](#documentação)
 
 </td>
