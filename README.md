@@ -12,8 +12,8 @@
 </p>
 
 <p align="center">
-  <b>Stop explaining your project to the AI every morning.</b><br>
-  With your approval, Lore turns lessons into project criteria the AI can use next time.
+  <b>Pare de explicar seu projeto para a IA toda manhã.</b><br>
+  Com a sua aprovação, Lore transforma aprendizado em critérios de projeto que a IA pode usar na proxima sessão.
 </p>
 
 **Not sure whether to try it?** Share this repository's link with your AI agent, ask what Lore Plugin and Vespi are, and let it tell you whether it recommends installing them in one of your projects.
