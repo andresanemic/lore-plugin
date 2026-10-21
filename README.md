@@ -15,7 +15,8 @@
 
 <p align="center">
  <b>**Languages:** [English](README.md) | [Español](README.es_md)  | [Português](README.pt-BR.md)</b><br> 
- <b>Stop explaining your project to the AI every morning.</b><br>
+ 
+  <b>Stop explaining your project to the AI every morning.</b><br>
   With your approval, Lore turns lessons into project criteria the AI can use next time.
 </p>
 
