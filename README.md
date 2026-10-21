@@ -13,9 +13,9 @@
   <a href="#origin"><img src="https://img.shields.io/badge/research-active-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Status"></a>
 </p>
 
+**Languages:** [English](README.md) | [Español](README.es_md)  | [Português](README.pt-BR.md)
 <p align="center">
-  **Languages:** [English](README.md) | [Español](README.es_md)  | [Português](README.pt-BR.md)
- 
+
   <b>Stop explaining your project to the AI every morning.</b><br>
   With your approval, Lore turns lessons into project criteria the AI can use next time.
 </p>
