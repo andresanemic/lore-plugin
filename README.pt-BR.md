@@ -5,10 +5,10 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.5.2-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
-  <a href="#installation"><img src="https://img.shields.io/badge/AI_provider-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="AI provider: neutral"></a>
-  <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
-  <a href="#origin"><img src="https://img.shields.io/badge/research-active-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Status"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/versão-2.5.2-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versão"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/provedor_de_IA-neutro-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Provedor de IA: neutro"></a>
+  <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatível-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatível "></a>
+  <a href="#origin"><img src="https://img.shields.io/badge/pesquisa-ativa-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Status"></a>
 </p>
 
 <p align="center">
