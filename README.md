@@ -1,4 +1,3 @@
-**Languages:** [English](README.md) | [Español](README.es_md)  | [Português](README.pt-BR.md)
 <p align="center">
   <img src="https://i.imgur.com/DWYL7vz.png" alt="Lore" width="100%">
 </p>
@@ -18,6 +17,8 @@
 </p>
 
 <p align="center"><a href="./docs/90_SECONDS_en.md">Start with the 90-second guide →</a> · <a href="https://github.com/andresanemic/lore-plugin">Clone the repository</a></p>
+
+**Languages:** [English](README.md) | [Español](README.es_md)  | [Português](README.pt-BR.md)
 
 **Not sure whether to try it?** Share this repository's link with your AI agent, ask what Lore Plugin and Vespi are, and let it tell you whether it recommends installing them in one of your projects.
 
