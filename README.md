@@ -16,22 +16,19 @@
   Com a sua aprovação, Lore transforma aprendizado em critérios de projeto que a IA pode usar na proxima sessão.
 </p>
 
-**Not sure whether to try it?** Share this repository's link with your AI agent, ask what Lore Plugin and Vespi are, and let it tell you whether it recommends installing them in one of your projects.
+**Não sabe se deve experimentar?** Compartilhe o link desse repositório com seu agente de IA, pergunte o que são o Lore Plugin e o Vespi e deixe que ele te diga se recomenda instalá-los em um de seus projetos.
 
-**In plain words.** *Lore*: your project's criteria, as plain Markdown files you approve. *Save to Lore*: turn a correction you made into a criterion for next time. *Prune*: retire rules that no longer apply. *Graft*: bring in an idea from outside only after checking where it loses against your criteria. *Transmute*: reorganize or migrate a Lore tree. *Crystallize*: pack a bot's criteria into one file to carry it elsewhere.
+**Em palavras simples.** *Lore*: os critérios do seu projeto, na forma de arquivos Markdown simples que você aprova. *Salvar no Lore*: transforme uma correção que você fez em um critério para a próxima sessão. *Podar*: retire regras que não se aplicam mais. *Enxertar*: incorpore uma ideia externa somente depois de verificar em que pontos ela falha em relação aos seus critérios. *Transmutar*: reorganize ou migre uma árvore de critérios  do Lore. *Cristalizar*: empacote os critérios de um bot em um único arquivo para transportá-los para outro lugar.
 
-**Where this is going.** Today you run Lore Plugin from a terminal. **Vespi Desktop** is the planned workspace that will bring this kit and the Vespi kernel together, with **Hive as its creation studio**. For HackMeridian we will show that direction alongside what already works; Desktop is not installable yet. [Try the interactive Hive POC](https://vespi.xyz/) on the site: a UX/UI MVP where you can choose agents and save criteria and workflows in your browser, without connecting to AI.
+**O futuro do projeto.** Hoje você executa o Lore Plugin a partir de um terminal. **Vespi Desktop** é o ambiente de trabalho planejado que reunirá esse kit e o kernel do Vespi, tendo o **Hive como seu estúdio de criação**. No HackMeridian, mostraremos essa direção juntamente com o que já funciona; o Desktop ainda não está disponível para instalação. [Experimente a POC interativa do Hive](https://vespi.xyz/) no site: um MVP de UX/UI onde você pode escolher agentes e salvar critérios e fluxos de trabalho no seu navegador, sem se conectar à IA.
 
 ---
 
-<details>
-<summary><b>Read in English</b></summary>
+## O problema 
 
-<a id="english"></a>
+Toda sessão começa em branco. As correções de ontem não passam para a próxima, então você explica o projeto de novo e pode repetir decisões que já havia rejeitado. O Lore dá ao aprendizado que você aprova um lugar nos arquivos do seu projeto, pronto para o trabalho futuro.
 
-## The problem
 
-Every session starts blank. Yesterday’s corrections do not carry into the next one, so you explain the project again and may repeat decisions you had already rejected. Lore gives lessons you approve a place in your project files, ready for future work.
 
 ---
 
@@ -39,32 +36,32 @@ Every session starts blank. Yesterday’s corrections do not carry into the next
 <tr>
 <td width="33%" valign="top">
 
-**Start**
+**Começar**
 
-[The problem](#the-problem) ·
-[What is Lore](#what-is-lore) ·
-[Who can use it](#who-can-use-lore-plugin) ·
-[Start building](#start-building-your-lore) ·
-[Installation](#installation)
-
-</td>
-<td width="33%" valign="top">
-
-**Use it**
-
-[Architecture](#architecture) ·
-[The nine skills](#the-nine-skills) ·
-[Loose notes](#loose-notes) ·
-[Documentation](#documentation)
+[O problema](#o-problema)·
+[O que é o Lore](#o-que-é-o-lore) ·
+[Quem pode usar](#quem-pode-usar-o-plugin-lore) ·
+[Comece a construir](#comece-a-construir-seu-lore) ·
+[Instalação](#instalação)
 
 </td>
 <td width="33%" valign="top">
 
-**Understand it**
+**Usar**
 
-[Shared invariants](#shared-invariants) ·
-[Case studies](./docs/CASES_en.md) ·
-[Reach](#reach) · [Origin](#origin)
+[Arquitetura](#arquitetura) ·
+[As nove skills](#as-nove-skills) ·
+[Anotações diversas](#anotações-diversas)·
+[Documentação](#documentação)
+
+</td>
+<td width="33%" valign="top">
+
+**Entender**
+
+[Invariantes compartilhadas](#invariantes-compartilhadas) ·
+[Estudos de caso](./docs/CASES_en.md) ·
+[Alcance](#alcance) · [Origem](#origem)
 
 </td>
 </tr>
