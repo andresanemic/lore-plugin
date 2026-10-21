@@ -2,7 +2,7 @@
   <img src="https://i.imgur.com/DWYL7vz.png" alt="Lore" width="100%">
 </p>
 
-**Languages:** [English](README.md) | [Español](README.es_md)  | [Português](README.pt-BR.md)
+<h1**Languages:** [English](README.md) | [Español](README.es_md)  | [Português](README.pt-BR.md)</h1>
 
 <h1 align="center">Lore</h1>
 
@@ -14,8 +14,7 @@
 </p>
 
 <p align="center">
- <b>**Languages:** [English](README.md) | [Español](README.es_md) | [Português](README.pt-BR.md)</b><br> 
-  <b>Stop explaining your project to the AI every morning.</b><br>
+ <b>Stop explaining your project to the AI every morning.</b><br>
   With your approval, Lore turns lessons into project criteria the AI can use next time.
 </p>
 
