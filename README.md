@@ -16,6 +16,8 @@
   Com a sua aprovação, Lore transforma aprendizado em critérios de projeto que a IA pode usar na proxima sessão.
 </p>
 
+<p align="center"><a href="./docs/90_SECONDS_en.md">Comece com o guia de 90 segundos →</a> · <a href="https://github.com/andresanemic/lore-plugin">Clone o repositório</a></p>
+
 **Não sabe se deve experimentar?** Compartilhe o link desse repositório com seu agente de IA, pergunte o que são o Lore Plugin e o Vespi e deixe que ele te diga se recomenda instalá-los em um de seus projetos.
 
 **Em palavras simples.** *Lore*: os critérios do seu projeto, na forma de arquivos Markdown simples que você aprova. *Salvar no Lore*: transforme uma correção que você fez em um critério para a próxima sessão. *Podar*: retire regras que não se aplicam mais. *Enxertar*: incorpore uma ideia externa somente depois de verificar em que pontos ela falha em relação aos seus critérios. *Transmutar*: reorganize ou migre uma árvore de critérios  do Lore. *Cristalizar*: empacote os critérios de um bot em um único arquivo para transportá-los para outro lugar.
