@@ -2,9 +2,9 @@
   <img src="https://i.imgur.com/DWYL7vz.png" alt="Lore" width="100%">
 </p>
 
-<h1**Languages:** [English](README.md) | [Español](README.es_md)  | [Português](README.pt-BR.md)</h1>
+<h1 align="center>**Languages:** [English](README.md) | [Español](README.es_md)  | [Português](README.pt-BR.md)</h1>
 
-<h1 align="center">Lore</h1>
+<h1 align="center>Lore</h1>
 
 <p align="center">
   <a href="#installation"><img src="https://img.shields.io/badge/version-2.5.2-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
