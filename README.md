@@ -38,7 +38,7 @@ Toda sessão começa em branco. As correções de ontem não passam para a próx
 
 **Começar**
 
-[O problema](#o-problema)·
+[O problema](#o-problema) ·
 [O que é o Lore](#o-que-é-o-lore) ·
 [Quem pode usar](#quem-pode-usar-o-plugin-lore) ·
 [Comece a construir](#comece-a-construir-seu-lore) ·
