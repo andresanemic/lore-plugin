@@ -72,37 +72,38 @@ Toda sessão começa em branco. As correções de ontem não passam para a próx
 
 ---
 
-## What is Lore?
+## O que é Lore?
 
-Lore is a provider-neutral kit of nine skills and a simple structure for project criteria. You decide what gets written; the kit makes approved criteria available before later work. It does not train a model or learn on its own.
+Lore é um kit agnóstico de provedor, composto por nove skills e uma estrutura simples para critérios de projeto. Você decide o que é escrito; o kit disponibiliza os critérios aprovados antes de trabalhos futuros. Ele não treina um modelo nem aprende por conta própria. 
 
-#### What it provides
+#### O que ele oferece
 
-- A simple convention for organizing a project’s criteria.
-- Nine skills that work with that convention.
-- A reviewed process for turning experience into reusable criteria.
+- Uma convenção simples para organizar os critérios de um projeto.
+- Nove habilidades que trabalham com essa convenção.
+- Um processo com revisão humana para transformar a experiência em critérios reutilizáveis.
 
-Each project has one contract (`CLAUDE.md` or `AGENTS.md`, depending on the host), `FASES.md` for current work, and `lore/` for criteria that guide how it is built.
+ Cada projeto possui um contrato (`CLAUDE.md` ou `AGENTS.md`, dependendo do host), o arquivo `FASES.md` para o trabalho atual e a pasta `lore/` com os critérios que guiam como ele é construído.
 
-#### Start from existing work
 
-`transmute-lore` can read project folders, documents, exported chat summaries, and notes to help organize criteria already in use. Your files stay as they are; nothing becomes Lore until you read and approve the result.
+#### Comece a partir do trabalho existente
 
-When criteria need to travel, **CRYSTALLIZE** creates a traceable Markdown snapshot that can move between models and return to a working folder. It omits sensitive filenames and rejects secret markers. It never replaces live Lore.
+O `transmutar-lore` pode ler pastas de projetos, documentos, resumos de chats exportados e anotações para ajudar a organizar os critérios já em uso. Seus arquivos permanecem como estão; nada se torna Lore até que você leia e aprove o resultado.
 
-#### What it does not promise
+Quando os critérios precisam ser transferidos, **Cristalizar** cria um snapshot rastreável em Markdown que pode ser movido entre modelos e retornar à pasta de trabalho. Ele omite nomes de arquivos confidenciais e rejeita marcadores secretos. Ele nunca substitui o Lore ativo.
 
-Lore cannot guarantee correct work or decide when old criteria no longer fit. It gives you a reviewed way to preserve and prune lessons; both still need your judgment and time.
+#### O que ele não promete
 
-#### The filter
+O Lore não pode garantir um trabalho bem feito nem determinar quando os critérios antigos não se aplicam mais. Ele oferece uma maneira revisada de preservar e podar o aprendizado; ambas as tarefas ainda exigem seu julgamento e seu tempo.
 
-Lore keeps lessons that change future decisions. **If a sentence does not constrain a future decision, it is not Lore.** Other facts belong in documentation or notes.
+#### O filtro
 
-## Who can use Lore Plugin?
+O Lore contém aprendizado que influencia decisões futuras. **Se uma frase não condicionar uma decisão futura, não é Lore.** Outros fatos devem constar na documentação ou nas notas.
 
-Whether you are new to AI or already build with it, you can start with your own project and your own words.
+## Quem pode usar o Plugin Lore?
 
-- **New to AI:** describe what you want to do; the skills guide the next step, and you approve what gets written.
+Seja você um iniciante ou alguém que já tem experiência com IA, pode começar com seus próprios projetos e suas próprias palavras.
+
+- **Iniciante em IA:** descreva o que você quer fazer; as skills guiam o próximo passo, e você aprova o que é gerado.
 - **Experienced builders:** carry useful project criteria between sessions and models.
 - **Teams using spec-kit or another workflow:** Lore keeps project criteria alongside your process tools; it does not replace them. See [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md).
 - **Readers interested in the research:** [LUS explains the research questions and their evidence boundaries](./docs/LUS_en.md).
