@@ -591,12 +591,14 @@ async function execute(sub, flags, stdout) {
   }
 
   if (sub === "trace") {
+    if (["closed", "cancelled"].includes(context.artifact.state)) throw new Error("cannot change a terminal operation");
     const artifact = recordInteractionTrace(context.artifact, payload.events);
     await persist(context, artifact);
     return emit(stdout, { ok: true, id: context.id, state: artifact.state, interaction_events: artifact.interaction_trace.length });
   }
 
   if (sub === "self-report") {
+    if (["closed", "cancelled"].includes(context.artifact.state)) throw new Error("cannot change a terminal operation");
     if (!Object.hasOwn(payload, "report")) throw new Error("self-report needs an explicit report field; leave it absent when the user has not declared one");
     const artifact = recordSelfReport(context.artifact, payload.report);
     await persist(context, artifact);

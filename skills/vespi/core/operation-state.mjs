@@ -128,6 +128,7 @@ function effectText(value, label) {
 // A generic operation GREEN never authorizes an external effect. The approval is bound to a
 // request id, one action, one destination and a validity window; this module never runs the effect.
 export function requestExternalEffect(artifact, { action, destination, at = new Date().toISOString() } = {}) {
+  if (["closed", "cancelled"].includes(artifact?.state)) throw new Error("cannot change a terminal operation");
   const requested = {
     id: "fx-" + Date.now().toString(36) + "-" + externalEffectSeq++,
     action: effectText(action, "external effect action"),
@@ -138,6 +139,7 @@ export function requestExternalEffect(artifact, { action, destination, at = new 
 }
 
 export function approveExternalEffect(artifact, { requestId, action, destination, by, words, approvedAt = new Date().toISOString(), expiresAt } = {}) {
+  if (["closed", "cancelled"].includes(artifact?.state)) throw new Error("cannot change a terminal operation");
   const request = (artifact.external_effect_requests ?? []).find((item) => item.id === requestId);
   if (!request) throw new Error("external effect request does not exist");
   const approval = {
@@ -158,6 +160,7 @@ export function approveExternalEffect(artifact, { requestId, action, destination
 }
 
 export function revokeExternalEffectApproval(artifact, { approvalId, at = new Date().toISOString() } = {}) {
+  if (["closed", "cancelled"].includes(artifact?.state)) throw new Error("cannot change a terminal operation");
   const approvals = artifact.external_effect_approvals ?? [];
   const approval = approvals.find((item) => item.id === approvalId);
   if (!approval) throw new Error("external effect approval does not exist");
@@ -172,6 +175,7 @@ export function authorizeExternalEffect(artifact, { requestId, action, destinati
   const exactDestination = effectText(destination, "external effect destination");
   const time = effectTime(now, "effect execution time");
   const denied = (reason) => ({ allowed: false, reason, adapterInput: null });
+  if (["closed", "cancelled"].includes(artifact?.state)) return denied("operation is terminal");
   if (!request || request.action !== exactAction || request.destination !== exactDestination) return denied("no exact current request");
   const currentRequestAt = requestedAt === null ? Date.parse(request.requested_at) : effectTime(requestedAt, "current request time");
   const approval = (artifact.external_effect_approvals ?? []).find((item) => item.request_id === requestId && item.action === exactAction && item.destination === exactDestination);
