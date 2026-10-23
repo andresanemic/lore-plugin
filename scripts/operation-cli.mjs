@@ -414,7 +414,11 @@ async function execute(sub, flags, stdout) {
   }
   if (sub === "hold") {
     const root = requiredRoot(flags);
-    if (Array.isArray(payload.authority?.spend) && payload.authority.spend.length > 0) {
+    const authority = payload.authority ?? { spend: [] };
+    if (!Array.isArray(authority.spend)) {
+      return emit(stdout, { ok: false, error: "hold requiere authority.spend como arreglo" });
+    }
+    if (authority.spend.length > 0) {
       return emit(stdout, { ok: false, error: "hold no acepta authority.spend: el gasto real pide credencial externa y se declara en otra ruta" });
     }
     const { artifact, file } = await holdOperation({
@@ -422,7 +426,7 @@ async function execute(sub, flags, stdout) {
       goal: payload.goal,
       intent: payload.intent ?? payload.goal,
       owner: payload.owner,
-      authority: payload.authority,
+      authority,
       coordinacion: payload.coordinacion ?? null,
       scope: payload.scope,
       expected_effect: payload.expected_effect,
