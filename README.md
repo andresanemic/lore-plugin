@@ -154,7 +154,9 @@ If you already use a host plugin manager, these shorter routes install the same 
 - **Codex:** `~/.agents/plugins/plugins/lore/`, an entry in `~/.agents/plugins/marketplace.json` and `~/.lore-plugin/`; then `codex plugin add lore@personal` registers it in Codex.
 - **Claude Code:** the plugin goes through Claude Code's own marketplace; remove it with Claude Code's plugin commands.
 
-There is no uninstall command yet. To go back, delete the paths above, and remove the status mark with `node scripts/lore-plugin.mjs statusline uninstall`. If you keep your own configuration in `~/.config/opencode`, back it up first.
+`install --target claude` (also included in `all`) installs the local CLI under `~/.lore-plugin/` and sets `~/.claude/settings.json` keys `statusLine.type` and `statusLine.command`. It also runs Claude Code's marketplace add/install commands. There is no general `lore-plugin uninstall`: Claude Code's plugin commands remove the marketplace plugin, while `lore-plugin statusline uninstall` removes only Lore's matching `statusLine` entry (and deletes `settings.json` only if that leaves it empty).
+
+There is no general uninstall command. To go back, delete the paths above, and remove the status mark with `node scripts/lore-plugin.mjs statusline uninstall`. If you keep your own configuration in `~/.config/opencode`, back it up first.
 
 The Agent/Task delivery observer writes local metadata to `.lore-deliveries.jsonl` in the project root, including the host transcript path. It adds that filename to the repository's `.git/info/exclude` and refuses to append through a symbolic link.
 
