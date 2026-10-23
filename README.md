@@ -110,6 +110,19 @@ Whether you are new to AI or already build with it, you can start with your own 
 - **Teams using spec-kit or another workflow:** Lore keeps project criteria alongside your process tools; it does not replace them. See [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md).
 - **Readers interested in the research:** [LUS explains the research questions and their evidence boundaries](./docs/LUS_en.md).
 
+## What you can do fast with Lore and Vespi
+
+Lore keeps your criteria, workflows and preferences as files on your computer, so you can start with a small, concrete job and keep going across sessions and hosts. Vespi, its kernel, adds permission, a second review and a receipt to each operation. Every line says how far it has been checked today.
+
+- **Build any project with AI** — an app, a website, writing, research — and keep what you decide for next time.
+- **Leave a verifiable record of what an agent did:** a receipt with a SHA-256 digest, the authority used, what was checked and what was not. *Proven* in the kernel.
+- **Timestamp that record on Stellar** by putting its digest in a transaction memo. *Testnet* with fictional data; mainnet is planned for the Meridian demonstrations and is not claimed until those transactions exist.
+- **Pay for a service within a ceiling and with a person's approval (x402).** *Demo* on testnet, outside the kernel.
+- **Check a zero-knowledge proof inside an operation.** *Reference* verification; apps built on it are a direction, not something this release ships.
+- **Register a batch of things in one transaction,** for example the 100 diskettes of the Meridian fanzine. *Planned* until the transaction exists.
+
+The kernel README has the details and the evidence: [Vespi](https://github.com/andresanemic/vespi).
+
 ## Start building your Lore
 
 For work that spans sessions, the kit can propose a short agreement about its purpose and limits; you decide whether to use it. When a task leaves a lesson worth carrying forward, Lore can turn it into an **Invariant Clue**: a short rule you can reuse.
@@ -669,6 +682,19 @@ No necesitas saber de SDD ni manejar términos técnicos para empezar. Basta con
 - **Si ya trabajas con IA:** llevas el criterio útil entre sesiones y proyectos, incluso si cambias de modelo.
 - **Si tu equipo usa spec-kit u otro flujo:** Lore mantiene vigentes los criterios del proyecto y funciona junto a esas herramientas. No las reemplaza. Ver [`SPEC_KIT_es.md`](./docs/SPEC_KIT_es.md).
 - **Si te interesa la investigación:** [LUS explica sus preguntas y los límites de su evidencia](./docs/LUS_es.md).
+
+## Lo que puedes hacer rápido con Lore y Vespi
+
+Lore guarda tu criterio, tus workflows y tus preferencias como archivos en tu computador, así que puedes empezar con un trabajo pequeño y concreto y seguir entre sesiones y hosts. Vespi, su kernel, añade permiso, una segunda revisión y un recibo a cada operación. Cada línea dice hasta dónde está comprobado hoy.
+
+- **Construye cualquier proyecto con IA** —una app, un sitio, escritura, investigación— y guarda lo que decides para la próxima vez.
+- **Deja un registro verificable de lo que hizo un agente:** un recibo con huella SHA-256, la autoridad usada, lo que se comprobó y lo que no. *Probado* en el kernel.
+- **Ponle fecha a ese registro en Stellar** poniendo su huella en el memo de una transacción. *Testnet* con datos ficticios; mainnet está planeado para las demostraciones de Meridian y no se afirma hasta que existan esas transacciones.
+- **Paga un servicio dentro de un techo y con la aprobación de una persona (x402).** *Demo* en testnet, fuera del kernel.
+- **Comprueba una prueba de conocimiento cero dentro de una operación.** Verificación de *Referencia*; las apps construidas sobre ella son una dirección, no algo que esta versión entregue.
+- **Registra un conjunto de cosas en una sola transacción,** por ejemplo los 100 diskettes del fanzine de Meridian. *Planeado* hasta que exista la transacción.
+
+El README del kernel tiene los detalles y la evidencia: [Vespi](https://github.com/andresanemic/vespi).
 
 ## Comienza a construir tu Lore
 
