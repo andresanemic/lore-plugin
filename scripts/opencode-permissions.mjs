@@ -78,12 +78,15 @@ export function isRoutableCell(cell) {
 // La regla final tiene que caer dentro del area (el proyecto o su padre), que es
 // exactamente lo que el enrutamiento nombra. Cualquier otra se descarta.
 function insideArea(rulePath, root) {
-  const target = resolve(rulePath.replace(/[\\/]\*\*$/, ""));
-  const hive = resolve(root, "..");
-  const isAncestor = (path) => root === path || root.startsWith(`${path}${sep}`);
-  const volumeRoot = resolve(root, sep);
-  if (isAncestor(target) || target === volumeRoot || target === resolve(homedir())) return false;
-  return target.startsWith(`${root}${sep}`) || (target.startsWith(`${hive}${sep}`) && target !== hive);
+  // Windows paths are case-insensitive: compare them in one case so a differently capitalised home or ancestor is still refused.
+  const key = (path) => process.platform === "win32" ? path.toLowerCase() : path;
+  const target = key(resolve(rulePath.replace(/[\\/]\*\*$/, "")));
+  const rootKey = key(root);
+  const hive = key(resolve(root, ".."));
+  const isAncestor = (path) => rootKey === path || rootKey.startsWith(`${path}${sep}`);
+  const volumeRoot = key(resolve(root, sep));
+  if (isAncestor(target) || target === volumeRoot || target === key(resolve(homedir()))) return false;
+  return target.startsWith(`${rootKey}${sep}`) || (target.startsWith(`${hive}${sep}`) && target !== hive);
 }
 
 function parseAllowArgs(values, project) {
