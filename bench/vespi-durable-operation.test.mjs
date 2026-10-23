@@ -782,3 +782,40 @@ test("un cerrojo huerfano viejo no bloquea el guardado", async (t) => {
   await saveOperationState(root, { ...artifact, goal: "objetivo editado" });
   assert.equal(existsSync(cerrojo), false);
 });
+
+test("varios escritores esperando un cerrojo huerfano viejo no se lo roban entre si", async (t) => {
+  const root = await proyecto(t);
+  const facade = await import(V);
+  const { listOperationIds } = await import(S);
+  const cerrojo = join(root, "FASES.md.lock");
+  const { utimes } = await import("node:fs/promises");
+  for (let ronda = 0; ronda < 15; ronda++) {
+    await writeFile(cerrojo, "{}");
+    const viejo = new Date(Date.now() - 120_000);
+    await utimes(cerrojo, viejo, viejo);
+    const ids = await Promise.all(Array.from({ length: 6 }, async () => (await facade.holdOperation({
+      root, goal: "objetivo", owner: "operador", authority: { spend: [] },
+      scope: { s: 1 }, done: "criterio", roles: ["worker"], verifier: "v", expected_effect: "ninguno",
+    })).artifact.id));
+    const guardadas = new Set(listOperationIds(root));
+    assert.deepEqual(ids.filter((id) => !guardadas.has(id)), [], `ronda ${ronda}: se perdieron operaciones confirmadas`);
+  }
+  assert.deepEqual((await readdir(root)).sort(), ["FASES.md"], "no queda cerrojo ni residuo del retiro");
+});
+
+test("liberar el cerrojo no borra uno que ya es de otro", async (t) => {
+  const root = await proyecto(t);
+  const { withOperationLock } = await import(S);
+  const cerrojo = join(root, "FASES.md.lock");
+  await withOperationLock(root, async () => {
+    // Simula que el cerrojo se retiro por huerfano y otro escritor tomo uno propio.
+    await rm(cerrojo, { force: true });
+    await writeFile(cerrojo, '{"token":"de-otro"}');
+  });
+  assert.equal(await readFile(cerrojo, "utf8"), '{"token":"de-otro"}');
+});
+
+test("la espera por el cerrojo es mayor que el umbral de huerfano", async () => {
+  const { OPERATION_LOCK_LIMITS } = await import(S);
+  assert.ok(OPERATION_LOCK_LIMITS.timeoutMs > OPERATION_LOCK_LIMITS.staleMs);
+});

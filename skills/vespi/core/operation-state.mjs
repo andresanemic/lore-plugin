@@ -10,7 +10,7 @@ export const ARTIFACT_SCHEMA_VERSION = "1.0.0";
 export const FASES_FILE = "FASES.md";
 export const OPERATIONS_HEADING = "## Operaciones";
 
-import { mkdir, open, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
+import { link, mkdir, open, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
 import { AsyncLocalStorage } from "node:async_hooks";
 import { readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
@@ -557,27 +557,55 @@ function locateBlock(text, id) {
   return { start: opens[0].start, end: closes[0].end };
 }
 
-// Cerrojo exclusivo por FASES.md: un archivo `FASES.md.lock` creado con `wx`. Envuelve la secuencia
-// leer-modificar-escribir completa; quien lee una operacion, la cambia y la guarda (la carta del hook, por
-// ejemplo) toma el cerrojo con `withOperationLock` para que otra escritura no le pise el cambio. Es
-// reentrante dentro de la misma cadena asincrona, de modo que `saveOperationState` puede tomarlo otra vez.
-// Un cerrojo mas viejo que LOCK_STALE_MS se toma por huerfano (el proceso murio) y se retira. Limite:
-// solo ordena a quienes lo toman; un editor ajeno de FASES.md no lo ve.
-const LOCK_RETRY_MS = 10;
-const LOCK_TIMEOUT_MS = 10_000;
-const LOCK_STALE_MS = 30_000;
+// Cerrojo exclusivo por FASES.md: un archivo `FASES.md.lock` creado con `wx` que lleva un token propio
+// (UUID). Envuelve la secuencia leer-modificar-escribir completa; quien lee una operacion, la cambia y la
+// guarda (la carta del hook, por ejemplo) toma el cerrojo con `withOperationLock` para que otra escritura
+// no le pise el cambio. Es reentrante dentro de la misma cadena asincrona, de modo que
+// `saveOperationState` puede tomarlo otra vez.
+//
+// Un cerrojo mas viejo que staleMs se toma por huerfano (el proceso murio). Retirarlo lo gana uno solo:
+// se RENOMBRA a un nombre unico (rename es atomico, el segundo que lo intente falla y reintenta sin borrar
+// nada) y se borra solo el renombrado. Si lo renombrado resulta no ser viejo (otro lo retiro y tomo uno
+// nuevo entre el stat y el rename), se intenta devolver a su sitio con `link`, que no pisa. Al liberar solo
+// se borra el cerrojo si su token sigue siendo el propio. La espera maxima supera el umbral de huerfano, de
+// modo que un cierre abrupto no deja a los escritores fallando. Limites: solo ordena a quienes lo toman (un
+// editor ajeno de FASES.md no lo ve) y no cubre secuencias entre comandos de la CLI; la ventana entre el
+// stat y el rename del retiro es de un solo paso asincrono y no se elimina del todo.
+export const OPERATION_LOCK_LIMITS = Object.freeze({ retryMs: 10, staleMs: 30_000, timeoutMs: 35_000 });
 const heldLocks = new AsyncLocalStorage();
+
+async function retireStaleLock(lockFile) {
+  const aside = `${lockFile}.${randomUUID()}.stale`;
+  try { await rename(lockFile, aside); } catch { return; } // otro ya lo retiro: reintentar sin borrar nada
+  try {
+    const moved = await stat(aside);
+    if (Date.now() - moved.mtimeMs <= OPERATION_LOCK_LIMITS.staleMs) {
+      // Era un cerrojo vivo recien tomado por otro: devolverlo sin pisar uno nuevo.
+      try { await link(aside, lockFile); } catch { /* ya hay otro cerrojo: no se toca */ }
+    }
+  } catch { /* desaparecio: nada que devolver */ }
+  await rm(aside, { force: true }).catch(() => {});
+}
 
 export async function withOperationLock(root, work) {
   const lockFile = `${fasesFileOf(root)}.lock`;
   const held = heldLocks.getStore();
   if (held?.has(lockFile)) return work();
   await mkdir(dirname(lockFile), { recursive: true });
-  const deadline = Date.now() + LOCK_TIMEOUT_MS;
+  const { retryMs, staleMs, timeoutMs } = OPERATION_LOCK_LIMITS;
+  const token = randomUUID();
+  const deadline = Date.now() + timeoutMs;
   for (;;) {
     try {
       const handle = await open(lockFile, "wx");
-      try { await handle.writeFile(JSON.stringify({ pid: process.pid, at: new Date().toISOString() })); } finally { await handle.close(); }
+      try {
+        await handle.writeFile(JSON.stringify({ pid: process.pid, at: new Date().toISOString(), token }));
+      } catch (error) {
+        await handle.close().catch(() => {});
+        await rm(lockFile, { force: true }).catch(() => {});
+        throw error;
+      }
+      await handle.close();
       break;
     } catch (error) {
       // En Windows crear sobre un archivo que se esta borrando da EPERM/EBUSY, no EEXIST.
@@ -585,15 +613,17 @@ export async function withOperationLock(root, work) {
     }
     try {
       const { mtimeMs } = await stat(lockFile);
-      if (Date.now() - mtimeMs > LOCK_STALE_MS) { await rm(lockFile, { force: true }); continue; }
+      if (Date.now() - mtimeMs > staleMs) { await retireStaleLock(lockFile); continue; }
     } catch { /* se libero entre el intento y el stat: se reintenta */ }
     if (Date.now() > deadline) throw new Error(`FASES.md is locked by another writer: ${lockFile}`);
-    await new Promise((done) => setTimeout(done, LOCK_RETRY_MS));
+    await new Promise((done) => setTimeout(done, retryMs));
   }
   try {
     return await heldLocks.run(new Set([...(held ?? []), lockFile]), work);
   } finally {
-    await rm(lockFile, { force: true }).catch(() => {});
+    try {
+      if (JSON.parse(await readFile(lockFile, "utf8")).token === token) await rm(lockFile, { force: true });
+    } catch { /* ya no existe o no es nuestro: no se toca */ }
   }
 }
 
