@@ -19,14 +19,31 @@
 // aqui; y el registro lo puede escribir el mismo usuario del sistema operativo. `confirm-delivery` contrasta
 // cada par con el transcript de la sesion y declara esa integridad como `same-os-user`.
 
-import { appendFileSync, readFileSync } from "node:fs";
+import { closeSync, constants, lstatSync, openSync, readFileSync, writeSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 
 const AGENT_TOOLS = new Set(["Agent", "Task"]);
 const TASK_HEADER = /^# Task (\S+) of operation (\S+)$/m;
 const TASK_REFERENCE = /^@lore-task (\S+) (\S+) sha256:([0-9a-f]{64})$/;
 const sha256 = (text) => createHash("sha256").update(text).digest("hex");
+function appendLocal(path, text) {
+  try { if (lstatSync(path).isSymbolicLink()) throw new Error("delivery log is a symbolic link"); }
+  catch (error) { if (error?.code !== "ENOENT") throw error; }
+  const fd = openSync(path, constants.O_WRONLY | constants.O_APPEND | constants.O_CREAT | (constants.O_NOFOLLOW ?? 0), 0o600);
+  try { writeSync(fd, text); } finally { closeSync(fd); }
+}
+
+function excludeDeliveryLog(cwd) {
+  try {
+    const path = resolve(cwd, execFileSync("git", ["-C", cwd, "rev-parse", "--git-path", "info/exclude"], { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim());
+    const entry = ".lore-deliveries.jsonl";
+    let current = "";
+    try { current = readFileSync(path, "utf8"); } catch (error) { if (error?.code !== "ENOENT") throw error; }
+    if (!current.split(/\r?\n/).includes(entry)) appendLocal(path, `${current && !current.endsWith("\n") ? "\n" : ""}${entry}\n`);
+  } catch { /* no git repository or exclude unavailable: observation stays best-effort */ }
+}
 
 // La huella del metodo que trae la definicion del trabajador del kit que el host carga en esta sesion
 // (`${CLAUDE_PLUGIN_ROOT}/agents/lore-worker.md`). null si no se puede leer.
@@ -59,7 +76,10 @@ async function main() {
   const post = event === "post"
     ? { agent_id: data.tool_response?.agentId ?? data.tool_response?.agent_id ?? null, response_sha256: sha256(JSON.stringify(data.tool_response ?? null)) }
     : {};
-  const write = (line) => appendFileSync(join(cwd, ".lore-deliveries.jsonl"), `${JSON.stringify({ ...line, at: new Date().toISOString() })}\n`);
+  const write = (line) => {
+    excludeDeliveryLog(cwd);
+    appendLocal(join(cwd, ".lore-deliveries.jsonl"), `${JSON.stringify({ ...line, at: new Date().toISOString() })}\n`);
+  };
 
   const reference = prompt.trim().match(TASK_REFERENCE);
   if (reference) {

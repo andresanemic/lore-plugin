@@ -156,6 +156,8 @@ If you already use a host plugin manager, these shorter routes install the same 
 
 There is no uninstall command yet. To go back, delete the paths above, and remove the status mark with `node scripts/lore-plugin.mjs statusline uninstall`. If you keep your own configuration in `~/.config/opencode`, back it up first.
 
+The Agent/Task delivery observer writes local metadata to `.lore-deliveries.jsonl` in the project root, including the host transcript path. It adds that filename to the repository's `.git/info/exclude` and refuses to append through a symbolic link.
+
 ### Claude Code
 
 Run these commands inside Claude Code:
