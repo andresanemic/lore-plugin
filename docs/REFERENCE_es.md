@@ -6,7 +6,7 @@ y cómo migrar un proyecto existente. Para la motivación, la arquitectura de un
 todos los documentos, consulta el [`README.md`](../README.md); para la versión de 90 segundos,
 [`90_SECONDS_es.md`](./90_SECONDS_es.md).
 
-Esta referencia describe Lore Plugin 2.5.3, que fija el kernel Vespi 0.1.8 en el commit `0c0a3e3425a915aa43af1e8c5ffaaacb24c55729`. Las superficies opcionales del kernel conservan sus límites. Consulta [`RELEASE_2.5.3.md`](./RELEASE_2.5.3.md) y [la verificación ejecutada](./VERIFICATION-EXECUTION.md). Incluye once módulos, con superficies opcionales de emergencia, procedencia de skills, x402 y ZK; excluye `zk-bn254-reference.js`, una referencia criptográfica experimental, y el puente x402 con el SDK real. Consulta [`RELEASE_2.5.3.md`](./RELEASE_2.5.3.md) para ver el resumen.
+Esta referencia describe Lore Plugin 2.5.3, que fija el kernel Vespi 0.1.8 en el commit `e7f00b7d9a4c512aca32eda053774a11713bd6c1`. Las superficies opcionales del kernel conservan sus límites. Consulta [`RELEASE_2.5.3.md`](./RELEASE_2.5.3.md) y [la verificación ejecutada](./VERIFICATION-EXECUTION.md). Incluye once módulos, con superficies opcionales de emergencia, procedencia de skills, x402 y ZK; excluye `zk-bn254-reference.js`, una referencia criptográfica experimental, y el puente x402 con el SDK real. Consulta [`RELEASE_2.5.3.md`](./RELEASE_2.5.3.md) para ver el resumen.
 
 ---
 

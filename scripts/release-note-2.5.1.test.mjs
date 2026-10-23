@@ -31,5 +31,5 @@ test('documentación vigente refleja kernel fijo y límite semántico acordados'
  const readme=readFileSync(new URL('../README.md',import.meta.url),'utf8');
  assert.match(readme,/Kernel 0\.1\.8 is pinned/); assert.match(readme,/kernel 0\.1\.8 está fijado/);
  const verification=readFileSync(new URL('../docs/VERIFICATION-EXECUTION.md',import.meta.url),'utf8'); assert.match(verification,/128,000-byte/); assert.doesNotMatch(verification,/64 KiB/);
- for(const lang of ['en','es']){const ref=readFileSync(new URL('../docs/REFERENCE_'+lang+'.md',import.meta.url),'utf8');assert.match(ref.slice(0,1200),/Lore Plugin 2\.5\.3/);assert.match(ref.slice(0,1200),/0c0a3e3425a915aa43af1e8c5ffaaacb24c55729/);}
+ for(const lang of ['en','es']){const ref=readFileSync(new URL('../docs/REFERENCE_'+lang+'.md',import.meta.url),'utf8');assert.match(ref.slice(0,1200),/Lore Plugin 2\.5\.3/);assert.match(ref.slice(0,1200),/e7f00b7d9a4c512aca32eda053774a11713bd6c1/);}
 });

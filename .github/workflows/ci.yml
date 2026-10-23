@@ -27,7 +27,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           git -C $kernel remote add origin https://github.com/andresanemic/vespi.git
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          git -C $kernel fetch --depth=1 origin 0c0a3e3425a915aa43af1e8c5ffaaacb24c55729
+          git -C $kernel fetch --depth=1 origin e7f00b7d9a4c512aca32eda053774a11713bd6c1
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           git -C $kernel checkout --detach FETCH_HEAD
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

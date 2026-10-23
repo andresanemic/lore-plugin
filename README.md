@@ -435,7 +435,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** An Area 
 
 ## Vespi
 
-**Vespi is the kernel under Lore Plugin. Kernel 0.1.8 is pinned at commit `0c0a3e3425a915aa43af1e8c5ffaaacb24c55729`; its eleven copied modules are checked against that source.** Reviewed, not audited: the only reviews so far are our own superreviews with Claude Code, and there is no independent external security audit.
+**Vespi is the kernel under Lore Plugin. Kernel 0.1.8 is pinned at commit `e7f00b7d9a4c512aca32eda053774a11713bd6c1`; its eleven copied modules are checked against that source.** Reviewed, not audited: the only reviews so far are our own superreviews with Claude Code, and there is no independent external security audit.
 
 <p align="center">
   <img src="./assets/vespi-B.png" alt="Vespi" width="100%">
@@ -1000,7 +1000,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 ## Vespi
 
-**Vespi es el kernel de Lore Plugin. El kernel 0.1.8 está fijado en el commit `0c0a3e3425a915aa43af1e8c5ffaaacb24c55729`; sus once módulos copiados se comprueban contra esa fuente.** Revisado, no auditado: las únicas revisiones hasta ahora son nuestras propias superreviews con Claude Code, y no hay auditoría de seguridad externa independiente.
+**Vespi es el kernel de Lore Plugin. El kernel 0.1.8 está fijado en el commit `e7f00b7d9a4c512aca32eda053774a11713bd6c1`; sus once módulos copiados se comprueban contra esa fuente.** Revisado, no auditado: las únicas revisiones hasta ahora son nuestras propias superreviews con Claude Code, y no hay auditoría de seguridad externa independiente.
 
 <p align="center">
   <img src="./assets/vespi-B.png" alt="Vespi" width="100%">

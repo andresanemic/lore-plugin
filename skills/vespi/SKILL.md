@@ -114,7 +114,7 @@ Before delivering a user artifact, replace every internal label with the audienc
 
 ## Core provenance
 
-Pinned Vespi kernel **0.1.8**, publication pending: `founder/proyectos/vespi/kernel/src/`, branch `master`, commit `0c0a3e3425a915aa43af1e8c5ffaaacb24c55729`. Andrés decides adoption. Three provenance lines precede exact source bytes; `core/kernel/SOURCE.md` and its test check identity. Never edit vendor: change canonical source then re-copy. Vendored: `authority.js`, `context.js`, `continuity.js`, `delegation.js`, `emergency.js`, `operation.js`, `receipt.js`, `skill-provenance.js`, `time.js`, `x402.js`, `zk.js`. Experimental `zk-bn254-reference.js` is not vendored. Wrappers remain experimental and require evidence from use.
+Pinned Vespi kernel **0.1.8**, publication pending: `founder/proyectos/vespi/kernel/src/`, branch `master`, commit `e7f00b7d9a4c512aca32eda053774a11713bd6c1`. Andrés decides adoption. Three provenance lines precede exact source bytes; `core/kernel/SOURCE.md` and its test check identity. Never edit vendor: change canonical source then re-copy. Vendored: `authority.js`, `context.js`, `continuity.js`, `delegation.js`, `emergency.js`, `operation.js`, `receipt.js`, `skill-provenance.js`, `time.js`, `x402.js`, `zk.js`. Experimental `zk-bn254-reference.js` is not vendored. Wrappers remain experimental and require evidence from use.
 
 ## Delegating to Codex and OpenCode on Windows
 

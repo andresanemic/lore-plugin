@@ -5,7 +5,7 @@ use, core concepts, the exact spec for every skill, mode and artifact, and how t
 project. For the motivation, the architecture at a glance and the index of every document, see the
 main [`README.md`](../README.md); for the 90-second version, [`90_SECONDS_en.md`](./90_SECONDS_en.md).
 
-This reference describes Lore Plugin 2.5.3, which pins Vespi kernel 0.1.8 at commit `0c0a3e3425a915aa43af1e8c5ffaaacb24c55729`. Optional kernel surfaces keep their existing limits. See [`RELEASE_2.5.3.md`](./RELEASE_2.5.3.md) and [executed verification](./VERIFICATION-EXECUTION.md). It includes eleven modules, with optional emergency, skill provenance, x402 and ZK surfaces; it excludes `zk-bn254-reference.js`, an experimental cryptographic reference, and the SDK-backed x402 bridge. See [`RELEASE_2.5.3.md`](./RELEASE_2.5.3.md) for the summary.
+This reference describes Lore Plugin 2.5.3, which pins Vespi kernel 0.1.8 at commit `e7f00b7d9a4c512aca32eda053774a11713bd6c1`. Optional kernel surfaces keep their existing limits. See [`RELEASE_2.5.3.md`](./RELEASE_2.5.3.md) and [executed verification](./VERIFICATION-EXECUTION.md). It includes eleven modules, with optional emergency, skill provenance, x402 and ZK surfaces; it excludes `zk-bn254-reference.js`, an experimental cryptographic reference, and the SDK-backed x402 bridge. See [`RELEASE_2.5.3.md`](./RELEASE_2.5.3.md) for the summary.
 
 ---
 
