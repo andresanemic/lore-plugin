@@ -23,9 +23,31 @@
             "async": false
           }
         ]
+      },
+      {
+        "matcher": "Agent|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/delivery-observer.mjs\" pre",
+            "shell": "bash",
+            "async": false
+          }
+        ]
       }
     ],
     "PostToolUse": [
+      {
+        "matcher": "Agent|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/delivery-observer.mjs\" post",
+            "shell": "bash",
+            "async": false
+          }
+        ]
+      },
       {
         "hooks": [
           {

@@ -120,7 +120,7 @@ test("flujo mecánico sin criterio propietario conserva FASES, compactación y p
   assert.match(unseen.body.error, /proof_runner|adapter|commission/i);
   proofAt(root, id);
   assert.equal(call(opArgs("verify", root, id, ["--task", "t1", "--json", json({ verifier: "coordinador" })])).task.state, "verified");
-  assert.equal(call(opArgs("integrate", root, id, ["--task", "t1", "--json", json({ destination: "fixture/revisado.md" })])).task.state, "integrated");
+  assert.equal(call(opArgs("integrate", root, id, ["--task", "t1", "--json", json({ destination: tasks[0].outputPath })])).task.state, "integrated");
 
   // Simula el registro de una incertidumbre material que ya existe antes de la pausa.
   artifact = JSON.parse(readFileSync(fasesPath, "utf8").match(/```json\s*([\s\S]*?)\s*```/)[1]);

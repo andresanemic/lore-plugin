@@ -453,6 +453,15 @@ function closureOf(artifact) {
     resolved_criteria: artifact.resolved_criteria ?? [],
     criterion_events: artifact.criterion_events ?? [],
     decisions: artifact.decisions ?? [],
+    ...(Array.isArray(artifact.obligations) ? {
+      obligations: artifact.obligations,
+      obligations_sha256: artifact.obligations_sha256,
+      obligations_declaration: artifact.obligations_declaration ?? artifact.checkpoints?.find(cp => cp.note?.startsWith("obligaciones declaradas sha256:")) ?? null,
+    } : {}),
+    ...(Array.isArray(artifact.final_outputs) ? {
+      final_outputs: artifact.final_outputs,
+      final_outputs_sha256: artifact.final_outputs_sha256 ?? null,
+    } : {}),
     done: artifact.done,
     roles: artifact.roles,
     verifier: artifact.verifier,
@@ -468,12 +477,14 @@ function closureOf(artifact) {
     closed_at: artifact.checkpoints?.at(-1)?.at ?? null,
     verification: artifact.verification ?? null,
     last_receipt: artifact.last_receipt ?? null,
-    task_reviews: (artifact.tasks ?? []).map(task => ({
+    task_reviews: artifact.tasks ? artifact.tasks.map(task => ({
       task_id: task.id,
+      ...(task.obligation ? { obligation: task.obligation } : {}),
       received: task.received ?? null,
       review: task.review ?? null,
       review_history: task.review_history ?? [],
-    })),
+      ...(task.integration ? { integration: task.integration } : {}),
+    })) : artifact.task_reviews ?? [],
   };
 }
 

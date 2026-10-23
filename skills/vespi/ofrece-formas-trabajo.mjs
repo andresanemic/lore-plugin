@@ -61,13 +61,16 @@ function capacidadesFaltantes(forma, capacidades = {}) {
   return forma.capacidades.filter((capacidad) => capacidades[capacidad] !== true);
 }
 
-function huellaContexto(contexto, capacidades) {
+function huellaContexto(contexto, capacidades, efectos) {
   const compactar = (valor) => valor.trim().replace(/\s+/g, " ").toLocaleLowerCase("es");
   const inventario = contexto.catalogoSkills.map(({ id, nombre }) => [id, nombre])
     .sort(([a], [b]) => a.localeCompare(b));
   const catalogoSkillsDigest = createHash("sha256").update(JSON.stringify(inventario)).digest("hex");
   const material = {
     instruccion: compactar(contexto.instruccion),
+    fuentes: contexto.fuentes,
+    entregables: contexto.entregables,
+    acciones: contexto.acciones,
     pistas: contexto.pistasPertinentes.map(({ referencia, pertinente, huellaContenido }) => ({ referencia, pertinente, huellaContenido }))
       .sort((a, b) => a.referencia.localeCompare(b.referencia)),
     catalogoSkillsDigest,
@@ -76,6 +79,7 @@ function huellaContexto(contexto, capacidades) {
     capacidades: Object.entries(capacidades ?? {})
       .map(([id, disponible]) => [id, disponible === true])
       .sort(([a], [b]) => a.localeCompare(b)),
+    efectos: Object.entries(efectos ?? {}).sort(([a], [b]) => a.localeCompare(b)),
   };
   return createHash("sha256").update(JSON.stringify(material)).digest("hex");
 }
@@ -85,37 +89,80 @@ function alternativasViables(ids, capacidades) {
     .filter((forma) => forma && capacidadesFaltantes(forma, capacidades).length === 0);
 }
 
+function nombreRol(id) {
+  return ({ daimon: "investigación", advisor: "asesoría", worker: "ejecución", verifier: "verificación", parallelWorktrees: "trabajo paralelo" })[id] ?? id;
+}
+
+function nombrePersona(forma) {
+  return forma.nombre.replace("Secuencial con checkpoints + Party por roles", "trabajo por etapas con roles especializados")
+    .replace("Secuencial con checkpoints", "trabajo por etapas con revisiones")
+    .replace("Party por roles", "trabajo con roles especializados")
+    .replace("Frentes paralelos", "trabajo en paralelo");
+}
+
+function criterioRevision(contexto, efectos, alcanceOriginal) {
+  if (!contexto) return { simple: false, requiereRevision: false };
+  const instruccion = contexto?.instruccion ?? "";
+  if (instruccion.length > 10000) return { simple: false, requiereRevision: true };
+  const efectosSolicitados = Object.values(efectos ?? {}).some(Boolean);
+  const camposAlcance = ["fuentes", "entregables", "acciones"];
+  const hayMetadataAlcance = camposAlcance.some((campo) => Object.hasOwn(alcanceOriginal ?? {}, campo));
+  const edicionTrivial = !hayMetadataAlcance && !efectosSolicitados
+    && /^(?:corrige (?:una errata(?: local)?|el t[ií]tulo)|actualiza el t[ií]tulo|renombra el t[ií]tulo|cambia (?:las comillas|los espacios|el punto final|la puntuaci[oó]n)(?: del t[ií]tulo)?|borra los espacios(?: del t[ií]tulo)?|change (?:the final punctuation in the title|the section titles|the title)|fix (?:a typo|the title)|edit the title|rename the title)$/iu.test(instruccion.trim().replace(/[.!?]+$/u, ""));
+  const simple = edicionTrivial && contexto.pistasPertinentes.length <= 1;
+  return { simple, requiereRevision: !simple };
+}
+function formaInferida() { return "acompanada"; }
 export function ofrecerFormaTrabajo({
   contexto = null,
-  modalidad,
+  modalidad = null,
   motivo,
   tradeoff,
   alternativas = [],
   capacidades = {},
   preferencia = null,
+  efectos = null,
 }) {
+  capacidades = Object.setPrototypeOf(Object.fromEntries(Object.entries(capacidades ?? {})), null);
   const contextoValidado = contexto === null ? null : validarContextoRecomendacion(contexto);
+  const criterio = criterioRevision(contextoValidado, efectos, contexto);
+  const compuesta = criterio.requiereRevision;
   const modalidadPreferida = preferencia?.mismaOperacion === true
     && typeof preferencia.modalidad === "string"
     ? preferencia.modalidad
     : null;
-  const retomarModalidad = Boolean(preferencia?.mismaOperacion === true
-    && preferencia.contextoCambioMaterial !== true
-    && detectarFormaTrabajo({ modalidad: modalidadPreferida }));
-  const modalidadEfectiva = retomarModalidad ? modalidadPreferida : modalidad;
-  const propuesta = detectarFormaTrabajo({ modalidad: modalidadEfectiva });
+  const retomarPreferencia = preferencia?.mismaOperacion === true
+    && Boolean(detectarFormaTrabajo({ modalidad: modalidadPreferida }));
+  const retomarModalidad = retomarPreferencia && preferencia.contextoCambioMaterial !== true;
+  const modalidadEfectiva = retomarPreferencia
+    ? modalidadPreferida
+    : (modalidad ?? formaInferida(contextoValidado, capacidades, criterio));
+  const modalidadAjustada = criterio.simple && modalidad === null && !retomarPreferencia
+    ? "acompanada"
+    : modalidadEfectiva;
+  let propuesta = detectarFormaTrabajo({ modalidad: modalidadAjustada });
   if (!propuesta) throw new Error("modalidad no reconocida: " + String(modalidad));
   if (typeof motivo !== "string" || !motivo.trim()) throw new Error("motivo no puede estar vacío");
   if (typeof tradeoff !== "string" || !tradeoff.trim()) throw new Error("tradeoff no puede estar vacío");
   if (!Array.isArray(alternativas)) throw new Error("alternativas debe ser una lista");
 
-  const faltantes = capacidadesFaltantes(propuesta, capacidades);
-  const opcionesAlternativas = alternativasViables(
-    alternativas.filter((id) => id !== modalidadEfectiva),
+  const verificacionSolicitada = propuesta.capacidades.includes("verifier") || compuesta;
+  let faltantes = capacidadesFaltantes(propuesta, capacidades);
+  if (compuesta && capacidades.verifier !== true && !faltantes.includes("verifier")) faltantes.push("verifier");
+  const faltantesPreferencia = [...faltantes];
+  const alternativasDisponibles = alternativasViables(alternativas.filter((id) => id !== modalidadAjustada), capacidades);
+  if (faltantes.length > 0 && alternativasDisponibles.length > 0 && !retomarPreferencia
+    && (!verificacionSolicitada || capacidades.verifier === true)) {
+    propuesta = alternativasDisponibles[0];
+    faltantes = [];
+  }
+  const rutaAlternativa = propuesta.id !== modalidadAjustada;
+  const opcionesAlternativas = compuesta && capacidades.verifier !== true && contextoValidado ? [] : alternativasViables(
+    alternativas.filter((id) => id !== propuesta.id),
     capacidades,
   ).map((forma) => forma.id);
   const nombresAlternativas = opcionesAlternativas
-    .map((id) => detectarFormaTrabajo({ modalidad: id }).nombre);
+    .map((id) => nombrePersona(detectarFormaTrabajo({ modalidad: id })));
   const camposContexto = contextoValidado ? {
     fundamento: {
       instruccion: contextoValidado.instruccion,
@@ -126,11 +173,34 @@ export function ofrecerFormaTrabajo({
       catalogoSkillsDigest: createHash("sha256").update(JSON.stringify(
         contextoValidado.catalogoSkills.map(({ id, nombre }) => [id, nombre]).sort(([a], [b]) => a.localeCompare(b)),
       )).digest("hex"),
-      huellaContexto: huellaContexto(contextoValidado, capacidades),
+      huellaContexto: huellaContexto(contextoValidado, capacidades, efectos),
     },
     skillsSugeridas: contextoValidado.skillsSugeridas,
   } : {};
-  if (retomarModalidad && modalidadPreferida !== modalidad && faltantes.length === 0) {
+  const requiereRevision = compuesta || verificacionSolicitada || propuesta.capacidades.includes("verifier");
+  const rutaTecnica = requiereRevision
+    ? capacidades.verifier === true ? "metodo-y-revision-final" : "revision-pendiente"
+    : "directa";
+  const razonRuta = rutaTecnica === "directa"
+    ? "La instrucción coincide con una excepción textual finita, sin metadatos de alcance ni efectos solicitados."
+    : capacidades.verifier === true
+      ? "La ruta requiere revisi\u00f3n final y el host inform\u00f3 un verificador disponible."
+      : "La ruta requiere revisi\u00f3n final y el host no inform\u00f3 un verificador; no puede declararse conformidad.";
+  const mensajeRuta = rutaTecnica === "directa"
+    ? "Haré la tarea en una sola pasada, sin efectos adicionales."
+    : rutaTecnica === "metodo-y-revision-final"
+      ? "No tengo evidencia suficiente para omitir la revisión final; usaré el método y el verificador informado por el host."
+      : "No tengo evidencia suficiente para omitir la revisión final y falta un verificador; no declararé conformidad.";
+  const camposRuta = {
+    ruta_tecnica: rutaTecnica,
+    razon_ruta: razonRuta,
+    revision_final: requiereRevision && capacidades.verifier === true,
+    verificacion_requerida: requiereRevision,
+    conformidad: null,
+    efectos: { gasto: false, publicacion: false, acceso_archivos: false },
+    ...(preferencia?.contextoCambioMaterial === true ? { requiere_revalidacion: true } : {}),
+  };
+  if (retomarModalidad && propuesta.id === modalidadPreferida && modalidadPreferida !== modalidad && faltantes.length === 0) {
     return {
       tipo: "oferta_forma_trabajo",
       disponible: true,
@@ -140,11 +210,13 @@ export function ofrecerFormaTrabajo({
       alternativas: [],
       capacidades_faltantes: [],
       preferencia,
+      ...camposRuta,
       ...camposContexto,
       requiere_eleccion: false,
       reanudada: true,
-      mensaje: "Seguimos con " + propuesta.nombre + ", ya elegida para esta operación. "
-        + "El contexto sigue estable; conservo el registro de decisiones sobre skills de esta operación.",
+      mensaje: "Retomamos el trabajo " + nombrePersona(propuesta) + ", ya elegida para esta operación. "
+        + "El contexto sigue estable; conservo las herramientas elegidas para esta operación."
+        + (requiereRevision ? " La entrega requiere revisión final." : ""),
     };
   }
   const fundamentoTexto = contextoValidado
@@ -161,23 +233,30 @@ export function ofrecerFormaTrabajo({
     return {
       tipo: "oferta_forma_trabajo",
       disponible: false,
-      modalidad: null,
-      modalidad_solicitada: modalidad,
+      modalidad: retomarPreferencia ? propuesta.id : null,
+      modalidad_solicitada: modalidadPreferida ?? modalidad,
       motivo: motivo.trim(),
       tradeoff: tradeoff.trim(),
       capacidades_faltantes: faltantes,
       alternativas: opcionesAlternativas,
       preferencia,
+      ...camposRuta,
+      ...(requiereRevision && capacidades.verifier !== true ? { bloqueo: "Falta un verificador para declarar conformidad." } : {}),
       ...camposContexto,
       requiere_eleccion: puedeElegir,
       bloqueada: !puedeElegir,
       mensaje: puedeElegir
-        ? "No recomiendo " + propuesta.nombre + ": faltan capacidades (" + faltantes.join(", ") + "). Puedo ofrecer " + nombresAlternativas.join(", ") + ". ¿Cuál prefieres?"
-        : "No puedo ofrecer " + propuesta.nombre + ": faltan capacidades (" + faltantes.join(", ") + ") y no hay una alternativa disponible.",
+        ? (retomarPreferencia
+          ? "La opción que elegiste necesita los roles de " + faltantes.map(nombreRol).join(", ") + ", que ahora no están disponibles. Puedo ofrecer " + nombresAlternativas.join(", ") + "; tu preferencia se conserva. ¿Cuál prefieres?"
+          : "No recomiendo " + propuesta.nombre + ": faltan capacidades (" + faltantes.join(", ") + "). Puedo ofrecer " + nombresAlternativas.join(", ") + ". ¿Cuál prefieres?")
+        : requiereRevision && capacidades.verifier !== true
+          ? "No seguir\u00e9 con esta entrega hasta contar con una revisi\u00f3n final. Faltan " + faltantes.map(nombreRol).join(", ")
+            + (preferencia?.contextoCambioMaterial === true ? "; el contexto cambi\u00f3 materialmente y hay que revalidar." : ". No afirmar\u00e9 que cumple.")
+          : "No puedo ofrecer " + propuesta.nombre + ": faltan capacidades (" + faltantes.join(", ") + ") y no hay una alternativa disponible.",
     };
   }
 
-  if (opcionesAlternativas.length === 0) {
+  if (opcionesAlternativas.length === 0 && faltantes.length === 0 && !rutaAlternativa && modalidad !== null && !criterio.simple) {
     throw new Error("una recomendación debe incluir al menos una alternativa disponible");
   }
 
@@ -186,18 +265,23 @@ export function ofrecerFormaTrabajo({
   const retomaSinPregunta = preferencia?.mismaOperacion === true
     && retomarModalidad
     && !contextoCambioMaterial;
+  const seleccionAutomatica = preferencia?.contextoCambioMaterial !== true && (modalidad === null || criterio.simple || rutaAlternativa);
+  const cambioDeRutaGuardada = rutaAlternativa && Boolean(modalidadPreferida);
   const motivoTexto = sinPuntuacionFinal(motivo.trim());
   const costeTexto = sinPuntuacionFinal(tradeoff.trim());
-  const mensajeBase = "Para esta tarea recomiendo " + propuesta.nombre + " porque " + motivoTexto
+  const mensajeBase = "Para esta tarea recomiendo " + nombrePersona(propuesta) + " porque " + motivoTexto
     + ". Coste: " + costeTexto + ". Alternativas: " + nombresAlternativas.join(", ") + ". "
     + fundamentoTexto + skillsTexto;
-  const mensajePreferencia = retomaSinPregunta
-    ? "Seguimos con " + propuesta.nombre + ", ya elegida para esta operación. "
-    : preferencia?.mismaOperacion === true && contextoCambioMaterial
-      ? "El contexto cambió materialmente desde la decisión anterior. La modalidad anterior era "
-        + (detectarFormaTrabajo({ modalidad: modalidadPreferida })?.nombre ?? modalidadPreferida)
-        + "; revisa esta propuesta antes de seguir. "
-      : "";
+  const modalidadAnterior = detectarFormaTrabajo({ modalidad: modalidadPreferida });
+  const mensajePreferencia = cambioDeRutaGuardada
+    ? "La modalidad ya elegida requiere " + faltantesPreferencia.map(nombreRol).join(", ") + ", que no está disponible. Propongo " + nombrePersona(propuesta) + "; tu preferencia se conserva. "
+    : retomaSinPregunta
+      ? "Seguimos con " + nombrePersona(propuesta) + ", modalidad ya elegida para esta operación. "
+      : preferencia?.mismaOperacion === true && contextoCambioMaterial
+        ? "El contexto cambió materialmente desde la decisión anterior. La modalidad anterior era "
+        + (modalidadAnterior ? nombrePersona(modalidadAnterior) : "la modalidad guardada")
+          + "; revisa esta propuesta antes de seguir. "
+        : "";
 
   return {
     tipo: "oferta_forma_trabajo",
@@ -208,10 +292,12 @@ export function ofrecerFormaTrabajo({
     alternativas: opcionesAlternativas,
     capacidades_faltantes: [],
     preferencia,
+    ...camposRuta,
     ...camposContexto,
-    requiere_eleccion: !retomaSinPregunta,
-    mensaje: "Vamos paso a paso. " + mensajePreferencia + mensajeBase
-      + (retomaSinPregunta ? "" : " ¿Cómo prefieres avanzar?"),
+    requiere_eleccion: cambioDeRutaGuardada || (!retomaSinPregunta && !seleccionAutomatica),
+    mensaje: seleccionAutomatica
+      ? mensajePreferencia + mensajeRuta + (modalidad === null && !contextoCambioMaterial ? " Motivo: " + motivo.trim() + ". Coste: " + tradeoff.trim() + "." : "")
+      : "Vamos paso a paso. " + mensajePreferencia + mensajeBase + (retomaSinPregunta ? "" : " \u00bfC\u00f3mo prefieres avanzar?"),
   };
 }
 
@@ -228,6 +314,11 @@ export function validarContextoRecomendacion(contexto) {
     throw new Error("contexto.catalogoSkillsOrigen debe nombrar el inventario observado");
   }
   if (!Array.isArray(contexto.skillsSugeridas)) throw new Error("contexto.skillsSugeridas debe ser una lista");
+  for (const campo of ["fuentes", "entregables", "acciones"]) {
+    if (contexto[campo] !== undefined && (!Array.isArray(contexto[campo]) || contexto[campo].some((item) => typeof item !== "string" || !item.trim()))) {
+      throw new Error(`contexto.${campo} debe ser una lista de textos no vacíos`);
+    }
+  }
 
   const pistas = contexto.pistas.map((pista, index) => {
     if (!pista || typeof pista.referencia !== "string" || !pista.referencia.trim()) {
@@ -276,6 +367,9 @@ export function validarContextoRecomendacion(contexto) {
 
   return {
     instruccion: contexto.instruccion.trim(),
+    fuentes: (contexto.fuentes ?? []).map((item) => item.trim()),
+    entregables: (contexto.entregables ?? []).map((item) => item.trim()),
+    acciones: (contexto.acciones ?? []).map((item) => item.trim()),
     pistasPertinentes,
     pistasDescartadas,
     motivoSinPistas,
@@ -284,4 +378,18 @@ export function validarContextoRecomendacion(contexto) {
     catalogoSkillIds: catalogo.map((skill) => skill.id),
     skillsSugeridas,
   };
+}
+
+import { isIntegratedSparkReceipt } from "./core/vespi.mjs";
+
+export function reviewSparks(receipt, reviews) {
+  const sparks = receipt?.sparks;
+  if (!isIntegratedSparkReceipt(receipt) || !Array.isArray(sparks) || sparks.length !== 5) throw new Error("spark review needs an authentic accepted integration receipt");
+  if (!Array.isArray(reviews) || reviews.length !== 5) throw new Error("spark review needs one disposition per spark");
+  const result = { dead: [], mutated: [], promoted: [] };
+  reviews.forEach((review, index) => {
+    if (review?.text !== sparks[index] || !["dead", "mutated", "promoted"].includes(review.disposition)) throw new Error("spark review must match the integrated sparks and use dead, mutated or promoted");
+    result[review.disposition].push({ index, text: review.text });
+  });
+  return result;
 }

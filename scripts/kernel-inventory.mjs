@@ -71,7 +71,7 @@ export function declaredBranch(source) {
 }
 
 export function declaredPublished(source) {
-  return String(source).match(/published on (\d{4}-\d{2}-\d{2})/)?.[1] ?? null;
+  return String(source).includes("publication pending") ? "pending" : String(source).match(/published on (\d{4}-\d{2}-\d{2})/)?.[1] ?? null;
 }
 
 export function declaredCommit(source) {

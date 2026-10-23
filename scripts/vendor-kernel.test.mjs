@@ -419,3 +419,13 @@ function runCli(args) {
   const sink = () => {};
   return main(args, { stdout: sink, stderr: sink });
 }
+
+test("un corte preparado conserva publication pending sin inventar fecha", () => {
+  const { repo, kitRoot: root, kernelDir } = vendorize({ options: { published: "pending" } });
+  const before = readFileSync(join(kernelDir, "SOURCE.md"), "utf8");
+  assert.match(before, /publication pending/);
+  assert.doesNotMatch(before, /published on \d{4}-\d{2}-\d{2}/);
+  const report = vendorKernel({ source: repo.root, ref: repo.ref, kitRoot: root, check: true });
+  assert.equal(report.published, "pending");
+  assert.equal(readFileSync(join(kernelDir, "SOURCE.md"), "utf8"), before);
+});

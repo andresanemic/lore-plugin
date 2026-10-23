@@ -4,8 +4,9 @@ import { proofAt } from "../bench/verification-fixture.mjs";
 // Cada comando imprime UNA linea JSON en stdout ({ok, ...}); un error sale con codigo 1 y {ok:false, error}.
 // Las tareas se despachan declarando las herramientas del host que quien opera OBSERVO (--tools); la CLI no las simula.
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
-import { cp, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -92,6 +93,61 @@ test("plan agrega la tarea t1 con su encargo y la persiste", async (t) => {
   const s = run(["status", "--root", root, "--id", id]);
   assert.equal(s.json.tasks.length, 1);
   assert.equal(s.json.tasks[0].state, "proposed");
+});
+
+test("prompt de trabajador dispara y persiste carta interna en el flujo real de operación", async (t) => {
+  const { root, id } = await conOperacion(t);
+  run(["plan", "--root", root, "--id", id, "--json", j({ role: "worker", question: "producir evidencia", scope: "solo la prueba", done_criterion: "archivo presente", proof: "releer archivo", output: { path: join(root, "worker.md") }, timeoutMs: 600000, nextCheckAt: futuro() })]);
+  run(["dispatch", "--root", root, "--id", id, "--task", "t1", "--tools", "delegate", "--json", j({ hostName: "opencode", model: "m" })]);
+  const result = run(["prompt", "--root", root, "--id", id, "--task", "t1"]);
+  assert.equal(result.json.ok, true, result.err);
+  assert.equal(result.json.systemPrompt.role, "system");
+  assert.match(result.json.systemPrompt.content, /Baraja/);
+  assert.ok(result.json.prompt.includes(result.json.systemPrompt.content));
+  assert.equal(createHash("sha256").update(result.json.prompt).digest("hex"), result.json.prompt_sha256);
+  assert.ok(result.json.commission.includes(result.json.systemPrompt.content));
+  assert.equal(createHash("sha256").update(result.json.commission).digest("hex"), result.json.commission_sha256);
+  const stored = await readOperation({ root, id });
+  assert.equal(stored.perturbations[0].task_id, "t1");
+  assert.equal(stored.perturbations[0].silent, true);
+  assert.ok(stored.perturbations[0].prompt_prepared_at);
+});
+
+test("worker del kit recibe la comisión canónica con carta y confirm-delivery conserva la huella", async (t) => {
+  const { root, id } = await conOperacion(t);
+  run(["plan", "--root", root, "--id", id, "--json", j({ role: "worker", question: "preparar evidencia", scope: "solo la prueba", done_criterion: "archivo presente", proof: "releer archivo", output: { path: join(root, "worker.md") }, timeoutMs: 600000, nextCheckAt: futuro() })]);
+  run(["dispatch", "--root", root, "--id", id, "--task", "t1", "--tools", "delegate", "--json", j({ hostName: "claude-code", model: "fixture" })]);
+  const result = run(["prompt", "--root", root, "--id", id, "--task", "t1"]);
+  assert.equal(result.code, 0, result.err);
+  assert.ok(result.json.commission.includes(result.json.systemPrompt.content));
+  assert.match(result.json.commission, /Method: delivered in the lore-worker agent definition \(sha256 [0-9a-f]{64}\)\.\n$/);
+
+  const toolUseId = "kit-worker-tool";
+  const agentId = "kit-worker-agent";
+  const sessionRoot = join(root, "session");
+  await mkdir(sessionRoot);
+  const transcriptPath = join(sessionRoot, "transcript.jsonl");
+  const reference = { type: "assistant", message: { content: [{ type: "tool_use", id: toolUseId, name: "Agent", input: { prompt: result.json.worker_reference, subagent_type: "lore:lore-worker" } }] } };
+  await writeFile(transcriptPath, JSON.stringify(reference) + "\n");
+  const subagents = join(sessionRoot, "transcript", "subagents");
+  await mkdir(subagents, { recursive: true });
+  await writeFile(join(subagents, `agent-${agentId}.meta.json`), JSON.stringify({ agentType: "lore:lore-worker", toolUseId }));
+  await writeFile(join(subagents, `agent-${agentId}.jsonl`), JSON.stringify({ type: "user", message: { content: result.json.commission } }) + "\n");
+  const hook = resolve(dirname(CLI), "../hooks/delivery-observer.mjs");
+  const event = { cwd: root, tool_use_id: toolUseId, session_id: "fixture-session", transcript_path: transcriptPath, tool_name: "Agent", tool_input: { prompt: result.json.worker_reference, subagent_type: "lore:lore-worker" } };
+  const env = { ...process.env, CLAUDE_PLUGIN_ROOT: resolve(dirname(CLI), "..") };
+  const pre = spawnSync(process.execPath, [hook, "pre"], { encoding: "utf8", env, input: JSON.stringify(event) });
+  assert.equal(pre.status, 0, pre.stderr);
+  const expanded = JSON.parse(pre.stdout).hookSpecificOutput.updatedInput;
+  assert.equal(expanded.prompt, result.json.commission);
+  const post = spawnSync(process.execPath, [hook, "post"], { encoding: "utf8", env, input: JSON.stringify({ ...event, tool_input: expanded, tool_response: { agentId } }) });
+  assert.equal(post.status, 0, post.stderr);
+  const confirmed = run(["confirm-delivery", "--root", root, "--id", id, "--task", "t1", "--json", j({ hostName: "claude-code", model: "fixture" })]);
+  assert.equal(confirmed.code, 0, confirmed.err);
+  assert.equal(confirmed.json.task.state, "running", JSON.stringify(confirmed.json));
+  assert.equal(confirmed.json.task.delivery.delivered, true);
+  assert.equal(confirmed.json.task.delivery.package_sha256, result.json.commission_sha256);
+  assert.equal(confirmed.json.task.delivery.host_observation.route, "kit-worker");
 });
 
 test("plan rechaza el encargo incompleto y no escribe nada", async (t) => {
@@ -204,7 +260,7 @@ test("el ciclo completo: receive, review, verify, integrate y close, con la veri
   await writeFile(spec.output.path, "changed after verification");
   assert.equal(operationTrust(valid).coverage.length, 0);
   await writeFile(spec.output.path, "evidencia: ...\nlimites: ...\n");
-  const ig = run(["integrate", "--root", root, "--id", id, "--task", "t1", "--json", j({ destination: "notas/cotejo.md" })]);
+  const ig = run(["integrate", "--root", root, "--id", id, "--task", "t1", "--json", j({ destination: encargoDaimon(root).output.path })]);
   assert.equal(ig.json.task.state, "integrated");
   const sinVerificar = run(["close", "--root", root, "--id", id, "--json", j({ verification: { verified: false } })]);
   assert.equal(sinVerificar.code, 1);
@@ -608,7 +664,7 @@ test("RC2: una tarea ya integrada no es un muro, porque su plazo dejo de informa
   run(["receive", "--root", root, "--id", id, "--task", "t1"]);
   run(["review", "--root", root, "--id", id, "--task", "t1", "--json", j({ verdict: "accepted", reviewer: "advisor/model", advisorRoute: { available: true, tool: "decide", observedBy: "coordinator" }, checked: ["scope", "sources", "risks"], notes: "ok" })]);
   run(["verify", "--root", root, "--id", id, "--task", "t1", "--json", j({ verifier: "coordinador", observed: true, evidence: proofAt(root, id) })]);
-  const ig = run(["integrate", "--root", root, "--id", id, "--task", "t1", "--json", j({ destination: "notas/cotejo.md" })]);
+  const ig = run(["integrate", "--root", root, "--id", id, "--task", "t1", "--json", j({ destination: encargoDaimon(root).output.path })]);
   assert.equal(ig.json.task.state, "integrated");
   const s = run(["status", "--root", root, "--id", id]);
   assert.equal(s.json.muro, undefined, "una tarea integrada ya no esta vencida: su plazo no informa");
@@ -628,7 +684,7 @@ test("RC2: el reloj INFORMA y no juzga — una tarea vencida se integra igual", 
   run(["review", "--root", root, "--id", id, "--task", "t1", "--json", j({ verdict: "accepted", reviewer: "advisor/model", advisorRoute: { available: true, tool: "decide", observedBy: "coordinator" }, checked: ["scope", "sources", "risks"], notes: "ok" })]);
   run(["verify", "--root", root, "--id", id, "--task", "t1", "--json", j({ verifier: "coordinador", observed: true, evidence: proofAt(root, id) })]);
   // El plazo sigue vencido ahi —la tarea lleva su due_at en el pasado— y aun asi integra.
-  const ig = run(["integrate", "--root", root, "--id", id, "--task", "t1", "--json", j({ destination: "notas/cotejo.md" })]);
+  const ig = run(["integrate", "--root", root, "--id", id, "--task", "t1", "--json", j({ destination: encargoDaimon(root).output.path })]);
   assert.equal(ig.code, 0, `una tarea vencida no se bloquea: ${ig.json?.error}`);
   assert.equal(ig.json.task.state, "integrated");
 });
@@ -1081,7 +1137,7 @@ test("la revision del Advisor debe ser independiente y la proxima accion sigue e
   assert.equal(verificacion.json.task.state, "verified");
   assert.equal((await readOperation({ root, id })).next_legitimate_action, "integrate t1");
 
-  run(["integrate", "--root", root, "--id", id, "--task", "t1", "--json", j({ destination: "notas/cotejo.md" })]);
+  run(["integrate", "--root", root, "--id", id, "--task", "t1", "--json", j({ destination: encargoDaimon(root).output.path })]);
   assert.equal((await readOperation({ root, id })).next_legitimate_action, "close");
 });
 
@@ -1328,5 +1384,45 @@ test("cambiar de rol, modelo y herramienta declarados conserva el artifact y su 
   assert.equal(after.tasks[0].declared_route.model, "zen-model-a");
   assert.equal(after.tasks[1].declared_route.model, "zen-model-b");
   assert.equal(after.tasks[0].executor, null);
+  assert.equal(after.tasks[1].executor, null);
+});
+
+test("recommend decide una ruta viable para el recorrido ya autorizado sin preguntar por TDD o SDD", async (t) => {
+  const root = await proyecto(t);
+  const resultado = run(["recommend", "--root", root, "--json", j({
+    motivo: "la tarea ya esta autorizada y solo corrige una errata",
+    tradeoff: "una sola pasada",
+    alternativas: ["secuencial-checkpoints"],
+    capacidades: {},
+    autorizada: true,
+    contexto: { instruccion: "Corrige una errata local", pistas: [], motivoSinPistas: "no aplica", catalogoSkills: [], catalogoSkillsOrigen: "host", skillsSugeridas: [] },
+  })]);
+  assert.equal(resultado.code, 0, resultado.err);
+  assert.equal(resultado.json.offer.modalidad, "acompanada");
+  assert.equal(resultado.json.offer.requiere_eleccion, false);
+  assert.equal(resultado.json.offer.ruta_tecnica, "directa");
+  assert.doesNotMatch(resultado.json.offer.mensaje, /TDD|SDD|Cómo prefieres/i);
+  assert.deepEqual(await import("node:fs/promises").then(({ readdir }) => readdir(root)), []);
+});
+
+test("plan conserva el encargo anterior al añadir una version corregida a la misma operacion", async (t) => {
+  const { root, id } = await conOperacion(t);
+  const spec = (question, scope, output) => ({
+    role: "worker", question, scope, done_criterion: "la correccion coincide con el alcance", proof: "cotejo local",
+    output: { path: join(root, output) }, timeoutMs: 600_000, nextCheckAt: futuro(60_000),
+  });
+  const first = run(["plan", "--root", root, "--id", id, "--json", j(spec("corrige titulo inicial", "archivo inicial", "v1.md"))]);
+  assert.equal(first.json.task, "t1");
+  const second = run(["plan", "--root", root, "--id", id, "--json", j(spec("corrige tambien el subtitulo", "titulo y subtitulo", "v2.md"))]);
+  assert.equal(second.json.task, "t2");
+  const after = await readOperation({ root, id });
+  assert.equal(after.id, id);
+  assert.equal(after.state, "authorized");
+  assert.deepEqual(after.authority.spend, []);
+  assert.equal(after.tasks[0].question, "corrige titulo inicial");
+  assert.equal(after.tasks[0].scope, "archivo inicial");
+  assert.equal(after.tasks[1].question, "corrige tambien el subtitulo");
+  assert.equal(after.tasks[1].scope, "titulo y subtitulo");
+  assert.equal(after.tasks[1].state, "proposed");
   assert.equal(after.tasks[1].executor, null);
 });

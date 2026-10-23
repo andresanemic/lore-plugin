@@ -262,7 +262,8 @@ test("la ruta de cada rol sale de lo que el host expone: advisor decide, trabaja
   assert.equal(f.dispatchTask(advisor.artifact, "t1", { host: { execute: () => {} } }).tasks[0].state, "blocked");
   assert.equal(f.dispatchTask(advisor.artifact, "t1", { host: { decide: () => {} }, hostName: "claude", model: "opus" }).tasks[0].state, "running");
   const worker = f.planTask(a, { role: "worker", question: "q", scope: "s", done_criterion: "d", proof: "p", output: { path: join(root, "w.md") }, timeoutMs: 1000, nextCheckAt: futuro() });
-  assert.equal(f.dispatchTask(worker.artifact, "t1", { host: { delegate: () => {} }, hostName: "opencode", model: "m" }).tasks[0].state, "running");
+  assert.throws(() => f.dispatchTask(worker.artifact, "t1", { host: { delegate: () => {} }, hostName: "opencode", model: "m" }), /deliver/i, "exponer delegate no lanza al trabajador");
+  assert.equal((await f.deliverTask(worker.artifact, "t1", { host: { delegate: async (request) => ({ recipient: "w", received_sha256: createHash("sha256").update(request.prompt).digest("hex") }) }, hostName: "opencode", model: "m" })).tasks[0].state, "running");
 });
 
 // C - observar y recibir: lo que se dice haber visto, y el archivo que existe
@@ -337,7 +338,7 @@ test("no se salta un paso: verificar sin revisar, integrar sin verificar", async
   assert.throws(() => f.integrateTask(revisada, "t1", { destination: "tramos/0/fuentes.md" }), /verified/i);
   const verificada = f.verifyTask(revisada, "t1", { verifier: "coordinador", observed: true, evidence: proofFor(revisada) });
   assert.throws(() => f.integrateTask(verificada, "t1", {}), /destination/i);
-  assert.equal(f.integrateTask(verificada, "t1", { destination: "tramos/0/fuentes.md" }).tasks[0].state, "integrated");
+  assert.equal(f.integrateTask(verificada, "t1", { destination: verificada.tasks[0].received.path }).tasks[0].state, "integrated");
 });
 
 // E - cerrar la operacion
@@ -349,7 +350,7 @@ test("no se cierra con una tarea abierta; con todo integrado y verificado por qu
   assert.throws(() => f.closeOperation(recibida, { verification: { verified: true, by: "coordinador", observed: true } }), /t1/);
   let art = f.reviewTask(recibida, "t1", { verdict: "accepted", reviewer: "advisor/model", advisorRoute: { available: true, tool: "decide", observedBy: "coordinator" }, checked: ["scope", "sources", "risks"] });
   art = f.verifyTask(art, "t1", { verifier: "coordinador", observed: true, evidence: proofFor(art) });
-  art = f.integrateTask(art, "t1", { destination: "tramos/0/fuentes.md" });
+  art = f.integrateTask(art, "t1", { destination: art.tasks[0].received.path });
   assert.throws(() => f.closeOperation(art, { verification: { verified: false, by: "coordinador", observed: true } }), /verified/i);
   const cerrada = f.closeOperation(art, { verification: { verified: true, by: "coordinador", observed: true } });
   assert.equal(cerrada.state, "closed");

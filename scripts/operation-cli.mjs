@@ -24,9 +24,11 @@ import {
 import { approveExternalEffect, attemptWall, authorizeExternalEffect, operationStatePath, requestExternalEffect, revokeExternalEffectApproval, saveOperationState, transitionArtifact } from "../skills/vespi/core/operation-state.mjs";
 import { assertExecuted, executeVerification } from "../skills/vespi/core/verification-execution.mjs";
 import { readCalibrationSeed } from "../skills/vespi/core/calibration-seed.mjs";
-import { recordInteractionTrace, recordSelfReport, compareTechnology, describeOperationCapability, operationTrust } from "../skills/vespi/core/coordinator.mjs";
+import { recordInteractionTrace, recordSelfReport, compareTechnology, describeOperationCapability, operationTrust, taskPrompt, confirmObservedDelivery, declareFinalOutputs, declareObligations, fulfillObligation } from "../skills/vespi/core/coordinator.mjs";
+import { createHash } from "node:crypto";
 import { offerOperationCard, answerOperationCard, arbitrateOperationCard } from "../skills/vespi/core/cards.mjs";
 import { ofrecerFormaTrabajo } from "../skills/vespi/ofrece-formas-trabajo.mjs";
+import { inyectarCartaEnPrompt } from "../hooks/baraja-entry.mjs";
 
 const COMMANDS = [
   "entry",
@@ -36,6 +38,11 @@ const COMMANDS = [
   "pause",
   "plan",
   "dispatch",
+  "prompt",
+  "confirm-delivery",
+  "obligations",
+  "outputs",
+  "fulfill",
   "observe",
   "retry-search",
   "consult",
@@ -69,11 +76,11 @@ function usage() {
   return [
     "operation <sub> --root <dir> [--id <op>] [--task <t>] [--tools <a,b>] [--json '<obj>' | --file <ruta>]",
     "  entry                              que operacion hay abierta y cual es el primer paso",
-    "  recommend  <oferta>                recomienda una modalidad y espera elección",
+    "  recommend  <oferta>                elige una ruta viable y explica por que",
     "  hold       {goal, owner, authority}  deja la operacion preparada en FASES.md",
     "  authorize  {by, words}               las palabras citadas, o no hay autorizacion",
     "  pause      {note}                    deja el checkpoint durable en pausa",
-    "  plan       <spec de tarea>           agrega la tarea con su encargo completo",
+    "  plan       <spec de tarea>           agrega version nueva y conserva la tarea anterior",
     "  dispatch   --task <t> --tools <a,b>  declara la ruta observada; este proceso no ejecuta",
     "  observe    {text, alive, at}         deja escrito que se vio",
     "  retry-search <recibo>                registra búsqueda del host o su ausencia; no busca",
@@ -82,6 +89,11 @@ function usage() {
     "  compare <alternativas>               conserva comparación; no ejecuta efectos",
     "  capability <id/limites>              informa presencia; CLI no configura puertos",
     "  trust                               cobertura situada, sin puntuación universal",
+    "  obligations {obligations:[{id,description}]}  declara una vez todo lo que el encargo pide entregar",
+    "  outputs    {outputs:[{id,path,criterion,sources}]}  declara una vez las salidas finales del encargo",
+    "  fulfill {id, evidence}              cumple una obligacion con task, artifact o attestation",
+    "  prompt                              encargo canonico de un trabajador, con el metodo fijado; no lanza nada",
+    "  confirm-delivery {hostName, model}  pone en marcha solo con par Pre/Post del host y transcript que lo respalda",
     "  receive    {path}                    lee, dentro de root, el archivo que el ejecutor dejo",
     "  request-effect {action, destination} registra una solicitud; no ejecuta el efecto",
     "  approve-effect {requestId, action, destination, by, words, expiresAt} autoriza ese efecto exacto",
@@ -211,6 +223,87 @@ async function load(sub, flags) {
 async function persist(context, artifact) {
   await saveOperationState(context.directory, artifact);
   return artifact;
+}
+
+// observedDelivery: busca en el registro del hook (`.lore-deliveries.jsonl` en la raiz) el ultimo par Pre/Post
+// de esta tarea cuya huella es la del encargo canonico, y lo contrasta con el transcript de la sesion: el
+// tool_use del transcript debe llevar ese mismo prompt. Sin par devuelve null; con par, el resultado del
+// contraste va en `transcript` (matched, absent o mismatch) y decide el coordinador.
+async function observedDelivery(root, operationId, taskId, { promptSha, commissionSha }) {
+  let text = "";
+  try { text = await readFile(resolve(root, ".lore-deliveries.jsonl"), "utf8"); } catch (error) {
+    if (error?.code === "ENOENT") return null;
+    throw error;
+  }
+  const lines = text.split(/\r?\n/).filter(Boolean).flatMap((line) => { try { return [JSON.parse(line)]; } catch { return []; } });
+  const known = new Set([promptSha, commissionSha]);
+  const mine = lines.filter((line) => line.operation === operationId && line.task === taskId && known.has(line.prompt_sha256) && typeof line.tool_use_id === "string");
+  const post = mine.filter((line) => line.event === "post").at(-1);
+  const pre = post ? mine.find((line) => line.event === "pre" && line.tool_use_id === post.tool_use_id) : null;
+  if (!post || !pre) return null;
+  const route = pre.route === "kit-worker" && pre.prompt_sha256 === commissionSha ? "kit-worker" : "prompt";
+  const expected = route === "kit-worker" ? commissionSha : promptSha;
+  if (pre.prompt_sha256 !== expected) return null;
+  const worker = await workerReceived(pre.transcript_path, post.agent_id, pre.tool_use_id, expected);
+  return {
+    tool_use_id: pre.tool_use_id,
+    session_id: pre.session_id ?? null,
+    agent_id: post.agent_id ?? null,
+    route,
+    prompt_sha256: expected,
+    expanded_by_host: pre.expanded === true,
+    ...(route === "kit-worker" ? { definition_method_sha256: pre.definition_method_sha256 ?? null } : {}),
+    transcript: await transcriptBacks(pre.transcript_path, pre.tool_use_id, expected, { operationId, taskId }),
+    worker_received: worker.status,
+    worker_agent_type: worker.agentType,
+  };
+}
+
+// Lo que recibio el trabajador lo guarda el host en el transcript del propio subagente, junto al de la
+// sesion: `<sesion>/subagents/agent-<id>.jsonl`, con un `.meta.json` que nombra el tool_use que lo lanzo. Su
+// primer mensaje es el encargo que le llego. `absent` cuando el host no lo guarda o no se encuentra; esa
+// ausencia se registra y no se rotula como recepcion.
+async function workerReceived(sessionTranscript, agentId, toolUseId, promptSha) {
+  const absent = { status: "absent", agentType: null };
+  if (typeof sessionTranscript !== "string" || !sessionTranscript || typeof agentId !== "string" || !agentId) return absent;
+  const dir = resolve(sessionTranscript.replace(/\.jsonl$/, ""), "subagents");
+  let meta;
+  try { meta = JSON.parse(await readFile(resolve(dir, `agent-${agentId}.meta.json`), "utf8")); } catch { return absent; }
+  const agentType = typeof meta?.agentType === "string" ? meta.agentType : null;
+  if (meta?.toolUseId !== toolUseId) return { status: "mismatch", agentType };
+  let text;
+  try { text = await readFile(resolve(dir, `agent-${agentId}.jsonl`), "utf8"); } catch { return { status: "absent", agentType }; }
+  for (const line of text.split(/\r?\n/)) {
+    let entry;
+    try { entry = JSON.parse(line); } catch { continue; }
+    if (entry?.type !== "user") continue;
+    const content = entry.message?.content;
+    const first = typeof content === "string" ? content : Array.isArray(content) ? content.map((block) => block?.text ?? "").join("") : "";
+    return { status: createHash("sha256").update(first).digest("hex") === promptSha ? "matched" : "mismatch", agentType };
+  }
+  return { status: "absent", agentType };
+}
+
+// El transcript guarda lo que escribio el modelo. Si escribio el encargo entero, su huella debe ser la del
+// encargo (`matched`); si escribio la referencia corta, debe ser exactamente la referencia de esta operacion,
+// tarea y huella (`matched-reference`). Que el hook la haya expandido lo dice el registro, no el transcript.
+async function transcriptBacks(path, toolUseId, promptSha, { operationId, taskId }) {
+  if (typeof path !== "string" || !path) return "absent";
+  let text;
+  try { text = await readFile(path, "utf8"); } catch { return "absent"; }
+  for (const line of text.split(/\r?\n/)) {
+    if (!line.includes(toolUseId)) continue;
+    let entry;
+    try { entry = JSON.parse(line); } catch { continue; }
+    const blocks = Array.isArray(entry?.message?.content) ? entry.message.content : [];
+    const use = blocks.find((block) => block?.type === "tool_use" && block.id === toolUseId);
+    if (!use) continue;
+    const prompt = use.input?.prompt;
+    if (typeof prompt !== "string") return "mismatch";
+    if (prompt.trim() === `@lore-task ${operationId} ${taskId} sha256:${promptSha}`) return "matched-reference";
+    return createHash("sha256").update(prompt).digest("hex") === promptSha ? "matched" : "mismatch";
+  }
+  return "absent";
 }
 
 function recordOf(artifact, taskId) {
@@ -388,6 +481,48 @@ async function execute(sub, flags, stdout) {
     return emit(stdout, { ok: true, task: recordOf(artifact, taskId) });
   }
 
+  if (sub === "obligations") {
+    const artifact = declareObligations(context.artifact, payload.obligations);
+    await persist(context, artifact);
+    return emit(stdout, { ok: true, obligations: artifact.obligations, obligations_sha256: artifact.obligations_sha256 });
+  }
+
+  if (sub === "outputs") {
+    const artifact = declareFinalOutputs(context.artifact, payload.outputs);
+    await persist(context, artifact);
+    return emit(stdout, { ok: true, final_outputs: artifact.final_outputs, final_outputs_sha256: artifact.final_outputs_sha256 });
+  }
+
+  if (sub === "fulfill") {
+    const artifact = fulfillObligation(context.artifact, payload.id, { evidence: payload.evidence, at: payload.at ?? null });
+    await persist(context, artifact);
+    return emit(stdout, { ok: true, obligation: artifact.obligations.find((item) => item.id === payload.id) });
+  }
+
+  if (sub === "prompt") {
+    const taskId = requiredTask(flags);
+    taskPrompt(context.artifact, taskId); // Validate the task before persisting its card.
+    const card = await inyectarCartaEnPrompt({ root: context.root, operacion: context.artifact, taskId });
+    const artifact = await readOperation({ root: context.root, id: context.id });
+    const prompt = taskPrompt(artifact, taskId);
+    return emit(stdout, { ok: true, task: taskId, ...prompt, ...(card ? { systemPrompt: card } : {}) });
+  }
+
+  if (sub === "confirm-delivery") {
+    const taskId = requiredTask(flags);
+    const { prompt_sha256, commission_sha256 } = taskPrompt(context.artifact, taskId);
+    const observation = await observedDelivery(context.root, context.id, taskId, { promptSha: prompt_sha256, commissionSha: commission_sha256 });
+    const artifact = confirmObservedDelivery(context.artifact, taskId, {
+      observation,
+      hostName: payload.hostName,
+      model: payload.model,
+      effort: payload.effort,
+      now: payload.now,
+    });
+    await persist(context, artifact);
+    return emit(stdout, { ok: true, task: recordOf(artifact, taskId) });
+  }
+
   if (sub === "retry-search") {
     const artifact = recordRetrySearch(context.artifact, payload);
     await persist(context, artifact);
@@ -486,9 +621,9 @@ async function execute(sub, flags, stdout) {
     if (task.state !== "reviewed") throw new Error("verify needs a reviewed task before executing any check");
     const executor = task.executor?.by ?? task.declared_route?.by ?? "";
     if (!payload.verifier || String(payload.verifier).trim().toLowerCase() === String(executor).trim().toLowerCase()) throw new Error("verification must be independent");
-    const evidence = payload.evidence?.execution_receipt
-      ? payload.evidence
-      : await executeVerification(context.artifact, taskId, { root: context.root });
+    const evidence = task.final_output || !payload.evidence?.execution_receipt
+      ? await executeVerification(context.artifact, taskId, { root: context.root })
+      : payload.evidence;
     const execution = assertExecuted(context.artifact, task, evidence, { requirePass: false });
     if (execution.passed !== true) {
       const rejectedTask = { ...task, state: "reviewed", verification: {
@@ -559,6 +694,12 @@ async function execute(sub, flags, stdout) {
         : { calibrationNote: "calibración no medida: se requieren al menos 3 muestras por clave" }),
       ...(wall.stop ? { wall: wallReceipt(wall) } : {}),
       ...(muros.length > 0 ? { muro: muros } : {}),
+      ...(Array.isArray(context.artifact.final_outputs)
+        ? { final_outputs: context.artifact.final_outputs.map((item) => ({ id: item.id, path: item.path, criterion: item.criterion })) }
+        : {}),
+      ...(Array.isArray(context.artifact.obligations)
+        ? { obligations: context.artifact.obligations.map((item) => ({ id: item.id, description: item.description, fulfilled: item.fulfilled ? Object.keys(item.fulfilled.evidence ?? {})[0] ?? "unknown" : null })) }
+        : {}),
     });
   }
 

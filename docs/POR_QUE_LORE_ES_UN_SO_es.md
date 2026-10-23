@@ -8,7 +8,7 @@ Un sistema operativo prepara el terreno para que las aplicaciones hagan trabajo 
 
 Lore Plugin aporta el terreno: tu criterio, guardado como archivos que puedes leer y corregir; el enrutamiento hacia el criterio pertinente; y el método que guía cómo se ejecuta una tarea. El criterio persistente vive en `lore/`; el estado y el plan actual viven en `FASES.md`.
 
-Vespi es el kernel experimental de ese sistema de trabajo. Coordina una operación acotada: declara el objetivo, efecto, dueño y autoridad; deja que el host aplique sus permisos; pide una decisión humana cuando corresponde; verifica el efecto por separado; registra un recibo y conserva el estado reanudable. El recibo informa qué se observó y qué quedó sin cubrir. No demuestra por sí mismo quién autorizó ni convierte una afirmación en evidencia.
+Vespi es el kernel de ese sistema de trabajo. Coordina una operación acotada: declara el objetivo, efecto, dueño y autoridad; deja que el host aplique sus permisos; pide una decisión humana cuando corresponde; verifica el efecto por separado; registra un recibo y conserva el estado reanudable. El recibo informa qué se observó y qué quedó sin cubrir. No demuestra por sí mismo quién autorizó ni convierte una afirmación en evidencia.
 
 Si ya trabajas con IA y quieres mejorar tus flujos, o no quieres demorarte meses estudiando loops, tests de seguridad y QA, con Lore Plugin y Vespi puedes trabajar con ese método y esa disciplina. Puedes armar flujos para software, redacción, diseño gráfico o lo que se te ocurra; el criterio del dominio y tu juicio siguen siendo tuyos.
 
@@ -35,6 +35,10 @@ Los loops son ciclos de trabajo con una condición de salida; TDD puede ordenar 
 
 ## Estado y límites
 
+El borrador vigente de publicación 2.5.3 se describe en [su nota de versión](./RELEASE_2.5.3.md). La evidencia de entrega del método cubre al trabajador del kit en Claude Code con hooks recibidos, no a todos los roles o hosts. Los controles del resultado final ofrecen detección sin independencia bajo el mismo usuario del sistema. El kit fija once módulos del kernel 0.1.8 en el commit `0c0a3e3425a915aa43af1e8c5ffaaacb24c55729`; publicar requiere aprobación explícita de Andrés.
+
+**Cortes históricos:**
+
 Lore Plugin 2.4.9 y el kernel Vespi 0.1.4 se publicaron el 2026-10-05. Lore Plugin 2.5.0 y el kernel Vespi 0.1.5 son cortes candidatos, con fecha de publicación pendiente; la suite candidata del kernel pasó 1.220 pruebas (1.196 aprobadas, 0 fallidas, 24 	odo declaradas). La copia del kit fija el commit `221bfa02fe277281d50b6141ec10299eea3426f3` y trae diez módulos; excluye la referencia criptográfica experimental `zk-bn254-reference.js` y el puente x402 con el SDK real. Las pruebas locales y las pasadas simuladas no son una auditoría externa; la superreview real sigue pendiente. TDD se usó con pruebas red primero para corregir defectos reproducidos en el kernel, no para afirmar que cada cambio siguió TDD.
 
 Vespi no afirma mainnet, disponibilidad en producción, protocolo estable ni un runtime de producción. Lore Plugin y el kernel tampoco prometen que la IA siempre acierte, que los recibos sean una firma de identidad o que el sistema sustituya tu juicio. Los límites documentados del kernel 0.1.4 describen una demo verificable sin conexión externa al kernel; no confundas evidencia de una prueba concreta con preparación general para producción.
@@ -43,12 +47,12 @@ Vespi no afirma mainnet, disponibilidad en producción, protocolo estable ni un 
 
 **X:**
 
-> Lore Plugin guarda tu criterio y organiza el método. Vespi coordina operaciones con autoridad, recibos y continuidad. Puedes trabajar con flujos de IA sin estudiar cada loop, TDD o QA. Es experimental: no afirma mainnet ni producción.
+> Lore Plugin guarda tu criterio y organiza el método. Vespi coordina operaciones con autoridad, recibos y continuidad. Puedes trabajar con flujos de IA sin estudiar cada loop, TDD o QA. No afirma mainnet ni producción.
 
 **LinkedIn:**
 
-Si ya trabajas con IA y quieres mejorar tus flujos, Lore Plugin conserva tu criterio y organiza el método; Vespi coordina operaciones acotadas con autoridad, recibos y continuidad entre sesiones. Puedes aplicar loops, agentes, TDD y verificación en software, redacción o diseño sin tener que aprender primero toda la maquinaria. Vespi sigue siendo experimental: la superreview real está pendiente, y no afirmamos mainnet ni disponibilidad en producción.
+Si ya trabajas con IA y quieres mejorar tus flujos, Lore Plugin conserva tu criterio y organiza el método; Vespi coordina operaciones acotadas con autoridad, recibos y continuidad entre sesiones. Puedes aplicar loops, agentes, TDD y verificación en software, redacción o diseño sin tener que aprender primero toda la maquinaria. Los límites del corte vigente siguen explícitos: nuestras revisiones no son una auditoría de seguridad externa independiente y no afirmamos mainnet ni disponibilidad en producción.
 
-**Notas del release:**
+**Notas históricas del release (2.4.9):**
 
 Lore Plugin 2.4.9 organiza criterio, enrutamiento y método para trabajar con IA. Vespi Kernel 0.1.4 añade mecanismos experimentales para operaciones acotadas bajo autoridad y continuidad por recibos; el corte candidato incluye diez módulos y excluye la referencia criptográfica experimental y el puente x402 con el SDK real. Las pruebas locales no son una auditoría externa y la superreview real está pendiente. TDD se usó en correcciones con pruebas red primero. No se afirma mainnet ni preparación para producción. Fecha de publicación pendiente.

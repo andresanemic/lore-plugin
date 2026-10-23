@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import test from "node:test";
@@ -9,14 +10,15 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-const host = { delegate: async () => ({}) };
+// El adaptador falso acusa recibo del prompt exacto: sin ese acuse la tarea no queda en marcha.
+const host = { delegate: async (request) => ({ recipient: "fixture-worker", received_sha256: createHash("sha256").update(request.prompt).digest("hex") }) };
 async function stopped(t, count = 3) {
   const root = await mkdtemp(join(tmpdir(), "retry-wall-"));
   t.after(() => rm(root, { recursive: true, force: true }));
   let op = state.createArtifact({ goal: "Recover the local check", owner: "fixture-owner", scope: "local fixture", expected_effect: { kind: "none" }, done: "observed check", roles: ["worker", "advisor", "verifier"], verifier: "verifier" });
   op = state.transitionArtifact(op, { state: "authorized", note: "fixture authorization" });
   op = coordinator.planTask(op, { role: "worker", question: "Run check", scope: "local", done_criterion: "check observed", proof: "read result", output: { path: join(root, "result.txt") }, timeoutMs: 1000, nextCheckAt: "2026-10-07T10:05:00Z" }).artifact;
-  op = coordinator.dispatchTask(op, "t1", { host, hostName: "fixture-host", model: "worker" });
+  op = await coordinator.deliverTask(op, "t1", { host, hostName: "fixture-host", model: "worker" });
   for (let i = 0; i < count; i++) op = coordinator.observeTask(op, "t1", { signature: "HTTP 503 timeout", text: `attempt ${i + 1}: local check`, at: `2026-10-07T10:0${i}:00Z` });
   return { root, op };
 }
@@ -78,7 +80,7 @@ test("hallazgo pertinente abre un reintento acotado, no borra historial ni cubre
   assert.equal(ready.retry_searches[0].findings[0].source, findings[0].source);
   assert.equal(ready.retry_searches[0].executed_by_cli, false);
   assert.equal(ready.id, op.id);
-  const retry = coordinator.dispatchTask(ready, "t1", { host, hostName: "fixture-host", model: "worker", retryChange: search.change });
+  const retry = await coordinator.deliverTask(ready, "t1", { host, hostName: "fixture-host", model: "worker", retryChange: search.change });
   assert.equal(retry.tasks[0].state, "running");
   const failed = coordinator.observeTask(retry, "t1", { signature: "HTTP 503 timeout", text: "documented transport also failed", at: "2026-10-07T10:06:00Z" });
   assert.equal(failed.retry_stop.status, "requires_search");
@@ -91,7 +93,7 @@ test("reintento exige la tarea detenida y el cambio aplicado al encargo", async 
   assert.throws(() => coordinator.dispatchTask(ready, "t1", { host }), /retry change/i);
   const withOther = { ...ready, tasks: [...ready.tasks, { ...ready.tasks[0], id: "other" }] };
   assert.throws(() => coordinator.dispatchTask(withOther, "other", { host, retryChange: search.change }), /stopped task/i);
-  const applied = coordinator.dispatchTask(ready, "t1", { host, retryChange: search.change });
+  const applied = await coordinator.deliverTask(ready, "t1", { host, retryChange: search.change });
   assert.equal(applied.tasks[0].retry_execution.change, search.change);
   assert.equal(applied.tasks[0].retry_execution.search_digest, ready.retry_stop.digest);
   assert.ok(applied.tasks[0].question.includes(search.change));

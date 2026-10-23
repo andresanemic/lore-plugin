@@ -6,7 +6,7 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.5.2-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/version-2.5.3-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
   <a href="#installation"><img src="https://img.shields.io/badge/AI_provider-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="AI provider: neutral"></a>
   <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
   <a href="#origin"><img src="https://img.shields.io/badge/research-active-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Status"></a>
@@ -23,7 +23,7 @@
 
 **In plain words.** *Lore*: your project's criteria, as plain Markdown files you approve. *Save to Lore*: turn a correction you made into a criterion for next time. *Prune*: retire rules that no longer apply. *Graft*: bring in an idea from outside only after checking where it loses against your criteria. *Transmute*: reorganize or migrate a Lore tree. *Crystallize*: pack a bot's criteria into one file to carry it elsewhere.
 
-**Where this is going.** Today you run Lore Plugin from a terminal. **Vespi Desktop** is the planned workspace that will bring this kit and the Vespi kernel together, with **Hive as its creation studio**. For HackMeridian we will show that direction alongside what already works; Desktop is not installable yet. [Try the interactive Hive POC](https://vespi.xyz/) on the site: a UX/UI MVP where you can choose agents and save criteria and workflows in your browser, without connecting to AI.
+**Where this is going.** Today you run Lore Plugin from a terminal. **Vespi Desktop** is the planned workspace that will bring this kit and the Vespi kernel together, with **Hive as its creation studio**. Vespi Desktop is scheduled for presentation in Lisbon next week, separately from the Lore Plugin 2.5.3 and kernel 0.1.8 releases. This kit does not establish that Desktop is installable. [Try the interactive Hive POC](https://vespi.xyz/) on the site: a UX/UI MVP where you can choose agents and save criteria and workflows in your browser, without connecting to AI.
 
 ---
 
@@ -418,7 +418,7 @@ Areas and projects are places; **a bot is a lens you carry into them.** An Area 
 
 ## Vespi
 
-**Vespi is the kernel under Lore Plugin. This cut carries frozen kernel 0.1.6.** Reviewed, not audited: the only reviews so far are our own superreviews with Claude Code, and there is no independent external security audit.
+**Vespi is the kernel under Lore Plugin. Kernel 0.1.8 is pinned at commit `0c0a3e3425a915aa43af1e8c5ffaaacb24c55729`; its eleven copied modules are checked against that source.** Reviewed, not audited: the only reviews so far are our own superreviews with Claude Code, and there is no independent external security audit.
 
 <p align="center">
   <img src="./assets/vespi-B.png" alt="Vespi" width="100%">
@@ -427,6 +427,8 @@ Areas and projects are places; **a bot is a lens you carry into them.** An Area 
 Lore Plugin is the ground: your criterion, written once, and the routing that opens the right one for each task. Vespi is what runs on that ground: an operation under an authority you grant, checked apart from whoever carries it out, that leaves a receipt anyone can verify. It does not write your Lore and it does not decide for you: it says what it sees, states its assumptions as assumptions, and the choice is yours.
 
 Version 2.5.2 makes the next action explicit when a session opens. Coordinated ordinary work leaves an operation record, and verification runs a commissioned check before certification. Rejected results remain visible and require fresh review after correction. Deterministic checks and explicitly authorized semantic review have different limits; execution does not guarantee judgment. [Release notes](./docs/RELEASE_2.5.2.md) · [Execution and limits](./docs/VERIFICATION-EXECUTION.md).
+
+Version 2.5.3 carries the task method with the commission, tracks the requested obligations, and requires a separate review of the composed final deliverable. Its default route reserves a direct pass for narrowly recognized trivial edits and otherwise requires final review; missing verification stays visible. Method delivery evidence covers the Claude Code kit worker with received hooks, not advisor or daimon roles or all three hosts. A receipt records delivery, not proof that the method caused the worker’s behavior. Final-output checks detect changed destination files, including terminal writes; they do not prevent writes by the same OS user or establish an independent security boundary. Silent task cards and five reviewed sparks support coordination; the offline contrast runner is not a measured improvement claim. [Release notes](./docs/RELEASE_2.5.3.md) · [Execution and limits](./docs/VERIFICATION-EXECUTION.md).
 
 
 **Vespi Meridian Edition 1.0:** [Website — vespi.xyz](https://vespi.xyz) · [Demo video](https://www.youtube.com/watch?v=g2iw29M6WI0) · [Tutorial in English](https://docs.google.com/document/d/1gwu3gBIJwgevCrGPyMv-J1UfjegggYDu/edit?usp=sharing&ouid=113358117411001923633&rtpof=true&sd=true) · [LUS + Lore Plugin deck in English](https://drive.google.com/file/d/1lG5DOOS6z4Kzz6PfZIPP2RXW_LXN_U1g/view?usp=drive_link).
@@ -582,7 +584,7 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 
 **En palabras simples.** *Lore*: los criterios de tu proyecto, como archivos Markdown que tú apruebas. *Guardar en Lore*: convertir una corrección tuya en un criterio para la próxima vez. *Podar*: retirar reglas que ya no aplican. *Injertar*: traer una idea de afuera solo después de ver dónde pierde frente a tus criterios. *Transmutar*: reorganizar o migrar un árbol de Lore. *Cristalizar*: empacar los criterios de un bot en un solo archivo para llevarlo a otro lado.
 
-**Hacia dónde va.** Hoy corres Lore Plugin desde una terminal. **Vespi Desktop** será el espacio de trabajo que reúna este kit y el kernel de Vespi, con **Hive como su taller de creación**. Para HackMeridian mostraremos esa dirección junto con lo que ya funciona; Desktop aún no es instalable. [Prueba el POC interactivo de Hive](https://vespi.xyz/) en el sitio: un MVP UX/UI donde puedes elegir agentes y guardar criterios y workflows en tu navegador, sin conectar con una IA.
+**Hacia dónde va.** Hoy corres Lore Plugin desde una terminal. **Vespi Desktop** será el espacio de trabajo que reúna este kit y el kernel de Vespi, con **Hive como su taller de creación**. Vespi Desktop se presentará en Lisboa la próxima semana, por separado de las publicaciones de Lore Plugin 2.5.3 y kernel 0.1.8. Este kit no acredita que Desktop sea instalable. [Prueba el POC interactivo de Hive](https://vespi.xyz/) en el sitio: un MVP UX/UI donde puedes elegir agentes y guardar criterios y workflows en tu navegador, sin conectar con una IA.
 
 ---
 
@@ -958,7 +960,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 | `save-to-lore` | Destila una lección, o mina una bandeja de notas sueltas, y decide si sube al Área | todos los días |
 | `transmute-lore` | Migra, limpia, traduce, actualiza, poda o exporta una fotografía segura del Lore | al heredar, mantener, actualizar o compartir Lore |
 | `create-bot` | Un lugar donde abrir sesión y trabajar sobre varias Áreas a la vez | desde cero, o cuando ya hay Lore que federar |
-| `vespi` | Cuida que lo acordado siga en pie. Operación acotada bajo autoridad (experimental): continúa entre sesiones, se mueve lateralmente y revalida antes de seguir | cuando dices «esto me está complicando», «se está perdiendo lo que decidimos» o «sigamos mañana»: el trabajo es una operación viva bajo presión |
+| `vespi` | Cuida que lo acordado siga en pie. Operación acotada bajo autoridad: continúa entre sesiones, se mueve lateralmente y revalida antes de seguir | cuando dices «esto me está complicando», «se está perdiendo lo que decidimos» o «sigamos mañana»: el trabajo es una operación viva bajo presión |
 | `stale-lore` | Verifica qué capacidades publicadas del kit no se ejercieron y las retira de forma declarativa — con un changelog para que el retiro sea auditable | al reconciliar promesa con evidencia; cuando la superficie publicada del kit necesita reducirse |
 
 **El primer día necesitas dos de estas:** `use-lore` te enruta hacia lo que sigue, y `save-to-lore` es la que vas a escribir de verdad — *"guarda en lore"*, después de resolver algo que te costó. **Cómo empezar, el uso cotidiano y el mecanismo completo de cada skill y modo** viven en un solo lugar: [`REFERENCE_es.md`](./docs/REFERENCE_es.md).
@@ -968,7 +970,7 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 
 ## Vespi
 
-**Vespi es el kernel de Lore Plugin. Este corte lleva el kernel 0.1.6 congelado.** Revisado, no auditado: las únicas revisiones hasta ahora son nuestras propias superreviews con Claude Code, y no hay auditoría de seguridad externa independiente.
+**Vespi es el kernel de Lore Plugin. El kernel 0.1.8 está fijado en el commit `0c0a3e3425a915aa43af1e8c5ffaaacb24c55729`; sus once módulos copiados se comprueban contra esa fuente.** Revisado, no auditado: las únicas revisiones hasta ahora son nuestras propias superreviews con Claude Code, y no hay auditoría de seguridad externa independiente.
 
 <p align="center">
   <img src="./assets/vespi-B.png" alt="Vespi" width="100%">
@@ -977,6 +979,8 @@ Las Áreas y los proyectos son lugares; **un bot es una lente que llevas a ellos
 Lore Plugin es el terreno: tu criterio escrito una vez y el enrutamiento que abre el correcto para cada tarea. Vespi es lo que corre sobre ese terreno: una operación bajo una autoridad que tú otorgas, verificada aparte de quien la ejecuta, que deja un recibo que cualquiera puede comprobar. No escribe tu Lore ni decide por ti: te dice lo que ve, dice sus suposiciones como suposiciones, y la elección es tuya.
 
 La versión 2.5.2 hace explícita la siguiente acción al abrir una sesión. El trabajo ordinario que requiere coordinación deja un registro de operación y la verificación ejecuta una prueba comisionada antes de certificar. Los rechazos quedan visibles y corregir exige una revisión nueva. Las comprobaciones deterministas y la revisión semántica autorizada tienen límites distintos; ejecutar no garantiza comprender. [Nota de versión](./docs/RELEASE_2.5.2.md) · [Ejecución y límites](./docs/VERIFICATION-EXECUTION.md).
+
+La versión 2.5.3 lleva el método de tarea con el encargo, registra las obligaciones solicitadas y exige revisar aparte el entregable final compuesto. Su ruta predeterminada reserva una pasada directa para correcciones triviales reconocidas de forma acotada y exige revisión final en los demás casos; la verificación ausente queda visible. La evidencia de entrega del método cubre al trabajador del kit en Claude Code con hooks recibidos, no a advisor o daimon ni a los tres hosts. Un recibo registra entrega, no prueba que el método causó la conducta del trabajador. Los controles del resultado final detectan cambios en archivos de destino, también escritos por terminal; no impiden escrituras del mismo usuario del sistema ni establecen una frontera de seguridad independiente. Las cartas silenciosas y cinco chispas revisadas apoyan la coordinación; el contraste offline no es una mejora medida. [Nota de versión](./docs/RELEASE_2.5.3.md) · [Ejecución y límites](./docs/VERIFICATION-EXECUTION.md).
 
 
 **Vespi Meridian Edition 1.0:** [Sitio — vespi.xyz](https://vespi.xyz) · [Video de la demo](https://www.youtube.com/watch?v=g2iw29M6WI0) · [Tutorial en español](https://docs.google.com/document/d/1wj3yfr0Iyi8e3szUawJ4Q-mNb7EmySM-/edit?usp=drive_link&ouid=113358117411001923633&rtpof=true&sd=true) · [Deck LUS + Lore Plugin en español](https://drive.google.com/file/d/1LkcSXeVLxstZiNhiVpq8zU1_Kn-61qUl/view?usp=drive_link).

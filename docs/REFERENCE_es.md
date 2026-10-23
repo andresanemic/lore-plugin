@@ -6,7 +6,7 @@ y cómo migrar un proyecto existente. Para la motivación, la arquitectura de un
 todos los documentos, consulta el [`README.md`](../README.md); para la versión de 90 segundos,
 [`90_SECONDS_es.md`](./90_SECONDS_es.md).
 
-Esta referencia describe el corte candidato de Lore Plugin 2.5.2, con fecha de publicación pendiente, y la copia fija del kernel Vespi 0.1.6 en el commit `39d45733839d0a05f60248fc6e5b81c892c464f8`. Incluye diez módulos, con superficies opcionales de emergencia, procedencia de skills, x402 y ZK; excluye `zk-bn254-reference.js`, una referencia criptográfica experimental, y el puente x402 con el SDK real. Consulta [`RELEASE_2.4.9.md`](./RELEASE_2.4.9.md) para ver el resumen.
+Esta referencia describe Lore Plugin 2.5.3, que fija el kernel Vespi 0.1.8 en el commit `0c0a3e3425a915aa43af1e8c5ffaaacb24c55729`. Las superficies opcionales del kernel conservan sus límites. Consulta [`RELEASE_2.5.3.md`](./RELEASE_2.5.3.md) y [la verificación ejecutada](./VERIFICATION-EXECUTION.md). Incluye once módulos, con superficies opcionales de emergencia, procedencia de skills, x402 y ZK; excluye `zk-bn254-reference.js`, una referencia criptográfica experimental, y el puente x402 con el SDK real. Consulta [`RELEASE_2.5.3.md`](./RELEASE_2.5.3.md) para ver el resumen.
 
 ---
 
@@ -97,7 +97,7 @@ El plugin Lore expone ocho skills principales a través de agentes de IA compati
 | `save-to-lore`   | Capturar criterio (**capture**), arbitrar criterio importado (**graft**) o minar condicionalmente una bandeja de notas sueltas | «guarda en lore», «destila la skill X en el lore», «revisa mis notas y guarda lo que corresponda» |
 | `transmute-lore` | Operar un Lore existente en ocho modos | add / clean / translate / upgrade / prune / **mycelium** / leave / crystallize |
 | `create-bot`     | Construir un bot: un solo lugar donde abrir sesión y trabajar en varios proyectos a la vez, con su criterio alcanzable y enrutado | «crea un bot para trabajar en X e Y» (nuevo) / «quiero un bot que federe el lore que ya existe en A y B» (federar) |
-| `vespi`         | Correr una operación viva acotada bajo autoridad, con checkpoint durable (experimental) | No la invoca una frase de la persona: la toma el coordinador, en rol, cuando la operación está bajo presión |
+| `vespi`         | Correr una operación viva acotada bajo autoridad, con checkpoint durable | No la invoca una frase de la persona: la toma el coordinador, en rol, cuando la operación está bajo presión |
 
 Cada skill opera sobre, o crea, artefactos Markdown específicos dentro de tu repositorio.
 
@@ -648,7 +648,9 @@ Usa `create-bot` cuando quieras una sola sesión que trabaje sobre varios proyec
 
 ### 3.10 `vespi`
 
-**Rol (experimental, RC3):** correr una **operación viva acotada** bajo autoridad a través del tiempo — continuar entre sesiones, moverse lateralmente cuando la ruta no alcanza, revalidar antes de seguir como la misma operación. La unidad es la operación, no el agente.
+En 2.5.3 el coordinador conserva las obligaciones originales, entrega el método distribuido con un encargo acotado y declara los resultados finales compuestos para revisarlos aparte. La ruta predeterminada es directa solo para correcciones triviales reconocidas de forma acotada; en los demás casos exige revisión final y la ausencia de verificador bloquea la conformidad. La evidencia de entrega cubre al trabajador del kit en Claude Code con hooks recibidos, no a advisor o daimon, todos los hosts ni un efecto conductual causal. Las cartas y cinco chispas revisadas siguen siendo registros de coordinación, no Lore aprobado. El contraste offline no establece un beneficio medido.
+
+**Rol:** correr una **operación viva acotada** bajo autoridad a través del tiempo — continuar entre sesiones, moverse lateralmente cuando la ruta no alcanza, revalidar antes de seguir como la misma operación. La unidad es la operación, no el agente.
 
 **Úsala solo cuando el trabajo sea una operación bajo presión:** los efectos portan autoridad, reanudar en silencio fingiría que nada cambió, o la ruta actual puede no bastar. El trabajo ordinario queda en `use-lore`; la clarificación de diseño, en `brainstorming-lore`.
 

@@ -1,14 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, mkdtempSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, writeFileSync, rmSync, symlinkSync } from 'node:fs';
+import fs from 'node:fs';
+import { syncBuiltinESMExports } from 'node:module';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { executeNodeVerification, executeVerification } from '../skills/vespi/core/verification-execution.mjs';
-import { reviewTask, verifyTask, integrateTask, closeOperation } from '../skills/vespi/core/coordinator.mjs';
-import { createArtifact } from '../skills/vespi/core/operation-state.mjs';
+import { reviewTask, verifyTask, integrateTask, closeOperation, operationTrust } from '../skills/vespi/core/coordinator.mjs';
+import { createArtifact, saveOperationState, loadOperationState } from '../skills/vespi/core/operation-state.mjs';
 const sha = content => createHash('sha256').update(content).digest('hex');
 function fixture(t, { good = true, failing = false } = {}) {
   const root = mkdtempSync(join(tmpdir(), 'execution-receipt-'));
@@ -28,6 +30,95 @@ function fixture(t, { good = true, failing = false } = {}) {
   return { root, task: artifact.tasks[0], artifact, source, path, runner };
 }
 const verify = (artifact, evidence) => verifyTask(artifact, 't1', { verifier: 'reader', observed: true, evidence });
+const closure = { verification: { verified: true, observed: true, by: 'reader' } };
+
+test('integration rejects an unrelated Pokemon GO article written by terminal', t => {
+  const { artifact, root, path } = fixture(t);
+  const verified = verify(artifact, executeNodeVerification(artifact, 't1', { root }));
+  const destination = join(root, 'article.md');
+  execFileSync(process.execPath, ['-e', "require('node:fs').writeFileSync(process.argv[1], 'Pokemon GO: guia de incursiones')", destination]);
+  assert.match(readFileSync(destination, 'utf8'), /Pokemon GO/, 'positive control: terminal really wrote the unrelated destination');
+  assert.throws(() => integrateTask(verified, 't1', { destination }), /integration.*(digest|verified)|destination.*(digest|verified)/i);
+  writeFileSync(destination, readFileSync(path));
+  const integrated = integrateTask(verified, 't1', { destination });
+  assert.equal(integrated.tasks[0].integration.sha256, verified.tasks[0].received.sha256);
+  assert.equal(closeOperation(integrated, closure).state, 'closed', 'an unchanged verified copy still closes');
+});
+
+for (const mutation of ['replace', 'remove']) {
+  test(`closure rejects a destination ${mutation} after integration and state reload`, t => {
+    const { artifact, root, path } = fixture(t);
+    const verified = verify(artifact, executeNodeVerification(artifact, 't1', { root }));
+    const destination = join(root, 'article.md');
+    writeFileSync(destination, readFileSync(path));
+    const integrated = JSON.parse(JSON.stringify(integrateTask(verified, 't1', { destination })));
+    assert.equal(closeOperation(integrated, closure).state, 'closed', 'positive control: destination was verified before mutation');
+    if (mutation === 'replace') execFileSync(process.execPath, ['-e', "require('node:fs').writeFileSync(process.argv[1], 'Pokemon GO: otra entrega')", destination]);
+    else rmSync(destination);
+    assert.throws(() => closeOperation(integrated, closure), /integration|destination/i);
+    assert.equal(operationTrust(integrated).coverage.length, 0, 'trust must not advertise coverage for the changed destination');
+    assert.match(operationTrust(integrated).notCovered.join(' '), /integration|destination/i);
+  });
+}
+
+test('integration rejects missing destinations and paths outside the received project', t => {
+  const { artifact, root, path } = fixture(t);
+  const verified = verify(artifact, executeNodeVerification(artifact, 't1', { root }));
+  assert.throws(() => integrateTask(verified, 't1', { destination: 'missing.md' }), /integration|destination/i);
+  const outside = mkdtempSync(join(tmpdir(), 'integration-outside-'));
+  t.after(() => rmSync(outside, { recursive: true, force: true }));
+  const foreign = join(outside, 'article.md');
+  writeFileSync(foreign, readFileSync(path));
+  assert.throws(() => integrateTask(verified, 't1', { destination: foreign }), /integration.*root|destination.*root/i);
+  symlinkSync(outside, join(root, 'outside-link'), process.platform === 'win32' ? 'junction' : 'dir');
+  assert.throws(() => integrateTask(verified, 't1', { destination: join(root, 'outside-link', 'article.md') }), /integration.*root|destination.*root/i);
+});
+
+test('closure requires destination evidence and rejects a forged digest', t => {
+  const { artifact, root, path } = fixture(t);
+  const verified = verify(artifact, executeNodeVerification(artifact, 't1', { root }));
+  const integrated = integrateTask(verified, 't1', { destination: path });
+  const legacy = structuredClone(integrated);
+  legacy.tasks[0].integration = { destination: path, at: new Date().toISOString() };
+  assert.throws(() => closeOperation(legacy, closure), /integration|destination/i);
+  const reconciled = integrateTask(legacy, 't1', { destination: path });
+  assert.equal(closeOperation(reconciled, closure).state, 'closed', 'legacy integration requires an explicit fresh destination check');
+  assert.throws(() => integrateTask(closeOperation(reconciled, closure), 't1', { destination: path }), /closed|terminal/i);
+  const forged = structuredClone(integrated);
+  const unrelated = join(root, 'unrelated.md');
+  writeFileSync(unrelated, 'Pokemon GO');
+  forged.tasks[0].integration.path = unrelated;
+  forged.tasks[0].integration.sha256 = sha('Pokemon GO');
+  assert.throws(() => closeOperation(forged, closure), /integration|destination/i);
+});
+
+test('UNC integration destinations are rejected before filesystem access', { skip: process.platform !== 'win32' }, t => {
+  const { artifact, root } = fixture(t);
+  const verified = verify(artifact, executeNodeVerification(artifact, 't1', { root }));
+  const originalExists = fs.existsSync;
+  t.mock.method(fs, 'existsSync', path => {
+    if (String(path).startsWith('\\\\')) throw new Error('UNC filesystem access attempted before lexical rejection');
+    return originalExists(path);
+  });
+  syncBuiltinESMExports();
+  try {
+    assert.throws(() => integrateTask(verified, 't1', { destination: '\\\\example.invalid\\share\\article.md' }), /destination escapes.*root/i);
+  } finally { t.mock.restoreAll(); syncBuiltinESMExports(); }
+});
+
+test('destination evidence survives closed-state persistence twice', async t => {
+  const { artifact, root, path } = fixture(t);
+  const verified = verify(artifact, executeNodeVerification(artifact, 't1', { root }));
+  const integrated = integrateTask(verified, 't1', { destination: path });
+  const expected = integrated.tasks[0].integration;
+  let closed = closeOperation(integrated, closure);
+  for (let reopening = 0; reopening < 2; reopening++) {
+    await saveOperationState(root, closed);
+    closed = await loadOperationState(root, closed.id);
+    assert.deepEqual(closed.task_reviews[0].integration, expected);
+    assert.equal(operationTrust(closed).coverage.length, 0, 'a historical closure does not certify current files');
+  }
+});
 test('a complete fabricated report cannot certify a task', t => {
   const { task, artifact, source } = fixture(t);
   const reference = { path: source, sha256: sha(readFileSync(source)) };
@@ -52,7 +143,7 @@ test('a real successful check enables verification, integration and closure', t 
   const evidence = executeNodeVerification(artifact, 't1', { root });
   const verified = verify(artifact, evidence);
   assert.equal(verified.tasks[0].verification.executed, true);
-  const integrated = integrateTask(verified, 't1', { destination: 'result' });
+  const integrated = integrateTask(verified, 't1', { destination: 'result.txt' });
   const closed = closeOperation(integrated, { verification: { verified: true, observed: true, by: 'reader' } });
   assert.equal(closed.state, 'closed');
 });
@@ -70,9 +161,9 @@ test('changing a criterion source after verification blocks integration and clos
   const { artifact, root, source } = fixture(t);
   const evidence = executeNodeVerification(artifact, 't1', { root });
   const verified = verify(artifact, evidence);
-  const integrated = integrateTask(verified, 't1', { destination: 'result' });
+  const integrated = integrateTask(verified, 't1', { destination: 'result.txt' });
   writeFileSync(source, 'New criterion');
-  assert.throws(() => integrateTask(verified, 't1', { destination: 'result' }), /input changed/i);
+  assert.throws(() => integrateTask(verified, 't1', { destination: 'result.txt' }), /input changed/i);
   assert.throws(() => closeOperation(integrated, { verification: { verified: true, observed: true, by: 'reader' } }), /input changed/i);
 });
 test('a changed proof runner cannot execute or replay an old result', t => {
@@ -122,7 +213,7 @@ test('a completed checker that omits a required test cannot certify a result', t
 });
 test('closing with blocked tasks records partial completion only alongside proven integrated work', t => {
   const { artifact, root } = fixture(t);
-  const integrated = integrateTask(verify(artifact, executeNodeVerification(artifact, 't1', { root })), 't1', { destination: 'result' });
+  const integrated = integrateTask(verify(artifact, executeNodeVerification(artifact, 't1', { root })), 't1', { destination: 'result.txt' });
   integrated.tasks.push({ id: 't2', state: 'blocked', blocked: { cause: 'no execution' } });
   const closed = closeOperation(integrated, { verification: { verified: true, observed: true, by: 'reader' } });
   assert.equal(closed.state, 'closed');
@@ -137,7 +228,7 @@ test('closing with blocked tasks records partial completion only alongside prove
 
  test('actual pending effects cannot be hidden by a complete caller report', t => {
   const { artifact, root } = fixture(t);
-  const integrated = integrateTask(verify(artifact, executeNodeVerification(artifact, 't1', { root })), 't1', { destination: 'result' });
+  const integrated = integrateTask(verify(artifact, executeNodeVerification(artifact, 't1', { root })), 't1', { destination: 'result.txt' });
   integrated.effects = [{ id: 'fx-hidden', status: 'unknown' }];
   integrated.uncertainty = ['unreconciled effect'];
   const closed = closeOperation(integrated, { verification: { verified: true, observed: true, by: 'reader', unverified_effects: [] } });

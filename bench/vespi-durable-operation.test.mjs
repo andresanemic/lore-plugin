@@ -19,6 +19,11 @@ import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import test from "node:test";
+import { loadShippedMethod } from "../skills/vespi/core/task-method.mjs";
+
+// Toda delegacion lleva el metodo distribuido: sin el, la ruta no llega al adaptador.
+const { content: METODO_KIT, sha256: METODO_SHA } = loadShippedMethod();
+const conMetodo = (assignment = {}) => ({ ...assignment, method: { content: METODO_KIT, sha256: METODO_SHA } });
 
 const V = "../skills/vespi/core/vespi.mjs";
 const S = "../skills/vespi/core/operation-state.mjs";
@@ -295,6 +300,7 @@ test("una herramienta del host no es un aprobador: sin ask no hay aprobacion", a
     authority: { spend: [] },
     capability,
     intent: "delegation",
+    assignment: conMetodo(),
     host: {
       delegate: async () => {
         delegada += 1;
@@ -316,12 +322,13 @@ test("la ruta delegada llama al contrato del adaptador y el kernel revisa la evi
   const { capability, calls } = espia();
   const eventos = [];
   let entregaVerificada = null;
-  const assignment = {
+  const assignment = conMetodo({
     task: "Lee el módulo indicado y devuelve hallazgos con rutas y límites",
     medium: { cwd: "/repo/modulo", material: ["src/"], forbidden: ["secrets/"] },
-  };
+  });
   const delegate = async (request) => {
     eventos.push("delegate");
+    assert.equal(request.kind, "operation", "la ruta durable dice su forma: un adaptador no la confunde con una tarea");
     assert.equal(request.operation.goal, OBJETIVO);
     assert.deepEqual(request.assignment, assignment);
     assert.deepEqual(request.authority, MANDATO);
@@ -379,6 +386,7 @@ test("la ruta delegada bloquea el efecto declarado si el adaptador reporta térm
     authority: MANDATO,
     capability,
     intent: "delegation",
+    assignment: conMetodo(),
     declaredEffect: { asset: "lectura", amount: "1", to: "portal-clientes" },
     host: { delegate },
   });
@@ -494,7 +502,7 @@ test("una segunda sesion retoma desde el archivo y sigue la misma operacion", as
     authority: MANDATO,
     capability: espia().capability,
     intent: "delegation",
-    assignment: { task: "Retoma la lectura del modulo", medium: { cwd: "/repo/modulo", material: ["src/"], forbidden: ["secrets/"] } },
+    assignment: conMetodo({ task: "Retoma la lectura del modulo", medium: { cwd: "/repo/modulo", material: ["src/"], forbidden: ["secrets/"] } }),
     host: {
       delegate: async () => ({
         ok: true,

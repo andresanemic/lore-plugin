@@ -34,13 +34,13 @@ const scriptRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 const USAGE = [
   "Usage: node scripts/vendor-kernel.mjs --source <raíz-del-kernel> --ref <commit-o-rama>",
-  "         [--modules a.js,b.js] [--branch <rama>] [--published <YYYY-MM-DD>] [--kit <raíz-del-kit>] [--check]",
+  "         [--modules a.js,b.js] [--branch <rama>] [--published <YYYY-MM-DD|pending>] [--kit <raíz-del-kit>] [--check]",
   "",
   "  --source     repositorio del kernel, el que tiene src/ y package.json",
   "  --ref        commit o rama desde la que se leen los bytes; sin esto se lee HEAD del repo de trabajo",
   "  --modules    módulos a vendorizar; por defecto, todos los src/*.js del ref",
   "  --branch     rama que se declara en el encabezado y en SOURCE.md; si falta, se lee del SOURCE.md existente",
-  "  --published  fecha de publicación que declara SOURCE.md; si falta, se lee del SOURCE.md existente",
+  "  --published  fecha publicada o pending; si falta, se lee del SOURCE.md existente",
   "  --kit        raíz del kit a escribir; por defecto, la que contiene este script",
   "  --check      no escribe nada; sale distinto de cero si lo vendorizado difiere de lo que se produciría",
 ].join("\n");
@@ -153,7 +153,7 @@ export function renderSourceDocument({ kernelVersion, kitVersion, published, bra
   return [
     "# Vespi kernel copy provenance",
     "",
-    `Fixed copy of the Vespi kernel **${kernelVersion}** in Lore Plugin ${kitVersion}, published on ${published}. Canonical source: \`${CANONICAL_SOURCE_DIR}\`, branch \`${branch}\`, commit \`${commit}\`.`,
+    `Fixed copy of the Vespi kernel **${kernelVersion}** in Lore Plugin ${kitVersion}, ${published === "pending" ? "publication pending" : `published on ${published}`}. Canonical source: \`${CANONICAL_SOURCE_DIR}\`, branch \`${branch}\`, commit \`${commit}\`.`,
     "",
     `Each module carries a three-line provenance header followed by the exact committed source bytes. The table below does not verify itself: \`${PROVENANCE_TEST}\` compares the body with \`git show ${commit}:src/<file>\`.`,
     "",

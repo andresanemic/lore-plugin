@@ -9,7 +9,7 @@ description: >-
   Lore-owned artifact belongs to brainstorming-lore. Only save-to-lore writes Lore.
 ---
 
-# Vespi — bounded operation under authority (experimental)
+# Vespi — bounded operation under authority
 
 Invoke `vespi` with the Skill tool. Human phrases route through `use-lore`. An ordinary operation is still an operation: retain criterion, owner, gate, receipt, distinct verification and next step. Sparse work skips the bounded wrapper below.
 
@@ -17,9 +17,9 @@ Invoke `vespi` with the Skill tool. Human phrases route through `use-lore`. An o
 
 ## Recommending the work mode
 
-Before tasks or dispatch, read the agreement, pertinent Pistas and observed host capabilities. Recommend a viable mode with reason, cost and a real alternative; await the person's choice, without a default. Missing roles make a mode unavailable. TDD/loops are practices, specs/plans are artifacts; Plan Maestro is optional.
+Keep saved mode and explicit choices. Direct work: exact allowed edit, no `fuentes`/`entregables`/`acciones` fields or effects, and at most one relevant Pista. Fields give context, not simplicity. Else use Acompañada with final review; roles alone never select Party. No verifier: review pending, no conformity. On material changes, revalidate before dispatch. Explain reason/cost in Spanish tú. No TDD/SDD question before approved work. A critical question after failure diagnoses only. A correction adds a new task and keeps the prior task. Exploration yields candidates, never approval or execution.
 
-Run `node scripts/operation-cli.mjs recommend --root <project> --json <payload>`. The offer changes no operation. Supply the actual instruction, Pista reference/passage/pertinence/reason (or why none applies), observed skill inventory and its source, and suggested IDs/purposes. Never claim unread criterion or invent a skill. The CLI checks IDs against this inventory and hashes passage, inventory and instruction to detect material changes; it does not authenticate the host catalog. Keep the user's mode and accept/correct/decline skill choices in the operation.
+Run `operation-cli.mjs recommend` read-only with instruction, Pistas (or why none), catalog/source, skill IDs/purposes and known `fuentes`/`entregables`/`acciones` in context. Never claim unread criteria or invent skills. CLI checks IDs, hashes context/effects/passages/catalog for continuity, not host authenticity.
 
 Suggest fitting skills; reading siblings grants no write authority. LUS: [`lus-method.md`](./lus-method.md). Cards: [`cards-method.md`](./cards-method.md).
 
@@ -72,7 +72,7 @@ Use the kernel's `createDelegation` with a `medium`: granted area and forbidden 
 
 ### Launching a delegate on OpenCode
 
-For a non-interactive OpenCode delegate, prepare its directory with `lore-plugin opencode-sandbox <dir>`, or configure routed sibling access with `lore-plugin opencode-permissions --project <dir> --from-routing [--write]`. A run that ends because OpenCode rejected a permission request is blocked by that permission cause, not failed work; record the cause in the existing operation task or receipt when that surface is in use. Keep the existing operation contract unchanged.
+For a non-interactive OpenCode delegate, prepare its directory with `lore-plugin opencode-sandbox <dir>`, or configure routed sibling access with `lore-plugin opencode-permissions --project <dir> --from-routing [--write]`. A run that ends because OpenCode rejected a permission request is blocked by that permission cause, not failed work; record the cause in the operation task or receipt, if used. Claude Code: [`claude-code-worker.md`](./claude-code-worker.md).
 
 ## Holding an operation that outlives the session
 
@@ -92,7 +92,7 @@ Record time; calibrate after three samples. Earlier, say “not measured”; dat
 
 If the host does not expose the tool a role needs, the task comes back `blocked` with the missing tool and the next action; nothing is simulated. The operation also declares its effect up front: `none`, or `external` with its economy (cost, grant, settlement) and whether it goes on chain; an on-chain placement without a reason of distrust is recorded as a defect, not rejected silently.
 
-CLI: `node scripts/operation-cli.mjs <command> --root <dir> --id <op> [--task <t>] --json <payload>`. Commission pinned Node tests or authorized Luna medium/high; see `docs/VERIFICATION-EXECUTION.md`. `verify` executes after review. Owner criterion needs native judgment, including Node-check adequacy; missing sources or authority stops verification. Rejection persists in FASES. Integration/closure recheck signed inputs; uncovered work stays partial. Labels do not prove identity.
+CLI: `node scripts/operation-cli.mjs <command> --root <dir> --id <op> [--task <t>] --json <payload>`. Commission pinned Node tests or authorized Luna medium/high; see `docs/VERIFICATION-EXECUTION.md`. `verify` executes after review. Owner criterion needs native judgment, including Node-check adequacy; missing sources or authority stops verification. Rejection persists in FASES. Integration/closure recheck signed inputs. Place verified bytes at the project destination before `integrate`; closure and `trust` recheck it. Reverify compositions; uncovered work stays partial. Labels do not prove identity.
 
 ## The relational trace is not the operation receipt
 
@@ -114,7 +114,7 @@ Before delivering a user artifact, replace every internal label with the audienc
 
 ## Core provenance
 
-Pinned Vespi kernel **0.1.6**, publication date pending: `founder/proyectos/vespi/kernel/src/`, branch `master`, commit `39d45733839d0a05f60248fc6e5b81c892c464f8`. Andrés decides adoption. Copies have three provenance lines then exact source bytes; the table/test in `core/kernel/SOURCE.md` checks identity. Never edit vendor: change canonical source then re-copy. Vendored: `authority.js`, `continuity.js`, `delegation.js`, `emergency.js`, `operation.js`, `receipt.js`, `skill-provenance.js`, `time.js`, `x402.js`, `zk.js`. Experimental `zk-bn254-reference.js` is not vendored. Wrappers remain experimental and require evidence from use.
+Pinned Vespi kernel **0.1.8**, publication pending: `founder/proyectos/vespi/kernel/src/`, branch `master`, commit `0c0a3e3425a915aa43af1e8c5ffaaacb24c55729`. Andrés decides adoption. Three provenance lines precede exact source bytes; `core/kernel/SOURCE.md` and its test check identity. Never edit vendor: change canonical source then re-copy. Vendored: `authority.js`, `context.js`, `continuity.js`, `delegation.js`, `emergency.js`, `operation.js`, `receipt.js`, `skill-provenance.js`, `time.js`, `x402.js`, `zk.js`. Experimental `zk-bn254-reference.js` is not vendored. Wrappers remain experimental and require evidence from use.
 
 ## Delegating to Codex and OpenCode on Windows
 

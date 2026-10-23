@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import test from "node:test";
 import * as ofertas from "../skills/vespi/ofrece-formas-trabajo.mjs";
 import * as preguntas from "../skills/vespi/preguntas-coordinador.mjs";
@@ -54,6 +56,18 @@ test("la pregunta de modalidad no vence ni selecciona un valor por defecto", () 
   const silencio = preguntas.procesarRespuesta(pregunta, "");
   assert.equal(silencio.valor, null);
   assert.equal(silencio.bloqueada, true);
+});
+test("una oferta automática no hace que el consumidor cree una pregunta de modalidad", () => {
+  const oferta = ofertas.ofrecerFormaTrabajo({
+    modalidad: null,
+    motivo: "cambio local de una frase",
+    tradeoff: "una pasada",
+    alternativas: [],
+    capacidades: {},
+    contexto: { instruccion: "Renombra el título", pistas: [], motivoSinPistas: "no aplica", catalogoSkills: [], catalogoSkillsOrigen: "host", skillsSugeridas: [] },
+  });
+  assert.equal(oferta.requiere_eleccion, false);
+  assert.doesNotThrow(() => preguntas.generarPreguntasIniciales({ tarea: "Renombra el título", ofertaModalidad: oferta }));
 });
 test("la oferta nombra las alternativas para la persona, no solo sus ids", () => {
   const oferta = ofertas.ofrecerFormaTrabajo(recomendacion);
@@ -115,7 +129,8 @@ test("la continuación estable nombra las decisiones de skills sin fingir que to
   });
   assert.equal(oferta.reanudada, true);
   assert.equal(oferta.requiere_eleccion, false);
-  assert.match(oferta.mensaje, /decisiones sobre skills/i);
+  assert.match(oferta.mensaje, /herramientas elegidas/i);
+  assert.doesNotMatch(oferta.mensaje, /party|skills|checkpoints|TDD|SDD/i);
   assert.doesNotMatch(oferta.mensaje, /skills que aceptaste/i);
 });
 
@@ -143,4 +158,90 @@ test("la puntuación adversarial conserva el mensaje sin búsquedas cuadráticas
   assert.ok(performance.now() - inicio < 1_000, "la limpieza de puntuación debe ser lineal");
   assert.ok(oferta.mensaje.includes(motivo));
   assert.match(oferta.mensaje, /Coste: cuesta tiempo\. Alternativas:/);
+});
+
+test("una tarea simple sin roles disponibles elige la ruta directa sin party", () => {
+  const oferta = ofertas.ofrecerFormaTrabajo({
+    modalidad: null,
+    motivo: "es una correccion local de un solo archivo",
+    tradeoff: "sin revision independiente",
+    alternativas: ["acompanada", "secuencial-checkpoints"],
+    capacidades: {},
+    contexto: { instruccion: "Corrige una errata local", pistas: [], motivoSinPistas: "no aplica", catalogoSkills: [], catalogoSkillsOrigen: "host", skillsSugeridas: [] },
+  });
+  assert.equal(oferta.disponible, true);
+  assert.equal(oferta.modalidad, "acompanada");
+  assert.equal(oferta.ruta_tecnica, "directa");
+  assert.match(oferta.razon_ruta, /excepción textual finita/i);
+  assert.equal(oferta.requiere_eleccion, false);
+});
+
+test("una tarea compuesta selecciona metodo y revision final si el host los ofrece", () => {
+  const oferta = ofertas.ofrecerFormaTrabajo({
+    modalidad: null,
+    motivo: "compone varias entregas",
+    tradeoff: "requiere revision final",
+    alternativas: ["secuencial-checkpoints"],
+    capacidades: { daimon: true, advisor: true, worker: true, verifier: true },
+    contexto: { instruccion: "Componer varios entregables y revisarlos", pistas: [], motivoSinPistas: "no aplica", catalogoSkills: [], catalogoSkillsOrigen: "host", skillsSugeridas: [] },
+  });
+  assert.equal(oferta.ruta_tecnica, "metodo-y-revision-final");
+  assert.equal(oferta.revision_final, true);
+  assert.equal(oferta.verificacion_requerida, true);
+});
+
+test("si falta un rol, una tarea compuesta toma la ruta disponible con revision final", () => {
+  const oferta = ofertas.ofrecerFormaTrabajo({
+    ...recomendacion,
+    contexto: { instruccion: "Componer varios entregables", pistas: [], motivoSinPistas: "no aplica", catalogoSkills: [], catalogoSkillsOrigen: "host", skillsSugeridas: [] },
+    capacidades: { verifier: true },
+    alternativas: ["secuencial-checkpoints"],
+  });
+  assert.equal(oferta.disponible, true);
+  assert.equal(oferta.modalidad, "secuencial-checkpoints");
+  assert.equal(oferta.ruta_tecnica, "metodo-y-revision-final");
+  assert.equal(oferta.revision_final, true);
+  assert.equal(oferta.requiere_eleccion, false);
+});
+
+test("la ausencia de verificador no permite declarar conformidad", () => {
+  const oferta = ofertas.ofrecerFormaTrabajo({
+    ...recomendacion,
+    modalidad: null,
+    capacidades: { daimon: true, worker: true },
+    contexto: { instruccion: "Componer varios entregables", pistas: [], motivoSinPistas: "no aplica", catalogoSkills: [], catalogoSkillsOrigen: "host", skillsSugeridas: [] },
+  });
+  assert.equal(oferta.disponible, false);
+  assert.equal(oferta.bloqueada, true);
+  assert.equal(oferta.conformidad, null);
+  assert.equal(oferta.verificacion_requerida, true);
+  assert.match(oferta.bloqueo ?? oferta.mensaje, /verificador|revisi[oó]n final/i);
+});
+
+test("un cambio material conserva operacion y preferencia y exige revalidacion", () => {
+  const preferencia = { modalidad: "secuencial-checkpoints", mismaOperacion: true, contextoCambioMaterial: true, operationId: "op-1", presupuesto: 0, autoridad: { spend: [] } };
+  const oferta = ofertas.ofrecerFormaTrabajo({ ...recomendacion, preferencia });
+  assert.equal(oferta.modalidad, preferencia.modalidad);
+  assert.deepEqual(oferta.preferencia, preferencia);
+  assert.equal(oferta.requiere_revalidacion, true);
+});
+
+test("una recomendacion no anade gasto, publicacion ni acceso a archivos", () => {
+  const oferta = ofertas.ofrecerFormaTrabajo(recomendacion);
+  assert.deepEqual(oferta.efectos, { gasto: false, publicacion: false, acceso_archivos: false });
+});
+
+const guiaVespi = readFileSync(resolve(import.meta.dirname, "../skills/vespi/SKILL.md"), "utf8");
+
+test("una pregunta critica tras un fallo abre diagnostico sin reescribir ni dar efectos", () => {
+  assert.match(guiaVespi, /critical question after failure diagnoses only/i);
+});
+
+test("una correccion agrega una tarea versionada, conserva la anterior y revalida antes de lanzar", () => {
+  assert.match(guiaVespi, /correction adds a new task and keeps the prior task/i);
+  assert.match(guiaVespi, /revalidate before dispatch/i);
+});
+
+test("la exploracion entrega candidatos, no criterios aprobados ni ejecucion", () => {
+  assert.match(guiaVespi, /exploration yields candidates, never approval or execution/i);
 });

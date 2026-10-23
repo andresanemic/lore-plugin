@@ -30,6 +30,8 @@ function usage(stream = process.stdout) {
     "       lore-plugin vigilante verify <recibo>                recalcula el digest de un recibo",
     "       lore-plugin fases install-hook [repo]                 pre-commit: sin FASES.md del arbol no entra el commit",
     "       lore-plugin operation <command> --root <dir> [--id <op>] [--json <payload>]",
+    "       lore-plugin operation prompt|confirm-delivery --root <dir> --id <op> --task <t>   entrega de un trabajador observada por el host",
+    "       lore-plugin operation obligations|fulfill --root <dir> --id <op> --json <payload>   obligaciones del encargo y su evidencia",
     "       lore-plugin opencode-permissions [--project <dir>] [--from-routing] [--allow <path>...] [--write]",
     "       lore-plugin opencode-sandbox <dir> [--json]",
     "       lore-plugin mycelium receipt [--tree <dir>] [--sweep-type structural|full]",

@@ -1,9 +1,10 @@
 // hooks/baraja-entry.mjs — Punto de entrada para la baraja de perturbaciones.
-// Ofrece una carta cuando se detecta estancamiento o loop.
+// Ofrece una carta interna al empezar una tarea y prepara el prompt una sola vez.
 // No es una skill: es un hook que cualquier skill puede invocar.
 
 import { tirarCarta } from "../scripts/baraja.mjs";
 import { loadOperationState, saveOperationState } from "../skills/vespi/core/operation-state.mjs";
+import { offerTaskCard } from "../skills/vespi/core/cards.mjs";
 
 const ESTANCAMIENTO_PALABRAS = [
   "loop", "stuck", "atascado", "repetiendo", "no avanzo", "no sé qué hacer",
@@ -20,13 +21,25 @@ export function ofrecerCarta({ semilla = null, fuente = null } = {}) {
   return tirarCarta({ semilla, fuente });
 }
 
-export async function inyectarCartaEnPrompt({ operacion = null, root = null } = {}) {
+export async function inyectarCartaEnPrompt({ operacion = null, root = null, taskId = null, semilla = null } = {}) {
   if (!root || !operacion?.id) return null;
   const stored = await loadOperationState(root, operacion.id);
   if (!stored || ["closed", "cancelled"].includes(stored.state)) return null;
-  const offer = stored.perturbations?.findLast(item => item.response_status === "offered" && !item.prompt_prepared_at);
+  let current = stored;
+  // A task only receives its own offer. Re-reading its prompt is idempotent and
+  // returns that same card; it must neither consume another task's offer nor
+  // create a duplicate.
+  let offer = taskId
+    ? current.perturbations?.find(item => item.task_id === taskId)
+    : current.perturbations?.findLast(item => item.response_status === "offered" && !item.prompt_prepared_at);
+  if (!offer && taskId) {
+    current = offerTaskCard(current, { taskId, semilla });
+    offer = current.perturbations.at(-1);
+  }
   if (!offer) return null;
-  await saveOperationState(root, { ...stored, perturbations: stored.perturbations.map(item => item.id === offer.id ? { ...item, prompt_prepared_at: new Date().toISOString() } : item) });
+  if (!offer.prompt_prepared_at) {
+    await saveOperationState(root, { ...current, perturbations: current.perturbations.map(item => item.id === offer.id ? { ...item, prompt_prepared_at: new Date().toISOString() } : item) });
+  }
   const carta = offer.card;
 
   return {
