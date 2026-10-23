@@ -298,6 +298,24 @@ test("recibida significa que el artefacto existe en la ruta declarada, con su hu
   assert.deepEqual(Object.keys(t1.received).sort(), ["at", "bytes", "path", "root", "sha256"]);
 });
 
+test("una entrega relativa se lee contra el root de la operacion, no contra el cwd del proceso", async (t) => {
+  const root = await proyecto(t);
+  const ajeno = await proyecto(t);
+  await writeFile(join(root, "daimon.md"), "ENTREGA DEL PROYECTO\n");
+  await writeFile(join(ajeno, "daimon.md"), "BYTES DE UN ARBOL AJENO\n");
+  const { f, a } = await autorizada();
+  let art = f.planTask(a, daimon(root, { output: { path: "daimon.md" } })).artifact;
+  art = f.dispatchTask(art, "t1", { host: HOST_CON_EJECUTOR, hostName: "opencode", model: "m", effort: "e" });
+  const cwd = process.cwd();
+  process.chdir(ajeno);
+  let recibida;
+  try { recibida = await f.receiveTask(art, "t1", { root }); } finally { process.chdir(cwd); }
+  const sha = (texto) => createHash("sha256").update(texto).digest("hex");
+  assert.equal(recibida.tasks[0].state, "received");
+  assert.equal(recibida.tasks[0].received.sha256, sha("ENTREGA DEL PROYECTO\n"));
+  assert.notEqual(recibida.tasks[0].received.sha256, sha("BYTES DE UN ARBOL AJENO\n"));
+});
+
 // D - revisada, verificada, integrada: tres hechos y ninguno se infiere del anterior
 
 async function recibidaDe(f, a, root) {

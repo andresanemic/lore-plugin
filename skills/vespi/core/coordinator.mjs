@@ -855,9 +855,12 @@ export async function receiveTask(artifact, taskId, { path = null, exitCode = nu
       },
     });
   }
+  // Se lee exactamente la ruta que fueraDe valido, resuelta contra el root de la operacion: una ruta
+  // relativa cruda se resolveria contra el cwd del proceso y sellaria los bytes de un arbol ajeno.
+  const archivo = resolve(root, String(file));
   let bytes;
   try {
-    bytes = await readFile(file);
+    bytes = await readFile(archivo);
   } catch (error) {
     if (error?.code === "ENOENT") throw new Error(`the declared output does not exist: ${file}`);
     throw new Error(`the declared output could not be read: ${file} (${error?.code ?? "unreadable"})`);
@@ -866,7 +869,7 @@ export async function receiveTask(artifact, taskId, { path = null, exitCode = nu
   if (advisorRecovery) {
     const sha256 = createHash("sha256").update(bytes).digest("hex");
     if (!task.received?.sha256 || sha256 !== task.received.sha256
-        || resolve(file) !== resolve(task.received.path ?? task.output.path)) {
+        || archivo !== resolve(root, task.received.path ?? task.output.path)) {
       return replaceTask(artifact, {
         ...task,
         state: "blocked",
@@ -912,7 +915,7 @@ export async function receiveTask(artifact, taskId, { path = null, exitCode = nu
     ...(actualMs !== null ? { actualMs } : {}),
     received: {
       root: realpathSync(root),
-      path: file,
+      path: archivo,
       sha256: createHash("sha256").update(bytes).digest("hex"),
       bytes: bytes.length,
       at: finishedAt,
