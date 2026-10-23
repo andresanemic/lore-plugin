@@ -1163,9 +1163,9 @@ function evidenceKey(evidence) {
   return `attestation:${evidence.attestation.by.trim()}:${evidence.attestation.words.trim()}`;
 }
 
-// Con `root`, la evidencia de tipo artefacto cumple la misma contencion que la entrega de una tarea
-// (`fueraDe`, lexica y fisica). Sin `root` la forma se comprueba pero la contencion no tiene contra que
-// medirse: la CLI siempre lo pasa.
+// La evidencia de tipo artefacto exige `root` y cumple la misma contencion que la entrega de una tarea
+// (`fueraDe`, lexica y fisica): la operacion no guarda su root, y sin el no hay contra que medirla ni contra
+// que resolver una ruta al leerla. Las otras clases de evidencia no lo usan.
 function checkEvidenceShape(artifact, id, evidence, root = null) {
   const kinds = evidence && typeof evidence === "object" && !Array.isArray(evidence) ? Object.keys(evidence) : [];
   if (kinds.length !== 1 || !EVIDENCE_KINDS.includes(kinds[0])) {
@@ -1179,7 +1179,10 @@ function checkEvidenceShape(artifact, id, evidence, root = null) {
   if (kinds[0] === "artifact" && (!absolutePath(evidence.artifact?.path) || !/^[0-9a-f]{64}$/.test(String(evidence.artifact?.sha256 ?? "")))) {
     throw new Error(`obligation ${id}: artifact evidence needs an absolute path and its sha256`);
   }
-  if (kinds[0] === "artifact" && present(root) && fueraDe(root, evidence.artifact.path)) {
+  if (kinds[0] === "artifact" && !present(root)) {
+    throw new Error(`obligation ${id}: artifact evidence needs the operation root to check it stays inside the project`);
+  }
+  if (kinds[0] === "artifact" && fueraDe(root, evidence.artifact.path)) {
     throw new Error(`obligation ${id}: artifact evidence is outside the operation root ${resolve(root)}; copy it inside the project`);
   }
   if (kinds[0] === "attestation" && (!filled(evidence.attestation?.by) || !filled(evidence.attestation?.words))) {
@@ -1231,7 +1234,7 @@ function assertObligationsMet(artifact, root = null) {
       if (task.state !== "integrated") throw new Error(`closure cannot certify obligation ${item.id}: task ${evidence.task} is not integrated`);
     } else if (evidence.artifact !== undefined) {
       let bytes = null;
-      try { bytes = readFileSync(evidence.artifact.path); } catch { bytes = null; }
+      try { bytes = readFileSync(resolve(root, evidence.artifact.path)); } catch { bytes = null; }
       if (bytes === null || createHash("sha256").update(bytes).digest("hex") !== evidence.artifact.sha256) {
         throw new Error(`closure cannot certify obligation ${item.id}: its artifact bytes no longer match the recorded sha256`);
       }

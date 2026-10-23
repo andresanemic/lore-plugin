@@ -54,8 +54,8 @@ test("once every obligation has its evidence, the operation closes and says so",
   t.after(() => rmSync(dir, { recursive: true, force: true }));
   const propuesta = join(dir, "propuesta.md");
   writeFileSync(propuesta, "propuesta mostrada a la persona con destino, redaccion y evidencia");
-  artifact = fulfillObligation(artifact, "captura", { evidence: { artifact: { path: propuesta, sha256: sha("propuesta mostrada a la persona con destino, redaccion y evidencia") } } });
-  const cerrada = closeOperation(artifact, cierre);
+  artifact = fulfillObligation(artifact, "captura", { evidence: { artifact: { path: propuesta, sha256: sha("propuesta mostrada a la persona con destino, redaccion y evidencia") } }, root: dir });
+  const cerrada = closeOperation(artifact, { ...cierre, root: dir });
   assert.equal(cerrada.state, "closed");
   assert.deepEqual(cerrada.obligations.map((o) => o.fulfilled !== null), [true, true]);
 });
@@ -96,9 +96,9 @@ test("H2: an artifact obligation is checked against its bytes at closure", (t) =
   t.after(() => rmSync(dir, { recursive: true, force: true }));
   const propuesta = join(dir, "propuesta-captura.md");
   writeFileSync(propuesta, "Propuesta de captura: destino, redaccion, evidencia, confianza y limite.");
-  artifact = fulfillObligation(artifact, "captura", { evidence: { artifact: { path: propuesta, sha256: sha("Propuesta de captura: destino, redaccion, evidencia, confianza y limite.") } } });
+  artifact = fulfillObligation(artifact, "captura", { evidence: { artifact: { path: propuesta, sha256: sha("Propuesta de captura: destino, redaccion, evidencia, confianza y limite.") } }, root: dir });
   writeFileSync(propuesta, "otra cosa");
-  assert.throws(() => closeOperation(artifact, cierre), /captura.*(artifact|bytes|sha)/i);
+  assert.throws(() => closeOperation(artifact, { ...cierre, root: dir }), /captura.*(artifact|bytes|sha)/i);
 });
 
 test("H2: a human attestation closes but the closure declares it as an attestation", (t) => {
@@ -126,7 +126,20 @@ test("B-3: la evidencia de una obligacion cumple la misma contencion al root que
   // Dentro del root: se acepta, y el cierre la lee con el mismo root.
   const cumplida = fulfillObligation(base0, "captura", { root, evidence: { artifact: { path: dentro, sha256: sha("propuesta del proyecto") } } });
   assert.equal(closeOperation(cumplida, { ...cierre, root }).state, "closed");
-  // Evidencia fuera del root ya registrada (estado escrito a mano o sin root): el cierre la rechaza.
-  const colada = fulfillObligation(base0, "captura", { evidence: { artifact: { path: ajena, sha256: sha("contenido de otro proyecto") } } });
+  // Evidencia fuera del root ya registrada (estado escrito a mano o con otro root): el cierre la rechaza.
+  const colada = fulfillObligation(base0, "captura", { root: fuera, evidence: { artifact: { path: ajena, sha256: sha("contenido de otro proyecto") } } });
   assert.throws(() => closeOperation(colada, { ...cierre, root }), /outside the operation root/i);
+});
+
+test("B-3: la evidencia de artefacto exige root al registrarla y al cerrar", (t) => {
+  const root = mkdtempSync(join(tmpdir(), "obligations-sinroot-"));
+  t.after(() => rmSync(root, { recursive: true, force: true }));
+  const dentro = join(root, "propuesta.md");
+  writeFileSync(dentro, "propuesta del proyecto");
+  const evidence = { artifact: { path: dentro, sha256: sha("propuesta del proyecto") } };
+  const base0 = fulfillObligation(operacionIntegrada(t), "artefacto", { evidence: { task: "t1" } });
+  assert.throws(() => fulfillObligation(base0, "captura", { evidence }), /needs the operation root/i);
+  const registrada = fulfillObligation(base0, "captura", { evidence, root });
+  assert.throws(() => closeOperation(registrada, cierre), /needs the operation root/i);
+  assert.equal(closeOperation(registrada, { ...cierre, root }).state, "closed");
 });

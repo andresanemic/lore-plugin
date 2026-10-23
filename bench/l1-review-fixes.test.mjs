@@ -46,21 +46,19 @@ test("R2: a task evidences only the obligation it was planned for", (t) => {
 });
 
 test("R2: one piece of evidence cannot fulfill two obligations", (t) => {
-  const { artifact, path, text } = operacionIntegrada(t, { obligationOfTask: null });
+  const { artifact, root, path, text } = operacionIntegrada(t, { obligationOfTask: null });
   const evidencia = { artifact: { path, sha256: sha(text) } };
-  const una = fulfillObligation(artifact, "artefacto", { evidence: evidencia });
-  assert.throws(() => fulfillObligation(una, "captura", { evidence: evidencia }), /already|another obligation/i);
+  const una = fulfillObligation(artifact, "artefacto", { evidence: evidencia, root });
+  assert.throws(() => fulfillObligation(una, "captura", { evidence: evidencia, root }), /already|another obligation/i);
 });
 
 test("R2: an obligation backed only by bytes closes as partial, its content unjudged", (t) => {
-  const { artifact } = operacionIntegrada(t);
+  const { artifact, root } = operacionIntegrada(t);
   let next = fulfillObligation(artifact, "artefacto", { evidence: { task: "t1" } });
-  const dir = mkdtempSync(join(tmpdir(), "l1-review-artifact-"));
-  t.after(() => rmSync(dir, { recursive: true, force: true }));
-  const otro = join(dir, "cualquier.txt");
+  const otro = join(root, "cualquier.txt");
   writeFileSync(otro, "un archivo cualquiera");
-  next = fulfillObligation(next, "captura", { evidence: { artifact: { path: otro, sha256: sha("un archivo cualquiera") } } });
-  const cerrada = closeOperation(next, cierre);
+  next = fulfillObligation(next, "captura", { evidence: { artifact: { path: otro, sha256: sha("un archivo cualquiera") } }, root });
+  const cerrada = closeOperation(next, { ...cierre, root });
   assert.ok(cerrada.verification.notCovered.includes("obligation:captura:content-unjudged"));
   assert.equal(cerrada.verification.completion, "partial");
 });
@@ -184,13 +182,11 @@ test("R5b: an operation whose trail already declared obligations cannot declare 
 });
 
 test("R2b: the same bytes cannot fulfill two obligations whatever the path looks like", (t) => {
-  const { artifact, path, text } = operacionIntegrada(t, { obligationOfTask: null });
-  const dir = mkdtempSync(join(tmpdir(), "l1-review-copy-"));
-  t.after(() => rmSync(dir, { recursive: true, force: true }));
-  const copia = join(dir, "copia.txt");
+  const { artifact, root, path, text } = operacionIntegrada(t, { obligationOfTask: null });
+  const copia = join(root, "copia.txt");
   writeFileSync(copia, text);
-  const una = fulfillObligation(artifact, "artefacto", { evidence: { artifact: { path, sha256: sha(text) } } });
-  assert.throws(() => fulfillObligation(una, "captura", { evidence: { artifact: { path: copia, sha256: sha(text) } } }), /already|another obligation/i);
+  const una = fulfillObligation(artifact, "artefacto", { evidence: { artifact: { path, sha256: sha(text) } }, root });
+  assert.throws(() => fulfillObligation(una, "captura", { evidence: { artifact: { path: copia, sha256: sha(text) } }, root }), /already|another obligation/i);
 });
 
 test("R4b: a task cannot be planned for an obligation that was not declared", () => {
