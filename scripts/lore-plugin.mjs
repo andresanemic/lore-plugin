@@ -109,7 +109,7 @@ if (command === "fases" && args[1] === "install-hook") {
     process.exit(2);
   }
   const guion = join(packageRoot, "scripts", "fases-pre-commit.mjs").split("\\").join("/");
-  writeFileSync(destino, ["#!/bin/sh", MARCA, `node "${guion}" || exit 1`, ""].join("\n"));
+  writeFileSync(destino, ["#!/bin/sh", MARCA, `if [ -f "${guion}" ]; then node "${guion}" || exit 1; else echo "lore-plugin: pre-commit omitted; package script is missing: ${guion}" >&2; fi`, ""].join("\n"));
   try { chmodSync(destino, 0o755); } catch { /* en Windows el bit no aplica */ }
   console.log(`pre-commit de FASES instalado en ${destino}`);
   process.exit(0);
