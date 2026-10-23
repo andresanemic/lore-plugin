@@ -179,6 +179,18 @@ test("S2-12: SessionStart no inyecta roles o ids hostiles y conserva vocabulario
   assert.ok(!context.includes(hostile), context);
 });
 
+test("S2-3: routing rechaza celdas con metacaracteres de patrones", async (t) => {
+  const base = project(t, "superreview-routing-pattern-");
+  const root = join(base, "area", "proyecto");
+  mkdirSync(join(root, "lore"), { recursive: true });
+  writeFileSync(join(root, "lore", "enrutamiento.md"), [
+    "| tarea | arbol |", "|---|---|", ...["../*", "../?", "../[a]", "../{a}", "../x}", "../x["].map((cell) => `| x | \`${cell}\` |`), "",
+  ].join("\n"));
+  const { opencodePermissions } = await import(pathToFileURL(join(KIT, "scripts/opencode-permissions.mjs")));
+  const result = opencodePermissions({ project: root, fromRouting: true, existing: {} });
+  assert.deepEqual(result.siblings, []);
+});
+
 test("SP-2: dos hold con reloj congelado conservan ids distintos y rechazan un id existente", async (t) => {
   const root = project(t, "superreview-ids-");
   const shim = join(project(t, "superreview-clock-"), "freeze.mjs");

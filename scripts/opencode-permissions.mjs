@@ -63,6 +63,7 @@ export function isRoutableCell(cell) {
   if (/^[a-z][a-z0-9+.-]*:\/\//i.test(value)) return false;
   if (/[$%]/.test(value)) return false;
   const segments = value.split(/[\\/]/).filter(Boolean);
+  if (segments.some((segment) => /[*?\[\]{}]/.test(segment))) return false;
   const ups = segments.filter((segment) => segment === "..").length;
   if (ups > 1) return false;
   if (ups === 1 && segments[0] !== "..") return false;
