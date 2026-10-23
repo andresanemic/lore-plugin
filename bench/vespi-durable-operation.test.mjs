@@ -718,3 +718,67 @@ test("leer una operacion que no esta en FASES.md es un error claro", async (t) =
   const facade = await import(V);
   await assert.rejects(() => facade.readOperation({ root, id: "op-no-existe" }), /not found|no encontrada/i);
 });
+
+// Escrituras concurrentes sobre un mismo FASES.md: ninguna carta ni operacion se pierde, y el
+// temporal de una no choca con el de la otra.
+async function operacionPlanificada(root, tareas = 0) {
+  const facade = await import(V);
+  const estado = await import(S);
+  const coordinator = await import("../skills/vespi/core/coordinator.mjs");
+  const held = await facade.holdOperation({
+    root, goal: "objetivo", owner: "operador", authority: { spend: [] },
+    scope: { s: 1 }, done: "criterio", roles: ["worker"], verifier: "v", expected_effect: "ninguno",
+  });
+  let artifact = estado.transitionArtifact(held.artifact, { state: "authorized", note: "ok" });
+  for (let i = 1; i <= tareas; i++) {
+    artifact = coordinator.planTask(artifact, {
+      role: "worker", question: `q${i}`, scope: "s", done_criterion: "d", proof: "p",
+      output: { path: `salida-t${i}.md` }, timeoutMs: 600000, nextCheckAt: new Date().toISOString(),
+    }).artifact;
+  }
+  await estado.saveOperationState(root, artifact);
+  return artifact;
+}
+
+test("guardar varias operaciones a la vez en un mismo FASES.md no pierde ninguna", async (t) => {
+  const root = await proyecto(t);
+  const facade = await import(V);
+  const ids = await Promise.all(Array.from({ length: 8 }, async () => {
+    const { artifact } = await facade.holdOperation({
+      root, goal: "objetivo", owner: "operador", authority: { spend: [] },
+      scope: { s: 1 }, done: "criterio", roles: ["worker"], verifier: "v", expected_effect: "ninguno",
+    });
+    return artifact.id;
+  }));
+  const { listOperationIds } = await import(S);
+  assert.deepEqual([...listOperationIds(root)].sort(), [...ids].sort());
+  assert.deepEqual((await readdir(root)).sort(), ["FASES.md"], "no queda temporal ni cerrojo");
+});
+
+test("dos cartas pedidas a la vez sobre una operacion quedan las dos", async (t) => {
+  const root = await proyecto(t);
+  const artifact = await operacionPlanificada(root, 2);
+  const { inyectarCartaEnPrompt } = await import("../hooks/baraja-entry.mjs");
+  const { loadOperationState } = await import(S);
+  const resultados = await Promise.allSettled([
+    inyectarCartaEnPrompt({ root, operacion: { id: artifact.id }, taskId: "t1" }),
+    inyectarCartaEnPrompt({ root, operacion: { id: artifact.id }, taskId: "t2" }),
+  ]);
+  assert.deepEqual(resultados.map((r) => r.status), ["fulfilled", "fulfilled"]);
+  const guardado = await loadOperationState(root, artifact.id);
+  assert.deepEqual((guardado.perturbations ?? []).map((p) => p.task_id).sort(), ["t1", "t2"]);
+  assert.deepEqual((await readdir(root)).sort(), ["FASES.md"]);
+});
+
+test("un cerrojo huerfano viejo no bloquea el guardado", async (t) => {
+  const root = await proyecto(t);
+  const artifact = await operacionPlanificada(root);
+  const cerrojo = join(root, "FASES.md.lock");
+  await writeFile(cerrojo, "{}");
+  const viejo = new Date(Date.now() - 10 * 60_000);
+  const { utimes } = await import("node:fs/promises");
+  await utimes(cerrojo, viejo, viejo);
+  const { saveOperationState } = await import(S);
+  await saveOperationState(root, { ...artifact, goal: "objetivo editado" });
+  assert.equal(existsSync(cerrojo), false);
+});

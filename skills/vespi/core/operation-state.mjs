@@ -10,10 +10,11 @@ export const ARTIFACT_SCHEMA_VERSION = "1.0.0";
 export const FASES_FILE = "FASES.md";
 export const OPERATIONS_HEADING = "## Operaciones";
 
-import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
+import { mkdir, open, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
+import { AsyncLocalStorage } from "node:async_hooks";
 import { readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 
 let seq = 0;
 
@@ -556,7 +557,51 @@ function locateBlock(text, id) {
   return { start: opens[0].start, end: closes[0].end };
 }
 
+// Cerrojo exclusivo por FASES.md: un archivo `FASES.md.lock` creado con `wx`. Envuelve la secuencia
+// leer-modificar-escribir completa; quien lee una operacion, la cambia y la guarda (la carta del hook, por
+// ejemplo) toma el cerrojo con `withOperationLock` para que otra escritura no le pise el cambio. Es
+// reentrante dentro de la misma cadena asincrona, de modo que `saveOperationState` puede tomarlo otra vez.
+// Un cerrojo mas viejo que LOCK_STALE_MS se toma por huerfano (el proceso murio) y se retira. Limite:
+// solo ordena a quienes lo toman; un editor ajeno de FASES.md no lo ve.
+const LOCK_RETRY_MS = 10;
+const LOCK_TIMEOUT_MS = 10_000;
+const LOCK_STALE_MS = 30_000;
+const heldLocks = new AsyncLocalStorage();
+
+export async function withOperationLock(root, work) {
+  const lockFile = `${fasesFileOf(root)}.lock`;
+  const held = heldLocks.getStore();
+  if (held?.has(lockFile)) return work();
+  await mkdir(dirname(lockFile), { recursive: true });
+  const deadline = Date.now() + LOCK_TIMEOUT_MS;
+  for (;;) {
+    try {
+      const handle = await open(lockFile, "wx");
+      try { await handle.writeFile(JSON.stringify({ pid: process.pid, at: new Date().toISOString() })); } finally { await handle.close(); }
+      break;
+    } catch (error) {
+      // En Windows crear sobre un archivo que se esta borrando da EPERM/EBUSY, no EEXIST.
+      if (!["EEXIST", "EPERM", "EBUSY"].includes(error?.code)) throw error;
+    }
+    try {
+      const { mtimeMs } = await stat(lockFile);
+      if (Date.now() - mtimeMs > LOCK_STALE_MS) { await rm(lockFile, { force: true }); continue; }
+    } catch { /* se libero entre el intento y el stat: se reintenta */ }
+    if (Date.now() > deadline) throw new Error(`FASES.md is locked by another writer: ${lockFile}`);
+    await new Promise((done) => setTimeout(done, LOCK_RETRY_MS));
+  }
+  try {
+    return await heldLocks.run(new Set([...(held ?? []), lockFile]), work);
+  } finally {
+    await rm(lockFile, { force: true }).catch(() => {});
+  }
+}
+
 export async function saveOperationState(root, artifact) {
+  return withOperationLock(root, () => writeOperationState(root, artifact));
+}
+
+async function writeOperationState(root, artifact) {
   const { file } = operationStatePath(root, artifact?.id);
   let text = "";
   try { text = await readFile(file, "utf8"); } catch (error) {
@@ -577,7 +622,7 @@ export async function saveOperationState(root, artifact) {
     next = text.replace(/\s*$/, "") + `${eol}${eol}${OPERATIONS_HEADING}${eol}${eol}${block}${eol}`;
   }
   await mkdir(dirname(file), { recursive: true });
-  const temporary = `${file}.${process.pid}.${Date.now()}.tmp`;
+  const temporary = `${file}.${process.pid}.${randomUUID()}.tmp`;
   try {
     await writeFile(temporary, next, { encoding: "utf8", flag: "wx" });
     await rename(temporary, file);

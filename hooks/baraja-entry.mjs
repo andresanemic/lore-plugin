@@ -3,7 +3,7 @@
 // No es una skill: es un hook que cualquier skill puede invocar.
 
 import { tirarCarta } from "../scripts/baraja.mjs";
-import { loadOperationState, saveOperationState } from "../skills/vespi/core/operation-state.mjs";
+import { loadOperationState, saveOperationState, withOperationLock } from "../skills/vespi/core/operation-state.mjs";
 import { offerTaskCard } from "../skills/vespi/core/cards.mjs";
 
 const ESTANCAMIENTO_PALABRAS = [
@@ -23,6 +23,11 @@ export function ofrecerCarta({ semilla = null, fuente = null } = {}) {
 
 export async function inyectarCartaEnPrompt({ operacion = null, root = null, taskId = null, semilla = null } = {}) {
   if (!root || !operacion?.id) return null;
+  // Leer, ofrecer y guardar es una sola secuencia: sin el cerrojo, dos tareas a la vez se pisan la carta.
+  return withOperationLock(root, () => inyectarCarta({ operacion, root, taskId, semilla }));
+}
+
+async function inyectarCarta({ operacion, root, taskId, semilla }) {
   const stored = await loadOperationState(root, operacion.id);
   if (!stored || ["closed", "cancelled"].includes(stored.state)) return null;
   let current = stored;
