@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
 import { dirname, isAbsolute, join, resolve, sep } from "node:path";
 import { randomUUID } from "node:crypto";
+import { homedir } from "node:os";
 
 // Quita las barras finales en tiempo lineal. El reemplazo con
 // /[\\/]+$/ era el mismo resultado con peor caso polinomial
@@ -31,7 +32,7 @@ export function buildPermissions({ siblings = [], existing = {} } = {}) {
     if (!sibling) continue;
     const raw = String(sibling);
     const key = raw.endsWith("/**") ? raw : `${stripTrailingSlashes(raw)}/**`;
-    if (external[key] !== "deny") external[key] = "allow";
+    if (external[key] !== "deny" && external[key] !== "ask") external[key] = "allow";
   }
   if (!Object.hasOwn(external, "*")) external["*"] = "deny";
   return { ...base, permission: { ...oldPermissions, external_directory: external } };
@@ -72,9 +73,12 @@ export function isRoutableCell(cell) {
 // La regla final tiene que caer dentro del area (el proyecto o su padre), que es
 // exactamente lo que el enrutamiento nombra. Cualquier otra se descarta.
 function insideArea(rulePath, root) {
-  const hive = resolve(root, "..");
   const target = resolve(rulePath.replace(/[\\/]\*\*$/, ""));
-  return target === root || target.startsWith(`${root}${sep}`) || target === hive || target.startsWith(`${hive}${sep}`);
+  const hive = resolve(root, "..");
+  const isAncestor = (path) => root === path || root.startsWith(`${path}${sep}`);
+  const volumeRoot = resolve(root, sep);
+  if (isAncestor(target) || target === volumeRoot || target === resolve(homedir())) return false;
+  return target.startsWith(`${root}${sep}`) || (target.startsWith(`${hive}${sep}`) && target !== hive);
 }
 
 function parseAllowArgs(values, project) {
@@ -88,7 +92,8 @@ export function opencodePermissions({ project = process.cwd(), fromRouting = fal
     const routingPath = join(root, "lore", "enrutamiento.md");
     if (!existsSync(routingPath)) throw new Error(`Routing file not found: ${routingPath}`);
     const routedTrees = pathsFromRouting(readFileSync(routingPath, "utf8")).map((path) => path.replace(/[\\/]lore[\\/]*$/i, ""));
-    siblings = [...new Set([...siblings, ...parseAllowArgs(routedTrees, root).filter((rule) => insideArea(rule, root))])];
+    const existingExternal = existing?.permission?.external_directory ?? {};
+    siblings = [...new Set([...siblings, ...parseAllowArgs(routedTrees, root).filter((rule) => insideArea(rule, root) && existingExternal[rule] !== "ask")])];
   }
   const configPath = join(root, "opencode.json");
   let current = existing;
