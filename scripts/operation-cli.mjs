@@ -586,7 +586,8 @@ async function execute(sub, flags, stdout) {
   }
 
   if (sub === "effect-permission") {
-    const permission = authorizeExternalEffect(context.artifact, payload);
+    const { requestId, action, destination } = payload;
+    const permission = authorizeExternalEffect(context.artifact, { requestId, action, destination });
     return emit(stdout, { ok: true, id: context.id, ...permission });
   }
 
