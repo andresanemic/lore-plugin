@@ -582,7 +582,7 @@ export async function holdOperation({
   }
   const artifact = createArtifact({ goal, intent, owner, authority, coordinacion, scope, expected_effect, done, roles, verifier, receipt });
   const { directory, file, relative } = operationStatePath(root, artifact.id);
-  await saveOperationState(directory, artifact);
+  await saveOperationState(directory, artifact, { create: true });
   return { artifact, file, persistence: { owner: relative } };
 }
 

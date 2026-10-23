@@ -14,7 +14,7 @@ import { link, mkdir, open, readFile, rename, rm, stat, writeFile } from "node:f
 import { AsyncLocalStorage } from "node:async_hooks";
 import { readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
-import { createHash, randomUUID } from "node:crypto";
+import { createHash, randomBytes, randomUUID } from "node:crypto";
 
 let seq = 0;
 
@@ -84,7 +84,7 @@ export function createArtifact({
   return {
     artifact_schema_version: ARTIFACT_SCHEMA_VERSION,
     created_by_vespi_version: "2.4.9-rc.3",
-    id: `op-${Date.now().toString(36)}-${seq++}`,
+    id: `op-${Date.now().toString(36)}-${seq++}-${randomBytes(4).toString("hex")}`,
     working_goal: goal ?? "",
     intent: intent ?? "",
     owner: owner ?? "",
@@ -632,11 +632,11 @@ export async function withOperationLock(root, work) {
   }
 }
 
-export async function saveOperationState(root, artifact) {
-  return withOperationLock(root, () => writeOperationState(root, artifact));
+export async function saveOperationState(root, artifact, { create = false } = {}) {
+  return withOperationLock(root, () => writeOperationState(root, artifact, { create }));
 }
 
-async function writeOperationState(root, artifact) {
+async function writeOperationState(root, artifact, { create = false } = {}) {
   const { file } = operationStatePath(root, artifact?.id);
   let text = "";
   try { text = await readFile(file, "utf8"); } catch (error) {
@@ -645,6 +645,7 @@ async function writeOperationState(root, artifact) {
   const eol = text.includes("\r\n") ? "\r\n" : "\n";
   const block = renderBlock(artifact, eol);
   const found = locateBlock(text, artifact.id);
+  if (create && found) throw new Error(`operation id already exists: ${artifact.id}`);
   let next;
   if (found) {
     next = text.slice(0, found.start) + block + text.slice(found.end);
