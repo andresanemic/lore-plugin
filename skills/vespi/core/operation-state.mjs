@@ -178,11 +178,12 @@ export function authorizeExternalEffect(artifact, { requestId, action, destinati
   if (["closed", "cancelled"].includes(artifact?.state)) return denied("operation is terminal");
   if (!request || request.action !== exactAction || request.destination !== exactDestination) return denied("no exact current request");
   const currentRequestAt = requestedAt === null ? Date.parse(request.requested_at) : effectTime(requestedAt, "current request time");
-  const approval = (artifact.external_effect_approvals ?? []).find((item) => item.request_id === requestId && item.action === exactAction && item.destination === exactDestination);
+  const approval = (artifact.external_effect_approvals ?? [])
+    .filter((item) => item.request_id === requestId && item.action === exactAction && item.destination === exactDestination
+      && Date.parse(item.approved_at) >= currentRequestAt && Date.parse(item.approved_at) <= time
+      && Date.parse(item.expires_at) >= time && (!item.revoked_at || Date.parse(item.revoked_at) > time))
+    .sort((a, b) => Date.parse(b.approved_at) - Date.parse(a.approved_at))[0];
   if (!approval) return denied("no specific approval");
-  if (Date.parse(approval.approved_at) < currentRequestAt) return denied("approval predates current request");
-  if (Date.parse(approval.approved_at) > time || Date.parse(approval.expires_at) < time) return denied("approval is not currently valid");
-  if (approval.revoked_at && Date.parse(approval.revoked_at) <= time) return denied("approval was revoked");
   return { allowed: true, approvalId: approval.id, adapterInput: Object.freeze({ action: exactAction, destination: exactDestination }) };
 }
 
