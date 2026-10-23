@@ -1329,17 +1329,20 @@ test("un efecto externo exige permiso vigente para accion y destino exactos", as
 
 test("la CLI solo devuelve permiso exacto y vigente sin ejecutar el efecto", async (t) => {
   const { root, id } = await conOperacion(t);
-  const request = run(["request-effect", "--root", root, "--id", id, "--json", j({ action: "commit", destination: "lore-plugin:release/2.5-prep", at: "2026-10-07T12:00:00.000Z" })]);
+  // El reloj lo fija el sistema, no el payload: las fechas son relativas al instante real.
+  const base = Date.now();
+  const iso = (offsetMs) => new Date(base + offsetMs).toISOString();
+  const request = run(["request-effect", "--root", root, "--id", id, "--json", j({ action: "commit", destination: "lore-plugin:release/2.5-prep", at: iso(-120_000) })]);
   assert.equal(request.code, 0, request.err);
   const requestId = request.json.request.id;
-  const before = run(["effect-permission", "--root", root, "--id", id, "--json", j({ requestId, action: "commit", destination: "lore-plugin:release/2.5-prep", now: "2026-10-07T12:05:00.000Z" })]);
+  const before = run(["effect-permission", "--root", root, "--id", id, "--json", j({ requestId, action: "commit", destination: "lore-plugin:release/2.5-prep" })]);
   assert.equal(before.json.allowed, false);
-  const approval = run(["approve-effect", "--root", root, "--id", id, "--json", j({ requestId, action: "commit", destination: "lore-plugin:release/2.5-prep", by: "Andres", words: "Autorizo solo commit en release/2.5-prep", approvedAt: "2026-10-07T12:01:00.000Z", expiresAt: "2026-10-07T12:10:00.000Z" })]);
+  const approval = run(["approve-effect", "--root", root, "--id", id, "--json", j({ requestId, action: "commit", destination: "lore-plugin:release/2.5-prep", by: "Andres", words: "Autorizo solo commit en release/2.5-prep", approvedAt: iso(-60_000), expiresAt: iso(600_000) })]);
   assert.equal(approval.code, 0, approval.err);
-  const permission = run(["effect-permission", "--root", root, "--id", id, "--json", j({ requestId, action: "commit", destination: "lore-plugin:release/2.5-prep", now: "2026-10-07T12:05:00.000Z" })]);
+  const permission = run(["effect-permission", "--root", root, "--id", id, "--json", j({ requestId, action: "commit", destination: "lore-plugin:release/2.5-prep" })]);
   assert.equal(permission.json.allowed, true);
   assert.deepEqual(permission.json.adapterInput, { action: "commit", destination: "lore-plugin:release/2.5-prep" });
-  const mismatch = run(["effect-permission", "--root", root, "--id", id, "--json", j({ requestId, action: "push", destination: "lore-plugin:release/2.5-prep", now: "2026-10-07T12:05:00.000Z" })]);
+  const mismatch = run(["effect-permission", "--root", root, "--id", id, "--json", j({ requestId, action: "push", destination: "lore-plugin:release/2.5-prep" })]);
   assert.equal(mismatch.json.allowed, false);
   assert.equal(mismatch.json.effect, undefined);
 });
