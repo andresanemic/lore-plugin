@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## 2.5.3 — Revisar el resultado final
+
+Lo que entra: el trabajo coordinado pasa de comprobar piezas delegadas a revisar el resultado final compuesto contra el encargo original y sus fuentes.
+
+- **Método y obligaciones:** el coordinador lleva el método distribuido con cada encargo acotado, conserva las obligaciones pedidas y declara los resultados finales para revisarlos aparte. Un parcial correcto ya no sustituye una composición sin revisar ni una obligación omitida; los cambios en archivos de destino integrados, también escritos por terminal, siguen siendo detectables al cerrar dentro de los límites documentados.
+- **Ruta predeterminada:** las correcciones triviales reconocidas de forma acotada pueden resolverse en una pasada directa; el resto exige revisión final y la verificación ausente queda visible. La elección no concede gasto, publicación ni acceso adicional a archivos.
+- **Cartas y chispas:** cartas silenciosas y cinco chispas revisadas apoyan la coordinación sin volverse Lore aprobado automáticamente. El contraste offline separa el material del trabajador de las respuestas del evaluador; no establece un beneficio medido.
+- **Fix, recepción:** `receiveTask` lee la ruta resuelta contra el root de la operación que validó, no la ruta cruda relativa al directorio de trabajo del proceso; una CLI lanzada desde otro directorio ya no sella la huella de un archivo ajeno al proyecto.
+- **Fix, FASES.md:** las escrituras de estado toman un cerrojo exclusivo por archivo y usan temporales de nombre único; dos escrituras concurrentes ya no pierden una carta ni chocan en el temporal. El cerrojo ordena solo a quienes lo toman.
+- **Fix, obligaciones:** la evidencia de tipo artefacto de una obligación cumple la misma contención al root que la entrega de una tarea, al registrarla y al cerrar.
+- **Instalación:** probada en homes aislados de Claude Code, Codex y OpenCode con fixtures offline. La evidencia de entrega del método cubre al trabajador del kit en Claude Code con hooks recibidos; no cubre a advisor o daimon ni demuestra entrega en los tres hosts. Recibir el método no establece que haya causado una conducta conforme.
+- **Límites:** las pruebas y fixtures offline apoyan comprobaciones de implementación, no una auditoría de seguridad independiente, un benchmark conductual completo ni la validación científica de LUS. La verificación final comparte usuario del sistema con el coordinador: ofrece detección sin independencia, no prevención de escrituras arbitrarias. Los recibos anteriores sin los vínculos requeridos necesitan recepción, revisión y verificación nuevas; se conservan estado y evidencia.
+- **Desktop:** se presentará en Lisboa la próxima semana y no bloquea esta publicación del kit.
+- **Kernel fijado:** 0.1.8 (commit 0c0a3e3425a915aa43af1e8c5ffaaacb24c55729); once módulos copiados se comprueban contra la fuente versionada e incluyen contexto aprobado y continuaciones acotadas.
+
 ## 2.5.2 — Servine
 
 Lo que entra: los commits locales posteriores a 2.5.1.
