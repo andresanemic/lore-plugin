@@ -205,6 +205,20 @@ test("S2-3: ask y deny protegen la misma ruta normalizada en Windows", async (t)
   }
 });
 
+test("S2-1/13: revoke-effect ignora el reloj del payload y la revocacion siempre invalida", (t) => {
+  const root = project(t, "superreview-revoke-clock-");
+  const id = hold(root).out.id;
+  cli(root, "authorize", id, { by: "Ana", words: "adelante" });
+  const requestId = cli(root, "request-effect", id, { action: "publicar", destination: "D" }).out.request.id;
+  const approval = cli(root, "approve-effect", id, { requestId, action: "publicar", destination: "D", by: "Ana", words: "si", expiresAt: "2099-01-01T00:00:00.000Z" }).out.approval;
+  const revoked = cli(root, "revoke-effect", id, { approvalId: approval.id, at: "2099-01-01T00:00:00.000Z" });
+  assert.equal(revoked.status, 0, revoked.stderr);
+  assert.equal(cli(root, "effect-permission", id, { requestId, action: "publicar", destination: "D" }).out.allowed, false);
+  const twice = cli(root, "revoke-effect", id, { approvalId: approval.id, at: "2099-01-01T00:00:00.000Z" });
+  assert.notEqual(twice.status, 0);
+  assert.match(twice.stderr, /already revoked/i);
+});
+
 test("SP-2: dos hold con reloj congelado conservan ids distintos y rechazan un id existente", async (t) => {
   const root = project(t, "superreview-ids-");
   const shim = join(project(t, "superreview-clock-"), "freeze.mjs");

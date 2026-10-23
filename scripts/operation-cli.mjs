@@ -584,7 +584,7 @@ async function execute(sub, flags, stdout) {
   }
 
   if (sub === "revoke-effect") {
-    const artifact = revokeExternalEffectApproval(context.artifact, payload);
+    const artifact = revokeExternalEffectApproval(context.artifact, { approvalId: payload.approvalId });
     await persist(context, artifact);
     return emit(stdout, { ok: true, id: context.id, approval: artifact.external_effect_approvals.find((item) => item.id === payload.approvalId) });
   }

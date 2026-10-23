@@ -159,13 +159,13 @@ export function approveExternalEffect(artifact, { requestId, action, destination
   return { ...artifact, external_effect_approvals: [...(artifact.external_effect_approvals ?? []), approval] };
 }
 
-export function revokeExternalEffectApproval(artifact, { approvalId, at = new Date().toISOString() } = {}) {
+export function revokeExternalEffectApproval(artifact, { approvalId } = {}) {
   if (["closed", "cancelled"].includes(artifact?.state)) throw new Error("cannot change a terminal operation");
   const approvals = artifact.external_effect_approvals ?? [];
   const approval = approvals.find((item) => item.id === approvalId);
   if (!approval) throw new Error("external effect approval does not exist");
   if (approval.revoked_at) throw new Error("external effect approval is already revoked");
-  const revokedAt = new Date(effectTime(at, "revocation time")).toISOString();
+  const revokedAt = new Date().toISOString();
   return { ...artifact, external_effect_approvals: approvals.map((item) => item.id === approvalId ? { ...item, revoked_at: revokedAt } : item) };
 }
 
@@ -181,7 +181,7 @@ export function authorizeExternalEffect(artifact, { requestId, action, destinati
   const approval = (artifact.external_effect_approvals ?? [])
     .filter((item) => item.request_id === requestId && item.action === exactAction && item.destination === exactDestination
       && Date.parse(item.approved_at) >= currentRequestAt && Date.parse(item.approved_at) <= time
-      && Date.parse(item.expires_at) >= time && (!item.revoked_at || Date.parse(item.revoked_at) > time))
+      && Date.parse(item.expires_at) >= time && !item.revoked_at)
     .sort((a, b) => Date.parse(b.approved_at) - Date.parse(a.approved_at))[0];
   if (!approval) return denied("no specific approval");
   return { allowed: true, approvalId: approval.id, adapterInput: Object.freeze({ action: exactAction, destination: exactDestination }) };
