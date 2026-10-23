@@ -112,7 +112,7 @@ Whether you are new to AI or already build with it, you can start with your own 
 
 ## What you can do fast with Lore and Vespi
 
-Lore keeps your criteria, workflows and preferences as files on your computer, so you can start with a small, concrete job and keep going across sessions and hosts. Vespi, its kernel, adds permission, a second review and a receipt to each operation. Every line says how far it has been checked today.
+Lore keeps your criteria, workflows and preferences as files on your computer, so you can start with a small, concrete job and keep going across sessions and hosts. Vespi, its kernel, adds permission, a second review and a receipt to each operation. The lines about the kernel and Stellar say how far they have been checked today.
 
 - **Build any project with AI** — an app, a website, writing, research — and keep what you decide for next time.
 - **Leave a verifiable record of what an agent did:** a receipt with a SHA-256 digest, the authority used, what was checked and what was not. *Proven* in the kernel.
@@ -685,7 +685,7 @@ No necesitas saber de SDD ni manejar términos técnicos para empezar. Basta con
 
 ## Lo que puedes hacer rápido con Lore y Vespi
 
-Lore guarda tu criterio, tus workflows y tus preferencias como archivos en tu computador, así que puedes empezar con un trabajo pequeño y concreto y seguir entre sesiones y hosts. Vespi, su kernel, añade permiso, una segunda revisión y un recibo a cada operación. Cada línea dice hasta dónde está comprobado hoy.
+Lore guarda tu criterio, tus workflows y tus preferencias como archivos en tu computador, así que puedes empezar con un trabajo pequeño y concreto y seguir entre sesiones y hosts. Vespi, su kernel, añade permiso, una segunda revisión y un recibo a cada operación. Las líneas sobre el kernel y Stellar dicen hasta dónde están comprobadas hoy.
 
 - **Construye cualquier proyecto con IA** —una app, un sitio, escritura, investigación— y guarda lo que decides para la próxima vez.
 - **Deja un registro verificable de lo que hizo un agente:** un recibo con huella SHA-256, la autoridad usada, lo que se comprobó y lo que no. *Probado* en el kernel.
