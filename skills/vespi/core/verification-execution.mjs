@@ -89,11 +89,30 @@ export function projectVerificationPacket(packet) {
       && Object.keys(value).length === 1 && (Object.hasOwn(value, '$vespiPacketRef') || Object.hasOwn(value, '$vespiPacketJsonText')))
       throw new Error('reserved packet projection reference collision');
     if (typeof value === 'string' && value.includes('<!-- vespi:operacion ')) {
-      const match = /([\s\S]*?<!-- vespi:operacion [^\s>]+ -->[\s\S]*?```json\s*?)(\{[\s\S]*?\})(\s*```[\s\S]*)$/.exec(value);
-      if (match) {
-        try { const parsed = JSON.parse(match[2]);
-          if (JSON.stringify(parsed) === match[2]) return {$vespiPacketJsonText: [match[1], visit(parsed,pointer(pointer(path,'$vespiPacketJsonText'),1)), visit(match[3],pointer(pointer(path,'$vespiPacketJsonText'),2))]};
+      const marker = value.indexOf('<!-- vespi:operacion ');
+      const fence = value.indexOf('```json', marker);
+      if (fence >= 0) {
+        const open = value.indexOf('{', fence + 7);
+        if (open >= 0 && /^\s*$/.test(value.slice(fence + 7, open))) {
+          let depth = 0, quoted = false, escaped = false, close = -1;
+          for (let i = open; i < value.length; i += 1) {
+            const char = value[i];
+            if (quoted) {
+              if (escaped) escaped = false;
+              else if (char === '\\') escaped = true;
+              else if (char === '"') quoted = false;
+            } else if (char === '"') quoted = true;
+            else if (char === '{') depth += 1;
+            else if (char === '}' && --depth === 0) { close = i + 1; break; }
+          }
+          const ending = close < 0 ? -1 : value.indexOf('```', close);
+          if (ending >= 0 && /^\s*$/.test(value.slice(close, ending))) {
+            const jsonText = value.slice(open, close);
+            try { const parsed = JSON.parse(jsonText);
+              if (JSON.stringify(parsed) === jsonText) return {$vespiPacketJsonText: [value.slice(0, open), visit(parsed,pointer(pointer(path,'$vespiPacketJsonText'),1)), visit(value.slice(close, ending + 3),pointer(pointer(path,'$vespiPacketJsonText'),2)) + value.slice(ending + 3)]};
         } catch {}
+          }
+        }
       }
     }
     const serialized = JSON.stringify(value);
