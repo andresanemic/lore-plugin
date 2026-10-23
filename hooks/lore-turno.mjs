@@ -229,10 +229,12 @@ function puertaDeOperacion(raiz) {
     .replace(/\s{2,}/g, " ")
     .trim()
     .slice(0, max);
+  const rolesValidos = new Set(["coordinator", "coordenador", "coordinador", "daimon", "advisor", "worker", "verifier", "verificador"]);
+  const idOperacion = /^op-[a-z0-9]+-[0-9]+$/i.test(entrada.id) ? entrada.id : "operacion";
   const pendiente = (entrada.pending_by_role ?? [])
-    .map(({ role, tasks }) => `${limpieza(role)}: ${tasks.map((task) => `${limpieza(task.id)} (${limpieza(task.state)})`).join(", ")}`)
+    .map(({ role, tasks }) => `${rolesValidos.has(role) ? role : "rol"}: ${tasks.map((task) => `${/^t[0-9]{1,3}$/.test(task.id) ? task.id : "tarea"} (${limpieza(task.state)})`).join(", ")}`)
     .join("; ");
-  return `operacion ${limpieza(entrada.id)} abierta en ${entrada.file} · estado ${limpieza(entrada.state)} · veredicto ${limpieza(entrada.reason)}`
+  return `operacion ${idOperacion} abierta en ${entrada.file} · estado ${limpieza(entrada.state)} · veredicto ${limpieza(entrada.reason)}`
     + ` · siguiente ${limpieza(entrada.next_step)}`
     + (pendiente ? ` · pendiente ${pendiente}` : "")
     + (Array.isArray(entrada.also_open) && entrada.also_open.length > 0
