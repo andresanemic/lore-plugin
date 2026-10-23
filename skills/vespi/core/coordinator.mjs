@@ -1163,7 +1163,10 @@ function evidenceKey(evidence) {
   return `attestation:${evidence.attestation.by.trim()}:${evidence.attestation.words.trim()}`;
 }
 
-function checkEvidenceShape(artifact, id, evidence) {
+// Con `root`, la evidencia de tipo artefacto cumple la misma contencion que la entrega de una tarea
+// (`fueraDe`, lexica y fisica). Sin `root` la forma se comprueba pero la contencion no tiene contra que
+// medirse: la CLI siempre lo pasa.
+function checkEvidenceShape(artifact, id, evidence, root = null) {
   const kinds = evidence && typeof evidence === "object" && !Array.isArray(evidence) ? Object.keys(evidence) : [];
   if (kinds.length !== 1 || !EVIDENCE_KINDS.includes(kinds[0])) {
     throw new Error(`obligation ${id} is fulfilled only with evidence of one kind: ${EVIDENCE_KINDS.join(", ")}`);
@@ -1176,16 +1179,19 @@ function checkEvidenceShape(artifact, id, evidence) {
   if (kinds[0] === "artifact" && (!absolutePath(evidence.artifact?.path) || !/^[0-9a-f]{64}$/.test(String(evidence.artifact?.sha256 ?? "")))) {
     throw new Error(`obligation ${id}: artifact evidence needs an absolute path and its sha256`);
   }
+  if (kinds[0] === "artifact" && present(root) && fueraDe(root, evidence.artifact.path)) {
+    throw new Error(`obligation ${id}: artifact evidence is outside the operation root ${resolve(root)}; copy it inside the project`);
+  }
   if (kinds[0] === "attestation" && (!filled(evidence.attestation?.by) || !filled(evidence.attestation?.words))) {
     throw new Error(`obligation ${id}: an attestation needs who said it and their words`);
   }
 }
 
-export function fulfillObligation(artifact, id, { evidence = null, at = null } = {}) {
+export function fulfillObligation(artifact, id, { evidence = null, at = null, root = null } = {}) {
   if (["closed", "cancelled"].includes(artifact?.state)) throw new Error("obligations cannot change a terminal operation");
   const found = (artifact?.obligations ?? []).find((item) => item.id === id);
   if (!found) throw new Error(`unknown obligation: ${String(id)}`);
-  checkEvidenceShape(artifact, id, evidence);
+  checkEvidenceShape(artifact, id, evidence, root);
   const key = evidenceKey(evidence);
   const other = artifact.obligations.find((item) => item.id !== id && item.fulfilled?.evidence && evidenceKey(item.fulfilled.evidence) === key);
   if (other) throw new Error(`obligation ${id}: this evidence already fulfills another obligation (${other.id})`);
@@ -1200,7 +1206,7 @@ function declaredInTrail(artifact) {
   return note ? note.note.slice(OBLIGATIONS_NOTE.length) : null;
 }
 
-function assertObligationsMet(artifact) {
+function assertObligationsMet(artifact, root = null) {
   const trail = declaredInTrail(artifact);
   if (!present(artifact?.obligations_sha256) && !Array.isArray(artifact?.obligations) && trail === null) return;
   if (!Array.isArray(artifact.obligations) || !present(artifact.obligations_sha256)) {
@@ -1216,7 +1222,7 @@ function assertObligationsMet(artifact) {
   const keys = new Set();
   for (const item of artifact.obligations) {
     const evidence = item.fulfilled.evidence;
-    try { checkEvidenceShape(artifact, item.id, evidence); } catch (error) { throw new Error(`closure cannot certify obligation ${item.id}: ${error.message}`); }
+    try { checkEvidenceShape(artifact, item.id, evidence, root); } catch (error) { throw new Error(`closure cannot certify obligation ${item.id}: ${error.message}`); }
     const key = evidenceKey(evidence);
     if (keys.has(key)) throw new Error(`closure cannot certify obligation ${item.id}: its evidence also fulfills another obligation`);
     keys.add(key);
@@ -1381,7 +1387,7 @@ function closureReceipt(artifact) {
 
 // closeOperation: no se cierra con una tarea abierta. Una tarea bloqueada con su razon si puede: su
 // bloqueo ya dice que falta y quien lo resuelve.
-export function closeOperation(artifact, { verification } = {}) {
+export function closeOperation(artifact, { verification, root = null } = {}) {
   // `independence` y `closure` los escribe el kit: una etiqueta que aporta quien llama no se copia
   // al registro, porque el recibo debe decir lo que el kit midio, no lo que el llamador declara.
   const { independence: _etiquetaAjena, closure: _cierreAjeno, ...observed } = verification ?? {};
@@ -1389,7 +1395,7 @@ export function closeOperation(artifact, { verification } = {}) {
   // Antes de mirar las tareas: una salida declarada y no integrada se nombra por su id, no se pierde
   // entre las tareas abiertas.
   assertFinalOutputs(artifact);
-  assertObligationsMet(artifact);
+  assertObligationsMet(artifact, root);
   validateGateBContract({ ...artifact, next_action: artifact?.next_legitimate_action });
   const abiertas = (artifact?.tasks ?? []).filter(
     (task) => task.state !== "integrated" && !(task.state === "blocked" && present(task.blocked?.cause)),

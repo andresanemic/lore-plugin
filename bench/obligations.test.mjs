@@ -3,7 +3,7 @@
 // encargo original eso no es conforme. Caso generico del kit: no codifica ningun ID local.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createHash } from "node:crypto";
@@ -107,4 +107,26 @@ test("H2: a human attestation closes but the closure declares it as an attestati
   const cerrada = closeOperation(artifact, cierre);
   assert.equal(cerrada.state, "closed");
   assert.ok(JSON.stringify(cerrada).includes("obligation:captura:attested"), "el cierre dice que esa obligacion es una atestacion, no una verificacion");
+});
+
+test("B-3: la evidencia de una obligacion cumple la misma contencion al root que una entrega", (t) => {
+  const base = mkdtempSync(join(tmpdir(), "obligations-root-"));
+  t.after(() => rmSync(base, { recursive: true, force: true }));
+  const root = join(base, "proyecto"), fuera = join(base, "otro-arbol");
+  mkdirSync(root); mkdirSync(fuera);
+  const dentro = join(root, "propuesta.md"), ajena = join(fuera, "ajena.md");
+  writeFileSync(dentro, "propuesta del proyecto");
+  writeFileSync(ajena, "contenido de otro proyecto");
+  const base0 = fulfillObligation(operacionIntegrada(t), "artefacto", { evidence: { task: "t1" } });
+  // Fuera del root: se rechaza al registrar, con un error que nombra el root.
+  assert.throws(
+    () => fulfillObligation(base0, "captura", { root, evidence: { artifact: { path: ajena, sha256: sha("contenido de otro proyecto") } } }),
+    /outside the operation root/i,
+  );
+  // Dentro del root: se acepta, y el cierre la lee con el mismo root.
+  const cumplida = fulfillObligation(base0, "captura", { root, evidence: { artifact: { path: dentro, sha256: sha("propuesta del proyecto") } } });
+  assert.equal(closeOperation(cumplida, { ...cierre, root }).state, "closed");
+  // Evidencia fuera del root ya registrada (estado escrito a mano o sin root): el cierre la rechaza.
+  const colada = fulfillObligation(base0, "captura", { evidence: { artifact: { path: ajena, sha256: sha("contenido de otro proyecto") } } });
+  assert.throws(() => closeOperation(colada, { ...cierre, root }), /outside the operation root/i);
 });

@@ -154,6 +154,19 @@ test("R4: obligations are declared, fulfilled and enforced from the CLI", (t) =>
   assert.ok(JSON.stringify(estado.json).includes("captura"), "status muestra las obligaciones");
 });
 
+test("B-3: the CLI rejects obligation evidence outside the operation root", (t) => {
+  const root = mkdtempSync(join(tmpdir(), "l1-review-cli-root-"));
+  const fuera = mkdtempSync(join(tmpdir(), "l1-review-cli-fuera-"));
+  t.after(() => { rmSync(root, { recursive: true, force: true }); rmSync(fuera, { recursive: true, force: true }); });
+  const { id } = cli(["hold", "--root", root, "--json", JSON.stringify({ goal: "g", owner: "o", authority: { spend: [] }, scope: "s", expected_effect: { kind: "none" }, done: "d", roles: ["worker", "verifier"], verifier: "v" })]).json;
+  assert.equal(cli(["obligations", "--root", root, "--id", id, "--json", JSON.stringify({ obligations: OBLIGACIONES })]).code, 0);
+  const ajena = join(fuera, "ajena.md");
+  writeFileSync(ajena, "de otro proyecto");
+  const rechazada = cli(["fulfill", "--root", root, "--id", id, "--json", JSON.stringify({ id: "captura", evidence: { artifact: { path: ajena, sha256: sha("de otro proyecto") } } })]);
+  assert.notEqual(rechazada.code, 0);
+  assert.match(JSON.stringify(rechazada.json) + rechazada.err, /outside the operation root/i);
+});
+
 // Segunda ronda del revisor (2026-10-20).
 test("R5b: an operation whose trail already declared obligations cannot declare a smaller mandate", (t) => {
   const { artifact } = operacionIntegrada(t);

@@ -494,7 +494,7 @@ async function execute(sub, flags, stdout) {
   }
 
   if (sub === "fulfill") {
-    const artifact = fulfillObligation(context.artifact, payload.id, { evidence: payload.evidence, at: payload.at ?? null });
+    const artifact = fulfillObligation(context.artifact, payload.id, { evidence: payload.evidence, at: payload.at ?? null, root: context.root });
     await persist(context, artifact);
     return emit(stdout, { ok: true, obligation: artifact.obligations.find((item) => item.id === payload.id) });
   }
@@ -647,7 +647,7 @@ async function execute(sub, flags, stdout) {
   }
 
   if (sub === "close") {
-    const artifact = closeOperation(context.artifact, { verification: payload.verification });
+    const artifact = closeOperation(context.artifact, { verification: payload.verification, root: context.root });
     await persist(context, artifact);
     return emit(stdout, { ok: true, id: context.id, state: artifact.state });
   }
