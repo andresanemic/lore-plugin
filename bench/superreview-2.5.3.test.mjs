@@ -219,6 +219,31 @@ test("S2-1/13: revoke-effect ignora el reloj del payload y la revocacion siempre
   assert.match(twice.stderr, /already revoked/i);
 });
 
+test("S2-7: insert preserves mixed EOL titles and ignores fenced headings", (t) => {
+  const mixed = project(t, "superreview-eol-mixed-");
+  writeFileSync(join(mixed, "FASES.md"), "# FASES\r\n\r\n## Operaciones\n");
+  const first = hold(mixed);
+  const mixedAfter = readFileSync(join(mixed, "FASES.md"), "utf8");
+  assert.equal(first.status, 0);
+  assert.ok(mixedAfter.includes("## Operaciones\n"), mixedAfter.slice(0, 100));
+  assert.doesNotMatch(mixedAfter, /## Operacione\r?\n/);
+
+  const edgeCases = project(t, "superreview-eol-edge-");
+  writeFileSync(join(edgeCases, "FASES.md"), "\uFEFF# FASES\r\n## Operaciones   ");
+  assert.equal(hold(edgeCases).status, 0);
+  const edgeAfter = readFileSync(join(edgeCases, "FASES.md"), "utf8");
+  assert.equal((edgeAfter.match(/## Operaciones/g) ?? []).length, 1, edgeAfter);
+
+  const fenced = project(t, "superreview-eol-fence-");
+  writeFileSync(join(fenced, "FASES.md"), "# FASES\r\n```md\r\n## Operaciones\r\n```\r\n");
+  assert.equal(hold(fenced).status, 0);
+  const fencedAfter = readFileSync(join(fenced, "FASES.md"), "utf8");
+  assert.equal((fencedAfter.match(/## Operaciones/g) ?? []).length, 2, fencedAfter);
+  const firstHeading = fencedAfter.indexOf("## Operaciones");
+  const fenceEnd = fencedAfter.indexOf("```\r\n", fencedAfter.indexOf("```"));
+  assert.ok(firstHeading < fenceEnd && fencedAfter.indexOf("## Operaciones", firstHeading + 1) > fenceEnd, fencedAfter);
+});
+
 test("SP-2: dos hold con reloj congelado conservan ids distintos y rechazan un id existente", async (t) => {
   const root = project(t, "superreview-ids-");
   const shim = join(project(t, "superreview-clock-"), "freeze.mjs");

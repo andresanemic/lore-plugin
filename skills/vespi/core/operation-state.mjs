@@ -642,7 +642,8 @@ async function writeOperationState(root, artifact, { create = false } = {}) {
   try { text = await readFile(file, "utf8"); } catch (error) {
     if (error?.code !== "ENOENT") throw error;
   }
-  const eol = text.includes("\r\n") ? "\r\n" : "\n";
+  const endings = text.match(/\r\n|\n|\r/g) ?? [];
+  const eol = ["\r\n", "\n", "\r"].sort((a, b) => endings.filter((ending) => ending === b).length - endings.filter((ending) => ending === a).length)[0];
   const block = renderBlock(artifact, eol);
   const found = locateBlock(text, artifact.id);
   if (create && found) throw new Error(`operation id already exists: ${artifact.id}`);
@@ -651,10 +652,11 @@ async function writeOperationState(root, artifact, { create = false } = {}) {
     next = text.slice(0, found.start) + block + text.slice(found.end);
   } else if (text.length === 0) {
     next = `# FASES${eol}${eol}${OPERATIONS_HEADING}${eol}${eol}${block}${eol}`;
-  } else if (/(^|\r?\n)## Operaciones\r?\n/.test(text)) {
-    const match = /(^|\r?\n)## Operaciones\r?\n/.exec(text);
-    const at = match.index + match[0].length - eol.length;
-    next = text.slice(0, at) + eol + eol + block + text.slice(at);
+  } else if (operationsHeading(text)) {
+    const heading = operationsHeading(text);
+    let at = heading.end;
+    if (heading.ending && text.slice(at).startsWith(heading.ending)) at += heading.ending.length;
+    next = text.slice(0, at) + (at === heading.end ? `${eol}${eol}` : "") + block + eol + text.slice(at);
   } else {
     next = text.replace(/\s*$/, "") + `${eol}${eol}${OPERATIONS_HEADING}${eol}${eol}${block}${eol}`;
   }
@@ -670,6 +672,21 @@ async function writeOperationState(root, artifact, { create = false } = {}) {
     throw error;
   }
   return file;
+}
+
+function operationsHeading(text) {
+  let offset = 0, fenced = false;
+  for (const line of text.match(/[^\r\n]*(?:\r\n|\n|\r|$)/g) ?? []) {
+    if (!line) break;
+    const content = line.replace(/(?:\r\n|\n|\r)$/, "");
+    if (/^\s*```/.test(content)) fenced = !fenced;
+    else if (!fenced && /^\uFEFF?## Operaciones[ \t]*$/.test(content)) {
+      const ending = line.slice(content.length);
+      return { end: offset + line.length, ending };
+    }
+    offset += line.length;
+  }
+  return null;
 }
 
 // El parseo de un bloque, y solo este: decide que es una operacion y que su estado es valido. Un
