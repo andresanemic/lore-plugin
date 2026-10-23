@@ -222,9 +222,9 @@ function puertaDeOperacion(raiz) {
   }
   if (!entrada?.open) return PUNTERO;
   const rolesValidos = new Set(["coordinator", "coordenador", "coordinador", "daimon", "advisor", "worker", "verifier", "verificador", "unknown"]);
-  const estadosValidos = new Set(["prepared", "authorized", "queued", "running", "received", "reviewed", "verified", "integrated", "blocked", "waiting", "deferred", "unknown", "requires_decision", "paused", "closed", "cancelled"]);
+  const estadosValidos = new Set(["prepared", "authorized", "queued", "running", "received", "reviewed", "verified", "integrated", "blocked", "waiting", "deferred", "unknown", "requires_decision", "paused", "closed", "cancelled", "proposed", "accepted"]);
   const veredictosValidos = new Set(["fresh", "stale_premise", "authority_invalid", "terminal_state", "invalid_state"]);
-  const idSeguro = (id) => typeof id === "string" && /^op-[a-z0-9]+-[0-9]+-[a-f0-9]{8}$/i.test(id) ? id : "operacion";
+  const idSeguro = (id) => typeof id === "string" && /^op-[a-z0-9]+-[0-9]+(?:-[a-f0-9]{8})?$/i.test(id) ? id : "operacion";
   const tareaSegura = (id) => id === "valid-task" || (typeof id === "string" && /^t[1-9][0-9]{0,2}$/.test(id));
   const idOperacion = idSeguro(entrada.id);
   const estadoSeguro = (state) => estadosValidos.has(state) ? state : "estado";
@@ -243,7 +243,7 @@ function puertaDeOperacion(raiz) {
       ? ` · tambien abiertas ${entrada.also_open.map(idSeguro).join(", ")}`
       : "")
     + ` · primera respuesta: nombra este archivo y el siguiente paso en menos de diez palabras, sin afirmar una acción aún no ejecutada`
-    + ` · antes de coordinar, abre ${entrada.file}`;
+    + ` · antes de coordinar, abre FASES.md#${idOperacion}`;
 }
 
 // La semilla de la puerta: lo que la puerta dice cuando HAY algo que abrir, y `null` cuando no.
