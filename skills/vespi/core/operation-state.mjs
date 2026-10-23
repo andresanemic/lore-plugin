@@ -645,8 +645,9 @@ async function writeOperationState(root, artifact) {
     next = text.slice(0, found.start) + block + text.slice(found.end);
   } else if (text.length === 0) {
     next = `# FASES${eol}${eol}${OPERATIONS_HEADING}${eol}${eol}${block}${eol}`;
-  } else if (text.includes(`${eol}${OPERATIONS_HEADING}${eol}`) || text.startsWith(`${OPERATIONS_HEADING}${eol}`)) {
-    const at = text.indexOf(OPERATIONS_HEADING) + OPERATIONS_HEADING.length;
+  } else if (/(^|\r?\n)## Operaciones\r?\n/.test(text)) {
+    const match = /(^|\r?\n)## Operaciones\r?\n/.exec(text);
+    const at = match.index + match[0].length - eol.length;
     next = text.slice(0, at) + eol + eol + block + text.slice(at);
   } else {
     next = text.replace(/\s*$/, "") + `${eol}${eol}${OPERATIONS_HEADING}${eol}${eol}${block}${eol}`;
