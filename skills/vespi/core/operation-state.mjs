@@ -654,9 +654,9 @@ async function writeOperationState(root, artifact, { create = false } = {}) {
     next = `# FASES${eol}${eol}${OPERATIONS_HEADING}${eol}${eol}${block}${eol}`;
   } else if (operationsHeading(text)) {
     const heading = operationsHeading(text);
-    let at = heading.end;
-    if (heading.ending && text.slice(at).startsWith(heading.ending)) at += heading.ending.length;
-    next = text.slice(0, at) + (at === heading.end ? `${eol}${eol}` : "") + block + eol + text.slice(at);
+    // The heading line keeps its own ending; the block goes after it with the same blank-line layout as before, so the prose around the blocks does not change.
+    const head = text.slice(0, heading.end) + (heading.ending ? "" : eol);
+    next = head + eol + block + eol + text.slice(heading.end);
   } else {
     next = text.replace(/\s*$/, "") + `${eol}${eol}${OPERATIONS_HEADING}${eol}${eol}${block}${eol}`;
   }
