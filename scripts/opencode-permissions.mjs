@@ -21,18 +21,22 @@ function normalizedRulePath(path, project) {
   return `${stripTrailingSlashes(full)}/**`;
 }
 
-export function buildPermissions({ siblings = [], existing = {} } = {}) {
+export function buildPermissions({ siblings = [], existing = {}, project = process.cwd() } = {}) {
   const base = existing && typeof existing === "object" && !Array.isArray(existing) ? existing : {};
   const oldPermissions = base.permission && typeof base.permission === "object" && !Array.isArray(base.permission)
     ? base.permission : {};
   const oldExternal = oldPermissions.external_directory && typeof oldPermissions.external_directory === "object"
     ? oldPermissions.external_directory : {};
   const external = { ...oldExternal };
+  const pathKey = (path) => process.platform === "win32" ? path?.toLowerCase() : path;
+  const protectedPaths = new Set(Object.entries(oldExternal)
+    .filter(([, permission]) => permission === "deny" || permission === "ask")
+    .map(([path]) => pathKey(normalizedRulePath(path, project))));
   for (const sibling of siblings) {
     if (!sibling) continue;
     const raw = String(sibling);
     const key = raw.endsWith("/**") ? raw : `${stripTrailingSlashes(raw)}/**`;
-    if (external[key] !== "deny" && external[key] !== "ask") external[key] = "allow";
+    if (!protectedPaths.has(pathKey(normalizedRulePath(key, project)))) external[key] = "allow";
   }
   if (!Object.hasOwn(external, "*")) external["*"] = "deny";
   return { ...base, permission: { ...oldPermissions, external_directory: external } };
@@ -103,7 +107,7 @@ export function opencodePermissions({ project = process.cwd(), fromRouting = fal
     try { current = JSON.parse(raw); }
     catch (error) { throw new Error(`Cannot merge ${configPath}: it is invalid JSON or JSONC (comments are unsupported). Proposed JSON follows:\n${JSON.stringify(buildPermissions({ siblings }), null, 2)}`, { cause: error }); }
   }
-  return { root, configPath, siblings, proposed: buildPermissions({ siblings, existing: current }) };
+  return { root, configPath, siblings, proposed: buildPermissions({ siblings, existing: current, project: root }) };
 }
 
 export function writePermissions(options = {}) {

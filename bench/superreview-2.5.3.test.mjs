@@ -191,6 +191,20 @@ test("S2-3: routing rechaza celdas con metacaracteres de patrones", async (t) =>
   assert.deepEqual(result.siblings, []);
 });
 
+test("S2-3: ask y deny protegen la misma ruta normalizada en Windows", async (t) => {
+  const base = project(t, "superreview-routing-normalized-");
+  const root = join(base, "area", "proyecto");
+  const sibling = join(base, "area", "hermano");
+  const { buildPermissions } = await import(pathToFileURL(join(KIT, "scripts/opencode-permissions.mjs")));
+  for (const permission of ["ask", "deny"]) {
+    const alternate = sibling.replaceAll("\\", "/").replace("/hermano", "/./HERMANO").replace("/**", "/**");
+    const rules = buildPermissions({ siblings: [sibling], project: root, existing: {
+      permission: { external_directory: { [`${alternate}/**`]: permission } },
+    } }).permission.external_directory;
+    assert.ok(Object.values(rules).every((value) => value !== "allow"), `${permission}: ${JSON.stringify(rules)}`);
+  }
+});
+
 test("SP-2: dos hold con reloj congelado conservan ids distintos y rechazan un id existente", async (t) => {
   const root = project(t, "superreview-ids-");
   const shim = join(project(t, "superreview-clock-"), "freeze.mjs");
