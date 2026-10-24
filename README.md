@@ -112,9 +112,9 @@ Whether you are new to AI or already build with it, you can start with your own 
 
 ## What you can do fast with Lore and Vespi
 
-Lore keeps your criteria, workflows and preferences as files on your computer, so you can start with a small, concrete job and keep going across sessions and hosts. Vespi, its kernel, adds permission, a second review and a receipt to each operation. The lines about the kernel and Stellar say how far they have been checked today.
+Lore keeps your criteria, workflows and preferences as files on your computer, so you can start with a small, concrete job and keep going in the next session. Vespi, its kernel, lets an operation carry a permission, a second review and a receipt. The lines about the kernel and Stellar say how far they have been checked today.
 
-- **Build any project with AI** — an app, a website, writing, research — and keep what you decide for next time.
+- **Build a project of your own with AI** — for example an app, a website, writing or research — and keep what you decide for next time.
 - **Leave a verifiable record of what an agent did:** a receipt with a SHA-256 digest, the authority used, what was checked and what was not. *Proven* in the kernel.
 - **Timestamp that record on Stellar** by putting its digest in a transaction memo. *Testnet* with fictional data; mainnet is planned for the Meridian demonstrations and is not claimed until those transactions exist.
 - **Pay for a service within a ceiling and with a person's approval (x402).** *Demo* on testnet, outside the kernel.
@@ -685,9 +685,9 @@ No necesitas saber de SDD ni manejar términos técnicos para empezar. Basta con
 
 ## Lo que puedes hacer rápido con Lore y Vespi
 
-Lore guarda tu criterio, tus workflows y tus preferencias como archivos en tu computador, así que puedes empezar con un trabajo pequeño y concreto y seguir entre sesiones y hosts. Vespi, su kernel, añade permiso, una segunda revisión y un recibo a cada operación. Las líneas sobre el kernel y Stellar dicen hasta dónde están comprobadas hoy.
+Lore guarda tu criterio, tus workflows y tus preferencias como archivos en tu computador, así que puedes empezar con un trabajo pequeño y concreto y seguir en la siguiente sesión. Vespi, su kernel, permite que una operación lleve un permiso, una segunda revisión y un recibo. Las líneas sobre el kernel y Stellar dicen hasta dónde están comprobadas hoy.
 
-- **Construye cualquier proyecto con IA** —una app, un sitio, escritura, investigación— y guarda lo que decides para la próxima vez.
+- **Construye un proyecto propio con IA** —por ejemplo una app, un sitio, escritura o investigación— y guarda lo que decides para la próxima vez.
 - **Deja un registro verificable de lo que hizo un agente:** un recibo con huella SHA-256, la autoridad usada, lo que se comprobó y lo que no. *Probado* en el kernel.
 - **Ponle fecha a ese registro en Stellar** poniendo su huella en el memo de una transacción. *Testnet* con datos ficticios; mainnet está planeado para las demostraciones de Meridian y no se afirma hasta que existan esas transacciones.
 - **Paga un servicio dentro de un techo y con la aprobación de una persona (x402).** *Demo* en testnet, fuera del kernel.
