@@ -1,6 +1,6 @@
 # LORE PLUGIN · MULTI-PROVIDER SETUP
 
-**2.5.3 release draft.** Public commands that name `v2.5.3` require its published tag. This walkthrough was not rerun on all hosts for 2.5.3. The method-delivery evidence covers the Claude Code kit worker with received hooks; it does not establish delivery in OpenCode, Codex, advisor or daimon roles, or a causal behavioral effect. The kit pins eleven kernel 0.1.8 modules at commit `e7f00b7d9a4c512aca32eda053774a11713bd6c1`. Publication requires Andrés’s explicit approval. [Release scope and limits](./RELEASE_2.5.3.md).
+**2.5.3 release draft.** Public commands that name `v2.5.3` require its published tag. This walkthrough was not rerun on all hosts for 2.5.3. The method-delivery evidence covers the Claude Code kit worker with received hooks; it does not establish delivery in OpenCode, Codex, advisor or daimon roles, or a causal behavioral effect. The kit pins eleven kernel 0.1.8 modules at commit `77bceb0582aa021320c4632bee590a76ef7a6646`. Publication requires Andrés’s explicit approval. [Release scope and limits](./RELEASE_2.5.3.md).
 
 # From a new machine to the first project with portable criteria
 
@@ -287,7 +287,7 @@ The block appears under `## Operaciones` in `FASES.md`; permission matches the d
 
 ### What 0.1.8 includes and does not include
 
-The kit pins eleven modules from Vespi 0.1.8 at commit `e7f00b7d9a4c512aca32eda053774a11713bd6c1`, with operations, granted authority, human decisions, receipts, bounded delegations, and resuming. The facade `skills/vespi/core/vespi.mjs` declares, from the vendored copy, the four optional surfaces present (`capabilities.md` only describes them): emergency permission, skill provenance, x402 payments, and ZK verification. `zk-bn254-reference.js`, an experimental cryptographic reference, and the SDK-backed x402 bridge are excluded; the surfaces are not connected automatically and remain in field validation.
+The kit pins eleven modules from Vespi 0.1.8 at commit `77bceb0582aa021320c4632bee590a76ef7a6646`, with operations, granted authority, human decisions, receipts, bounded delegations, and resuming. The facade `skills/vespi/core/vespi.mjs` declares, from the vendored copy, the four optional surfaces present (`capabilities.md` only describes them): emergency permission, skill provenance, x402 payments, and ZK verification. `zk-bn254-reference.js`, an experimental cryptographic reference, and the SDK-backed x402 bridge are excluded; the surfaces are not connected automatically and remain in field validation.
 
 The kernel documentation includes historical testnet evidence; this walkthrough does not run transactions, and that evidence is not an audit. Kernel 0.1.8 binds approved context to an approval and receipt, rechecks it before an effect, and preserves bounded authority through host-managed checkpoints and continuation. The host supplies authentic checkpoint storage and a minimum accepted generation. Host callbacks receive no receiver; existing hosts that rely on `this` must pass an arrow, closure or bound function. These mechanisms do not establish a durable money ledger or automatic cross-host execution. The host supplies the clock; injected ports are trusted code, not a sandbox. A digest protects integrity, not approval identity or external effects.
 

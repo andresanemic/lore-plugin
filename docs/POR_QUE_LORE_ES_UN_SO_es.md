@@ -35,7 +35,7 @@ Los loops son ciclos de trabajo con una condición de salida; TDD puede ordenar 
 
 ## Estado y límites
 
-El borrador vigente de publicación 2.5.3 se describe en [su nota de versión](./RELEASE_2.5.3.md). La evidencia de entrega del método cubre al trabajador del kit en Claude Code con hooks recibidos, no a todos los roles o hosts. Los controles del resultado final ofrecen detección sin independencia bajo el mismo usuario del sistema. El kit fija once módulos del kernel 0.1.8 en el commit `e7f00b7d9a4c512aca32eda053774a11713bd6c1`; publicar requiere aprobación explícita de Andrés.
+El borrador vigente de publicación 2.5.3 se describe en [su nota de versión](./RELEASE_2.5.3.md). La evidencia de entrega del método cubre al trabajador del kit en Claude Code con hooks recibidos, no a todos los roles o hosts. Los controles del resultado final ofrecen detección sin independencia bajo el mismo usuario del sistema. El kit fija once módulos del kernel 0.1.8 en el commit `77bceb0582aa021320c4632bee590a76ef7a6646`; publicar requiere aprobación explícita de Andrés.
 
 **Cortes históricos:**
 

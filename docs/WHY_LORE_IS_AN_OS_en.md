@@ -35,7 +35,7 @@ Loops are work cycles with an exit condition; TDD can organize part of software 
 
 ## Status and limits
 
-The current 2.5.3 release draft is described in [its release note](./RELEASE_2.5.3.md). Method-delivery evidence covers the Claude Code kit worker with received hooks, not every role or host. Final-output checks provide detection without independence under the same operating-system user. The kit pins eleven kernel 0.1.8 modules at commit `e7f00b7d9a4c512aca32eda053774a11713bd6c1`; publication requires Andrés’s explicit approval.
+The current 2.5.3 release draft is described in [its release note](./RELEASE_2.5.3.md). Method-delivery evidence covers the Claude Code kit worker with received hooks, not every role or host. Final-output checks provide detection without independence under the same operating-system user. The kit pins eleven kernel 0.1.8 modules at commit `77bceb0582aa021320c4632bee590a76ef7a6646`; publication requires Andrés’s explicit approval.
 
 **Historical cuts:**
 

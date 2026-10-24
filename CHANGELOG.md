@@ -30,7 +30,7 @@ Lo que entra: el trabajo coordinado pasa de comprobar piezas delegadas a revisar
 - **Instalación:** probada en homes aislados de Claude Code, Codex y OpenCode con fixtures offline. La evidencia de entrega del método cubre al trabajador del kit en Claude Code con hooks recibidos; no cubre a advisor o daimon ni demuestra entrega en los tres hosts. Recibir el método no establece que haya causado una conducta conforme.
 - **Límites:** las pruebas y fixtures offline apoyan comprobaciones de implementación, no una auditoría de seguridad independiente, un benchmark conductual completo ni la validación científica de LUS. La verificación final comparte usuario del sistema con el coordinador: ofrece detección sin independencia, no prevención de escrituras arbitrarias. Los recibos anteriores sin los vínculos requeridos necesitan recepción, revisión y verificación nuevas; se conservan estado y evidencia.
 - **Desktop:** se presentará en Lisboa la próxima semana y no bloquea esta publicación del kit.
-- **Kernel fijado:** 0.1.8 (commit e7f00b7d9a4c512aca32eda053774a11713bd6c1); once módulos copiados se comprueban contra la fuente versionada e incluyen contexto aprobado y continuaciones acotadas.
+- **Kernel fijado:** 0.1.8 (commit 77bceb0582aa021320c4632bee590a76ef7a6646); once módulos copiados se comprueban contra la fuente versionada e incluyen contexto aprobado y continuaciones acotadas.
 
 ## 2.5.2 — Servine
 
