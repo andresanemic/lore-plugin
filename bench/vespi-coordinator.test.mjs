@@ -158,7 +158,9 @@ test("la semilla es válida y solo orienta, nunca altera los límites de una tar
     shell: process.platform === "win32",
   });
   assert.equal(packed.status, 0, packed.stderr);
-  assert.ok(JSON.parse(packed.stdout)[0].files.some((file) => file.path === "skills/vespi/core/calibration-seed.json"));
+  const parsedPack = JSON.parse(packed.stdout);
+  const packSummary = Array.isArray(parsedPack) ? parsedPack[0] : Object.values(parsedPack)[0]; // npm 11: arreglo; npm 12: objeto por paquete
+  assert.ok(packSummary.files.some((file) => file.path === "skills/vespi/core/calibration-seed.json"));
 });
 
 test("calibrar estimaciones solo con tres duraciones observadas por clave", async (t) => {
