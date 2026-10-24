@@ -1,4 +1,3 @@
-
 <p align="center">
   <img src="https://i.imgur.com/DWYL7vz.png" alt="Lore" width="100%">
 </p>
@@ -6,35 +5,33 @@
 <h1 align="center">Lore</h1>
 
 <p align="center">
-  <a href="#installation"><img src="https://img.shields.io/badge/version-2.5.2-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Version"></a>
-  <a href="#installation"><img src="https://img.shields.io/badge/AI_provider-neutral-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="AI provider: neutral"></a>
-  <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatible-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatible"></a>
-  <a href="#origin"><img src="https://img.shields.io/badge/research-active-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Status"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/versão-2.5.2-FF557A?style=for-the-badge&labelColor=0B0B12" alt="Versão"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/provedor_de_IA-neutro-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="Provedor de IA: neutro"></a>
+  <a href="./docs/SPEC_KIT_en.md"><img src="https://img.shields.io/badge/spec--kit-compatível-F94F79?style=for-the-badge&labelColor=0B0B12" alt="spec-kit compatível "></a>
+  <a href="#origin"><img src="https://img.shields.io/badge/pesquisa-ativa-00DFF5?style=for-the-badge&labelColor=0B0B12" alt="Status"></a>
 </p>
 
 <p align="center">
-  <b>Stop explaining your project to the AI every morning.</b><br>
-  With your approval, Lore turns lessons into project criteria the AI can use next time.
+  <b>Pare de explicar seu projeto para a IA toda manhã.</b><br>
+  Com a sua aprovação, Lore transforma aprendizado em critérios de projeto que a IA pode usar na proxima sessão.
 </p>
 
-<p align="center"><a href="./docs/90_SECONDS_en.md">Start with the 90-second guide →</a> · <a href="https://github.com/andresanemic/lore-plugin">Clone the repository</a></p>
 
-**Not sure whether to try it?** Share this repository's link with your AI agent, ask what Lore Plugin and Vespi are, and let it tell you whether it recommends installing them in one of your projects.
+<p align="center"><a href="./docs/90_SECONDS_en.md">Comece com o guia de 90 segundos →</a> · <a href="https://github.com/andresanemic/lore-plugin">Clone o repositório</a></p>
 
-**In plain words.** *Lore*: your project's criteria, as plain Markdown files you approve. *Save to Lore*: turn a correction you made into a criterion for next time. *Prune*: retire rules that no longer apply. *Graft*: bring in an idea from outside only after checking where it loses against your criteria. *Transmute*: reorganize or migrate a Lore tree. *Crystallize*: pack a bot's criteria into one file to carry it elsewhere.
+**Não sabe se deve experimentar?** Compartilhe o link desse repositório com seu agente de IA, pergunte o que são o Lore Plugin e o Vespi e deixe que ele te diga se recomenda instalá-los em um de seus projetos.
 
-**Where this is going.** Today you run Lore Plugin from a terminal. **Vespi Desktop** is the planned workspace that will bring this kit and the Vespi kernel together, with **Hive as its creation studio**. For HackMeridian we will show that direction alongside what already works; Desktop is not installable yet. [Try the interactive Hive POC](https://vespi.xyz/) on the site: a UX/UI MVP where you can choose agents and save criteria and workflows in your browser, without connecting to AI.
+**Em palavras simples.** *Lore*: os critérios do seu projeto, na forma de arquivos Markdown simples que você aprova. *Salvar no Lore*: transforme uma correção que você fez em um critério para a próxima sessão. *Podar*: retire regras que não se aplicam mais. *Enxertar*: incorpore uma ideia externa somente depois de verificar em que pontos ela falha em relação aos seus critérios. *Transmutar*: reorganize ou migre uma árvore de critérios  do Lore. *Cristalizar*: empacote os critérios de um bot em um único arquivo para transportá-los para outro lugar.
+
+**O futuro do projeto.** Hoje você executa o Lore Plugin a partir de um terminal. **Vespi Desktop** é o ambiente de trabalho planejado que reunirá esse kit e o kernel do Vespi, tendo o **Hive como seu estúdio de criação**. No HackMeridian, mostraremos essa direção juntamente com o que já funciona; o Desktop ainda não está disponível para instalação. [Experimente a POC interativa do Hive](https://vespi.xyz/) no site: um MVP de UX/UI onde você pode escolher agentes e salvar critérios e fluxos de trabalho no seu navegador, sem se conectar à IA.
 
 ---
 
-<details>
-<summary><b>Read in English</b></summary>
+## O problema 
 
-<a id="english"></a>
+Toda sessão começa em branco. As correções de ontem não passam para a próxima, então você explica o projeto de novo e pode repetir decisões que já havia rejeitado. O Lore dá ao aprendizado que você aprova um lugar nos arquivos do seu projeto, pronto para o trabalho futuro.
 
-## The problem
 
-Every session starts blank. Yesterday’s corrections do not carry into the next one, so you explain the project again and may repeat decisions you had already rejected. Lore gives lessons you approve a place in your project files, ready for future work.
 
 ---
 
@@ -42,32 +39,32 @@ Every session starts blank. Yesterday’s corrections do not carry into the next
 <tr>
 <td width="33%" valign="top">
 
-**Start**
+**Começar**
 
-[The problem](#the-problem) ·
-[What is Lore](#what-is-lore) ·
-[Who can use it](#who-can-use-lore-plugin) ·
-[Start building](#start-building-your-lore) ·
-[Installation](#installation)
-
-</td>
-<td width="33%" valign="top">
-
-**Use it**
-
-[Architecture](#architecture) ·
-[The nine skills](#the-nine-skills) ·
-[Loose notes](#loose-notes) ·
-[Documentation](#documentation)
+[O problema](#o-problema) ·
+[O que é o Lore](#o-que-é-o-lore) ·
+[Quem pode usar](#quem-pode-usar-o-plugin-lore) ·
+[Comece a construir](#comece-a-construir-seu-lore) ·
+[Instalação](#instalação)
 
 </td>
 <td width="33%" valign="top">
 
-**Understand it**
+**Usar**
 
-[Shared invariants](#shared-invariants) ·
-[Case studies](./docs/CASES_en.md) ·
-[Reach](#reach) · [Origin](#origin)
+[Arquitetura](#arquitetura) ·
+[As nove skills](#as-nove-skills) ·
+[Anotações diversas](#anotações-diversas) ·
+[Documentação](#documentação)
+
+</td>
+<td width="33%" valign="top">
+
+**Entender**
+
+[Invariantes compartilhadas](#invariantes-compartilhadas) ·
+[Estudos de caso](./docs/CASES_en.md) ·
+[Alcance](#alcance) · [Origem](#origem)
 
 </td>
 </tr>
@@ -75,57 +72,58 @@ Every session starts blank. Yesterday’s corrections do not carry into the next
 
 ---
 
-## What is Lore?
+## O que é Lore?
 
-Lore is a provider-neutral kit of nine skills and a simple structure for project criteria. You decide what gets written; the kit makes approved criteria available before later work. It does not train a model or learn on its own.
+Lore é um kit agnóstico de provedor, composto por nove skills e uma estrutura simples para critérios de projeto. Você decide o que é escrito; o kit disponibiliza os critérios aprovados antes de trabalhos futuros. Ele não treina um modelo nem aprende por conta própria. 
 
-#### What it provides
+#### O que ele oferece
 
-- A simple convention for organizing a project’s criteria.
-- Nine skills that work with that convention.
-- A reviewed process for turning experience into reusable criteria.
+- Uma convenção simples para organizar os critérios de um projeto.
+- Nove habilidades que trabalham com essa convenção.
+- Um processo com revisão humana para transformar a experiência em critérios reutilizáveis.
 
-Each project has one contract (`CLAUDE.md` or `AGENTS.md`, depending on the host), `FASES.md` for current work, and `lore/` for criteria that guide how it is built.
+ Cada projeto possui um contrato (`CLAUDE.md` ou `AGENTS.md`, dependendo do host), o arquivo `FASES.md` para o trabalho atual e a pasta `lore/` com os critérios que guiam como ele é construído.
 
-#### Start from existing work
 
-`transmute-lore` can read project folders, documents, exported chat summaries, and notes to help organize criteria already in use. Your files stay as they are; nothing becomes Lore until you read and approve the result.
+#### Comece a partir do trabalho existente
 
-When criteria need to travel, **CRYSTALLIZE** creates a traceable Markdown snapshot that can move between models and return to a working folder. It omits sensitive filenames and rejects secret markers. It never replaces live Lore.
+O `transmutar-lore` pode ler pastas de projetos, documentos, resumos de chats exportados e anotações para ajudar a organizar os critérios já em uso. Seus arquivos permanecem como estão; nada se torna Lore até que você leia e aprove o resultado.
 
-#### What it does not promise
+Quando os critérios precisam ser transferidos, **Cristalizar** cria um snapshot rastreável em Markdown que pode ser movido entre modelos e retornar à pasta de trabalho. Ele omite nomes de arquivos confidenciais e rejeita marcadores secretos. Ele nunca substitui o Lore ativo.
 
-Lore cannot guarantee correct work or decide when old criteria no longer fit. It gives you a reviewed way to preserve and prune lessons; both still need your judgment and time.
+#### O que ele não promete
 
-#### The filter
+O Lore não pode garantir um trabalho bem feito nem determinar quando os critérios antigos não se aplicam mais. Ele oferece uma maneira revisada de preservar e podar o aprendizado; ambas as tarefas ainda exigem seu julgamento e seu tempo.
 
-Lore keeps lessons that change future decisions. **If a sentence does not constrain a future decision, it is not Lore.** Other facts belong in documentation or notes.
+#### O filtro
 
-## Who can use Lore Plugin?
+O Lore contém aprendizado que influencia decisões futuras. **Se uma frase não condicionar uma decisão futura, não é Lore.** Outros fatos devem constar na documentação ou nas notas.
 
-Whether you are new to AI or already build with it, you can start with your own project and your own words.
+## Quem pode usar o Plugin Lore?
 
-- **New to AI:** describe what you want to do; the skills guide the next step, and you approve what gets written.
-- **Experienced builders:** carry useful project criteria between sessions and models.
-- **Teams using spec-kit or another workflow:** Lore keeps project criteria alongside your process tools; it does not replace them. See [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md).
-- **Readers interested in the research:** [LUS explains the research questions and their evidence boundaries](./docs/LUS_en.md).
+Seja você um iniciante ou alguém que já tem experiência com IA, pode começar com seus próprios projetos e suas próprias palavras.
 
-## Start building your Lore
+- **Iniciante em IA:** descreva o que você quer fazer; as skills guiam o próximo passo, e você aprova o que é gerado.
+- **Builders Exeprientes:** carregue critérios úteis do seu projeto entre sessões e modelos.
+- **Equipes que utilizam Spec-Kit ou outro fluxo de trabalho:** O Lore mantém os critérios do seu projeto junto às suas ferramentas; ele não as substitui. Consulte [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md).
+- **Leitores interessados na pesquisa:** [LUS explica as perguntas de pesquisa e até onde as evidências permitem chegar](./docs/LUS_en.md).
 
-For work that spans sessions, the kit can propose a short agreement about its purpose and limits; you decide whether to use it. When a task leaves a lesson worth carrying forward, Lore can turn it into an **Invariant Clue**: a short rule you can reuse.
+##  Comece a construir seu Lore
 
-| Instead of remembering | Lore keeps |
+Para trabalhos que se estendem por várias sessões, o kit pode propor um breve acordo sobre seu propósito e limites; você decide se quer utilizá-lo. Quando uma tarefa deixa um aprendizado que vale a pena levar adiante, Lore pode transformá-lo em uma **Pista Invariante**: uma pequena regra que você pode reutilizar posteriormente.
+
+| Ao invés de lembrar | Lore guarda |
 |---|---|
-| “The AI wrote a report that was too technical for the reader” | “Before drafting, identify who will read it and explain every unfamiliar term in plain language” |
-| “A meeting summary omitted who was responsible for each task” | “Every meeting summary ends with each task, its owner and its deadline” |
+| "A IA escreveu um relatório técnico demais para o leitor" | "Antes de redigir, identifique quem vai ler o texto e explique todos os termos técnicos em linguagem simples" |
+| "Um resumo da reunião omitiu quem era o responsável por cada tarefa" | "Cada resumo de reunião termina com cada tarefa, seu responsável e seu prazo" |
 
-### The loop
+### O loop
 
 <p align="center">
   <img src="https://i.imgur.com/y3fsT7D.png" alt="Lore" width="100%">
 </p>
 
-Each lesson is proposed, read, and approved before it is written. Lore loads approved criteria before work begins. The claim that accumulated experience changes later decisions is a research hypothesis, not a demonstrated mechanism; [LUS documents that boundary](./docs/LUS_en.md).
+Cada aprendizado é proposto, analisado e aprovado antes de ser escrito. O Lore carrega os critérios aprovados antes do início do trabalho. A afirmação de que a experiência acumulada influencia decisões posteriores é uma hipótese de pesquisa, não um mecanismo comprovado; [o LUS documenta essa limitação](./docs/LUS_en.md).
 
 ---
 
@@ -1105,7 +1103,3 @@ la dictó desde 2023 hasta 2025. **Speaker en [KCD El Salvador
   <a href="https://www.linkedin.com/in/andresanemic/"><img src="https://img.shields.io/badge/LinkedIn-Andrés%20Peña%20Mellado-00DFF5?style=for-the-badge&logo=linkedin&logoColor=0B0B12&labelColor=0B0B12" alt="LinkedIn"></a>
   <a href="https://t.me/andresanemic"><img src="https://img.shields.io/badge/Telegram-@andresanemic-22D9EE?style=for-the-badge&logo=telegram&logoColor=0B0B12&labelColor=0B0B12" alt="Telegram"></a>
   <img src="https://img.shields.io/badge/Discord-andresanemic-F94F79?style=for-the-badge&logo=discord&logoColor=0B0B12&labelColor=0B0B12" alt="Discord">
-  <a href="mailto:a.leonardopm@gmail.com"><img src="https://img.shields.io/badge/Email-a.leonardopm@gmail.com-35E5F5?style=for-the-badge&logo=gmail&logoColor=0B0B12&labelColor=0B0B12" alt="Email"></a>
-</p>
-
-</details>
