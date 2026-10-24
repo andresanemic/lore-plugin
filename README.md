@@ -106,11 +106,11 @@ Seja você um iniciante ou alguém que já tem experiência com IA, pode começa
 - **Iniciante em IA:** descreva o que você quer fazer; as skills guiam o próximo passo, e você aprova o que é gerado.
 - **Builders Exeprientes:** carregue critérios úteis do seu projeto entre sessões e modelos.
 - **Equipes que utilizam Spec-Kit ou outro fluxo de trabalho:** O Lore mantém os critérios do seu projeto junto às suas ferramentas; ele não as substitui. Consulte [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md).
-- **Leitores interessados na pesquisa:** [LUS explica as perguntas de pesquisa e até onde as evidências permitem chegar] ](./docs/LUS_en.md).
+- **Leitores interessados na pesquisa:** [LUS explica as perguntas de pesquisa e até onde as evidências permitem chegar](./docs/LUS_en.md).
 
 ##  Comece a construir seu Lore
 
-Para trabalhos que se estendem por várias sessões, o kit pode propor um breve acordo sobre seu propósito e limites; você decide se quer utilizá-lo. Quando uma tarefa deixa um aprendizado que vale a pena levar adiante, Lore pode transformá-lo em uma **Pista Invariante*: uma pequena regra que você pode reutilizar posteriormente.
+Para trabalhos que se estendem por várias sessões, o kit pode propor um breve acordo sobre seu propósito e limites; você decide se quer utilizá-lo. Quando uma tarefa deixa um aprendizado que vale a pena levar adiante, Lore pode transformá-lo em uma **Pista Invariante**: uma pequena regra que você pode reutilizar posteriormente.
 
 | Ao invés de lembrar | Lore guarda |
 |---|---|
