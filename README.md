@@ -104,26 +104,26 @@ O Lore contém aprendizado que influencia decisões futuras. **Se uma frase não
 Seja você um iniciante ou alguém que já tem experiência com IA, pode começar com seus próprios projetos e suas próprias palavras.
 
 - **Iniciante em IA:** descreva o que você quer fazer; as skills guiam o próximo passo, e você aprova o que é gerado.
-- **Experienced builders:** carry useful project criteria between sessions and models.
-- **Teams using spec-kit or another workflow:** Lore keeps project criteria alongside your process tools; it does not replace them. See [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md).
-- **Readers interested in the research:** [LUS explains the research questions and their evidence boundaries](./docs/LUS_en.md).
+- **Builders Exeprientes:** carregue critérios úteis do seu projeto entre sessões e modelos.
+- **Equipes que utilizam Spec-Kit ou outro fluxo de trabalho:** O Lore mantém os critérios do seu projeto junto às suas ferramentas; ele não as substitui. Consulte [`SPEC_KIT_en.md`](./docs/SPEC_KIT_en.md).
+- **Leitores interessados na pesquisa:** [LUS explica as perguntas de pesquisa e até onde as evidências permitem chegar] ](./docs/LUS_en.md).
 
-## Start building your Lore
+##  Comece a construir seu Lore
 
-For work that spans sessions, the kit can propose a short agreement about its purpose and limits; you decide whether to use it. When a task leaves a lesson worth carrying forward, Lore can turn it into an **Invariant Clue**: a short rule you can reuse.
+Para trabalhos que se estendem por várias sessões, o kit pode propor um breve acordo sobre seu propósito e limites; você decide se quer utilizá-lo. Quando uma tarefa deixa um aprendizado que vale a pena levar adiante, Lore pode transformá-lo em uma **Pista Invariante*: uma pequena regra que você pode reutilizar posteriormente.
 
-| Instead of remembering | Lore keeps |
+| Ao invés de lembrar | Lore guarda |
 |---|---|
-| “The AI wrote a report that was too technical for the reader” | “Before drafting, identify who will read it and explain every unfamiliar term in plain language” |
-| “A meeting summary omitted who was responsible for each task” | “Every meeting summary ends with each task, its owner and its deadline” |
+| "A IA escreveu um relatório técnico demais para o leitor" | "Antes de redigir, identifique quem vai ler o texto e explique todos os termos técnicos em linguagem simples" |
+| "Um resumo da reunião omitiu quem era o responsável por cada tarefa" | "Cada resumo de reunião termina com cada tarefa, seu responsável e seu prazo" |
 
-### The loop
+### O loop
 
 <p align="center">
   <img src="https://i.imgur.com/y3fsT7D.png" alt="Lore" width="100%">
 </p>
 
-Each lesson is proposed, read, and approved before it is written. Lore loads approved criteria before work begins. The claim that accumulated experience changes later decisions is a research hypothesis, not a demonstrated mechanism; [LUS documents that boundary](./docs/LUS_en.md).
+Cada aprendizado é proposto, analisado e aprovado antes de ser escrito. O Lore carrega os critérios aprovados antes do início do trabalho. A afirmação de que a experiência acumulada influencia decisões posteriores é uma hipótese de pesquisa, não um mecanismo comprovado; [o LUS documenta essa limitação](./docs/LUS_en.md).
 
 ---
 
