@@ -198,7 +198,7 @@ test("S2-3: ask y deny protegen la misma ruta normalizada en Windows", async (t)
   const { buildPermissions } = await import(pathToFileURL(join(KIT, "scripts/opencode-permissions.mjs")));
   for (const permission of ["ask", "deny"]) {
     // Las mayusculas solo equivalen en Windows; en POSIX `HERMANO` es otra carpeta, y ahi basta `/./`.
-    const alternate = sibling.replaceAll("\\", "/").replace("/hermano", process.platform === "win32" ? "/./HERMANO" : "/./hermano").replace("/**", "/**");
+    const alternate = sibling.replaceAll("\\", "/").replace("/hermano", process.platform === "win32" ? "/./HERMANO" : "/./hermano");
     const rules = buildPermissions({ siblings: [sibling], project: root, existing: {
       permission: { external_directory: { [`${alternate}/**`]: permission } },
     } }).permission.external_directory;
