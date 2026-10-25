@@ -112,4 +112,5 @@ export const NO_VIAJA_EN_LA_ENTRADA_LOCAL = new Map([
   ["crystallize", "shells out to skills/transmute-lore/scripts/crystallize.mjs, which does not travel in a short chain"],
   ["opencode-permissions", "writes the host's OpenCode config; the local entry stays read-only"],
   ["opencode-sandbox", "writes the host's OpenCode config; the local entry stays read-only"],
+  ["operation", "writes the operation state in FASES.md and loads the coordinator and kernel, which do not travel in the read-only short chain"],
 ]);

@@ -5,6 +5,30 @@ const nonempty = value => typeof value === "string" && value.trim().length > 0;
 const dimensions = new Set(["scope", "sequence", "authority", "artifact", "reversibility", "commitment"]);
 export const CARD_RULE = "owner-approved-2026-10-08";
 
+const taskDecks = ["Eno", "Schmidt", "baraja-entre"];
+const estimatedTokens = text => Math.ceil(text.length / 4);
+
+export function renderTaskCard(offer) {
+  const card = offer?.card;
+  if (!card || typeof card.texto !== "string") return null;
+  return `[Baraja] Perturbación ofrecida (no requerida): "${card.texto}" — Fuente: ${card.fuente}. Total disponibles: ${card.total}.`;
+}
+
+export function offerTaskCard(operation, { taskId, semilla = null } = {}) {
+  if (!operation?.id || !["running", "authorized"].includes(operation.state)) throw new Error("task card requires a started operation");
+  if (typeof taskId !== "string" || !taskId.trim()) throw new Error("task card requires a task id");
+  if ((operation.perturbations ?? []).some(item => item.task_id === taskId)) throw new Error("a card was already offered; no unsolicited repetition");
+  const index = (operation.perturbations ?? []).length % taskDecks.length;
+  const card = tirarCarta({ semilla, fuente: taskDecks[index] });
+  const perturbation = {
+    id: `${operation.id}-${taskId}-card`, task_id: taskId, card, offered_at: new Date().toISOString(),
+    eligibility: { kind: "task-start" }, decision_before: null, response_status: "offered", response_at: null,
+    decision_after: null, classification_status: "pending", classification: null, evidence: null,
+    silent: true, estimated_tokens: estimatedTokens(card.texto),
+  };
+  return { ...operation, perturbations: [...(operation.perturbations ?? []), perturbation] };
+}
+
 export function cardEligibility(operation, decisionPoint = null) {
   if (!operation?.id || ["closed", "cancelled"].includes(operation.state)) return null;
   const wall = attemptWall(operation);

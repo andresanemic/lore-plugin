@@ -1,16 +1,18 @@
 // coordinator — el flujo por rol de una operacion: cada tarea se planifica con su encargo completo,
 // se lanza solo por una ruta que el host expone de verdad, y avanza recibida -> revisada -> verificada
 // -> integrada como hechos distintos que no se infieren uno del otro. Todo es puro sobre el artefacto:
-// cada funcion devuelve uno nuevo y el recibido no se toca. La unica excepcion es receiveTask, que lee
-// el archivo que el ejecutor dejo de verdad: recibida es un hecho del disco, no una declaracion.
+// cada funcion devuelve uno nuevo y el recibido no se toca. Recepcion, integracion y cierre leen
+// los archivos reales: sus huellas son hechos del disco, no declaraciones.
 import { createHash } from "node:crypto";
 import { existsSync, realpathSync, readFileSync } from "node:fs";
 import { readFile } from "node:fs/promises";
-import { dirname, relative, resolve } from "node:path";
+import { dirname, isAbsolute, relative, resolve } from "node:path";
 import { assertExecuted } from "./verification-execution.mjs";
 import { classifyDelegateOutput } from "./host-resources.mjs";
 import { appendCheckpoint, nextLegitimateAction, retryGate, statePath, transitionArtifact, validateGateBContract, saveOperationState, loadOperationState } from "./operation-state.mjs";
 import { routeOperation, OPTIONAL_CAPABILITIES } from "./vespi.mjs";
+import { buildTaskMethod, kitWorkerAgentType, loadShippedMethod, packageDigest, renderCommission, renderTaskPrompt } from "./task-method.mjs";
+import { renderTaskCard } from "./cards.mjs";
 
 // La ruta no se decide aqui: sale de lo que el host expone (routeOperation). Cada rol pide la suya, y
 // una herramienta ausente es un bloqueo con nombre, nunca una invocacion simulada.
@@ -260,6 +262,7 @@ export function operationTrust(artifact) {
     if (!task.verification?.executed) { notCovered.push(`${task.id}: no executed domain verification`); continue; }
     try {
       const execution = assertExecuted(artifact, task, task.verification.evidence);
+      if (task.state === 'integrated') verifyIntegration(task);
       for (const check of task.verification.evidence.checks ?? []) {
         coverage.push({ task: task.id, observation: check.observation, source: check.evidence, passed: check.passed === true });
       }
@@ -339,6 +342,14 @@ export function declareEffect(artifact, { effect, economy = null, chain = null }
   return { ...artifact, effect, economy: economy ?? null, chain: chain ?? null, defects };
 }
 
+// Una tarea solo se planifica para una obligacion ya declarada: si no, nunca podria servir de evidencia y
+// el error se descubriria tarde, al cumplirla.
+function declaredObligationId(artifact, obligation, role) {
+  if (typeof obligation !== "string" || !obligation.trim()) throw new Error(`${role} obligation must be a non-empty obligation id`);
+  if (!(artifact?.obligations ?? []).some((item) => item.id === obligation)) throw new Error(`${role} cannot be planned for obligation ${obligation}: declare it first`);
+  return obligation;
+}
+
 // planTask: la tarea nace con su encargo completo o no nace. Un encargo al que le falta el alcance,
 // el criterio de terminado o la prueba es un encargo que vuelve como opinion.
 export function planTask(artifact, spec = {}) {
@@ -371,6 +382,14 @@ export function planTask(artifact, spec = {}) {
   }
   if (!present(spec.nextCheckAt) || Number.isNaN(Date.parse(spec.nextCheckAt))) {
     throw new Error(`${role} needs a nextCheckAt (ISO date): when it is observed again`);
+  }
+  // Un final declarado se planifica con su propio encargo o no se planifica: mismo destino, mismo
+  // criterio y las fuentes declaradas, para que el juez juzgue contra lo que el encargo pedia.
+  const finalOutput = spec.final_output === undefined ? null : declaredFinalOutput(artifact, spec.final_output, spec);
+  // Cada salida declarada tiene exactamente una tarea viva (decision §1.2): una segunda tarea para el
+  // mismo final dejaria dos composiciones y el cierre elegiria una sin decirlo.
+  if (finalOutput && (artifact?.tasks ?? []).some((task) => task.final_output === finalOutput && task.state !== "cancelled")) {
+    throw new Error(`final output ${finalOutput} already has a task; an output admits exactly one live task`);
   }
   // El plazo se CONGELA aqui, al nace la tarea, y no se recalcula al consultarlo: es lo que hace el
   // kernel con su `dueAt`, y con el mismo motivo —guardar un reloj de creación obliga a que quien
@@ -407,10 +426,17 @@ export function planTask(artifact, spec = {}) {
     ...(spec.context ? { context: spec.context } : {}),
     ...(spec.scope ? { scope: spec.scope } : {}),
     ...(spec.done_criterion ? { done_criterion: spec.done_criterion } : {}),
+    // La obligacion del encargo que esta tarea cumple: solo asi su verificacion cuenta como evidencia de
+    // esa obligacion al cerrar (R2 de la revision de L1).
+    ...(spec.obligation !== undefined ? { obligation: declaredObligationId(artifact, spec.obligation, role) } : {}),
+    ...(finalOutput ? { final_output: finalOutput } : {}),
     ...(spec.proof ? { proof: spec.proof } : {}),
     ...(MUST_DECLARE_BY_ROLE[role] ? { must_declare: [...MUST_DECLARE_BY_ROLE[role]] } : {}),
   };
-  const planned = { ...artifact, tasks: [...tasks, task] };
+  // El metodo se fija en la operacion al planificar la primera tarea y no cambia despues: coordinador y
+  // trabajadores trabajan con el mismo texto, y uno distinto a mitad de operacion se rechaza al entregar.
+  const { sha256: methodSha } = artifact?.method ?? loadShippedMethod();
+  const planned = { ...artifact, method: { sha256: methodSha, path: "skills/vespi/method.md" }, tasks: [...tasks, task] };
   planned.next_legitimate_action = nextLegitimateAction(planned);
   return { artifact: planned, task };
 }
@@ -437,11 +463,12 @@ function declaredRouteOf({ declaredTools = [], hostName = null, model = null, ef
   };
 }
 
-// dispatchTask: o corre por una ruta que el host expone, o queda bloqueada con la razon de la
-// herramienta que falta. Nunca inventan un ejecutor para que la tarea parezca viva.
-export function dispatchTask(artifact, taskId, { host = {}, hostName = null, model = null, effort = null, process = null, now = null, declaredTools = [], retryChange = null } = {}) {
+// Las condiciones para lanzar, separadas del lanzamiento: deliverTask las comprueba antes de llamar al
+// host y dispatchTask las vuelve a comprobar al registrar. Devuelve la tarea efectiva, con la instruccion
+// de reintento ya aplicada, o el artefacto detenido para buscar.
+function dispatchGate(artifact, taskId, retryChange) {
   const retry = retryGate(artifact);
-  if (retry.blocked) return stopForSearch(artifact, taskId, retry.stop);
+  if (retry.blocked) return { stopped: stopForSearch(artifact, taskId, retry.stop) };
   if (!DISPATCHABLE.has(artifact?.state) && !(artifact.state === "blocked" && artifact.retry_stop?.status === "resolved")) {
     throw new Error(`dispatch needs an authorized operation: state ${String(artifact?.state)} authorizes nobody to run`);
   }
@@ -462,6 +489,21 @@ export function dispatchTask(artifact, taskId, { host = {}, hostName = null, mod
   if (task.received && !task.review) {
     throw new Error(`dispatch blocked: ${taskId} has a delivery pending review; resolve that delivery before commissioning another execution`);
   }
+  return { task, retryExecution };
+}
+
+// dispatchTask: o corre por una ruta que el host expone, o queda bloqueada con la razon de la
+// herramienta que falta. Nunca inventan un ejecutor para que la tarea parezca viva. La entrega de un
+// trabajador no entra por aqui: una `delivery` en las opciones publicas se ignora, porque la escribiria el
+// mismo llamador que quiere saltarse al host. Solo deliverTask la pasa, por la funcion interna.
+export function dispatchTask(artifact, taskId, { delivery: _ignorada, ...options } = {}) {
+  return launchTask(artifact, taskId, options, null);
+}
+
+function launchTask(artifact, taskId, { host = {}, hostName = null, model = null, effort = null, process = null, now = null, declaredTools = [], retryChange = null } = {}, delivery) {
+  const gate = dispatchGate(artifact, taskId, retryChange);
+  if (gate.stopped) return gate.stopped;
+  const { task, retryExecution } = gate;
   const route = routeOperation({ intent: INTENT_BY_ROLE[task.role], host });
   const declared = declaredRouteOf({ declaredTools, hostName, model, effort, now });
   if (!route.available) {
@@ -487,6 +529,10 @@ export function dispatchTask(artifact, taskId, { host = {}, hostName = null, mod
     // operacion se quedaria en `authorized` sin camino legal hasta `closed`.
     return advanceTo(bloqueada, "running", `tarea ${taskId} declarada por ${declared?.by ?? "nadie"} y no ejecutada por este proceso`);
   }
+  // Un trabajador no corre porque el host exponga delegate: corre porque su paquete cruzo el limite.
+  if (route.intent === "delegation" && delivery?.delivered !== true) {
+    throw new Error(`dispatch of ${taskId} needs a delivered task package: use deliverTask, which hands the method and the commission to host.delegate before the task runs`);
+  }
   const startedAt = clockIso(now);
   const executor = {
     by: `${hostName ?? "unknown"}/${model ?? "unknown"}`,
@@ -503,9 +549,141 @@ export function dispatchTask(artifact, taskId, { host = {}, hostName = null, mod
     by: executor.by,
     blocked: null,
     executor,
+    ...(delivery ? { delivery } : {}),
+    // Una entrega observada se consume al lanzar: el mismo tool_use no vuelve a poner la tarea en marcha
+    // tras un rechazo de verificacion (R1 de la revision de L1).
+    ...(delivery?.host_observation?.tool_use_id ? { consumed_tool_use_ids: [...(task.consumed_tool_use_ids ?? []), delivery.host_observation.tool_use_id] } : {}),
     deadline: new Date(Date.parse(startedAt) + Number(task.timeoutMs)).toISOString(),
   });
   return advanceTo(running, "running", `tarea ${taskId} lanzada por ${executor.by}`);
+}
+
+// taskPrompt: el encargo canonico de un trabajador, tal como debe cruzar el limite de un host que el kit
+// no llama (Claude Code lanza el trabajador con su propia herramienta). Usa el metodo fijado en la
+// operacion; si el metodo distribuido cambio desde que se planifico, no hay prompt.
+export function taskPrompt(artifact, taskId) {
+  const gate = dispatchGate(artifact, taskId, null);
+  if (gate.stopped) throw new Error(`operation is stopped for search; ${taskId} has no commission to deliver`);
+  if (INTENT_BY_ROLE[gate.task.role] !== "delegation") throw new Error(`taskPrompt renders a worker commission; ${gate.task.role} is not a worker`);
+  const shipped = loadShippedMethod();
+  if (shipped.sha256 !== (artifact.method?.sha256 ?? shipped.sha256)) {
+    throw new Error(`the shipped method changed since planning (pinned ${artifact.method.sha256}); re-plan before delivering`);
+  }
+  const pkg = buildTaskMethod({ operation: artifact, task: gate.task, methodText: shipped.content, cardContent: taskCardContent(artifact, taskId) });
+  const prompt_sha256 = packageDigest(pkg);
+  const commission = renderCommission(pkg);
+  const commission_sha256 = createHash("sha256").update(commission).digest("hex");
+  // La referencia es lo que el coordinador escribe en la herramienta de agentes: el hook del host la
+  // expande, y el modelo nunca copia el metodo a mano. `reference` lleva al encargo con el metodo dentro;
+  // `worker_reference`, al encargo sin metodo para el trabajador del kit, que lo trae en su definicion.
+  return {
+    prompt: renderTaskPrompt(pkg), prompt_sha256, method_sha256: pkg.method.sha256,
+    reference: `@lore-task ${artifact.id} ${taskId} sha256:${prompt_sha256}`,
+    commission, commission_sha256,
+    worker_reference: `@lore-task ${artifact.id} ${taskId} sha256:${commission_sha256}`,
+  };
+}
+
+function taskCardContent(artifact, taskId) {
+  const offer = artifact.perturbations?.find(item => item.task_id === taskId);
+  return offer ? renderTaskCard(offer) : null;
+}
+
+// La herramienta del host que lanzo al trabajador vive fuera de este proceso: la ruta existe porque el
+// host la observo, no porque aqui haya una funcion que llamar. Llamarla es un error.
+const OBSERVED_OUT_OF_PROCESS = { delegate: () => { throw new Error("delegation observed out of process; nothing to call here"); } };
+
+// confirmObservedDelivery: pone en marcha a un trabajador solo con una observacion del host cuya huella
+// coincide con el encargo canonico y que el transcript de la sesion respalda. Sin observacion, o sin ese
+// respaldo, la tarea queda bloqueada y nada se da por ejecutado. La integridad de la observacion es la del
+// mismo usuario del sistema operativo, y se declara.
+//
+// Dos rutas. `prompt`: el trabajador recibio el encargo con el metodo dentro. `kit-worker`: recibio el
+// encargo sin metodo y el metodo le llego en la definicion del trabajador del kit; entonces hacen falta las
+// tres pruebas del host: el tipo de agente que lanzo, el primer mensaje del subagente y la huella del metodo
+// en la definicion que el hook leyo al lanzar.
+export function confirmObservedDelivery(artifact, taskId, { observation = null, hostName = null, model = null, effort = null, process = null, now = null } = {}) {
+  const { prompt_sha256: fullSha, commission_sha256: commissionSha, method_sha256 } = taskPrompt(artifact, taskId);
+  const kitWorker = observation?.route === "kit-worker";
+  const prompt_sha256 = kitWorker ? commissionSha : fullSha;
+  const task = taskById(artifact, taskId);
+  const base = { package_sha256: prompt_sha256, method_sha256, observed_by: "claude-code-hook", at: clockIso(now) };
+  const bloquear = (cause) => advanceTo(replaceTask(artifact, {
+    ...task,
+    state: "blocked",
+    by: "coordinador",
+    executor: null,
+    delivery: { ...base, host_observation: observation ? { ...observation } : null, recipient: null, delivered: false },
+    blocked: { cause, next_action: `lanzar ${taskId} con la herramienta de agentes del host y el prompt de \`operation prompt\`, y confirmar de nuevo`, owner: "coordinador", executed: false },
+  }), "running", `tarea ${taskId} no confirmada: ${cause}`);
+  if (!observation) return bloquear("delivery not observed by the host: no Pre/Post pair carries this prompt");
+  if ((task.consumed_tool_use_ids ?? []).includes(observation.tool_use_id)) return bloquear(`delivery already consumed: tool_use ${observation.tool_use_id} launched this task before; launch the worker again`);
+  if (!present(observation.tool_use_id)) return bloquear("delivery not observed by the host: the observation names no tool_use");
+  if (observation.prompt_sha256 !== prompt_sha256) return bloquear("delivery not observed by the host for this prompt: the observed fingerprint differs");
+  // Una referencia solo cuenta si el hook la expandio en el host: el transcript guarda lo que escribio el
+  // modelo (la referencia) y el registro, que el hook la sustituyo por el encargo de esa misma huella.
+  const respaldada = observation.transcript === "matched" || (observation.transcript === "matched-reference" && observation.expanded_by_host === true);
+  if (!respaldada) return bloquear(`delivery not backed by the session transcript (${observation.transcript ?? "unknown"})`);
+  if (observation.worker_received === "mismatch") return bloquear("the worker's own transcript shows another commission: the method did not arrive as planned");
+  if (kitWorker) {
+    const expectedType = kitWorkerAgentType();
+    if (observation.worker_agent_type !== expectedType) return bloquear(`the commission reached an agent type other than this plugin's kit worker (${observation.worker_agent_type ?? "unknown"}, expected ${expectedType}): without its definition the method did not arrive`);
+    if (observation.definition_method_sha256 !== method_sha256) return bloquear("the kit worker definition did not carry the method pinned in the operation");
+    if (observation.worker_received !== "matched") return bloquear(`the kit worker's own transcript does not show the commission (${observation.worker_received ?? "unknown"})`);
+  }
+  return launchTask(artifact, taskId, { host: OBSERVED_OUT_OF_PROCESS, hostName, model, effort, process, now }, {
+    ...base,
+    host_observation: {
+      tool_use_id: observation.tool_use_id, session_id: observation.session_id ?? null, route: kitWorker ? "kit-worker" : "prompt",
+      transcript: observation.transcript, expanded_by_host: observation.expanded_by_host === true, worker_received: observation.worker_received ?? "absent",
+      ...(kitWorker ? { worker_agent_type: observation.worker_agent_type, definition_method_sha256: observation.definition_method_sha256 } : {}),
+      integrity: "same-os-user",
+    },
+    recipient: observation.agent_id ?? observation.tool_use_id,
+    delivered: true,
+  });
+}
+
+// deliverTask: la entrega real a un trabajador. Arma el paquete con el metodo distribuido, el objetivo,
+// las fuentes y el terminado; lo pasa a host.delegate y solo despues registra la tarea en marcha, con la
+// huella del paquete que cruzo el limite y el destinatario que dice el host. Sin metodo falla antes de
+// llamar al host; si el host no toma el paquete, la tarea queda bloqueada y nada se ejecuto.
+export async function deliverTask(artifact, taskId, { host = {}, hostName = null, model = null, effort = null, process = null, now = null, retryChange = null, methodText } = {}) {
+  const gate = dispatchGate(artifact, taskId, retryChange);
+  if (gate.stopped) return gate.stopped;
+  if (INTENT_BY_ROLE[gate.task.role] !== "delegation") {
+    throw new Error(`deliverTask hands a package to a worker; ${gate.task.role} delivery is not implemented yet`);
+  }
+  const text = methodText === undefined ? loadShippedMethod().content : methodText;
+  const pkg = buildTaskMethod({ operation: artifact, task: gate.task, methodText: text, cardContent: taskCardContent(artifact, taskId) });
+  const pinned = artifact.method?.sha256 ?? loadShippedMethod().sha256;
+  if (pkg.method.sha256 !== pinned) {
+    throw new Error(`method text differs from the method pinned in the operation (${pinned}); a worker receives the same method the coordinator planned with`);
+  }
+  const route = routeOperation({ intent: "delegation", host });
+  if (!route.available) return dispatchTask(artifact, taskId, { host, hostName, model, effort, process, now, retryChange });
+  const prompt = renderTaskPrompt(pkg);
+  // Lo que se registra es un acuse del adaptador, no una observacion del host: el adaptador en proceso lo
+  // escribe el mismo coordinador. La observacion del host (un hook que ve el prompt real) va aparte.
+  const base = { package_sha256: packageDigest(pkg), method_sha256: pkg.method.sha256, observed_by: "adapter-acknowledgement", host_observation: null, at: clockIso(now) };
+  const noEntregada = (cause) => advanceTo(replaceTask(artifact, {
+    ...gate.task,
+    state: "blocked",
+    by: "coordinador",
+    executor: null,
+    delivery: { ...base, recipient: null, delivered: false },
+    blocked: { cause, next_action: `revisar el host y volver a entregar ${taskId}; nada se ejecuto`, owner: "coordinador", executed: false },
+  }), "running", `tarea ${taskId} no entregada: ${cause}`);
+  let response;
+  try {
+    response = await host.delegate({ kind: "task", operationId: pkg.operationId, taskId, prompt, package: pkg });
+  } catch (error) {
+    return noEntregada(`host did not take the package: ${error?.message ?? String(error)}`);
+  }
+  if (typeof response?.recipient !== "string" || !response.recipient.trim() || response?.received_sha256 !== base.package_sha256) {
+    return noEntregada("adapter did not acknowledge the exact prompt: it must return a recipient and the sha256 of the prompt it received");
+  }
+  return launchTask(artifact, taskId, { host, hostName, model, effort, process, now, retryChange }, { ...base, recipient: response.recipient, delivered: true });
 }
 
 // observeTask: deja escrito que se vio, cuando, y si seguia viva. Una hora posterior al deadline
@@ -631,7 +809,7 @@ function fueraDe(root, candidate) {
 
 function contiene(base, target) {
   const rel = relative(base, target);
-  return rel === "" || (!rel.startsWith("..") && !/^[a-zA-Z]:/.test(rel));
+  return rel === "" || (!rel.startsWith("..") && !isAbsolute(rel));
 }
 
 // El ultimo ancestro que existe, resuelto: asi una ruta que todavia no se creo tambien sale por donde
@@ -677,9 +855,12 @@ export async function receiveTask(artifact, taskId, { path = null, exitCode = nu
       },
     });
   }
+  // Se lee exactamente la ruta que fueraDe valido, resuelta contra el root de la operacion: una ruta
+  // relativa cruda se resolveria contra el cwd del proceso y sellaria los bytes de un arbol ajeno.
+  const archivo = resolve(root, String(file));
   let bytes;
   try {
-    bytes = await readFile(file);
+    bytes = await readFile(archivo);
   } catch (error) {
     if (error?.code === "ENOENT") throw new Error(`the declared output does not exist: ${file}`);
     throw new Error(`the declared output could not be read: ${file} (${error?.code ?? "unreadable"})`);
@@ -688,7 +869,7 @@ export async function receiveTask(artifact, taskId, { path = null, exitCode = nu
   if (advisorRecovery) {
     const sha256 = createHash("sha256").update(bytes).digest("hex");
     if (!task.received?.sha256 || sha256 !== task.received.sha256
-        || resolve(file) !== resolve(task.received.path ?? task.output.path)) {
+        || archivo !== resolve(root, task.received.path ?? task.output.path)) {
       return replaceTask(artifact, {
         ...task,
         state: "blocked",
@@ -734,7 +915,7 @@ export async function receiveTask(artifact, taskId, { path = null, exitCode = nu
     ...(actualMs !== null ? { actualMs } : {}),
     received: {
       root: realpathSync(root),
-      path: file,
+      path: archivo,
       sha256: createHash("sha256").update(bytes).digest("hex"),
       bytes: bytes.length,
       at: finishedAt,
@@ -888,25 +1069,338 @@ export function verifyTask(artifact, taskId, { verifier, observed, evidence } = 
   });
 }
 
-// integrateTask: integrada nombra donde queda el resultado verificado. Sin destino, no hay integracion.
+function integrationReference(task, destination) {
+  const root = task.received?.root;
+  if (!present(root)) throw new Error('integration destination needs the received project root');
+  if (!present(destination)) throw new Error('integration needs a destination: where the verified output lands');
+  if (fueraDe(root, destination)) throw new Error('integration destination escapes the received project root');
+  const path = resolve(root, destination);
+  let bytes;
+  try { bytes = readFileSync(path); }
+  catch { throw new Error('integration destination is missing or unreadable; place the verified output there first'); }
+  const sha256 = createHash('sha256').update(bytes).digest('hex');
+  if (sha256 !== task.received.sha256) throw new Error('integration destination digest differs from the verified output; receive, review and verify the composed artifact before integrating it');
+  return { path, sha256 };
+}
+
+function verifyIntegration(task) {
+  const reference = integrationReference(task, task.integration?.destination);
+  if (task.integration?.path !== reference.path || task.integration?.sha256 !== reference.sha256) {
+    throw new Error('integration destination evidence is missing or changed; integrate the verified output again');
+  }
+}
+
+// Integrar acredita los bytes del destino; una sintesis nueva necesita su propia verificacion.
 export function integrateTask(artifact, taskId, { destination } = {}) {
   const task = taskById(artifact, taskId);
-  if (task.state !== "verified") throw new Error(`integrateTask needs a verified task: ${taskId} is ${task.state}`);
+  if (["closed", "cancelled"].includes(artifact.state)) throw new Error('integration cannot change a terminal operation');
+  if (!["verified", "integrated"].includes(task.state)) throw new Error(`integrateTask needs a verified task: ${taskId} is ${task.state}`);
   if (!present(destination)) throw new Error("integration needs a destination: where the verified output lands");
   verifyCoverage(task, task.verification?.evidence);
   assertExecuted(artifact, task, task.verification?.evidence);
+  const reference = integrationReference(task, destination);
   return replaceTask(artifact, {
     ...task,
     state: "integrated",
     by: task.verification?.by ?? "coordinador",
-    integration: { destination, at: new Date().toISOString() },
+    integration: { destination, ...reference, at: new Date().toISOString() },
   });
+}
+
+// Obligaciones del encargo: todo lo que la persona pidio entregar, no solo el artefacto que una prueba
+// tecnica mira (un texto y, ademas, ofrecer guardar lo aprendido). Se declaran una vez y quedan fijadas
+// por su huella, que ademas queda escrita en un checkpoint: resumir, despachar o borrar los campos no las
+// quita (R5 de la revision de L1). Cada una se cumple con evidencia propia, y el cierre no certifica
+// conformidad mientras falte alguna, aunque las verificaciones tecnicas pasen.
+const obligationsDigest = (obligations) => createHash("sha256").update(JSON.stringify(obligations.map(({ id, description }) => ({ id, description })))).digest("hex");
+const OBLIGATIONS_NOTE = "obligaciones declaradas sha256:";
+const filled = (value) => typeof value === "string" && value.trim().length > 0;
+
+export function declareObligations(artifact, obligations) {
+  if (["closed", "cancelled"].includes(artifact?.state)) throw new Error("obligations cannot change a terminal operation");
+  if (Array.isArray(artifact?.obligations) || declaredInTrail(artifact) !== null) throw new Error("obligations already declared; changing the mandate is a decision of its owner");
+  if (!Array.isArray(obligations) || obligations.length === 0) throw new Error("declareObligations needs at least one obligation");
+  const ids = new Set();
+  const declared = obligations.map((item) => {
+    if (!filled(item?.id) || !filled(item?.description)) throw new Error("each obligation needs an id and a description");
+    if (ids.has(item.id)) throw new Error(`duplicate obligation id: ${item.id}`);
+    ids.add(item.id);
+    return { id: item.id, description: item.description, fulfilled: null };
+  });
+  const digest = obligationsDigest(declared);
+  let withList = { ...artifact, obligations: declared, obligations_sha256: digest };
+  // Declarar obligaciones despues de los finales es un orden legitimo y no bloquea el cierre: la
+  // huella de los finales cubre las obligaciones en vigor, asi que se recalcula con la lista nueva
+  // y su nota del rastro dice la huella vigente. Editar la lista a mano sigue invalidando el cierre.
+  if (Array.isArray(artifact?.final_outputs) && artifact.final_outputs.length > 0) {
+    assertFinalOutputsUnchanged(artifact);
+    const finalDigest = finalOutputsDigest(withList, artifact.final_outputs);
+    withList = {
+      ...withList,
+      final_outputs_sha256: finalDigest,
+      ...(Array.isArray(withList.checkpoints)
+        ? { checkpoints: withList.checkpoints.map((cp) => (typeof cp?.note === "string" && cp.note.startsWith(FINAL_OUTPUTS_NOTE) ? { ...cp, note: `${FINAL_OUTPUTS_NOTE}${finalDigest}` } : cp)) }
+        : {}),
+    };
+  }
+  return Array.isArray(artifact?.checkpoints) ? appendCheckpoint(withList, { note: `${OBLIGATIONS_NOTE}${digest}` }) : withList;
+}
+
+// La evidencia de una obligacion es de una clase que el cierre puede contrastar, o una atestacion humana que
+// el cierre declara como tal. Un objeto cualquiera —`{offered:false}`, una nota— no cumple nada (H2), y una
+// misma evidencia no cumple dos obligaciones (R2 de la revision de L1):
+//   - `task`: una tarea planificada para ESA obligacion (`planTask({obligation})`), integrada al cierre;
+//   - `artifact`: `{path, sha256}` absolutos, cuyos bytes se vuelven a leer al cerrar; prueba que esos bytes
+//     existen y no cambiaron, no que respondan a la obligacion: el cierre la declara `content-unjudged`;
+//   - `attestation`: `{by, words}` de la persona; cierra, y el cierre la declara `attested`.
+const EVIDENCE_KINDS = ["task", "artifact", "attestation"];
+const absolutePath = (path) => typeof path === "string" && isAbsolute(path) && (process.platform !== "win32" || /^([A-Za-z]:[\\/]|\\\\)/.test(path));
+
+function evidenceKey(evidence) {
+  if (evidence.task !== undefined) return `task:${evidence.task}`;
+  // Los mismos bytes son la misma evidencia, se llame como se llame su ruta (copia, mayusculas, junction).
+  if (evidence.artifact !== undefined) return `artifact:${evidence.artifact.sha256}`;
+  return `attestation:${evidence.attestation.by.trim()}:${evidence.attestation.words.trim()}`;
+}
+
+// La evidencia de tipo artefacto exige `root` y cumple la misma contencion que la entrega de una tarea
+// (`fueraDe`, lexica y fisica): la operacion no guarda su root, y sin el no hay contra que medirla ni contra
+// que resolver una ruta al leerla. Las otras clases de evidencia no lo usan.
+function checkEvidenceShape(artifact, id, evidence, root = null) {
+  const kinds = evidence && typeof evidence === "object" && !Array.isArray(evidence) ? Object.keys(evidence) : [];
+  if (kinds.length !== 1 || !EVIDENCE_KINDS.includes(kinds[0])) {
+    throw new Error(`obligation ${id} is fulfilled only with evidence of one kind: ${EVIDENCE_KINDS.join(", ")}`);
+  }
+  if (kinds[0] === "task") {
+    const task = (artifact.tasks ?? []).find((candidate) => candidate.id === evidence.task);
+    if (!task) throw new Error(`obligation ${id}: unknown task ${String(evidence.task)}`);
+    if (task.obligation !== id) throw new Error(`obligation ${id}: task ${task.id} was not planned for this obligation`);
+  }
+  if (kinds[0] === "artifact" && (!absolutePath(evidence.artifact?.path) || !/^[0-9a-f]{64}$/.test(String(evidence.artifact?.sha256 ?? "")))) {
+    throw new Error(`obligation ${id}: artifact evidence needs an absolute path and its sha256`);
+  }
+  if (kinds[0] === "artifact" && !present(root)) {
+    throw new Error(`obligation ${id}: artifact evidence needs the operation root to check it stays inside the project`);
+  }
+  if (kinds[0] === "artifact" && fueraDe(root, evidence.artifact.path)) {
+    throw new Error(`obligation ${id}: artifact evidence is outside the operation root ${resolve(root)}; copy it inside the project`);
+  }
+  if (kinds[0] === "attestation" && (!filled(evidence.attestation?.by) || !filled(evidence.attestation?.words))) {
+    throw new Error(`obligation ${id}: an attestation needs who said it and their words`);
+  }
+}
+
+export function fulfillObligation(artifact, id, { evidence = null, at = null, root = null } = {}) {
+  if (["closed", "cancelled"].includes(artifact?.state)) throw new Error("obligations cannot change a terminal operation");
+  const found = (artifact?.obligations ?? []).find((item) => item.id === id);
+  if (!found) throw new Error(`unknown obligation: ${String(id)}`);
+  checkEvidenceShape(artifact, id, evidence, root);
+  const key = evidenceKey(evidence);
+  const other = artifact.obligations.find((item) => item.id !== id && item.fulfilled?.evidence && evidenceKey(item.fulfilled.evidence) === key);
+  if (other) throw new Error(`obligation ${id}: this evidence already fulfills another obligation (${other.id})`);
+  return { ...artifact, obligations: artifact.obligations.map((item) => (item.id === id ? { ...item, fulfilled: { evidence: structuredClone(evidence), at: at ?? new Date().toISOString() } } : item)) };
+}
+
+// Manda la PRIMERA declaracion del rastro: una nota posterior no rebaja el mandato. Limite: los checkpoints
+// viven en el mismo FASES.md y no estan encadenados; quien borra o reescribe a la vez la lista, su huella y
+// la nota del rastro (el mismo usuario del sistema operativo) vuelve a abrir el cierre, y eso no se detecta aqui.
+function declaredInTrail(artifact) {
+  const note = (artifact?.checkpoints ?? []).find((cp) => typeof cp?.note === "string" && cp.note.startsWith(OBLIGATIONS_NOTE));
+  return note ? note.note.slice(OBLIGATIONS_NOTE.length) : null;
+}
+
+function assertObligationsMet(artifact, root = null) {
+  const trail = declaredInTrail(artifact);
+  if (!present(artifact?.obligations_sha256) && !Array.isArray(artifact?.obligations) && trail === null) return;
+  if (!Array.isArray(artifact.obligations) || !present(artifact.obligations_sha256)) {
+    throw new Error("obligations were declared for this operation but their list or fingerprint is missing; the declared mandate still holds");
+  }
+  if (obligationsDigest(artifact.obligations) !== artifact.obligations_sha256 || (trail !== null && trail !== artifact.obligations_sha256)) {
+    throw new Error("obligations changed after they were declared; the mandate in force is the declared one");
+  }
+  const unmet = artifact.obligations.filter((item) => item.fulfilled == null);
+  if (unmet.length > 0) {
+    throw new Error(`closure cannot certify conformity with the commission: unmet obligation ${unmet.map((item) => `${item.id} (${item.description})`).join(", ")}`);
+  }
+  const keys = new Set();
+  for (const item of artifact.obligations) {
+    const evidence = item.fulfilled.evidence;
+    try { checkEvidenceShape(artifact, item.id, evidence, root); } catch (error) { throw new Error(`closure cannot certify obligation ${item.id}: ${error.message}`); }
+    const key = evidenceKey(evidence);
+    if (keys.has(key)) throw new Error(`closure cannot certify obligation ${item.id}: its evidence also fulfills another obligation`);
+    keys.add(key);
+    if (evidence.task !== undefined) {
+      const task = artifact.tasks.find((candidate) => candidate.id === evidence.task);
+      if (task.state !== "integrated") throw new Error(`closure cannot certify obligation ${item.id}: task ${evidence.task} is not integrated`);
+    } else if (evidence.artifact !== undefined) {
+      let bytes = null;
+      try { bytes = readFileSync(resolve(root, evidence.artifact.path)); } catch { bytes = null; }
+      if (bytes === null || createHash("sha256").update(bytes).digest("hex") !== evidence.artifact.sha256) {
+        throw new Error(`closure cannot certify obligation ${item.id}: its artifact bytes no longer match the recorded sha256`);
+      }
+    }
+  }
+}
+
+// Lo que el cierre no cuenta como verificado de las obligaciones: la atestacion y el artefacto cuyo contenido
+// nadie juzgo contra la obligacion.
+const attestedObligations = (artifact) => (artifact?.obligations ?? []).flatMap((item) => {
+  const evidence = item.fulfilled?.evidence ?? {};
+  if (evidence.attestation !== undefined) return [`obligation:${item.id}:attested`];
+  if (evidence.artifact !== undefined) return [`obligation:${item.id}:content-unjudged`];
+  return [];
+});
+
+// Salidas finales declaradas: lo que el encargo pide entregar como resultado compuesto, no la suma de
+// sus piezas. Se declaran una sola vez con la misma forma y la misma regla que las obligaciones —la
+// lista, su huella y una nota en el rastro que manda sobre ediciones ordinarias— y la huella cubre
+// ademas el objetivo y las obligaciones vigentes. Sin recalcular huella y nota, esos cambios invalidan
+// el cierre; quien comparte el usuario del sistema puede reescribir los tres y el cierre lo acepta.
+const FINAL_OUTPUTS_NOTE = "salidas finales declaradas sha256:";
+
+const finalOutputsDigest = (artifact, outputs) => createHash("sha256").update(JSON.stringify({
+  outputs: outputs.map(({ id, path, criterion, sources }) => ({ id, path, criterion, sources: [...(sources ?? [])] })),
+  working_goal: artifact?.working_goal ?? null,
+  intent: artifact?.intent ?? null,
+  obligations: (artifact?.obligations ?? []).map(({ id, description }) => ({ id, description })),
+})).digest("hex");
+
+function declaredFinalOutputsInTrail(artifact) {
+  const note = (artifact?.checkpoints ?? []).find((cp) => typeof cp?.note === "string" && cp.note.startsWith(FINAL_OUTPUTS_NOTE));
+  return note ? note.note.slice(FINAL_OUTPUTS_NOTE.length) : null;
+}
+
+function assertFinalOutputsUnchanged(artifact) {
+  const trail = declaredFinalOutputsInTrail(artifact);
+  if (!Array.isArray(artifact?.final_outputs) || !present(artifact.final_outputs_sha256)) {
+    throw new Error("final outputs were declared but their list or fingerprint is missing; cannot update obligations");
+  }
+  if (finalOutputsDigest(artifact, artifact.final_outputs) !== artifact.final_outputs_sha256
+    || (trail !== null && trail !== artifact.final_outputs_sha256)) {
+    throw new Error("final outputs changed after they were declared; cannot update obligations");
+  }
+}
+
+function declaredFinalOutput(artifact, id, spec) {
+  const output = (artifact?.final_outputs ?? []).find((item) => item.id === id);
+  if (!output) throw new Error(`final output ${String(id)} was not declared`);
+  if (spec?.output?.path !== output.path) throw new Error(`final output ${id} is declared for ${output.path}`);
+  if (spec?.done_criterion !== output.criterion) throw new Error(`final output ${id} needs its declared criterion: ${output.criterion}`);
+  const plannedSources = Array.isArray(spec?.sources) ? spec.sources : [];
+  for (const source of output.sources ?? []) {
+    if (!plannedSources.includes(source)) throw new Error(`final output ${id} needs its declared sources: ${source}`);
+  }
+  return id;
+}
+
+export function declareFinalOutputs(artifact, outputs) {
+  if (["closed", "cancelled"].includes(artifact?.state)) throw new Error("final outputs cannot change a terminal operation");
+  if (Array.isArray(artifact?.final_outputs) || declaredFinalOutputsInTrail(artifact) !== null) throw new Error("final outputs already declared; changing the mandate is a decision of its owner");
+  if (!Array.isArray(outputs) || outputs.length === 0) throw new Error("declareFinalOutputs needs at least one output");
+  const ids = new Set(), paths = new Set();
+  const declared = outputs.map((item) => {
+    if (!filled(item?.id) || !filled(item?.path) || !filled(item?.criterion)) throw new Error("each final output needs an id, a path and a criterion");
+    // `C:x` es relativa a una unidad de Windows y `resolve(root, "D:x")` cae en D:\x: no esta dentro
+    // de la raiz de la operacion. Se rechaza junto con las absolutas y las que suben con `..`.
+    // Una ruta que empieza por `\` (raiz de unidad o UNC `\\srv\share`) es absoluta en Windows y un nombre
+    // valido en POSIX: la operacion puede cambiar de maquina, asi que se rechaza en todas.
+    if (isAbsolute(item.path) || /^\\/.test(item.path) || /^[A-Za-z]:/.test(item.path) || item.path.split(/[\\/]/).includes("..")) throw new Error(`final output ${item.id} path must stay inside the operation root: ${item.path}`);
+    if (item.sources !== undefined && (!Array.isArray(item.sources) || item.sources.some((source) => !filled(source)))) {
+      throw new Error(`final output ${item.id} sources must be a list of references`);
+    }
+    if (ids.has(item.id)) throw new Error(`duplicate final output id: ${item.id}`);
+    // Dos salidas no pueden apuntar al mismo archivo con otra grafia (mayusculas o `./`): el cierre
+    // elegiria una y la otra quedaria como si se hubiera integrado.
+    const alias = process.platform === "win32" ? resolve(item.path).toLowerCase() : resolve(item.path);
+    if (paths.has(alias)) throw new Error(`duplicate final output path: ${item.path}`);
+    ids.add(item.id);
+    paths.add(alias);
+    return { id: item.id, path: item.path, criterion: item.criterion, sources: [...(item.sources ?? [])] };
+  });
+  const digest = finalOutputsDigest(artifact, declared);
+  const withList = { ...artifact, final_outputs: declared, final_outputs_sha256: digest };
+  return Array.isArray(artifact?.checkpoints) ? appendCheckpoint(withList, { note: `${FINAL_OUTPUTS_NOTE}${digest}` }) : withList;
+}
+
+// El cierre no certifica lo que no se declaro. Con finales declarados exige, para cada uno, su tarea
+// integrada en el destino declarado y un recibo que el juez nativo aprobo. Cada fallo nombra la salida
+// que falta para que el cierre diga cual, no que "algo" fallo.
+function assertFinalOutputs(artifact) {
+  const declared = Array.isArray(artifact?.final_outputs);
+  const trail = declaredFinalOutputsInTrail(artifact);
+  if (!declared && !present(artifact?.final_outputs_sha256) && trail === null) return;
+  // Una lista vacia no es una declaracion: si hay nota o una huella que no es la del vacio, es un
+  // manifiesto recortado y se rechaza; si no, se trata como no declarada y el cierre la nombra.
+  if (declared && artifact.final_outputs.length === 0) {
+    if (trail !== null || (present(artifact.final_outputs_sha256) && artifact.final_outputs_sha256 !== finalOutputsDigest(artifact, []))) {
+      throw new Error("final outputs changed after they were declared; the mandate in force is the declared one");
+    }
+    return;
+  }
+  if (!declared || !present(artifact.final_outputs_sha256)) {
+    throw new Error("final outputs were declared for this operation but their list or fingerprint is missing; the declared mandate still holds");
+  }
+  assertFinalOutputsUnchanged(artifact);
+  for (const output of artifact.final_outputs) {
+    const task = (artifact.tasks ?? []).find((candidate) => candidate.final_output === output.id);
+    if (!task || task.state !== "integrated") throw new Error(`final output ${output.id} has no integrated task that composes it`);
+    try {
+      verifyCoverage(task, task.verification?.evidence);
+      assertExecuted(artifact, task, task.verification?.evidence);
+      verifyIntegration(task);
+      if (task.integration?.path !== resolve(task.received.root, output.path)) throw new Error(`it is not integrated at its declared path ${output.path}`);
+    } catch (error) {
+      throw new Error(`final output ${output.id}: ${error.message}`);
+    }
+  }
+}
+
+// El recibo de cierre separa lo que el kit midio de lo que solo alguien declaro: pruebas ejecutadas,
+// fuentes vinculadas, conformidad de cada final frente a su encargo, y las aprobaciones humanas. La
+// frontera declara lo que este host NO puede: detecta, no previene, y no tiene independencia real.
+const CLOSURE_BOUNDARY = { host: "same-os-user", prevents: [],
+  // Detecta una edicion del destino, del recibo o del manifiesto cuando NO se reescriben a la vez su
+  // huella y la nota del rastro. La misma persona del sistema operativo puede reescribir las tres y el
+  // cierre la acepta: es deteccion sin independencia, no prevencion (docs/VERIFICATION-EXECUTION.md).
+  detects: ["destination-bytes-at-closure", "receipt-edit-without-key", "manifest-edit-without-fingerprint-and-note"],
+  independence: "deteccion-sin-independencia" };
+
+function closureReceipt(artifact) {
+  const proofs = [], sources = [], commission_conformity = [];
+  for (const task of artifact.tasks ?? []) {
+    if (task.state !== "integrated") continue;
+    const evidence = task.verification?.evidence ?? {};
+    const execution = task.verification?.execution ?? {};
+    proofs.push({ task: task.id, adapter: execution.adapter ?? null, passed: evidence.notCovered?.length === 0,
+      checks: (evidence.checks ?? []).map((check) => ({ observation: check.observation, passed: check.passed === true })) });
+    for (const source of evidence.sources ?? []) sources.push({ task: task.id, ref: source.ref, sha256: source.evidence?.sha256 ?? null });
+    if (task.final_output) {
+      const output = (artifact.final_outputs ?? []).find((item) => item.id === task.final_output);
+      commission_conformity.push({ output: task.final_output, path: output?.path ?? null, sha256: task.integration?.sha256 ?? null,
+        // El veredicto de conformidad es el del juez que ejecuto la verificacion, no el del Advisor
+        // que reviso el encargo antes de ejecutar.
+        verdict: execution.passed === true ? "passed" : execution.passed === false ? "rejected" : null,
+        adapter: execution.adapter ?? null, thread: execution.thread ?? null });
+    }
+  }
+  const human_approval = (artifact.obligations ?? []).flatMap((item) => {
+    const attestation = item.fulfilled?.evidence?.attestation;
+    return attestation ? [{ obligation: item.id, by: attestation.by, words: attestation.words }] : [];
+  });
+  return { proofs, sources, commission_conformity, human_approval, boundary: { ...CLOSURE_BOUNDARY, prevents: [...CLOSURE_BOUNDARY.prevents], detects: [...CLOSURE_BOUNDARY.detects] } };
 }
 
 // closeOperation: no se cierra con una tarea abierta. Una tarea bloqueada con su razon si puede: su
 // bloqueo ya dice que falta y quien lo resuelve.
-export function closeOperation(artifact, { verification } = {}) {
+export function closeOperation(artifact, { verification, root = null } = {}) {
+  // `independence` y `closure` los escribe el kit: una etiqueta que aporta quien llama no se copia
+  // al registro, porque el recibo debe decir lo que el kit midio, no lo que el llamador declara.
+  const { independence: _etiquetaAjena, closure: _cierreAjeno, ...observed } = verification ?? {};
   if (retryGate(artifact).blocked) throw new Error("stop_and_search: resolve search or owner arbitration before closure");
+  // Antes de mirar las tareas: una salida declarada y no integrada se nombra por su id, no se pierde
+  // entre las tareas abiertas.
+  assertFinalOutputs(artifact);
+  assertObligationsMet(artifact, root);
   validateGateBContract({ ...artifact, next_action: artifact?.next_legitimate_action });
   const abiertas = (artifact?.tasks ?? []).filter(
     (task) => task.state !== "integrated" && !(task.state === "blocked" && present(task.blocked?.cause)),
@@ -919,27 +1413,40 @@ export function closeOperation(artifact, { verification } = {}) {
   if (!(artifact?.tasks ?? []).some((task) => task.state === "integrated")) {
     throw new Error("closure requires at least one integrated task with independent verification");
   }
-  if (verification?.verified !== true) throw new Error("closure requires a verified observation: verification.verified must be true");
+  if (observed.verified !== true) throw new Error("closure requires a verified observation: verification.verified must be true");
   for (const task of artifact?.tasks ?? []) {
     if (task.state === "integrated") {
       verifyCoverage(task, task.verification?.evidence);
       assertExecuted(artifact, task, task.verification?.evidence);
+      verifyIntegration(task);
     }
   }
-  if (verification?.observed !== true) throw new Error("closure requires a verification observed by whoever certifies");
-  if (!present(verification?.by)) throw new Error("closure requires a verification by a named certifier");
+  if (observed.observed !== true) throw new Error("closure requires a verification observed by whoever certifies");
+  if (!present(observed.by)) throw new Error("closure requires a verification by a named certifier");
   const integratedIds = (artifact.tasks ?? []).filter(task => task.state === "integrated").map(task => task.id);
-  if ((verification.verified_tasks ?? []).some(id => !integratedIds.includes(id))) throw new Error("closure cannot claim an unverified task in verified_tasks");
-  const notCovered = [...new Set([...(verification.notCovered ?? []),
+  if ((observed.verified_tasks ?? []).some(id => !integratedIds.includes(id))) throw new Error("closure cannot claim an unverified task in verified_tasks");
+  const notCovered = [...new Set([...(observed.notCovered ?? []),
     ...(artifact.tasks ?? []).filter(task => task.state !== "integrated").map(task => `task:${task.id}`),
-    ...(verification.unverified_effects ?? []).map(id => `effect:${id}`),
+    ...(observed.unverified_effects ?? []).map(id => `effect:${id}`),
     ...(artifact.effects ?? []).filter(effect => effect.status !== "verified" && effect.reconciliation !== "reconciled-absent").map((effect, index) => `effect:${effect.id ?? index}`),
     ...(artifact.uncertainty ?? []).map(item => `uncertainty:${typeof item === "string" ? item : JSON.stringify(item)}`),
     ...((artifact.tasks ?? []).length === 0 ? ["no verified tasks"] : []),
+    // Una obligacion cumplida por atestacion cierra, pero el cierre no la cuenta como verificada.
+    ...attestedObligations(artifact),
+    // Un final declarado se certifica con el juez nativo del host, y el kit no tiene ninguna ruta que
+    // produzca independencia real: mientras el verificador comparta el usuario del sistema operativo,
+    // el cierre lo declara y queda parcial. Antes de D2, lo compuesto no se certifica completo.
+    ...(Array.isArray(artifact.final_outputs) && artifact.final_outputs.length > 0
+      ? artifact.final_outputs.map((output) => `final-output:${output.id}:verifier-not-independent`) : []),
+    // Dos o mas tareas sin finales declarados: nada dice cual es el resultado, asi que el cierre lo
+    // declara en lugar de aceptar cualquier archivo escrito por terminal. Una lista vacia cuenta como
+    // no declarada: fabricar `final_outputs: []` no mejora el cierre. Una sola tarea cierra igual.
+    ...(!(Array.isArray(artifact.final_outputs) && artifact.final_outputs.length > 0) && (artifact.tasks ?? []).length >= 2 ? ["final-outputs:undeclared"] : []),
   ])];
-  let next = { ...artifact, verification: { ...verification,
+  let next = { ...artifact, verification: { ...observed,
     verified: notCovered.length === 0, verified_tasks: integratedIds,
     completion: notCovered.length === 0 ? "complete" : "partial", notCovered,
+    closure: closureReceipt(artifact),
   } };
   const already = CLOSURE_LADDER.indexOf(next.state);
   for (const state of already === -1 ? CLOSURE_LADDER : CLOSURE_LADDER.slice(already + 1)) {

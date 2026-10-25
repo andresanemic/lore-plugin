@@ -28,7 +28,8 @@ function packedPaths(root) {
       shell: true,
       env: { ...process.env, npm_config_cache: cache },
     });
-    const [summary] = JSON.parse(out);
+    const parsed = JSON.parse(out);
+    const summary = Array.isArray(parsed) ? parsed[0] : Object.values(parsed)[0]; // npm 11: arreglo; npm 12: objeto por paquete
     return (summary.files ?? []).map((entry) => entry.path.replaceAll("\\", "/"));
   } finally {
     rmSync(cache, { recursive: true, force: true });

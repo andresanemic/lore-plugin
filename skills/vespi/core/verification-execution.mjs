@@ -89,11 +89,30 @@ export function projectVerificationPacket(packet) {
       && Object.keys(value).length === 1 && (Object.hasOwn(value, '$vespiPacketRef') || Object.hasOwn(value, '$vespiPacketJsonText')))
       throw new Error('reserved packet projection reference collision');
     if (typeof value === 'string' && value.includes('<!-- vespi:operacion ')) {
-      const match = /([\s\S]*?<!-- vespi:operacion [^\s>]+ -->[\s\S]*?```json\s*?)(\{[\s\S]*?\})(\s*```[\s\S]*)$/.exec(value);
-      if (match) {
-        try { const parsed = JSON.parse(match[2]);
-          if (JSON.stringify(parsed) === match[2]) return {$vespiPacketJsonText: [match[1], visit(parsed,pointer(pointer(path,'$vespiPacketJsonText'),1)), visit(match[3],pointer(pointer(path,'$vespiPacketJsonText'),2))]};
+      const marker = value.indexOf('<!-- vespi:operacion ');
+      const fence = value.indexOf('```json', marker);
+      if (fence >= 0) {
+        const open = value.indexOf('{', fence + 7);
+        if (open >= 0 && /^\s*$/.test(value.slice(fence + 7, open))) {
+          let depth = 0, quoted = false, escaped = false, close = -1;
+          for (let i = open; i < value.length; i += 1) {
+            const char = value[i];
+            if (quoted) {
+              if (escaped) escaped = false;
+              else if (char === '\\') escaped = true;
+              else if (char === '"') quoted = false;
+            } else if (char === '"') quoted = true;
+            else if (char === '{') depth += 1;
+            else if (char === '}' && --depth === 0) { close = i + 1; break; }
+          }
+          const ending = close < 0 ? -1 : value.indexOf('```', close);
+          if (ending >= 0 && /^\s*$/.test(value.slice(close, ending))) {
+            const jsonText = value.slice(open, close);
+            try { const parsed = JSON.parse(jsonText);
+              if (JSON.stringify(parsed) === jsonText) return {$vespiPacketJsonText: [value.slice(0, open), visit(parsed,pointer(pointer(path,'$vespiPacketJsonText'),1)), visit(value.slice(close, ending + 3),pointer(pointer(path,'$vespiPacketJsonText'),2)) + value.slice(ending + 3)]};
         } catch {}
+          }
+        }
       }
     }
     const serialized = JSON.stringify(value);
@@ -278,14 +297,20 @@ function seal(evidence, binding, execution) {
   const receipt = structuredClone({ version: 1, binding, execution, evidence });
   return { ...evidence, execution_receipt: { ...receipt, signature: createHmac('sha256', key()).update(JSON.stringify(receipt)).digest('hex') } };
 }
+// La salida final declarada entra en el binding: un recibo sellado para una pieza parcial no sirve
+// para el final de la misma operacion, aunque los dos archivos tengan los mismos bytes.
 function bindingOf(artifact, task) {
+  const output = task.final_output ? (artifact.final_outputs ?? []).find(item => item.id === task.final_output) : null;
   return { operation: artifact.id ?? null, task: task.id,
     criterion: task.done_criterion ?? task.question, proof: task.proof ?? task.question,
     operation_root: task.received?.root ?? null, artifact_path: task.received?.path, artifact_sha256: task.received?.sha256,
     question: task.question ?? null, role: task.role ?? null, scope: task.scope ?? null, context: task.context ?? null,
     sources: task.sources ?? [], proof_runner: task.proof_runner ?? null,
     received_at: task.received?.at ?? null, review: task.review ?? null,
-    executor: task.executor ?? task.declared_route ?? null, planned_at: task.planned_at ?? null };
+    executor: task.executor ?? task.declared_route ?? null, planned_at: task.planned_at ?? null,
+    // Un recibo sellado antes de este cambio no trae esta clave: solo la lleva una tarea final, para
+    // que los recibos en vuelo de tareas parciales sigan verificando.
+    ...(task.final_output ? { final_output: { id: task.final_output, criterion: output?.criterion ?? null } } : {}) };
 }
 export function assertExecuted(artifact, task, evidence, { requirePass = true, historicalOnly = false } = {}) {
   const signed = evidence?.execution_receipt;
@@ -294,6 +319,8 @@ export function assertExecuted(artifact, task, evidence, { requirePass = true, h
   const expected = createHmac('sha256', key()).update(JSON.stringify(receipt)).digest();
   const actual = /^[a-f0-9]{64}$/.test(signature ?? '') ? Buffer.from(signature, 'hex') : Buffer.alloc(0);
   if (actual.length !== expected.length || !timingSafeEqual(actual, expected)) throw new Error('invalid verification execution signature');
+  if (task.final_output && receipt.binding?.final_output?.id !== task.final_output)
+    throw new Error(`execution receipt binding does not name final output ${task.final_output}`);
   if (JSON.stringify(receipt.binding) !== JSON.stringify(bindingOf(artifact, task))) throw new Error('execution receipt does not match the task, criterion, proof or artifact');
   const { execution_receipt, ...reported } = evidence;
   if (JSON.stringify(reported) !== JSON.stringify(receipt.evidence)) throw new Error('execution receipt evidence was changed');
@@ -336,6 +363,10 @@ export function assertExecuted(artifact, task, evidence, { requirePass = true, h
     }
   }
   if (current.ownerCriterion && receipt.execution.adapter !== 'codex' && requirePass) throw new Error('owner criterion requires completed semantic verification; a Node test alone cannot certify it');
+  // Un final declarado se certifica con el juez nativo, no con un runner Node ni con el doble de
+  // prueba en proceso: los dos pueden estar verdes y no haber juzgado la entrega.
+  if (task.final_output && receipt.execution.adapter !== 'codex' && requirePass)
+    throw new Error(`final output ${task.final_output} requires a completed codex verification receipt; the ${String(receipt.execution.adapter)} adapter cannot certify it`);
   for (const input of current.inputs) {
     if (!receipt.execution.inputs.some(saved => saved.path === input.path && saved.sha256 === input.sha256)) throw new Error('mandatory criterion coverage changed after execution');
   }
@@ -420,8 +451,14 @@ function packetFor(artifact, task, root, spec, { persistPhaseSnapshot = true } =
       projectionDigest: projection.projectionDigest, operationIds: projection.operationIds });
     for (const source of sources) if (ownPhaseRefs.has(source.ref)) source.content = projection.content;
   }
+  // El juez de un final recibe el encargo, no solo el archivo: el objetivo, el criterio declarado y
+  // las obligaciones vigentes, para poder rechazar un final que responda a otro encargo.
+  const output = task.final_output ? (artifact.final_outputs ?? []).find(item => item.id === task.final_output) : null;
+  const commission = task.final_output ? { goal: artifact.working_goal ?? null, intent: artifact.intent ?? null,
+    output_criterion: output?.criterion ?? null,
+    obligations: (artifact.obligations ?? []).map(({ id, description }) => ({ id, description })) } : null;
   return { binding: bindingOf(artifact, task), artifact: { path: task.received.path, content: bytes.toString('utf8') },
-    sources, inputs, ownerCriterion, resolved_references, phaseSnapshots };
+    sources, inputs, ownerCriterion, resolved_references, phaseSnapshots, ...(commission ? { commission } : {}) };
 }
 function evidenceFor(task, reference, report) {
   return { criterion: task.done_criterion ?? task.question, proof: task.proof ?? task.question,
@@ -441,6 +478,7 @@ function finish(artifact, task, packet, report, outputPath, execution) {
 function runNodeVerification(artifact, taskId, { root } = {}, semanticAuthorized = false) {
   const task = artifact.tasks.find(item => item.id === taskId);
   preflight(artifact, task);
+  if (task.final_output) throw new Error(`final output requires semantic verification: ${task.final_output} cannot be certified by a Node test alone`);
   const spec = task?.proof_runner;
   if (spec?.adapter !== 'node-test' || typeof spec.path !== 'string') throw new Error('no executable verification adapter commissioned');
   const path = localFile(root, spec.path, 'proof runner');
@@ -502,11 +540,31 @@ function runNodeVerification(artifact, taskId, { root } = {}, semanticAuthorized
 export function executeNodeVerification(artifact, taskId, options = {}) {
   return runNodeVerification(artifact, taskId, options);
 }
-export async function executeVerification(artifact, taskId, { root } = {}) {
+export async function executeVerification(artifact, taskId, { root, nativeRunner } = {}) {
   const task = artifact.tasks.find(item => item.id === taskId), spec = task?.proof_runner;
+  // Un final declarado no lo certifica un runner Node en ningun estado, ni siquiera antes de revisar: el
+  // rechazo lo nombra en vez de esperar al recibo. El doble de prueba no pasa por aqui.
+  if (task?.final_output && spec?.adapter === 'node-test' && nativeRunner === undefined)
+    throw new Error(`final output requires semantic verification: ${task.final_output} cannot be certified by a Node test alone`);
   preflight(artifact, task);
   if (!['node-test', 'codex'].includes(spec?.adapter)) throw new Error('no executable verification adapter commissioned; plan a check before verify');
   const packet = packetFor(artifact, task, root, spec ?? {});
+  // Costura de prueba en proceso y nada mas: un doble que solo puede rechazar o rechazarse a si
+  // mismo. Sella `test-double`, que `assertExecuted` no acepta para un final; no se expone por la
+  // CLI ni por variable de entorno, y sin un final declarado no existe.
+  if (nativeRunner !== undefined) {
+    if (typeof nativeRunner !== 'function') throw new Error('native verification runner must be a function');
+    if (!task.final_output) throw new Error('native verification runner exists only for a declared final output');
+    const runId = randomBytes(12).toString('hex');
+    const transported = projectVerificationPacket(packet);
+    const content = JSON.stringify(transported);
+    const inputPath = `${task.received.path}.verification-${runId}.input.json`;
+    writeFileSync(inputPath, content, { flag: 'wx', mode: 0o600 });
+    packet.inputs.push({ ref: 'native checker input packet', path: inputPath, sha256: hash(content) });
+    const report = await nativeRunner(restoreVerificationPacket(structuredClone(transported)));
+    return finish(artifact, task, packet, report, `${task.received.path}.verification-${runId}.response.json`,
+      { adapter: 'test-double', root: realpathSync(root) });
+  }
   const nativeAuthorized = spec?.model === 'gpt-6-luna' && ['medium', 'high'].includes(spec?.effort);
   let nodeEvidence;
   if (spec?.adapter === 'node-test') {

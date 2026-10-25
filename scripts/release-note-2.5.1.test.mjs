@@ -16,10 +16,10 @@ test('nota 2.5.1 describe el release publicado y sus fronteras de evidencia', ()
   assert.doesNotMatch(note, /test fix|all gates passed|ready to publish|listo para publicar/i);
 });
 
-test('el badge del hero inglés pertenece al corte 2.5.2 y Claude conserva el límite de evidencia de 2.5.1',()=>{
+test('el badge del hero inglés pertenece al corte 2.5.3 y Claude conserva el límite de evidencia de 2.5.1',()=>{
  const readme=readFileSync(new URL('../README.md',import.meta.url),'utf8');
  assert.doesNotMatch(readme,/badge\/(?:version|versi%C3%B3n)-2\.5\.1-/);
- assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.5\.2-/g)||[]).length,1);
+ assert.equal((readme.match(/badge\/(?:version|versi%C3%B3n)-2\.5\.3-/g)||[]).length,1);
  const note=readFileSync(new URL('../docs/RELEASE_2.5.1.md',import.meta.url),'utf8');
  assert.match(note,/Claude[\s\S]*quota 429[\s\S]*installed bytes do not establish conversational reception/i);
  assert.match(note,/Claude[\s\S]*cuota 429[\s\S]*tener los bytes instalados no acredita recepción conversacional/i);
@@ -29,7 +29,7 @@ test('el badge del hero inglés pertenece al corte 2.5.2 y Claude conserva el l�
 
 test('documentación vigente refleja kernel fijo y límite semántico acordados',()=>{
  const readme=readFileSync(new URL('../README.md',import.meta.url),'utf8');
- assert.match(readme,/frozen kernel 0\.1\.6/); assert.match(readme,/kernel 0\.1\.6 congelado/);
+ assert.match(readme,/Kernel 0\.1\.8 is pinned/); assert.match(readme,/kernel 0\.1\.8 está fijado/);
  const verification=readFileSync(new URL('../docs/VERIFICATION-EXECUTION.md',import.meta.url),'utf8'); assert.match(verification,/128,000-byte/); assert.doesNotMatch(verification,/64 KiB/);
- for(const lang of ['en','es']){const ref=readFileSync(new URL('../docs/REFERENCE_'+lang+'.md',import.meta.url),'utf8');assert.match(ref.slice(0,1200),/Lore Plugin 2\.5\.2/);assert.match(ref.slice(0,1200),/39d45733839d0a05f60248fc6e5b81c892c464f8/);}
+ for(const lang of ['en','es']){const ref=readFileSync(new URL('../docs/REFERENCE_'+lang+'.md',import.meta.url),'utf8');assert.match(ref.slice(0,1200),/Lore Plugin 2\.5\.3/);assert.match(ref.slice(0,1200),/77bceb0582aa021320c4632bee590a76ef7a6646/);}
 });

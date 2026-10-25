@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
 import { dirname, isAbsolute, join, resolve, sep } from "node:path";
 import { randomUUID } from "node:crypto";
+import { homedir } from "node:os";
 
 // Quita las barras finales en tiempo lineal. El reemplazo con
 // /[\\/]+$/ era el mismo resultado con peor caso polinomial
@@ -20,18 +21,22 @@ function normalizedRulePath(path, project) {
   return `${stripTrailingSlashes(full)}/**`;
 }
 
-export function buildPermissions({ siblings = [], existing = {} } = {}) {
+export function buildPermissions({ siblings = [], existing = {}, project = process.cwd() } = {}) {
   const base = existing && typeof existing === "object" && !Array.isArray(existing) ? existing : {};
   const oldPermissions = base.permission && typeof base.permission === "object" && !Array.isArray(base.permission)
     ? base.permission : {};
   const oldExternal = oldPermissions.external_directory && typeof oldPermissions.external_directory === "object"
     ? oldPermissions.external_directory : {};
   const external = { ...oldExternal };
+  const pathKey = (path) => process.platform === "win32" ? path?.toLowerCase() : path;
+  const protectedPaths = new Set(Object.entries(oldExternal)
+    .filter(([, permission]) => permission === "deny" || permission === "ask")
+    .map(([path]) => pathKey(normalizedRulePath(path, project))));
   for (const sibling of siblings) {
     if (!sibling) continue;
     const raw = String(sibling);
     const key = raw.endsWith("/**") ? raw : `${stripTrailingSlashes(raw)}/**`;
-    if (external[key] !== "deny") external[key] = "allow";
+    if (!protectedPaths.has(pathKey(normalizedRulePath(key, project)))) external[key] = "allow";
   }
   if (!Object.hasOwn(external, "*")) external["*"] = "deny";
   return { ...base, permission: { ...oldPermissions, external_directory: external } };
@@ -62,6 +67,7 @@ export function isRoutableCell(cell) {
   if (/^[a-z][a-z0-9+.-]*:\/\//i.test(value)) return false;
   if (/[$%]/.test(value)) return false;
   const segments = value.split(/[\\/]/).filter(Boolean);
+  if (segments.some((segment) => /[*?\[\]{}]/.test(segment))) return false;
   const ups = segments.filter((segment) => segment === "..").length;
   if (ups > 1) return false;
   if (ups === 1 && segments[0] !== "..") return false;
@@ -72,9 +78,15 @@ export function isRoutableCell(cell) {
 // La regla final tiene que caer dentro del area (el proyecto o su padre), que es
 // exactamente lo que el enrutamiento nombra. Cualquier otra se descarta.
 function insideArea(rulePath, root) {
-  const hive = resolve(root, "..");
-  const target = resolve(rulePath.replace(/[\\/]\*\*$/, ""));
-  return target === root || target.startsWith(`${root}${sep}`) || target === hive || target.startsWith(`${hive}${sep}`);
+  // Windows paths are case-insensitive: compare them in one case so a differently capitalised home or ancestor is still refused.
+  const key = (path) => process.platform === "win32" ? path.toLowerCase() : path;
+  const target = key(resolve(rulePath.replace(/[\\/]\*\*$/, "")));
+  const rootKey = key(root);
+  const hive = key(resolve(root, ".."));
+  const isAncestor = (path) => rootKey === path || rootKey.startsWith(`${path}${sep}`);
+  const volumeRoot = key(resolve(root, sep));
+  if (isAncestor(target) || target === volumeRoot || target === key(resolve(homedir()))) return false;
+  return target.startsWith(`${rootKey}${sep}`) || (target.startsWith(`${hive}${sep}`) && target !== hive);
 }
 
 function parseAllowArgs(values, project) {
@@ -88,7 +100,8 @@ export function opencodePermissions({ project = process.cwd(), fromRouting = fal
     const routingPath = join(root, "lore", "enrutamiento.md");
     if (!existsSync(routingPath)) throw new Error(`Routing file not found: ${routingPath}`);
     const routedTrees = pathsFromRouting(readFileSync(routingPath, "utf8")).map((path) => path.replace(/[\\/]lore[\\/]*$/i, ""));
-    siblings = [...new Set([...siblings, ...parseAllowArgs(routedTrees, root).filter((rule) => insideArea(rule, root))])];
+    const existingExternal = existing?.permission?.external_directory ?? {};
+    siblings = [...new Set([...siblings, ...parseAllowArgs(routedTrees, root).filter((rule) => insideArea(rule, root) && existingExternal[rule] !== "ask")])];
   }
   const configPath = join(root, "opencode.json");
   let current = existing;
@@ -97,7 +110,7 @@ export function opencodePermissions({ project = process.cwd(), fromRouting = fal
     try { current = JSON.parse(raw); }
     catch (error) { throw new Error(`Cannot merge ${configPath}: it is invalid JSON or JSONC (comments are unsupported). Proposed JSON follows:\n${JSON.stringify(buildPermissions({ siblings }), null, 2)}`, { cause: error }); }
   }
-  return { root, configPath, siblings, proposed: buildPermissions({ siblings, existing: current }) };
+  return { root, configPath, siblings, proposed: buildPermissions({ siblings, existing: current, project: root }) };
 }
 
 export function writePermissions(options = {}) {

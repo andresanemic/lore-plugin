@@ -1,11 +1,13 @@
 // vespi core facade — RC3 experimental.
 // Ported kernel (operation/authority/receipt/continuity/delegation/time: a 3-line provenance header,
-// then exact bytes from the pinned Vespi kernel 0.1.6, commit 39d45733839d0a05f60248fc6e5b81c892c464f8,
-// branch release/0.1.4-prep, canonical source founder/proyectos/vespi/kernel/src/ —
+// then exact bytes from the pinned Vespi kernel 0.1.8, commit 77bceb0582aa021320c4632bee590a76ef7a6646,
+// branch master, canonical source founder/proyectos/vespi/kernel/src/ —
 // digests in ./kernel/SOURCE.md; pinned snapshot, never edited in place)
 // plus RC3 truthfulness wrappers. No scheduler, no router, no managers.
 import { createRequire } from "node:module";
+import { createHash } from "node:crypto";
 import { isDeepStrictEqual } from "node:util";
+import { loadShippedMethod } from "./task-method.mjs";
 export { evaluateCampaignEvidence, linkConsultationToDecision, applyCardCriterionDecision } from "./campaign.mjs";
 
 // The durable operation state, imported and re-exported whole rather than half: an agent is told to
@@ -66,6 +68,10 @@ import {
   calibrateEstimates,
   blockReviewTask,
   declareEffect,
+  declareFinalOutputs,
+  declareObligations,
+  deliverTask,
+  fulfillObligation,
   dispatchTask,
   integrateTask,
   observeTask,
@@ -77,6 +83,8 @@ import {
   taskSummary,
   verifyTask,
 } from "./coordinator.mjs";
+
+export { buildTaskMethod, loadShippedMethod } from "./task-method.mjs";
 
 export {
   distillCriterion,
@@ -93,6 +101,10 @@ export {
   calibrateEstimates,
   blockReviewTask,
   declareEffect,
+  declareFinalOutputs,
+  declareObligations,
+  deliverTask,
+  fulfillObligation,
   dispatchTask,
   integrateTask,
   observeTask,
@@ -268,11 +280,7 @@ export const ZK_EVIDENCE_SCHEMA = OPTIONAL_LOADED.zk.ZK_EVIDENCE_SCHEMA;
 export const {
   createDelegation,
   recordStart,
-  recordResult,
   reviewDelegation,
-  recordCard,
-  delegationReceipt,
-  integrateDelegation,
   personView,
   // El reloj, consultado. `delegationStatus` ya venía en la copia vendorizada y la fachada lo
   // cargaba sin exponerlo: el modulo estaba disponible y nadie podía preguntar. Se exporta entero y
@@ -281,6 +289,72 @@ export const {
   // seria un segundo reloj con la misma palabra.
   delegationStatus,
 } = delegationKernel;
+
+const { recordResult: recordKernelResult, recordCard: recordKernelCard, delegationReceipt: kernelDelegationReceipt, integrateDelegation: integrateKernelDelegation } = delegationKernel;
+const tokenEstimate = text => Math.ceil(text.length / 4);
+const sparkReceipts = new WeakMap();
+const validSpark = spark => typeof spark === "string" && !!spark.trim() && spark.trim().split(/\s+/).length <= 20 && !/\p{Extended_Pictographic}/u.test(spark);
+const canonical = value => Array.isArray(value) ? value.map(canonical) : value && typeof value === "object"
+  ? Object.fromEntries(Object.keys(value).sort().map(key => [key, canonical(value[key])])) : value;
+
+export function recordResult(delegation, result = {}) {
+  const { sparks, ...rest } = result;
+  if (sparks !== undefined) {
+    if (!Array.isArray(sparks) || sparks.length !== 5 || sparks.some(spark => !validSpark(spark))) {
+      throw new Error("delegation result needs exactly five valid sparks of at most 20 words");
+    }
+    recordKernelResult(delegation, { ...rest, spark: sparks[0] });
+    delegation.sparks.splice(0, delegation.sparks.length, ...sparks);
+    delegation.r45_usage = { ...(delegation.r45_usage ?? {}), spark_tokens_estimated: sparks.reduce((sum, spark) => sum + tokenEstimate(spark), 0) };
+    return delegation;
+  }
+  if (rest.spark !== undefined && !validSpark(rest.spark)) throw new Error("delegation result needs a valid spark of at most 20 words");
+  return recordKernelResult(delegation, rest);
+}
+
+export function recordCard(delegation, card) {
+  const out = recordKernelCard(delegation, card);
+  delegation.cards.at(-1).tokens_estimated = tokenEstimate(card.card);
+  delegation.r45_usage = { ...(delegation.r45_usage ?? {}), card_tokens_estimated: (delegation.r45_usage?.card_tokens_estimated ?? 0) + delegation.cards.at(-1).tokens_estimated };
+  return out;
+}
+
+export function delegationReceipt(delegation, { persistence } = {}) {
+  if (delegation.sparks.length !== 5) throw new Error("delegation receipt needs exactly five sparks");
+  if (!persistence || typeof persistence.owner !== "string" || !persistence.owner.trim()) throw new Error("delegation receipt needs a persistence declaration");
+  const body = {
+    version: 1,
+    delegation: kernelDelegationReceipt(delegation),
+    sparks: [...delegation.sparks],
+    cards: delegation.cards.map(card => ({ ...card, silent: true })),
+    persistence: structuredClone(persistence),
+    usage_estimate: {
+      ...delegation.r45_usage,
+      spark_tokens_estimated: delegation.sparks.reduce((sum, spark) => sum + tokenEstimate(spark), 0),
+    },
+  };
+  return { ...body, digest: createHash("sha256").update(JSON.stringify(canonical(body))).digest("hex") };
+}
+
+export function verifyDelegationReceipt(receipt) {
+  if (!receipt || typeof receipt.digest !== "string") return false;
+  const { digest, ...body } = receipt;
+  return createHash("sha256").update(JSON.stringify(canonical(body))).digest("hex") === digest;
+}
+
+export function isIntegratedSparkReceipt(receipt) {
+  return sparkReceipts.has(receipt) && sparkReceipts.get(receipt)?.state === "accepted" && verifyDelegationReceipt(receipt);
+}
+
+export function integrateDelegation(delegation, { persistence } = {}) {
+  if (delegation.state !== "accepted") return integrateKernelDelegation(delegation);
+  if (delegation.sparks.length !== 5 || delegation.sparks.some(spark => !validSpark(spark))) throw new Error("delegation integration needs exactly five valid sparks");
+  if (!persistence || typeof persistence.owner !== "string" || !persistence.owner.trim()) throw new Error("delegation receipt needs a persistence declaration");
+  integrateKernelDelegation(delegation);
+  const receipt = delegationReceipt(delegation, { persistence });
+  sparkReceipts.set(receipt, delegation);
+  return receipt;
+}
 
 function sameTerms(declared, effective) {
   if (!declared || !effective) return false;
@@ -434,7 +508,7 @@ function effectiveCapability({ capability, route, host, assignment }) {
         if (typeof host.delegate.effectiveTerms !== "function") return null;
         return host.delegate.effectiveTerms({ assignment });
       },
-      perform: ({ operation, authority, signal }) => host.delegate({ operation, assignment, authority, signal }),
+      perform: ({ operation, authority, signal }) => host.delegate({ kind: "operation", operation, assignment, authority, signal }),
     };
   }
   return capability;
@@ -508,7 +582,7 @@ export async function holdOperation({
   }
   const artifact = createArtifact({ goal, intent, owner, authority, coordinacion, scope, expected_effect, done, roles, verifier, receipt });
   const { directory, file, relative } = operationStatePath(root, artifact.id);
-  await saveOperationState(directory, artifact);
+  await saveOperationState(directory, artifact, { create: true });
   return { artifact, file, persistence: { owner: relative } };
 }
 
@@ -565,6 +639,14 @@ export async function runDurableOperation({
   declaredEffect ??= io.declaredEffect ?? null;
   let declared = effect === null ? null : declareEffect({}, { effect, economy, chain });
   const route = routeOperation({ intent, host });
+  // Un trabajador lanzado por la ruta durable recibe el mismo metodo que uno lanzado por deliverTask: sin
+  // el texto distribuido, o con otro, no se llega al adaptador.
+  if (route.intent === "delegation" && route.available) {
+    const shipped = loadShippedMethod();
+    if (assignment?.method?.sha256 !== shipped.sha256 || assignment?.method?.content !== shipped.content) {
+      throw new Error("delegation needs the shipped method in its assignment (assignment.method from loadShippedMethod); no method, no worker");
+    }
+  }
   const durable = typeof root === "string" && root.length > 0;
   const suppliedKind = typeof expected_effect === "string" ? expected_effect : expected_effect?.kind;
 

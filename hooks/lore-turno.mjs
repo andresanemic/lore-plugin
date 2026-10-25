@@ -218,28 +218,32 @@ function puertaDeOperacion(raiz) {
   try {
     entrada = operationEntry({ root: raiz });
   } catch (error) {
-    const motivo = typeof error?.message === "string" && error.message !== ""
-      ? error.message
-      : String(error);
-    return `la puerta no pudo leer el estado: ${motivo} · revisa ${join(raiz, "FASES.md")} a mano antes de coordinar`;
+    return `la puerta no pudo leer el estado · revisa ${join(raiz, "FASES.md")} a mano antes de coordinar`;
   }
   if (!entrada?.open) return PUNTERO;
-  const limpieza = (valor, max = 80) => String(valor ?? "")
-    .replace(/[\r\n\t\v\f\0]+/g, " ")
-    .replace(/\s{2,}/g, " ")
-    .trim()
-    .slice(0, max);
+  const rolesValidos = new Set(["coordinator", "coordenador", "coordinador", "daimon", "advisor", "worker", "verifier", "verificador", "unknown"]);
+  const estadosValidos = new Set(["prepared", "authorized", "queued", "running", "received", "reviewed", "verified", "integrated", "blocked", "waiting", "deferred", "unknown", "requires_decision", "paused", "closed", "cancelled", "proposed", "accepted"]);
+  const veredictosValidos = new Set(["fresh", "stale_premise", "authority_invalid", "terminal_state", "invalid_state"]);
+  const idSeguro = (id) => typeof id === "string" && /^op-[a-z0-9]+-[0-9]+(?:-[a-f0-9]{8})?$/i.test(id) ? id : "operacion";
+  const tareaSegura = (id) => id === "valid-task" || (typeof id === "string" && /^t[1-9][0-9]{0,2}$/.test(id));
+  const idOperacion = idSeguro(entrada.id);
+  const estadoSeguro = (state) => estadosValidos.has(state) ? state : "estado";
+  const siguienteSeguro = (step) => {
+    if (["authorize", "close", "decide"].includes(step)) return step;
+    const match = typeof step === "string" && /^(dispatch|receive|resolve|review|verify|integrate) (t[1-9][0-9]{0,2})$/.exec(step);
+    return match ? `${match[1]} ${match[2]}` : "paso";
+  };
   const pendiente = (entrada.pending_by_role ?? [])
-    .map(({ role, tasks }) => `${limpieza(role)}: ${tasks.map((task) => `${limpieza(task.id)} (${limpieza(task.state)})`).join(", ")}`)
+    .map(({ role, tasks }) => `${rolesValidos.has(role) ? role : "rol"}: ${tasks.map((task) => `${tareaSegura(task.id) ? task.id : "tarea"} (${estadoSeguro(task.state)})`).join(", ")}`)
     .join("; ");
-  return `operacion ${limpieza(entrada.id)} abierta en ${entrada.file} · estado ${limpieza(entrada.state)} · veredicto ${limpieza(entrada.reason)}`
-    + ` · siguiente ${limpieza(entrada.next_step)}`
+  return `operacion ${idOperacion} abierta en FASES.md#${idOperacion} · estado ${estadoSeguro(entrada.state)} · veredicto ${veredictosValidos.has(entrada.reason) ? entrada.reason : "veredicto"}`
+    + ` · siguiente ${siguienteSeguro(entrada.next_step)}`
     + (pendiente ? ` · pendiente ${pendiente}` : "")
     + (Array.isArray(entrada.also_open) && entrada.also_open.length > 0
-      ? ` · tambien abiertas ${entrada.also_open.map((id) => limpieza(id)).join(", ")}`
+      ? ` · tambien abiertas ${entrada.also_open.map(idSeguro).join(", ")}`
       : "")
     + ` · primera respuesta: nombra este archivo y el siguiente paso en menos de diez palabras, sin afirmar una acción aún no ejecutada`
-    + ` · antes de coordinar, abre ${entrada.file}`;
+    + ` · antes de coordinar, abre FASES.md#${idOperacion}`;
 }
 
 // La semilla de la puerta: lo que la puerta dice cuando HAY algo que abrir, y `null` cuando no.
@@ -269,10 +273,7 @@ export function semillaDePuerta({ raiz } = {}) {
     // El techo de este mecanismo es no romper nada, y no se cambia: esto no lanza.
     // Lo que cambia es que el silencio no es una de las respuestas posibles: el motivo
     // viaja como motivo —distinguible del veredicto— y la fábrica lo encola a la apertura.
-    const motivo = typeof error?.message === "string" && error.message !== ""
-      ? error.message
-      : String(error);
-    return `la puerta no pudo sembrar su veredicto: ${motivo} · la inyección del turno lo dirá`;
+    return "la puerta no pudo sembrar su veredicto · la inyección del turno lo dirá";
   }
 }
 

@@ -10,10 +10,11 @@ export const ARTIFACT_SCHEMA_VERSION = "1.0.0";
 export const FASES_FILE = "FASES.md";
 export const OPERATIONS_HEADING = "## Operaciones";
 
-import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
+import { mkdir, open, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
+import { AsyncLocalStorage } from "node:async_hooks";
 import { readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
-import { createHash } from "node:crypto";
+import { createHash, randomBytes, randomUUID } from "node:crypto";
 
 let seq = 0;
 
@@ -83,7 +84,7 @@ export function createArtifact({
   return {
     artifact_schema_version: ARTIFACT_SCHEMA_VERSION,
     created_by_vespi_version: "2.4.9-rc.3",
-    id: `op-${Date.now().toString(36)}-${seq++}`,
+    id: `op-${Date.now().toString(36)}-${seq++}-${randomBytes(4).toString("hex")}`,
     working_goal: goal ?? "",
     intent: intent ?? "",
     owner: owner ?? "",
@@ -127,6 +128,7 @@ function effectText(value, label) {
 // A generic operation GREEN never authorizes an external effect. The approval is bound to a
 // request id, one action, one destination and a validity window; this module never runs the effect.
 export function requestExternalEffect(artifact, { action, destination, at = new Date().toISOString() } = {}) {
+  if (["closed", "cancelled"].includes(artifact?.state)) throw new Error("cannot change a terminal operation");
   const requested = {
     id: "fx-" + Date.now().toString(36) + "-" + externalEffectSeq++,
     action: effectText(action, "external effect action"),
@@ -137,6 +139,7 @@ export function requestExternalEffect(artifact, { action, destination, at = new 
 }
 
 export function approveExternalEffect(artifact, { requestId, action, destination, by, words, approvedAt = new Date().toISOString(), expiresAt } = {}) {
+  if (["closed", "cancelled"].includes(artifact?.state)) throw new Error("cannot change a terminal operation");
   const request = (artifact.external_effect_requests ?? []).find((item) => item.id === requestId);
   if (!request) throw new Error("external effect request does not exist");
   const approval = {
@@ -156,12 +159,13 @@ export function approveExternalEffect(artifact, { requestId, action, destination
   return { ...artifact, external_effect_approvals: [...(artifact.external_effect_approvals ?? []), approval] };
 }
 
-export function revokeExternalEffectApproval(artifact, { approvalId, at = new Date().toISOString() } = {}) {
+export function revokeExternalEffectApproval(artifact, { approvalId } = {}) {
+  if (["closed", "cancelled"].includes(artifact?.state)) throw new Error("cannot change a terminal operation");
   const approvals = artifact.external_effect_approvals ?? [];
   const approval = approvals.find((item) => item.id === approvalId);
   if (!approval) throw new Error("external effect approval does not exist");
   if (approval.revoked_at) throw new Error("external effect approval is already revoked");
-  const revokedAt = new Date(effectTime(at, "revocation time")).toISOString();
+  const revokedAt = new Date().toISOString();
   return { ...artifact, external_effect_approvals: approvals.map((item) => item.id === approvalId ? { ...item, revoked_at: revokedAt } : item) };
 }
 
@@ -171,13 +175,15 @@ export function authorizeExternalEffect(artifact, { requestId, action, destinati
   const exactDestination = effectText(destination, "external effect destination");
   const time = effectTime(now, "effect execution time");
   const denied = (reason) => ({ allowed: false, reason, adapterInput: null });
+  if (["closed", "cancelled"].includes(artifact?.state)) return denied("operation is terminal");
   if (!request || request.action !== exactAction || request.destination !== exactDestination) return denied("no exact current request");
   const currentRequestAt = requestedAt === null ? Date.parse(request.requested_at) : effectTime(requestedAt, "current request time");
-  const approval = (artifact.external_effect_approvals ?? []).find((item) => item.request_id === requestId && item.action === exactAction && item.destination === exactDestination);
+  const approval = (artifact.external_effect_approvals ?? [])
+    .filter((item) => item.request_id === requestId && item.action === exactAction && item.destination === exactDestination
+      && Date.parse(item.approved_at) >= currentRequestAt && Date.parse(item.approved_at) <= time
+      && Date.parse(item.expires_at) >= time && !item.revoked_at)
+    .sort((a, b) => Date.parse(b.approved_at) - Date.parse(a.approved_at))[0];
   if (!approval) return denied("no specific approval");
-  if (Date.parse(approval.approved_at) < currentRequestAt) return denied("approval predates current request");
-  if (Date.parse(approval.approved_at) > time || Date.parse(approval.expires_at) < time) return denied("approval is not currently valid");
-  if (approval.revoked_at && Date.parse(approval.revoked_at) <= time) return denied("approval was revoked");
   return { allowed: true, approvalId: approval.id, adapterInput: Object.freeze({ action: exactAction, destination: exactDestination }) };
 }
 
@@ -453,6 +459,15 @@ function closureOf(artifact) {
     resolved_criteria: artifact.resolved_criteria ?? [],
     criterion_events: artifact.criterion_events ?? [],
     decisions: artifact.decisions ?? [],
+    ...(Array.isArray(artifact.obligations) ? {
+      obligations: artifact.obligations,
+      obligations_sha256: artifact.obligations_sha256,
+      obligations_declaration: artifact.obligations_declaration ?? artifact.checkpoints?.find(cp => cp.note?.startsWith("obligaciones declaradas sha256:")) ?? null,
+    } : {}),
+    ...(Array.isArray(artifact.final_outputs) ? {
+      final_outputs: artifact.final_outputs,
+      final_outputs_sha256: artifact.final_outputs_sha256 ?? null,
+    } : {}),
     done: artifact.done,
     roles: artifact.roles,
     verifier: artifact.verifier,
@@ -468,12 +483,14 @@ function closureOf(artifact) {
     closed_at: artifact.checkpoints?.at(-1)?.at ?? null,
     verification: artifact.verification ?? null,
     last_receipt: artifact.last_receipt ?? null,
-    task_reviews: (artifact.tasks ?? []).map(task => ({
+    task_reviews: artifact.tasks ? artifact.tasks.map(task => ({
       task_id: task.id,
+      ...(task.obligation ? { obligation: task.obligation } : {}),
       received: task.received ?? null,
       review: task.review ?? null,
       review_history: task.review_history ?? [],
-    })),
+      ...(task.integration ? { integration: task.integration } : {}),
+    })) : artifact.task_reviews ?? [],
   };
 }
 
@@ -545,28 +562,127 @@ function locateBlock(text, id) {
   return { start: opens[0].start, end: closes[0].end };
 }
 
-export async function saveOperationState(root, artifact) {
+// Cerrojo exclusivo por FASES.md: un archivo `FASES.md.lock` creado con `wx` que lleva un token propio
+// (UUID). Envuelve la secuencia leer-modificar-escribir completa; quien lee una operacion, la cambia y la
+// guarda (la carta del hook, por ejemplo) toma el cerrojo con `withOperationLock` para que otra escritura
+// no le pise el cambio. Es reentrante dentro de la misma cadena asincrona, de modo que
+// `saveOperationState` puede tomarlo otra vez.
+//
+// Un cerrojo mas viejo que staleMs se toma por huerfano (el proceso murio). Retirarlo lo gana uno solo:
+// lo retira un solo retirador a la vez (guarda `.retiring`), que vuelve a mirar el cerrojo adentro y lo
+// RENOMBRA a un nombre unico antes de borrarlo: nunca se retira ni se devuelve un cerrojo vivo. Al liberar
+// solo se borra el cerrojo si su token sigue siendo el propio. La espera maxima supera el umbral de huerfano,
+// de modo que un cierre abrupto no deja a los escritores fallando. Limites: solo ordena a quienes lo toman
+// (un editor ajeno de FASES.md no lo ve) y no cubre secuencias entre comandos de la CLI; si el dueno de un
+// cerrojo vivo lo supera en staleMs y lo libera justo entre el stat y el rename del retiro, esa ventana de un
+// paso asincrono no se elimina del todo, y lo mismo vale para el retiro de una guarda `.retiring` huerfana
+// (mas vieja que RETIRING_STALE_MS), que solo ocurre tras la muerte de un retirador.
+export const OPERATION_LOCK_LIMITS = Object.freeze({ retryMs: 10, staleMs: 30_000, timeoutMs: 35_000 });
+const heldLocks = new AsyncLocalStorage();
+
+// Retirar un cerrojo huerfano es una seccion critica propia: una guarda `.retiring`, creada con `wx`, deja
+// pasar de a un retirador, y el cerrojo se vuelve a mirar ADENTRO. Sin eso dos retiradores veian el mismo
+// cerrojo viejo, el primero lo retiraba, otro escritor tomaba uno nuevo y el segundo retiraba ese cerrojo
+// vivo; mientras estaba renombrado un tercero podia tomar el lugar y dos escritores quedaban dentro a la vez
+// (operaciones confirmadas perdidas). Si quien retiraba murio, su guarda se retira pasado RETIRING_STALE_MS.
+const RETIRING_STALE_MS = 5_000;
+
+async function retireStaleLock(lockFile) {
+  const guard = `${lockFile}.retiring`;
+  try {
+    await (await open(guard, "wx")).close();
+  } catch (error) {
+    if (!["EEXIST", "EPERM", "EBUSY"].includes(error?.code)) throw error;
+    try { // otro esta retirando: si su guarda quedo huerfana se retira (lo gana uno solo) y se reintenta
+      if (Date.now() - (await stat(guard)).mtimeMs > RETIRING_STALE_MS) {
+        const aside = `${guard}.${randomUUID()}.stale`;
+        await rename(guard, aside).then(() => rm(aside, { force: true })).catch(() => {});
+      }
+    } catch { /* se libero: reintentar */ }
+    return;
+  }
+  try {
+    // Adentro solo hay un retirador: el cerrojo que vio viejo afuera pudo ser reemplazado por uno vivo.
+    if (Date.now() - (await stat(lockFile)).mtimeMs <= OPERATION_LOCK_LIMITS.staleMs) return;
+    const aside = `${lockFile}.${randomUUID()}.stale`;
+    await rename(lockFile, aside);
+    await rm(aside, { force: true }).catch(() => {});
+  } catch { /* desaparecio entre el stat y el rename: nada que retirar */ } finally {
+    await rm(guard, { force: true }).catch(() => {});
+  }
+}
+
+export async function withOperationLock(root, work) {
+  const lockFile = `${fasesFileOf(root)}.lock`;
+  const held = heldLocks.getStore();
+  if (held?.has(lockFile)) return work();
+  await mkdir(dirname(lockFile), { recursive: true });
+  const { retryMs, staleMs, timeoutMs } = OPERATION_LOCK_LIMITS;
+  const token = randomUUID();
+  const deadline = Date.now() + timeoutMs;
+  for (;;) {
+    try {
+      const handle = await open(lockFile, "wx");
+      try {
+        await handle.writeFile(JSON.stringify({ pid: process.pid, at: new Date().toISOString(), token }));
+      } catch (error) {
+        await handle.close().catch(() => {});
+        await rm(lockFile, { force: true }).catch(() => {});
+        throw error;
+      }
+      await handle.close();
+      break;
+    } catch (error) {
+      // En Windows crear sobre un archivo que se esta borrando da EPERM/EBUSY, no EEXIST.
+      if (!["EEXIST", "EPERM", "EBUSY"].includes(error?.code)) throw error;
+    }
+    try {
+      const { mtimeMs } = await stat(lockFile);
+      // Sin `continue`: si el retiro no avanza (guarda ajena, rename bloqueado) igual se respeta el plazo y la pausa.
+      if (Date.now() - mtimeMs > staleMs) await retireStaleLock(lockFile);
+    } catch { /* se libero entre el intento y el stat: se reintenta */ }
+    if (Date.now() > deadline) throw new Error(`FASES.md is locked by another writer: ${lockFile}`);
+    await new Promise((done) => setTimeout(done, retryMs));
+  }
+  try {
+    return await heldLocks.run(new Set([...(held ?? []), lockFile]), work);
+  } finally {
+    try {
+      if (JSON.parse(await readFile(lockFile, "utf8")).token === token) await rm(lockFile, { force: true });
+    } catch { /* ya no existe o no es nuestro: no se toca */ }
+  }
+}
+
+export async function saveOperationState(root, artifact, { create = false } = {}) {
+  return withOperationLock(root, () => writeOperationState(root, artifact, { create }));
+}
+
+async function writeOperationState(root, artifact, { create = false } = {}) {
   const { file } = operationStatePath(root, artifact?.id);
   let text = "";
   try { text = await readFile(file, "utf8"); } catch (error) {
     if (error?.code !== "ENOENT") throw error;
   }
-  const eol = text.includes("\r\n") ? "\r\n" : "\n";
+  const endings = text.match(/\r\n|\n|\r/g) ?? [];
+  const eol = ["\r\n", "\n", "\r"].sort((a, b) => endings.filter((ending) => ending === b).length - endings.filter((ending) => ending === a).length)[0];
   const block = renderBlock(artifact, eol);
   const found = locateBlock(text, artifact.id);
+  if (create && found) throw new Error(`operation id already exists: ${artifact.id}`);
   let next;
   if (found) {
     next = text.slice(0, found.start) + block + text.slice(found.end);
   } else if (text.length === 0) {
     next = `# FASES${eol}${eol}${OPERATIONS_HEADING}${eol}${eol}${block}${eol}`;
-  } else if (text.includes(`${eol}${OPERATIONS_HEADING}${eol}`) || text.startsWith(`${OPERATIONS_HEADING}${eol}`)) {
-    const at = text.indexOf(OPERATIONS_HEADING) + OPERATIONS_HEADING.length;
-    next = text.slice(0, at) + eol + eol + block + text.slice(at);
+  } else if (operationsHeading(text)) {
+    const heading = operationsHeading(text);
+    // The heading line keeps its own ending; the block goes after it with the same blank-line layout as before, so the prose around the blocks does not change.
+    const head = text.slice(0, heading.end) + (heading.ending ? "" : eol);
+    next = head + eol + block + eol + text.slice(heading.end);
   } else {
     next = text.replace(/\s*$/, "") + `${eol}${eol}${OPERATIONS_HEADING}${eol}${eol}${block}${eol}`;
   }
   await mkdir(dirname(file), { recursive: true });
-  const temporary = `${file}.${process.pid}.${Date.now()}.tmp`;
+  const temporary = `${file}.${process.pid}.${randomUUID()}.tmp`;
   try {
     await writeFile(temporary, next, { encoding: "utf8", flag: "wx" });
     await rename(temporary, file);
@@ -577,6 +693,21 @@ export async function saveOperationState(root, artifact) {
     throw error;
   }
   return file;
+}
+
+function operationsHeading(text) {
+  let offset = 0, fenced = false;
+  for (const line of text.match(/[^\r\n]*(?:\r\n|\n|\r|$)/g) ?? []) {
+    if (!line) break;
+    const content = line.replace(/(?:\r\n|\n|\r)$/, "");
+    if (/^\s*```/.test(content)) fenced = !fenced;
+    else if (!fenced && /^\uFEFF?## Operaciones[ \t]*$/.test(content)) {
+      const ending = line.slice(content.length);
+      return { end: offset + line.length, ending };
+    }
+    offset += line.length;
+  }
+  return null;
 }
 
 // El parseo de un bloque, y solo este: decide que es una operacion y que su estado es valido. Un

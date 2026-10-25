@@ -1,0 +1,12 @@
+# Launching a worker on Claude Code
+
+The kit ships its own worker type, `lore:lore-worker` (`agents/lore-worker.md`, generated from `method.md`). Its definition carries the method; its prompt carries only the commission. Do not paste the commission or the method into an agent prompt yourself: a long copy loses bytes, and an auto-mode classifier may refuse a prompt that carries the whole method.
+
+1. Run `lore-plugin operation prompt --root <dir> --id <op> --task <t>` and take `worker_reference` from its output.
+2. Launch one subagent with the Agent tool, `subagent_type` `lore:lore-worker`, with that single line as its prompt, unchanged. The plugin's PreToolUse hook expands it on the host into the commission when its fingerprint matches the operation and the worker definition carries the pinned method; otherwise it does not expand, and the hook never decides the permission.
+3. When the tool returns, run `lore-plugin operation confirm-delivery --root <dir> --id <op> --task <t>`. The task runs only when the host's Pre/Post pair, the session transcript, the worker's own transcript, its agent type and the definition's method fingerprint agree; otherwise it stays blocked with the cause.
+4. A host denial, from a permission or an auto-mode classifier, is a blocked delivery: report it and never route around it. Launching the worker by Bash instead leaves no observation, and its task never runs.
+
+The session must run with its working directory at the operation's `--root`: the hook reads the operation and writes its observations there. When the commission declares several deliverables, declare them first with `lore-plugin operation obligations` and plan each task with its `obligation`; closure then refuses conformity while one is missing, and `lore-plugin operation fulfill` records the evidence for each.
+
+Limits: the observation's integrity is that of the same OS user, who could rewrite both the log and the transcripts; it proves what the worker received, not that it applied the method; it exists only where the plugin's hooks are enabled. When the hook refuses to expand a reference, it does not block the launch: the worker starts with the bare reference line and no commission, and its task never runs; stop that worker and launch again. `confirmObservedDelivery` called directly through the API trusts the observation its caller passes; the CLI builds it from the hook's log and the transcripts. The `reference` route, whose commission carries the method inside, remains for a `general-purpose` worker.

@@ -15,7 +15,7 @@ import { dirname, join } from "node:path";
 export function statuslineCommandFor({ packageRoot }) {
   if (!packageRoot) throw new TypeError("packageRoot es obligatorio");
   if (typeof packageRoot !== "string") throw new TypeError("packageRoot debe ser texto");
-  if (/["'\n\r\0\x00-\x1F\x7F]/.test(packageRoot)) {
+  if (/["'`$\n\r\0\x00-\x1F\x7F]/.test(packageRoot)) {
     throw new Error(`packageRoot con comillas o caracteres de control rechazado: ${JSON.stringify(packageRoot)}`);
   }
   const hook = join(packageRoot, "hooks", "statusline.mjs").replaceAll("\\", "/");

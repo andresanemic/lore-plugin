@@ -38,6 +38,52 @@ test('helper prepara una sola vez el prompt de una oferta persistida', async t =
   assert.ok(stored.perturbations[0].prompt_prepared_at);
 });
 
+test('una tarea iniciada recibe una carta silenciosa registrada, no un prompt para la persona', async () => {
+  const api = await import('../skills/vespi/core/cards.mjs');
+  const { offerTaskCard } = api;
+  assert.equal(typeof offerTaskCard, 'function');
+  const started = offerTaskCard({ id: 'task-start', state: 'running', perturbations: [] }, { taskId: 'task-1', semilla: 19 });
+  assert.equal(started.perturbations[0].response_status, 'offered');
+  assert.equal(Object.hasOwn(started.perturbations[0], 'request'), false);
+  assert.equal(started.perturbations[0].silent, true);
+  assert.ok(started.perturbations[0].estimated_tokens > 0);
+  let op = started;
+  for (const [taskId, source] of [['task-2', 'Schmidt'], ['task-3', 'baraja-entre']]) {
+    op = offerTaskCard(op, { taskId, semilla: 19 });
+    assert.equal(op.perturbations.at(-1).card.fuente, source);
+  }
+  assert.throws(() => offerTaskCard(op, { taskId: 'task-1' }), /no unsolicited repetition/);
+});
+
+test('el hook persiste la carta al iniciar y la entrega solo al prompt interno', async t => {
+  const root = await mkdtemp(join(tmpdir(), 'cards-silent-start-'));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const op = { ...createArtifact({ goal: 'fixture task', owner: 'fixture-owner' }), state: 'running' };
+  await saveOperationState(root, op);
+  const prompt = await inyectarCartaEnPrompt({ root, operacion: op, taskId: 'task-1', semilla: 19 });
+  assert.equal(prompt.role, 'system');
+  assert.equal(Object.hasOwn(prompt, 'request'), false);
+  assert.equal(JSON.stringify(prompt).includes('elige'), false);
+  const stored = await loadOperationState(root, op.id);
+  assert.equal(stored.perturbations[0].silent, true);
+  assert.equal(stored.perturbations[0].response_status, 'offered');
+});
+
+test('la carta de inicio queda ligada a la tarea y releer el prompt es idempotente', async t => {
+  const root = await mkdtemp(join(tmpdir(), 'cards-task-identity-'));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const op = { ...createArtifact({ goal: 'fixture task identity', owner: 'fixture-owner' }), state: 'running' };
+  await saveOperationState(root, op);
+  const first = await inyectarCartaEnPrompt({ root, operacion: op, taskId: 't1', semilla: 19 });
+  const second = await inyectarCartaEnPrompt({ root, operacion: op, taskId: 't2', semilla: 19 });
+  const repeated = await inyectarCartaEnPrompt({ root, operacion: op, taskId: 't2', semilla: 19 });
+  assert.match(first.cardId, /-t1-card$/);
+  assert.match(second.cardId, /-t2-card$/);
+  assert.equal(repeated.cardId, second.cardId);
+  assert.equal(repeated.content, second.content);
+  assert.equal((await loadOperationState(root, op.id)).perturbations.length, 2);
+});
+
 test('oferta y respuesta no determinan clase; regla aprobada exige evidencia posterior', async () => {
   const api = await import('../skills/vespi/core/cards.mjs');
   assert.equal(typeof api.offerOperationCard, 'function');

@@ -1,5 +1,5 @@
 // Vendored copy — canonical source is founder/proyectos/vespi/kernel/src/x402.js
-// (kernel 0.1.6, master branch, commit 39d4573). Edit the canonical source, then re-copy here;
+// (kernel 0.1.8, master branch, commit 77bceb0). Edit the canonical source, then re-copy here;
 // this file is not the source of truth.
 'use strict';
 
@@ -27,30 +27,97 @@
 // Every port is trusted host code, not a sandbox. A port that ignores its signal can keep acting
 // after this module gave up, and a port that lies is believed only after an independent check
 // returned true; that limit belongs to whoever writes the ports.
+// Async ports must return native Promises. Non-native thenables, including objects whose `then` is
+// an accessor, are rejected without invoking host code; synchronous return values remain supported.
+// A proxy, or an object whose prototype chain holds one, is refused before any trap runs, whether it
+// is returned directly, resolved by a native promise or returned by a claims port. The run clock
+// never has `then` read: any object it returns is an invalid time.
 //
 // Known limits. The claims store has to be synchronous, because the reservation is indivisible: there
 // is no await between deciding and inserting, so two concurrent runs cannot both win. A durable store
 // therefore needs a synchronous primitive, and a durable adapter is work this version does not have.
 // `createMemoryPaymentClaims()` lives in the memory of one process: a restart empties it and a second
-// attempt at the same payment becomes possible. Releasing a reservation is not offered either, so a
-// run refused before the wire keeps its key until the store is gone. The delivery validator is awaited
+// attempt at the same payment becomes possible. The memory store releases our reservation only when
+// the run stops before send. Custom stores may offer synchronous `releaseEffect`; reservations must
+// not expire or be reassigned behind the run. Stores without release keep the conservative reservation.
+// Lease-based stores need owner-bound release and are outside this port contract. The delivery validator is awaited
 // like the other five ports, but it is the one port that is not handed the abort signal: a validator
 // that never settles is stopped by the run's own budget (`performTimeoutMs`), and the run then ends
 // with the effect on the wire and an unknown outcome, not as a failure with nothing exercised.
 // Every deadline a timer is armed for on this payment's behalf (`verifyTimeoutMs`,
 // `performTimeoutMs`, `askTimeoutMs`, `decideTimeoutMs`) is a deadline a timer cannot hold, since a
 // timer is 32-bit: a budget above 2^31-1 ms is refused when the run options are built, never clamped,
-// because a payment is not sent under a deadline the module shortened by itself. What a validator
-// hands back as `output` has to be a plain body or nothing: it is read by descriptors, not copied, so
-// a list, a class instance, an accessor and a proxy are a refused delivery rather than a body in the
-// host's hands. This is checked at the top level only: values nested inside the body are handed back
-// as the validator returned them.
+// because a payment is not sent under a deadline the module shortened by itself. Validator output
+// must be a plain JSON object or nothing. Nested getters, proxies, hidden fields and serialization
+// hooks are refused without invocation; returned bytes are hashed and handed back as a JSON snapshot.
 
 const { sufficient } = require('./authority.js');
 const { runOperation } = require('./operation.js');
+const { computeDigest } = require('./receipt.js');
 const { parseTime } = require('./time.js');
 const { createHash } = require('node:crypto');
 const { types: utilTypes } = require('node:util');
+const apply = Reflect.apply;
+const stringify = JSON.stringify;
+const NativePromise = Promise;
+const promiseResolve = NativePromise.resolve.bind(NativePromise);
+const promiseRace = NativePromise.race.bind(NativePromise);
+const promiseThen = NativePromise.prototype.then;
+
+function asyncReturnError() {
+  const error = new Error('x402 port returned a non-native thenable or an uninspectable value');
+  error.code = 'VESPI_ASYNC_RETURN';
+  return error;
+}
+
+// The value is kept only after it passed the guard, and a native promise's resolved value passes the
+// proxy guard too: reading a proxy runs host code at every property this module touches.
+function startPortCall(fn, args) {
+  let value;
+  const ready = apply(promiseThen, promiseResolve(), [() => {
+    const returned = apply(fn, undefined, args);
+    if (utilTypes.isPromise(returned)) {
+      return apply(promiseThen, returned, [(result) => {
+        if (uninspectable(result)) throw asyncReturnError();
+        value = result;
+      }]);
+    }
+    if (announcesAsync(returned)) throw asyncReturnError();
+    value = returned;
+    return undefined;
+  }]);
+  return { ready, get value() { return value; } };
+}
+
+// A proxy, or an object inheriting from one, cannot be inspected without running host code.
+// `isProxy` answers without a trap and `Object.getPrototypeOf` of a non-proxy runs no host code.
+function uninspectable(value) {
+  if (value === null || (typeof value !== 'object' && typeof value !== 'function')) return false;
+  try {
+    for (let current = value; current !== null; current = Object.getPrototypeOf(current)) {
+      if (utilTypes.isProxy(current)) return true;
+    }
+  } catch {
+    return true;
+  }
+  return false;
+}
+
+// True when the value announces asynchronous work (`then` callable or an accessor, own or inherited)
+// or holds a proxy in its chain; proxies are refused before any trap is consulted.
+function announcesAsync(value) {
+  if (value === null || (typeof value !== 'object' && typeof value !== 'function')) return false;
+  try {
+    for (let current = value; current !== null; current = Object.getPrototypeOf(current)) {
+      if (utilTypes.isProxy(current)) return true;
+      const descriptor = Object.getOwnPropertyDescriptor(current, 'then');
+      if (descriptor) return !('value' in descriptor) || typeof descriptor.value === 'function';
+    }
+  } catch {
+    return true;
+  }
+  return false;
+}
 
 // A canonical positive decimal amount, at most 78 digits, no sign, no exponent, no leading zero.
 const ATOMIC = /^[1-9][0-9]{0,77}$/;
@@ -86,7 +153,7 @@ const SUPPORTED_PAYMENT_FLOWS = new Set(['authorization']);
 
 // Public codes. The catalog is fixed: every rejection a receipt can carry comes from here, so a
 // reader never has to interpret a free text written by a port.
-const CODES = {
+const CODES = Object.freeze({
   INVALID_SPEC: 'INVALID_SPEC',
   INVALID_PORT: 'INVALID_PORT',
   INVALID_CLOCK: 'INVALID_CLOCK',
@@ -104,7 +171,8 @@ const CODES = {
   SETTLEMENT_REJECTED: 'SETTLEMENT_REJECTED',
   DELIVERY_REJECTED: 'DELIVERY_REJECTED',
   VERIFIER_FAILED: 'VERIFIER_FAILED',
-};
+  ASYNC_RETURN: 'ASYNC_RETURN',
+});
 
 const EXIT = 'return to the person: change the agreement or cancel';
 
@@ -251,6 +319,7 @@ function readPorts(raw) {
     const claims = {
       reserveEffect: claimsRaw.reserveEffect.bind(claimsRaw),
       claimTransaction: claimsRaw.claimTransaction.bind(claimsRaw),
+      releaseEffect: typeof claimsRaw.releaseEffect === 'function' ? claimsRaw.releaseEffect.bind(claimsRaw) : null,
     };
     const http = raw.http;
     const signer = raw.signer;
@@ -273,7 +342,7 @@ function readPorts(raw) {
     if (error instanceof Error && (error.code === 'VESPI_X402_INVALID_PORT' || error.code === 'VESPI_X402_CLAIMS_REQUIRED')) throw error;
     throw portError();
   }
-  return ports;
+  return Object.freeze(ports);
 }
 
 // The expected effect a settlement has to match, built from the declaration and never from what the
@@ -289,7 +358,7 @@ function expectedEffect(spec) {
 }
 
 function requirementOf(spec) {
-  return Object.freeze({ asset: spec.grantAsset, amount: spec.amount, to: spec.payTo });
+  return Object.freeze({ asset: spec.grantAsset, amount: spec.amount, to: spec.payTo, network: spec.network, resource: spec.url });
 }
 
 function sameEffect(effect, expected) {
@@ -444,6 +513,8 @@ function liveGrant(authority, spec, now) {
   for (const entry of grants) {
     if (!isPlainObject(entry)) continue;
     if (entry.asset !== requirement.asset || entry.to !== requirement.to) continue;
+    if (entry.network !== undefined && entry.network !== requirement.network) continue;
+    if (entry.resource !== undefined && entry.resource !== requirement.resource) continue;
     named = true;
     const live = entry.expiresAt === undefined || (parseTime(entry.expiresAt) !== null && parseTime(entry.expiresAt) > now);
     // A ceiling that no longer reaches the declared amount is not a grant for this payment, however
@@ -537,7 +608,8 @@ function selectX402Terms(required, rawSpec, authority, now) {
 // Two different networks, payers or resources that share one grant do not collide either way.
 // The version is a name and not a literal inside the hash, because a host that keeps these keys
 // outside the process (a register, a reconciliation table) has to compare them and can only do that
-// with the version in hand. Version 2 is the second form of the canonical content; a key of any
+// with the version in hand. Version 2 remains unchanged; network and resource were already in the key.
+// A key of any
 // other version is a different key, so an old stored key never collides with a new effect.
 const EFFECT_KEY_VERSION = 2;
 
@@ -549,7 +621,7 @@ function effectKey(ctx, spec) {
     request: { url: spec.url, method: spec.method },
     expected: expectedEffect(spec),
   });
-  return sha256(JSON.stringify(content));
+  return sha256(stringify(content));
 }
 
 // The identity of the operation, read once and read here: a payment that cannot say which operation it
@@ -572,18 +644,23 @@ function readOperationIdentity(operation) {
 // and its rejection is consumed here so it cannot reach the host process as an unhandled rejection.
 // Consuming it is not believing it: the answer below still has to be the word the store uses.
 function consumeThenable(value) {
-  if (value === null || (typeof value !== 'object' && typeof value !== 'function')) return;
-  try {
-    if (typeof value.then === 'function') Promise.resolve(value).catch(() => {});
-  } catch {
+  if (utilTypes.isPromise(value)) {
+    apply(promiseThen, value, [undefined, () => {}]);
+    return false;
   }
+  return announcesAsync(value);
+}
+
+function portFailure(error, fallback) {
+  try { return error?.code === 'VESPI_ASYNC_RETURN' ? CODES.ASYNC_RETURN : fallback; } catch { return fallback; }
 }
 
 // Claims live wherever the host put them; this factory is one explicit choice of store, kept for tests
 // and demos, and it lives in the memory of one process. The reservation is synchronous and indivisible:
 // there is no await between deciding and inserting, so two concurrent runs cannot both win. There is
-// no release and no eviction: a reserved effect that never reached the wire stays reserved, and a
-// person reconciles it. A restart empties the store, so a second attempt at the same payment becomes
+// no eviction: a reservation is released only by the run that stopped before calling sendPaid.
+// Once sendPaid was called, uncertainty keeps the reservation for reconciliation.
+// A restart empties the store, so a second attempt at the same payment becomes
 // possible: that is a limit, not a guarantee, and a durable store is the answer this version does not
 // ship yet.
 function createMemoryPaymentClaims(options = {}) {
@@ -600,6 +677,9 @@ function createMemoryPaymentClaims(options = {}) {
       if (effects.size >= capacity) return 'capacity';
       effects.add(key);
       return 'claimed';
+    },
+    releaseEffect(key) {
+      return effects.delete(key);
     },
     claimTransaction(network, txHash) {
       if (typeof network !== 'string' || network.length === 0) return 'capacity';
@@ -646,11 +726,11 @@ async function verifySettlementEffect(ctx, evidence) {
       && (evidence.network === undefined || evidence.network === expected.network)
       && (evidence.amount === undefined || evidence.amount === expected.amount);
     if (declared && typeof ctx.authDigest === 'string' && evidence.authDigest === ctx.authDigest) {
-      const verdict = readVerdict(await callSettlementPort(ctx, evidence));
+      const verdict = readVerdict((await callSettlementPort(ctx, evidence)).answer);
       for (const [key, value] of Object.entries(verdict.checks)) checks[`settlement_${key}`] = value;
       checks.settlement = verdict.ok;
       if (!verdict.ok) {
-        settlementReason = `the settlement port did not verify the declared effect (${CODES.VERIFIER_FAILED})`;
+        settlementReason = `the settlement port did not verify the declared effect (${ctx.verifierCode || CODES.VERIFIER_FAILED})`;
       }
     }
   }
@@ -662,7 +742,12 @@ async function verifySettlementEffect(ctx, evidence) {
   else if (!checks.prepared) reason = `the authorization was not independently inspected (${CODES.PREPARED_REJECTED})`;
   else if (!checks.settlement) reason = settlementReason;
   else if (!checks.transactionUnique) reason = `the settled transaction was not unique in this process (${ctx.claimCode || CODES.DUPLICATE_TRANSACTION})`;
-  else if (!checks.delivery) reason = `the paid response did not deliver a validated body (${CODES.DELIVERY_REJECTED})`;
+  // The delivery code stays DELIVERY_REJECTED, the catalog word readers already match on; when the
+  // refusal had a more specific cause (an async return), that code follows it instead of replacing it.
+  else if (!checks.delivery) {
+    const cause = ctx.deliveryCode && ctx.deliveryCode !== CODES.DELIVERY_REJECTED ? `; ${ctx.deliveryCode}` : '';
+    reason = `the paid response did not deliver a validated body (${CODES.DELIVERY_REJECTED}${cause})`;
+  }
 
   const verified = checks.terms === true
     && checks.prepared === true
@@ -719,13 +804,20 @@ async function callSettlementPort(ctx, evidence) {
     }, budget);
   });
   try {
-    const call = Promise.resolve().then(() => ctx.ports.verifySettlement(evidence, {
+    const call = startPortCall(ctx.ports.verifySettlement, [evidence, {
       expected: ctx.expected,
       authDigest: ctx.authDigest,
       signal: controller.signal,
-    }));
-    const settled = await Promise.race([call.catch(() => ({ verified: false, checks: {}, reason: 'the settlement port failed' })), timeout]);
-    return settled;
+    }]);
+    const settled = await promiseRace([apply(promiseThen, call.ready, [undefined, (error) => {
+      const failure = portFailure(error, CODES.VERIFIER_FAILED);
+      if (failure === CODES.ASYNC_RETURN) ctx.verifierCode = failure;
+      return { failure };
+    }]), timeout]);
+    // The answer travels boxed: an async function that returned the port's object directly would
+    // assimilate it, and a `then` the host attached after the inspection would run.
+    if (settled && settled.failure) return { answer: { verified: false, checks: {}, reason: `the settlement port failed (${settled.failure})` } };
+    return { answer: settled === null ? { verified: false, checks: {}, reason: 'the settlement port failed' } : call.value };
   } finally {
     clearTimeout(timer);
   }
@@ -744,8 +836,9 @@ function readVerifyTimeout(io) {
 // own verifier, so a host cannot hand the payment a verifier that trusts the signer.
 const ALLOWED_IO_KEYS = [
   'ask', 'decide', 'decideThreshold', 'decideTimeoutMs', 'now',
-  'askTimeoutMs', 'performTimeoutMs', 'verifyTimeoutMs',
+  'askTimeoutMs', 'performTimeoutMs', 'verifyTimeoutMs', 'readContext', 'contextTimeoutMs', 'checkpoint', 'checkpointTimeoutMs',
 ];
+// Optional: a failure after the last checkpoint and before perform can repeat an effect unless the destination deduplicates by `idempotencyKey`.
 // Node's timers are 32-bit and a delay of 2^31 ms or more is armed as 1 ms, so a budget a host meant
 // as a long wait aborts the settlement reader on the spot and seals a paid effect as not_verified.
 // The module does not clamp it: a clamp answers with a budget the host did not ask for, and the
@@ -754,7 +847,7 @@ const ALLOWED_IO_KEYS = [
 // be read. The engine arms timers for `performTimeoutMs`, `askTimeoutMs` and `decideTimeoutMs` on
 // this payment's behalf, so they are refused the same way.
 const MAX_TIMER_MS = 2 ** 31 - 1;
-const TIMER_DEADLINES = ['verifyTimeoutMs', 'performTimeoutMs', 'askTimeoutMs', 'decideTimeoutMs'];
+const TIMER_DEADLINES = ['verifyTimeoutMs', 'performTimeoutMs', 'askTimeoutMs', 'decideTimeoutMs', 'contextTimeoutMs', 'checkpointTimeoutMs'];
 const DEFAULT_VERIFY_TIMEOUT_MS = 15_000;
 
 // The run clock is a synchronous contract, the same one the engine uses. An injected clock that is
@@ -769,19 +862,20 @@ function readRunNow(io) {
   if (typeof clock !== 'function') return Date.now();
   let value;
   try {
-    value = clock.call(io);
+    value = apply(clock, undefined, []);
   } catch {
     return null;
   }
+  // Any object is an invalid time, refused without reading `then`; only a native promise is consumed
+  // so its rejection does not escape unhandled.
   if (value !== null && (typeof value === 'object' || typeof value === 'function')) {
-    try {
-      if (typeof value.then === 'function') {
-        Promise.resolve(value).catch(() => {});
-        return null;
+    if (utilTypes.isPromise(value)) {
+      try {
+        apply(promiseThen, value, [undefined, () => {}]);
+      } catch {
       }
-    } catch {
-      return null;
     }
+    return null;
   }
   const parsed = parseTime(value);
   return parsed === null ? null : parsed;
@@ -791,7 +885,7 @@ function readRunNow(io) {
 // permission: it is a payment this agreement cannot make, so it comes back blocked with its exit.
 // An authority that says nothing about the asset is left to the human gate, which may still say yes.
 function requiredFor(spec, op) {
-  const declared = { spend: [{ asset: spec.grantAsset, amount: spec.amount, to: spec.payTo }] };
+  const declared = { spend: [{ ...requirementOf(spec) }] };
   let granted;
   try {
     granted = Array.isArray(op?.authority?.spend) ? op.authority.spend : [];
@@ -830,9 +924,11 @@ function abortedRead(signal) {
 async function discoverRequired(ctx, spec) {
   let discovered;
   try {
-    discovered = await ctx.ports.discover({ url: spec.url, method: spec.method, redirect: 'error', signal: ctx.signal });
-  } catch {
-    return { ok: false, code: CODES.DISCOVERY_FAILED };
+    const call = startPortCall(ctx.ports.discover, [{ url: spec.url, method: spec.method, redirect: 'error', signal: ctx.signal }]);
+    await call.ready;
+    discovered = call.value;
+  } catch (error) {
+    return { ok: false, code: portFailure(error, CODES.DISCOVERY_FAILED) };
   }
   if (aborted(ctx)) return { ok: false, code: CODES.ABORTED };
   // `status` and `paymentRequired` are read once, inside the guard, and the copy that was read is the
@@ -859,9 +955,11 @@ async function discoverRequired(ctx, spec) {
 async function prepareAuthorization(ctx) {
   let prepared;
   try {
-    prepared = await ctx.ports.prepare({ terms: ctx.terms, expected: ctx.expected, signal: ctx.signal });
-  } catch {
-    return { ok: false, code: CODES.PREPARE_FAILED };
+    const call = startPortCall(ctx.ports.prepare, [{ terms: ctx.terms, expected: ctx.expected, signal: ctx.signal }]);
+    await call.ready;
+    prepared = call.value;
+  } catch (error) {
+    return { ok: false, code: portFailure(error, CODES.PREPARE_FAILED) };
   }
   if (aborted(ctx)) return { ok: false, code: CODES.ABORTED };
   let authorization = null;
@@ -905,10 +1003,12 @@ function inspectionIsAcceptable(result, expected) {
 async function inspectAuthorization(ctx, authorization) {
   let result;
   try {
-    result = await ctx.ports.inspectPrepared(authorization, { expected: ctx.expected, signal: ctx.signal });
-  } catch {
+    const call = startPortCall(ctx.ports.inspectPrepared, [authorization, { expected: ctx.expected, signal: ctx.signal }]);
+    await call.ready;
+    result = call.value;
+  } catch (error) {
     // An inspector that cannot read the authorization is a failed run, not a refusal of terms.
-    return { ok: false, code: CODES.PREPARED_REJECTED, failure: true };
+    return { ok: false, code: portFailure(error, CODES.PREPARED_REJECTED), failure: true };
   }
   if (aborted(ctx)) return { ok: false, code: CODES.ABORTED, failure: true };
   let accepted = null;
@@ -973,7 +1073,7 @@ function readSettlement(settlement, expected) {
 // port, and nothing from the body travels into the receipt but its digest.
 function jsonCopy(value) {
   try {
-    return JSON.parse(JSON.stringify(value));
+    return JSON.parse(stringify(value));
   } catch {
     return null;
   }
@@ -982,7 +1082,7 @@ function jsonCopy(value) {
 function exceedsBodyLimit(value) {
   let serialized;
   try {
-    serialized = JSON.stringify(value);
+    serialized = stringify(value);
   } catch {
     return true;
   }
@@ -990,15 +1090,35 @@ function exceedsBodyLimit(value) {
   return Buffer.byteLength(serialized, 'utf8') > MAX_BODY_BYTES;
 }
 
+function isJsonData(value, seen = new Set()) {
+  if (value === null || typeof value === 'string' || typeof value === 'boolean') return true;
+  if (typeof value === 'number') return Number.isFinite(value);
+  if (!isPlainContainer(value) || seen.has(value)) return false;
+  const keys = Object.keys(value);
+  if ('toJSON' in value || Object.getOwnPropertyNames(value).length !== keys.length + (Array.isArray(value) ? 1 : 0)) return false;
+  if (Array.isArray(value) && (keys.length !== value.length
+    || keys.some((key) => !/^(0|[1-9]\d*)$/.test(key) || Number(key) >= value.length))) return false;
+  seen.add(value);
+  try {
+    for (const key of keys) {
+      if (!isJsonData(value[key], seen)) return false;
+    }
+    return true;
+  } catch {
+    return false;
+  } finally {
+    seen.delete(value);
+  }
+}
+
 // Delivery is covered only when the validator says the body is acceptable AND hands back a SHA-256
 // digest of it. Without the digest there is nothing to put on the receipt and nothing for a later run
-// to compare against. The digest is the validator's word: this module checks its shape, records it,
-// and neither recomputes it nor compares it with `output`. The validator's answer is read once inside
+// to compare against. A returned output is serialized here and its hash must match the reported digest.
+// Without output, the digest remains the validator's report. The answer is read once inside
 // the guard: a getter cannot answer twice.
 //
 // The `output` it hands back has to be a plain body, the same rule every other port answers to, and
-// it is not copied with JSON. A copy would be a second reading of host-written data by this module
-// and would hand back something the port never said; instead an output that is not plain data — a
+// only a data-only tree is serialized and snapshotted; an output that is not plain data — a
 // list, a class instance, an accessor, a proxy — refuses the delivery like any other malformed
 // answer. A validator that reports no body at all is not malformed: nothing to hand back is an
 // answer, and the delivery stays covered.
@@ -1014,18 +1134,25 @@ function exceedsBodyLimit(value) {
 async function readDelivery(response, ctx) {
   let raw;
   try {
-    raw = typeof response.readBody === 'function' ? await response.readBody(ctx.signal) : null;
-  } catch {
-    return { ok: false, output: null, digest: null };
+    if (typeof response.readBody !== 'function') raw = null;
+    else {
+      const call = startPortCall(response.readBody, [ctx.signal]);
+      await call.ready;
+      raw = call.value;
+    }
+  } catch (error) {
+    return { ok: false, output: null, digest: null, code: portFailure(error, CODES.DELIVERY_REJECTED) };
   }
   const copy = jsonCopy(raw);
   if (copy === null || copy === undefined) return { ok: false, output: null, digest: null };
   if (exceedsBodyLimit(copy)) return { ok: false, output: null, digest: null };
   let validated;
   try {
-    validated = await ctx.ports.validateOutput(copy);
-  } catch {
-    return { ok: false, output: null, digest: null };
+    const call = startPortCall(ctx.ports.validateOutput, [copy]);
+    await call.ready;
+    validated = call.value;
+  } catch (error) {
+    return { ok: false, output: null, digest: null, code: portFailure(error, CODES.DELIVERY_REJECTED) };
   }
   let ok;
   let digest;
@@ -1041,12 +1168,20 @@ async function readDelivery(response, ctx) {
     return { ok: false, output: null, digest: null };
   }
   if (!ok || digest === null) return { ok: false, output: null, digest: null };
-  // Plainness here is stricter than the container check the ports answer to: a body has to be a
-  // plain object, and its own top-level descriptors have to be plain as well; nested values are not
-  // inspected. A list is not a body, an accessor is refused without ever being called, and a proxy is
-  // refused without being asked anything. Both checks read descriptors and never values.
-  if (output !== null && (!isPlainObject(output) || !isPlainContainer(output))) {
+  // Unlike offers, delivery has no eight-level cutoff; every nested value must be JSON data.
+  if (output !== null && (!isPlainObject(output) || !isJsonData(output))) {
     return { ok: false, output: null, digest: null };
+  }
+  if (output !== null) {
+    try {
+      const serialized = stringify(output);
+      if (Buffer.byteLength(serialized, 'utf8') > MAX_BODY_BYTES || sha256(serialized) !== digest) {
+        return { ok: false, output: null, digest: null };
+      }
+      output = JSON.parse(serialized);
+    } catch {
+      return { ok: false, output: null, digest: null };
+    }
   }
   return { ok: true, output, digest };
 }
@@ -1094,6 +1229,10 @@ async function perform(ctx) {
     return await performStages(ctx, spec);
   } finally {
     stopWatching();
+    // Only our reservation, and only before send: an uncertain payment must never become retryable.
+    if (ctx.reserved && !ctx.sendStarted && ctx.claims.releaseEffect !== null) {
+      try { consumeThenable(ctx.claims.releaseEffect(ctx.effectKey)); } catch {}
+    }
   }
 }
 
@@ -1109,7 +1248,7 @@ async function performStages(ctx, spec) {
   ctx.operationId = identity;
 
   const discovered = await discoverRequired(ctx, spec);
-  if (!discovered.ok) return failed(discovered.code);
+  if (!discovered.ok) return discovered.code === CODES.ASYNC_RETURN ? blocked(discovered.code) : failed(discovered.code);
 
   const chosen = selectX402Terms(discovered.paymentRequired, spec, ctx.authority, now);
   if (!chosen.ok) return blocked(chosen.code);
@@ -1121,19 +1260,22 @@ async function performStages(ctx, spec) {
   // A store that cannot answer is a run that cannot deduplicate, so nothing goes out.
   let reserved;
   try {
-    reserved = ctx.claims.reserveEffect(effectKey(ctx, spec));
-    consumeThenable(reserved);
+    ctx.effectKey = effectKey(ctx, spec);
+    reserved = ctx.claims.reserveEffect(ctx.effectKey);
+    if (consumeThenable(reserved)) return blocked(CODES.ASYNC_RETURN);
   } catch {
     return failed(CODES.CLAIMS_CAPACITY);
   }
   if (reserved === 'duplicate') return blocked(CODES.DUPLICATE_EFFECT);
   if (reserved !== 'claimed') return blocked(CODES.CLAIMS_CAPACITY);
+  ctx.reserved = true;
 
   const prepared = await prepareAuthorization(ctx);
-  if (!prepared.ok) return failed(prepared.code);
+  if (!prepared.ok) return prepared.code === CODES.ASYNC_RETURN ? blocked(prepared.code) : failed(prepared.code);
 
   const inspected = await inspectAuthorization(ctx, prepared.authorization);
   if (!inspected.ok) {
+    if (inspected.code === CODES.ASYNC_RETURN) return blocked(inspected.code);
     if (inspected.failure) return failed(inspected.code);
     return blocked(inspected.code);
   }
@@ -1153,7 +1295,8 @@ async function performStages(ctx, spec) {
   // exercised, nothing below may send a second time, and no message a port wrote may travel into
   // the receipt: every remaining step lives inside this one guard.
   try {
-    const response = await ctx.ports.sendPaid({
+    ctx.sendStarted = true;
+    const call = startPortCall(ctx.ports.sendPaid, [{
       url: spec.url,
       method: spec.method,
       redirect: 'error',
@@ -1161,10 +1304,12 @@ async function performStages(ctx, spec) {
       terms: ctx.terms,
       // A hint, not a claim: the provider may use it to recognise its own retry, and two different
       // operations with the same goal, action and requirements send the same hint. Nothing this module
-      // deduplicates rests on it; the effect key does, and the effect key never leaves the process.
+      // deduplicates rests on it; the effect key does, and only that hash travels into the receipt.
       idempotencyKey: ctx.operationKey,
       signal: ctx.signal,
-    });
+    }]);
+    await call.ready;
+    const response = call.value;
     if (!isPlainObject(response)) return unknownAfterSend(ctx, CODES.SEND_UNKNOWN);
 
     const settlement = readSettlement(response.settlement, ctx.expected);
@@ -1176,9 +1321,10 @@ async function performStages(ctx, spec) {
     // The transaction is claimed as soon as there is a hash to claim, before anything is exposed: a
     // settlement the run then refuses is still a transaction this process has already seen.
     const claim = ctx.claims.claimTransaction(ctx.expected.network, settlement.txHash);
-    consumeThenable(claim);
-    ctx.transactionUnique = claim === 'claimed';
-    if (!ctx.transactionUnique) ctx.claimCode = claim === 'duplicate' ? CODES.DUPLICATE_TRANSACTION : CODES.CLAIMS_CAPACITY;
+    const asyncClaim = consumeThenable(claim);
+    ctx.transactionUnique = claim === 'claimed' && !asyncClaim;
+    if (!ctx.transactionUnique) ctx.claimCode = asyncClaim ? CODES.ASYNC_RETURN
+      : claim === 'duplicate' ? CODES.DUPLICATE_TRANSACTION : CODES.CLAIMS_CAPACITY;
 
     // A hash that contradicts the declaration keeps its evidence on the receipt: the person
     // reconciles it. It is not verified and no output is exposed.
@@ -1188,14 +1334,17 @@ async function performStages(ctx, spec) {
     // A delivery on a cancelled run is not a delivery: the answer arrived after the run was called
     // off, so the settlement may still be verified while the delivery stays uncovered.
     ctx.delivery = delivery.ok && response.status === 200 && !aborted(ctx);
-    if (!ctx.delivery) return { ok: true, evidence: ctx.evidence, output: null };
+    ctx.deliveryCode = delivery.code;
+    if (!ctx.delivery) {
+      return { ok: true, evidence: ctx.evidence, output: null };
+    }
     ctx.evidence = { ...ctx.evidence, planDigest: delivery.digest };
     return { ok: true, evidence: ctx.evidence, output: delivery.output };
-  } catch {
+  } catch (error) {
     // A property of the answer that throws, a claims store that throws, a body that cannot be
     // read: whatever it was, the effect may be on the wire. The run reports uncertainty, keeps the
     // evidence it already has and the permission it already spent, and a person reconciles.
-    return unknownAfterSend(ctx, CODES.SEND_UNKNOWN);
+    return unknownAfterSend(ctx, portFailure(error, CODES.SEND_UNKNOWN));
   }
 }
 
@@ -1249,14 +1398,21 @@ function buildRunIo(io, ctx) {
   // itself. Only a readable number is judged: anything else keeps the fallback below, as it always did.
   for (const key of TIMER_DEADLINES) {
     const budget = runIo[key];
+    if (key === 'checkpointTimeoutMs' && budget !== undefined
+      && (typeof budget !== 'number' || !Number.isFinite(budget) || budget <= 0 || budget > MAX_TIMER_MS)) throw ioError();
     if (typeof budget === 'number' && Number.isFinite(budget) && budget > MAX_TIMER_MS) throw ioError();
   }
   // The budget the ceiling was judged on is the one the timer is armed with. Holding the value on
   // the run's own context closes the gap between the copy that was checked and a host options object
   // that changed while the payment was in flight: reading the raw options again would arm a timer
   // nobody judged. This is the only verifier this module installs, so the value has one writer.
+  const callbackIo = Object.freeze({ ...runIo });
+  for (const key of ['ask', 'decide', 'now', 'readContext', 'checkpoint']) {
+    if (typeof callbackIo[key] === 'function') runIo[key] = (...args) => apply(callbackIo[key], undefined, args);
+  }
   ctx.verifyTimeoutMs = runIo.verifyTimeoutMs;
-  runIo.verify = (evidence) => verifySettlementEffect(ctx, evidence);
+  Object.defineProperty(runIo, 'verify', { value: (evidence) => verifySettlementEffect(ctx, evidence) });
+  Object.freeze(runIo);
   return runIo;
 }
 
@@ -1294,6 +1450,7 @@ function createX402Payment(rawSpec, rawPorts) {
         claimCode: null,
         aborted: false,
       };
+      const runIo = buildRunIo(io, ctx);
       const capability = {
         id: spec.id,
         required: (operation) => requiredFor(spec, operation),
@@ -1304,15 +1461,21 @@ function createX402Payment(rawSpec, rawPorts) {
           ctx.operation = performCtx?.operation ?? null;
           ctx.operationKey = performCtx?.idempotencyKey ?? null;
           ctx.signal = performCtx?.signal ?? null;
-          const now = readRunNow(io);
+          const now = readRunNow(runIo);
           if (now === null) return failed(CODES.INVALID_CLOCK);
           ctx.now = now;
           return perform(ctx);
         },
       };
-      return runOperation(op, capability, buildRunIo(io, ctx));
+      const result = await runOperation(op, capability, runIo);
+      if (ctx.effectKey !== undefined && result.receipt) {
+        result.receipt.effectKeyVersion = EFFECT_KEY_VERSION;
+        result.receipt.evidence = { ...(result.receipt.evidence || {}), effectKey: ctx.effectKey };
+        result.receipt.digest = computeDigest(result.receipt);
+      }
+      return result;
     },
   };
 }
 
-module.exports = { createX402Payment, selectX402Terms, createMemoryPaymentClaims, SETTLEMENT_CONTROL_NAMES, EFFECT_KEY_VERSION };
+module.exports = { createX402Payment, selectX402Terms, createMemoryPaymentClaims, SETTLEMENT_CONTROL_NAMES, EFFECT_KEY_VERSION, X402_CODES: CODES };

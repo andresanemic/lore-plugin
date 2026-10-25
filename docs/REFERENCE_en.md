@@ -5,7 +5,7 @@ use, core concepts, the exact spec for every skill, mode and artifact, and how t
 project. For the motivation, the architecture at a glance and the index of every document, see the
 main [`README.md`](../README.md); for the 90-second version, [`90_SECONDS_en.md`](./90_SECONDS_en.md).
 
-This reference describes the Lore Plugin 2.5.2 candidate cut, publication date pending, with the fixed Vespi kernel 0.1.6 copy from commit `39d45733839d0a05f60248fc6e5b81c892c464f8`. It includes ten modules, with optional emergency, skill provenance, x402 and ZK surfaces; it excludes `zk-bn254-reference.js`, an experimental cryptographic reference, and the SDK-backed x402 bridge. See [`RELEASE_2.4.9.md`](./RELEASE_2.4.9.md) for the summary.
+This reference describes Lore Plugin 2.5.3, which pins Vespi kernel 0.1.8 at commit `77bceb0582aa021320c4632bee590a76ef7a6646`. Optional kernel surfaces keep their existing limits. See [`RELEASE_2.5.3.md`](./RELEASE_2.5.3.md) and [executed verification](./VERIFICATION-EXECUTION.md). It includes eleven modules, with optional emergency, skill provenance, x402 and ZK surfaces; it excludes `zk-bn254-reference.js`, an experimental cryptographic reference, and the SDK-backed x402 bridge. See [`RELEASE_2.5.3.md`](./RELEASE_2.5.3.md) for the summary.
 
 ---
 
@@ -94,7 +94,7 @@ The Lore plugin exposes eight main skills through compatible AI agents:
 | `save-to-lore`   | Capture criteria (**capture**), arbitrate imported criteria (**graft**), or conditionally mine a loose-notes inbox | "save to lore", "distill skill X into the lore", "review my notes and save what belongs" |
 | `transmute-lore` | Operate an existing Lore in eight modes | add / clean / translate / upgrade / prune / **mycelium** / leave / crystallize |
 | `create-bot`     | Build a bot: one place to open a session and work across several projects at once, with their criteria reachable and routed | "create a bot to work on X and Y" (nuevo) / "I want a bot that federates the lore already living in A and B" (federar) |
-| `vespi`         | Run a bounded live operation under authority, with a durable checkpoint (experimental) | Never invoked from a person's sentence: the coordinator takes it, in role, when the operation is under strain |
+| `vespi`         | Run a bounded live operation under authority, with a durable checkpoint | Never invoked from a person's sentence: the coordinator takes it, in role, when the operation is under strain |
 
 Each skill operates on or creates specific Markdown artifacts under your repository.
 
@@ -674,7 +674,9 @@ Use `create-bot` when you want one session that works across several projects �
 
 ### 3.10 `vespi`
 
-**Role (experimental, RC3):** run a **live bounded operation** under authority across time — continue across sessions, move laterally when the route is insufficient, revalidate before continuing as the same operation. The unit is the operation, not the agent.
+In 2.5.3, the coordinator preserves the original obligations, supplies the shipped method with a bounded commission, and declares composed final outputs for separate review. The default route is direct only for narrowly recognized trivial edits; otherwise final review is required and a missing verifier blocks conformity. Delivery evidence covers the Claude Code kit worker with received hooks, not advisor or daimon roles, all hosts, or a causal behavioral effect. Cards and five reviewed sparks remain coordination records, not approved Lore. The offline contrast runner does not establish a measured benefit.
+
+**Role:** run a **live bounded operation** under authority across time — continue across sessions, move laterally when the route is insufficient, revalidate before continuing as the same operation. The unit is the operation, not the agent.
 
 **Reach for it only when the work is an operation under pressure:** effects carry authority, resuming silently would pretend nothing changed, or the current route may not suffice. Ordinary work stays with `use-lore`; design clarification stays with `brainstorming-lore`.
 

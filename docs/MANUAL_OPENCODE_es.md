@@ -1,9 +1,11 @@
 # LORE PLUGIN · SETUP MULTIPROVEEDOR
 
+**Borrador de publicación 2.5.3.** Los comandos públicos que nombran `v2.5.3` requieren su tag publicado. Este recorrido no se repitió en todos los hosts para 2.5.3. La evidencia de entrega del método cubre al trabajador del kit en Claude Code con hooks recibidos; no acredita entrega en OpenCode, Codex, advisor o daimon ni un efecto conductual causal. El kit fija once módulos del kernel 0.1.8 en el commit `77bceb0582aa021320c4632bee590a76ef7a6646`. Publicar requiere aprobación explícita de Andrés. [Alcance y límites del corte](./RELEASE_2.5.3.md).
+
 # De una máquina nueva al primer proyecto con criterio portable
 
 **Versión de campo 0.2 · Windows x64 · Redacción: 2026-10-06**  
-**Lore Plugin 2.5.2 (corte local, aún sin publicar) con el kernel de Vespi fijado en 0.1.6.** Las interfaces, los modelos gratuitos y los mecanismos de instalación cambian. Verifica las fuentes antes de seguir el recorrido.
+**Lore Plugin 2.5.3 (corte local, aún sin publicar) con el kernel de Vespi fijado en 0.1.8.** Las interfaces, los modelos gratuitos y los mecanismos de instalación cambian. Verifica las fuentes antes de seguir el recorrido.
 
 ## La idea
 
@@ -46,7 +48,7 @@ Codex puede sumarse como otro host. Vespi coordina operaciones acotadas bajo aut
 | VS Code | Recomendado | Editor convencional complementario |
 | Obsidian | Recomendado | Editor de notas opcional; no es requisito de Lore |
 | Superpowers | Recomendado | Complemento comunitario para trabajo de software |
-| Lore Plugin 2.5.2 | Necesario | Criterio portable, Áreas, Proyectos y Bots |
+| Lore Plugin 2.5.3 | Necesario | Criterio portable, Áreas, Proyectos y Bots |
 | Claude Code | Segunda jornada | Segundo host para el mismo proyecto |
 | Codex | Opcional | Otro host, si ya forma parte de tu flujo |
 | Node.js | Necesario para instalar desde el clon | Ejecutar el instalador del kit y su CLI local |
@@ -132,7 +134,7 @@ Después del reinicio, pide al agente que describa qué skills de Superpowers de
 
 ### 5. Instalar Lore Plugin en OpenCode
 
-En OpenCode, usa el instalador del kit desde un clon del repositorio. Necesitas Git y Node.js. El clon público usa la versión `v2.5.2`. Desde un clon local de esta rama:
+En OpenCode, usa el instalador del kit desde un clon del repositorio. Necesitas Git y Node.js. El clon público usa la versión `v2.5.3`. Desde un clon local de esta rama:
 
 ```powershell
 git clone https://github.com/andresanemic/lore-plugin.git "$env:USERPROFILE\Tools\lore-plugin"
@@ -150,12 +152,12 @@ Instala Lore Plugin desde mi clon local con node scripts/lore-plugin.mjs install
 
 **Puerta 5 — GREEN: Lore instalado**
 
-Reinicia OpenCode. Pide al host que enumere sus skills de Lore sin ejecutar ninguna. Las ocho skills de Lore que debe traer el kit son `use-lore`, `brainstorming-lore`, `create-area`, `create-project`, `save-to-lore`, `transmute-lore`, `create-bot` y `stale-lore`. Además, 2.5.2 incluye la skill experimental `vespi`, descrita en su sección. `obsidian-lore` no forma parte del kit. Comprueba las rutas, que no haya copias duplicadas y que la salida del instalador informe verificación correcta. Si aparece `obsidian-lore`, anota su ruta y confirma si es un residuo de otra instalación antes de quitarlo. Todavía no crees Lore: ése es el punto correcto para cerrar la primera jornada.
+Reinicia OpenCode. Pide al host que enumere sus skills de Lore sin ejecutar ninguna. Las ocho skills de Lore que debe traer el kit son `use-lore`, `brainstorming-lore`, `create-area`, `create-project`, `save-to-lore`, `transmute-lore`, `create-bot` y `stale-lore`. Además, 2.5.3 incluye la skill `vespi`, descrita en su sección. `obsidian-lore` no forma parte del kit. Comprueba las rutas, que no haya copias duplicadas y que la salida del instalador informe verificación correcta. Si aparece `obsidian-lore`, anota su ruta y confirma si es un residuo de otra instalación antes de quitarlo. Todavía no crees Lore: ése es el punto correcto para cerrar la primera jornada.
 
 **Le decimos al agente:**
 
 ```text
-Usa la herramienta de skills de OpenCode para enumerar las skills disponibles relacionadas con Lore Plugin. No cargues ni ejecutes ninguna todavía. Espero ver use-lore, brainstorming-lore, create-area, create-project, save-to-lore, transmute-lore, create-bot y stale-lore; confirma también que ves vespi como skill experimental. obsidian-lore no forma parte del kit: si aparece, informa su ruta y no la borres. Señala rutas duplicadas o faltantes y no cambies nada.
+Usa la herramienta de skills de OpenCode para enumerar las skills disponibles relacionadas con Lore Plugin. No cargues ni ejecutes ninguna todavía. Espero ver use-lore, brainstorming-lore, create-area, create-project, save-to-lore, transmute-lore, create-bot y stale-lore; confirma también que ves vespi como skill. obsidian-lore no forma parte del kit: si aparece, informa su ruta y no la borres. Señala rutas duplicadas o faltantes y no cambies nada.
 ```
 
 ## Segunda jornada: los otros hosts y el primer trabajo
@@ -170,7 +172,7 @@ Claude Code es otro host y no hereda las skills de OpenCode. En Windows, usa el 
 Instala Claude Code en Windows con `irm https://claude.ai/install.ps1 | iex`. Explícame el comando y espera mi aprobación. No uses mis credenciales ni inicies sesión. Comprueba claude --version y claude doctor, registra el resultado y detente antes del login.
 ```
 
-Desde el mismo clon `v2.5.2` que usaste para OpenCode, ejecuta el instalador de Claude. Este comando llama al marketplace oficial de Claude Code, instala la CLI local del kit y conecta el indicador de estado. Depende de que la versión `v2.5.2` esté disponible en el repositorio público:
+Desde el mismo clon `v2.5.3` que usaste para OpenCode, ejecuta el instalador de Claude. Este comando llama al marketplace oficial de Claude Code, instala la CLI local del kit y conecta el indicador de estado. Depende de que la versión `v2.5.3` esté disponible en el repositorio público:
 
 ```powershell
 node scripts/lore-plugin.mjs install --target claude
@@ -179,7 +181,7 @@ node scripts/lore-plugin.mjs install --target claude
 **Le decimos al agente:**
 
 ```text
-Ejecuta node scripts/lore-plugin.mjs install --target claude desde el clon `v2.5.2`. Antes de modificar nada, explica los comandos del marketplace y las rutas locales que tocarás. No uses mis credenciales. Abre una sesión nueva y confirma las ocho skills de Lore y vespi. No borres instalaciones existentes sin mostrarme sus rutas.
+Ejecuta node scripts/lore-plugin.mjs install --target claude desde el clon `v2.5.3`. Antes de modificar nada, explica los comandos del marketplace y las rutas locales que tocarás. No uses mis credenciales. Abre una sesión nueva y confirma las ocho skills de Lore y vespi. No borres instalaciones existentes sin mostrarme sus rutas.
 ```
 
 Abre una sesión nueva según indique Claude Code.
@@ -190,7 +192,7 @@ Confirma que Claude Code inicia sesión y que el selector muestra las ocho skill
 
 ### 7. Codex, si lo necesitas
 
-Codex es opcional. Desde un clon local, `node scripts/lore-plugin.mjs install --target codex` copia el paquete y prepara el marketplace personal. Después ejecuta `codex plugin add lore@personal` y habilítalo desde Codex. Los comandos públicos usan la versión `v2.5.2`.
+Codex es opcional. Desde un clon local, `node scripts/lore-plugin.mjs install --target codex` copia el paquete y prepara el marketplace personal. Después ejecuta `codex plugin add lore@personal` y habilítalo desde Codex. Los comandos públicos usan la versión `v2.5.3`.
 
 **Le decimos al agente:**
 
@@ -283,11 +285,11 @@ Quiero crear <ruta-del-proyecto>/vespi-demo.md y continuar después de esta sesi
 
 El bloque bajo `## Operaciones` aparece en `FASES.md`; el permiso corresponde al efecto declarado; la comprobación observó el archivo; y el recibo separa cobertura de límites. Cierra la sesión, vuelve al proyecto y pide continuar. Antes de seguir, el coordinador vuelve a leer contrato, `FASES.md`, recibo y autoridad. Si una premisa material cambió o la evidencia no alcanza, se detiene y pide la decisión que falta.
 
-### Qué trae 0.1.6 y qué no
+### Qué trae 0.1.8 y qué no
 
-El kit fija la copia congelada de Vespi 0.1.6 del commit `39d45733839d0a05f60248fc6e5b81c892c464f8`, con operaciones, autoridad concedida, decisiones humanas, recibos, delegaciones acotadas y reanudación. La fachada `skills/vespi/core/vespi.mjs` declara, desde la copia vendorizada, las cuatro superficies opcionales presentes (`capabilities.md` solo las describe): permisos de emergencia, procedencia de skills, pagos x402 y verificación ZK. No se incluye `zk-bn254-reference.js`, una referencia criptográfica experimental, ni el puente x402 con el SDK real; las superficies no se conectan automáticamente y siguen en validación de campo.
+El kit fija once módulos de Vespi 0.1.8 en el commit `77bceb0582aa021320c4632bee590a76ef7a6646`, con operaciones, autoridad concedida, decisiones humanas, recibos, delegaciones acotadas y reanudación. La fachada `skills/vespi/core/vespi.mjs` declara, desde la copia vendorizada, las cuatro superficies opcionales presentes (`capabilities.md` solo las describe): permisos de emergencia, procedencia de skills, pagos x402 y verificación ZK. No se incluye `zk-bn254-reference.js`, una referencia criptográfica experimental, ni el puente x402 con el SDK real; las superficies no se conectan automáticamente y siguen en validación de campo.
 
-La documentación del kernel incluye evidencia histórica de testnet; este recorrido no ejecuta transacciones y esa evidencia no es una auditoría. 0.1.6 no incluye recibos encadenados con `prev`, intención previa al efecto, presupuestos acumulados, `narrow(parent, child)` ni época de reanudación. El host aporta el reloj; los puertos son código confiable, no un sandbox. El digest protege integridad, no autentica aprobaciones ni prueba efectos externos.
+La documentación del kernel incluye evidencia histórica de testnet; este recorrido no ejecuta transacciones y esa evidencia no es una auditoría. El kernel 0.1.8 vincula el contexto aprobado con la aprobación y el recibo, lo comprueba antes de un efecto y conserva autoridad acotada mediante checkpoints y continuaciones gestionados por el host. El host aporta almacenamiento auténtico de checkpoints y una generación mínima aceptada. Los callbacks no reciben receptor; un host que dependa de `this` debe pasar una flecha, clausura o función ligada. Estos mecanismos no establecen un libro de gasto durable ni ejecución automática entre hosts. El host aporta el reloj; los puertos son código confiable, no un sandbox. El digest protege integridad, no autentica aprobaciones ni prueba efectos externos.
 
 ### Verificación de cobertura
 
@@ -337,8 +339,8 @@ Versión de campo redactada el 2026-10-06. Las interfaces, los modelos gratuitos
 - Codex, plugins y marketplaces: https://developers.openai.com/plugins/build/plugins (consultado 2026-10-05).
 - Superpowers, instalación por host y guía OpenCode: https://github.com/obra/superpowers y https://github.com/obra/superpowers/blob/main/docs/README.opencode.md (consultado 2026-10-05).
 - Git for Windows, WinGet, Visual Studio Code y Obsidian: https://git-scm.com/install/windows, https://learn.microsoft.com/windows/package-manager/winget/install, https://code.visualstudio.com/Download y https://obsidian.md/help/Getting%2Bstarted/Download%2Band%2Binstall%2BObsidian (consultado 2026-10-05).
-- Lore Plugin, fuente de instalación, comandos y ocho skills: `README.md`, `scripts/installer.mjs`, `scripts/lore-plugin.mjs` y `skills/` de este kit. Usa la versión `v2.5.2` para los comandos públicos de instalación. La octava skill, `stale-lore`, se describe en `skills/stale-lore/SKILL.md`.
-- Vespi 0.1.6 y evidencia: `skills/vespi/SKILL.md`, `skills/vespi/capabilities.md`, `docs/RELEASE_2.5.2.md` de este kit y el `README.md`, `docs/CAPABILITIES.md`, `docs/RELEASE_0.1.5_KERNEL.md`, `docs/WALKTHROUGH.md` y `docs/TESTNET_EVIDENCE.md` del repositorio del kernel. No implica una conexión en vivo desde el kit.
+- Lore Plugin, fuente de instalación, comandos y ocho skills: `README.md`, `scripts/installer.mjs`, `scripts/lore-plugin.mjs` y `skills/` de este kit. Usa la versión `v2.5.3` para los comandos públicos de instalación. La octava skill, `stale-lore`, se describe en `skills/stale-lore/SKILL.md`.
+- Vespi 0.1.8 y evidencia: `skills/vespi/SKILL.md`, `skills/vespi/capabilities.md`, `docs/RELEASE_2.5.3.md` de este kit y el `README.md`, `docs/CAPABILITIES.md`, `docs/RELEASE_0.1.8_KERNEL.md`, `docs/WALKTHROUGH.md` y `docs/TESTNET_EVIDENCE.md` del repositorio del kernel. No implica una conexión en vivo desde el kit.
 
 ## Nota de procedencia
 

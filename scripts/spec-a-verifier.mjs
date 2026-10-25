@@ -7,6 +7,8 @@ const DESTINATIONS = new Map([
   ["hooks/opencode-plugin.js", "session-temp-log"],
   ["hooks/lore-state.mjs", "tree-or-session-temp"],
   ["hooks/lore-turno.mjs", "person-level-choice"],
+  ["hooks/delivery-observer.mjs", "session-cwd-delivery-fingerprints"],
+  ["scripts/build-worker-agent.mjs", "explicit-kit-build"],
   ["scripts/installer.mjs", "explicit-host-install"],
   // 2.5.2: el vigilante escribe su recibo en la raíz que se le pide (`--escribir`); el pre-commit solo
   // añade una línea de constancia al saltar la regla; `lore-plugin` instala el hook en un repo que

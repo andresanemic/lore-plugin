@@ -19,6 +19,11 @@ import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import test from "node:test";
+import { loadShippedMethod } from "../skills/vespi/core/task-method.mjs";
+
+// Toda delegacion lleva el metodo distribuido: sin el, la ruta no llega al adaptador.
+const { content: METODO_KIT, sha256: METODO_SHA } = loadShippedMethod();
+const conMetodo = (assignment = {}) => ({ ...assignment, method: { content: METODO_KIT, sha256: METODO_SHA } });
 
 const V = "../skills/vespi/core/vespi.mjs";
 const S = "../skills/vespi/core/operation-state.mjs";
@@ -295,6 +300,7 @@ test("una herramienta del host no es un aprobador: sin ask no hay aprobacion", a
     authority: { spend: [] },
     capability,
     intent: "delegation",
+    assignment: conMetodo(),
     host: {
       delegate: async () => {
         delegada += 1;
@@ -316,12 +322,13 @@ test("la ruta delegada llama al contrato del adaptador y el kernel revisa la evi
   const { capability, calls } = espia();
   const eventos = [];
   let entregaVerificada = null;
-  const assignment = {
+  const assignment = conMetodo({
     task: "Lee el módulo indicado y devuelve hallazgos con rutas y límites",
     medium: { cwd: "/repo/modulo", material: ["src/"], forbidden: ["secrets/"] },
-  };
+  });
   const delegate = async (request) => {
     eventos.push("delegate");
+    assert.equal(request.kind, "operation", "la ruta durable dice su forma: un adaptador no la confunde con una tarea");
     assert.equal(request.operation.goal, OBJETIVO);
     assert.deepEqual(request.assignment, assignment);
     assert.deepEqual(request.authority, MANDATO);
@@ -379,6 +386,7 @@ test("la ruta delegada bloquea el efecto declarado si el adaptador reporta térm
     authority: MANDATO,
     capability,
     intent: "delegation",
+    assignment: conMetodo(),
     declaredEffect: { asset: "lectura", amount: "1", to: "portal-clientes" },
     host: { delegate },
   });
@@ -494,7 +502,7 @@ test("una segunda sesion retoma desde el archivo y sigue la misma operacion", as
     authority: MANDATO,
     capability: espia().capability,
     intent: "delegation",
-    assignment: { task: "Retoma la lectura del modulo", medium: { cwd: "/repo/modulo", material: ["src/"], forbidden: ["secrets/"] } },
+    assignment: conMetodo({ task: "Retoma la lectura del modulo", medium: { cwd: "/repo/modulo", material: ["src/"], forbidden: ["secrets/"] } }),
     host: {
       delegate: async () => ({
         ok: true,
@@ -709,4 +717,105 @@ test("leer una operacion que no esta en FASES.md es un error claro", async (t) =
   const root = await proyecto(t);
   const facade = await import(V);
   await assert.rejects(() => facade.readOperation({ root, id: "op-no-existe" }), /not found|no encontrada/i);
+});
+
+// Escrituras concurrentes sobre un mismo FASES.md: ninguna carta ni operacion se pierde, y el
+// temporal de una no choca con el de la otra.
+async function operacionPlanificada(root, tareas = 0) {
+  const facade = await import(V);
+  const estado = await import(S);
+  const coordinator = await import("../skills/vespi/core/coordinator.mjs");
+  const held = await facade.holdOperation({
+    root, goal: "objetivo", owner: "operador", authority: { spend: [] },
+    scope: { s: 1 }, done: "criterio", roles: ["worker"], verifier: "v", expected_effect: "ninguno",
+  });
+  let artifact = estado.transitionArtifact(held.artifact, { state: "authorized", note: "ok" });
+  for (let i = 1; i <= tareas; i++) {
+    artifact = coordinator.planTask(artifact, {
+      role: "worker", question: `q${i}`, scope: "s", done_criterion: "d", proof: "p",
+      output: { path: `salida-t${i}.md` }, timeoutMs: 600000, nextCheckAt: new Date().toISOString(),
+    }).artifact;
+  }
+  await estado.saveOperationState(root, artifact);
+  return artifact;
+}
+
+test("guardar varias operaciones a la vez en un mismo FASES.md no pierde ninguna", async (t) => {
+  const root = await proyecto(t);
+  const facade = await import(V);
+  const ids = await Promise.all(Array.from({ length: 8 }, async () => {
+    const { artifact } = await facade.holdOperation({
+      root, goal: "objetivo", owner: "operador", authority: { spend: [] },
+      scope: { s: 1 }, done: "criterio", roles: ["worker"], verifier: "v", expected_effect: "ninguno",
+    });
+    return artifact.id;
+  }));
+  const { listOperationIds } = await import(S);
+  assert.deepEqual([...listOperationIds(root)].sort(), [...ids].sort());
+  assert.deepEqual((await readdir(root)).sort(), ["FASES.md"], "no queda temporal ni cerrojo");
+});
+
+test("dos cartas pedidas a la vez sobre una operacion quedan las dos", async (t) => {
+  const root = await proyecto(t);
+  const artifact = await operacionPlanificada(root, 2);
+  const { inyectarCartaEnPrompt } = await import("../hooks/baraja-entry.mjs");
+  const { loadOperationState } = await import(S);
+  const resultados = await Promise.allSettled([
+    inyectarCartaEnPrompt({ root, operacion: { id: artifact.id }, taskId: "t1" }),
+    inyectarCartaEnPrompt({ root, operacion: { id: artifact.id }, taskId: "t2" }),
+  ]);
+  assert.deepEqual(resultados.map((r) => r.status), ["fulfilled", "fulfilled"]);
+  const guardado = await loadOperationState(root, artifact.id);
+  assert.deepEqual((guardado.perturbations ?? []).map((p) => p.task_id).sort(), ["t1", "t2"]);
+  assert.deepEqual((await readdir(root)).sort(), ["FASES.md"]);
+});
+
+test("un cerrojo huerfano viejo no bloquea el guardado", async (t) => {
+  const root = await proyecto(t);
+  const artifact = await operacionPlanificada(root);
+  const cerrojo = join(root, "FASES.md.lock");
+  await writeFile(cerrojo, "{}");
+  const viejo = new Date(Date.now() - 10 * 60_000);
+  const { utimes } = await import("node:fs/promises");
+  await utimes(cerrojo, viejo, viejo);
+  const { saveOperationState } = await import(S);
+  await saveOperationState(root, { ...artifact, goal: "objetivo editado" });
+  assert.equal(existsSync(cerrojo), false);
+});
+
+test("varios escritores esperando un cerrojo huerfano viejo no se lo roban entre si", async (t) => {
+  const root = await proyecto(t);
+  const facade = await import(V);
+  const { listOperationIds } = await import(S);
+  const cerrojo = join(root, "FASES.md.lock");
+  const { utimes } = await import("node:fs/promises");
+  for (let ronda = 0; ronda < 15; ronda++) {
+    await writeFile(cerrojo, "{}");
+    const viejo = new Date(Date.now() - 120_000);
+    await utimes(cerrojo, viejo, viejo);
+    const ids = await Promise.all(Array.from({ length: 6 }, async () => (await facade.holdOperation({
+      root, goal: "objetivo", owner: "operador", authority: { spend: [] },
+      scope: { s: 1 }, done: "criterio", roles: ["worker"], verifier: "v", expected_effect: "ninguno",
+    })).artifact.id));
+    const guardadas = new Set(listOperationIds(root));
+    assert.deepEqual(ids.filter((id) => !guardadas.has(id)), [], `ronda ${ronda}: se perdieron operaciones confirmadas`);
+  }
+  assert.deepEqual((await readdir(root)).sort(), ["FASES.md"], "no queda cerrojo ni residuo del retiro");
+});
+
+test("liberar el cerrojo no borra uno que ya es de otro", async (t) => {
+  const root = await proyecto(t);
+  const { withOperationLock } = await import(S);
+  const cerrojo = join(root, "FASES.md.lock");
+  await withOperationLock(root, async () => {
+    // Simula que el cerrojo se retiro por huerfano y otro escritor tomo uno propio.
+    await rm(cerrojo, { force: true });
+    await writeFile(cerrojo, '{"token":"de-otro"}');
+  });
+  assert.equal(await readFile(cerrojo, "utf8"), '{"token":"de-otro"}');
+});
+
+test("la espera por el cerrojo es mayor que el umbral de huerfano", async () => {
+  const { OPERATION_LOCK_LIMITS } = await import(S);
+  assert.ok(OPERATION_LOCK_LIMITS.timeoutMs > OPERATION_LOCK_LIMITS.staleMs);
 });

@@ -27,7 +27,7 @@ export function crearPreguntaDeModalidad(oferta) {
     throw new Error("la oferta no requiere una elección de modalidad");
   }
   const ids = [
-    ...(oferta.modalidad ? [oferta.modalidad] : []),
+    ...(oferta.disponible !== false && oferta.modalidad ? [oferta.modalidad] : []),
     ...(oferta.alternativas ?? []),
   ];
   const formas = ids
@@ -100,7 +100,7 @@ export function generarPreguntasIniciales({ tarea = null, ofertaModalidad = null
     );
   }
 
-  if (ofertaModalidad) {
+  if (ofertaModalidad?.requiere_eleccion === true) {
     preguntas.push(crearPreguntaDeModalidad(ofertaModalidad));
   }
 

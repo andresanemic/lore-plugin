@@ -1,6 +1,7 @@
 // Baraja de perturbaciones para el Entre.
 // Cada carta es una perturbación candidata (su clase requiere evidencia posterior). La información es una
-// instigación, no un dato). El coordinador ofrece una carta al detectar un loop o estancamiento.
+// instigación, no un dato). El hook de inicio de tarea ofrece una carta en silencio; el caso de
+// loop o estancamiento conserva la ruta de oferta visible que ya usa el coordinador.
 // El usuario no necesita saber que existe — es como el radiador de un auto.
 //
 // Módulo compartido del kit: no es una skill. Vive en scripts/ como archivo único para que el

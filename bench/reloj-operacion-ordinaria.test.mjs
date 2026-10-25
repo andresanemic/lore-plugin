@@ -89,7 +89,7 @@ test("E2 operar mecánica sin criterio propietario: recibo y verificador distint
   proofAt(root, id, tid); // Commission fixture; CLI executes in its own person environment.
   const v = command(["verify", ...aids, "--task", tid, "--json", json({ verifier: "coordinadora" })], envExtra);
   assert.equal(v.body?.ok, true, `verify: ${v.out} ${v.err}`);
-  const it = command(["integrate", ...aids, "--task", tid, "--json", json({ destination: "revisado.md" })], envExtra);
+  const it = command(["integrate", ...aids, "--task", tid, "--json", json({ destination: outPath })], envExtra);
   assert.equal(it.body?.ok, true, `integrate: ${it.out} ${it.err}`);
   const c = command(["close", ...aids, "--json", json({ verification: { verified: true, observed: true, by: "coordinadora", verified_tasks: [tid], unverified_effects: [] } })], envExtra);
   assert.equal(c.body?.state, "closed", `close: ${c.out} ${c.err}`);
