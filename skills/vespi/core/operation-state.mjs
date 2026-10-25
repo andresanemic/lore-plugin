@@ -10,7 +10,7 @@ export const ARTIFACT_SCHEMA_VERSION = "1.0.0";
 export const FASES_FILE = "FASES.md";
 export const OPERATIONS_HEADING = "## Operaciones";
 
-import { link, mkdir, open, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
+import { mkdir, open, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
 import { AsyncLocalStorage } from "node:async_hooks";
 import { readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
@@ -569,27 +569,46 @@ function locateBlock(text, id) {
 // `saveOperationState` puede tomarlo otra vez.
 //
 // Un cerrojo mas viejo que staleMs se toma por huerfano (el proceso murio). Retirarlo lo gana uno solo:
-// se RENOMBRA a un nombre unico (rename es atomico, el segundo que lo intente falla y reintenta sin borrar
-// nada) y se borra solo el renombrado. Si lo renombrado resulta no ser viejo (otro lo retiro y tomo uno
-// nuevo entre el stat y el rename), se intenta devolver a su sitio con `link`, que no pisa. Al liberar solo
-// se borra el cerrojo si su token sigue siendo el propio. La espera maxima supera el umbral de huerfano, de
-// modo que un cierre abrupto no deja a los escritores fallando. Limites: solo ordena a quienes lo toman (un
-// editor ajeno de FASES.md no lo ve) y no cubre secuencias entre comandos de la CLI; la ventana entre el
-// stat y el rename del retiro es de un solo paso asincrono y no se elimina del todo.
+// lo retira un solo retirador a la vez (guarda `.retiring`), que vuelve a mirar el cerrojo adentro y lo
+// RENOMBRA a un nombre unico antes de borrarlo: nunca se retira ni se devuelve un cerrojo vivo. Al liberar
+// solo se borra el cerrojo si su token sigue siendo el propio. La espera maxima supera el umbral de huerfano,
+// de modo que un cierre abrupto no deja a los escritores fallando. Limites: solo ordena a quienes lo toman
+// (un editor ajeno de FASES.md no lo ve) y no cubre secuencias entre comandos de la CLI; si el dueno de un
+// cerrojo vivo lo supera en staleMs y lo libera justo entre el stat y el rename del retiro, esa ventana de un
+// paso asincrono no se elimina del todo.
 export const OPERATION_LOCK_LIMITS = Object.freeze({ retryMs: 10, staleMs: 30_000, timeoutMs: 35_000 });
 const heldLocks = new AsyncLocalStorage();
 
+// Retirar un cerrojo huerfano es una seccion critica propia: una guarda `.retiring`, creada con `wx`, deja
+// pasar de a un retirador, y el cerrojo se vuelve a mirar ADENTRO. Sin eso dos retiradores veian el mismo
+// cerrojo viejo, el primero lo retiraba, otro escritor tomaba uno nuevo y el segundo retiraba ese cerrojo
+// vivo; mientras estaba renombrado un tercero podia tomar el lugar y dos escritores quedaban dentro a la vez
+// (operaciones confirmadas perdidas). Si quien retiraba murio, su guarda se retira pasado RETIRING_STALE_MS.
+const RETIRING_STALE_MS = 5_000;
+
 async function retireStaleLock(lockFile) {
-  const aside = `${lockFile}.${randomUUID()}.stale`;
-  try { await rename(lockFile, aside); } catch { return; } // otro ya lo retiro: reintentar sin borrar nada
+  const guard = `${lockFile}.retiring`;
   try {
-    const moved = await stat(aside);
-    if (Date.now() - moved.mtimeMs <= OPERATION_LOCK_LIMITS.staleMs) {
-      // Era un cerrojo vivo recien tomado por otro: devolverlo sin pisar uno nuevo.
-      try { await link(aside, lockFile); } catch { /* ya hay otro cerrojo: no se toca */ }
-    }
-  } catch { /* desaparecio: nada que devolver */ }
-  await rm(aside, { force: true }).catch(() => {});
+    await (await open(guard, "wx")).close();
+  } catch (error) {
+    if (!["EEXIST", "EPERM", "EBUSY"].includes(error?.code)) throw error;
+    try { // otro esta retirando: si su guarda quedo huerfana se retira (lo gana uno solo) y se reintenta
+      if (Date.now() - (await stat(guard)).mtimeMs > RETIRING_STALE_MS) {
+        const aside = `${guard}.${randomUUID()}.stale`;
+        await rename(guard, aside).then(() => rm(aside, { force: true })).catch(() => {});
+      }
+    } catch { /* se libero: reintentar */ }
+    return;
+  }
+  try {
+    // Adentro solo hay un retirador: el cerrojo que vio viejo afuera pudo ser reemplazado por uno vivo.
+    if (Date.now() - (await stat(lockFile)).mtimeMs <= OPERATION_LOCK_LIMITS.staleMs) return;
+    const aside = `${lockFile}.${randomUUID()}.stale`;
+    await rename(lockFile, aside);
+    await rm(aside, { force: true }).catch(() => {});
+  } catch { /* desaparecio entre el stat y el rename: nada que retirar */ } finally {
+    await rm(guard, { force: true }).catch(() => {});
+  }
 }
 
 export async function withOperationLock(root, work) {

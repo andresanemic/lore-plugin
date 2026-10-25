@@ -1302,7 +1302,9 @@ export function declareFinalOutputs(artifact, outputs) {
     if (!filled(item?.id) || !filled(item?.path) || !filled(item?.criterion)) throw new Error("each final output needs an id, a path and a criterion");
     // `C:x` es relativa a una unidad de Windows y `resolve(root, "D:x")` cae en D:\x: no esta dentro
     // de la raiz de la operacion. Se rechaza junto con las absolutas y las que suben con `..`.
-    if (isAbsolute(item.path) || /^[A-Za-z]:/.test(item.path) || item.path.split(/[\\/]/).includes("..")) throw new Error(`final output ${item.id} path must stay inside the operation root: ${item.path}`);
+    // Una ruta que empieza por `\` (raiz de unidad o UNC `\\srv\share`) es absoluta en Windows y un nombre
+    // valido en POSIX: la operacion puede cambiar de maquina, asi que se rechaza en todas.
+    if (isAbsolute(item.path) || /^\\/.test(item.path) || /^[A-Za-z]:/.test(item.path) || item.path.split(/[\\/]/).includes("..")) throw new Error(`final output ${item.id} path must stay inside the operation root: ${item.path}`);
     if (item.sources !== undefined && (!Array.isArray(item.sources) || item.sources.some((source) => !filled(source)))) {
       throw new Error(`final output ${item.id} sources must be a list of references`);
     }
