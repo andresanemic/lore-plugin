@@ -23,7 +23,7 @@
 
 **In plain words.** *Lore*: your project's criteria, as plain Markdown files you approve. *Save to Lore*: turn a correction you made into a criterion for next time. *Prune*: retire rules that no longer apply. *Graft*: bring in an idea from outside only after checking where it loses against your criteria. *Transmute*: reorganize or migrate a Lore tree. *Crystallize*: pack a bot's criteria into one file to carry it elsewhere.
 
-**Where this is going.** Today you run Lore Plugin from a terminal. **Vespi Desktop** is the planned workspace that will bring this kit and the Vespi kernel together, with **Hive as its creation studio**. Vespi Desktop is scheduled for presentation in Lisbon next week, separately from the Lore Plugin 2.5.3 and kernel 0.1.8 releases. This kit does not establish that Desktop is installable. [Try the interactive Hive POC](https://vespi.xyz/) on the site: a UX/UI MVP where you can choose agents and save criteria and workflows in your browser, without connecting to AI.
+**Where this is going.** Today you run Lore Plugin from a terminal. [Try the interactive Hive POC](https://vespi.xyz/) on the site: a UX/UI MVP where you can choose agents and save criteria and workflows in your browser, without connecting to AI.
 
 ---
 
@@ -459,7 +459,7 @@ Version 2.5.3 carries the task method with the commission, tracks the requested 
 | [Obsidian](https://obsidian.md/help/data-storage) | Local Markdown notes and linked knowledge | A workflow for promoting experience into agent-readable criteria with approval |
 | [Graphify](https://github.com/Graphify-Labs/graphify) / [CodeGraph](https://github.com/colbymchenry/codegraph/blob/main/site/src/content/docs/getting-started/introduction.md) | Queryable code structure; Graphify also maps documents | Maintained project criteria and authority for concrete operations |
 
-This compares current scope, not head-to-head results. The Desktop end-to-end path remains to be demonstrated.
+This compares current scope, not head-to-head results.
 
 ## Loose notes
 
@@ -601,7 +601,7 @@ He helped establish UTEM's **Design Thinking** course and taught it from 2023 to
 
 **En palabras simples.** *Lore*: los criterios de tu proyecto, como archivos Markdown que tú apruebas. *Guardar en Lore*: convertir una corrección tuya en un criterio para la próxima vez. *Podar*: retirar reglas que ya no aplican. *Injertar*: traer una idea de afuera solo después de ver dónde pierde frente a tus criterios. *Transmutar*: reorganizar o migrar un árbol de Lore. *Cristalizar*: empacar los criterios de un bot en un solo archivo para llevarlo a otro lado.
 
-**Hacia dónde va.** Hoy corres Lore Plugin desde una terminal. **Vespi Desktop** será el espacio de trabajo que reúna este kit y el kernel de Vespi, con **Hive como su taller de creación**. Vespi Desktop se presentará en Lisboa la próxima semana, por separado de las publicaciones de Lore Plugin 2.5.3 y kernel 0.1.8. Este kit no acredita que Desktop sea instalable. [Prueba el POC interactivo de Hive](https://vespi.xyz/) en el sitio: un MVP UX/UI donde puedes elegir agentes y guardar criterios y workflows en tu navegador, sin conectar con una IA.
+**Hacia dónde va.** Hoy corres Lore Plugin desde una terminal. [Prueba el POC interactivo de Hive](https://vespi.xyz/) en el sitio: un MVP UX/UI donde puedes elegir agentes y guardar criterios y workflows en tu navegador, sin conectar con una IA.
 
 ---
 
@@ -1024,7 +1024,7 @@ La versión 2.5.3 lleva el método de tarea con el encargo, registra las obligac
 | [Obsidian](https://obsidian.md/help/data-storage) | Notas Markdown locales y conocimiento enlazado | Un flujo que convierte experiencia en criterio legible por agentes, con aprobación |
 | [Graphify](https://github.com/Graphify-Labs/graphify) / [CodeGraph](https://github.com/colbymchenry/codegraph/blob/main/site/src/content/docs/getting-started/introduction.md) | Estructura de código consultable; Graphify también mapea documentos | Criterio de proyecto mantenido y autoridad para operaciones concretas |
 
-La tabla compara alcances actuales, no resultados de una prueba cara a cara. Falta demostrar el recorrido completo en Desktop.
+La tabla compara alcances actuales, no resultados de una prueba cara a cara.
 
 ## Notas sueltas
 
