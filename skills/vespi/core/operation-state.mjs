@@ -575,7 +575,8 @@ function locateBlock(text, id) {
 // de modo que un cierre abrupto no deja a los escritores fallando. Limites: solo ordena a quienes lo toman
 // (un editor ajeno de FASES.md no lo ve) y no cubre secuencias entre comandos de la CLI; si el dueno de un
 // cerrojo vivo lo supera en staleMs y lo libera justo entre el stat y el rename del retiro, esa ventana de un
-// paso asincrono no se elimina del todo.
+// paso asincrono no se elimina del todo, y lo mismo vale para el retiro de una guarda `.retiring` huerfana
+// (mas vieja que RETIRING_STALE_MS), que solo ocurre tras la muerte de un retirador.
 export const OPERATION_LOCK_LIMITS = Object.freeze({ retryMs: 10, staleMs: 30_000, timeoutMs: 35_000 });
 const heldLocks = new AsyncLocalStorage();
 
@@ -637,7 +638,8 @@ export async function withOperationLock(root, work) {
     }
     try {
       const { mtimeMs } = await stat(lockFile);
-      if (Date.now() - mtimeMs > staleMs) { await retireStaleLock(lockFile); continue; }
+      // Sin `continue`: si el retiro no avanza (guarda ajena, rename bloqueado) igual se respeta el plazo y la pausa.
+      if (Date.now() - mtimeMs > staleMs) await retireStaleLock(lockFile);
     } catch { /* se libero entre el intento y el stat: se reintenta */ }
     if (Date.now() > deadline) throw new Error(`FASES.md is locked by another writer: ${lockFile}`);
     await new Promise((done) => setTimeout(done, retryMs));
