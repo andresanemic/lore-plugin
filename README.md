@@ -525,13 +525,13 @@ Lore was not designed ahead of time: every decision came from applying it to rea
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/static/v1?label=4415%2B&amp;message=recorded+clones&amp;color=FF557A&amp;style=for-the-badge&amp;labelColor=0B0B12" alt="4,415+ recorded clones"></a>
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/100-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="100 days"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/static/v1?label=4929%2B&amp;message=recorded+clones&amp;color=FF557A&amp;style=for-the-badge&amp;labelColor=0B0B12" alt="4,929+ recorded clones"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/112-days-22D9EE?style=for-the-badge&labelColor=0B0B12" alt="112 days"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~44-a_day-F94F79?style=for-the-badge&labelColor=0B0B12" alt="44 a day"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/304-peak-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="304 peak"></a>
 </p>
 
-**4,000+ recorded clones since launch** (4,415 through 2026-10-12: 4,057 preserved through 2026-10-10 plus 358 from the GitHub API for October 11–12; clones, not unique people). GitHub traffic windows preserved in [`data/traffic/clones.json`](./data/traffic/clones.json). A **recorded minimum, consulted on 2026-10-13; latest completed API day: 2026-10-12 (UTC)**. [Source response](./data/traffic/source-2026-10-13.json). The current day is excluded.
+**4,000+ recorded clones since launch** (4,929 through 2026-10-24: 4,415 preserved through 2026-10-12 plus 514 from the GitHub API for October 13–24; clones, not unique people). GitHub traffic windows preserved in [`data/traffic/clones.json`](./data/traffic/clones.json). A **recorded minimum, consulted on 2026-10-25; latest completed API day: 2026-10-24 (UTC)**. [Source response](./data/traffic/source-2026-10-25.json). The current day is excluded.
 
 Lore Plugin is the technical arm of LUS, not a productivity system with philosophy attached. The product measure tests a narrow claim; it does not validate LUS as a whole. [The research boundary is explicit here.](./docs/LUS_en.md)
 
@@ -1090,13 +1090,13 @@ Lore no se diseñó de antemano: cada decisión salió de aplicarlo a proyectos 
 </p>
 
 <p align="center">
-  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/static/v1?label=4415%2B&amp;message=clonaciones+registradas&amp;color=FF557A&amp;style=for-the-badge&amp;labelColor=0B0B12" alt="4.415+ clonaciones"></a>
-  <a href="./data/traffic/clones.json"><img src="./assets/badge-100-dias.svg" alt="100 días"></a>
+  <a href="./data/traffic/clones.json"><img src="https://img.shields.io/static/v1?label=4929%2B&amp;message=clonaciones+registradas&amp;color=FF557A&amp;style=for-the-badge&amp;labelColor=0B0B12" alt="4.929+ clonaciones"></a>
+  <a href="./data/traffic/clones.json"><img src="./assets/badge-112-dias.svg" alt="112 días"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/~44-al_d%C3%ADa-F94F79?style=for-the-badge&labelColor=0B0B12" alt="44 al día"></a>
   <a href="./data/traffic/clones.json"><img src="https://img.shields.io/badge/304-pico-35E5F5?style=for-the-badge&labelColor=0B0B12" alt="304 pico"></a>
 </p>
 
-**Más de 4.000 clonaciones registradas desde el lanzamiento** (4.415 hasta el 2026-10-12: 4.057 preservadas hasta el 2026-10-10 más 358 de la API de GitHub del 11–12 de octubre; clonaciones, no personas únicas). Ventanas GitHub preservadas en [`data/traffic/clones.json`](./data/traffic/clones.json). Un **mínimo registrado, consultado el 2026-10-13; último día completo de la API: 2026-10-12 (UTC)**. [Respuesta fuente](./data/traffic/source-2026-10-13.json). El día en curso queda excluido.
+**Más de 4.000 clonaciones registradas desde el lanzamiento** (4.929 hasta el 2026-10-24: 4.415 preservadas hasta el 2026-10-12 más 514 de la API de GitHub del 13–24 de octubre; clonaciones, no personas únicas). Ventanas GitHub preservadas en [`data/traffic/clones.json`](./data/traffic/clones.json). Un **mínimo registrado, consultado el 2026-10-25; último día completo de la API: 2026-10-24 (UTC)**. [Respuesta fuente](./data/traffic/source-2026-10-25.json). El día en curso queda excluido.
 
 Lore Plugin es el brazo técnico de LUS, no un sistema de productividad con filosofía agregada. La medición del producto prueba una afirmación acotada; no valida LUS como conjunto. [La frontera de investigación está explícita acá.](./docs/LUS_es.md)
 
