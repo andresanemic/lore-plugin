@@ -28,7 +28,6 @@
 ---
 <details>
 <summary><b>Leia em Português</b></summary>
-
 <a id="Português"></a>
 
 ## O problema 
