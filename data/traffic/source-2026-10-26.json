@@ -1,0 +1,81 @@
+{
+  "consultedOn": "2026-10-26",
+  "requestedCut": "2026-10-25",
+  "source": "GitHub REST API /repos/andresanemic/lore-plugin/traffic/clones",
+  "response": {
+    "count": 819,
+    "uniques": 466,
+    "clones": [
+      {
+        "timestamp": "2026-10-12T00:00:00Z",
+        "count": 54,
+        "uniques": 42
+      },
+      {
+        "timestamp": "2026-10-13T00:00:00Z",
+        "count": 120,
+        "uniques": 56
+      },
+      {
+        "timestamp": "2026-10-14T00:00:00Z",
+        "count": 28,
+        "uniques": 28
+      },
+      {
+        "timestamp": "2026-10-15T00:00:00Z",
+        "count": 61,
+        "uniques": 46
+      },
+      {
+        "timestamp": "2026-10-16T00:00:00Z",
+        "count": 43,
+        "uniques": 34
+      },
+      {
+        "timestamp": "2026-10-17T00:00:00Z",
+        "count": 34,
+        "uniques": 33
+      },
+      {
+        "timestamp": "2026-10-18T00:00:00Z",
+        "count": 39,
+        "uniques": 35
+      },
+      {
+        "timestamp": "2026-10-19T00:00:00Z",
+        "count": 38,
+        "uniques": 32
+      },
+      {
+        "timestamp": "2026-10-20T00:00:00Z",
+        "count": 32,
+        "uniques": 29
+      },
+      {
+        "timestamp": "2026-10-21T00:00:00Z",
+        "count": 32,
+        "uniques": 29
+      },
+      {
+        "timestamp": "2026-10-22T00:00:00Z",
+        "count": 27,
+        "uniques": 26
+      },
+      {
+        "timestamp": "2026-10-23T00:00:00Z",
+        "count": 33,
+        "uniques": 28
+      },
+      {
+        "timestamp": "2026-10-24T00:00:00Z",
+        "count": 27,
+        "uniques": 26
+      },
+      {
+        "timestamp": "2026-10-25T00:00:00Z",
+        "count": 251,
+        "uniques": 63
+      }
+    ]
+  }
+}
