@@ -116,7 +116,7 @@ Lore keeps your criteria, workflows and preferences as files on your computer, s
 
 - **Build a project of your own with AI** — for example an app, a website, writing or research — and keep what you decide for next time.
 - **Leave a verifiable record of what an agent did:** a receipt with a SHA-256 digest, the authority used, what was checked and what was not. *Proven* in the kernel.
-- **Timestamp that record on Stellar** by putting its digest in a transaction memo. *Testnet* with fictional data; mainnet is planned for the Meridian demonstrations and is not claimed until those transactions exist.
+- **Timestamp that record on Stellar** by putting its digest in a transaction memo. *Testnet* with fictional data, plus two real Stellar mainnet transactions on 25 October 2026: a Pollar payment verified by the kernel and a receipt anchor ([vespi.xyz/pollar](https://vespi.xyz/pollar)).
 - **Pay for a service within a ceiling and with a person's approval (x402).** *Demo* on testnet, outside the kernel.
 - **Check a zero-knowledge proof inside an operation.** *Reference* verification; apps built on it are a direction, not something this release ships.
 - **Register a batch of things in one transaction,** for example the 100 diskettes of the Meridian fanzine. *Planned* until the transaction exists.
@@ -448,7 +448,7 @@ Version 2.5.2 makes the next action explicit when a session opens. Coordinated o
 Version 2.5.3 carries the task method with the commission, tracks the requested obligations, and requires a separate review of the composed final deliverable. Its default route reserves a direct pass for narrowly recognized trivial edits and otherwise requires final review; missing verification stays visible. Method delivery evidence covers the Claude Code kit worker with received hooks, not advisor or daimon roles or all three hosts. A receipt records delivery, not proof that the method caused the worker’s behavior. Final-output checks detect changed destination files, including terminal writes; they do not prevent writes by the same OS user or establish an independent security boundary. Silent task cards and five reviewed sparks support coordination; the offline contrast runner is not a measured improvement claim. [Release notes](./docs/RELEASE_2.5.3.md) · [Execution and limits](./docs/VERIFICATION-EXECUTION.md).
 
 
-**Vespi Meridian Edition 1.0:** [Website — vespi.xyz](https://vespi.xyz) · [Demo video](https://www.youtube.com/watch?v=g2iw29M6WI0) · [Tutorial in English](https://docs.google.com/document/d/1gwu3gBIJwgevCrGPyMv-J1UfjegggYDu/edit?usp=sharing&ouid=113358117411001923633&rtpof=true&sd=true) · [LUS + Lore Plugin deck in English](https://drive.google.com/file/d/1lG5DOOS6z4Kzz6PfZIPP2RXW_LXN_U1g/view?usp=drive_link).
+**Vespi Meridian Edition 0.1.8:** [Website — vespi.xyz](https://vespi.xyz) · [Demo video](https://www.youtube.com/watch?v=g2iw29M6WI0) · [Tutorial in English](https://docs.google.com/document/d/1gwu3gBIJwgevCrGPyMv-J1UfjegggYDu/edit?usp=sharing&ouid=113358117411001923633&rtpof=true&sd=true) · [LUS + Lore Plugin deck in English](https://drive.google.com/file/d/1lG5DOOS6z4Kzz6PfZIPP2RXW_LXN_U1g/view?usp=drive_link).
 
 ### Where the pieces fit
 
@@ -689,7 +689,7 @@ Lore guarda tu criterio, tus workflows y tus preferencias como archivos en tu co
 
 - **Construye un proyecto propio con IA** —por ejemplo una app, un sitio, escritura o investigación— y guarda lo que decides para la próxima vez.
 - **Deja un registro verificable de lo que hizo un agente:** un recibo con huella SHA-256, la autoridad usada, lo que se comprobó y lo que no. *Probado* en el kernel.
-- **Ponle fecha a ese registro en Stellar** poniendo su huella en el memo de una transacción. *Testnet* con datos ficticios; mainnet está planeado para las demostraciones de Meridian y no se afirma hasta que existan esas transacciones.
+- **Ponle fecha a ese registro en Stellar** poniendo su huella en el memo de una transacción. *Testnet* con datos ficticios, más dos transacciones reales en Stellar mainnet del 25 de octubre de 2026: un pago con Pollar verificado por el kernel y el ancla de un recibo ([vespi.xyz/pollar](https://vespi.xyz/pollar)).
 - **Paga un servicio dentro de un techo y con la aprobación de una persona (x402).** *Demo* en testnet, fuera del kernel.
 - **Comprueba una prueba de conocimiento cero dentro de una operación.** Verificación de *Referencia*; las apps construidas sobre ella son una dirección, no algo que esta versión entregue.
 - **Registra un conjunto de cosas en una sola transacción,** por ejemplo los 100 diskettes del fanzine de Meridian. *Planeado* hasta que exista la transacción.
@@ -1013,7 +1013,7 @@ La versión 2.5.2 hace explícita la siguiente acción al abrir una sesión. El 
 La versión 2.5.3 lleva el método de tarea con el encargo, registra las obligaciones solicitadas y exige revisar aparte el entregable final compuesto. Su ruta predeterminada reserva una pasada directa para correcciones triviales reconocidas de forma acotada y exige revisión final en los demás casos; la verificación ausente queda visible. La evidencia de entrega del método cubre al trabajador del kit en Claude Code con hooks recibidos, no a advisor o daimon ni a los tres hosts. Un recibo registra entrega, no prueba que el método causó la conducta del trabajador. Los controles del resultado final detectan cambios en archivos de destino, también escritos por terminal; no impiden escrituras del mismo usuario del sistema ni establecen una frontera de seguridad independiente. Las cartas silenciosas y cinco chispas revisadas apoyan la coordinación; el contraste offline no es una mejora medida. [Nota de versión](./docs/RELEASE_2.5.3.md) · [Ejecución y límites](./docs/VERIFICATION-EXECUTION.md).
 
 
-**Vespi Meridian Edition 1.0:** [Sitio — vespi.xyz](https://vespi.xyz) · [Video de la demo](https://www.youtube.com/watch?v=g2iw29M6WI0) · [Tutorial en español](https://docs.google.com/document/d/1wj3yfr0Iyi8e3szUawJ4Q-mNb7EmySM-/edit?usp=drive_link&ouid=113358117411001923633&rtpof=true&sd=true) · [Deck LUS + Lore Plugin en español](https://drive.google.com/file/d/1LkcSXeVLxstZiNhiVpq8zU1_Kn-61qUl/view?usp=drive_link).
+**Vespi Meridian Edition 0.1.8:** [Sitio — vespi.xyz](https://vespi.xyz) · [Video de la demo](https://www.youtube.com/watch?v=g2iw29M6WI0) · [Tutorial en español](https://docs.google.com/document/d/1wj3yfr0Iyi8e3szUawJ4Q-mNb7EmySM-/edit?usp=drive_link&ouid=113358117411001923633&rtpof=true&sd=true) · [Deck LUS + Lore Plugin en español](https://drive.google.com/file/d/1LkcSXeVLxstZiNhiVpq8zU1_Kn-61qUl/view?usp=drive_link).
 
 ### Cómo encajan las piezas
 
