@@ -27,6 +27,11 @@
 
 ---
 
+<details>
+<summary><b>Leia em Português</b></summary>
+
+<a id="Português"></a>
+
 ## O problema 
 
 Toda sessão começa em branco. As correções de ontem não passam para a próxima, então você explica o projeto de novo e pode repetir decisões que já havia rejeitado. O Lore dá ao aprendizado que você aprova um lugar nos arquivos do seu projeto, pronto para o trabalho futuro.
