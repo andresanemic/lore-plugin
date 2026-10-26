@@ -26,7 +26,6 @@
 **O futuro do projeto.** Hoje você executa o Lore Plugin a partir de um terminal. **Vespi Desktop** é o ambiente de trabalho planejado que reunirá esse kit e o kernel do Vespi, tendo o **Hive como seu estúdio de criação**. No HackMeridian, mostraremos essa direção juntamente com o que já funciona; o Desktop ainda não está disponível para instalação. [Experimente a POC interativa do Hive](https://vespi.xyz/) no site: um MVP de UX/UI onde você pode escolher agentes e salvar critérios e fluxos de trabalho no seu navegador, sem se conectar à IA.
 
 ---
-
 <details>
 <summary><b>Leia em Português</b></summary>
 
