@@ -1,50 +1,75 @@
 name: Save traffic stats
 
 # Guarda el histórico de clonaciones (la API de GitHub solo retiene 14 días).
+# main está protegida, así que el histórico diario vive en la rama traffic-data.
+# Las cifras del README y de main se actualizan aparte, por PR.
 on:
   schedule:
     - cron: "0 6 * * 0"   # todos los domingos 06:00 UTC
   workflow_dispatch:        # permite correrlo a mano
 
 permissions:
-  contents: write           # push del histórico + la API de traffic exige push access
+  contents: write           # push a traffic-data; la API de traffic usa TRAFFIC_PAT
 
 jobs:
   save:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Fetch and merge clone stats
+      - name: Fetch clone stats
         env:
           GH_TOKEN: ${{ secrets.TRAFFIC_PAT }}
         run: |
           set -euo pipefail
-          mkdir -p data/traffic
-          file=data/traffic/clones.json
-          [ -f "$file" ] || echo '[]' > "$file"
-
-          curl -sf \
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::error::TRAFFIC_PAT is not set."
+            exit 1
+          fi
+          status=$(curl -s -o api.json -w '%{http_code}' \
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "Accept: application/vnd.github+json" \
-            "https://api.github.com/repos/${{ github.repository }}/traffic/clones" \
-            > api.json
+            "https://api.github.com/repos/${{ github.repository }}/traffic/clones")
+          if [ "$status" != "200" ]; then
+            echo "::error::GitHub traffic API answered HTTP $status. If it is 401 or 403, renew TRAFFIC_PAT: fine-grained token for this repository with Administration read-only."
+            exit 1
+          fi
 
-          # Union por día: el dato nuevo pisa al viejo; los días fuera de la
-          # ventana de 14 días se conservan del histórico.
-          jq -s '
-            (.[0] + .[1].clones)
-            | group_by(.timestamp)
-            | map(.[-1])
-            | sort_by(.timestamp)
-          ' "$file" api.json > merged.json
-          mv merged.json "$file"
-          rm -f api.json
-
-      - name: Commit
+      - name: Merge history
         run: |
+          set -euo pipefail
+          file=data/traffic/clones.json
+          if git rev-parse --verify -q origin/traffic-data >/dev/null; then
+            git show origin/traffic-data:"$file" > branch.json
+          else
+            echo '[]' > branch.json
+          fi
+          # Unión por día: main, traffic-data y la ventana de la API. Si un día
+          # aparece más de una vez, queda el conteo mayor, porque el día en curso
+          # puede venir incompleto.
+          jq -s '
+            (.[0] + .[1] + .[2].clones)
+            | group_by(.timestamp)
+            | map(max_by(.count))
+            | sort_by(.timestamp)
+          ' "$file" branch.json api.json > merged.json
+          rm -f api.json branch.json
+
+      - name: Commit to traffic-data
+        run: |
+          set -euo pipefail
+          file=data/traffic/clones.json
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/traffic/clones.json
+          git checkout -- "$file"
+          if git rev-parse --verify -q origin/traffic-data >/dev/null; then
+            git switch -c traffic-data origin/traffic-data
+          else
+            git switch -c traffic-data
+          fi
+          mv merged.json "$file"
+          git add "$file"
           git diff --cached --quiet || git commit -m "chore: update traffic clone stats"
-          git push
+          git push origin traffic-data
